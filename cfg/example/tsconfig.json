@@ -5,11 +5,7 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "es2017",
-      "esnext"
-    ],
+    "lib": ["dom", "es2017", "esnext"],
     "sourceMap": true,
     "outDir": "./dist",
     "strict": true,
@@ -21,10 +17,7 @@
       "@src/*": ["src/*"],
       "@linked/*": ["src/@linked/*"]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "src/typings"
-    ],
+    "typeRoots": ["node_modules/@types", "src/typings"],
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
 
@@ -32,12 +25,5 @@
     // "emitDecoratorMetadata": true
   },
 
-  "exclude": [
-    "build",
-    "scripts",
-    "src/scripts",
-    "src/**/*.test.ts",
-    "src/test",
-    "src/@linked"
-  ]
+  "exclude": ["build", "scripts", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked"]
 }

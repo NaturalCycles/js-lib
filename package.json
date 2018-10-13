@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "prettier-all": "prettier --write '**/*.{js,ts,css,scss,graphql,md,yml,yaml}'"
+    "prettier-all": "prettier --write '**/*.{js,ts,css,scss,graphql,md,yml,yaml,json}'"
   },
   "dependencies": {
     "@types/cpx": "^1.5.0",
