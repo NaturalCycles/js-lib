@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-const { prettierPaths } = require('../cnst/prettier.cnst')
-const { execCommand } = require('../util/exec.util')
+/**
+ * Runs `prettier` command for all predefined paths (e.g /src, etc).
+ * Does NOT run `tslint` after (use `prettier-all` for that)
+ */
 
-// console.log(prettierPaths)
+const { runPrettier } = require('../util/prettier.util')
 
-const cmd = `prettier --write ` + prettierPaths.map(p => `'${p}'`).join(' ')
-// console.log(cmd)
-// spawn(cmd, { stdio: 'inherit' })
-
-execCommand(cmd)
+runPrettier()

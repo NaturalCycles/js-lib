@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
-const { prettierPaths } = require('../cnst/prettier.cnst')
+/**
+ * Runs `prettier` and `tslint` for all predefined paths (e.g /src, etc)
+ */
 
-console.log(prettierPaths)
+const { runPrettier, runTSLint } = require('../util/prettier.util')
+
+;(async () => {
+  await runPrettier()
+  await runTSLint()
+})()

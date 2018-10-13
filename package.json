@@ -11,6 +11,7 @@
     "cfg"
   ],
   "bin": {
+    "tslint-all": "src/bin/tslint-all.js",
     "prettier-do": "src/bin/prettier-do.js",
     "prettier-all": "src/bin/prettier-all.js"
   },

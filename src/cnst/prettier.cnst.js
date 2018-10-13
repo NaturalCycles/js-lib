@@ -9,3 +9,11 @@ module.exports.prettierPaths = [
   // Doc
   './doc/*.md',
 ]
+
+module.exports.tslintPaths = [
+  './src/**/*.ts',
+]
+
+module.exports.tslintExcludePaths = [
+  './src/@linked',
+]
