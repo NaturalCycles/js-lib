@@ -1,4 +1,4 @@
-##### @naturalcycles/shared-module
+## @naturalcycles/shared-module
 
 > Set of opinionated configuration files and tools for common project needs, to be shared between all modules. Enforces conventions between projects.
 
