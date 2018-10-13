@@ -5,9 +5,12 @@
 
 module.exports = {
   transform: {
+    '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testRegex: 'src/.*\\.test\\.(tsx?)$',
+  testMatch: [
+    '<rootDir>/src/**/*.test.ts',
+  ],
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
@@ -38,6 +41,8 @@ module.exports = {
     '!src/typings/**',
     '!src/scripts/**',
     '!src/environments/**',
+    '!**/*.module.ts',
+    '!**/*.mock.ts',
   ],
   reporters: [
     'default',
