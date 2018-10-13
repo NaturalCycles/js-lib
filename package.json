@@ -2,7 +2,9 @@
   "name": "@naturalcycles/shared-module",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "prettier-all": "prettier --write '**/*.{js,ts,css,scss,graphql,md,yml,yaml}'"
+  },
   "dependencies": {
     "@types/cpx": "^1.5.0",
     "@types/del": "^3.0.1",
@@ -15,7 +17,9 @@
     "lint-staged": "^7.3.0",
     "yargs": "^12.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prettier": "^1.14.3"
+  },
   "peerDependencies": {},
   "files": [
     "src",
