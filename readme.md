@@ -41,6 +41,7 @@ In alphabetic order:
 - `test-ci`: runs test in CI environment, with coverage
 - `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
+- `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
 
 ## Non-extendable config files
 

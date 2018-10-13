@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const { execCommand } = require('../util/exec.util')
+const { proxyCommand } = require('../util/exec.util')
 
-execCommand(`jest`)
+proxyCommand(`jest`)

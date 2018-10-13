@@ -1,6 +1,19 @@
 const { spawn } = require('child_process')
 
-module.exports.execCommand = async (cmd, exitOnError = true) => {
+module.exports = {
+  execCommand,
+  proxyCommand,
+}
+
+async function proxyCommand(cmd) {
+  const [, , ...args] = process.argv
+
+  const cmdWithArgs = [cmd, ...args].join(' ')
+
+  return execCommand(cmdWithArgs)
+}
+
+async function execCommand(cmd, exitOnError = true) {
   return new Promise((resolve, reject) => {
     console.log(cmd)
 
