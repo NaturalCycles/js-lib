@@ -33,3 +33,6 @@
 
 /dist
 /tmp
+
+/src/@linked
+/src/scripts/try.*

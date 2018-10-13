@@ -9,6 +9,13 @@
   "files": [
     "cfg"
   ],
+  "bin": {
+    "prettier-do": "src/bin/prettier-do.js",
+    "prettier-all": "src/bin/prettier-all.js"
+  },
+  "engines": {
+    "node": ">=8.9"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com/NaturalCycles/SharedModule.git"

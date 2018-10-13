@@ -37,7 +37,7 @@ module.exports = {
     '!src/test/**',
     '!src/typings/**',
     '!src/scripts/**',
-    '!src/environment/**',
+    '!src/environments/**',
   ],
   reporters: [
     'default',
