@@ -1,0 +1,2 @@
+# @naturalcycles/shared-module
+

@@ -1,0 +1,32 @@
+#
+# This file is for `shared-module` project only.
+#
+
+#
+# Global (all dirs)
+#
+*.iml
+.DS_Store
+
+#
+# Root dir
+#
+/.idea
+/.classpath
+/.project
+/.settings
+/.externalToolBuilders
+/.cache
+/.gitconfig
+/target
+/*.log
+/log.txt
+/.sass-cache
+
+/node_modules
+
+/coverage
+/report
+
+/dist
+/tmp
