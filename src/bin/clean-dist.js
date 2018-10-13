@@ -2,4 +2,4 @@
 
 const { execCommand } = require('../util/exec.util')
 
-execCommand(`jest --ci --coverage --maxWorkers=8`)
+execCommand(`del ./dist`)

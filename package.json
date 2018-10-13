@@ -11,11 +11,17 @@
     "cfg"
   ],
   "bin": {
+    "bt": "src/bin/bt.js",
+    "build": "src/bin/build.js",
+    "build-copy": "src/bin/build-copy.js",
+    "build-tsc": "src/bin/build-tsc.js",
+    "clean-dist": "src/bin/clean-dist.js",
+    "prettier-all": "src/bin/prettier-all.js",
+    "prettier-do": "src/bin/prettier-do.js",
     "test": "src/bin/test.js",
     "test-ci": "src/bin/test-ci.js",
-    "tslint-all": "src/bin/tslint-all.js",
-    "prettier-do": "src/bin/prettier-do.js",
-    "prettier-all": "src/bin/prettier-all.js"
+    "test-compile": "src/bin/test-compile.js",
+    "tslint-all": "src/bin/tslint-all.js"
   },
   "engines": {
     "node": ">=8.9"
