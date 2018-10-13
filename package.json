@@ -11,8 +11,8 @@
     "cfg"
   ],
   "bin": {
-    "test": "src/bin/proxy.js 'jest'",
-    "test-ci": "src/bin/proxy.js 'jest --coverage --ci --maxWorkers=8'",
+    "test": "src/bin/test.js",
+    "test-ci": "src/bin/test-ci.js",
     "tslint-all": "src/bin/tslint-all.js",
     "prettier-do": "src/bin/prettier-do.js",
     "prettier-all": "src/bin/prettier-all.js"
