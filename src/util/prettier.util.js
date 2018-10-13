@@ -1,13 +1,9 @@
-
 const { prettierPaths, tslintPaths, tslintExcludePaths } = require('../cnst/prettier.cnst')
 const { execCommand } = require('../util/exec.util')
 
 module.exports.runPrettier = async () => {
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  const cmd = [
-    `prettier --write`,
-    ...prettierPaths.map(p => `'${p}'`),
-  ].join(' ')
+  const cmd = [`prettier --write`, ...prettierPaths.map(p => `'${p}'`)].join(' ')
 
   // console.log(cmd)
 

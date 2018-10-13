@@ -4,7 +4,7 @@ module.exports.execCommand = async (cmd, exitOnError = true) => {
   return new Promise((resolve, reject) => {
     console.log(cmd)
 
-    const cp = spawn(cmd, {shell: true, stdio: 'inherit'})
+    const cp = spawn(cmd, { shell: true, stdio: 'inherit' })
     // cp.stdout.on('data', data => console.log(data.toString()))
     // cp.stderr.on('data', data => console.log(data.toString()))
     cp.once('error', err => reject(err))

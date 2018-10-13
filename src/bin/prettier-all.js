@@ -5,7 +5,6 @@
  */
 
 const { runPrettier, runTSLint } = require('../util/prettier.util')
-
 ;(async () => {
   await runPrettier()
   await runTSLint()

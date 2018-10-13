@@ -8,8 +8,7 @@ Enforces conventions between projects.
 
 Primary language: TypeScript (`*.ts`).
 
-All files are linted and *prettified* upon commit (using `husky`, `lint-staged` and `prettier`).
-
+All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` and `prettier`).
 
 ### Folder structure
 
@@ -23,17 +22,16 @@ All files are linted and *prettified* upon commit (using `husky`, `lint-staged` 
 - `/src/typings`
 - `/src/environments`
 
-
 ### Yarn commands
 
-These commands are available to be called as `yarn <command>`, because they are exposed as `npm scripts` in 
+These commands are available to be called as `yarn <command>`, because they are exposed as `npm scripts` in
 `node_modules/.bin/`.
 
 In alphabetic order:
 
 - `bt`: shortcut for "build and test"
 - `build`: does `tsc` (typescript compilation) into `dist`
-- `build-copy`: copies *additional files* into `dist` folder (e.g `*.json`)
+- `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
 - `clean-dist`: cleans up `dist` folder
 - `prettier-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
@@ -43,10 +41,9 @@ In alphabetic order:
 - `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
 
-
 ## Non-extendable config files
 
-These files cannot be *extended*, so they are instead copied into the target project: first time when seeding the project,
+These files cannot be _extended_, so they are instead copied into the target project: first time when seeding the project,
 later manually by running `yarn update-from-shared-module`.
 
 These files are **overwritten** in target project every time the mentioned command is run. So, be careful! Solution is to
@@ -56,17 +53,15 @@ either extend them in other way (e.g put more `.gitignore` files in subfolders),
 - `.gitignore`
 - `.codeclimate.yml` (with some work it can be made extendable later)
 
-
 ## Extendable config files
 
-These files are meant to be extended in target project, so act as *recommended defaults*.
+These files are meant to be extended in target project, so act as _recommended defaults_.
 
 - `husky.config.js`
 - `lint-staged.config.js`
 - `prettier.config.js`
 - `tslint.json`
 - `jest.config.js`
-
 
 ## Dependencies
 
@@ -75,17 +70,17 @@ These files are meant to be extended in target project, so act as *recommended d
 It has dependencies that will be installed to all modules.
 
 ONLY the dependencies that are:
- 
- - **stable**
- - safe to automatically update according to semver (e.g `^1.0.0`)
- 
+
+- **stable**
+- safe to automatically update according to semver (e.g `^1.0.0`)
+
 are included.
 
 Examples of what devDeps **cannot** be included:
 
 - `prettier`, because patch versions can change how source code is printed significantly,
-    and we want to control how and when to update it.
+  and we want to control how and when to update it.
 - `tslint`, for same reasons
 - `jest`
 
-Deps that are listed here are *blessed* and battle-tested.
+Deps that are listed here are _blessed_ and battle-tested.

@@ -8,9 +8,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testMatch: [
-    '<rootDir>/src/**/*.test.ts',
-  ],
+  testMatch: ['<rootDir>/src/**/*.test.ts'],
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
@@ -33,7 +31,7 @@ module.exports = {
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
   setupTestFrameworkScriptFile: '<rootDir>/src/test/setupJest.ts',
-  collectCoverageFrom : [
+  collectCoverageFrom: [
     'src/**/*.ts',
     '!src/@linked/**',
     '!@linked/**',
@@ -56,6 +54,6 @@ module.exports = {
         ancestorSeparator: ' › ',
         usePathForSuiteName: 'true',
       },
-    ]
+    ],
   ],
 }

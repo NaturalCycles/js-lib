@@ -2,7 +2,7 @@
 
 const { execCommand } = require('../util/exec.util')
 
-const [,,cmd] = process.argv
+const [, , cmd] = process.argv
 
 if (!cmd) {
   console.error('proxy.js is missing first argument!')

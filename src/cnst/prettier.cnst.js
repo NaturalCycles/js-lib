@@ -1,4 +1,3 @@
-
 module.exports.prettierPaths = [
   // Everything inside `/src`
   './src/**/*.{ts,css,scss,json,md,graphql,yml,yaml}',
@@ -10,10 +9,6 @@ module.exports.prettierPaths = [
   './doc/*.md',
 ]
 
-module.exports.tslintPaths = [
-  './src/**/*.ts',
-]
+module.exports.tslintPaths = ['./src/**/*.ts']
 
-module.exports.tslintExcludePaths = [
-  './src/@linked',
-]
+module.exports.tslintExcludePaths = ['./src/@linked']
