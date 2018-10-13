@@ -36,7 +36,8 @@
     "test": "src/bin/test.js",
     "test-ci": "src/bin/test-ci.js",
     "test-compile": "src/bin/test-compile.js",
-    "tslint-all": "src/bin/tslint-all.js"
+    "tslint-all": "src/bin/tslint-all.js",
+    "update-from-shared-module": "src/bin/update-from-shared-module.js"
   },
   "engines": {
     "node": ">=8.9"
