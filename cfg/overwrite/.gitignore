@@ -25,6 +25,8 @@
 /*.log
 /log.txt
 /.sass-cache
+/.sourcemaps
+/.env
 
 /node_modules
 
@@ -36,3 +38,8 @@
 
 /src/@linked
 /src/scripts/try.*
+/logs
+/platforms
+/plugins
+/www/*
+!/www/.gitkeep
