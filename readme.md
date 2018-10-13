@@ -35,6 +35,7 @@ In alphabetic order:
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
 - `clean-dist`: cleans up `dist` folder
+- `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
 - `prettier-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `prettier-do`: runs just Prettier on needed paths
 - `test`: alias for `jest`

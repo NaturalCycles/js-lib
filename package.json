@@ -31,6 +31,7 @@
     "build-copy": "src/bin/build-copy.js",
     "build-tsc": "src/bin/build-tsc.js",
     "clean-dist": "src/bin/clean-dist.js",
+    "init-from-shared-module": "src/bin/init-from-shared-module.js",
     "prettier-all": "src/bin/prettier-all.js",
     "prettier-do": "src/bin/prettier-do.js",
     "test": "src/bin/test.js",
