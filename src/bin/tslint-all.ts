@@ -4,6 +4,6 @@
  * Runs `tslint` command for all predefined paths (e.g /src, etc).
  */
 
-const { runTSLint } = require('../util/prettier.util')
+import { runTSLint } from '../util/prettier.util'
 
 runTSLint()

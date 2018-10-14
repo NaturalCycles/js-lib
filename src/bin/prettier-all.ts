@@ -4,8 +4,8 @@
  * Runs `prettier` and `tslint` for all predefined paths (e.g /src, etc)
  */
 
-const { runPrettier, runTSLint } = require('../util/prettier.util')
-;(async () => {
+import { runPrettier, runTSLint } from '../util/prettier.util'
+; (async () => {
   await runPrettier()
   await runTSLint()
 })()

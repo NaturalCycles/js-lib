@@ -5,6 +5,6 @@
  * Does NOT run `tslint` after (use `prettier-all` for that)
  */
 
-const { runPrettier } = require('../util/prettier.util')
+import { runPrettier } from '../util/prettier.util'
 
 runPrettier()

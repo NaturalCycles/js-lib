@@ -1,11 +1,6 @@
-const { spawn } = require('child_process')
+import { spawn } from 'child_process'
 
-module.exports = {
-  execCommand,
-  proxyCommand,
-}
-
-async function proxyCommand(cmd) {
+export async function proxyCommand (cmd: string) {
   const [, , ...args] = process.argv
 
   const cmdWithArgs = [cmd, ...args].join(' ')
@@ -13,11 +8,11 @@ async function proxyCommand(cmd) {
   return execCommand(cmdWithArgs)
 }
 
-async function execCommand(cmd, exitOnError = true) {
-  return new Promise((resolve, reject) => {
+export async function execCommand (cmd: string, exitOnError = true): Promise<number> {
+  return new Promise<number>((resolve, reject) => {
     console.log(cmd)
 
-    const cp = spawn(cmd, { shell: true, stdio: 'inherit' })
+    const cp = spawn(cmd, { shell: true, stdio: 'inherit' } as any)
     // cp.stdout.on('data', data => console.log(data.toString()))
     // cp.stderr.on('data', data => console.log(data.toString()))
     cp.once('error', err => reject(err))

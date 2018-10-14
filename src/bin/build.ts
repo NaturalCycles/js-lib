@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const { execCommand } = require('../util/exec.util')
+import { execCommand } from '../util/exec.util'
 
 execCommand(`clean-dist && build-copy | build-tsc`)

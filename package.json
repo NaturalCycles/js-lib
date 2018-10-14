@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "prettier-all": "prettier --write '**/*.{js,ts,css,scss,graphql,md,yml,yaml,json}'"
+    "build": "tsc",
+    "prettier-do": "prettier --write 'src/**/*.{js,ts,css,scss,graphql}'",
+    "tslint-all": "tslint './src/**/*.ts' -t stylish --fix",
+    "prettier-all": "yarn prettier-do && yarn tslint-all"
   },
   "dependencies": {
     "@types/cpx": "^1.5.0",
@@ -18,27 +21,30 @@
     "yargs": "^12.0.2"
   },
   "devDependencies": {
-    "prettier": "^1.14.3"
+    "@types/node": "^10.11.7",
+    "prettier": "^1.14.3",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3"
   },
   "peerDependencies": {},
   "files": [
-    "src",
+    "dist",
     "cfg"
   ],
   "bin": {
-    "bt": "src/bin/bt.js",
-    "build": "src/bin/build.js",
-    "build-copy": "src/bin/build-copy.js",
-    "build-tsc": "src/bin/build-tsc.js",
-    "clean-dist": "src/bin/clean-dist.js",
-    "init-from-shared-module": "src/bin/init-from-shared-module.js",
-    "prettier-all": "src/bin/prettier-all.js",
-    "prettier-do": "src/bin/prettier-do.js",
-    "test": "src/bin/test.js",
-    "test-ci": "src/bin/test-ci.js",
-    "test-compile": "src/bin/test-compile.js",
-    "tslint-all": "src/bin/tslint-all.js",
-    "update-from-shared-module": "src/bin/update-from-shared-module.js"
+    "bt": "dist/bin/bt.js",
+    "build": "dist/bin/build.js",
+    "build-copy": "dist/bin/build-copy.js",
+    "build-tsc": "dist/bin/build-tsc.js",
+    "clean-dist": "dist/bin/clean-dist.js",
+    "init-from-shared-module": "dist/bin/init-from-shared-module.js",
+    "prettier-all": "dist/bin/prettier-all.js",
+    "prettier-do": "dist/bin/prettier-do.js",
+    "test": "dist/bin/test.js",
+    "test-ci": "dist/bin/test-ci.js",
+    "test-compile": "dist/bin/test-compile.js",
+    "tslint-all": "dist/bin/tslint-all.js",
+    "update-from-shared-module": "dist/bin/update-from-shared-module.js"
   },
   "engines": {
     "node": ">=8.9"

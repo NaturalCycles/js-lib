@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const cpx = require('cpx')
+import * as cpx from 'cpx'
 
 const overwriteDir = `./node_modules/@naturalcycles/shared-module/cfg/overwrite`
 

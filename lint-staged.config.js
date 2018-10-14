@@ -1,7 +1,1 @@
-module.exports = {
-  linters: {
-    '**/*.{js,css,scss,json,md,graphql,yml,yaml}': ['prettier --write', 'git add'],
-  },
-
-  ignore: [],
-}
+module.exports = require('./cfg/lint-staged.config')
