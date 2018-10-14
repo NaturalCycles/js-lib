@@ -57,3 +57,4 @@ exclude_patterns:
   - 'ex/'
   - 'doc/'
   - 'docker/'
+  - 'public/'

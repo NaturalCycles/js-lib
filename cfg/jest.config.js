@@ -39,6 +39,7 @@ module.exports = {
     '!src/typings/**',
     '!src/scripts/**',
     '!src/environments/**',
+    '!public/**',
     '!**/*.module.ts',
     '!**/*.mock.ts',
   ],
