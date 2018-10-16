@@ -1,7 +1,8 @@
 {
   "name": "@naturalcycles/js-lib",
   "scripts": {
-    "before-publish": "del 'dist/**/*.js' && cpx 'src/**/*' dist && cpx 'dist/**/*' ./"
+    "before-publish": "cpx 'src/**/*' dist",
+    "before-publish1": "del 'dist/**/*.js' && cpx 'src/**/*' dist && cpx 'dist/**/*' ./"
   },
   "devDependencies": {
     "@naturalcycles/shared-module": "^1.0.25",
