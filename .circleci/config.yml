@@ -1,0 +1,71 @@
+#
+# validate yml:
+# circleci config validate -c .circleci/config.yml
+#
+
+version: 2
+
+#
+# Defaults
+#
+defaults: &defaults
+  resource_class: xlarge
+  docker:
+  - image: naturalcycles/ci-node:latest
+  working_directory: ~/repo
+
+restore_cache: &restore_cache
+  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "yarn.lock" }}
+
+save_cache: &save_cache
+  paths:
+  - node_modules
+  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "yarn.lock" }}
+
+npm_token: &npm_token echo -e "always-auth=true\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+git_msg: &git_msg echo 'export GIT_MSG=`git log -1 --pretty=%B`' >> $BASH_ENV
+
+npm_publish: &npm_publish
+  name: npm publish
+  command: |
+    NPM_TAG=latest
+    NPM_VER_NEXT=1.0.$CIRCLE_BUILD_NUM
+    npm version $NPM_VER_NEXT -m "version: %s [ci skip]: $GIT_MSG"
+    npm publish --access public --tag $NPM_TAG
+
+#
+# Jobs
+#
+jobs:
+  build-job:
+    <<: *defaults
+    steps:
+      - checkout
+
+      # env variables
+      - run: *git_msg
+
+      # yarn
+      - restore_cache: *restore_cache
+      - run: *npm_token
+      - run: yarn --pure-lockfile
+      - save_cache: *save_cache
+
+      # build
+      - run: yarn build
+
+      # npm publish
+      - run: *npm_publish
+
+#
+# Workflows
+#
+workflows:
+  version: 2
+  default-workflow:
+    jobs:
+      - build-job:
+          filters:
+            branches:
+              only: master

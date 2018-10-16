@@ -1,20 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "lib": ["dom", "es2017", "esnext"],
+    "target": "es2015",
+    "module": "es2015",
+    "lib": ["dom", "es2015"],
     "sourceMap": false,
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["*"],
-      "@src/*": ["src/*"],
-      "@linked/*": ["src/@linked/*"]
-    },
+    "rootDir": "./src",
     "typeRoots": ["node_modules/@types", "src/typings"],
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
@@ -22,5 +17,5 @@
     "experimentalDecorators": true
   },
 
-  "exclude": ["build", "scripts", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked"]
+  "exclude": ["build", "dist", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked"]
 }
