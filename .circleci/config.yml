@@ -29,6 +29,7 @@ git_msg: &git_msg echo 'export GIT_MSG=`git log -1 --pretty=%B`' >> $BASH_ENV
 npm_publish: &npm_publish
   name: npm publish
   command: |
+    yarn before-publish
     NPM_TAG=latest
     NPM_VER_NEXT=1.0.$CIRCLE_BUILD_NUM
     npm version $NPM_VER_NEXT -m "version: %s [ci skip]: $GIT_MSG"
