@@ -1,0 +1,28 @@
+{
+  "name": "@naturalcycles/js-lib",
+  "scripts": {},
+  "dependencies": {
+    "@naturalcycles/shared-module": "^1.0.25",
+    "@types/jest": "^23.3.5",
+    "@types/node": "^10.0.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
+    "prettier": "^1.14.3",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.0"
+  },
+  "devDependencies": {},
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=8.11",
+    "yarn": ">=1.10.1"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "author": "Natural Cycles Team",
+  "license": "MIT"
+}
