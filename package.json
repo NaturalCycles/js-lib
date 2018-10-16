@@ -16,7 +16,10 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {},
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
+    "dist",
     "decorators",
     "util"
   ],
