@@ -1,6 +1,8 @@
 {
   "name": "@naturalcycles/js-lib",
-  "scripts": {},
+  "scripts": {
+    "before-publish": "del 'dist/**/*.js' && cpx 'src/**/*' dist"
+  },
   "devDependencies": {
     "@naturalcycles/shared-module": "^1.0.25",
     "@types/jest": "^23.3.5",
@@ -18,9 +20,6 @@
     "dist",
     "src"
   ],
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "esnext": "dist/index.js",
   "engines": {
     "node": ">=8.11",
     "yarn": ">=1.10.1"
