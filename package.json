@@ -21,8 +21,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "decorators",
-    "util"
+    "src"
   ],
   "engines": {
     "node": ">=8.11",
