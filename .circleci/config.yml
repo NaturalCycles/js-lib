@@ -49,7 +49,7 @@ jobs:
   build-job:
     <<: *defaults
     environment:
-      #CC_TEST_REPORTER_ID: 
+      CC_TEST_REPORTER_ID: 7997607c5b558cb4d41dc064f3df1a81c07f2de9861ed73c738c23ed8dbab69e
     steps:
       - checkout
 
