@@ -4,7 +4,7 @@ export interface Deferred<T> {
   reject (e?: any): void
 }
 
-class PromiseUtil {
+class PromiseSharedUtil {
   defer<T = void> (): Deferred<T> {
     const deferred = {} as Deferred<T>
 
@@ -25,4 +25,4 @@ class PromiseUtil {
   }
 }
 
-export const promiseUtil = new PromiseUtil()
+export const promiseSharedUtil = new PromiseSharedUtil()
