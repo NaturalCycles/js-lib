@@ -4,6 +4,8 @@
   "description": "",
   "scripts": {
     "build": "tsc",
+    "test": "jest",
+    "test-ci": "jest --ci --coverage --maxWorkers=8",
     "prettier-do": "prettier --write 'src/**/*.{js,ts,css,scss,graphql}'",
     "tslint-all": "tslint './src/**/*.ts' -t stylish --fix",
     "prettier-all": "yarn prettier-do && yarn tslint-all"
@@ -13,6 +15,7 @@
     "@types/del": "^3.0.1",
     "@types/fs-extra": "5.0.2",
     "@types/yargs": "^12.0.1",
+    "chalk": "^2.4.1",
     "cpx": "^1.5.0",
     "del-cli": "^1.1.0",
     "fs-extra": "^7.0.0",
@@ -21,8 +24,12 @@
     "yargs": "^12.0.2"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.5",
     "@types/node": "^10.11.7",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
     "prettier": "^1.14.3",
+    "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   },

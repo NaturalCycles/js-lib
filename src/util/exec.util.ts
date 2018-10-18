@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import { spawn } from 'child_process'
 
 export async function proxyCommand (cmd: string) {
@@ -10,7 +11,7 @@ export async function proxyCommand (cmd: string) {
 
 export async function execCommand (cmd: string, exitOnError = true): Promise<number> {
   return new Promise<number>((resolve, reject) => {
-    console.log(cmd)
+    console.log(chalk.grey(cmd))
 
     const cp = spawn(cmd, { shell: true, stdio: 'inherit' } as any)
     // cp.stdout.on('data', data => console.log(data.toString()))
@@ -21,9 +22,9 @@ export async function execCommand (cmd: string, exitOnError = true): Promise<num
       if (code) {
         if (exitOnError) {
           process.exit(code)
-        } else {
-          reject(new Error(`${cmd} exitCode: ${code}`))
         }
+
+        reject(new Error(`${cmd} exitCode: ${code}`))
       } else {
         resolve(code)
       }

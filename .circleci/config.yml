@@ -34,12 +34,22 @@ npm_publish: &npm_publish
     npm version $NPM_VER_NEXT -m "version: %s [ci skip]: $GIT_MSG"
     npm publish --access public --tag $NPM_TAG
 
+test: &test
+  name: Test
+  command: |
+    yarn test-compile
+    cc-test-reporter before-build
+    yarn test-ci
+    cc-test-reporter after-build -t lcov ./coverage/lcov.info
+
 #
 # Jobs
 #
 jobs:
   build-job:
     <<: *defaults
+    environment:
+      #CC_TEST_REPORTER_ID:
     steps:
       - checkout
 
@@ -57,6 +67,18 @@ jobs:
 
       # npm publish
       - run: *npm_publish
+
+      # test
+      - run: *test
+
+      - store_test_results:
+          path: report
+      - store_artifacts:
+          path: report
+          destination: report
+      - store_artifacts:
+          path: coverage/lcov-report
+          destination: coverage
 
 #
 # Workflows
