@@ -17,10 +17,9 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {},
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main1": "dist/index.js",
+  "types1": "dist/index.d.ts",
   "files": [
-    "dist",
     "src"
   ],
   "engines": {
