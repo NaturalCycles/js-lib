@@ -43,6 +43,7 @@ exclude_patterns:
   - '**/*.cnst.*'
   - '**/*.page.*'
   - '**/*.component.*'
+  - '**/*.config.*'
   - '**/*.d.ts'
   - 'build/'
   - 'src/@linked/'
@@ -60,4 +61,3 @@ exclude_patterns:
   - 'doc/'
   - 'docker/'
   - 'public/'
-  - '*.config.js'
