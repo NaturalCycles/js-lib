@@ -1,9 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "scripts": {
-    "before-publish": "cpx 'src/**/*' dist",
-    "before-publish1": "del 'dist/**/*.js' && cpx 'src/**/*' dist && cpx 'dist/**/*' ./"
-  },
+  "scripts": {},
   "devDependencies": {
     "@naturalcycles/shared-module": "^1.0.25",
     "@types/jest": "^23.3.5",
@@ -17,10 +14,9 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {},
-  "main1": "dist/index.js",
-  "types1": "dist/index.d.ts",
   "files": [
-    "src"
+    "src",
+    "index.ts"
   ],
   "engines": {
     "node": ">=8.11",

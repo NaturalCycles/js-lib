@@ -4,7 +4,7 @@
     "module": "es2015",
     "lib": ["dom", "es2015"],
     "sourceMap": false,
-    "declaration": true,
+    "declaration": false,
     "outDir": "./dist",
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -17,5 +17,5 @@
     "experimentalDecorators": true
   },
 
-  "exclude": ["build", "dist", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked"]
+  "exclude": ["build", "dist", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked", "index.ts"]
 }
