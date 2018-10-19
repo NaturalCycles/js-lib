@@ -10,7 +10,10 @@ test('loadScript', async () => {
   document.createElement = jest.fn(() => el)
   ; (document.head!.appendChild as any) = () => {}
 
-  const promise = scriptSharedUtil.loadScript('http://some.script')
+  let promise = scriptSharedUtil.loadScript('http://some.script')
+  el.onload()
+  await promise
+  promise = scriptSharedUtil.loadScript('http://some.script', true)
   el.onload()
   await promise
 })

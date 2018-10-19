@@ -5,17 +5,15 @@
 /* tslint:disable:no-invalid-this */
 import * as LRU from 'lru-cache'
 
-export type Resolver = (...args: any[]) => any
+export type CacheKeyFn = (...args: any[]) => any
 
 export interface MemoCacheOpts {
-  cacheKeyFn?: Resolver
+  cacheKeyFn?: CacheKeyFn
   ttl?: number // in millis
   maxSize?: number
 }
 
-function jsonCacheKey (args: any[]): string {
-  return JSON.stringify(args)
-}
+const jsonCacheKey: CacheKeyFn = (...args) => JSON.stringify(args)
 
 export const memoCache = (opts: MemoCacheOpts = {}) => (
   target: any,

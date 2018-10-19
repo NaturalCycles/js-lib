@@ -4,9 +4,9 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 /* tslint:disable:no-invalid-this */
 
-function jsonCacheKey (args: any[]): string {
-  return JSON.stringify(args)
-}
+type CacheKeyFn = (...args: any[]) => any
+
+const jsonCacheKey: CacheKeyFn = (...args) => JSON.stringify(args)
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
