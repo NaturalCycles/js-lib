@@ -118,28 +118,6 @@ export class ObjectUtil {
     return o
   }
 
-  changeKey (o: StringMap<any>, mapFn: (key: string) => string) {
-    return Object.keys(o).reduce(
-      (prev, key) => {
-        prev[mapFn(key)] = o[key]
-        return prev
-      },
-      {} as StringMap<any>,
-    )
-  }
-
-  map<T> (type: T & { new (): T }, obj: any): T {
-    const instance = new type()
-    return (Object.keys(instance) as (keyof T)[]).reduce(
-      (res, key) => {
-        const value = obj[key]
-        if (value !== undefined) res[key] = value
-        return res
-      },
-      {} as T,
-    )
-  }
-
   private defaultSortFn (a: any, b: any): number {
     return a.localeCompare(b)
   }
@@ -191,7 +169,14 @@ export class ObjectUtil {
   }
 
   /**
-   * Warning! Mutates the object! Unless you pass "deepCopy = true"
+   * Returns object with filtered keys from "exclude" array.
+   * E.g:
+   * mask({...}, [
+   *  'account.id',
+   *  'account.updated',
+   * ])
+   *
+   * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
    */
   mask<T extends object> (_o: T, exclude: string[], deepCopy = false): T {
     let o = { ...(_o as object) }
@@ -219,7 +204,7 @@ export class ObjectUtil {
   }
 
   getKeyByValue<T = any> (object: any, value: any): T | undefined {
-    if (!object) return undefined
+    if (!this.isObject(object)) return
     return Object.keys(object).find(k => object[k] === value) as any
   }
 

@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mask deepCopy 1`] = `
+Object {
+  "a": "1",
+  "b": Object {
+    "d": "1",
+  },
+}
+`;
+
+exports[`mask shallowCopy 1`] = `
+Object {
+  "a": "1",
+  "b": Object {
+    "d": "1",
+    "e": Object {
+      "f": 7,
+    },
+  },
+}
+`;
+
 exports[`mergeDeep 1`] = `
 Object {
   "b": Object {
@@ -8,6 +29,15 @@ Object {
   },
   "d": "d2",
   "e": "e1",
+}
+`;
+
+exports[`mergeDeep 2`] = `
+Object {
+  "b": Object {
+    "c2": "c2",
+  },
+  "d": "d2",
 }
 `;
 

@@ -132,6 +132,8 @@ test('filterUndefinedValues', () => {
 })
 
 test('filterValues', () => {
+  expect(objectUtil.filterValues(1, () => false)).toBe(1)
+
   const f = objectUtil.filterValues.bind(objectUtil)
   const br = {
     a: 'b',
@@ -143,17 +145,27 @@ test('filterValues', () => {
   expect(br.c).toBeUndefined()
 })
 
+test('transformValues', () => {
+  expect(objectUtil.transformValues(1, () => {})).toBe(1)
+})
+
 test('objectNullValuesToUndefined', () => {
   const o = {
     a: undefined,
     b: null,
     c: 1,
   }
-  expect(objectUtil.objectNullValuesToUndefined(o)).toEqual({
+  const o2 = {
     a: undefined,
     b: undefined,
     c: 1,
-  })
+  }
+
+  expect(objectUtil.objectNullValuesToUndefined(o)).toEqual(o2)
+
+  // mutate
+  objectUtil.objectNullValuesToUndefined(o, true)
+  expect(o).toEqual(o2)
 })
 
 test('deepEquals Issue!', () => {
@@ -201,6 +213,8 @@ test('deepEquals', () => {
 })
 
 test('unsetValue', () => {
+  expect(objectUtil.unsetValue(1, 'a')).toBeUndefined()
+
   const o = {
     a: 1,
     b: {
@@ -244,6 +258,9 @@ test('isEmptyObject', () => {
 })
 
 test('mergeDeep', () => {
+  expect(objectUtil.mergeDeep(1, 2)).toBe(1)
+  expect(objectUtil.mergeDeep({}, 2)).toEqual({})
+
   const a1 = {
     b: {
       c: 'c1',
@@ -258,9 +275,12 @@ test('mergeDeep', () => {
   }
 
   expect(objectUtil.mergeDeep(a1, a2)).toMatchSnapshot()
+
+  const b1 = {}
+  expect(objectUtil.mergeDeep(b1, a2)).toMatchSnapshot()
 })
 
-test('mask', () => {
+test('mask shallowCopy', () => {
   const o = {
     a: '1',
     b: {
@@ -272,17 +292,21 @@ test('mask', () => {
     },
   }
   const r = objectUtil.mask(o, ['b.c'])
-  expect(r).toEqual({
+  expect(r).toMatchSnapshot()
+  expect(r.b).toEqual(o.b) // cause it will mutate r.b
+})
+
+test('mask deepCopy', () => {
+  const o = {
     a: '1',
     b: {
+      c: '2',
       d: '1',
-      e: {
-        f: 7,
-      },
     },
-  })
-  expect(r.b.c).toBeUndefined()
-  expect(r.b.e !== o.b.e)
+  }
+  deepFreeze(o)
+  const r = objectUtil.mask(o, ['b.c'], true)
+  expect(r).toMatchSnapshot()
 
   // should not fail
   expect(objectUtil.mask(o, ['c.0.0'])).toEqual(o)
@@ -336,6 +360,9 @@ test('classToPlain', () => {
 })
 
 test('getKeyByValue', async () => {
+  expect(objectUtil.getKeyByValue(undefined, 'v')).toBeUndefined()
+  expect(objectUtil.getKeyByValue(1, 'v')).toBeUndefined()
+
   const o = {
     a: 'ak',
     b: 'bk',
