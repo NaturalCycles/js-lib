@@ -32,3 +32,8 @@ test('memo a', () => {
   // to be called once per set of arguments (2)
   expect(a.func).toMatchSnapshot()
 })
+
+test('memo unsupported', () => {
+  const pd = { value: 'property' } as PropertyDescriptor
+  expect(() => memo()(null, 'a', pd)).toThrow()
+})
