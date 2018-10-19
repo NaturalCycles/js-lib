@@ -42,6 +42,8 @@ module.exports = {
     '!public/**',
     '!**/*.module.ts',
     '!**/*.mock.ts',
+    '!**/*.page.ts',
+    '!**/*.component.ts',
   ],
   reporters: [
     'default',

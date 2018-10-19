@@ -41,8 +41,6 @@ exclude_patterns:
   - '**/*.test.*'
   - '**/*.mock.*'
   - '**/*.cnst.*'
-  - '**/*.page.*'
-  - '**/*.component.*'
   - '**/*.config.*'
   - '**/*.d.ts'
   - 'build/'
