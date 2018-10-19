@@ -82,7 +82,7 @@ export class ObjectUtil {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null) || false
   }
 
-  isEmpty (obj: any): boolean {
+  isEmptyObject (obj: any): boolean {
     return obj && obj.constructor === Object && Object.keys(obj).length === 0
   }
 
@@ -118,13 +118,13 @@ export class ObjectUtil {
     return o
   }
 
-  changeKey (o: { [key: string]: any }, mapFn: (key: string) => string) {
+  changeKey (o: StringMap<any>, mapFn: (key: string) => string) {
     return Object.keys(o).reduce(
       (prev, key) => {
         prev[mapFn(key)] = o[key]
         return prev
       },
-      {} as { [key: string]: any },
+      {} as StringMap<any>,
     )
   }
 
@@ -138,14 +138,6 @@ export class ObjectUtil {
       },
       {} as T,
     )
-  }
-
-  sortObject<T> (o: T): T {
-    if (typeof o !== 'object') return o
-
-    return Object.keys(o)
-      .sort()
-      .reduce((r: any, k: any) => ((r[k] = (o as any)[k]), r), {} as any)
   }
 
   private defaultSortFn (a: any, b: any): number {

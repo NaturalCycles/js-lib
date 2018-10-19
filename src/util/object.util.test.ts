@@ -1,3 +1,4 @@
+import { deepFreeze } from '../testing/test.shared.util'
 import { objectUtil } from './object.util'
 
 test('pick', () => {
@@ -111,6 +112,25 @@ test('filterEmptyStringValues', () => {
   expect(o.e).toBe(undefined)
 })
 
+test('filterUndefinedValues', () => {
+  const o = {
+    a: 1,
+    b: 0,
+    c: undefined,
+    d: null,
+    e: '',
+    f: 'wer',
+  }
+  deepFreeze(o)
+
+  expect(objectUtil.filterUndefinedValues(o)).toEqual({
+    a: 1,
+    b: 0,
+    e: '',
+    f: 'wer',
+  })
+})
+
 test('filterValues', () => {
   const f = objectUtil.filterValues.bind(objectUtil)
   const br = {
@@ -214,6 +234,30 @@ test('deepCopy', () => {
 
 test('isObject', () => {
   expect(objectUtil.isObject(undefined)).toBe(false)
+})
+
+test('isEmptyObject', () => {
+  const a = [1, 0, -1, undefined, null, 'wer', 'a', '', {}, { a: 'b' }]
+
+  const empty = a.filter(i => objectUtil.isEmptyObject(i))
+  expect(empty).toEqual([{}])
+})
+
+test('mergeDeep', () => {
+  const a1 = {
+    b: {
+      c: 'c1',
+    },
+    e: 'e1',
+  }
+  const a2 = {
+    b: {
+      c2: 'c2',
+    },
+    d: 'd2',
+  }
+
+  expect(objectUtil.mergeDeep(a1, a2)).toMatchSnapshot()
 })
 
 test('mask', () => {
@@ -321,6 +365,8 @@ test('invertMap', async () => {
 })
 
 test('by', () => {
+  expect(objectUtil.by(undefined, 'a')).toEqual({})
+
   const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
   const r = objectUtil.by(a, 'a')
   expect(r).toEqual({

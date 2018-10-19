@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mergeDeep 1`] = `
+Object {
+  "b": Object {
+    "c": "c1",
+    "c2": "c2",
+  },
+  "d": "d2",
+  "e": "e1",
+}
+`;
+
 exports[`sortObjectDeep 1`] = `
 Object {
   "a": 1,
