@@ -77,9 +77,9 @@ module.exports = {
     'prefer-for-of': true,
     'promise-function-async': [
       true,
-      "check-function-declaration",
-      "check-function-expression",
-      "check-method-declaration"
+      'check-function-declaration',
+      'check-function-expression',
+      'check-method-declaration',
     ],
     'space-before-function-paren': [true, 'always'],
     'triple-equals': [true, 'allow-null-check'],
