@@ -1,3 +1,4 @@
+import * as fs from 'fs-extra'
 import { prettierPaths, tslintExcludePaths, tslintPaths } from '../cnst/prettier.cnst'
 import { execCommand } from './exec.util'
 
@@ -11,12 +12,26 @@ export async function runPrettier (): Promise<number> {
 }
 
 export async function runTSLint (): Promise<number> {
+  let code = await runTSLintWithProject()
+  if (code) return code
+
+  // if 'scripts' folder exists - run tslint there too
+  const cwd = process.cwd()
+  const scriptsProject = `${cwd}/src/scripts`
+  if (fs.pathExistsSync(scriptsProject)) {
+    code = await runTSLintWithProject(scriptsProject)
+  }
+
+  return code
+}
+
+export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number> {
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
   const cmd = [
     `tslint`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
-    `-p tsconfig.json -t stylish --fix`,
+    `-p ${p} -t stylish --fix`,
   ].join(' ')
 
   // console.log(cmd)
