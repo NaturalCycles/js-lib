@@ -9,4 +9,4 @@ if (!cmd) {
   process.exit(1)
 }
 
-execCommand(cmd)
+void execCommand(cmd)

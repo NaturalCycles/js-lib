@@ -6,4 +6,4 @@
 
 import { runTSLint } from '../util/prettier.util'
 
-runTSLint()
+void runTSLint()

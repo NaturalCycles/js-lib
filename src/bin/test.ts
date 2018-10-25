@@ -2,4 +2,4 @@
 
 import { proxyCommand } from '../util/exec.util'
 
-proxyCommand(`jest`)
+void proxyCommand(`jest`)

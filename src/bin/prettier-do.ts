@@ -7,4 +7,4 @@
 
 import { runPrettier } from '../util/prettier.util'
 
-runPrettier()
+void runPrettier()

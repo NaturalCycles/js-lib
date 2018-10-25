@@ -11,12 +11,12 @@ export async function runPrettier (): Promise<number> {
 }
 
 export async function runTSLint (): Promise<number> {
-  // tslint './src/**/*.ts' -e './src/@linked' -t stylish --fix
+  // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
   const cmd = [
     `tslint`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
-    `-t stylish --fix`,
+    `-p tsconfig.json -t stylish --fix`,
   ].join(' ')
 
   // console.log(cmd)

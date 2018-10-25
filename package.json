@@ -7,8 +7,8 @@
     "test-compile": "tsc -p tsconfig.test.json",
     "test": "jest",
     "test-ci": "jest --ci --coverage --maxWorkers=8",
-    "prettier-do": "prettier --write 'src/**/*.{js,ts,css,scss,graphql}'",
-    "tslint-all": "tslint './src/**/*.ts' -t stylish --fix",
+    "prettier-do": "prettier --write 'src/**/*.{js,json,ts,css,scss,graphql,md,yml,yaml}' '{.,cfg}/*.{js,json,md,yml,yaml}'",
+    "tslint-all": "tslint './src/**/*.ts' -p tsconfig.json -t stylish --fix",
     "prettier-all": "yarn prettier-do && yarn tslint-all"
   },
   "dependencies": {

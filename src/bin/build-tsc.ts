@@ -2,4 +2,4 @@
 
 import { execCommand } from '../util/exec.util'
 
-execCommand(`tsc`)
+void execCommand(`tsc`)

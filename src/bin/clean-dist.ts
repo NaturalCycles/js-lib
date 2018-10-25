@@ -2,4 +2,4 @@
 
 import { execCommand } from '../util/exec.util'
 
-execCommand(`del ./dist`)
+void execCommand(`del ./dist`)

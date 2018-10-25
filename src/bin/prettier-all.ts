@@ -5,7 +5,7 @@
  */
 
 import { runPrettier, runTSLint } from '../util/prettier.util'
-; (async () => {
+void (async () => {
   await runPrettier()
   await runTSLint()
 })()
