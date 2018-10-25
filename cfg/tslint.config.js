@@ -75,9 +75,12 @@ module.exports = {
       },
     ],
     'prefer-for-of': true,
-    'promise-function-async': true,
-    quotemark: [true, 'single', 'avoid-escape'],
-    semicolon: [true, 'never'],
+    'promise-function-async': [
+      true,
+      "check-function-declaration",
+      "check-function-expression",
+      "check-method-declaration"
+    ],
     'space-before-function-paren': [true, 'always'],
     'triple-equals': [true, 'allow-null-check'],
     typedef: [true, 'property-declaration'],
