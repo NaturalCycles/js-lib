@@ -19,5 +19,5 @@ module.exports = {
     './doc/*.md': ['prettier --write', 'git add'],
   },
 
-  ignore: [],
+  ignore: ['./src/scripts/**/*'],
 }
