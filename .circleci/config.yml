@@ -11,7 +11,7 @@ version: 2
 defaults: &defaults
   resource_class: xlarge
   docker:
-  - image: naturalcycles/ci-node:latest
+    - image: naturalcycles/ci-node:latest
   working_directory: ~/repo
 
 restore_cache: &restore_cache
@@ -19,7 +19,7 @@ restore_cache: &restore_cache
 
 save_cache: &save_cache
   paths:
-  - node_modules
+    - node_modules
   key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "yarn.lock" }}
 
 npm_token: &npm_token echo -e "always-auth=true\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc

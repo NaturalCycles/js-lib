@@ -10,13 +10,13 @@ module.exports = {
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     // Everything inside `/src`
-    './src/**/*.{css,scss,json,md,graphql,yml,yaml}': ['prettier --write', 'git add'],
+    './{src,doc,.circleci}/**/*.{css,scss,json,md,graphql,yml,yaml}': [
+      'prettier --write',
+      'git add',
+    ],
 
     // Files in root dir
     './*.{js,json,md,yml,yaml}': ['prettier --write', 'git add'],
-
-    // doc
-    './doc/*.md': ['prettier --write', 'git add'],
   },
 
   ignore: ['./src/scripts/**/*'],
