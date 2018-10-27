@@ -1,6 +1,8 @@
 {
   "name": "@naturalcycles/js-lib",
-  "scripts": {},
+  "scripts": {
+    "pre-publish-delete": "del 'src/test' 'src/**/*.test.ts' 'src/**/__snapshots__'"
+  },
   "devDependencies": {
     "@naturalcycles/shared-module": "^1.0.25",
     "@types/jest": "^23.3.5",
