@@ -33,15 +33,17 @@ These commands are available to be called as `yarn <command>`, because they are 
 In alphabetic order:
 
 - `bt`: shortcut for "build and test"
-- `build`: does `tsc` (typescript compilation) into `dist`
+- `build`: does `clean-dist && build-copy && build-tsc`
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
+- `build-prod`: does `clean-dist && build-copy && build-tsc-prod`
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
+- `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
 - `clean-dist`: cleans up `dist` folder
 - `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
 - `prettier-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `prettier-do`: runs just Prettier on needed paths
-- `test`: alias for `jest`
-- `test-ci`: runs test in CI environment, with coverage
+- `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
+- `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
 - `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
 - `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
