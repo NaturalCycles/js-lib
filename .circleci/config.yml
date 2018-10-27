@@ -37,7 +37,7 @@ npm_publish: &npm_publish
 test: &test
   name: Test
   command: |
-    yarn test-compile
+    yarn build
     cc-test-reporter before-build
     yarn test-ci
     cc-test-reporter after-build -t lcov ./coverage/lcov.info
@@ -63,7 +63,7 @@ jobs:
       - save_cache: *save_cache
 
       # build
-      - run: yarn build
+      - run: yarn build-prod
 
       # npm publish
       - run: *npm_publish

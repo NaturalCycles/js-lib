@@ -18,7 +18,8 @@ export async function runTSLint (): Promise<number> {
   // if 'scripts' folder exists - run tslint there too
   const cwd = process.cwd()
   const scriptsProject = `${cwd}/src/scripts`
-  if (fs.pathExistsSync(scriptsProject)) {
+  const scriptsTSConfigJson = `${cwd}/src/scripts/tsconfig.json`
+  if (fs.pathExistsSync(scriptsProject) && fs.pathExistsSync(scriptsTSConfigJson)) {
     code = await runTSLintWithProject(scriptsProject)
   }
 

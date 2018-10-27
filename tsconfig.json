@@ -18,5 +18,5 @@
     "experimentalDecorators": true
   },
 
-  "exclude": ["src/test", "**/*.test.ts"]
+  "exclude": []
 }
