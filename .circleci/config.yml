@@ -11,7 +11,7 @@ version: 2
 defaults: &defaults
   resource_class: xlarge
   docker:
-  - image: naturalcycles/ci-node:latest
+    - image: naturalcycles/ci-node:latest
   working_directory: ~/repo
 
 restore_cache: &restore_cache
@@ -49,8 +49,6 @@ test: &test
 jobs:
   build-job:
     <<: *defaults
-    environment:
-      CC_TEST_REPORTER_ID: 7997607c5b558cb4d41dc064f3df1a81c07f2de9861ed73c738c23ed8dbab69e
     steps:
       - checkout
 
@@ -69,7 +67,18 @@ jobs:
       # npm publish
       - run: *npm_publish
 
-      # test
+  test-job:
+    <<: *defaults
+    environment:
+      CC_TEST_REPORTER_ID: 7997607c5b558cb4d41dc064f3df1a81c07f2de9861ed73c738c23ed8dbab69e
+    steps:
+      - checkout
+
+      # yarn
+      - restore_cache: *restore_cache
+      - run: *npm_token
+      - run: yarn --pure-lockfile
+
       - run: *test
 
       - store_test_results:
@@ -92,3 +101,4 @@ workflows:
           filters:
             branches:
               only: master
+      - test-job
