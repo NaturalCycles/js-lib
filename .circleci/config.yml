@@ -32,7 +32,7 @@ npm_publish: &npm_publish
     yarn pre-publish-delete
     NPM_TAG=latest
     NPM_VER_NEXT=1.0.$CIRCLE_BUILD_NUM
-    npm version $NPM_VER_NEXT -m "version: %s [ci skip]: $GIT_MSG"
+    npm version $NPM_VER_NEXT -m "version: %s [ci skip]: $GIT_MSG" --force
     npm publish --access public --tag $NPM_TAG
 
 test: &test
