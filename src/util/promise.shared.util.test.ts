@@ -18,5 +18,5 @@ test('delay', async () => {
 })
 
 test('hangingPromise', async () => {
-  promiseSharedUtil.hangingPromise() // never resolves
+  void promiseSharedUtil.hangingPromise() // never resolves
 })

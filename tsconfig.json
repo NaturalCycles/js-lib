@@ -16,5 +16,5 @@
     "experimentalDecorators": true
   },
 
-  "exclude": ["dist", "src/scripts", "src/**/*.test.ts", "src/test", "src/@linked"]
+  "exclude": ["dist", "src/scripts", "src/@linked"]
 }
