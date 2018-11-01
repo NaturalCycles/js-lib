@@ -27,15 +27,28 @@ export async function runTSLint (): Promise<number> {
 }
 
 export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number> {
+  // Due to "slowness issue" we run TSLint twice - first without project, secondly - with project
+  // This makes it way faster
+
+  // Run 1 - without project
+  // tslint './src/**/*.ts' -e './src/@linked' -t stylish --fix
+  let cmd = [
+    `tslint`,
+    ...tslintPaths.map(p => `'${p}'`),
+    ...tslintExcludePaths.map(p => `-e '${p}'`),
+    `-t stylish --fix`,
+  ].join(' ')
+
+  await execCommand(cmd)
+
+  // Run 2 - with project
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
-  const cmd = [
+  cmd = [
     `tslint`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
     `-p ${p} -t stylish --fix`,
   ].join(' ')
-
-  // console.log(cmd)
 
   return execCommand(cmd)
 }

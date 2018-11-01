@@ -6,11 +6,11 @@
     "bt": "yarn build && yarn test",
     "build": "tsc",
     "build-prod": "tsc -p tsconfig.prod.json",
-    "test": "jest",
-    "test-ci": "jest --ci --coverage --maxWorkers=7",
-    "prettier-do": "prettier --write './{src,doc,.circleci}/**/*.{js,json,ts,css,scss,graphql,md,yml,yaml}' './*.{js,json,md,yml,yaml}'",
-    "tslint-all": "tslint './src/**/*.ts' -p tsconfig.json -t stylish --fix",
-    "prettier-all": "yarn prettier-do && yarn tslint-all"
+    "test": "ts-node ./src/bin/test.ts",
+    "test-ci": "ts-node ./src/bin/test-ci.ts",
+    "prettier-do": "ts-node ./src/bin/prettier-do.ts",
+    "tslint-all": "ts-node ./src/bin/tslint-all.ts",
+    "prettier-all": "ts-node ./src/bin/prettier-all.ts"
   },
   "dependencies": {
     "@types/cpx": "^1.5.0",
@@ -32,6 +32,7 @@
     "jest-junit": "^5.2.0",
     "prettier": "^1.14.3",
     "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   },
