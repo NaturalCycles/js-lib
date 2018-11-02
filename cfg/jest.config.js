@@ -12,6 +12,7 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
+    '<rootDir>/src/scripts/',
     '<rootDir>/docker-build/',
     '<rootDir>/dist/',
   ],
