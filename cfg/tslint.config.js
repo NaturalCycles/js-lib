@@ -82,7 +82,7 @@ module.exports = {
     'no-switch-case-fall-through': true,
     'no-unnecessary-initializer': true,
     'no-unsafe-finally': true,
-    'no-unused-expression': true,
+    'no-unused-expression': [true, 'allow-new'],
     'no-unused-variable': [true, { 'ignore-pattern': '^_' }],
     // 'no-use-before-declare': false,
     'no-var-keyword': true,
