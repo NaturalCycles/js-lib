@@ -6,6 +6,6 @@
     "automerge": false
   },
   "prConcurrentLimit": 20,
-  "prCreation": "not-pending",
+  "prCreation": "immediate",
   "rangeStrategy": "replace"
 }
