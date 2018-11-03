@@ -7,6 +7,28 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/maintainability)](https://codeclimate.com/github/NaturalCycles/js-lib/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/test_coverage)](https://codeclimate.com/github/NaturalCycles/js-lib/test_coverage)
 
+# Features
+
+- Decorators
+  - `memo`, `memoCache`
+- Error
+  - `AppError`
+- Utils
+  - `objectSharedUtil`
+  - `promiseSharedUtil`
+  - `scriptSharedUtil`
+  - `stringSharedUtil`
+- Services
+  - `sentryService`
+- Testing
+  - `testSharedUtil`
+- `types`
+
+  - `StringMap`
+  - `PromiseMap`
+
+- ... there's more...
+
 # What should go in this lib
 
 - Only **universal** code that works equally good in the browser and on the server. Otherwise - there are other libs specifically for browser and node.
@@ -26,15 +48,3 @@ Exported in `dist` folder, together with `*.dt` (to be checked if `*.js.map` is 
 Versioned as `1.0.<CircleCI_IncrementalBuildNumber>`, each commit in `master` branch is automatically published with incremented version.
 
 `master` is production branch.
-
-# Features
-
-- Utils
-  - `localDateUtil`, `localTimeUtil`
-  - `promiseUtil`
-  - `jsonUtil`
-- Services
-  - `sentryService`
-- Decorators
-  - `memo`, `memoCache`
-- ... there's more...
