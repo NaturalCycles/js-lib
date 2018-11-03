@@ -3,6 +3,13 @@
   "scripts": {
     "pre-publish-delete": "del 'src/test' 'src/**/*.test.ts' 'src/**/__snapshots__'"
   },
+  "dependencies": {
+    "@types/lru-cache": "^4.1.1",
+    "@types/luxon": "^1.4.0"
+  },
+  "peerDependencies": {
+    "lru-cache": ">=4.0.0"
+  },
   "devDependencies": {
     "@naturalcycles/shared-module": "^1.0.25",
     "@types/jest": "^23.3.5",
@@ -17,15 +24,11 @@
     "tslint": "^5.11.0",
     "typescript": "^3.0.0"
   },
-  "dependencies": {
-    "@types/lru-cache": "^4.1.1",
-    "@types/luxon": "^1.4.0"
-  },
-  "peerDependencies": {
-    "lru-cache": ">=4.0.0"
-  },
   "files": [
-    "src"
+    "src",
+    "!src/test",
+    "!src/**/*.test.ts",
+    "!src/**/__snapshots__"
   ],
   "engines": {
     "node": ">=8.11",
