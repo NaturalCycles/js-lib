@@ -1,8 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "scripts": {
-    "pre-publish-delete": "del 'src/test' 'src/**/*.test.ts' 'src/**/__snapshots__'"
-  },
+  "scripts": {},
   "dependencies": {
     "@types/lru-cache": "^4.1.1",
     "@types/luxon": "^1.4.0"
