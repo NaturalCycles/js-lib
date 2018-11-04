@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/NaturalCycles/shared-module/compare/v1.2.2...v1.2.3) (2018-11-04)
+
+
+### Bug Fixes
+
+* various ([8ef1e82](https://github.com/NaturalCycles/shared-module/commit/8ef1e82))
+
 ## [1.2.2](https://github.com/NaturalCycles/shared-module/compare/v1.2.1...v1.2.2) (2018-11-04)
 
 
