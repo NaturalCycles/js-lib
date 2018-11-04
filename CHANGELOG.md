@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/NaturalCycles/shared-module/compare/v1.2.1...v1.2.2) (2018-11-04)
+
+
+### Bug Fixes
+
+* try-catch `yarn release` ([736fbb7](https://github.com/NaturalCycles/shared-module/commit/736fbb7))
+
 ## [1.2.1](https://github.com/NaturalCycles/shared-module/compare/v1.2.0...v1.2.1) (2018-11-04)
 
 
