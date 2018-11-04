@@ -42,6 +42,7 @@ module.exports = {
   setupTestFrameworkScriptFile,
   collectCoverageFrom: [
     'src/**/*.ts',
+    '!src/index.ts',
     '!src/@linked/**',
     '!@linked/**',
     '!src/test/**',

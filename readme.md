@@ -2,6 +2,7 @@
 
 > Set of opinionated configuration files and tools for common project needs, to be shared between all modules. Enforces conventions between projects.
 
+[![npm](https://img.shields.io/npm/v/@naturalcycles/shared-module/latest.svg)](https://www.npmjs.com/package/@naturalcycles/shared-module)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![](https://circleci.com/gh/NaturalCycles/shared-module.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/shared-module)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/maintainability)](https://codeclimate.com/github/NaturalCycles/shared-module/maintainability)
