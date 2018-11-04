@@ -14,8 +14,10 @@
 - Error
   - `AppError`
 - Utils
-  - `objectSharedUtil`
+  - `pMap`, `pProps`
   - `promiseSharedUtil`
+  - `objectSharedUtil`
+  - `randomSharedUtil`
   - `scriptSharedUtil`
   - `stringSharedUtil`
 - Services
