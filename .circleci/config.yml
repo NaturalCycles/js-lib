@@ -26,20 +26,16 @@ npm_token: &npm_token echo -e "always-auth=true\n//registry.npmjs.org/:_authToke
 
 git_msg: &git_msg echo 'export GIT_MSG=`git log -1 --pretty=%B`' >> $BASH_ENV
 
-npm_publish: &npm_publish
-  name: npm publish
-  command: |
-    NPM_TAG=latest
-    NPM_VER_NEXT=1.0.$CIRCLE_BUILD_NUM
-    npm version $NPM_VER_NEXT
-    npm publish --access public --tag $NPM_TAG
-
 test: &test
   name: Test
   command: |
     cc-test-reporter before-build
     yarn test-ci
     cc-test-reporter after-build -t lcov ./coverage/lcov.info
+
+release: &release
+  name: Release (if needed)
+  command: yarn release
 
 #
 # Jobs
@@ -68,9 +64,7 @@ jobs:
       - run: *test
 
       # release
-      - run:
-          name: Release (if needed)
-          command: yarn release
+      - run: *release
 
       - store_test_results:
           path: report
