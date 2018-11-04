@@ -117,6 +117,9 @@ module.exports = {
       'allow-leading-underscore',
     ],
   },
+  "linterOptions": {
+    "exclude": ["src/@linked/**/*"]
+  },
   /*
   excluded: {
     'object-literal-sort-keys': true,
