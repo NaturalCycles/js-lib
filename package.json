@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/shared-module",
-  "version": "1.0.0",
+  "version": "1.0.55",
   "description": "",
   "scripts": {
     "bt": "yarn build && yarn test",
@@ -41,7 +41,6 @@
     "jest": "^23.6.0",
     "jest-junit": "^5.2.0",
     "prettier": "^1.14.3",
-    "semantic-release": "^15.10.7",
     "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
