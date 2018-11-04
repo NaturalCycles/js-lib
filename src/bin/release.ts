@@ -6,4 +6,7 @@ const defConfig = require(`${cfgDir}/release.config`)
 
 // const cmd = `yarn semantic-release`
 // void proxyCommand(cmd)
-void semanticRelease(defConfig)
+semanticRelease(defConfig).catch((err: any) => {
+  console.error(err)
+  process.exit(1)
+})
