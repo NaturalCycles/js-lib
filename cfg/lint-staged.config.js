@@ -36,7 +36,7 @@ module.exports = {
     ],
 
     // Files in root dir
-    './*.{js,json,md,yml,yaml}': [prettierCmd, 'git add'],
+    './*.{css,scss,js,json,md,graphql,yml,yaml}': [prettierCmd, 'git add'],
   },
 
   ignore: ['./src/scripts/**/*'],
