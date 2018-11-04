@@ -3,6 +3,14 @@
  * Extendable.
  */
 
+const fs = require('fs-extra')
+const cwd = process.cwd()
+
+// Set 'setupTestFrameworkScriptFile' only if it exists
+const setupTestFrameworkScriptFile = fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)
+  ? '<rootDir>/src/test/setupJest.ts'
+  : undefined
+
 module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
@@ -31,7 +39,7 @@ module.exports = {
   },
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
-  setupTestFrameworkScriptFile: '<rootDir>/src/test/setupJest.ts',
+  setupTestFrameworkScriptFile,
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/@linked/**',
