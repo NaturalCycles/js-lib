@@ -1,10 +1,12 @@
+import { cfgDir } from '../cnst/paths.cnts'
 import { execCommand } from './exec.util'
 import { runPrettier } from './prettier.util'
 
 // const asMock = <T>(a: T): jest.Mock<T> => a as any
 
-test('runPrettier', async () => {
+test('runPrettier, has config', async () => {
   const _execCommand = ((execCommand as any) = jest.fn())
+  process.cwd = jest.fn(() => `${cfgDir}`)
   await runPrettier()
   // expect(_execCommand).toHaveBeenCalled()
   const cmd = _execCommand.mock.calls[0][0]
