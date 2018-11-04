@@ -1,6 +1,0 @@
-{
-  "extends": ["./cfg/tslint.config.js"],
-  "linterOptions": {
-    "exclude": ["src/@linked/**/*"]
-  }
-}

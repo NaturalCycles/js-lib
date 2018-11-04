@@ -46,6 +46,7 @@ module.exports = {
     '!**/*.page.ts',
     '!**/*.component.ts',
   ],
+  rootDir: process.cwd(),
   reporters: [
     'default',
     [

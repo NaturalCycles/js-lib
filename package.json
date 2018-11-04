@@ -8,6 +8,7 @@
     "build-prod": "tsc -p tsconfig.prod.json",
     "test": "ts-node ./src/bin/test.ts",
     "test-ci": "ts-node ./src/bin/test-ci.ts",
+    "lint-staged-def": "ts-node ./src/bin/lint-staged-def.ts",
     "prettier-do": "ts-node ./src/bin/prettier-do.ts",
     "tslint-all": "ts-node ./src/bin/tslint-all.ts",
     "prettier-all": "ts-node ./src/bin/prettier-all.ts"
@@ -50,6 +51,7 @@
     "build-tsc-prod": "dist/bin/build-tsc-prod.js",
     "clean-dist": "dist/bin/clean-dist.js",
     "init-from-shared-module": "dist/bin/init-from-shared-module.js",
+    "lint-staged-def": "dist/bin/lint-staged-def.js",
     "prettier-all": "dist/bin/prettier-all.js",
     "prettier-do": "dist/bin/prettier-do.js",
     "test": "dist/bin/test.js",
@@ -57,6 +59,11 @@
     "test-compile": "dist/bin/test-compile.js",
     "tslint-all": "dist/bin/tslint-all.js",
     "update-from-shared-module": "dist/bin/update-from-shared-module.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-staged-def"
+    }
   },
   "engines": {
     "node": ">=8.11",

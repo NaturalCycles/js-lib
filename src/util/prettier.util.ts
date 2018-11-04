@@ -36,6 +36,12 @@ export async function runTSLint (): Promise<number> {
 }
 
 export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number> {
+  // Find tslint config in target dir or use default
+  const cwd = process.cwd()
+  const tslintConfig = fs.pathExistsSync(`${cwd}/tslint.json`)
+    ? undefined
+    : `--config ${cfgDir}/tslint.config.js`
+
   // Due to "slowness issue" we run TSLint twice - first without project, secondly - with project
   // This makes it way faster
 
@@ -43,10 +49,13 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
   // tslint './src/**/*.ts' -e './src/@linked' -t stylish --fix
   let cmd = [
     `tslint`,
+    tslintConfig,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
     `-t stylish --fix`,
-  ].join(' ')
+  ]
+    .filter(v => v)
+    .join(' ')
 
   await execCommand(cmd)
 
@@ -54,10 +63,13 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
   cmd = [
     `tslint`,
+    tslintConfig,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
     `-p ${p} -t stylish --fix`,
-  ].join(' ')
+  ]
+    .filter(v => v)
+    .join(' ')
 
   return execCommand(cmd)
 }
