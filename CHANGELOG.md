@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/NaturalCycles/shared-module/compare/v1.1.2...v1.2.0) (2018-11-04)
+
+
+### Features
+
+* `yarn release` with default config ([ab7abf4](https://github.com/NaturalCycles/shared-module/commit/ab7abf4))
+
 ## [1.1.2](https://github.com/NaturalCycles/shared-module/compare/v1.1.1...v1.1.2) (2018-11-04)
 
 
