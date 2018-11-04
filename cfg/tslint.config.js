@@ -117,8 +117,8 @@ module.exports = {
       'allow-leading-underscore',
     ],
   },
-  "linterOptions": {
-    "exclude": ["src/@linked/**/*"]
+  linterOptions: {
+    exclude: ['src/@linked/**/*'],
   },
   /*
   excluded: {

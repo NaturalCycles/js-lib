@@ -1,6 +1,6 @@
 export const prettierPaths: string[] = [
   // Everything inside `/src`
-  './{src,doc,.circleci}/**/*.{ts,css,scss,json,md,graphql,yml,yaml}',
+  './{src,doc,cfg,.circleci}/**/*.{ts,css,scss,js,json,md,graphql,yml,yaml}',
 
   // Root
   './*.{js,json,md,yml,yaml}',

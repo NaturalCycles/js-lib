@@ -26,16 +26,11 @@ module.exports = {
     // `-p tsconfig.json` is disabled due to extreme slowness, will be done in ci `lint-job` instead
     // './src/**/*.ts': ['prettier --write', 'tslint -p tsconfig.json -t stylish --fix', 'git add'],
     // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.ts': [
-      prettierCmd,
-      tslintCmd,
-      `${tslintCmd} -p tsconfig.json`,
-      'git add',
-    ],
+    './src/**/*.ts': [prettierCmd, tslintCmd, `${tslintCmd} -p tsconfig.json`, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     // Everything inside `/src`
-    './{src,doc,cfg,.circleci}/**/*.{css,scss,json,md,graphql,yml,yaml}': [
+    './{src,doc,cfg,.circleci}/**/*.{css,scss,js,json,md,graphql,yml,yaml}': [
       prettierCmd,
       'git add',
     ],
