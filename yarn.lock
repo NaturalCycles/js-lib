@@ -19,9 +19,9 @@
     js-tokens "^4.0.0"
 
 "@naturalcycles/shared-module@^1.0.25":
-  version "1.0.44"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/shared-module/-/shared-module-1.0.44.tgz#8a1accf2f11eed3bdbb8f738c773b3a1f9bd1037"
-  integrity sha512-fbD6WOpsHV5X1elrLgQf1CIGim8w+jNiTuuHQlEobuRg5cLk9iuBfwDC+I5/GkKbKi3w2ids5EpXpGtBw0jItg==
+  version "1.0.49"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/shared-module/-/shared-module-1.0.49.tgz#241a905a986ed3bddbd5a97f3cf5b41a135fe0aa"
+  integrity sha512-22L1GjZpCrt4PvuJtOYb0KxtsJI269+PnrJC18cveGLMis2mx18JM+QKC5rIX6gz1W4haVEGDMa/5L3QAIEIBA==
   dependencies:
     "@types/cpx" "^1.5.0"
     "@types/del" "^3.0.1"

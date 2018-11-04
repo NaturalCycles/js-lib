@@ -28,6 +28,11 @@
     "!src/**/*.test.ts",
     "!src/**/__snapshots__"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-staged-def"
+    }
+  },
   "engines": {
     "node": ">=8.11",
     "yarn": ">=1.10.1"
