@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/shared-module",
-  "version": "1.0.56",
+  "version": "0.0.0",
   "description": "",
   "scripts": {
     "bt": "yarn build && yarn test",
@@ -77,8 +77,7 @@
     }
   },
   "engines": {
-    "node": ">=8.11",
-    "yarn": ">=1.10.1"
+    "node": ">=8.11"
   },
   "repository": {
     "type": "git",
