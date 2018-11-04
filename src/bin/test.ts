@@ -5,7 +5,7 @@ import { getFullICUPathIfExists, getJestConfig } from '../util/test.util'
 
 const fullICUPath = getFullICUPathIfExists()
 
-const cmd = [fullICUPath && `NODE_ICU_DATA=${fullICUPath}`, 'jest', getJestConfig()]
+const cmd = [fullICUPath && `NODE_ICU_DATA=${fullICUPath}`, 'jest --silent', getJestConfig()]
   .filter(t => t)
   .join(' ')
 

@@ -7,7 +7,7 @@ const fullICUPath = getFullICUPathIfExists()
 
 const cmd = [
   fullICUPath && `NODE_ICU_DATA=${fullICUPath}`,
-  'jest --ci --coverage --maxWorkers=7',
+  'jest --ci --coverage --maxWorkers=7 --silent',
   getJestConfig(),
 ]
   .filter(t => t)
