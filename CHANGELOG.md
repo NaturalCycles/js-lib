@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/NaturalCycles/shared-module/compare/v1.2.0...v1.2.1) (2018-11-04)
+
+
+### Bug Fixes
+
+* husky.config.js ([2e2ade8](https://github.com/NaturalCycles/shared-module/commit/2e2ade8))
+
 # [1.2.0](https://github.com/NaturalCycles/shared-module/compare/v1.1.2...v1.2.0) (2018-11-04)
 
 
