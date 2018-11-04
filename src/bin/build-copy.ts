@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import { execCommand } from '../util/exec.util'
+import * as cpy from 'cpy'
 
-void execCommand(`cpx 'src/**/*.{graphql,graphqls,json,yaml,yml,html}' dist`)
+void cpy('**/*.{graphql,graphqls,json,yaml,yml,html}', '../dist', { cwd: 'src', parents: true })

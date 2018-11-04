@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
-import * as cpx from 'cpx'
+import * as cpy from 'cpy'
+import { cfgDir } from '../cnst/paths.cnts'
 
-const overwriteDir = `./node_modules/@naturalcycles/shared-module/cfg/init`
+const overwriteDir = `${cfgDir}/init`
 
-cpx.copy(`${overwriteDir}/**/{*,.*}`, './')
+// Please be aware that it will flatten all files, unless --parents is passed
+cpy(`${overwriteDir}/**/{*,.*}`, './')
