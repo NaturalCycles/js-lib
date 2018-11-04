@@ -14,6 +14,7 @@
     "prettier-do": "ts-node ./src/bin/prettier-do.ts",
     "tslint-all": "ts-node ./src/bin/tslint-all.ts",
     "prettier-all": "ts-node ./src/bin/prettier-all.ts",
+    "release": "ts-node ./src/bin/release.ts",
     "update-from-shared-module": "ts-node ./src/bin/update-from-shared-module.ts"
   },
   "dependencies": {
@@ -65,6 +66,7 @@
     "lint-staged-def": "dist/bin/lint-staged-def.js",
     "prettier-all": "dist/bin/prettier-all.js",
     "prettier-do": "dist/bin/prettier-do.js",
+    "release": "dist/bin/release.js",
     "test": "dist/bin/test.js",
     "test-ci": "dist/bin/test-ci.js",
     "test-compile": "dist/bin/test-compile.js",

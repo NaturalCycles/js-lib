@@ -70,7 +70,7 @@ jobs:
       # release
       - run:
           name: Release (if needed)
-          command: yarn semantic-release || true
+          command: yarn release
 
       - store_test_results:
           path: report
