@@ -1,10 +1,19 @@
 import * as fs from 'fs-extra'
+import { cfgDir } from '../cnst/paths.cnts'
 import { prettierPaths, tslintExcludePaths, tslintPaths } from '../cnst/prettier.cnst'
 import { execCommand } from './exec.util'
 
 export async function runPrettier (): Promise<number> {
+  // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
+  const cwd = process.cwd()
+  const prettierCfg = fs.pathExistsSync(`${cwd}/prettier.config.js`)
+    ? undefined
+    : `--config ${cfgDir}/prettier.config.js`
+
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  const cmd = [`prettier --write`, ...prettierPaths.map(p => `'${p}'`)].join(' ')
+  const cmd = [`prettier --write`, prettierCfg, ...prettierPaths.map(p => `'${p}'`)]
+    .filter(v => v)
+    .join(' ')
 
   // console.log(cmd)
 
