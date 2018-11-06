@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/NaturalCycles/shared-module/compare/v1.2.3...v1.2.4) (2018-11-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency [@types](https://github.com/types)/fs-extra to v5.0.4 ([19da02c](https://github.com/NaturalCycles/shared-module/commit/19da02c))
+
 ## [1.2.3](https://github.com/NaturalCycles/shared-module/compare/v1.2.2...v1.2.3) (2018-11-04)
 
 
