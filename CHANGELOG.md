@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/NaturalCycles/shared-module/compare/v1.2.4...v1.3.0) (2018-11-07)
+
+
+### Bug Fixes
+
+* fix prettier.util.test ([900e36c](https://github.com/NaturalCycles/shared-module/commit/900e36c))
+* fix test again ([8d0b7ed](https://github.com/NaturalCycles/shared-module/commit/8d0b7ed))
+
+
+### Features
+
+* improvements ([cd2f34e](https://github.com/NaturalCycles/shared-module/commit/cd2f34e))
+
 ## [1.2.4](https://github.com/NaturalCycles/shared-module/compare/v1.2.3...v1.2.4) (2018-11-06)
 
 
