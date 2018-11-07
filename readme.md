@@ -3,10 +3,10 @@
 > Set of opinionated configuration files and tools for common project needs, to be shared between all modules. Enforces conventions between projects.
 
 [![npm](https://img.shields.io/npm/v/@naturalcycles/shared-module/latest.svg)](https://www.npmjs.com/package/@naturalcycles/shared-module)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![](https://circleci.com/gh/NaturalCycles/shared-module.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/shared-module)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/maintainability)](https://codeclimate.com/github/NaturalCycles/shared-module/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/test_coverage)](https://codeclimate.com/github/NaturalCycles/shared-module/test_coverage)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Conventions
 
@@ -41,7 +41,7 @@ In alphabetic order:
 - `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
 - `clean-dist`: cleans up `dist` folder
 - `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
-- `prettier-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
+- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `prettier-do`: runs just Prettier on needed paths
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"

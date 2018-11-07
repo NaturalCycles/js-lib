@@ -6,12 +6,12 @@ import { execCommand } from './exec.util'
 export async function runPrettier (): Promise<number> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
   const cwd = process.cwd()
-  const prettierCfg = fs.pathExistsSync(`${cwd}/prettier.config.js`)
-    ? undefined
-    : `--config ${cfgDir}/prettier.config.js`
+  const localConfig = `${cwd}/prettier.config.js`
+  const sharedConfig = `${cfgDir}/prettier.config.js`
+  const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  const cmd = [`prettier --write`, prettierCfg, ...prettierPaths.map(p => `'${p}'`)]
+  const cmd = [`prettier --write --config ${config}`, ...prettierPaths.map(p => `'${p}'`)]
     .filter(v => v)
     .join(' ')
 
@@ -38,9 +38,9 @@ export async function runTSLint (): Promise<number> {
 export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number> {
   // Find tslint config in target dir or use default
   const cwd = process.cwd()
-  const tslintConfig = fs.pathExistsSync(`${cwd}/tslint.json`)
-    ? undefined
-    : `--config ${cfgDir}/tslint.config.js`
+  const localConfig = `${cwd}/tslint.json`
+  const sharedConfig = `${cfgDir}/tslint.config.js`
+  const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
   // Due to "slowness issue" we run TSLint twice - first without project, secondly - with project
   // This makes it way faster
@@ -48,8 +48,7 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
   // Run 1 - without project
   // tslint './src/**/*.ts' -e './src/@linked' -t stylish --fix
   let cmd = [
-    `tslint`,
-    tslintConfig,
+    `tslint --config ${config}`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
     `-t stylish --fix`,
@@ -62,8 +61,7 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
   // Run 2 - with project
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
   cmd = [
-    `tslint`,
-    tslintConfig,
+    `tslint --config ${config}`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
     `-p ${p} -t stylish --fix`,

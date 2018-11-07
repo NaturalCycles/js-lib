@@ -1,9 +1,11 @@
+export const prettierExtensions = `css,scss,ts,js,json,md,graphql,yml,yaml,html`
+
 export const prettierPaths: string[] = [
   // Everything inside `/src`
-  './{src,doc,cfg,.circleci}/**/*.{ts,css,scss,js,json,md,graphql,yml,yaml}',
+  `./{src,doc,cfg,.circleci}/**/*.{${prettierExtensions}}`,
 
   // Root
-  './*.{js,json,md,yml,yaml}',
+  `./*.{${prettierExtensions}}`,
 ]
 
 export const tslintPaths: string[] = ['./src/**/*.ts']

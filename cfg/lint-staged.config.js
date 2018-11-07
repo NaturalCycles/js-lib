@@ -7,18 +7,22 @@
 const fs = require('fs-extra')
 const cfgDir = __dirname
 
-let prettierCmd = 'prettier --write'
-let tslintCmd = 'tslint -t stylish --fix'
-
 // Use default configs if not specified in target dir
 const cwd = process.cwd()
-if (!fs.pathExistsSync(`${cwd}/prettier.config.js`)) {
-  prettierCmd += ` --config ${cfgDir}/prettier.config.js`
-}
+const localConfigPrettier = `${cwd}/prettier.config.js`
+const sharedConfigPrettier = `${cfgDir}/prettier.config.js`
+const configPrettier = fs.pathExistsSync(localConfigPrettier)
+  ? localConfigPrettier
+  : sharedConfigPrettier
 
-if (!fs.pathExistsSync(`${cwd}/tslint.json`)) {
-  tslintCmd += ` --config ${cfgDir}/tslint.config.js`
-}
+const localConfigTSLint = `${cwd}/tslint.json`
+const sharedConfigTSLint = `${cfgDir}/tslint.config.js`
+const configTSLint = fs.pathExistsSync(localConfigTSLint) ? localConfigTSLint : sharedConfigTSLint
+
+const prettierCmd = `prettier --write --config ${configPrettier}`
+const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
+
+const prettierExtensionsExceptTs = `css,scss,js,json,md,graphql,yml,yaml,html`
 
 module.exports = {
   linters: {
@@ -30,13 +34,10 @@ module.exports = {
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     // Everything inside `/src`
-    './{src,doc,cfg,.circleci}/**/*.{css,scss,js,json,md,graphql,yml,yaml}': [
-      prettierCmd,
-      'git add',
-    ],
+    [`./{src,doc,cfg,.circleci}/**/*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
 
     // Files in root dir
-    './*.{css,scss,js,json,md,graphql,yml,yaml}': [prettierCmd, 'git add'],
+    [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
   },
 
   ignore: ['./src/scripts/**/*'],
