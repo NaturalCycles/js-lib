@@ -13,7 +13,7 @@ test('runPrettier, shared config', async () => {
   const cmd = _execCommand.mock.calls[0][0]
   // console.log(cmd)
   expect(cmd).toMatch('prettier')
-  expect(cmd).toMatch('shared-module/cfg/prettier.config.js')
+  expect(cmd).toMatch('/cfg/prettier.config.js')
 })
 
 test('runPrettier, local config', async () => {
