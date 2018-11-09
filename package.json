@@ -1,6 +1,9 @@
 {
   "name": "@naturalcycles/js-lib",
-  "scripts": {},
+  "scripts": {
+    "build": "del ./dist && tsc",
+    "build-prod": "del ./dist && tsc -p tsconfig.prod.json"
+  },
   "dependencies": {
     "@types/lru-cache": "^4.1.1",
     "@types/luxon": "^1.4.0"
@@ -23,16 +26,13 @@
     "typescript": "^3.0.0"
   },
   "files": [
+    "dist",
     "src",
+    "!src/scripts",
     "!src/test",
-    "!src/**/*.test.ts",
+    "!src/**/*.test.*",
     "!src/**/__snapshots__"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint-staged-def"
-    }
-  },
   "engines": {
     "node": ">=8.11",
     "yarn": ">=1.10.1"

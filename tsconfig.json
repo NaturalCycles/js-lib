@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "commonjs",
+    "module": "es2015",
     "lib": ["dom", "es2018"],
-    "sourceMap": false,
-    "declaration": false,
+    "sourceMap": true,
+    "declaration": true,
     "outDir": "./dist",
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,

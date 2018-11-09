@@ -37,7 +37,6 @@ npm_publish: &npm_publish
 test: &test
   name: Test
   command: |
-    yarn build
     cc-test-reporter before-build
     yarn test-ci
     cc-test-reporter after-build -t lcov ./coverage/lcov.info
@@ -77,6 +76,9 @@ jobs:
       - restore_cache: *restore_cache
       - run: *npm_token
       - run: yarn --pure-lockfile
+
+      # build
+      - run: yarn build
 
       - run: *test
 
