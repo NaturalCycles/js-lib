@@ -11,11 +11,14 @@ const setupTestFrameworkScriptFile = fs.pathExistsSync(`${cwd}/src/test/setupJes
   ? '<rootDir>/src/test/setupJest.ts'
   : undefined
 
+const transformIgnore = ['@naturalcycles']
+
 module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
   },
+  transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
   testMatch: ['<rootDir>/src/**/*.test.ts'],
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
