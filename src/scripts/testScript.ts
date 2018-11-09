@@ -1,6 +1,5 @@
-
 hello()
 
-function hello    () {
-  console.log  ('test script')
+function hello () {
+  console.log('test script')
 }

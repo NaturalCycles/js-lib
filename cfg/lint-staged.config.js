@@ -47,6 +47,4 @@ module.exports = {
     // Files in root dir
     [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
   },
-
-  ignore: ['./src/scripts/**/*'],
 }
