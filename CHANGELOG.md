@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/NaturalCycles/shared-module/compare/v1.4.0...v1.4.1) (2018-11-09)
+
+
+### Bug Fixes
+
+* don't export semantic-release ([276cda3](https://github.com/NaturalCycles/shared-module/commit/276cda3))
+
 # [1.4.0](https://github.com/NaturalCycles/shared-module/compare/v1.3.1...v1.4.0) (2018-11-09)
 
 
