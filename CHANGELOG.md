@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/NaturalCycles/shared-module/compare/v1.3.0...v1.3.1) (2018-11-09)
+
+
+### Bug Fixes
+
+* unignore /src/scripts ([ed7944a](https://github.com/NaturalCycles/shared-module/commit/ed7944a))
+
 # [1.3.0](https://github.com/NaturalCycles/shared-module/compare/v1.2.4...v1.3.0) (2018-11-07)
 
 
