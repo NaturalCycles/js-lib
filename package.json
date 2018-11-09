@@ -73,12 +73,6 @@
     "tslint-all": "dist/bin/tslint-all.js",
     "update-from-shared-module": "dist/bin/update-from-shared-module.js"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "yarn commitlint-def",
-      "pre-commit": "yarn lint-staged-def"
-    }
-  },
   "engines": {
     "node": ">=8.11"
   },
