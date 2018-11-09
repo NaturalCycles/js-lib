@@ -21,7 +21,7 @@ export async function runPrettier (): Promise<number> {
 }
 
 export async function runTSLint (): Promise<number> {
-  let code = await runTSLintWithProject()
+  let code = await doRunTSLint('tsconfig.json')
   if (code) return code
 
   // if 'scripts' folder exists - run tslint there too
@@ -29,13 +29,13 @@ export async function runTSLint (): Promise<number> {
   const scriptsProject = `${cwd}/src/scripts`
   const scriptsTSConfigJson = `${cwd}/src/scripts/tsconfig.json`
   if (fs.pathExistsSync(scriptsProject) && fs.pathExistsSync(scriptsTSConfigJson)) {
-    code = await runTSLintWithProject(scriptsProject)
+    code = await doRunTSLint(scriptsTSConfigJson)
   }
 
   return code
 }
 
-export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number> {
+export async function doRunTSLint (tsconfigPath?: string): Promise<number> {
   // Find tslint config in target dir or use default
   const cwd = process.cwd()
   const localConfig = `${cwd}/tslint.json`
@@ -56,7 +56,8 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
     .filter(v => v)
     .join(' ')
 
-  await execCommand(cmd)
+  const code = await execCommand(cmd)
+  if (code || !tsconfigPath) return code
 
   // Run 2 - with project
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
@@ -64,7 +65,7 @@ export async function runTSLintWithProject (p = 'tsconfig.json'): Promise<number
     `tslint --config ${config}`,
     ...tslintPaths.map(p => `'${p}'`),
     ...tslintExcludePaths.map(p => `-e '${p}'`),
-    `-p ${p} -t stylish --fix`,
+    `-p ${tsconfigPath} -t stylish --fix`,
   ]
     .filter(v => v)
     .join(' ')
