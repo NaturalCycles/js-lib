@@ -23,16 +23,3 @@ export function silentConsole (): void {
   console.warn = () => undefined
   console.error = () => undefined
 }
-
-export function runAllTests (): boolean {
-  const args = process.argv.slice()
-  const lastArg = args.filter(x => !x.startsWith('-')).pop()
-  return (
-    (lastArg && (lastArg.endsWith('/jest') || lastArg.endsWith('/jest-worker/build/child.js'))) ||
-    false
-  )
-}
-
-export function silentConsoleIfRunAll (): void {
-  if (runAllTests()) silentConsole()
-}
