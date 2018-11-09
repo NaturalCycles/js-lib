@@ -45,6 +45,6 @@ module.exports = {
     [`./{src,doc,cfg,.circleci}/**/*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
 
     // Files in root dir
-    [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
+    [`./*.{${prettierExtensionsExceptTs}},!./CHANGELOG.md`]: [prettierCmd, 'git add'],
   },
 }

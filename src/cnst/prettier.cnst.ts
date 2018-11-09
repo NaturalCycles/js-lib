@@ -5,7 +5,7 @@ export const prettierPaths: string[] = [
   `./{src,doc,cfg,.circleci}/**/*.{${prettierExtensions}}`,
 
   // Root
-  `./*.{${prettierExtensions}}`,
+  `./*.{${prettierExtensions}},!./CHANGELOG.md`,
 ]
 
 export const tslintPaths: string[] = ['./src/**/*.ts']
