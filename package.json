@@ -65,7 +65,6 @@
     "init-from-shared-module": "dist/bin/init-from-shared-module.js",
     "lint-all": "dist/bin/lint-all.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
-    "prettier-all": "dist/bin/prettier-all.js",
     "prettier-do": "dist/bin/prettier-do.js",
     "release": "dist/bin/release.js",
     "test": "dist/bin/test.js",
