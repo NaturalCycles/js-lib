@@ -3,7 +3,9 @@ import { memoCache } from './decorators/memoCache.decorator'
 import { AppError } from './error/app.error'
 import {
   deepFreeze,
+  runAllTests,
   silentConsole,
+  silentConsoleIfRunAll,
 } from './testing/test.shared.util'
 import { PromiseMap, StringMap } from './types'
 import { objectUtil } from './util/object.util'
@@ -17,6 +19,8 @@ export {
   AppError,
   deepFreeze,
   silentConsole,
+  runAllTests,
+  silentConsoleIfRunAll,
   objectUtil,
   randomSharedUtil,
   scriptSharedUtil,
