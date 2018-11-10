@@ -2,9 +2,9 @@
   "name": "@naturalcycles/js-lib",
   "scripts": {
     "build": "del ./dist && tsc",
-    "build-prod": "yarn build-prod-esm & yarn build-prod-cjs",
+    "build-prod": "yarn build-prod-esm & yarn build-prod-cjs & wait",
     "build-prod-esm": "del ./dist && tsc -p tsconfig.prod.json",
-    "build-prod-cjs": "del ./dist-cjs && tsc -p tsconfig.prod.json --outDir ./dist-cjs --module commonjs"
+    "build-prod-cjs": "del ./dist-cjs && tsc -p tsconfig.prod.json --outDir ./dist-cjs --module commonjs --declaration false"
   },
   "dependencies": {
     "@types/lru-cache": "^4.1.1",
@@ -39,7 +39,7 @@
     "!src/**/*.test.*",
     "!src/**/__snapshots__"
   ],
-  "main": "dist-cjs/index.js",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
