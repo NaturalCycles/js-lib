@@ -3,7 +3,7 @@
 // http://decodize.com/blog/2012/08/27/javascript-memoization-caching-results-for-better-performance/
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 /* tslint:disable:no-invalid-this */
-import * as LRU from 'lru-cache'
+import LRU from 'lru-cache'
 
 export type CacheKeyFn = (...args: any[]) => any
 
