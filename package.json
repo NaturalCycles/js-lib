@@ -3,8 +3,8 @@
   "scripts": {
     "build": "del ./dist && tsc",
     "build-prod": "yarn build-prod-esm & yarn build-prod-cjs & wait",
-    "build-prod-esm": "del ./dist && tsc -p tsconfig.prod.json",
-    "build-prod-cjs": "del ./dist-cjs && tsc -p tsconfig.prod.json --outDir ./dist-cjs --module commonjs --declaration false"
+    "build-prod-esm": "del ./dist-esm && tsc -p tsconfig.prod.json --outDir ./dist-esm --module es2015 --declaration false",
+    "build-prod-cjs": "del ./dist && tsc -p tsconfig.prod.json"
   },
   "dependencies": {
     "@types/lru-cache": "^4.1.1",
@@ -32,7 +32,7 @@
   },
   "files": [
     "dist",
-    "dist-cjs",
+    "dist-esm",
     "src",
     "!src/scripts",
     "!src/test",
@@ -40,7 +40,7 @@
     "!src/**/__snapshots__"
   ],
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "dist-esm/index.js",
   "types": "dist/index.d.ts",
   "engines": {
     "node": ">=8.11",
