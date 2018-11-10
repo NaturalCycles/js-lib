@@ -17,6 +17,8 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 ### Folder structure
 
 - `/dist` target dir to put compiled files into (`*.js` and additional files like `*.json`)
+- `/dist-cjs` target for CommonJS files
+- `/dist-esm` target for ES Modules
 - `/src` for all source files
 - `/src/scripts` for all non-production source files / scripts.
 - `/src/test` for generic test-related files and utilities, integration tests.
@@ -39,7 +41,6 @@ In alphabetic order:
 - `build-prod`: does `clean-dist && build-copy && build-tsc-prod`
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
 - `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
-- `clean-dist`: cleans up `dist` folder
 - `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `prettier-do`: runs just Prettier on needed paths
