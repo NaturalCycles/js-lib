@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/shared-module",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "scripts": {
     "bt": "yarn build && yarn test",

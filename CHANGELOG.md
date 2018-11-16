@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/NaturalCycles/shared-module/compare/v1.4.2...v1.4.3) (2018-11-16)
+
+
+### Bug Fixes
+
+* build-copy copy more ([d93b98e](https://github.com/NaturalCycles/shared-module/commit/d93b98e))
+
 ## [1.4.2](https://github.com/NaturalCycles/shared-module/compare/v1.4.1...v1.4.2) (2018-11-10)
 
 
