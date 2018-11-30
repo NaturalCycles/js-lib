@@ -3,7 +3,10 @@
 import chalk from 'chalk'
 import * as cpy from 'cpy'
 
-const cmd = `cpy(['**/*','!**/*.{ts,js}'], '../dist', { cwd: 'src', parents: true })`
+const patterns = ['**/*', '!**/*.{ts,js}', '!**/__snapshots__']
+const dest = '../dist'
+const opts = { cwd: 'src', parents: true }
+const cmd = `cpy(${patterns}, ${dest}, ${JSON.stringify(opts)})`
 console.log(chalk.grey(cmd))
 
-void cpy(['**/*','!**/*.{ts,js}'], '../dist', { cwd: 'src', parents: true })
+void cpy(patterns, dest, opts)

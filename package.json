@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "bt": "yarn build && yarn test",
-    "build": "tsc",
+    "build": "del ./dist && yarn build-copy && yarn build-tsc",
+    "build-tsc": "ts-node ./src/bin/build-tsc.ts",
     "build-copy": "ts-node ./src/bin/build-copy.ts",
     "build-prod": "tsc -p tsconfig.prod.json",
     "test": "ts-node ./src/bin/test.ts",
