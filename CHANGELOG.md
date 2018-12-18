@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/NaturalCycles/shared-module/compare/v1.4.5...v1.5.0) (2018-12-18)
+
+
+### Bug Fixes
+
+* remove --silent from jest ([d509de4](https://github.com/NaturalCycles/shared-module/commit/d509de4))
+* yarn upgrade ([44fa09c](https://github.com/NaturalCycles/shared-module/commit/44fa09c))
+
+
+### Features
+
+* gitignore more ([ca52a51](https://github.com/NaturalCycles/shared-module/commit/ca52a51))
+
 ## [1.4.5](https://github.com/NaturalCycles/shared-module/compare/v1.4.4...v1.4.5) (2018-11-30)
 
 
