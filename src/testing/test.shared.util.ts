@@ -22,6 +22,8 @@ export function silentConsole (): void {
   console.info = () => undefined
   console.warn = () => undefined
   console.error = () => undefined
+  console.time = () => undefined
+  console.table = () => undefined
 }
 
 export function runAllTests (): boolean {
