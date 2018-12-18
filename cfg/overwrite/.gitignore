@@ -27,6 +27,7 @@
 /.sass-cache
 /.sourcemaps
 /.env
+/.npmrc
 
 /node_modules
 
@@ -37,6 +38,7 @@
 /dist-cjs
 /dist-esm
 /tmp
+/deploy
 
 /src/@linked
 /src/scripts/try.*
