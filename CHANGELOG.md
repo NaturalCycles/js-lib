@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/NaturalCycles/shared-module/compare/v1.5.0...v1.6.0) (2019-01-10)
+
+
+### Features
+
+* jest ignore `/src/test/integration/` by default ([795518f](https://github.com/NaturalCycles/shared-module/commit/795518f))
+
 # [1.5.0](https://github.com/NaturalCycles/shared-module/compare/v1.4.5...v1.5.0) (2018-12-18)
 
 
