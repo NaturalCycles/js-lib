@@ -24,6 +24,7 @@ module.exports = {
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
     '<rootDir>/src/scripts/',
+    '<rootDir>/src/test/integration/',
     '<rootDir>/docker-build/',
     '<rootDir>/dist/',
   ],
