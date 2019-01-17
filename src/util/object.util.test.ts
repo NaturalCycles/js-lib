@@ -4,8 +4,8 @@ import { objectUtil } from './object.util'
 test('pick', () => {
   const f = objectUtil.pick.bind(objectUtil)
 
-  expect(f(undefined)).toBe(undefined)
-  expect(f(null)).toBe(null)
+  expect(f(undefined as any)).toBe(undefined)
+  expect(f(null as any)).toBe(null)
   expect(f({})).toEqual({})
 
   const obj = {
