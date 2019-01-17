@@ -33,20 +33,32 @@ export const memoCache = (opts: MemoCacheOpts = {}) => (
     maxAge: opts.ttl || Infinity,
   }
   const cache = new LRU<string, any>(lruOpts)
+  let loggingEnabled = false
 
-  // descriptor.value = memoize(descriptor.value, opts.resolver)
   descriptor.value = function (...args: any[]): any {
     const cacheKey = opts.cacheKeyFn!(args)
 
     if (cache.has(cacheKey)) {
       const cached = cache.get(cacheKey)
-      // console.log('returning value from cache: ', cacheKey, key)
+      if (loggingEnabled) {
+        console.log(`memo (method=${key}) returning value from cache: `, cacheKey, key)
+      }
       return cached
     }
 
     const res: any = originalFn.apply(this, args)
     cache.set(cacheKey, res)
     return res
+  }
+
+  descriptor.value.dropCache = () => {
+    console.log(`memo.dropCache (method=${key})`)
+    cache.reset()
+  }
+
+  descriptor.value.setLogging = (enabled = true) => {
+    loggingEnabled = enabled
+    console.log(`memo.loggingEnabled=${enabled} (method=${key})`)
   }
 
   return descriptor

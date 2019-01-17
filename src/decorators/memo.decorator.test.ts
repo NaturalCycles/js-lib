@@ -31,6 +31,25 @@ test('memo a', () => {
 
   // to be called once per set of arguments (2)
   expect(a.func).toMatchSnapshot()
+
+  // cleanup for the next tests
+  ;(a.a as any).dropCache()
+})
+
+test('MEMO_DROP_CACHE', () => {
+  const a = new A()
+  a.func = jest.fn()
+
+  // first call
+  a.a(2, 3)
+
+  // drop cache
+  ;(a.a as any).dropCache()
+
+  // second call
+  a.a(2, 3)
+
+  expect(a.func).toBeCalledTimes(2)
 })
 
 test('memo unsupported', () => {
