@@ -1,0 +1,15 @@
+//
+// tsconfig.json for /scripts
+//
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": ["dom", "es2018"],
+    "sourceMap": false,
+    "declaration": false,
+    "outDir": "./dist",
+    "strict": true
+  },
+  "exclude": ["**/_exclude"]
+}

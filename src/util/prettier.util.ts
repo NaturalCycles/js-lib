@@ -1,6 +1,11 @@
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnts'
-import { prettierPaths, tslintExcludePaths, tslintPaths } from '../cnst/prettier.cnst'
+import {
+  prettierPaths,
+  tslintExcludePaths,
+  tslintPaths,
+  tslintScriptsPaths,
+} from '../cnst/prettier.cnst'
 import { execCommand } from './exec.util'
 
 export async function runPrettier (): Promise<number> {
@@ -21,21 +26,31 @@ export async function runPrettier (): Promise<number> {
 }
 
 export async function runTSLint (): Promise<number> {
-  let code = await doRunTSLint('tsconfig.json')
+  //
+  // 1. Run for /src
+  //
+  let code = await doRunTSLint(tslintPaths, tslintExcludePaths, 'tsconfig.json')
   if (code) return code
 
-  // if 'scripts' folder exists - run tslint there too
+  //
+  // 2. If '/scripts' folder exists - run tslint there too
+  //
   const cwd = process.cwd()
-  const scriptsProject = `${cwd}/src/scripts`
-  const scriptsTSConfigJson = `${cwd}/src/scripts/tsconfig.json`
+  // const scriptsProject = `${cwd}/src/scripts`
+  const scriptsProject = `${cwd}/scripts`
+  const scriptsTSConfigJson = `${scriptsProject}/tsconfig.json`
   if (fs.pathExistsSync(scriptsProject) && fs.pathExistsSync(scriptsTSConfigJson)) {
-    code = await doRunTSLint(scriptsTSConfigJson)
+    code = await doRunTSLint(tslintScriptsPaths, tslintExcludePaths, scriptsTSConfigJson)
   }
 
   return code
 }
 
-export async function doRunTSLint (tsconfigPath?: string): Promise<number> {
+export async function doRunTSLint (
+  paths: string[],
+  excludePaths: string[] = [],
+  tsconfigPath?: string,
+): Promise<number> {
   // Find tslint config in target dir or use default
   const cwd = process.cwd()
   const localConfig = `${cwd}/tslint.json`
@@ -45,12 +60,14 @@ export async function doRunTSLint (tsconfigPath?: string): Promise<number> {
   // Due to "slowness issue" we run TSLint twice - first without project, secondly - with project
   // This makes it way faster
 
+  //
   // Run 1 - without project
   // tslint './src/**/*.ts' -e './src/@linked' -t stylish --fix
+  //
   let cmd = [
     `tslint --config ${config}`,
-    ...tslintPaths.map(p => `'${p}'`),
-    ...tslintExcludePaths.map(p => `-e '${p}'`),
+    ...paths.map(p => `'${p}'`),
+    ...excludePaths.map(p => `-e '${p}'`),
     `-t stylish --fix`,
   ]
     .filter(v => v)
@@ -59,13 +76,16 @@ export async function doRunTSLint (tsconfigPath?: string): Promise<number> {
   const code = await execCommand(cmd)
   if (code || !tsconfigPath) return code
 
+  //
   // Run 2 - with project
   // tslint './src/**/*.ts' -e './src/@linked' -p tsconfig.json -t stylish --fix
+  //
   cmd = [
     `tslint --config ${config}`,
-    ...tslintPaths.map(p => `'${p}'`),
-    ...tslintExcludePaths.map(p => `-e '${p}'`),
-    `-p ${tsconfigPath} -t stylish --fix`,
+    ...paths.map(p => `'${p}'`),
+    ...excludePaths.map(p => `-e '${p}'`),
+    `-p ${tsconfigPath}`,
+    `-t stylish --fix`,
   ]
     .filter(v => v)
     .join(' ')

@@ -8,6 +8,17 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/test_coverage)](https://codeclimate.com/github/NaturalCycles/shared-module/test_coverage)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+## How to use
+
+    yarn add -D @naturalcycles/shared-dev prettier ts-lint
+
+This unlocks all commands listed below in "Yarn commands" section, e.g:
+
+    yarn lint-all
+
+By default it uses default configs for Prettier and TSLint that are included in this package (for convenience).
+You can override them by putting your own `prettier.config.js` / `tslint.json` in root folder of your project.
+
 ## Conventions
 
 Primary language: TypeScript (`*.ts`).
@@ -20,7 +31,7 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/dist-cjs` target for CommonJS files
 - `/dist-esm` target for ES Modules
 - `/src` for all source files
-- `/src/scripts` for all non-production source files / scripts.
+- `/src/scripts` or `/scripts` (experimental) for all non-production source files / scripts.
 - `/src/test` for generic test-related files and utilities, integration tests.
 - `/src/test/mock`
 - `/src/test/integration` for integration tests (unit tests should be placed next to the file)
@@ -48,6 +59,7 @@ In alphabetic order:
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
 - `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
+- `tsn`: short alias for `ts-node -r tsconfig-paths/register`
 - `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
 
 ## Non-extendable config files

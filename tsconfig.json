@@ -18,5 +18,5 @@
     "experimentalDecorators": true
   },
 
-  "exclude": []
+  "exclude": ["scripts"]
 }

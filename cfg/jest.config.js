@@ -24,6 +24,7 @@ module.exports = {
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
     '<rootDir>/src/scripts/',
+    '<rootDir>/scripts/',
     '<rootDir>/src/test/integration/',
     '<rootDir>/docker-build/',
     '<rootDir>/dist/',
@@ -52,6 +53,9 @@ module.exports = {
     '!src/test/**',
     '!src/typings/**',
     '!src/scripts/**',
+    '!scripts/**',
+    '!src/env/**',
+    '!src/environment/**',
     '!src/environments/**',
     '!public/**',
     '!**/*.module.ts',
@@ -59,7 +63,7 @@ module.exports = {
     '!**/*.page.ts',
     '!**/*.component.ts',
   ],
-  rootDir: process.cwd(),
+  rootDir: cwd,
   reporters: [
     'default',
     [

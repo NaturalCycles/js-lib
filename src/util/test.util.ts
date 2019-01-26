@@ -1,6 +1,13 @@
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnts'
 
+/**
+ * Returns true if module with given name exists in _target project's_ node_modules.
+ */
+export function nodeModuleExists (moduleName: string): boolean {
+  return fs.pathExistsSync(`${process.cwd()}/node_modules/${moduleName}`)
+}
+
 export function getFullICUPathIfExists (): string | undefined {
   const cwd = process.cwd()
   const path = `${cwd}/node_modules/full-icu`

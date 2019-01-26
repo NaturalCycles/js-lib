@@ -31,12 +31,23 @@ module.exports = {
     './src/**/*.ts': [prettierCmd, tslintCmd, `${tslintCmd} -p tsconfig.json`, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-    // Everything inside `/src`
-    [`./{src,doc,cfg,.circleci}/**/*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
+    [`./{src,scripts,doc,cfg,.circleci}/**/*.{${prettierExtensionsExceptTs}}`]: [
+      prettierCmd,
+      'git add',
+    ],
+
+    // /scripts are separate, cause they require separate tsconfig.json
+    // Prettier + tslint
+    './scripts/**/*.ts': [
+      prettierCmd,
+      tslintCmd,
+      `${tslintCmd} -p ./scripts/tsconfig.json`,
+      'git add',
+    ],
 
     // Files in root dir
     [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
   },
 
-  ignore: ['./src/scripts/**/*', './CHANGELOG.md'],
+  ignore: ['./src/scripts/**/*', './**/_exclude/**/*', './CHANGELOG.md'],
 }

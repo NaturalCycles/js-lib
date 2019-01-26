@@ -3,20 +3,21 @@
   "version": "1.5.0",
   "description": "",
   "scripts": {
+    "tsn": "ts-node",
     "bt": "yarn build && yarn test",
     "build": "del ./dist && yarn build-copy && yarn build-tsc",
-    "build-tsc": "ts-node ./src/bin/build-tsc.ts",
-    "build-copy": "ts-node ./src/bin/build-copy.ts",
+    "build-tsc": "yarn tsn ./src/bin/build-tsc.ts",
+    "build-copy": "yarn tsn ./src/bin/build-copy.ts",
     "build-prod": "tsc -p tsconfig.prod.json",
-    "test": "ts-node ./src/bin/test.ts",
-    "test-ci": "ts-node ./src/bin/test-ci.ts",
-    "lint-staged-def": "ts-node ./src/bin/lint-staged-def.ts",
-    "commitlint-def": "ts-node ./src/bin/commitlint-def.ts",
-    "prettier-do": "ts-node ./src/bin/prettier-do.ts",
-    "tslint-all": "ts-node ./src/bin/tslint-all.ts",
-    "lint-all": "ts-node ./src/bin/lint-all.ts",
-    "release": "ts-node ./src/bin/release.ts",
-    "update-from-shared-module": "ts-node ./src/bin/update-from-shared-module.ts"
+    "test": "yarn tsn ./src/bin/test.ts",
+    "test-ci": "yarn tsn ./src/bin/test-ci.ts",
+    "lint-staged-def": "yarn tsn ./src/bin/lint-staged-def.ts",
+    "commitlint-def": "yarn tsn ./src/bin/commitlint-def.ts",
+    "prettier-do": "yarn tsn ./src/bin/prettier-do.ts",
+    "tslint-all": "yarn tsn ./src/bin/tslint-all.ts",
+    "lint-all": "yarn tsn ./src/bin/lint-all.ts",
+    "release": "yarn tsn ./src/bin/release.ts",
+    "update-from-shared-module": "yarn tsn ./src/bin/update-from-shared-module.ts"
   },
   "dependencies": {
     "@commitlint/cli": "^7.2.1",
@@ -71,6 +72,7 @@
     "test-ci": "dist/bin/test-ci.js",
     "test-compile": "dist/bin/test-compile.js",
     "tslint-all": "dist/bin/tslint-all.js",
+    "tsn": "dist/bin/tsn.js",
     "update-from-shared-module": "dist/bin/update-from-shared-module.js"
   },
   "engines": {
