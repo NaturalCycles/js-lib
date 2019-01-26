@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/NaturalCycles/shared-module/compare/v1.6.0...v1.7.0) (2019-01-26)
+
+
+### Features
+
+* experimentally move /src/scripts to /scripts ([0f799e4](https://github.com/NaturalCycles/shared-module/commit/0f799e4))
+
 # [1.6.0](https://github.com/NaturalCycles/shared-module/compare/v1.5.0...v1.6.0) (2019-01-10)
 
 
