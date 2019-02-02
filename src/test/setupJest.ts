@@ -1,0 +1,3 @@
+import { silentConsoleIfRunAll } from '..'
+
+silentConsoleIfRunAll()
