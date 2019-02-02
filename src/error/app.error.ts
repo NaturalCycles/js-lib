@@ -1,8 +1,14 @@
+import { ErrorData } from './error.model'
+
 /**
- * Base class for all our (not system) errors
+ * Base class for all our (not system) errors.
+ *
+ * message - "technical" message. Frontend decides to show it or not.
+ * data - optional "any" payload.
+ * data.userMessage - if present, will be displayed to the User as is.
  */
 export class AppError extends Error {
-  constructor (message?: string, public data?: any) {
+  constructor (message?: string, public data?: ErrorData) {
     super(message)
 
     Object.defineProperty(this, 'name', {

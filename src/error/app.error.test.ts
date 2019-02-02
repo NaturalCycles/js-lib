@@ -1,6 +1,6 @@
 import { AppError } from './app.error'
 
-test('appError', () => {
+test('appError properties should be present', () => {
   // Error.captureStackTrace = false as any
   const r = new AppError('hello')
   // console.log(r.message, r.name, r.stack)
@@ -13,7 +13,7 @@ test('appError', () => {
   expect(r2.data).toEqual(data)
 })
 
-test('appError no captureStacktrace', () => {
+test('appError when Error.captureStacktrace is n/a', () => {
   Error.captureStackTrace = false as any
   const r = new AppError('hello')
   // console.log(r.message, r.name, r.stack)
