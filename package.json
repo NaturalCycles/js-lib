@@ -16,7 +16,6 @@
     "prettier-do": "yarn tsn ./src/bin/prettier-do.ts",
     "tslint-all": "yarn tsn ./src/bin/tslint-all.ts",
     "lint-all": "yarn tsn ./src/bin/lint-all.ts",
-    "release": "yarn tsn ./src/bin/release.ts",
     "update-from-shared-module": "yarn tsn ./src/bin/update-from-shared-module.ts"
   },
   "dependencies": {
@@ -37,16 +36,14 @@
     "yargs": "^12.0.2"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.1",
-    "@semantic-release/git": "^7.0.5",
+    "@naturalcycles/semantic-release": "^1.0.0",
     "@types/jest": "^23.3.5",
     "@types/node": "^10.11.7",
     "jest": "^23.6.0",
-    "jest-junit": "^5.2.0",
+    "jest-junit": "^6.2.1",
     "prettier": "^1.14.3",
-    "semantic-release": "^15.10.7",
     "ts-jest": "^23.10.4",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.0.2",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   },
@@ -67,7 +64,6 @@
     "lint-all": "dist/bin/lint-all.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
     "prettier-do": "dist/bin/prettier-do.js",
-    "release": "dist/bin/release.js",
     "test": "dist/bin/test.js",
     "test-ci": "dist/bin/test-ci.js",
     "test-compile": "dist/bin/test-compile.js",
