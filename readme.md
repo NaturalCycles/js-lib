@@ -40,10 +40,8 @@
 
 # Packaging
 
-Written in Typescript.
-
-Transpiled to Javascript with es2017 as target (can be reviewed to be repackaged as es2015 if needed). Uses `commonjs` module system (to be reviewed).
-
-Exported in `dist` folder, together with `*.dt` (to be checked if `*.js.map` is needed too or not).
-
-`master` is production branch.
+- `engines.node >= 8.11`: Node.js LTS
+- `main: dist/index.js`: commonjs, es2015
+- `module: dist-esm/index.js`: esm, es2015
+- `types: dist/index.d.ts`: typescript types
+- `/src` folder with source `*.ts` files included

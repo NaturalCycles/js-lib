@@ -15,9 +15,8 @@
     "lru-cache": ">=5.0.0"
   },
   "devDependencies": {
+    "@naturalcycles/semantic-release": "^1.0.0",
     "@naturalcycles/shared-module": "^1.0.25",
-    "@semantic-release/changelog": "^3.0.1",
-    "@semantic-release/git": "^7.0.5",
     "@types/jest": "^23.3.5",
     "@types/node": "^10.0.0",
     "jest": "^23.6.0",
@@ -25,7 +24,6 @@
     "lru-cache": "^5.1.1",
     "luxon": "^1.4.3",
     "prettier": "^1.14.3",
-    "semantic-release": "^15.10.8",
     "ts-jest": "^23.10.4",
     "ts-node": "^8.0.2",
     "tslint": "^5.11.0",
@@ -35,7 +33,6 @@
     "dist",
     "dist-esm",
     "src",
-    "!src/scripts",
     "!src/test",
     "!src/**/*.test.*",
     "!src/**/__snapshots__"
