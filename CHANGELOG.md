@@ -1,3 +1,16 @@
+# [1.8.0](https://github.com/NaturalCycles/shared-module/compare/v1.7.0...v1.8.0) (2019-02-09)
+
+
+### Bug Fixes
+
+* gitignore yarn.lock (because it's a library) ([ce26a6f](https://github.com/NaturalCycles/shared-module/commit/ce26a6f))
+* remove yarn.lock from repo, because it's a library ([84fdd6a](https://github.com/NaturalCycles/shared-module/commit/84fdd6a))
+
+
+### Features
+
+* remove `yarn release` functionality ([1000a38](https://github.com/NaturalCycles/shared-module/commit/1000a38))
+
 # [1.7.0](https://github.com/NaturalCycles/shared-module/compare/v1.6.0...v1.7.0) (2019-01-26)
 
 
