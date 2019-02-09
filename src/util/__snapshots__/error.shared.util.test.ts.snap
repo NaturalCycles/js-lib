@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`anyToErrorMessage 1`] = `
+Array [
+  "undefined",
+  "null",
+  "empty_string",
+  "hello a",
+  "0",
+  "1",
+  "-5",
+  "() => 'smth'",
+  "{}",
+  "empty_string",
+  "a",
+  "{
+  \\"a\\": \\"aa\\"
+}",
+]
+`;
+
+exports[`anyToErrorObject 1`] = `
+Array [
+  Object {
+    "data": Object {},
+    "message": "undefined",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "null",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "empty_string",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "hello a",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "0",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "1",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "-5",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "() => 'smth'",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "{}",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "empty_string",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "a",
+    "name": "Error",
+  },
+  Object {
+    "data": Object {},
+    "message": "{
+  \\"a\\": \\"aa\\"
+}",
+    "name": "Error",
+  },
+]
+`;
+
+exports[`appErrorToErrorObject / errorObjectToAppError snapshot 1`] = `
+Object {
+  "data": Object {
+    "a": "b",
+  },
+  "message": "hello",
+  "name": "AppError",
+  "stack": StringContaining "AppError",
+}
+`;

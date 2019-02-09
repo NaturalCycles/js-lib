@@ -1,4 +1,4 @@
-import { ErrorData, ErrorObject } from './error.model'
+import { ErrorData } from './error.model'
 
 /**
  * Base class for all our (not system) errors.
@@ -22,29 +22,5 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
         value: new Error().stack,
       })
     }
-  }
-
-  toErrorObject (): ErrorObject<DATA_TYPE> {
-    return {
-      name: this.name,
-      message: this.message,
-      stack: this.stack,
-      data: this.data as DATA_TYPE,
-    }
-  }
-
-  static fromErrorObject<DATA_TYPE extends ErrorData = ErrorData> (
-    err: ErrorObject<DATA_TYPE>,
-  ): AppError<DATA_TYPE> {
-    const r = Object.assign(new AppError(err.message, err.data), {
-      // name: err.name, // cannot be assigned to a readonly property like this
-      stack: err.stack,
-    })
-
-    Object.defineProperty(r, 'name', {
-      value: err.name,
-    })
-
-    return r
   }
 }
