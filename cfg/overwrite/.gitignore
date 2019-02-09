@@ -39,6 +39,7 @@
 /dist-esm
 /tmp
 /deploy
+/build/deploy
 
 /src/@linked
 /src/scripts/try.*
