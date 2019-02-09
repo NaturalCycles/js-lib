@@ -1,11 +1,12 @@
 ## @naturalcycles/js-lib
 
-> Standard library for universal (browser + server) javascript
+> Standard library for universal (browser + Node.js) javascript
 
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![npm](https://img.shields.io/npm/v/@naturalcycles/js-lib/latest.svg)](https://www.npmjs.com/package/@naturalcycles/js-lib)
 [![](https://circleci.com/gh/NaturalCycles/js-lib.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/js-lib)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/maintainability)](https://codeclimate.com/github/NaturalCycles/js-lib/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/test_coverage)](https://codeclimate.com/github/NaturalCycles/js-lib/test_coverage)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # Features
 
@@ -44,7 +45,5 @@ Written in Typescript.
 Transpiled to Javascript with es2017 as target (can be reviewed to be repackaged as es2015 if needed). Uses `commonjs` module system (to be reviewed).
 
 Exported in `dist` folder, together with `*.dt` (to be checked if `*.js.map` is needed too or not).
-
-Versioned as `1.0.<CircleCI_IncrementalBuildNumber>`, each commit in `master` branch is automatically published with incremented version.
 
 `master` is production branch.
