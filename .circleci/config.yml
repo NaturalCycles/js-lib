@@ -26,13 +26,9 @@ npm_token: &npm_token echo -e "always-auth=true\n//registry.npmjs.org/:_authToke
 
 git_msg: &git_msg echo 'export GIT_MSG=`git log -1 --pretty=%B`' >> $BASH_ENV
 
-npm_publish: &npm_publish
-  name: npm publish
-  command: |
-    NPM_TAG=latest
-    NPM_VER_NEXT=1.0.$CIRCLE_BUILD_NUM
-    npm version $NPM_VER_NEXT -m "version: %s" --force
-    npm publish --access public --tag $NPM_TAG
+release: &release
+  name: Release (if needed)
+  command: yarn release
 
 test: &test
   name: Test
@@ -62,8 +58,8 @@ jobs:
       # build
       - run: yarn build-prod
 
-      # npm publish
-      - run: *npm_publish
+      # release
+      - run: *release
 
   test-job:
     <<: *defaults

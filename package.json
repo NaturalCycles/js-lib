@@ -1,5 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
+  "version": "1.0.79",
   "scripts": {
     "build": "del ./dist && tsc",
     "build-prod": "yarn build-prod-esm & yarn build-prod-cjs & wait",
@@ -45,7 +46,6 @@
   "engines": {
     "node": ">=8.11"
   },
-  "version": "1.0.0",
   "description": "",
   "author": "Natural Cycles Team",
   "license": "MIT"
