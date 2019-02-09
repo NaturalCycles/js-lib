@@ -46,3 +46,6 @@
 /plugins
 /www/*
 !/www/.gitkeep
+
+# Because it's a lib:
+# /yarn.lock
