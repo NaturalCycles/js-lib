@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/NaturalCycles/js-lib/compare/v2.0.0...v2.0.1) (2019-02-09)
+
+
+### Bug Fixes
+
+* use [@naturalcycles](https://github.com/naturalcycles)/semantic-release ([3e65c99](https://github.com/NaturalCycles/js-lib/commit/3e65c99))
+
 # [2.0.0](https://github.com/NaturalCycles/js-lib/compare/v1.0.0...v2.0.0) (2019-02-09)
 
 
