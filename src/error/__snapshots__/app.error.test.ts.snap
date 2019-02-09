@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toErrorObject / fromErrorObject snapshot 1`] = `
+Object {
+  "data": Object {
+    "a": "b",
+  },
+  "message": "hello",
+  "name": "AppError",
+  "stack": StringContaining "AppError",
+}
+`;
