@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/NaturalCycles/js-lib/compare/v1.0.0...v2.0.0) (2019-02-09)
+
+
+### Features
+
+* adopting semver ([988d16c](https://github.com/NaturalCycles/js-lib/commit/988d16c))
+
+
+### BREAKING CHANGES
+
+* bump major version
+
 # 1.0.0 (2019-02-09)
 
 
