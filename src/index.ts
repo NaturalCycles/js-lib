@@ -1,7 +1,8 @@
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
 import { AppError } from './error/app.error'
-import { ErrorData } from './error/error.model'
+import { ErrorData, ErrorResponse, HttpErrorData } from './error/error.model'
+import { HttpError } from './error/http.error'
 import {
   deepFreeze,
   runAllTests,
@@ -18,7 +19,10 @@ export {
   memo,
   memoCache,
   ErrorData,
+  HttpErrorData,
+  ErrorResponse,
   AppError,
+  HttpError,
   deepFreeze,
   silentConsole,
   runAllTests,
