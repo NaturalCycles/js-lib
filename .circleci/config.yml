@@ -15,16 +15,12 @@ defaults: &defaults
   working_directory: ~/repo
 
 restore_cache: &restore_cache
-  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "yarn.lock" }}
+  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "package.json" }}
 
 save_cache: &save_cache
   paths:
     - node_modules
-  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "yarn.lock" }}
-
-npm_token: &npm_token echo -e "always-auth=true\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-git_msg: &git_msg echo 'export GIT_MSG=`git log -1 --pretty=%B`' >> $BASH_ENV
+  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "package.json" }}
 
 release: &release
   name: Release (if needed)
@@ -46,12 +42,8 @@ jobs:
     steps:
       - checkout
 
-      # env variables
-      - run: *git_msg
-
       # yarn
       - restore_cache: *restore_cache
-      - run: *npm_token
       - run: yarn --pure-lockfile
       - save_cache: *save_cache
 
@@ -70,7 +62,6 @@ jobs:
 
       # yarn
       - restore_cache: *restore_cache
-      - run: *npm_token
       - run: yarn --pure-lockfile
 
       # build
@@ -87,6 +78,23 @@ jobs:
           path: coverage/lcov-report
           destination: coverage
 
+  nighly-job:
+    <<: *defaults
+    steps:
+      - checkout
+
+      # yarn (no cache)
+      - run: yarn --pure-lockfile
+
+      - run: yarn build
+      - run: yarn test-ci
+
+      - store_test_results:
+          path: report
+      - store_artifacts:
+          path: report
+          destination: report
+
 #
 # Workflows
 #
@@ -99,3 +107,13 @@ workflows:
             branches:
               only: master
       - test-job
+
+  nightly-workflow:
+    triggers:
+      - schedule:
+          cron: '0 4 * * *' # 04:00 every day
+          filters:
+            branches:
+              only: master
+    jobs:
+      - nightly-job
