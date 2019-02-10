@@ -78,7 +78,7 @@ jobs:
           path: coverage/lcov-report
           destination: coverage
 
-  nighly-job:
+  nightly-job:
     <<: *defaults
     steps:
       - checkout
