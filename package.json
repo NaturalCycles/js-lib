@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "build": "del ./dist && tsc",
     "build-prod": "yarn build-prod-esm & yarn build-prod-cjs & wait",
