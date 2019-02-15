@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/NaturalCycles/shared-module/compare/v1.8.0...v2.0.0) (2019-02-15)
+
+
+### Features
+
+* drop support for `./src/scripts` ([8db0562](https://github.com/NaturalCycles/shared-module/commit/8db0562))
+
+
+### BREAKING CHANGES
+
+* - use `./scripts` instead of `./src/scripts`
+
 # [1.8.0](https://github.com/NaturalCycles/shared-module/compare/v1.7.0...v1.8.0) (2019-02-09)
 
 
