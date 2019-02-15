@@ -1,4 +1,4 @@
-export const prettierExtensions = `css,scss,ts,js,json,md,graphql,yml,yaml,html`
+export const prettierExtensions = `css,scss,ts,tsx,js,jsx,json,md,graphql,yml,yaml,html,vue`
 
 export const prettierPaths: string[] = [
   // Everything inside these folders

@@ -22,16 +22,16 @@ const configTSLint = fs.pathExistsSync(localConfigTSLint) ? localConfigTSLint : 
 const prettierCmd = `prettier --write --config ${configPrettier}`
 const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
 
-const prettierExtensionsExceptTs = `css,scss,js,json,md,graphql,yml,yaml,html`
+const prettierExtensionsExceptTs = `css,scss,js,jsx,json,md,graphql,yml,yaml,html,vue`
 
 module.exports = {
   linters: {
     // For *.ts files we run first Prettier, then TSLint
     // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.ts': [prettierCmd, tslintCmd, `${tslintCmd} -p tsconfig.json`, 'git add'],
+    './src/**/*.{ts,tsx}': [prettierCmd, tslintCmd, `${tslintCmd} -p tsconfig.json`, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-    [`./{src,scripts,doc,cfg,.circleci}/**/*.{${prettierExtensionsExceptTs}}`]: [
+    [`./{src,scripts,doc,cfg,.circleci,public,static}/**/*.{${prettierExtensionsExceptTs}}`]: [
       prettierCmd,
       'git add',
     ],
@@ -49,5 +49,5 @@ module.exports = {
     [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
   },
 
-  ignore: ['./src/scripts/**/*', './**/_exclude/**/*', './CHANGELOG.md'],
+  ignore: ['./**/_exclude/**/*', './CHANGELOG.md'],
 }

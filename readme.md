@@ -31,7 +31,7 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/dist-cjs` target for CommonJS files
 - `/dist-esm` target for ES Modules
 - `/src` for all source files
-- `/src/scripts` or `/scripts` (experimental) for all non-production source files / scripts.
+- `/scripts` for all non-production source files / scripts.
 - `/src/test` for generic test-related files and utilities, integration tests.
 - `/src/test/mock`
 - `/src/test/integration` for integration tests (unit tests should be placed next to the file)

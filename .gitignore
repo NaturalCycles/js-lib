@@ -39,7 +39,6 @@
 /tmp
 
 /src/@linked
-/src/scripts/try.*
 /scripts/try.*
 /logs
 /platforms

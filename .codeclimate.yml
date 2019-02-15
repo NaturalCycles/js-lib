@@ -48,7 +48,6 @@ exclude_patterns:
   - 'src/test/'
   - 'src/environments/'
   - 'src/env/'
-  - 'src/scripts/'
   - 'scripts/'
   - 'other/'
   - 'patch/'

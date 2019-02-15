@@ -23,7 +23,6 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
-    '<rootDir>/src/scripts/',
     '<rootDir>/scripts/',
     '<rootDir>/src/test/integration/',
     '<rootDir>/docker-build/',
@@ -52,7 +51,6 @@ module.exports = {
     '!@linked/**',
     '!src/test/**',
     '!src/typings/**',
-    '!src/scripts/**',
     '!scripts/**',
     '!src/env/**',
     '!src/environment/**',

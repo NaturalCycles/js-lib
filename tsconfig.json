@@ -17,6 +17,6 @@
 
     "experimentalDecorators": true
   },
-
+  "include": ["src"],
   "exclude": ["scripts"]
 }
