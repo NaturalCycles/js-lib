@@ -10,7 +10,7 @@ import {
   silentConsole,
   silentConsoleIfRunAll,
 } from './testing/test.shared.util'
-import { PromiseMap, StringMap } from './types'
+import { ClassType, PromiseMap, StringMap } from './types'
 import { errorSharedUtil } from './util/error.shared.util'
 import { objectUtil } from './util/object.util'
 import { randomSharedUtil } from './util/random.shared.util'
@@ -37,6 +37,7 @@ export {
   stringSharedUtil,
   StringMap,
   PromiseMap,
+  ClassType,
   LOG_LEVEL,
   BasicLogFunction,
   LogFunction,

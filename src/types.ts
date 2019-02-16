@@ -11,3 +11,5 @@ export interface StringMap<T = string> {
 export interface PromiseMap {
   [prop: string]: Promise<any>
 }
+
+export type ClassType<T = any> = new (...args: any[]) => T
