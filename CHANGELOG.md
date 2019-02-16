@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/NaturalCycles/shared-module/compare/v2.1.0...v2.1.1) (2019-02-16)
+
+
+### Bug Fixes
+
+* revert to using yarn.lock in libs ([3cd6180](https://github.com/NaturalCycles/shared-module/commit/3cd6180))
+
 # [2.1.0](https://github.com/NaturalCycles/shared-module/compare/v2.0.0...v2.1.0) (2019-02-16)
 
 
