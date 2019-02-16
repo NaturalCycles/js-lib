@@ -55,6 +55,7 @@ module.exports = {
     '!src/env/**',
     '!src/environment/**',
     '!src/environments/**',
+    '!src/env/**',
     '!public/**',
     '!**/*.module.ts',
     '!**/*.mock.ts',
