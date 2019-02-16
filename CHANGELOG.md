@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/NaturalCycles/js-lib/compare/v2.0.2...v2.1.0) (2019-02-16)
+
+
+### Features
+
+* export ClassType ([ce897fa](https://github.com/NaturalCycles/js-lib/commit/ce897fa))
+
 ## [2.0.2](https://github.com/NaturalCycles/js-lib/compare/v2.0.1...v2.0.2) (2019-02-10)
 
 
