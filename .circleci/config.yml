@@ -1,94 +1,15 @@
 #
 # validate yml:
-# circleci config validate -c .circleci/config.yml
+# circleci config validate
 #
-
-version: 2
-
-#
-# Defaults
-#
-defaults: &defaults
-  resource_class: xlarge
-  docker:
-    - image: naturalcycles/ci-node:latest
-  working_directory: ~/repo
-
-restore_cache: &restore_cache
-  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "package.json" }}
-
-save_cache: &save_cache
-  paths:
-    - node_modules
-  key: deps-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-v1-{{ checksum "package.json" }}
-
-test: &test
-  name: Test
-  command: |
-    cc-test-reporter before-build
-    yarn test-ci
-    cc-test-reporter after-build -t lcov ./coverage/lcov.info
-
-release: &release
-  name: Release (if needed)
-  command: yarn release
+version: 2.1
 
 #
-# Jobs
+# Orbs
 #
-jobs:
-  build-job:
-    <<: *defaults
-    environment:
-      CC_TEST_REPORTER_ID: 791311fd4ab23bf9d0246fe1d1b4b589656a0de6d8a9a1a6d91a098b8816ea85
-    steps:
-      - checkout
-
-      # yarn
-      - restore_cache: *restore_cache
-      - run: yarn --pure-lockfile
-      - save_cache: *save_cache
-
-      # build
-      - run: yarn build-prod
-
-      # test
-      - run: *test
-
-      # release
-      - run: *release
-
-      - store_test_results:
-          path: report
-      - store_artifacts:
-          path: report
-          destination: report
-      - store_artifacts:
-          path: coverage/lcov-report
-          destination: coverage
-
-  nightly-job:
-    <<: *defaults
-    steps:
-      - checkout
-
-      # yarn (no cache)
-      - run: yarn --pure-lockfile
-
-      - run: yarn build
-      - run: yarn test-ci
-
-      - run:
-          name: Report failure
-          when: on_fail
-          command: |
-            echo todo
-
-      - store_test_results:
-          path: report
-      - store_artifacts:
-          path: report
-          destination: report
+orbs:
+  tools: naturalcycles/tools@volatile
+  # tools: naturalcycles/tools@dev:1
 
 #
 # Workflows
@@ -97,10 +18,12 @@ workflows:
   version: 2
   default-workflow:
     jobs:
-      - build-job:
+      - tools/build-publish-lib-job:
           filters:
             branches:
               only: master
+      - tools/test-lib-job:
+          CC_TEST_REPORTER_ID: 791311fd4ab23bf9d0246fe1d1b4b589656a0de6d8a9a1a6d91a098b8816ea85
 
   nightly-workflow:
     triggers:
@@ -110,4 +33,4 @@ workflows:
             branches:
               only: master
     jobs:
-      - nightly-job
+      - tools/nightly-lib-job
