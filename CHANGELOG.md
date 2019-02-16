@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/NaturalCycles/shared-module/compare/v2.0.0...v2.1.0) (2019-02-16)
+
+
+### Features
+
+* yarn tsn-script (see readme) ([a68e426](https://github.com/NaturalCycles/shared-module/commit/a68e426))
+
 # [2.0.0](https://github.com/NaturalCycles/shared-module/compare/v1.8.0...v2.0.0) (2019-02-15)
 
 
