@@ -60,6 +60,8 @@ In alphabetic order:
 - `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
 - `tsn`: short alias for `ts-node -r tsconfig-paths/register`
+- `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use either `./scripts/tsconfig.json` (if present)
+  or `shared-module/scripts/tsconfig.json`
 - `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
 
 ## Non-extendable config files

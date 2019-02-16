@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "tsn": "ts-node",
+    "tsn-script": "yarn tsn ./src/bin/tsn-script.ts",
     "bt": "yarn build && yarn test",
     "build": "del ./dist && yarn build-copy && yarn build-tsc",
     "build-tsc": "yarn tsn ./src/bin/build-tsc.ts",
@@ -69,6 +70,7 @@
     "test-compile": "dist/bin/test-compile.js",
     "tslint-all": "dist/bin/tslint-all.js",
     "tsn": "dist/bin/tsn.js",
+    "tsn-script": "dist/bin/tsn-script.js",
     "update-from-shared-module": "dist/bin/update-from-shared-module.js"
   },
   "engines": {
