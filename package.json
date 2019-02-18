@@ -51,6 +51,7 @@
   "peerDependencies": {},
   "files": [
     "dist",
+    "scripts/tsconfig.json",
     "cfg"
   ],
   "bin": {
