@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/NaturalCycles/shared-module/compare/v2.1.1...v2.2.0) (2019-02-18)
+
+
+### Bug Fixes
+
+* add *.tsx to tslint ([96018ec](https://github.com/NaturalCycles/shared-module/commit/96018ec))
+
+
+### Features
+
+* gitignore /secret ([0959185](https://github.com/NaturalCycles/shared-module/commit/0959185))
+
 ## [2.1.1](https://github.com/NaturalCycles/shared-module/compare/v2.1.0...v2.1.1) (2019-02-16)
 
 
