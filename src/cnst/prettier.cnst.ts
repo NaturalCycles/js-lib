@@ -8,7 +8,7 @@ export const prettierPaths: string[] = [
   `./*.{${prettierExtensions}},!./CHANGELOG.md`,
 ]
 
-export const tslintPaths: string[] = ['./src/**/*.ts']
+export const tslintPaths: string[] = ['./src/**/*.{ts,tsx}']
 export const tslintExcludePaths: string[] = ['./**/@linked/**/*', './**/_exclude/**/*']
 
-export const tslintScriptsPaths: string[] = ['./scripts/**/*.ts']
+export const tslintScriptsPaths: string[] = ['./scripts/**/*.{ts,tsx}']

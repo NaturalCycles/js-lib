@@ -38,7 +38,7 @@ module.exports = {
 
     // /scripts are separate, cause they require separate tsconfig.json
     // Prettier + tslint
-    './scripts/**/*.ts': [
+    './scripts/**/*.{ts,tsx}': [
       prettierCmd,
       tslintCmd,
       `${tslintCmd} -p ./scripts/tsconfig.json`,
