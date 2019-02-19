@@ -19,7 +19,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
-  testMatch: ['<rootDir>/src/**/*.test.ts'],
+  testMatch: ['<rootDir>/src/**/*.test.ts?(x)'],
   testPathIgnorePatterns: [
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
