@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/NaturalCycles/shared-module/compare/v2.2.1...v2.3.0) (2019-02-19)
+
+
+### Features
+
+* add test.tsx unit test match pattern ([#5](https://github.com/NaturalCycles/shared-module/issues/5)) ([5ee42f7](https://github.com/NaturalCycles/shared-module/commit/5ee42f7))
+
 ## [2.2.1](https://github.com/NaturalCycles/shared-module/compare/v2.2.0...v2.2.1) (2019-02-18)
 
 
