@@ -1,4 +1,4 @@
-import { errorSharedUtil } from '../util/error.shared.util'
+import { errorSharedUtil } from './error.shared.util'
 import { HttpError } from './http.error'
 
 test('default error to match snapshot', () => {
