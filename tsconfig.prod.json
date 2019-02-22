@@ -1,5 +1,5 @@
 // Excludes tests
 {
   "extends": "./tsconfig.json",
-  "exclude": ["dist", "src/test", "src/**/*.test.*", "src/scripts", "src/@linked"]
+  "exclude": ["src/test", "src/**/*.test.*"]
 }
