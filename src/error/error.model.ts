@@ -11,9 +11,9 @@ export interface ErrorData extends StringMap<any> {
   code?: string
 
   /**
-   * User-friendly error (e.g in User's language).
+   * If error.message is user-friendly (can be shown to the user "as is")
    */
-  userMessage?: string
+  userFriendly?: boolean
 
   /**
    * Error id in some error tracking system (e.g Sentry).
