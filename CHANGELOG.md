@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/NaturalCycles/js-lib/compare/v2.2.1...v2.2.2) (2019-02-22)
+
+
+### Bug Fixes
+
+* err instanceof AppError, err instanceof Error ([19022ef](https://github.com/NaturalCycles/js-lib/commit/19022ef))
+
 ## [2.2.1](https://github.com/NaturalCycles/js-lib/compare/v2.2.0...v2.2.1) (2019-02-22)
 
 
