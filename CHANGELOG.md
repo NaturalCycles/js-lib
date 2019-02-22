@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/NaturalCycles/js-lib/compare/v2.1.0...v2.2.0) (2019-02-22)
+
+
+### Features
+
+* err.data.userMessage > err.data.userFriendly (boolean) ([27ff0ab](https://github.com/NaturalCycles/js-lib/commit/27ff0ab))
+
 # [2.1.0](https://github.com/NaturalCycles/js-lib/compare/v2.0.2...v2.1.0) (2019-02-16)
 
 
