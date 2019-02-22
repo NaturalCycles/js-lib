@@ -1,6 +1,13 @@
 import { AppError } from './app.error'
 
-test('appError properties should be present', () => {
+const throwAppError = () => {
+  throw new AppError()
+}
+const throwAppErrorAsync = async () => {
+  throw new AppError()
+}
+
+test('appError properties should be present', async () => {
   // Error.captureStackTrace = false as any
   const r = new AppError('hello')
   // console.log(r.message, r.name, r.stack)
@@ -11,6 +18,9 @@ test('appError properties should be present', () => {
   const data = { a: 'b' }
   const r2 = new AppError('hello', data)
   expect(r2.data).toEqual(data)
+
+  expect(throwAppError).toThrowError(AppError)
+  await expect(throwAppErrorAsync()).rejects.toThrowError(AppError)
 })
 
 test('appError should work when Error.captureStacktrace is n/a', () => {

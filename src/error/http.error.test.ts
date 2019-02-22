@@ -1,10 +1,20 @@
 import { errorSharedUtil } from './error.shared.util'
 import { HttpError } from './http.error'
 
-test('default error to match snapshot', () => {
+const throwHttpError = () => {
+  throw new HttpError()
+}
+const throwHttpErrorAsync = async () => {
+  throw new HttpError()
+}
+
+test('default error to match snapshot', async () => {
   const err = new HttpError()
   // console.log(err)
   expect(errorSharedUtil.appErrorToErrorObject(err)).toMatchSnapshot({
     stack: expect.stringContaining('HttpError'),
   })
+
+  expect(throwHttpError).toThrowError(HttpError)
+  await expect(throwHttpErrorAsync()).rejects.toThrowError(HttpError)
 })

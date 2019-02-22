@@ -12,7 +12,9 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
     super(message)
 
     Object.defineProperty(this, 'name', {
-      value: this.constructor.name,
+      // value: this.constructor.name,
+      value: 'AppError',
+      configurable: true,
     })
 
     if (Error.captureStackTrace) {

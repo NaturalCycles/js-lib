@@ -12,7 +12,9 @@ export class HttpError extends AppError<HttpErrorData> {
     })
 
     Object.defineProperty(this, 'name', {
-      value: this.constructor.name,
+      // value: this.constructor.name,
+      value: 'HttpError',
+      configurable: true, // otherwise throws with "TypeError: Cannot redefine property: name"
     })
 
     if (Error.captureStackTrace) {
