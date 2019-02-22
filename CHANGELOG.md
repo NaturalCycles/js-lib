@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/NaturalCycles/js-lib/compare/v2.2.0...v2.2.1) (2019-02-22)
+
+
+### Bug Fixes
+
+* fixing error.name for AppError, HttpError ([a2094e2](https://github.com/NaturalCycles/js-lib/commit/a2094e2))
+
 # [2.2.0](https://github.com/NaturalCycles/js-lib/compare/v2.1.0...v2.2.0) (2019-02-22)
 
 
