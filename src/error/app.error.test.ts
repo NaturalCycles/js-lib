@@ -19,8 +19,8 @@ test('appError properties should be present', async () => {
   const r2 = new AppError('hello', data)
   expect(r2.data).toEqual(data)
 
-  expect(throwAppError).toThrowError(AppError)
-  await expect(throwAppErrorAsync()).rejects.toThrowError(AppError)
+  expect(throwAppError).toThrow(AppError)
+  await expect(throwAppErrorAsync()).rejects.toThrow(AppError)
 })
 
 test('appError should work when Error.captureStacktrace is n/a', () => {

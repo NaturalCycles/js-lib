@@ -11,9 +11,10 @@ export class HttpError extends AppError<HttpErrorData> {
       ...data,
     })
 
+    this.constructor = HttpError
+    ;(this as any).__proto__ = HttpError.prototype
     Object.defineProperty(this, 'name', {
-      // value: this.constructor.name,
-      value: 'HttpError',
+      value: this.constructor.name,
       configurable: true, // otherwise throws with "TypeError: Cannot redefine property: name"
     })
 

@@ -15,6 +15,6 @@ test('default error to match snapshot', async () => {
     stack: expect.stringContaining('HttpError'),
   })
 
-  expect(throwHttpError).toThrowError(HttpError)
-  await expect(throwHttpErrorAsync()).rejects.toThrowError(HttpError)
+  expect(throwHttpError).toThrow(HttpError)
+  await expect(throwHttpErrorAsync()).rejects.toThrow(HttpError)
 })
