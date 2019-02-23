@@ -68,7 +68,6 @@
     "prettier-do": "dist/bin/prettier-do.js",
     "test": "dist/bin/test.js",
     "test-ci": "dist/bin/test-ci.js",
-    "test-compile": "dist/bin/test-compile.js",
     "tslint-all": "dist/bin/tslint-all.js",
     "tsn": "dist/bin/tsn.js",
     "tsn-script": "dist/bin/tsn-script.js",

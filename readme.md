@@ -57,7 +57,6 @@ In alphabetic order:
 - `prettier-do`: runs just Prettier on needed paths
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
-- `test-compile`: runs `tsc` on `*.test.ts` files, ensures they can be compiled without error
 - `tslint-all`: runs `tslint` on needed paths
 - `tsn`: short alias for `ts-node -r tsconfig-paths/register`
 - `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use either `./scripts/tsconfig.json` (if present)
