@@ -5,12 +5,7 @@ import { ErrorData, ErrorObject, ErrorResponse, HttpErrorData } from './error/er
 import { errorSharedUtil } from './error/error.shared.util'
 import { HttpError } from './error/http.error'
 import { BasicLogFunction, LOG_LEVEL, LogFunction } from './log/log.shared.model'
-import {
-  deepFreeze,
-  runAllTests,
-  silentConsole,
-  silentConsoleIfRunAll,
-} from './testing/test.shared.util'
+import { deepFreeze, silentConsole } from './testing/test.shared.util'
 import { ClassType, PromiseMap, StringMap } from './types'
 import { objectUtil } from './util/object.util'
 import { randomSharedUtil } from './util/random.shared.util'
@@ -28,8 +23,6 @@ export {
   HttpError,
   deepFreeze,
   silentConsole,
-  runAllTests,
-  silentConsoleIfRunAll,
   errorSharedUtil,
   objectUtil,
   randomSharedUtil,

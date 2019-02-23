@@ -8,7 +8,7 @@
     "build-prod-cjs": "del ./dist && tsc -p tsconfig.prod.json"
   },
   "dependencies": {
-    "@types/lru-cache": "^4.1.1",
+    "@types/lru-cache": "^5.1.0",
     "@types/luxon": "^1.4.0"
   },
   "peerDependencies": {
@@ -16,15 +16,15 @@
   },
   "devDependencies": {
     "@naturalcycles/semantic-release": "^1.0.0",
-    "@naturalcycles/shared-module": "^2.1.1",
-    "@types/jest": "^23.3.5",
+    "@naturalcycles/shared-module": "^3.0.0",
+    "@types/jest": "^24.0.6",
     "@types/node": "^10.0.0",
-    "jest": "^23.6.0",
+    "jest": "^24.1.0",
     "jest-junit": "^6.2.1",
     "lru-cache": "^5.1.1",
     "luxon": "^1.4.3",
     "prettier": "^1.14.3",
-    "ts-jest": "^23.10.4",
+    "ts-jest": "^24.0.0",
     "ts-node": "^8.0.2",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"

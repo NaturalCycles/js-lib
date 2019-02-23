@@ -1,4 +1,4 @@
-import { deepFreeze, runAllTests, silentConsole, silentConsoleIfRunAll } from './test.shared.util'
+import { deepFreeze, silentConsole } from './test.shared.util'
 
 test('deepFreeze', () => {
   const o = {
@@ -13,17 +13,9 @@ test('deepFreeze', () => {
 
 test('silentConsole', () => {
   silentConsole()
-  silentConsoleIfRunAll()
   console.log()
   console.debug()
   console.info()
   console.warn()
   console.error()
-})
-
-test('runAllTests', () => {
-  runAllTests()
-
-  process.argv = []
-  expect(runAllTests()).toBe(false)
 })

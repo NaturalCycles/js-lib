@@ -28,7 +28,7 @@ export const memoCache = (opts: MemoCacheOpts = {}) => (
 
   if (!opts.cacheKeyFn) opts.cacheKeyFn = jsonCacheKey
 
-  const lruOpts: LRU.Options = {
+  const lruOpts: LRU.Options<string, any> = {
     max: opts.maxSize || 100,
     maxAge: opts.ttl || Infinity,
   }
