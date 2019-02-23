@@ -20,3 +20,15 @@ export function getJestConfig (): string | undefined {
     ? undefined
     : `--config=${cfgDir}/jest.config.js`
 }
+
+/**
+ * Detects if jest is run with all tests, or with specific tests.
+ */
+export function isRunningAllTests (): boolean {
+  const [, , ...args] = process.argv
+  const positionalArgs = args.filter(a => !a.startsWith('-'))
+
+  // console.log(process.argv, positionalArgs)
+
+  return !positionalArgs.length
+}

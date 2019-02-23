@@ -10,7 +10,7 @@
 
 ## How to use
 
-    yarn add -D @naturalcycles/shared-dev prettier ts-lint
+    yarn add -D @naturalcycles/shared-module prettier tslint
 
 This unlocks all commands listed below in "Yarn commands" section, e.g:
 
@@ -56,6 +56,7 @@ In alphabetic order:
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `prettier-do`: runs just Prettier on needed paths
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
+  Automatically adds `--silent` if all tests are run.
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
 - `tslint-all`: runs `tslint` on needed paths
 - `tsn`: short alias for `ts-node -r tsconfig-paths/register`
