@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",
     "module": "commonjs",
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "es2018"],
     "sourceMap": false,
     "outDir": "./dist",
     "declaration": false,
@@ -17,6 +17,5 @@
 
     "experimentalDecorators": true
   },
-  "include": ["src"],
-  "exclude": ["scripts"]
+  "include": ["src"]
 }
