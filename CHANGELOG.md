@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/NaturalCycles/js-lib/compare/v2.2.2...v3.0.0) (2019-02-23)
+
+
+### Features
+
+* upgrade shared-module with jest24 ([4ae979a](https://github.com/NaturalCycles/js-lib/commit/4ae979a))
+
+
+### BREAKING CHANGES
+
+* removed `silentConsoleIfRunAll()`, cause now it's supported by `shared-module` automatically (and because it stopped working with jest24)
+
 ## [2.2.2](https://github.com/NaturalCycles/js-lib/compare/v2.2.1...v2.2.2) (2019-02-22)
 
 
