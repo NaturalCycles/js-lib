@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/NaturalCycles/shared-module/compare/v3.0.0...v3.1.0) (2019-02-23)
+
+
+### Features
+
+* yarn test will set process.env.JEST_SILENT ([d7be234](https://github.com/NaturalCycles/shared-module/commit/d7be234))
+
 # [3.0.0](https://github.com/NaturalCycles/shared-module/compare/v2.4.0...v3.0.0) (2019-02-23)
 
 
