@@ -1,7 +1,7 @@
 import { execCommand } from './exec.util'
 
 test('execCommand ok', async () => {
-  const r = await execCommand('ls')
+  const r = await execCommand('ls > /dev/null')
   expect(r).toBe(0)
 })
 

@@ -1,16 +1,15 @@
 /**
- * Default config for `jest24+`.
+ * Default config for `jest23`.
  * Extendable.
  */
 
 const fs = require('fs-extra')
 const cwd = process.cwd()
 
-// Set 'setupFilesAfterEnv' only if it exists
-const setupFilesAfterEnv = []
-if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
-  setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
-}
+// Set 'setupTestFrameworkScriptFile' only if it exists
+const setupTestFrameworkScriptFile = fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)
+  ? '<rootDir>/src/test/setupJest.ts'
+  : undefined
 
 const transformIgnore = ['@naturalcycles']
 
@@ -44,7 +43,7 @@ module.exports = {
   },
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
-  setupFilesAfterEnv,
+  setupTestFrameworkScriptFile,
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/index.ts',
