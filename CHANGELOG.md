@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/NaturalCycles/shared-module/compare/v2.3.0...v2.4.0) (2019-02-23)
+
+
+### Features
+
+* `yarn test` auto `--silent` if all tests are run ([2dc66ae](https://github.com/NaturalCycles/shared-module/commit/2dc66ae))
+
 # [2.3.0](https://github.com/NaturalCycles/shared-module/compare/v2.2.1...v2.3.0) (2019-02-19)
 
 
