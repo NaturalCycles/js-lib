@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/NaturalCycles/shared-module/compare/v3.1.0...v3.1.1) (2019-02-23)
+
+
+### Bug Fixes
+
+* `yarn test-ci` to set JEST_SILENT=1 ([43314d8](https://github.com/NaturalCycles/shared-module/commit/43314d8))
+
 # [3.1.0](https://github.com/NaturalCycles/shared-module/compare/v3.0.0...v3.1.0) (2019-02-23)
 
 
