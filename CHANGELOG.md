@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/NaturalCycles/shared-module/compare/v2.4.0...v3.0.0) (2019-02-23)
+
+
+### Features
+
+* support jest24 ([c733017](https://github.com/NaturalCycles/shared-module/commit/c733017))
+
+
+### BREAKING CHANGES
+
+* requires jest24 (change in jest.config.js)
+has jest23.config.js for compatibility
+
 # [2.4.0](https://github.com/NaturalCycles/shared-module/compare/v2.3.0...v2.4.0) (2019-02-23)
 
 
