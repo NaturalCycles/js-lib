@@ -11,15 +11,17 @@ import { proxyCommand } from '../util/exec.util'
 import { getFullICUPathIfExists, getJestConfig, isRunningAllTests } from '../util/test.util'
 
 const fullICUPath = getFullICUPathIfExists()
+const allTests = isRunningAllTests()
 
-const tokens = [fullICUPath && `NODE_ICU_DATA=${fullICUPath}`, 'jest', getJestConfig()].filter(
-  t => t,
-)
+// Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
 
-if (isRunningAllTests()) {
-  // Running all tests - will use `--silent` to suppress console-logs
-  tokens.push('--silent')
-}
+const tokens = [
+  allTests && `JEST_SILENT=1`,
+  fullICUPath && `NODE_ICU_DATA=${fullICUPath}`,
+  'jest',
+  getJestConfig(),
+  allTests && `--silent`,
+].filter(t => t)
 
 const cmd = tokens.join(' ')
 
