@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/NaturalCycles/js-lib/compare/v3.0.0...v3.1.0) (2019-02-25)
+
+
+### Features
+
+* errorSharedUtil.errorObjectToHttpError, appErrorToHttpError ([f9cf571](https://github.com/NaturalCycles/js-lib/commit/f9cf571))
+
 # [3.0.0](https://github.com/NaturalCycles/js-lib/compare/v2.2.2...v3.0.0) (2019-02-23)
 
 
