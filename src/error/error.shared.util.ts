@@ -1,4 +1,4 @@
-import { AppError, objectUtil } from '..'
+import { AppError, HttpError, HttpErrorData, objectUtil } from '..'
 import { ErrorObject } from '../error/error.model'
 
 const EMPTY_STRING_MSG = 'empty_string'
@@ -50,6 +50,19 @@ class ErrorSharedUtil {
     return err
   }
 
+  errorObjectToHttpError (o: ErrorObject): HttpError {
+    const err = Object.assign(new HttpError(o.message, o.data), {
+      // name: err.name, // cannot be assigned to a readonly property like this
+      stack: o.stack,
+    })
+
+    Object.defineProperty(err, 'name', {
+      value: o.name,
+    })
+
+    return err
+  }
+
   appErrorToErrorObject<T> (err: AppError<T>): ErrorObject<T> {
     return {
       name: err.name,
@@ -57,6 +70,10 @@ class ErrorSharedUtil {
       stack: err.stack,
       data: err.data,
     }
+  }
+
+  appErrorToHttpError (err: AppError<HttpErrorData>): HttpError {
+    return new HttpError(err.message, err.data)
   }
 }
 

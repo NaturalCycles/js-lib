@@ -69,3 +69,5 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
 export interface ErrorResponse<DATA_TYPE extends ErrorData = ErrorData> {
   error: ErrorObject<DATA_TYPE>
 }
+
+export type HttpErrorResponse = ErrorResponse<HttpErrorData>
