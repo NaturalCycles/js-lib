@@ -48,7 +48,7 @@ module.exports = {
       'rxjs/observable/interval',
       'rxjs/observable/forkJoin',
     ],
-    'interface-name': [true, 'never-prefix'],
+    // 'interface-name': [false, 'never-prefix'],
     'interface-over-type-literal': true,
     'jsdoc-format': true,
     'label-position': true,
