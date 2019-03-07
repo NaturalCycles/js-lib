@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk'
-import * as cpy from 'cpy'
+import cpy from 'cpy'
 
 const patterns = ['**/*', '!**/*.{ts,js}', '!**/__snapshots__']
 const dest = '../dist'

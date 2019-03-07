@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as cpy from 'cpy'
+import cpy from 'cpy'
 import { cfgDir } from '../cnst/paths.cnts'
 
 const overwriteDir = `${cfgDir}/overwrite`
