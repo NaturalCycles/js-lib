@@ -1,3 +1,11 @@
+# [3.2.0](https://github.com/NaturalCycles/shared-module/compare/v3.1.1...v3.2.0) (2019-03-07)
+
+
+### Features
+
+* tslint.config disable 'interface-name' rule ([cef96ea](https://github.com/NaturalCycles/shared-module/commit/cef96ea))
+* upgrade `del` and `cpy` to use built-in types ([a373325](https://github.com/NaturalCycles/shared-module/commit/a373325))
+
 ## [3.1.1](https://github.com/NaturalCycles/shared-module/compare/v3.1.0...v3.1.1) (2019-02-23)
 
 
