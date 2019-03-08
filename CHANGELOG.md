@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/NaturalCycles/js-lib/compare/v3.1.0...v3.2.0) (2019-03-08)
+
+
+### Features
+
+* remove unused LogFunction, LOG_LEVEL ([148496b](https://github.com/NaturalCycles/js-lib/commit/148496b))
+
 # [3.1.0](https://github.com/NaturalCycles/js-lib/compare/v3.0.0...v3.1.0) (2019-02-25)
 
 
