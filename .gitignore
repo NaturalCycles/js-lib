@@ -40,7 +40,10 @@
 /tmp
 /deploy
 /build/deploy
-/secret
+
+# All secrets are ignored, except encrypted
+/secret/*
+!/secret/*.enc
 
 /src/@linked
 /scripts/try.*

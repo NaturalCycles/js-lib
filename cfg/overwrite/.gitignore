@@ -42,7 +42,7 @@
 /build/deploy
 
 # All secrets are ignored, except encrypted
-/secret
+/secret/*
 !/secret/*.enc
 
 /src/@linked
