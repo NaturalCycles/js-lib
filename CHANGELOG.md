@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/NaturalCycles/shared-module/compare/v3.3.0...v3.3.1) (2019-03-08)
+
+
+### Bug Fixes
+
+* correctly ignore /secret ([94ce32e](https://github.com/NaturalCycles/shared-module/commit/94ce32e))
+
 # [3.3.0](https://github.com/NaturalCycles/shared-module/compare/v3.2.0...v3.3.0) (2019-03-08)
 
 
