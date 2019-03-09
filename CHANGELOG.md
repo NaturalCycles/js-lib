@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/NaturalCycles/shared-module/compare/v3.3.1...v3.4.0) (2019-03-09)
+
+
+### Features
+
+* support /secret subfolders ([a03ce71](https://github.com/NaturalCycles/shared-module/commit/a03ce71))
+
 ## [3.3.1](https://github.com/NaturalCycles/shared-module/compare/v3.3.0...v3.3.1) (2019-03-08)
 
 
