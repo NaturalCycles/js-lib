@@ -42,8 +42,8 @@
 /build/deploy
 
 # All secrets are ignored, except encrypted
-/secret/*
-!/secret/*.enc
+/secret/**/*.*
+!/secret/**/*.enc
 
 /src/@linked
 /scripts/try.*
