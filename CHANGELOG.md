@@ -1,3 +1,21 @@
+# [4.0.0](https://github.com/NaturalCycles/js-lib/compare/v3.2.0...v4.0.0) (2019-03-09)
+
+
+### Code Refactoring
+
+* "flatten" utils into functions ([eba7d97](https://github.com/NaturalCycles/js-lib/commit/eba7d97))
+
+
+### BREAKING CHANGES
+
+* all "utils" from this package are now flattened and just their functions are exported.
+Example.
+Before: objectUtil.by()
+After: by()
+
+Before: import { objectUtil } from '@naturalcycles/js-lib'
+After: import { by } from '@naturalcycles/js-lib'
+
 # [3.2.0](https://github.com/NaturalCycles/js-lib/compare/v3.1.0...v3.2.0) (2019-03-08)
 
 
