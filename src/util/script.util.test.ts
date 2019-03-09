@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-
-import { scriptSharedUtil } from './script.shared.util'
+import { loadScript } from './script.util'
 
 test('loadScript', async () => {
   // mock the world
@@ -10,10 +9,10 @@ test('loadScript', async () => {
   document.createElement = jest.fn(() => el)
   ;(document.head!.appendChild as any) = () => {}
 
-  let promise = scriptSharedUtil.loadScript('http://some.script')
+  let promise = loadScript('http://some.script')
   el.onload()
   await promise
-  promise = scriptSharedUtil.loadScript('http://some.script', false)
+  promise = loadScript('http://some.script', false)
   el.onload()
   await promise
 })

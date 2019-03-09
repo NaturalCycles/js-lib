@@ -8,14 +8,46 @@ import {
   HttpErrorData,
   HttpErrorResponse,
 } from './error/error.model'
-import { errorSharedUtil } from './error/error.shared.util'
+import {
+  anyToErrorMessage,
+  anyToErrorObject,
+  appErrorToErrorObject,
+  appErrorToHttpError,
+  errorObjectToAppError,
+  errorObjectToHttpError,
+  errorToErrorObject,
+} from './error/error.util'
 import { HttpError } from './error/http.error'
-import { deepFreeze, silentConsole } from './testing/test.shared.util'
 import { ClassType, PromiseMap, StringMap } from './types'
-import { objectUtil } from './util/object.util'
-import { randomSharedUtil } from './util/random.shared.util'
-import { scriptSharedUtil } from './util/script.shared.util'
-import { stringSharedUtil } from './util/string.shared.util'
+import {
+  arrayToHash,
+  by,
+  classToPlain,
+  deepCopy,
+  deepEquals,
+  deepFreeze,
+  deepTrim,
+  filterEmptyStringValues,
+  filterFalsyValues,
+  filterUndefinedValues,
+  filterValues,
+  getKeyByValue,
+  invertMap,
+  invertObject,
+  isEmptyObject,
+  isObject,
+  mask,
+  mergeDeep,
+  objectNullValuesToUndefined,
+  pick,
+  sortObjectDeep,
+  transformValues,
+  unsetValue,
+} from './util/object.util'
+import { randomInt } from './util/random.util'
+import { loadScript } from './util/script.util'
+import { capitalizeFirstLetter, lowercaseFirstLetter, removeWhitespace } from './util/string.util'
+import { silentConsole } from './util/test.util'
 
 export {
   memo,
@@ -27,14 +59,43 @@ export {
   HttpErrorResponse,
   AppError,
   HttpError,
-  deepFreeze,
   silentConsole,
-  errorSharedUtil,
-  objectUtil,
-  randomSharedUtil,
-  scriptSharedUtil,
-  stringSharedUtil,
+  randomInt,
+  loadScript,
   StringMap,
   PromiseMap,
   ClassType,
+  capitalizeFirstLetter,
+  lowercaseFirstLetter,
+  removeWhitespace,
+  pick,
+  filterFalsyValues,
+  filterEmptyStringValues,
+  filterUndefinedValues,
+  filterValues,
+  transformValues,
+  objectNullValuesToUndefined,
+  deepEquals,
+  deepCopy,
+  isObject,
+  isEmptyObject,
+  mergeDeep,
+  deepTrim,
+  sortObjectDeep,
+  unsetValue,
+  mask,
+  arrayToHash,
+  classToPlain,
+  getKeyByValue,
+  invertObject,
+  invertMap,
+  by,
+  deepFreeze,
+  anyToErrorMessage,
+  anyToErrorObject,
+  errorToErrorObject,
+  errorObjectToAppError,
+  errorObjectToHttpError,
+  appErrorToErrorObject,
+  appErrorToHttpError,
 }

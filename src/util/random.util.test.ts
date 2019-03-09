@@ -1,7 +1,7 @@
-import { randomSharedUtil } from './random.shared.util'
+import { randomInt } from './random.util'
 
 test('randomInt', () => {
-  const f = randomSharedUtil.randomInt
+  const f = randomInt
   expect(f(0, 0)).toBe(0)
 
   for (let i = 0; i < 20; i++) {

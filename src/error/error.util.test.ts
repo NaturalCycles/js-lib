@@ -1,5 +1,10 @@
 import { AppError } from '..'
-import { errorSharedUtil } from './error.shared.util'
+import {
+  anyToErrorMessage,
+  anyToErrorObject,
+  appErrorToErrorObject,
+  errorObjectToAppError,
+} from './error.util'
 
 const anyItems = [
   undefined,
@@ -17,24 +22,24 @@ const anyItems = [
 ]
 
 test('anyToErrorMessage', () => {
-  expect(anyItems.map(errorSharedUtil.anyToErrorMessage)).toMatchSnapshot()
+  expect(anyItems.map(anyToErrorMessage)).toMatchSnapshot()
 })
 
 test('anyToErrorObject', () => {
-  expect(anyItems.map(i => errorSharedUtil.anyToErrorObject(i))).toMatchSnapshot()
+  expect(anyItems.map(i => anyToErrorObject(i))).toMatchSnapshot()
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   const data = { a: 'b' }
   const err1 = new AppError('hello', data)
-  const err2 = errorSharedUtil.appErrorToErrorObject(err1)
+  const err2 = appErrorToErrorObject(err1)
   // console.log(err2)
 
   expect(err2).toMatchSnapshot({
     stack: expect.stringContaining('AppError'),
   })
 
-  const err3 = errorSharedUtil.errorObjectToAppError(err2)
+  const err3 = errorObjectToAppError(err2)
   expect(err3.message).toBe('hello')
   expect(err3.name).toBe('AppError')
   expect(err3.stack).not.toBeUndefined()
