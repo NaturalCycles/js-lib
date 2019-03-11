@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/NaturalCycles/js-lib/compare/v4.0.0...v4.1.0) (2019-03-11)
+
+
+### Features
+
+* remove ErrorObject.name ([5557d4e](https://github.com/NaturalCycles/js-lib/commit/5557d4e))
+
 # [4.0.0](https://github.com/NaturalCycles/js-lib/compare/v3.2.0...v4.0.0) (2019-03-09)
 
 
