@@ -24,64 +24,52 @@ Array [
   Object {
     "data": Object {},
     "message": "undefined",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "null",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "empty_string",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "hello a",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "0",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "1",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "-5",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "() => 'smth'",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "{}",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "empty_string",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "a",
-    "name": "Error",
   },
   Object {
     "data": Object {},
     "message": "{
   \\"a\\": \\"aa\\"
 }",
-    "name": "Error",
   },
 ]
 `;
@@ -92,7 +80,6 @@ Object {
     "a": "b",
   },
   "message": "hello",
-  "name": "AppError",
   "stack": StringContaining "AppError",
 }
 `;

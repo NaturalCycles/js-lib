@@ -44,12 +44,15 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
    * Name of the error / error class.
    * @default Error
    */
-  name: string
+  // Name is removed right now, cause we should not rely on "name"
+  // due to "subclassing reasons" (you lose name when you subclass)
+  // It's allowed to rely on error.code and error.data.* instead
+  // name: string
 
   /**
-   * "Technical" error message as it comes from Error.message
+   * Error.message
    */
-  message?: string
+  message: string
 
   /**
    * Stacktrace of error, \n-separated, as it comes from Error.stack

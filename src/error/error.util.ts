@@ -19,7 +19,7 @@ export function anyToErrorObject (o: any): ErrorObject {
   if (o instanceof Error) return errorToErrorObject(o)
 
   return {
-    name: 'Error',
+    // name: 'Error',
     message: anyToErrorMessage(o),
     data: { ...(o || {}).data }, // empty by default
   }
@@ -29,7 +29,7 @@ export function errorToErrorObject (e: Error): ErrorObject {
   if (e instanceof AppError) return appErrorToErrorObject(e)
 
   return {
-    name: e.name,
+    // name: e.name,
     message: e.message,
     stack: e.stack,
     data: { ...(e as any).data }, // empty by default
@@ -42,29 +42,35 @@ export function errorObjectToAppError<T> (o: ErrorObject<T>): AppError<T> {
     stack: o.stack,
   })
 
-  Object.defineProperty(err, 'name', {
-    value: o.name,
-  })
+  // Object.defineProperty(err, 'name', {
+  //   value: o.name,
+  // })
 
   return err
 }
 
 export function errorObjectToHttpError (o: ErrorObject): HttpError {
-  const err = Object.assign(new HttpError(o.message, o.data), {
-    // name: err.name, // cannot be assigned to a readonly property like this
-    stack: o.stack,
-  })
+  const err = Object.assign(
+    new HttpError(o.message, {
+      httpStatusCode: 500, // default
+      ...o.data,
+    }),
+    {
+      // name: err.name, // cannot be assigned to a readonly property like this
+      stack: o.stack,
+    },
+  )
 
-  Object.defineProperty(err, 'name', {
-    value: o.name,
-  })
+  // Object.defineProperty(err, 'name', {
+  //   value: o.name,
+  // })
 
   return err
 }
 
 export function appErrorToErrorObject<T> (err: AppError<T>): ErrorObject<T> {
   return {
-    name: err.name,
+    // name: err.name,
     message: err.message,
     stack: err.stack,
     data: err.data,

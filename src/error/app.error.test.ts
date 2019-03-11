@@ -1,10 +1,10 @@
 import { AppError } from './app.error'
 
 const throwAppError = () => {
-  throw new AppError()
+  throw new AppError('error')
 }
 const throwAppErrorAsync = async () => {
-  throw new AppError()
+  throw new AppError('error')
 }
 
 test('appError properties should be present', async () => {

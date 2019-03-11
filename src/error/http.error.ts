@@ -5,11 +5,8 @@ import { HttpErrorData } from './error.model'
  * Base class for HTTP errors - errors that define HTTP error code.
  */
 export class HttpError extends AppError<HttpErrorData> {
-  constructor (message?: string, data?: Partial<HttpErrorData>) {
-    super(message, {
-      httpStatusCode: 500,
-      ...data,
-    })
+  constructor (message: string, data: HttpErrorData) {
+    super(message, data)
 
     this.constructor = HttpError
     ;(this as any).__proto__ = HttpError.prototype
