@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/NaturalCycles/shared-module/compare/v3.4.2...v4.0.0) (2019-03-12)
+
+
+### Features
+
+* replace cpx, cpy with kpy, chalk with ansi-colors ([de76ac3](https://github.com/NaturalCycles/shared-module/commit/de76ac3))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [3.4.2](https://github.com/NaturalCycles/shared-module/compare/v3.4.1...v3.4.2) (2019-03-12)
 
 
