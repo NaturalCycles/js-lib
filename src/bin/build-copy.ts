@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk'
-import cpy from 'cpy'
+import { kpy } from 'kpy'
 
-const patterns = ['**/*', '!**/*.{ts,js}', '!**/__snapshots__']
-const dest = '../dist'
-const opts = { cwd: 'src', parents: true }
-const cmd = `cpy(${patterns}, ${dest}, ${JSON.stringify(opts)})`
-console.log(chalk.grey(cmd))
+const baseDir = 'src'
+const inputPatterns = ['**', '!**/*.{ts,js}', '!**/__snapshots__', '**/_exclude', '!test']
+const outputDir = 'dist'
 
-void cpy(patterns, dest, opts)
+kpy({
+  baseDir,
+  inputPatterns,
+  outputDir,
+}).catch(err => {
+  console.error(err)
+  process.exit(1)
+})

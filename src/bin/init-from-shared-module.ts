@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
-import cpy from 'cpy'
-import { cfgDir } from '../cnst/paths.cnts'
+import { kpy } from 'kpy'
+import { cfgOverwriteDir } from '../cnst/paths.cnts'
 
-const overwriteDir = `${cfgDir}/init`
-
-// Please be aware that it will flatten all files, unless --parents is passed
-cpy(`${overwriteDir}/**/{*,.*}`, './')
+kpy({
+  baseDir: cfgOverwriteDir,
+  outputDir: './',
+  dotfiles: true,
+}).catch(err => {
+  console.error(err)
+  process.exit(1)
+})

@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import * as c from 'ansi-colors'
 import { spawn } from 'child_process'
 
 export async function proxyCommand (cmd: string): Promise<number> {
@@ -13,7 +13,7 @@ export async function execCommand (
   exitOnError = true,
 ): Promise<number> {
   return new Promise<number>((resolve, reject) => {
-    console.log(chalk.grey([cmd, ...args].join(' ')))
+    console.log(c.grey([cmd, ...args].join(' ')))
 
     const cp = spawn(cmd, args, { shell: true, stdio: 'inherit' } as any)
     // cp.stdout.on('data', data => console.log(data.toString()))
