@@ -12,5 +12,5 @@ test('execCommand error, exit', async () => {
 })
 
 test('execCommand error, reject', async () => {
-  await expect(execCommand('abcd', false)).rejects.toThrow()
+  await expect(execCommand('abcd', [], false)).rejects.toThrow()
 })
