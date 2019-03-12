@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/NaturalCycles/shared-module/compare/v3.4.1...v3.4.2) (2019-03-12)
+
+
+### Bug Fixes
+
+* preserve 'quoted/*' arguments, e.g for tsn '*.test' ([e30cfde](https://github.com/NaturalCycles/shared-module/commit/e30cfde))
+
 ## [3.4.1](https://github.com/NaturalCycles/shared-module/compare/v3.4.0...v3.4.1) (2019-03-12)
 
 
