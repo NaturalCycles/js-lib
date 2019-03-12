@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/NaturalCycles/shared-module/compare/v3.4.0...v3.4.1) (2019-03-12)
+
+
+### Bug Fixes
+
+* **commitlint:** ALLOW subject-case to be 'start-case' ([9c06e17](https://github.com/NaturalCycles/shared-module/commit/9c06e17))
+
 # [3.4.0](https://github.com/NaturalCycles/shared-module/compare/v3.3.1...v3.4.0) (2019-03-09)
 
 
