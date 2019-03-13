@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import * as fs from 'fs-extra'
 import { execCommand } from '../util/exec.util'
 
-void execCommand(`del ./dist && build-copy && build-tsc`)
+fs.emptyDirSync('./dist')
+
+void execCommand(`build-tsc`)

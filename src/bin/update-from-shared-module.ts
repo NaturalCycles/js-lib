@@ -7,6 +7,7 @@ kpy({
   baseDir: cfgOverwriteDir,
   outputDir: './',
   dotfiles: true,
+  verbose: true,
 }).catch(err => {
   console.error(err)
   process.exit(1)

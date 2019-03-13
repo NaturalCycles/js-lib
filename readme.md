@@ -47,9 +47,9 @@ These commands are available to be called as `yarn <command>`, because they are 
 In alphabetic order:
 
 - `bt`: shortcut for "build and test"
-- `build`: does `clean-dist && build-copy && build-tsc`
+- `build`: does `del ./dist && build-tsc`
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
-- `build-prod`: does `clean-dist && build-copy && build-tsc-prod`
+- `build-prod`: does `del ./dist && build-copy && build-tsc-prod`
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
 - `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
 - `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
