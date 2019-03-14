@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/NaturalCycles/shared-module/compare/v4.0.1...v4.0.2) (2019-03-14)
+
+
+### Bug Fixes
+
+* trigger publish for previous refactor ([4025f3f](https://github.com/NaturalCycles/shared-module/commit/4025f3f))
+
 ## [4.0.1](https://github.com/NaturalCycles/shared-module/compare/v4.0.0...v4.0.1) (2019-03-13)
 
 
