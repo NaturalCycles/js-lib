@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-/**
- * Runs `prettier` command for all predefined paths (e.g /src, etc).
- * Does NOT run `tslint` after (use `prettier-all` for that)
- */
+import { prettierDoCommand } from '../prettier-do.command'
 
-import { runPrettier } from '../util/prettier.util'
-
-void runPrettier()
+prettierDoCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

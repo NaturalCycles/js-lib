@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-import { proxyCommand } from '../util/exec.util'
-import { nodeModuleExists } from '../util/test.util'
+import { tsnCommand } from '../tsn.command'
 
-const cmd = ['ts-node', nodeModuleExists('tsconfig-paths') && '-r tsconfig-paths/register']
-  .filter(t => t)
-  .join(' ')
-
-void proxyCommand(cmd)
+tsnCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

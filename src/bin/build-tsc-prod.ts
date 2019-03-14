@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
-import { execCommand } from '../util/exec.util'
+import { buildTscProdCommand } from '../build-tsc-prod.command'
 
-void execCommand(`tsc -p tsconfig.prod.json`)
+buildTscProdCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import * as fs from 'fs-extra'
-import { execCommand } from '../util/exec.util'
+import { buildProdCommand } from '../build-prod.command'
 
-fs.emptyDirSync('./dist')
-
-void execCommand(`build-copy && build-tsc-prod`)
+buildProdCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

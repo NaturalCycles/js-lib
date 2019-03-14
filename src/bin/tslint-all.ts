@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-/**
- * Runs `tslint` command for all predefined paths (e.g /src, etc).
- */
+import { tslintAllCommand } from '../tslint-all.command'
 
-import { runTSLint } from '../util/prettier.util'
-
-void runTSLint()
+tslintAllCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

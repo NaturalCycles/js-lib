@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-import * as fs from 'fs-extra'
-import { execCommand } from '../util/exec.util'
+import { btCommand } from '../bt.command'
 
-fs.emptyDirSync('./dist')
-
-// `test` needs full path, cause, I guess, it conflicts with native OS `test` command?..
-void execCommand(`tsc && yarn test`)
+btCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

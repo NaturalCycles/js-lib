@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
-import { execCommand } from '../util/exec.util'
+import { buildTscCommand } from '../build-tsc.command'
 
-void execCommand(`tsc`)
+buildTscCommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

@@ -1,14 +1,8 @@
 #!/usr/bin/env node
 
-import { kpy } from 'kpy'
-import { cfgOverwriteDir } from '../cnst/paths.cnts'
+import { initFromSharedModuleCommand } from '../init-from-shared-module.command'
 
-kpy({
-  baseDir: cfgOverwriteDir,
-  outputDir: './',
-  dotfiles: true,
-  verbose: true,
-}).catch(err => {
+initFromSharedModuleCommand().catch(err => {
   console.error(err)
   process.exit(1)
 })
