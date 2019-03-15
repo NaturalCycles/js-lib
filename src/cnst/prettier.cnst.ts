@@ -9,6 +9,6 @@ export const prettierPaths: string[] = [
 ]
 
 export const tslintPaths: string[] = ['./src/**/*.{ts,tsx}']
-export const tslintExcludePaths: string[] = ['./**/@linked/**/*', './**/_exclude/**/*']
+export const tslintExcludePaths: string[] = ['./**/@linked/**/*', './**/__exclude/**/*']
 
 export const tslintScriptsPaths: string[] = ['./scripts/**/*.{ts,tsx}']

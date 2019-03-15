@@ -11,5 +11,5 @@
     "outDir": "./dist",
     "strict": true
   },
-  "exclude": ["**/_exclude"]
+  "exclude": ["**/__exclude"]
 }

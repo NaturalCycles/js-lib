@@ -49,5 +49,5 @@ module.exports = {
     [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
   },
 
-  ignore: ['./**/_exclude/**/*', './CHANGELOG.md'],
+  ignore: ['./**/__exclude/**/*', './CHANGELOG.md'],
 }
