@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/NaturalCycles/js-lib/compare/v4.1.0...v4.2.0) (2019-03-15)
+
+
+### Features
+
+* HttpErrorResponse, Admin401ErrorData, Admin403ErrorData ([d159381](https://github.com/NaturalCycles/js-lib/commit/d159381))
+
 # [4.1.0](https://github.com/NaturalCycles/js-lib/compare/v4.0.0...v4.1.0) (2019-03-11)
 
 
