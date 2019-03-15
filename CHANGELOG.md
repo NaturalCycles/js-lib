@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/NaturalCycles/js-lib/compare/v4.2.0...v4.2.1) (2019-03-15)
+
+
+### Bug Fixes
+
+* HttpError with generic DATA_TYPE ([12a7d40](https://github.com/NaturalCycles/js-lib/commit/12a7d40))
+
 # [4.2.0](https://github.com/NaturalCycles/js-lib/compare/v4.1.0...v4.2.0) (2019-03-15)
 
 
