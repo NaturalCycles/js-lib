@@ -16,6 +16,8 @@ Array [
   "{
   \\"a\\": \\"aa\\"
 }",
+  "err msg",
+  "http err msg",
 ]
 `;
 
@@ -70,6 +72,16 @@ Array [
     "message": "{
   \\"a\\": \\"aa\\"
 }",
+  },
+  Object {
+    "data": Object {},
+    "message": "err msg",
+  },
+  Object {
+    "data": Object {
+      "httpStatusCode": 400,
+    },
+    "message": "http err msg",
   },
 ]
 `;

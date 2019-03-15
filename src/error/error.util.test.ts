@@ -1,4 +1,4 @@
-import { AppError } from '..'
+import { AppError, HttpError } from '..'
 import {
   anyToErrorMessage,
   anyToErrorObject,
@@ -19,6 +19,10 @@ const anyItems = [
   [],
   ['a'],
   { a: 'aa' },
+  new Error('err msg'),
+  new HttpError('http err msg', {
+    httpStatusCode: 400,
+  }),
 ]
 
 test('anyToErrorMessage', () => {
@@ -26,7 +30,13 @@ test('anyToErrorMessage', () => {
 })
 
 test('anyToErrorObject', () => {
-  expect(anyItems.map(i => anyToErrorObject(i))).toMatchSnapshot()
+  const out = anyItems
+    .map(i => anyToErrorObject(i))
+    .map(o => {
+      delete o.stack // remove from snapshot matching
+      return o
+    })
+  expect(out).toMatchSnapshot()
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {

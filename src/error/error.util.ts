@@ -5,14 +5,21 @@ const EMPTY_STRING_MSG = 'empty_string'
 
 /**
  * Converts "anything" to String error message.
+ * If object is Error - Error.message will be used.
  * Objects get converted to prettified JSON string.
  */
 export function anyToErrorMessage (o: any): string {
-  if (isObject(o)) {
-    return JSON.stringify(o, null, 2)
+  let msg: string
+
+  if (o instanceof Error) {
+    msg = o.message
+  } else if (isObject(o)) {
+    msg = JSON.stringify(o, null, 2)
+  } else {
+    msg = String(o)
   }
 
-  return String(o) || EMPTY_STRING_MSG
+  return msg || EMPTY_STRING_MSG
 }
 
 export function anyToErrorObject (o: any): ErrorObject {
