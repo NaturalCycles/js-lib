@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/NaturalCycles/shared-module/compare/v4.0.2...v4.0.3) (2019-03-15)
+
+
+### Bug Fixes
+
+* change _exclude to __exclude ([3a04ad1](https://github.com/NaturalCycles/shared-module/commit/3a04ad1))
+
 ## [4.0.2](https://github.com/NaturalCycles/shared-module/compare/v4.0.1...v4.0.2) (2019-03-14)
 
 
