@@ -2,9 +2,10 @@ import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
 import { AppError } from './error/app.error'
 import {
+  Admin401ErrorData,
+  Admin403ErrorData,
   ErrorData,
   ErrorObject,
-  ErrorResponse,
   HttpErrorData,
   HttpErrorResponse,
 } from './error/error.model'
@@ -55,10 +56,11 @@ export {
   ErrorData,
   ErrorObject,
   HttpErrorData,
-  ErrorResponse,
   HttpErrorResponse,
   AppError,
   HttpError,
+  Admin401ErrorData,
+  Admin403ErrorData,
   silentConsole,
   randomInt,
   loadScript,

@@ -28,6 +28,17 @@ export interface HttpErrorData extends ErrorData {
   httpStatusCode: number
 }
 
+export interface Admin401ErrorData extends HttpErrorData {
+  adminAuthRequired: true
+}
+
+export interface Admin403ErrorData extends HttpErrorData {
+  /**
+   * Returns non-empty array.
+   */
+  adminPermissionsRequired: string[]
+}
+
 /**
  * Portable object that represents Error.
  * Has extendable generic `data` property.
@@ -69,8 +80,6 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
 /**
  * JSON HTTP response from the Backend that represents "Error".
  */
-export interface ErrorResponse<DATA_TYPE extends ErrorData = ErrorData> {
+export interface HttpErrorResponse<DATA_TYPE extends HttpErrorData = HttpErrorData> {
   error: ErrorObject<DATA_TYPE>
 }
-
-export type HttpErrorResponse = ErrorResponse<HttpErrorData>
