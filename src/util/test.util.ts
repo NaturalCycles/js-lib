@@ -16,9 +16,7 @@ export function getFullICUPathIfExists (): string | undefined {
 
 export function getJestConfig (): string | undefined {
   // const cwd = process.cwd()
-  return fs.pathExistsSync(`./jest.config.js`)
-    ? undefined
-    : `--config=${cfgDir}/jest.config.js`
+  return fs.pathExistsSync(`./jest.config.js`) ? undefined : `--config=${cfgDir}/jest.config.js`
 }
 
 /**

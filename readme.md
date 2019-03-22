@@ -54,7 +54,7 @@ In alphabetic order:
 - `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
 - `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
-- `prettier-do`: runs just Prettier on needed paths
+- `prettier-all`: runs just Prettier on needed paths
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
   Automatically adds `--silent` if all tests are run.
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"

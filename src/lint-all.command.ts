@@ -4,7 +4,7 @@ import {
   getTSConfigPathScripts,
   getTSLintConfigPath,
   runTSLint,
-  tslintExcludePaths
+  tslintExcludePaths,
 } from './util/tslint.util'
 
 /**

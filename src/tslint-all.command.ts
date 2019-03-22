@@ -3,7 +3,7 @@ import {
   getTSConfigPathScripts,
   getTSLintConfigPath,
   runTSLint,
-  tslintExcludePaths
+  tslintExcludePaths,
 } from './util/tslint.util'
 
 /**
@@ -16,6 +16,12 @@ export async function tslintAllCommand (): Promise<void> {
   const tslintConfigPath = getTSLintConfigPath()
   const tsconfigPath = getTSConfigPath()
   const tsconfigPathScripts = getTSConfigPathScripts()
+
+  console.log({
+    tslintConfigPath,
+    tsconfigPath,
+    tsconfigPathScripts,
+  })
 
   // /src
   await runTSLint(projectSrcDir, tslintExcludePaths, tslintConfigPath)

@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
 
-export const tslintExcludePaths: string[] = ['./**/@linked/**/*', './**/__exclude/**/*']
+export const tslintExcludePaths: string[] = ['./**/@linked/**', './**/__exclude/**']
 
 /**
  * @returns error code (0 == ok)
@@ -21,8 +21,7 @@ export async function runTSLint (
     tsconfigPath ? `-p ${tsconfigPath}` : '',
     `-t stylish`,
     `--fix`,
-  ]
-    .filter(v => v)
+  ].filter(v => v)
 
   return execCommand(cmd, args)
 }
@@ -40,5 +39,7 @@ export function getTSConfigPath (): string {
 export function getTSConfigPathScripts (): string {
   const localTSConfigPathScripts = `./scripts/tsconfig.json`
   const sharedTSConfigScripts = `${scriptsDir}/tsconfig.json`
-  return fs.pathExistsSync(localTSConfigPathScripts) ? localTSConfigPathScripts : sharedTSConfigScripts
+  return fs.pathExistsSync(localTSConfigPathScripts)
+    ? localTSConfigPathScripts
+    : sharedTSConfigScripts
 }

@@ -16,16 +16,13 @@ export async function runPrettier (): Promise<number> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
   const localConfig = `./prettier.config.js`
   const sharedConfig = `${cfgDir}/prettier.config.js`
-  const config = await fs.pathExists(localConfig) ? localConfig : sharedConfig
+  const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const cmd = 'prettier'
-  const args = [
-    `--write`,
-    ` --config ${config}`,
-    ...prettierPaths.map(p => `'${p}'`)
-  ]
-    .filter(v => v)
+  const args = [`--write`, ` --config ${config}`, ...prettierPaths.map(p => `'${p}'`)].filter(
+    v => v,
+  )
 
   // console.log(cmd)
 
