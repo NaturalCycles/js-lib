@@ -1,1 +1,6 @@
-module.exports = require('./cfg/husky.config')
+module.exports = {
+  hooks: {
+    'commit-msg': 'yarn commitlint-def',
+    'pre-commit': 'yarn lint-staged-def',
+  },
+}

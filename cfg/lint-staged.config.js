@@ -49,7 +49,7 @@ module.exports = {
     [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
 
     // CircleCI config (if modified)
-    [`./.circleci/config.yml`]: ['lint-circleci'],
+    [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
   },
 
   ignore: ['./**/__exclude/**/*', './CHANGELOG.md'],
