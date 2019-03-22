@@ -1,3 +1,21 @@
+# [4.2.0](https://github.com/NaturalCycles/shared-module/compare/v4.1.0...v4.2.0) (2019-03-22)
+
+
+### Bug Fixes
+
+* skip outdated tests ([750bc7a](https://github.com/NaturalCycles/shared-module/commit/750bc7a))
+
+
+### Features
+
+* yarn lint-circleci ([206784d](https://github.com/NaturalCycles/shared-module/commit/206784d))
+
+
+### Performance Improvements
+
+* faster lint-staged-def, commitlint-def ([6a803f6](https://github.com/NaturalCycles/shared-module/commit/6a803f6))
+* refactor execUtil to not use shell (faster!) ([f0ac9c9](https://github.com/NaturalCycles/shared-module/commit/f0ac9c9))
+
 # [4.1.0](https://github.com/NaturalCycles/shared-module/compare/v4.0.3...v4.1.0) (2019-03-22)
 
 
