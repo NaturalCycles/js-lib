@@ -17,12 +17,6 @@ export async function tslintAllCommand (): Promise<void> {
   const tsconfigPath = getTSConfigPath()
   const tsconfigPathScripts = getTSConfigPathScripts()
 
-  console.log({
-    tslintConfigPath,
-    tsconfigPath,
-    tsconfigPathScripts,
-  })
-
   // /src
   await runTSLint(projectSrcDir, tslintExcludePaths, tslintConfigPath)
   await runTSLint(projectSrcDir, tslintExcludePaths, tslintConfigPath, tsconfigPath)
