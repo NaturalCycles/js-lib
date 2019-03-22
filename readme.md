@@ -44,7 +44,7 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 These commands are available to be called as `yarn <command>`, because they are exposed as `npm scripts` in
 `node_modules/.bin/`.
 
-In alphabetic order:
+#### Build commands
 
 - `bt`: shortcut for "build and test"
 - `build`: does `del ./dist && build-tsc`
@@ -52,16 +52,28 @@ In alphabetic order:
 - `build-prod`: does `del ./dist && build-copy && build-tsc-prod`
 - `build-tsc`: by default just runs `tsc`, but extendable in target project
 - `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
-- `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
-- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
-- `prettier-all`: runs just Prettier on needed paths
+
+#### Test commands
+
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
   Automatically adds `--silent` if all tests are run.
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
+
+#### Lint commands
+
+- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `tslint-all`: runs `tslint` on needed paths
+- `prettier-all`: runs just Prettier on needed paths
+
+#### Run commands
+
 - `tsn`: short alias for `ts-node -r tsconfig-paths/register`
 - `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use either `./scripts/tsconfig.json` (if present)
   or `shared-module/scripts/tsconfig.json`
+
+#### Other commands
+
+- `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
 - `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
 
 ## Non-extendable config files
