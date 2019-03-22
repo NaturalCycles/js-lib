@@ -4,7 +4,7 @@ import { execCommand } from './exec.util'
 
 export const prettierExtensions = `css,scss,ts,tsx,js,jsx,json,md,graphql,yml,yaml,html,vue`
 
-export const prettierPaths: string[] = [
+export const prettierPaths = [
   // Everything inside these folders
   `./{src,scripts,doc,cfg,.circleci}/**/*.{${prettierExtensions}}`,
 
@@ -12,7 +12,7 @@ export const prettierPaths: string[] = [
   `./*.{${prettierExtensions}},!./CHANGELOG.md`,
 ]
 
-export async function runPrettier (): Promise<number> {
+export async function runPrettier (): Promise<void> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
   const localConfig = `./prettier.config.js`
   const sharedConfig = `${cfgDir}/prettier.config.js`
@@ -20,11 +20,7 @@ export async function runPrettier (): Promise<number> {
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const cmd = 'prettier'
-  const args = [`--write`, ` --config ${config}`, ...prettierPaths.map(p => `'${p}'`)].filter(
-    v => v,
-  )
+  const args = [`--write`, `--config`, config, ...prettierPaths].filter(v => v)
 
-  // console.log(cmd)
-
-  return execCommand(cmd, args)
+  await execCommand(cmd, args)
 }

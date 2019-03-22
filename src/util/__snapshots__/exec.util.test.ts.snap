@@ -4,7 +4,7 @@ exports[`execCommand error, exit 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
-      127,
+      -2,
     ],
   ],
   "results": Array [

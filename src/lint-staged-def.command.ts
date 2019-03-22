@@ -8,5 +8,5 @@ export async function lintStagedDefCommand (): Promise<void> {
   const sharedConfig = `${cfgDir}/lint-staged.config.js`
   const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
-  await execCommand(`lint-staged`, [`--config ${config}`])
+  await execCommand(`lint-staged`, [`--config`, config])
 }

@@ -4,20 +4,18 @@ import { proxyCommand } from './util/exec.util'
 import { nodeModuleExists } from './util/test.util'
 
 export async function tsnScriptCommand (): Promise<void> {
-  const cwd = process.cwd()
-  const projectTsconfigPath = `${cwd}/scripts/tsconfig.json`
+  // const cwd = process.cwd()
+  const projectTsconfigPath = `./scripts/tsconfig.json`
   const sharedTsconfigPath = `${projectDir}/scripts/tsconfig.json`
-  const tsconfigPath = (await fs.pathExists(projectTsconfigPath))
+  const tsconfigPath = fs.pathExistsSync(projectTsconfigPath)
     ? projectTsconfigPath
     : sharedTsconfigPath
 
-  const cmd = [
-    'ts-node',
-    nodeModuleExists('tsconfig-paths') && '-r tsconfig-paths/register',
-    `-P ${tsconfigPath}`,
-  ]
-    .filter(t => t)
-    .join(' ')
+  const args: string[] = ['-P', tsconfigPath]
 
-  await proxyCommand(cmd)
+  if (nodeModuleExists('tsconfig-paths')) {
+    args.push('-r', 'tsconfig-paths/register')
+  }
+
+  await proxyCommand('ts-node', args)
 }

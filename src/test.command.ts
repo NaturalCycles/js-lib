@@ -7,19 +7,32 @@ import { getFullICUPathIfExists, getJestConfig, isRunningAllTests } from './util
  */
 export async function testCommand (): Promise<void> {
   const fullICUPath = getFullICUPathIfExists()
-  const allTests = isRunningAllTests()
+  const jestConfig = getJestConfig()
+
+  const args: string[] = []
+
+  const env = {}
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
+  if (isRunningAllTests()) {
+    Object.assign(env, {
+      JEST_SILENT: '1',
+    })
 
-  const tokens = [
-    allTests && `JEST_SILENT=1`,
-    fullICUPath && `NODE_ICU_DATA=${fullICUPath}`,
-    'jest',
-    getJestConfig(),
-    allTests && `--silent`,
-  ].filter(t => t)
+    args.push('--silent')
+  }
 
-  const cmd = tokens.join(' ')
+  if (fullICUPath) {
+    Object.assign(env, {
+      NODE_ICU_DATA: fullICUPath,
+    })
+  }
 
-  await proxyCommand(cmd)
+  if (jestConfig) {
+    args.push(jestConfig)
+  }
+
+  await proxyCommand('./node_modules/.bin/jest', args, {
+    env,
+  })
 }

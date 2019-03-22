@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "tsn": "ts-node",
-    "tsn-script": "yarn tsn ./src/bin/tsn-script.ts",
+    "tsn-script": "ts-node ./src/bin/tsn-script.ts",
     "bt": "yarn tsn ./src/bin/bt.ts",
     "build": "yarn tsn ./src/bin/build.ts",
     "build-tsc": "yarn tsn ./src/bin/build-tsc.ts",

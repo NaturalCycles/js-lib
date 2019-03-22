@@ -3,14 +3,25 @@ import { getFullICUPathIfExists, getJestConfig } from './util/test.util'
 
 export async function testCICommand (): Promise<void> {
   const fullICUPath = getFullICUPathIfExists()
+  const jestConfig = getJestConfig()
 
-  const cmd = [
-    fullICUPath && `NODE_ICU_DATA=${fullICUPath}`,
-    'JEST_SILENT=1 jest --ci --coverage --maxWorkers=7 --silent',
-    getJestConfig(),
-  ]
-    .filter(t => t)
-    .join(' ')
+  const args = ['--ci', '--coverage', '--maxWorkers=7', '--silent']
 
-  await proxyCommand(cmd)
+  const env = {
+    JEST_SILENT: '1',
+  }
+
+  if (fullICUPath) {
+    Object.assign(env, {
+      NODE_ICU_DATA: fullICUPath,
+    })
+  }
+
+  if (jestConfig) {
+    args.push(jestConfig)
+  }
+
+  await proxyCommand('./node_modules/.bin/jest', args, {
+    env,
+  })
 }

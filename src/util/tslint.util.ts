@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
+import { flatten } from './array.util'
 import { execCommand } from './exec.util'
 
 export const tslintExcludePaths: string[] = ['./**/@linked/**', './**/__exclude/**']
@@ -12,18 +13,20 @@ export async function runTSLint (
   excludePaths: string[] = [],
   tslintConfigPath: string,
   tsconfigPath?: string,
-): Promise<number> {
+): Promise<void> {
   const cmd = 'tslint'
   const args = [
-    `--config ${tslintConfigPath}`,
-    `'${dir}/**/*.{ts,tsx}'`,
-    ...excludePaths.map(p => `-e '${p}'`),
-    tsconfigPath ? `-p ${tsconfigPath}` : '',
-    `-t stylish`,
+    `--config`,
+    tslintConfigPath,
+    `${dir}/**/*.{ts,tsx}`,
+    ...flatten(excludePaths.map(p => [`-e`, p])),
+    ...(tsconfigPath ? [`-p`, tsconfigPath] : []),
+    `-t`,
+    `stylish`,
     `--fix`,
   ].filter(v => v)
 
-  return execCommand(cmd, args)
+  await execCommand(cmd, args)
 }
 
 export function getTSLintConfigPath (): string {

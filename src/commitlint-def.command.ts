@@ -8,5 +8,5 @@ export async function commitlintDefCommand (): Promise<void> {
   const sharedConfig = `${cfgDir}/commitlint.config.js`
   const config = (await fs.pathExists(localConfig)) ? localConfig : sharedConfig
 
-  await execCommand(`commitlint -E HUSKY_GIT_PARAMS --config ${config}`)
+  await execCommand(`commitlint`, [`-E`, `HUSKY_GIT_PARAMS`, `--config`, config])
 }

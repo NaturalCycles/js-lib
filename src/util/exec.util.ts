@@ -1,34 +1,58 @@
 import * as c from 'ansi-colors'
-import { spawn } from 'child_process'
+import { spawn, SpawnOptions } from 'child_process'
 
-export async function proxyCommand (cmd: string): Promise<number> {
-  const [, , ...args] = process.argv
+interface ExecOptions extends SpawnOptions {}
 
-  return execCommand(cmd, args)
+export async function proxyCommand (
+  cmd: string,
+  args: string[] = [],
+  opt: ExecOptions = {},
+): Promise<void> {
+  const [, , ...processArgs] = process.argv
+
+  await execCommand(cmd, [...args, ...processArgs], {
+    // shell: true,
+    ...opt,
+  })
 }
 
 export async function execCommand (
   cmd: string,
   args: string[] = [],
-  exitOnError = true,
-): Promise<number> {
-  return new Promise<number>((resolve, reject) => {
-    console.log(c.grey([cmd, ...args].join(' ')))
+  opt: ExecOptions = {},
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const cmdline = [
+      ...Object.entries(opt.env || {}).map(([k, v]) => [k, v].join('=')),
+      cmd,
+      ...args,
+    ].join(' ')
 
-    const cp = spawn(cmd, args, { shell: true, stdio: 'inherit' } as any)
-    // cp.stdout.on('data', data => console.log(data.toString()))
-    // cp.stderr.on('data', data => console.log(data.toString()))
-    cp.once('error', err => reject(err))
+    console.log(c.grey(cmdline))
+
+    const cp = spawn(cmd, args, {
+      stdio: 'inherit',
+      ...opt,
+      env: {
+        ...process.env,
+        ...opt.env,
+      },
+    })
+
+    let _rejected = false
+
+    cp.once('error', err => {
+      _rejected = true
+      reject(err)
+    })
     cp.once('close', code => {
       // console.log('close: ' + code)
       if (code) {
-        if (exitOnError) {
-          process.exit(code)
-        }
-
-        reject(new Error(`${cmd} exitCode: ${code}`))
+        process.exit(code)
+        // setTimeout(() => process.exit(code), 100)
+        // reject(new Error(`${cmd} exitCode: ${code}`))
       } else {
-        resolve(code)
+        resolve()
       }
     })
   })
