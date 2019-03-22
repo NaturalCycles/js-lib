@@ -15,7 +15,7 @@
     "test-ci": "yarn tsn ./src/bin/test-ci.ts",
     "lint-staged-def": "yarn tsn ./src/bin/lint-staged-def.ts",
     "commitlint-def": "yarn tsn ./src/bin/commitlint-def.ts",
-    "prettier-do": "yarn tsn ./src/bin/prettier-do.ts",
+    "prettier-all": "yarn tsn ./src/bin/prettier-all.ts",
     "tslint-all": "yarn tsn ./src/bin/tslint-all.ts",
     "lint-all": "yarn tsn ./src/bin/lint-all.ts",
     "update-from-shared-module": "yarn tsn ./src/bin/update-from-shared-module.ts"
@@ -63,7 +63,7 @@
     "init-from-shared-module": "dist/bin/init-from-shared-module.js",
     "lint-all": "dist/bin/lint-all.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
-    "prettier-do": "dist/bin/prettier-do.js",
+    "prettier-all": "dist/bin/prettier-all.js",
     "test": "dist/bin/test.js",
     "test-ci": "dist/bin/test-ci.js",
     "tslint-all": "dist/bin/tslint-all.js",
