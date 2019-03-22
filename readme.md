@@ -64,6 +64,7 @@ These commands are available to be called as `yarn <command>`, because they are 
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
 - `tslint-all`: runs `tslint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
+- `lint-circleci`: fails if `.circleci/config.yml` is invalid ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
 
 #### Run commands
 

@@ -18,6 +18,7 @@
     "prettier-all": "yarn tsn ./src/bin/prettier-all.ts",
     "tslint-all": "yarn tsn ./src/bin/tslint-all.ts",
     "lint-all": "yarn tsn ./src/bin/lint-all.ts",
+    "lint-circleci": "yarn tsn ./src/bin/lint-circleci.ts",
     "update-from-shared-module": "yarn tsn ./src/bin/update-from-shared-module.ts"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@types/fs-extra": "^5.0.4",
     "@types/yargs": "^12.0.1",
     "ansi-colors": "^3.2.4",
+    "command-exists": "^1.2.8",
     "del": "^4.0.0",
     "del-cli": "^1.1.0",
     "fs-extra": "^7.0.0",
@@ -62,6 +64,7 @@
     "commitlint-def": "dist/bin/commitlint-def.js",
     "init-from-shared-module": "dist/bin/init-from-shared-module.js",
     "lint-all": "dist/bin/lint-all.js",
+    "lint-circleci": "dist/bin/lint-circleci.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
     "prettier-all": "dist/bin/prettier-all.js",
     "test": "dist/bin/test.js",
