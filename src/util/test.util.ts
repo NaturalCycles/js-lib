@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import { cfgDir } from '../cnst/paths.cnts'
+import { cfgDir } from '../cnst/paths.cnst'
 
 /**
  * Returns true if module with given name exists in _target project's_ node_modules.
@@ -9,14 +9,14 @@ export function nodeModuleExists (moduleName: string): boolean {
 }
 
 export function getFullICUPathIfExists (): string | undefined {
-  const cwd = process.cwd()
-  const path = `${cwd}/node_modules/full-icu`
+  // const cwd = process.cwd()
+  const path = `./node_modules/full-icu`
   return fs.pathExistsSync(path) ? path : undefined
 }
 
 export function getJestConfig (): string | undefined {
-  const cwd = process.cwd()
-  return fs.pathExistsSync(`${cwd}/jest.config.js`)
+  // const cwd = process.cwd()
+  return fs.pathExistsSync(`./jest.config.js`)
     ? undefined
     : `--config=${cfgDir}/jest.config.js`
 }

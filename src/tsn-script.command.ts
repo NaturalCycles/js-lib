@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import { projectDir } from './cnst/paths.cnts'
+import { projectDir } from './cnst/paths.cnst'
 import { proxyCommand } from './util/exec.util'
 import { nodeModuleExists } from './util/test.util'
 

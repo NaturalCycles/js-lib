@@ -1,4 +1,4 @@
-import { srcDir } from '../cnst/paths.cnts'
+import { srcDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
 import { runPrettier } from './prettier.util'
 

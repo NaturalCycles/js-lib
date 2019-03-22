@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import { cfgDir } from './cnst/paths.cnts'
+import { cfgDir } from './cnst/paths.cnst'
 import { execCommand } from './util/exec.util'
 
 export async function commitlintDefCommand (): Promise<void> {
