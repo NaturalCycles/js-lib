@@ -14,7 +14,6 @@ export async function runTSLint (
   tslintConfigPath: string,
   tsconfigPath?: string,
 ): Promise<void> {
-  const cmd = 'tslint'
   const args = [
     `--config`,
     tslintConfigPath,
@@ -24,9 +23,9 @@ export async function runTSLint (
     `-t`,
     `stylish`,
     `--fix`,
-  ].filter(v => v)
+  ]
 
-  await execCommand(cmd, args)
+  await execCommand('tslint', args)
 }
 
 export function getTSLintConfigPath (): string {

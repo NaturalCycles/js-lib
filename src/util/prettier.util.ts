@@ -19,8 +19,7 @@ export async function runPrettier (): Promise<void> {
   const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  const cmd = 'prettier'
-  const args = [`--write`, `--config`, config, ...prettierPaths].filter(v => v)
+  const args = [`--write`, `--config`, config, ...prettierPaths]
 
-  await execCommand(cmd, args)
+  await execCommand('prettier', args)
 }

@@ -32,7 +32,7 @@ export async function testCommand (): Promise<void> {
     args.push(jestConfig)
   }
 
-  await proxyCommand('./node_modules/.bin/jest', args, {
+  await proxyCommand('jest', args, {
     env,
   })
 }

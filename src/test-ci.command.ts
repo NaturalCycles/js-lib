@@ -21,7 +21,7 @@ export async function testCICommand (): Promise<void> {
     args.push(jestConfig)
   }
 
-  await proxyCommand('./node_modules/.bin/jest', args, {
+  await proxyCommand('jest', args, {
     env,
   })
 }
