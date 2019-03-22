@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/NaturalCycles/shared-module/compare/v4.0.3...v4.1.0) (2019-03-22)
+
+
+### Features
+
+* update readme ([dd120a4](https://github.com/NaturalCycles/shared-module/commit/dd120a4))
+
 ## [4.0.3](https://github.com/NaturalCycles/shared-module/compare/v4.0.2...v4.0.3) (2019-03-15)
 
 
