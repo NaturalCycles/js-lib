@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/NaturalCycles/shared-module/compare/v5.0.1...v5.1.0) (2019-03-23)
+
+
+### Features
+
+* fallback to setupJest.ts for integration test ([2c51241](https://github.com/NaturalCycles/shared-module/commit/2c51241))
+
 ## [5.0.1](https://github.com/NaturalCycles/shared-module/compare/v5.0.0...v5.0.1) (2019-03-23)
 
 
