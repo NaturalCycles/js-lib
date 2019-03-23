@@ -38,6 +38,11 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/src/@linked`
 - `/src/typings`
 - `/src/environments`
+- `/report`
+  - `/jest/unit.xml`
+  - `/jest/integration.xml`
+  - `/coverage-unit`
+  - `/coverage-integration`
 
 ### Yarn commands
 
