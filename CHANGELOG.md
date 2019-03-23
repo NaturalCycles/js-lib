@@ -1,3 +1,17 @@
+# [5.0.0](https://github.com/NaturalCycles/shared-module/compare/v4.2.0...v5.0.0) (2019-03-23)
+
+
+### Features
+
+* better support for `__exclude` folder ([f9c685c](https://github.com/NaturalCycles/shared-module/commit/f9c685c))
+* jest integration suite ([97aeaba](https://github.com/NaturalCycles/shared-module/commit/97aeaba))
+
+
+### BREAKING CHANGES
+
+* jest report and coverage folders have changed (see cfg/jest.*.config.js for details).
+naturalcycles/tools orb have changed accordingly (so, no change required for libs)
+
 # [4.2.0](https://github.com/NaturalCycles/shared-module/compare/v4.1.0...v4.2.0) (2019-03-22)
 
 
