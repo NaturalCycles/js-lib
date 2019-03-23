@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra'
-import { projectDir } from './cnst/paths.cnst'
-import { proxyCommand } from './util/exec.util'
-import { nodeModuleExists } from './util/test.util'
+import { projectDir } from '../cnst/paths.cnst'
+import { proxyCommand } from '../util/exec.util'
+import { nodeModuleExists } from '../util/test.util'
 
 export async function tsnScriptCommand (): Promise<void> {
   // const cwd = process.cwd()

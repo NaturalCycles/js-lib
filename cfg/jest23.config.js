@@ -45,6 +45,7 @@ module.exports = {
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
   setupTestFrameworkScriptFile,
+  coverageDirectory: 'report/coverage-unit',
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/index.ts',
@@ -70,7 +71,7 @@ module.exports = {
       'jest-junit',
       {
         suiteName: 'jest tests',
-        output: './report/jest-junit.xml',
+        output: './report/jest/unit.xml',
         classNameTemplate: '{classname}-{title}',
         titleTemplate: '{classname}-{title}',
         ancestorSeparator: ' › ',

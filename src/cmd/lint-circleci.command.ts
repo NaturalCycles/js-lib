@@ -1,5 +1,5 @@
 import * as c from 'ansi-colors'
-import { execCommand } from './util/exec.util'
+import { execCommand } from '../util/exec.util'
 const commandExistsSync = require('command-exists').sync
 
 export async function lintCircleCICommand (): Promise<void> {

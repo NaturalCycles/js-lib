@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { testCommand } from '../test.command'
+import { testCommand } from '../cmd/test.command'
 
 testCommand().catch(err => {
   console.error(err)

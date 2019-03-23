@@ -4,7 +4,7 @@ import {
   getTSLintConfigPath,
   runTSLint,
   tslintExcludePaths,
-} from './util/tslint.util'
+} from '../util/tslint.util'
 
 /**
  * Runs `tslint` command for all predefined paths (e.g /src, etc).

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildCommand } from '../build.command'
+import { buildCommand } from '../cmd/build.command'
 
 buildCommand().catch(err => {
   console.error(err)

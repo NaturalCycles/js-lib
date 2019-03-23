@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildTscCommand } from '../build-tsc.command'
+import { buildTscCommand } from '../cmd/build-tsc.command'
 
 buildTscCommand().catch(err => {
   console.error(err)

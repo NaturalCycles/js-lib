@@ -1,5 +1,5 @@
+import { runPrettier } from '../util/prettier.util'
 import { tslintAllCommand } from './tslint-all.command'
-import { runPrettier } from './util/prettier.util'
 
 /**
  * Due to "slowness issue" we run TSLint twice - first without project, secondly - with project.

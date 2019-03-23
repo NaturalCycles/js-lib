@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { lintStagedDefCommand } from '../lint-staged-def.command'
+import { lintStagedDefCommand } from '../cmd/lint-staged-def.command'
 
 lintStagedDefCommand().catch(err => {
   console.error(err)

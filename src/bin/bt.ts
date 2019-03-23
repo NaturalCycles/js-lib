@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { btCommand } from '../bt.command'
+import { btCommand } from '../cmd/bt.command'
 
 btCommand().catch(err => {
   console.error(err)

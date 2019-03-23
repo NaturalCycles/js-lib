@@ -1,5 +1,5 @@
-import { proxyCommand } from './util/exec.util'
-import { nodeModuleExists } from './util/test.util'
+import { proxyCommand } from '../util/exec.util'
+import { nodeModuleExists } from '../util/test.util'
 
 export async function tsnCommand (): Promise<void> {
   const args: string[] = []

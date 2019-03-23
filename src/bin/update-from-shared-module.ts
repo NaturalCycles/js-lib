@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { updateFromSharedModuleCommand } from '../update-from-shared-module.command'
+import { updateFromSharedModuleCommand } from '../cmd/update-from-shared-module.command'
 
 updateFromSharedModuleCommand().catch(err => {
   console.error(err)
