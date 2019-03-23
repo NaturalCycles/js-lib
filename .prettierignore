@@ -2,3 +2,4 @@
 # .prettierignore
 #
 /cfg/init
+/**/__exclude/**/*

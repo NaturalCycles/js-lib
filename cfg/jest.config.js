@@ -22,6 +22,7 @@ module.exports = {
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
   testMatch: ['<rootDir>/src/**/*.test.ts?(x)'],
   testPathIgnorePatterns: [
+    '<rootDir>/.*/__exclude/',
     '<rootDir>/src/environments/',
     '<rootDir>/src/@linked/',
     '<rootDir>/scripts/',
