@@ -17,8 +17,10 @@
   "devDependencies": {
     "@naturalcycles/semantic-release": "^1.0.0",
     "@naturalcycles/shared-module": "^4.0.3",
+    "@types/benchmark": "^1.0.31",
     "@types/jest": "^24.0.6",
     "@types/node": "^11.11.3",
+    "benchmark": "^2.1.4",
     "jest": "^24.1.0",
     "jest-junit": "^6.2.1",
     "lru-cache": "^5.1.1",

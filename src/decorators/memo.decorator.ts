@@ -2,12 +2,18 @@
 // https://github.com/mgechev/memo-decorator/blob/master/index.ts
 // http://decodize.com/blog/2012/08/27/javascript-memoization-caching-results-for-better-performance/
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
+// https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
+
+/*
+Optimized for 0 arguments (using SingleValueCache).
+Optimized for 1 primitive argument (skips JSON.stringify).
+Otherwise resorts to JSON.stringify.
+Benchmark shows similar perf for ObjectCache and MapCache.
+ */
 
 /* tslint:disable:no-invalid-this */
 
-type CacheKeyFn = (...args: any[]) => any
-
-const jsonCacheKey: CacheKeyFn = (...args) => JSON.stringify(args)
+import { jsonMemoSerializer, MapMemoCache, MemoCache, SingleValueMemoCache } from './memo.util'
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
@@ -27,34 +33,37 @@ export const memo = () => (
   }
 
   const originalFn = descriptor.value
+  // console.log('len: ' + originalFn.length)
 
-  const cache = new Map<string, any>()
-  let loggingEnabled = false
+  let cache: MemoCache
+
+  // Function with 0 arguments
+  if (!originalFn.length) {
+    cache = new SingleValueMemoCache()
+  } else {
+    // Function with > 0 arguments
+    cache = new MapMemoCache()
+    // cache = new ObjectMemoCache()
+  }
 
   descriptor.value = function (...args: any[]): any {
-    const cacheKey = jsonCacheKey(args)
+    const cacheKey = jsonMemoSerializer(args)
 
     if (cache.has(cacheKey)) {
-      const cached = cache.get(cacheKey)
-      if (loggingEnabled) {
-        console.log(`memo (method=${key}) returning value from cache: `, cacheKey, key)
-      }
-      return cached
+      return cache.get(cacheKey)
     }
 
     const res: any = originalFn.apply(this, args)
+
     cache.set(cacheKey, res)
+    // console.log('miss', cacheKey)
+
     return res
   }
 
   descriptor.value.dropCache = () => {
     console.log(`memo.dropCache (method=${key})`)
     cache.clear()
-  }
-
-  descriptor.value.setLogging = (enabled = true) => {
-    loggingEnabled = enabled
-    console.log(`memo.loggingEnabled=${enabled} (method=${key})`)
   }
 
   return descriptor

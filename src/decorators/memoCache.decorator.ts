@@ -4,16 +4,37 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 /* tslint:disable:no-invalid-this */
 import LRU from 'lru-cache'
-
-export type CacheKeyFn = (...args: any[]) => any
+import { jsonMemoSerializer, MemoCache, MemoSerializer } from './memo.util'
 
 export interface MemoCacheOpts {
-  cacheKeyFn?: CacheKeyFn
+  serializer?: MemoSerializer
   ttl?: number // in millis
   maxSize?: number
 }
 
-const jsonCacheKey: CacheKeyFn = (...args) => JSON.stringify(args)
+class LRUMemoCache implements MemoCache {
+  constructor (opt: LRU.Options<string, any>) {
+    this.lru = new LRU<string, any>(opt)
+  }
+
+  private lru!: LRU<string, any>
+
+  has (k: any): boolean {
+    return this.lru.has(k)
+  }
+
+  get (k: any): any {
+    return this.lru.get(k)
+  }
+
+  set (k: any, v: any): void {
+    this.lru.set(k, v)
+  }
+
+  clear (): void {
+    this.lru.reset()
+  }
+}
 
 export const memoCache = (opts: MemoCacheOpts = {}) => (
   target: any,
@@ -26,39 +47,31 @@ export const memoCache = (opts: MemoCacheOpts = {}) => (
 
   const originalFn = descriptor.value
 
-  if (!opts.cacheKeyFn) opts.cacheKeyFn = jsonCacheKey
+  if (!opts.serializer) opts.serializer = jsonMemoSerializer
 
   const lruOpts: LRU.Options<string, any> = {
     max: opts.maxSize || 100,
     maxAge: opts.ttl || Infinity,
   }
-  const cache = new LRU<string, any>(lruOpts)
-  let loggingEnabled = false
+  const cache = new LRUMemoCache(lruOpts)
 
   descriptor.value = function (...args: any[]): any {
-    const cacheKey = opts.cacheKeyFn!(args)
+    const cacheKey = opts.serializer!(args)
 
     if (cache.has(cacheKey)) {
-      const cached = cache.get(cacheKey)
-      if (loggingEnabled) {
-        console.log(`memo (method=${key}) returning value from cache: `, cacheKey, key)
-      }
-      return cached
+      return cache.get(cacheKey)
     }
 
     const res: any = originalFn.apply(this, args)
+
     cache.set(cacheKey, res)
+
     return res
   }
 
   descriptor.value.dropCache = () => {
     console.log(`memo.dropCache (method=${key})`)
-    cache.reset()
-  }
-
-  descriptor.value.setLogging = (enabled = true) => {
-    loggingEnabled = enabled
-    console.log(`memo.loggingEnabled=${enabled} (method=${key})`)
+    cache.clear()
   }
 
   return descriptor
