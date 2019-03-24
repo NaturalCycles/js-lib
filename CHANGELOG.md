@@ -1,3 +1,15 @@
+# [4.4.0](https://github.com/NaturalCycles/js-lib/compare/v4.3.0...v4.4.0) (2019-03-24)
+
+
+### Features
+
+* isPrimitive() ([62507b4](https://github.com/NaturalCycles/js-lib/commit/62507b4))
+
+
+### Performance Improvements
+
+* memo() optimized ~100 times faster for 0 args ([6483acd](https://github.com/NaturalCycles/js-lib/commit/6483acd))
+
 # [4.3.0](https://github.com/NaturalCycles/js-lib/compare/v4.2.1...v4.3.0) (2019-03-15)
 
 
