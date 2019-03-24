@@ -89,6 +89,16 @@ export function isObject (item: any): boolean {
   return (item && typeof item === 'object' && !Array.isArray(item) && item !== null) || false
 }
 
+export function isPrimitive (v: any): boolean {
+  return (
+    v === null ||
+    v === undefined ||
+    typeof v === 'number' ||
+    typeof v === 'boolean' ||
+    typeof v === 'string'
+  )
+}
+
 export function isEmptyObject (obj: any): boolean {
   return obj && obj.constructor === Object && Object.keys(obj).length === 0
 }
