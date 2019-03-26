@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@naturalcycles/semantic-release": "^1.0.0",
-    "@naturalcycles/shared-module": "^4.0.3",
+    "@naturalcycles/shared-module": "^5.1.0",
     "@types/benchmark": "^1.0.31",
     "@types/jest": "^24.0.6",
     "@types/node": "^11.11.3",
