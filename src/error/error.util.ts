@@ -46,12 +46,12 @@ export function errorToErrorObject (e: Error): ErrorObject {
 export function errorObjectToAppError<T> (o: ErrorObject<T>): AppError<T> {
   const err = Object.assign(new AppError(o.message, o.data), {
     // name: err.name, // cannot be assigned to a readonly property like this
-    stack: o.stack,
+    // stack: o.stack, // also readonly e.g in Firefox
   })
 
-  // Object.defineProperty(err, 'name', {
-  //   value: o.name,
-  // })
+  Object.defineProperty(err, 'stack', {
+    value: o.stack,
+  })
 
   return err
 }
@@ -64,13 +64,13 @@ export function errorObjectToHttpError (o: ErrorObject): HttpError {
     }),
     {
       // name: err.name, // cannot be assigned to a readonly property like this
-      stack: o.stack,
+      // stack: o.stack, // readonly
     },
   )
 
-  // Object.defineProperty(err, 'name', {
-  //   value: o.name,
-  // })
+  Object.defineProperty(err, 'stack', {
+    value: o.stack,
+  })
 
   return err
 }
