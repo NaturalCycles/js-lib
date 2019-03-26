@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/NaturalCycles/js-lib/compare/v4.4.0...v4.4.1) (2019-03-26)
+
+
+### Bug Fixes
+
+* errorObjectToAppError, stack is readonly property in some envs ([e308f6e](https://github.com/NaturalCycles/js-lib/commit/e308f6e))
+
 # [4.4.0](https://github.com/NaturalCycles/js-lib/compare/v4.3.0...v4.4.0) (2019-03-24)
 
 
