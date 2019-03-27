@@ -1,3 +1,10 @@
+# [5.2.0](https://github.com/NaturalCycles/shared-module/compare/v5.1.0...v5.2.0) (2019-03-27)
+
+
+### Features
+
+* tsconfig.suppressImplicitAnyIndexErrors=true ([0b23da7](https://github.com/NaturalCycles/shared-module/commit/0b23da7))
+
 # [5.1.0](https://github.com/NaturalCycles/shared-module/compare/v5.0.1...v5.1.0) (2019-03-23)
 
 
