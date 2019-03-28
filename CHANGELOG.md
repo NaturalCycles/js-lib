@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/NaturalCycles/shared-module/compare/v5.2.0...v5.3.0) (2019-03-28)
+
+
+### Features
+
+* releasing maxWorkers=2 ([74a40fe](https://github.com/NaturalCycles/shared-module/commit/74a40fe))
+
 # [5.2.0](https://github.com/NaturalCycles/shared-module/compare/v5.1.0...v5.2.0) (2019-03-27)
 
 
