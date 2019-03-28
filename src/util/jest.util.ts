@@ -37,7 +37,7 @@ export async function runJest (ci = false, integration = false): Promise<void> {
   const env = {}
 
   if (ci) {
-    args.push('--ci', '--coverage', '--maxWorkers=7')
+    args.push('--ci', '--coverage', '--maxWorkers=2')
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
