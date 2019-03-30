@@ -41,7 +41,7 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const fullICUPath = getFullICUPathIfExists()
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
 
-  const args: string[] = []
+  let args: string[] = []
   const env = {}
 
   if (ci) {
@@ -68,7 +68,8 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   }
 
   if (leaks) {
-    args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks')
+    args = args.filter(a => a.startsWith('--maxWorkers'))
+    args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks', '--maxWorkers=2')
   }
 
   await proxyCommand('jest', dedupeArray(args), {
