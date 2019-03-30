@@ -1,3 +1,10 @@
+## [5.5.1](https://github.com/NaturalCycles/shared-module/compare/v5.5.0...v5.5.1) (2019-03-30)
+
+
+### Bug Fixes
+
+* test-leaks to use --maxWorkers=2 ([7e775c6](https://github.com/NaturalCycles/shared-module/commit/7e775c6))
+
 # [5.5.0](https://github.com/NaturalCycles/shared-module/compare/v5.4.0...v5.5.0) (2019-03-30)
 
 
