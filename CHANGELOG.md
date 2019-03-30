@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/NaturalCycles/shared-module/compare/v5.4.0...v5.5.0) (2019-03-30)
+
+
+### Features
+
+* `test-leaks` command ([9efb921](https://github.com/NaturalCycles/shared-module/commit/9efb921))
+
 # [5.4.0](https://github.com/NaturalCycles/shared-module/compare/v5.3.0...v5.4.0) (2019-03-28)
 
 
