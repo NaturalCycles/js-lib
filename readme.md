@@ -65,6 +65,7 @@ These commands are available to be called as `yarn <command>`, because they are 
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
 - `test-integration`: runs Jest with `jest.integration-test.config.js` config. Which will only run tests from `./src/test/integration` folder.
 - `test-integration-ci`
+- `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak` module to be installed in target project).
 
 #### Lint commands
 

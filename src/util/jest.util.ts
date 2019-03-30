@@ -1,3 +1,4 @@
+import { dedupeArray } from '@naturalcycles/js-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 import { proxyCommand } from './exec.util'
@@ -25,11 +26,18 @@ export function isRunningAllTests (): boolean {
   return !positionalArgs.length
 }
 
+interface RunJestOpt {
+  ci?: boolean
+  integration?: boolean
+  leaks?: boolean
+}
+
 /**
  * 1. Detects `full-icu` support, sets NODE_ICU_DATA if needed.
  * 2. Adds `--silent` if running all tests at once.
  */
-export async function runJest (ci = false, integration = false): Promise<void> {
+export async function runJest (opt: RunJestOpt = {}): Promise<void> {
+  const { ci, integration, leaks } = opt
   const fullICUPath = getFullICUPathIfExists()
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
 
@@ -59,7 +67,11 @@ export async function runJest (ci = false, integration = false): Promise<void> {
     args.push(`--config=${jestConfig}`)
   }
 
-  await proxyCommand('jest', args, {
+  if (leaks) {
+    args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks')
+  }
+
+  await proxyCommand('jest', dedupeArray(args), {
     env,
   })
 }
