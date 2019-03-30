@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/NaturalCycles/shared-module/compare/v5.3.0...v5.4.0) (2019-03-28)
+
+
+### Features
+
+* test-ci --logHeapUsage ([bb39714](https://github.com/NaturalCycles/shared-module/commit/bb39714))
+
 # [5.3.0](https://github.com/NaturalCycles/shared-module/compare/v5.2.0...v5.3.0) (2019-03-28)
 
 
