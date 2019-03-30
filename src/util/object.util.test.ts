@@ -437,10 +437,10 @@ test('deepFreeze', () => {
   expect(() => (o.a.b = 'cc')).toThrow()
 })
 
-test.each([[undefined], [null], [1], [true], ['hello']])('isPrimitive "%s"', v => {
+test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
   expect(isPrimitive(v)).toBe(true)
 })
 
-test.each([[[]], [{}], [() => {}]])('!isPrimitive "%s"', v => {
+test.each([[[]], [{}], [() => {}]] as any[])('!isPrimitive "%s"', v => {
   expect(isPrimitive(v)).toBe(false)
 })
