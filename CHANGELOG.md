@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/NaturalCycles/js-lib/compare/v4.4.1...v4.5.0) (2019-03-30)
+
+
+### Features
+
+* arrayRange, dedupeArray, flatArray ([6f37293](https://github.com/NaturalCycles/js-lib/commit/6f37293))
+
 ## [4.4.1](https://github.com/NaturalCycles/js-lib/compare/v4.4.0...v4.4.1) (2019-03-26)
 
 
