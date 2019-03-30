@@ -20,6 +20,7 @@ import {
 } from './error/error.util'
 import { HttpError } from './error/http.error'
 import { ClassType, PromiseMap, StringMap } from './types'
+import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
   arrayToHash,
   by,
@@ -100,4 +101,7 @@ export {
   errorObjectToHttpError,
   appErrorToErrorObject,
   appErrorToHttpError,
+  arrayRange,
+  dedupeArray,
+  flatArray,
 }
