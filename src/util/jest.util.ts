@@ -38,6 +38,8 @@ interface RunJestOpt {
  */
 export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const { ci, integration, leaks } = opt
+  const [, , ...processArgs] = process.argv
+
   const fullICUPath = getFullICUPathIfExists()
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
 
@@ -70,6 +72,13 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   if (leaks) {
     args = args.filter(a => a.startsWith('--maxWorkers'))
     args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks', '--maxWorkers=2')
+  }
+
+  // Allow to override --maxWorkers
+  const maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
+  if (maxWorkers) {
+    args = args.filter(a => a.startsWith('--maxWorkers'))
+    args.push(maxWorkers)
   }
 
   await proxyCommand('jest', dedupeArray(args), {
