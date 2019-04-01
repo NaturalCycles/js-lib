@@ -1,3 +1,10 @@
+# [5.6.0](https://github.com/NaturalCycles/shared-module/compare/v5.5.1...v5.6.0) (2019-04-01)
+
+
+### Features
+
+* **test:** allow to override `--maxWorkers` for all test commands ([79c98c1](https://github.com/NaturalCycles/shared-module/commit/79c98c1))
+
 ## [5.5.1](https://github.com/NaturalCycles/shared-module/compare/v5.5.0...v5.5.1) (2019-03-30)
 
 
