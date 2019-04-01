@@ -1,3 +1,15 @@
+# [5.7.0](https://github.com/NaturalCycles/shared-module/compare/v5.6.1...v5.7.0) (2019-04-01)
+
+
+### Bug Fixes
+
+* maxWorkers again ([e066fa3](https://github.com/NaturalCycles/shared-module/commit/e066fa3))
+
+
+### Features
+
+* **test:** --logHeapUsage on by default, `test-leaks` maxWorkers=1 ([d06e628](https://github.com/NaturalCycles/shared-module/commit/d06e628))
+
 ## [5.6.1](https://github.com/NaturalCycles/shared-module/compare/v5.6.0...v5.6.1) (2019-04-01)
 
 
