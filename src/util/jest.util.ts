@@ -43,11 +43,11 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const fullICUPath = getFullICUPathIfExists()
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
 
-  let args: string[] = []
+  let args: string[] = ['--logHeapUsage']
   const env = {}
 
   if (ci) {
-    args.push('--ci', '--coverage', '--maxWorkers=2', '--logHeapUsage')
+    args.push('--ci', '--coverage', '--maxWorkers=2')
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
@@ -71,7 +71,7 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
 
   if (leaks) {
     args = args.filter(a => !a.startsWith('--maxWorkers'))
-    args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks', '--maxWorkers=2')
+    args.push('--detectOpenHandles', '--detectLeaks', '--maxWorkers=1')
   }
 
   // Allow to override --maxWorkers
