@@ -70,14 +70,14 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   }
 
   if (leaks) {
-    args = args.filter(a => a.startsWith('--maxWorkers'))
+    args = args.filter(a => !a.startsWith('--maxWorkers'))
     args.push('--logHeapUsage', '--detectOpenHandles', '--detectLeaks', '--maxWorkers=2')
   }
 
   // Allow to override --maxWorkers
   const maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
   if (maxWorkers) {
-    args = args.filter(a => a.startsWith('--maxWorkers'))
+    args = args.filter(a => !a.startsWith('--maxWorkers'))
   }
 
   await proxyCommand('jest', dedupeArray(args), {
