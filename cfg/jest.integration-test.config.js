@@ -8,10 +8,11 @@ const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
 const setupFilesAfterEnv = []
+if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
+  setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
+}
 if (fs.pathExistsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
   setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.integration.ts')
-} else if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
-  setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
 }
 
 module.exports = {

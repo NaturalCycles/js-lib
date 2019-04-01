@@ -67,6 +67,16 @@ These commands are available to be called as `yarn <command>`, because they are 
 - `test-integration-ci`
 - `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak` module to be installed in target project).
 
+For unit tests (`yarn test`) these `setupFilesAfterEnv` will be used (if found) in that order:
+
+- `<rootDir>/src/test/setupJest.ts`
+- `<rootDir>/src/test/setupJest.unit.ts`
+
+For integration tests (`yarn test-integration`) these `setupFilesAfterEnv` will be used (if found) in that order:
+
+- `<rootDir>/src/test/setupJest.ts`
+- `<rootDir>/src/test/setupJest.integration.ts`
+
 #### Lint commands
 
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it

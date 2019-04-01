@@ -11,6 +11,9 @@ const setupFilesAfterEnv = []
 if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
   setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
 }
+if (fs.pathExistsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
+  setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.unit.ts')
+}
 
 const transformIgnore = ['@naturalcycles']
 
