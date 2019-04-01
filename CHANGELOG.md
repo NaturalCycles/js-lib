@@ -1,3 +1,10 @@
+# [5.9.0](https://github.com/NaturalCycles/shared-module/compare/v5.8.0...v5.9.0) (2019-04-01)
+
+
+### Features
+
+* **jest:** use setupJest.unit.ts, setupJest.integration.ts ([5489445](https://github.com/NaturalCycles/shared-module/commit/5489445))
+
 # [5.8.0](https://github.com/NaturalCycles/shared-module/compare/v5.7.0...v5.8.0) (2019-04-01)
 
 
