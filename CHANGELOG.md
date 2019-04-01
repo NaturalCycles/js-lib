@@ -1,3 +1,10 @@
+# [5.8.0](https://github.com/NaturalCycles/shared-module/compare/v5.7.0...v5.8.0) (2019-04-01)
+
+
+### Features
+
+* **test:** always add JEST_SILENT when `--silent` flag is used ([7313e42](https://github.com/NaturalCycles/shared-module/commit/7313e42))
+
 # [5.7.0](https://github.com/NaturalCycles/shared-module/compare/v5.6.1...v5.7.0) (2019-04-01)
 
 
