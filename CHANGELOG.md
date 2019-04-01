@@ -1,3 +1,10 @@
+## [5.6.1](https://github.com/NaturalCycles/shared-module/compare/v5.6.0...v5.6.1) (2019-04-01)
+
+
+### Bug Fixes
+
+* **test:** redundant maxWorkers ([a71894d](https://github.com/NaturalCycles/shared-module/commit/a71894d))
+
 # [5.6.0](https://github.com/NaturalCycles/shared-module/compare/v5.5.1...v5.6.0) (2019-04-01)
 
 
