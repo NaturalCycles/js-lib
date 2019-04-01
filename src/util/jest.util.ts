@@ -1,7 +1,7 @@
 import { dedupeArray } from '@naturalcycles/js-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { proxyCommand } from './exec.util'
+import { execCommand } from './exec.util'
 import { getFullICUPathIfExists } from './test.util'
 
 export function getJestConfigPath (): string | undefined {
@@ -40,47 +40,48 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const { ci, integration, leaks } = opt
   const [, , ...processArgs] = process.argv
 
-  const fullICUPath = getFullICUPathIfExists()
-  const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
+  // Allow to override --maxWorkers
+  let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
 
-  let args: string[] = ['--logHeapUsage']
+  const args: string[] = ['--logHeapUsage', ...processArgs]
   const env = {}
 
+  const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
+  if (jestConfig) {
+    args.push(`--config=${jestConfig}`)
+  }
+
   if (ci) {
-    args.push('--ci', '--coverage', '--maxWorkers=2')
+    args.push('--ci', '--coverage')
+    maxWorkers = maxWorkers || '--maxWorkers=2'
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
   if (ci || isRunningAllTests()) {
-    Object.assign(env, {
-      JEST_SILENT: '1',
-    })
-
     args.push('--silent')
   }
 
+  const fullICUPath = getFullICUPathIfExists()
   if (fullICUPath) {
     Object.assign(env, {
       NODE_ICU_DATA: fullICUPath,
     })
   }
 
-  if (jestConfig) {
-    args.push(`--config=${jestConfig}`)
-  }
-
   if (leaks) {
-    args = args.filter(a => !a.startsWith('--maxWorkers'))
-    args.push('--detectOpenHandles', '--detectLeaks', '--maxWorkers=1')
+    args.push('--detectOpenHandles', '--detectLeaks')
+    maxWorkers = maxWorkers || '--maxWorkers=1'
   }
 
-  // Allow to override --maxWorkers
-  const maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
-  if (maxWorkers) {
-    args = args.filter(a => !a.startsWith('--maxWorkers'))
+  if (maxWorkers) args.push(maxWorkers)
+
+  if (args.includes('--silent')) {
+    Object.assign(env, {
+      JEST_SILENT: '1',
+    })
   }
 
-  await proxyCommand('jest', dedupeArray(args), {
+  await execCommand('jest', dedupeArray(args), {
     env,
   })
 }
