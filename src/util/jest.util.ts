@@ -78,7 +78,6 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
   if (maxWorkers) {
     args = args.filter(a => a.startsWith('--maxWorkers'))
-    args.push(maxWorkers)
   }
 
   await proxyCommand('jest', dedupeArray(args), {
