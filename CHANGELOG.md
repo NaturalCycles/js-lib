@@ -1,3 +1,10 @@
+# [5.10.0](https://github.com/NaturalCycles/shared-module/compare/v5.9.0...v5.10.0) (2019-04-02)
+
+
+### Features
+
+* revert default coverage location to `./coverage` ([1646cdb](https://github.com/NaturalCycles/shared-module/commit/1646cdb))
+
 # [5.9.0](https://github.com/NaturalCycles/shared-module/compare/v5.8.0...v5.9.0) (2019-04-01)
 
 
