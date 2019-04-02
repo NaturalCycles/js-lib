@@ -45,7 +45,6 @@ module.exports = {
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
   setupTestFrameworkScriptFile,
-  coverageDirectory: 'report/coverage-unit',
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/index.ts',

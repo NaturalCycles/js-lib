@@ -49,7 +49,6 @@ module.exports = {
   testEnvironment: 'node',
   unmockedModulePathPatterns: [],
   setupFilesAfterEnv,
-  coverageDirectory: 'report/coverage-unit',
   collectCoverageFrom: [
     'src/**/*.ts',
     '!**/__exclude/**',
