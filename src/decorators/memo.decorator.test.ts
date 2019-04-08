@@ -13,6 +13,10 @@ class A {
   }
 }
 
+beforeEach(() => {
+  jest.restoreAllMocks()
+})
+
 test('memo a', () => {
   const a = new A()
   a.func = jest.fn()
@@ -55,4 +59,32 @@ test('MEMO_DROP_CACHE', () => {
 test('memo unsupported', () => {
   const pd = { value: 'property' } as PropertyDescriptor
   expect(() => memo()(null, 'a', pd)).toThrow()
+})
+
+class B {
+  cacheMisses = 0
+
+  @memo()
+  a (a1 = 'def') {
+    console.log(`a called with a1=${a1}`)
+    this.cacheMisses++
+  }
+}
+
+test('should work with default arg values', () => {
+  const b = new B()
+
+  // Call 1 with default (cache miss). arg1=undefined
+  b.a()
+
+  // Call 2 with default (cache hit). arg1=undefined
+  b.a()
+
+  // Call 3 with same as default (cache miss). arg1=def
+  b.a('def')
+
+  // Call 4 with non-default (cache miss). arg1=nondef
+  b.a('nondef')
+
+  expect(b.cacheMisses).toBe(3)
 })

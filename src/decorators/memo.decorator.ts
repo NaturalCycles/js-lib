@@ -13,7 +13,7 @@ Benchmark shows similar perf for ObjectCache and MapCache.
 
 /* tslint:disable:no-invalid-this */
 
-import { jsonMemoSerializer, MapMemoCache, MemoCache, SingleValueMemoCache } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
@@ -33,8 +33,10 @@ export const memo = () => (
   }
 
   const originalFn = descriptor.value
-  // console.log('len: ' + originalFn.length)
+  // console.log(`${key} len: ${originalFn.length}`)
 
+  // todo: optimization disabled until "default arg value" use case is solved (see memo.decorator.test.ts)
+  /*
   let cache: MemoCache
 
   // Function with 0 arguments
@@ -45,6 +47,8 @@ export const memo = () => (
     cache = new MapMemoCache()
     // cache = new ObjectMemoCache()
   }
+   */
+  const cache: MemoCache = new MapMemoCache()
 
   descriptor.value = function (...args: any[]): any {
     const cacheKey = jsonMemoSerializer(args)
