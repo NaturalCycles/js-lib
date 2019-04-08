@@ -1,3 +1,10 @@
+## [4.5.1](https://github.com/NaturalCycles/js-lib/compare/v4.5.0...v4.5.1) (2019-04-08)
+
+
+### Bug Fixes
+
+* **memo:** disable 0-arg optimization ([56ff7d4](https://github.com/NaturalCycles/js-lib/commit/56ff7d4))
+
 # [4.5.0](https://github.com/NaturalCycles/js-lib/compare/v4.4.1...v4.5.0) (2019-03-30)
 
 
