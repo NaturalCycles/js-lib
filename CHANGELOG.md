@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/NaturalCycles/js-lib/compare/v4.5.1...v4.6.0) (2019-04-10)
+
+
+### Features
+
+* DeepReadonly type ([e597095](https://github.com/NaturalCycles/js-lib/commit/e597095))
+
 ## [4.5.1](https://github.com/NaturalCycles/js-lib/compare/v4.5.0...v4.5.1) (2019-04-08)
 
 
