@@ -1,3 +1,10 @@
+# [5.11.0](https://github.com/NaturalCycles/shared-module/compare/v5.10.0...v5.11.0) (2019-04-16)
+
+
+### Features
+
+* scripts/tsconfig.json has experimentalDecorators=true ([fbb0fd9](https://github.com/NaturalCycles/shared-module/commit/fbb0fd9))
+
 # [5.10.0](https://github.com/NaturalCycles/shared-module/compare/v5.9.0...v5.10.0) (2019-04-02)
 
 
