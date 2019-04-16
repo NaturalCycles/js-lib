@@ -10,7 +10,8 @@
     "declaration": false,
     "outDir": "./dist",
     "strict": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true
   },
   "exclude": ["**/__exclude"]
 }
