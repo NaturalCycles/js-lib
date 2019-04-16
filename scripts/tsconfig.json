@@ -11,7 +11,12 @@
     "outDir": "./dist",
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["../src/*"],
+      "@linked/*": ["../src/@linked/*"]
+    }
   },
   "exclude": ["**/__exclude"]
 }
