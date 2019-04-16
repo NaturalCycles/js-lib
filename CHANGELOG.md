@@ -1,3 +1,10 @@
+# [5.12.0](https://github.com/NaturalCycles/shared-module/compare/v5.11.0...v5.12.0) (2019-04-16)
+
+
+### Features
+
+* scripts/tsconfig.json to have default paths ([eb3890e](https://github.com/NaturalCycles/shared-module/commit/eb3890e))
+
 # [5.11.0](https://github.com/NaturalCycles/shared-module/compare/v5.10.0...v5.11.0) (2019-04-16)
 
 
