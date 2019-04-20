@@ -1,12 +1,12 @@
 import * as fs from 'fs-extra'
-import { buildTscScriptsCommand } from './build-tsc-scripts.command'
-import { buildTscCommand } from './build-tsc.command'
+import { tsc } from '../util/tsc.util'
 import { testCommand } from './test.command'
+import { tscScriptsCommand } from './tsc-scripts.command'
 
 export async function btCommand (): Promise<void> {
   await fs.emptyDir('./dist')
 
-  await buildTscCommand()
-  await buildTscScriptsCommand()
+  await tsc()
+  await tscScriptsCommand()
   await testCommand()
 }

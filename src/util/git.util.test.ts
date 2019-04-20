@@ -2,6 +2,7 @@ import {
   commitMessageToTitleMessage,
   getLastGitCommitMsg,
   gitCurrentBranchName,
+  gitCurrentRepoName,
   gitHasUncommittedChanges,
 } from './git.util'
 
@@ -22,4 +23,8 @@ test('gitHasUncommittedChanges', async () => {
 test('gitCurrentBranchName', async () => {
   const branchName = await gitCurrentBranchName()
   console.log(branchName)
+})
+
+test('gitCurrentRepoName', async () => {
+  await gitCurrentRepoName()
 })

@@ -1,4 +1,5 @@
 import * as execa from 'execa'
+import { basename } from 'path'
 import { logExec } from './exec.util'
 
 export async function getLastGitCommitMsg (): Promise<string> {
@@ -43,7 +44,7 @@ export async function gitCommitAll (msg: string): Promise<boolean> {
     stdio: 'inherit',
     reject: false,
   })
-  console.log(`gitCommitAll code: ${code}`)
+  // console.log(`gitCommitAll code: ${code}`)
 
   return !code
 }
@@ -55,7 +56,7 @@ export async function gitIsAhead (): Promise<boolean> {
   // ahead=`git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
   const cmd = `git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
   const { stdout } = await execa(cmd, { shell: true })
-  console.log(`gitIsAhead: ${stdout}`)
+  // console.log(`gitIsAhead: ${stdout}`)
   return Number(stdout) > 0
 }
 
@@ -77,6 +78,15 @@ export async function gitPush (): Promise<void> {
   })
 }
 
+export async function gitCurrentCommitSha (full = false): Promise<string> {
+  // git rev-parse HEAD
+  const cmd = 'git'
+  const args = ['rev-parse', 'HEAD']
+
+  const { stdout: commitSha } = await execa(cmd, args)
+  return full ? commitSha.trim() : commitSha.trim().substr(0, 7)
+}
+
 export async function gitCurrentBranchName (): Promise<string> {
   // git rev-parse --abbrev-ref HEAD
   const cmd = 'git'
@@ -84,5 +94,16 @@ export async function gitCurrentBranchName (): Promise<string> {
 
   const { stdout: branchName } = await execa(cmd, args)
   // console.log(`gitCurrentBranchName: ${branchName}`)
-  return branchName
+  return branchName.trim()
+}
+
+export async function gitCurrentRepoName (): Promise<string> {
+  // basename -s .git `git config --get remote.origin.url`
+  const cmd = 'git'
+  const args = ['config', '--get', 'remote.origin.url']
+
+  const { stdout: originUrl } = await execa(cmd, args)
+  const repoName = basename(originUrl, '.git')
+  // console.log(`gitCurrentRepoName: ${repoName}`)
+  return repoName
 }

@@ -91,9 +91,10 @@ in that order:
 
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of
   it.
+
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
-  
+
 - `tslint-all`: runs `tslint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
@@ -110,8 +111,11 @@ via `tsc-scripts` as a part of `build`
 
 #### Other commands
 
-- `init-from-shared-module`: copied config files from `shared-module/cfg/init` to the project
-- `update-from-shared-module`: copied config files from `shared-module/cfg/overwrite` to the project
+- `init-from-shared-module`: copy config files from `shared-module/cfg/init` to the project
+- `update-from-shared-module`: copy config files from `shared-module/cfg/overwrite` to the project
+- `generate-build-info`: generate `buildInfo.json`
+  - `--dir <someDir>` will save it to given dir
+  - `--shell` will also generate `buildInfo.sh`
 
 ## Non-extendable config files
 

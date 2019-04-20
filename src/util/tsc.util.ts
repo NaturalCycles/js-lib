@@ -2,6 +2,11 @@ import * as c from 'ansi-colors'
 import * as fs from 'fs-extra'
 import { kpy } from 'kpy'
 import { cfgDir } from '../cnst/paths.cnst'
+import { execCommand } from './exec.util'
+
+export async function tsc (): Promise<void> {
+  await execCommand('tsc')
+}
 
 /**
  * Returns path to /scripts/tsconfig.json
