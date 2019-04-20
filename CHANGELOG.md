@@ -1,3 +1,10 @@
+## [5.14.3](https://github.com/NaturalCycles/shared-module/compare/v5.14.2...v5.14.3) (2019-04-20)
+
+
+### Bug Fixes
+
+* **lint-all:** git pull before committing ([0eacbd4](https://github.com/NaturalCycles/shared-module/commit/0eacbd4))
+
 ## [5.14.2](https://github.com/NaturalCycles/shared-module/compare/v5.14.1...v5.14.2) (2019-04-20)
 
 
