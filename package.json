@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/shared-module",
-  "version": "5.14.3",
+  "version": "5.14.4",
   "description": "",
   "scripts": {
     "tsn": "ts-node",

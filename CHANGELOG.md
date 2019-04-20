@@ -1,3 +1,10 @@
+## [5.14.4](https://github.com/NaturalCycles/shared-module/compare/v5.14.3...v5.14.4) (2019-04-20)
+
+
+### Bug Fixes
+
+* lint-all message from correct commit ([53092d9](https://github.com/NaturalCycles/shared-module/commit/53092d9))
+
 ## [5.14.3](https://github.com/NaturalCycles/shared-module/compare/v5.14.2...v5.14.3) (2019-04-20)
 
 
