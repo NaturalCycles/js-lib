@@ -22,8 +22,7 @@ workflows:
           filters:
             branches:
               only: master
-      - tools/build-job:
-          requires: [tools/publish-job]
+      - tools/build-job
       - tools/test-job:
           CC_TEST_REPORTER_ID: 791311fd4ab23bf9d0246fe1d1b4b589656a0de6d8a9a1a6d91a098b8816ea85
 

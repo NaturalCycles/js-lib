@@ -3,7 +3,7 @@ import {
   commitMessageToTitleMessage,
   getLastGitCommitMsg,
   gitCommitAll,
-  gitHasUncommittedChanges,
+  gitHasUncommittedChanges, gitPull,
   gitPush,
 } from '../util/git.util'
 import { runPrettier } from '../util/prettier.util'
@@ -41,6 +41,8 @@ export async function lintAllCommand (): Promise<void> {
       if (hadChangesBefore) {
         console.log(`lint-all: there are changes before running lint-all, will not commit`)
       } else {
+        await gitPull()
+
         const msg =
           'style(lint-all): ' +
           commitMessageToTitleMessage(await getLastGitCommitMsg()) +
