@@ -1,3 +1,10 @@
+## [5.14.5](https://github.com/NaturalCycles/shared-module/compare/v5.14.4...v5.14.5) (2019-04-20)
+
+
+### Bug Fixes
+
+* skip tsc-scripts if ./scripts doesn't exist ([4cfe02c](https://github.com/NaturalCycles/shared-module/commit/4cfe02c))
+
 ## [5.14.4](https://github.com/NaturalCycles/shared-module/compare/v5.14.3...v5.14.4) (2019-04-20)
 
 
