@@ -30,7 +30,6 @@ export async function lintAllCommand (): Promise<void> {
   }).argv
 
   const hadChangesBefore = await gitHasUncommittedChanges()
-  
 
   await tslintAllCommand()
   await runPrettier()
