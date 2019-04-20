@@ -28,6 +28,8 @@ export async function lintAllCommand (): Promise<void> {
     },
   }).argv
 
+  const hadChangesBefore = await gitHasUncommittedChanges()
+
   await tslintAllCommand()
   await runPrettier()
   await tslintAllCommand()
@@ -36,14 +38,18 @@ export async function lintAllCommand (): Promise<void> {
     // detect changes
     const hasChanges = await gitHasUncommittedChanges()
     if (hasChanges) {
-      const msg =
-        'style(lint-all): ' +
-        commitMessageToTitleMessage(await getLastGitCommitMsg()) +
-        '\n\n[skip ci]'
+      if (hadChangesBefore) {
+        console.log(`lint-all: there are changes before running lint-all, will not commit`)
+      } else {
+        const msg =
+          'style(lint-all): ' +
+          commitMessageToTitleMessage(await getLastGitCommitMsg()) +
+          '\n\n[skip ci]'
 
-      // commit & push changes
-      await gitCommitAll(msg)
-      await gitPush()
+        // commit & push changes
+        await gitCommitAll(msg)
+        await gitPush()
+      }
 
       // fail on changes
       if (failOnChanges) {
