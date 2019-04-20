@@ -3,7 +3,8 @@ import {
   commitMessageToTitleMessage,
   getLastGitCommitMsg,
   gitCommitAll,
-  gitHasUncommittedChanges, gitPull,
+  gitHasUncommittedChanges,
+  gitPull,
   gitPush,
 } from '../util/git.util'
 import { runPrettier } from '../util/prettier.util'
