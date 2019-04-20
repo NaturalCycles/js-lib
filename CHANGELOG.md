@@ -1,3 +1,10 @@
+## [5.14.2](https://github.com/NaturalCycles/shared-module/compare/v5.14.1...v5.14.2) (2019-04-20)
+
+
+### Bug Fixes
+
+* **ci:** lint-job after publish-job ([d8091ef](https://github.com/NaturalCycles/shared-module/commit/d8091ef))
+
 ## [5.14.1](https://github.com/NaturalCycles/shared-module/compare/v5.14.0...v5.14.1) (2019-04-20)
 
 
