@@ -1,3 +1,10 @@
+# [5.14.0](https://github.com/NaturalCycles/shared-module/compare/v5.13.0...v5.14.0) (2019-04-20)
+
+
+### Features
+
+* yarn generate-build-info command ([07fefab](https://github.com/NaturalCycles/shared-module/commit/07fefab))
+
 # [5.13.0](https://github.com/NaturalCycles/shared-module/compare/v5.12.0...v5.13.0) (2019-04-20)
 
 
