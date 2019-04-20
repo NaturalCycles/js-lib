@@ -1,3 +1,12 @@
+# [5.13.0](https://github.com/NaturalCycles/shared-module/compare/v5.12.0...v5.13.0) (2019-04-20)
+
+
+### Features
+
+* **prettier:** proseWrap: always ([497283a](https://github.com/NaturalCycles/shared-module/commit/497283a))
+* lint-all --commitOnChanges --failOnChanges ([#8](https://github.com/NaturalCycles/shared-module/issues/8)) ([2903f41](https://github.com/NaturalCycles/shared-module/commit/2903f41))
+* shared tsconfig.json (in ./cfg) ([be0bf02](https://github.com/NaturalCycles/shared-module/commit/be0bf02))
+
 # [5.12.0](https://github.com/NaturalCycles/shared-module/compare/v5.11.0...v5.12.0) (2019-04-16)
 
 
