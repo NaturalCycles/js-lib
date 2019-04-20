@@ -22,13 +22,7 @@ export async function execCommand (
   args: string[] = [],
   opt: ExecOptions = {},
 ): Promise<void> {
-  const cmdline = [
-    ...Object.entries(opt.env || {}).map(([k, v]) => [k, v].join('=')),
-    cmd,
-    ...args,
-  ].join(' ')
-
-  console.log(c.grey(cmdline))
+  logExec(cmd, args, opt)
 
   await execa(cmd, args, {
     stdio: 'inherit',
@@ -37,4 +31,14 @@ export async function execCommand (
     process.exit(err.code || 1)
     throw err // just for tests
   })
+}
+
+export function logExec (cmd: string, args: string[] = [], opt: ExecOptions = {}): void {
+  const cmdline = [
+    ...Object.entries(opt.env || {}).map(([k, v]) => [k, v].join('=')),
+    cmd,
+    ...args,
+  ].join(' ')
+
+  console.log(c.grey(cmdline))
 }

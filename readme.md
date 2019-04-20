@@ -90,7 +90,10 @@ in that order:
 #### Lint commands
 
 - `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of
-  it
+  it.
+  - `--commitOnChanges` will commit lint-modified changes and push them
+  - `--failOnChanges` will exit with status 1 in the end (will fail the command)
+  
 - `tslint-all`: runs `tslint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
