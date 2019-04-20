@@ -1,0 +1,26 @@
+import * as c from 'ansi-colors'
+import * as fs from 'fs-extra'
+import { kpy } from 'kpy'
+import { cfgDir } from '../cnst/paths.cnst'
+
+/**
+ * Returns path to /scripts/tsconfig.json
+ */
+export async function ensureProjectTsconfigScripts (): Promise<string> {
+  const projectTsconfigPath = `./scripts/tsconfig.json`
+
+  if (!fs.pathExistsSync(projectTsconfigPath)) {
+    // You cannot just use a shared `tsconfig.scripts.json` because of relative paths for `include`
+    // So, it will be copied into the project
+
+    await kpy({
+      baseDir: `${cfgDir}/init/scripts/`,
+      inputPatterns: ['tsconfig.json'],
+      outputDir: './scripts',
+    })
+
+    console.log(`${c.grey('/scripts/tsconfig.json')} file is automatically added`)
+  }
+
+  return projectTsconfigPath
+}

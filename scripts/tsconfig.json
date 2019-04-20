@@ -1,22 +1,10 @@
 //
-// tsconfig.json for /scripts
+// @naturalcycles/shared-module/scripts/tsconfig.json
+//
+// Default config for /scripts
 //
 {
-  "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "lib": ["dom", "es2018"],
-    "sourceMap": false,
-    "declaration": false,
-    "outDir": "./dist",
-    "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "experimentalDecorators": true,
-    "baseUrl": "./",
-    "paths": {
-      "@src/*": ["../src/*"],
-      "@linked/*": ["../src/@linked/*"]
-    }
-  },
-  "exclude": ["**/__exclude"]
+  "extends": "../cfg/tsconfig.json",
+  // `include` / `exclude` need to be specified in the project tsconfig:
+  "exclude": ["**/__exclude", "**/@linked"]
 }

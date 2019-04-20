@@ -1,11 +1,13 @@
 /*
 
-yarn tsn ./scripts/testScript.ts
 yarn tsn-script ./scripts/testScript.ts
 
 */
 
-void main()
+main().catch(err => {
+  console.error(err)
+  process.exit(1)
+})
 
 async function main () {
   console.log('test script')

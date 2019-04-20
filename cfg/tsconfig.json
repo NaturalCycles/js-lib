@@ -1,0 +1,42 @@
+//
+// @naturalcycles/shared/cfg/tsconfig.json
+//
+// Shared tsconfig for Node.js projects
+//
+{
+  "compilerOptions": {
+    // Disabled because of https://github.com/Microsoft/TypeScript/issues/29172
+    // "outDir": "dist",
+    // "rootDir": "./src",
+
+    // Target/module
+    "target": "es2018",
+    "lib": ["dom", "es2018"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    // Emit
+    "sourceMap": false,
+    "declaration": false,
+
+    // Strictness
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "suppressImplicitAnyIndexErrors": true,
+
+    // todo: monitor if we should have it default or not
+    // Enabled should be faster, but will catch less errors
+    // "skipLibCheck": true,
+
+    // Other
+    "pretty": true,
+    "newLine": "lf",
+    "importHelpers": true,
+    "experimentalDecorators": true
+  }
+  // Need to be specified in the project tsconfig
+  // "include": ["src"],
+  // "exclude": ["**/__exclude", "**/@linked"]
+}

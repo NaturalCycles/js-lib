@@ -1,12 +1,14 @@
-import { proxyCommand } from '../util/exec.util'
+import { execCommand } from '../util/exec.util'
 import { nodeModuleExists } from '../util/test.util'
 
 export async function tsnCommand (): Promise<void> {
-  const args: string[] = []
+  const [, , ...processArgs] = process.argv
+
+  const args: string[] = ['-T']
 
   if (nodeModuleExists('tsconfig-paths')) {
     args.push('-r', 'tsconfig-paths/register')
   }
 
-  await proxyCommand('ts-node', args)
+  await execCommand('ts-node', [...args, ...processArgs])
 }

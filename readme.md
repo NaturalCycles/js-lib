@@ -1,6 +1,7 @@
 ## @naturalcycles/shared-module
 
-> Set of opinionated configuration files and tools for common project needs, to be shared between all modules. Enforces conventions between projects.
+> Set of opinionated configuration files and tools for common project needs, to be shared between
+> all modules. Enforces conventions between projects.
 
 [![npm](https://img.shields.io/npm/v/@naturalcycles/shared-module/latest.svg)](https://www.npmjs.com/package/@naturalcycles/shared-module)
 [![](https://circleci.com/gh/NaturalCycles/shared-module.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/shared-module)
@@ -16,8 +17,9 @@ This unlocks all commands listed below in "Yarn commands" section, e.g:
 
     yarn lint-all
 
-By default it uses default configs for Prettier and TSLint that are included in this package (for convenience).
-You can override them by putting your own `prettier.config.js` / `tslint.json` in root folder of your project.
+By default it uses default configs for Prettier and TSLint that are included in this package (for
+convenience). You can override them by putting your own `prettier.config.js` / `tslint.json` in root
+folder of your project.
 
 ## Conventions
 
@@ -46,49 +48,62 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 
 ### Yarn commands
 
-These commands are available to be called as `yarn <command>`, because they are exposed as `npm scripts` in
-`node_modules/.bin/`.
+These commands are available to be called as `yarn <command>`, because they are exposed as
+`npm scripts` in `node_modules/.bin/`.
 
 #### Build commands
 
-- `bt`: shortcut for "build and test"
-- `build`: does `del ./dist && build-tsc`
+- `tsc-prod`: does `tsc -p tsconfig.prod.ts`
+- `tsc-scripts`: does `tsc -p ./scripts/tsconfig.ts --noEmit` (type-checking for `./scripts`)
+
+- `build`: "Development build". Checks that "everything compiles". Does
+  `del ./dist && tsc && tsc-scripts`
+- `bt`: "Build & Test". Does `del ./dist && tsc && tsc-scripts && test`
+
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
-- `build-prod`: does `del ./dist && build-copy && build-tsc-prod`
-- `build-tsc`: by default just runs `tsc`, but extendable in target project
-- `build-tsc-prod`: does `tsc -p tsconfig.prod.ts`
+- `build-prod`: "Production build". Does `del ./dist && build-copy && tsc-prod`
 
 #### Test commands
 
-- `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed!
-  Automatically adds `--silent` if all tests are run.
-- `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory issue"
-- `test-integration`: runs Jest with `jest.integration-test.config.js` config. Which will only run tests from `./src/test/integration` folder.
+- `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds
+  `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically adds `--silent` (and `JEST_SILENT` env
+  var) if all tests are run.
+- `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory
+  issue"
+- `test-integration`: runs Jest with `jest.integration-test.config.js` config. Which will only run
+  tests from `./src/test/integration` folder.
 - `test-integration-ci`
-- `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak` module to be installed in target project).
+- `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak`
+  module to be installed in target project).
 
 For unit tests (`yarn test`) these `setupFilesAfterEnv` will be used (if found) in that order:
 
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.unit.ts`
 
-For integration tests (`yarn test-integration`) these `setupFilesAfterEnv` will be used (if found) in that order:
+For integration tests (`yarn test-integration`) these `setupFilesAfterEnv` will be used (if found)
+in that order:
 
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.integration.ts`
 
 #### Lint commands
 
-- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of it
+- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of
+  it
 - `tslint-all`: runs `tslint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
-- `lint-circleci`: fails if `.circleci/config.yml` is invalid ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
+- `lint-circleci`: fails if `.circleci/config.yml` is invalid
+  ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
 
 #### Run commands
 
+All these commands will skip type-checking for speed (`ts-node -T`). Instead, type-checking is done
+via `tsc-scripts` as a part of `build`
+
 - `tsn`: short alias for `ts-node -r tsconfig-paths/register`
-- `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use either `./scripts/tsconfig.json` (if present)
-  or `shared-module/scripts/tsconfig.json`
+- `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use
+  `./scripts/tsconfig.json` (file will be auto-generated in not present).
 
 #### Other commands
 
@@ -97,11 +112,12 @@ For integration tests (`yarn test-integration`) these `setupFilesAfterEnv` will 
 
 ## Non-extendable config files
 
-These files cannot be _extended_, so they are instead copied into the target project: first time when seeding the project,
-later manually by running `yarn update-from-shared-module`.
+These files cannot be _extended_, so they are instead copied into the target project: first time
+when seeding the project, later manually by running `yarn update-from-shared-module`.
 
-These files are **overwritten** in target project every time the mentioned command is run. So, be careful! Solution is to
-either extend them in other way (e.g put more `.gitignore` files in subfolders), OR PR to this project, if the need is generic.
+These files are **overwritten** in target project every time the mentioned command is run. So, be
+careful! Solution is to either extend them in other way (e.g put more `.gitignore` files in
+subfolders), OR PR to this project, if the need is generic.
 
 - `.editorconfig`
 - `.gitignore`
@@ -132,8 +148,8 @@ are included.
 
 Examples of what devDeps **cannot** be included:
 
-- `prettier`, because patch versions can change how source code is printed significantly,
-  and we want to control how and when to update it.
+- `prettier`, because patch versions can change how source code is printed significantly, and we
+  want to control how and when to update it.
 - `tslint`, for same reasons
 - `jest`
 

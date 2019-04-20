@@ -1,21 +1,17 @@
-import * as fs from 'fs-extra'
-import { projectDir } from '../cnst/paths.cnst'
-import { proxyCommand } from '../util/exec.util'
+import { execCommand } from '../util/exec.util'
 import { nodeModuleExists } from '../util/test.util'
+import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
 export async function tsnScriptCommand (): Promise<void> {
-  // const cwd = process.cwd()
-  const projectTsconfigPath = `./scripts/tsconfig.json`
-  const sharedTsconfigPath = `${projectDir}/scripts/tsconfig.json`
-  const tsconfigPath = fs.pathExistsSync(projectTsconfigPath)
-    ? projectTsconfigPath
-    : sharedTsconfigPath
+  const projectTsconfigPath = await ensureProjectTsconfigScripts()
 
-  const args: string[] = ['-P', tsconfigPath]
+  const [, , ...processArgs] = process.argv
+
+  const args: string[] = ['-P', projectTsconfigPath, '-T']
 
   if (nodeModuleExists('tsconfig-paths')) {
     args.push('-r', 'tsconfig-paths/register')
   }
 
-  await proxyCommand('ts-node', args)
+  await execCommand('ts-node', [...args, ...processArgs])
 }

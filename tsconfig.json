@@ -1,22 +1,8 @@
 {
+  "extends": "./cfg/tsconfig.json",
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "lib": ["dom", "es2018"],
-    "sourceMap": false,
-    "outDir": "./dist",
-    "declaration": false,
-
-    "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
-
-    "moduleResolution": "node",
-    "rootDir": "./src",
-
-    "importHelpers": true,
-
-    "experimentalDecorators": true
+    "outDir": "./dist"
   },
   "include": ["src"],
-  "exclude": ["**/__exclude"]
+  "exclude": ["**/__exclude", "**/@linked"]
 }
