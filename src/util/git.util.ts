@@ -60,6 +60,15 @@ export async function gitIsAhead (): Promise<boolean> {
   return Number(stdout) > 0
 }
 
+export async function gitPull (): Promise<void> {
+  const cmd = 'git'
+  const args = ['pull']
+  await execa(cmd, args, {
+    reject: false,
+    stdio: 'inherit',
+  })
+}
+
 export async function gitPush (): Promise<void> {
   // git push --set-upstream origin $CIRCLE_BRANCH && echo "pushed, exiting" && exit 0
   const cmd = 'git'
