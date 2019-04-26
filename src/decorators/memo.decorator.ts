@@ -11,8 +11,6 @@ Otherwise resorts to JSON.stringify.
 Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
-/* tslint:disable:no-invalid-this */
-
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 /**
@@ -23,11 +21,7 @@ import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
-export const memo = () => (
-  target: any,
-  key: string,
-  descriptor: PropertyDescriptor,
-): PropertyDescriptor => {
+export const memo = (): MethodDecorator => (target, key, descriptor) => {
   if (typeof descriptor.value !== 'function') {
     throw new Error('Memoization can be applied only to methods')
   }
@@ -50,23 +44,23 @@ export const memo = () => (
    */
   const cache: MemoCache = new MapMemoCache()
 
-  descriptor.value = function (...args: any[]): any {
+  descriptor.value = function (this: any, ...args: any[]): any {
+    const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 
     if (cache.has(cacheKey)) {
       return cache.get(cacheKey)
     }
 
-    const res: any = originalFn.apply(this, args)
+    const res: any = originalFn.apply(ctx, args)
 
     cache.set(cacheKey, res)
     // console.log('miss', cacheKey)
 
     return res
-  }
-
-  descriptor.value.dropCache = () => {
-    console.log(`memo.dropCache (method=${key})`)
+  } as any
+  ;(descriptor.value as any).dropCache = () => {
+    console.log(`memo.dropCache (method=${String(key)})`)
     cache.clear()
   }
 

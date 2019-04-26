@@ -58,7 +58,7 @@ test('MEMO_DROP_CACHE', () => {
 
 test('memo unsupported', () => {
   const pd = { value: 'property' } as PropertyDescriptor
-  expect(() => memo()(null, 'a', pd)).toThrow()
+  expect(() => memo()(null as any, 'a', pd)).toThrow()
 })
 
 class B {

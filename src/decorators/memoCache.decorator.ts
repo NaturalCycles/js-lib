@@ -36,11 +36,11 @@ class LRUMemoCache implements MemoCache {
   }
 }
 
-export const memoCache = (opts: MemoCacheOpts = {}) => (
-  target: any,
-  key: string,
-  descriptor: PropertyDescriptor,
-): PropertyDescriptor => {
+export const memoCache = (opts: MemoCacheOpts = {}): MethodDecorator => (
+  target,
+  key,
+  descriptor,
+) => {
   if (typeof descriptor.value !== 'function') {
     throw new Error('Memoization can be applied only to methods')
   }
@@ -55,22 +55,22 @@ export const memoCache = (opts: MemoCacheOpts = {}) => (
   }
   const cache = new LRUMemoCache(lruOpts)
 
-  descriptor.value = function (...args: any[]): any {
+  descriptor.value = function (this: any, ...args: any[]): any {
+    const ctx = this
     const cacheKey = opts.serializer!(args)
 
     if (cache.has(cacheKey)) {
       return cache.get(cacheKey)
     }
 
-    const res: any = originalFn.apply(this, args)
+    const res: any = originalFn.apply(ctx, args)
 
     cache.set(cacheKey, res)
 
     return res
-  }
-
-  descriptor.value.dropCache = () => {
-    console.log(`memo.dropCache (method=${key})`)
+  } as any
+  ;(descriptor.value as any).dropCache = () => {
+    console.log(`memo.dropCache (method=${String(key)})`)
     cache.clear()
   }
 

@@ -35,5 +35,5 @@ test('memoCache a', () => {
 
 test('memoCache unsupported', () => {
   const pd = { value: 'property' } as PropertyDescriptor
-  expect(() => memoCache()(null, 'a', pd)).toThrow()
+  expect(() => memoCache()(null as any, 'a', pd)).toThrow()
 })

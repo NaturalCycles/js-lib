@@ -1,5 +1,6 @@
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
+import { memoPromise } from './decorators/memoPromise.decorator'
 import { AppError } from './error/app.error'
 import {
   Admin401ErrorData,
@@ -54,6 +55,7 @@ import { silentConsole } from './util/test.util'
 export {
   memo,
   memoCache,
+  memoPromise,
   ErrorData,
   ErrorObject,
   HttpErrorData,
