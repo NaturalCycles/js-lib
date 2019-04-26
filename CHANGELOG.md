@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/NaturalCycles/js-lib/compare/v4.6.0...v4.7.0) (2019-04-26)
+
+
+### Features
+
+* [@memo](https://github.com/memo)Promise decorator ([8f81f14](https://github.com/NaturalCycles/js-lib/commit/8f81f14))
+
 # [4.6.0](https://github.com/NaturalCycles/js-lib/compare/v4.5.1...v4.6.0) (2019-04-10)
 
 
