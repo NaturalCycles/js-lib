@@ -1,3 +1,11 @@
+# [5.15.0](https://github.com/NaturalCycles/shared-module/compare/v5.14.5...v5.15.0) (2019-04-26)
+
+
+### Features
+
+* bump husky@2 ([c985252](https://github.com/NaturalCycles/shared-module/commit/c985252))
+* yarn test sets APP_ENV=test automatically ([25fcb03](https://github.com/NaturalCycles/shared-module/commit/25fcb03))
+
 ## [5.14.5](https://github.com/NaturalCycles/shared-module/compare/v5.14.4...v5.14.5) (2019-04-20)
 
 
