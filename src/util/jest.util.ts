@@ -81,6 +81,12 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
+  if (!opt.integration && !process.env.APP_ENV) {
+    Object.assign(env, {
+      APP_ENV: 'test',
+    })
+  }
+
   await execCommand('jest', dedupeArray(args), {
     env,
   })

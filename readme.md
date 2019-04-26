@@ -67,7 +67,7 @@ These commands are available to be called as `yarn <command>`, because they are 
 
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds
   `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically adds `--silent` (and `JEST_SILENT` env
-  var) if all tests are run.
+  var) if all tests are run. Adds `APP_ENV=test` env var (for all runs except integration).
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory
   issue"
 - `test-integration`: runs Jest with `jest.integration-test.config.js` config. Which will only run
