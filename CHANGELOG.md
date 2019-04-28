@@ -1,3 +1,10 @@
+# [5.16.0](https://github.com/NaturalCycles/shared-module/compare/v5.15.0...v5.16.0) (2019-04-28)
+
+
+### Features
+
+* export ts-node as dependency ([9cdecd0](https://github.com/NaturalCycles/shared-module/commit/9cdecd0))
+
 # [5.15.0](https://github.com/NaturalCycles/shared-module/compare/v5.14.5...v5.15.0) (2019-04-26)
 
 
