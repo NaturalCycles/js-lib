@@ -1,3 +1,10 @@
+# [5.17.0](https://github.com/NaturalCycles/shared-module/compare/v5.16.0...v5.17.0) (2019-04-28)
+
+
+### Features
+
+* provide `del` as part of `kpy` ([9d90bd4](https://github.com/NaturalCycles/shared-module/commit/9d90bd4))
+
 # [5.16.0](https://github.com/NaturalCycles/shared-module/compare/v5.15.0...v5.16.0) (2019-04-28)
 
 
