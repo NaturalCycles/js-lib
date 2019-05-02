@@ -1,5 +1,5 @@
 #
-# # DO NOT MODIFY, WILL BE OVERWRITTEN BY @naturalcycles/shared-module
+# # DO NOT MODIFY, WILL BE OVERWRITTEN BY @naturalcycles/dev-lib
 #
 version: 2
 
@@ -60,3 +60,4 @@ exclude_patterns:
   - 'doc/'
   - 'docker/'
   - 'public/'
+  - '**/__exclude/'

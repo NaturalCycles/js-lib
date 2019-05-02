@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('@naturalcycles/shared-module/cfg/jest.config'),
+  ...require('@naturalcycles/dev-lib/cfg/jest.config'),
 }

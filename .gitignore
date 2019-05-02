@@ -1,8 +1,8 @@
 #
-# DO NOT MODIFY, WILL BE OVERWRITTEN BY @naturalcycles/shared-module
+# DO NOT MODIFY, WILL BE OVERWRITTEN BY @naturalcycles/dev-lib
 #
 # You can put more .gitignore files in your respective subfolders (e.g `src`) to ignore additional things.
-# Or PR to @naturalcycles/shared-module if you want to ignore something generic.
+# Or PR to @naturalcycles/dev-lib if you want to ignore something generic.
 #
 
 #
@@ -40,6 +40,10 @@
 /tmp
 /deploy
 /build/deploy
+
+# All secrets are ignored, except encrypted
+/secret/**/*.*
+!/secret/**/*.enc
 
 /src/@linked
 /scripts/try.*

@@ -15,8 +15,8 @@
     "lru-cache": ">=5.0.0"
   },
   "devDependencies": {
+    "@naturalcycles/dev-lib": "^6.1.0",
     "@naturalcycles/semantic-release": "^1.0.0",
-    "@naturalcycles/shared-module": "^5.1.0",
     "@types/benchmark": "^1.0.31",
     "@types/jest": "^24.0.6",
     "@types/node": "^11.11.3",
@@ -27,7 +27,6 @@
     "luxon": "^1.4.3",
     "prettier": "^1.14.3",
     "ts-jest": "^24.0.0",
-    "ts-node": "^8.0.2",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"
   },
