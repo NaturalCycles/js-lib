@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/NaturalCycles/dev-lib/compare/v6.0.0...v6.1.0) (2019-05-02)
+
+
+### Features
+
+* use @naturalcycles/fs-lib (renamed from kpy) ([dea5b33](https://github.com/NaturalCycles/dev-lib/commit/dea5b33))
+
 # [6.0.0](https://github.com/NaturalCycles/dev-lib/compare/v5.17.1...v6.0.0) (2019-05-02)
 
 
