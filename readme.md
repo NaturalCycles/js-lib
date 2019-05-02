@@ -1,17 +1,17 @@
-## @naturalcycles/shared-module
+## @naturalcycles/dev-lib
 
 > Set of opinionated configuration files and tools for common project needs, to be shared between
 > all modules. Enforces conventions between projects.
 
-[![npm](https://img.shields.io/npm/v/@naturalcycles/shared-module/latest.svg)](https://www.npmjs.com/package/@naturalcycles/shared-module)
-[![](https://circleci.com/gh/NaturalCycles/shared-module.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/shared-module)
-[![Maintainability](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/maintainability)](https://codeclimate.com/github/NaturalCycles/shared-module/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/test_coverage)](https://codeclimate.com/github/NaturalCycles/shared-module/test_coverage)
+[![npm](https://img.shields.io/npm/v/@naturalcycles/dev-lib/latest.svg)](https://www.npmjs.com/package/@naturalcycles/dev-lib)
+[![](https://circleci.com/gh/NaturalCycles/dev-lib.svg?style=shield&circle-token=cbb20b471eb9c1d5ed975e28c2a79a45671d78ea)](https://circleci.com/gh/NaturalCycles/dev-lib)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/maintainability)](https://codeclimate.com/github/NaturalCycles/dev-lib/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/test_coverage)](https://codeclimate.com/github/NaturalCycles/dev-lib/test_coverage)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## How to use
 
-    yarn add -D @naturalcycles/shared-module prettier tslint
+    yarn add -D @naturalcycles/dev-lib prettier tslint
 
 This unlocks all commands listed below in "Yarn commands" section, e.g:
 
@@ -111,8 +111,8 @@ via `tsc-scripts` as a part of `build`
 
 #### Other commands
 
-- `init-from-shared-module`: copy config files from `shared-module/cfg/init` to the project
-- `update-from-shared-module`: copy config files from `shared-module/cfg/overwrite` to the project
+- `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
+- `update-from-dev-lib`: copy config files from `dev-lib/cfg/overwrite` to the project
 - `generate-build-info`: generate `buildInfo.json`
   - `--dir <someDir>` will save it to given dir
   - `--shell` will also generate `buildInfo.sh`
@@ -120,7 +120,7 @@ via `tsc-scripts` as a part of `build`
 ## Non-extendable config files
 
 These files cannot be _extended_, so they are instead copied into the target project: first time
-when seeding the project, later manually by running `yarn update-from-shared-module`.
+when seeding the project, later manually by running `yarn update-from-dev-lib`.
 
 These files are **overwritten** in target project every time the mentioned command is run. So, be
 careful! Solution is to either extend them in other way (e.g put more `.gitignore` files in
@@ -142,7 +142,7 @@ These files are meant to be extended in target project, so act as _recommended d
 
 ## Dependencies
 
-`@naturalcycles/shared-module` is supposed to be included as `devDependency`.
+`@naturalcycles/dev-lib` is supposed to be included as `devDependency`.
 
 It has dependencies that will be installed to all modules.
 

@@ -1,7 +1,7 @@
 import { kpy } from 'kpy'
 import { cfgOverwriteDir } from '../cnst/paths.cnst'
 
-export async function updateFromSharedModuleCommand (): Promise<void> {
+export async function updateFromDevLibCommand (): Promise<void> {
   await kpy({
     baseDir: cfgOverwriteDir,
     outputDir: './',

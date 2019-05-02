@@ -1,1 +1,1 @@
-module.exports = require('@naturalcycles/shared-module/cfg/commitlint.config')
+module.exports = require('@naturalcycles/dev-lib/cfg/commitlint.config')

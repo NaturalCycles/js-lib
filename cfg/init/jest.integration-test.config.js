@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('@naturalcycles/shared-module/cfg/jest.integration-test.config'),
+  ...require('@naturalcycles/dev-lib/cfg/jest.integration-test.config'),
 }

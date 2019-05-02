@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('@naturalcycles/shared-module/cfg/prettier.config'),
+  ...require('@naturalcycles/dev-lib/cfg/prettier.config'),
 }

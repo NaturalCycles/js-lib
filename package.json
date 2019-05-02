@@ -1,5 +1,5 @@
 {
-  "name": "@naturalcycles/shared-module",
+  "name": "@naturalcycles/dev-lib",
   "version": "5.17.1",
   "description": "",
   "scripts": {
@@ -23,7 +23,7 @@
     "tslint-all": "yarn tsn ./src/bin/tslint-all.ts",
     "lint-all": "yarn tsn ./src/bin/lint-all.ts",
     "lint-circleci": "yarn tsn ./src/bin/lint-circleci.ts",
-    "update-from-shared-module": "yarn tsn ./src/bin/update-from-shared-module.ts"
+    "update-from-dev-lib": "yarn tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
     "@commitlint/cli": "^7.2.1",
@@ -74,7 +74,7 @@
     "build-prod": "dist/bin/build-prod.js",
     "commitlint-def": "dist/bin/commitlint-def.js",
     "generate-build-info": "dist/bin/generate-build-info.js",
-    "init-from-shared-module": "dist/bin/init-from-shared-module.js",
+    "init-from-dev-lib": "dist/bin/init-from-dev-lib.js",
     "lint-all": "dist/bin/lint-all.js",
     "lint-circleci": "dist/bin/lint-circleci.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
@@ -89,7 +89,7 @@
     "tslint-all": "dist/bin/tslint-all.js",
     "tsn": "dist/bin/tsn.js",
     "tsn-script": "dist/bin/tsn-script.js",
-    "update-from-shared-module": "dist/bin/update-from-shared-module.js"
+    "update-from-dev-lib": "dist/bin/update-from-dev-lib.js"
   },
   "engines": {
     "node": ">=8.11"
@@ -99,7 +99,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaturalCycles/shared-module"
+    "url": "https://github.com/NaturalCycles/dev-lib"
   },
   "author": "Natural Cycles Team",
   "license": "MIT"
