@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "5.17.1",
+  "version": "6.0.0",
   "description": "",
   "scripts": {
     "tsn": "ts-node",

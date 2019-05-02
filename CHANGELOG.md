@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/NaturalCycles/dev-lib/compare/v5.17.1...v6.0.0) (2019-05-02)
+
+
+### Code Refactoring
+
+* renamed shared-module to dev-lib ([971ac59](https://github.com/NaturalCycles/dev-lib/commit/971ac59))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [5.17.1](https://github.com/NaturalCycles/shared-module/compare/v5.17.0...v5.17.1) (2019-05-02)
 
 
