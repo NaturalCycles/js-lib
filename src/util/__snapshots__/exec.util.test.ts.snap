@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execCommand error, exit 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      1,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "throw",
+      "value": [Error: process exit: 1],
+    },
+  ],
+}
+`;
