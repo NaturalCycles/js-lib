@@ -1,3 +1,10 @@
+## [5.17.1](https://github.com/NaturalCycles/shared-module/compare/v5.17.0...v5.17.1) (2019-05-02)
+
+
+### Bug Fixes
+
+* yarn tsn will now log ENOENT errors better ([7e2ee4c](https://github.com/NaturalCycles/shared-module/commit/7e2ee4c))
+
 # [5.17.0](https://github.com/NaturalCycles/shared-module/compare/v5.16.0...v5.17.0) (2019-04-28)
 
 
