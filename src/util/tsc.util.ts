@@ -1,6 +1,6 @@
+import { kpy } from '@naturalcycles/fs-lib'
 import * as c from 'ansi-colors'
 import * as fs from 'fs-extra'
-import { kpy } from 'kpy'
 import { cfgDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
 

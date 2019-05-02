@@ -1,4 +1,4 @@
-import { kpy } from 'kpy'
+import { kpy } from '@naturalcycles/fs-lib'
 
 export async function buildCopyCommand (): Promise<void> {
   const baseDir = 'src'
