@@ -96,6 +96,15 @@ export async function gitCurrentCommitSha (full = false): Promise<string> {
   return full ? commitSha.trim() : commitSha.trim().substr(0, 7)
 }
 
+export async function gitCurrentCommitTimestamp (): Promise<number> {
+  // git log -1 --format=%ct
+  const cmd = 'git'
+  const args = ['log', '-1', '--format=%ct']
+
+  const { stdout: ts } = await execa(cmd, args)
+  return Number(ts)
+}
+
 export async function gitCurrentBranchName (): Promise<string> {
   // git rev-parse --abbrev-ref HEAD
   const cmd = 'git'

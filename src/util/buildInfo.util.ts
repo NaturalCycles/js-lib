@@ -1,10 +1,20 @@
 import { BuildInfo } from './buildInfo.model'
-import { gitCurrentBranchName, gitCurrentCommitSha, gitCurrentRepoName } from './git.util'
+import {
+  gitCurrentBranchName,
+  gitCurrentCommitSha,
+  gitCurrentCommitTimestamp,
+  gitCurrentRepoName,
+} from './git.util'
 
 export async function generateBuildInfo (dev = false): Promise<BuildInfo> {
-  const [rev, branchName, repoName] = dev
-    ? ['devRev', 'devBranch', 'devRepo']
-    : await Promise.all([gitCurrentCommitSha(), gitCurrentBranchName(), gitCurrentRepoName()])
+  const [rev, branchName, repoName, tsCommit] = dev
+    ? ['devRev', 'devBranch', 'devRepo', Math.floor(Date.now() / 1000)]
+    : await Promise.all([
+        gitCurrentCommitSha(),
+        gitCurrentBranchName(),
+        gitCurrentRepoName(),
+        gitCurrentCommitTimestamp(),
+      ])
 
   const now = new Date()
   const ts = Math.floor(now.getTime() / 1000)
@@ -27,6 +37,7 @@ export async function generateBuildInfo (dev = false): Promise<BuildInfo> {
 
   return {
     ts,
+    tsCommit,
     tsStr,
     repoName,
     branchName,

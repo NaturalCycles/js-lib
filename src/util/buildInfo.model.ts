@@ -15,6 +15,11 @@ export interface BuildInfo {
   rev: string
 
   /**
+   * Unix timestamp of commit ("committer date", not "author date")
+   */
+  tsCommit: number
+
+  /**
    * "Version string" in the following format:
    * yyyyMMdd_HHmm_$repoName_$branch_$rev
    *

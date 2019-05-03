@@ -2,6 +2,7 @@ import {
   commitMessageToTitleMessage,
   getLastGitCommitMsg,
   gitCurrentBranchName,
+  gitCurrentCommitTimestamp,
   gitCurrentRepoName,
   gitHasUncommittedChanges,
 } from './git.util'
@@ -27,4 +28,9 @@ test('gitCurrentBranchName', async () => {
 
 test('gitCurrentRepoName', async () => {
   await gitCurrentRepoName()
+})
+
+test('gitCurrentCommitTimestamp', async () => {
+  const ts = await gitCurrentCommitTimestamp()
+  console.log(ts, new Date(ts * 1000))
 })
