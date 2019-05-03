@@ -1,3 +1,10 @@
+# [4.8.0](https://github.com/NaturalCycles/js-lib/compare/v4.7.0...v4.8.0) (2019-05-03)
+
+
+### Features
+
+* include `lru-cache` as dependency ([351ddbd](https://github.com/NaturalCycles/js-lib/commit/351ddbd))
+
 # [4.7.0](https://github.com/NaturalCycles/js-lib/compare/v4.6.0...v4.7.0) (2019-04-26)
 
 
