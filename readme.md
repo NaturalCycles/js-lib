@@ -11,10 +11,13 @@
 
 ## How to use
 
-    yarn add -D @naturalcycles/dev-lib prettier tslint
+Install it:
 
-This unlocks all commands listed below in "Yarn commands" section, e.g:
+    yarn add -D @naturalcycles/dev-lib
 
+This unlocks all commands listed below, e.g:
+
+    yarn test
     yarn lint-all
 
 By default it uses default configs for Prettier and TSLint that are included in this package (for
@@ -155,9 +158,6 @@ are included.
 
 Examples of what devDeps **cannot** be included:
 
-- `prettier`, because patch versions can change how source code is printed significantly, and we
-  want to control how and when to update it.
-- `tslint`, for same reasons
 - `jest`
 
 Deps that are listed here are _blessed_ and battle-tested.
