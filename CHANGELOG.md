@@ -1,3 +1,11 @@
+# [7.1.0](https://github.com/NaturalCycles/dev-lib/compare/v7.0.1...v7.1.0) (2019-05-03)
+
+
+### Features
+
+* buildInfo to include `tsCommit` ([58c0754](https://github.com/NaturalCycles/dev-lib/commit/58c0754))
+* json2env command ([4d5d2bc](https://github.com/NaturalCycles/dev-lib/commit/4d5d2bc))
+
 ## [7.0.1](https://github.com/NaturalCycles/dev-lib/compare/v7.0.0...v7.0.1) (2019-05-03)
 
 
