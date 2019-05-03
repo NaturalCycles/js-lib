@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/NaturalCycles/dev-lib/compare/v6.1.0...v7.0.0) (2019-05-03)
+
+
+### Features
+
+* export more dependencies ([af40d4f](https://github.com/NaturalCycles/dev-lib/commit/af40d4f))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [6.1.0](https://github.com/NaturalCycles/dev-lib/compare/v6.0.0...v6.1.0) (2019-05-02)
 
 
