@@ -119,6 +119,13 @@ via `tsc-scripts` as a part of `build`
 - `generate-build-info`: generate `buildInfo.json`
   - `--dir <someDir>` will save it to given dir
   - `--shell` will also generate `buildInfo.sh`
+- `json2env`: for specified `.json` file will create `.json.sh` file next to it that will "export"
+  all values of json file as environment variables. Will also append \$BASH_ENV (if defined) for
+  CircleCI.
+  - `--prefix` will prepend all keys with `prefix` string, e.g `--prefix buildInfo_` will output as
+    `buildInfo_key1`, `buildInfo_key2`, etc.
+  - `--silent`
+  - `--debug`
 
 ## Non-extendable config files
 
