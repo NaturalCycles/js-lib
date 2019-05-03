@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/NaturalCycles/dev-lib/compare/v7.0.0...v7.0.1) (2019-05-03)
+
+
+### Bug Fixes
+
+* deps ([af1a5f7](https://github.com/NaturalCycles/dev-lib/commit/af1a5f7))
+
 # [7.0.0](https://github.com/NaturalCycles/dev-lib/compare/v6.1.0...v7.0.0) (2019-05-03)
 
 
