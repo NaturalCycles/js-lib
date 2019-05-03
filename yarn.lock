@@ -452,12 +452,13 @@
     yargs "^13.2.2"
 
 "@naturalcycles/js-lib@^4.5.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-4.7.0.tgz#cf19dc4b68b3d2c95ccf2155f4903f2a05601d85"
-  integrity sha512-H/2LIHn5+4xs/KJ0zwDvZZ8/Q71n1St5RcIpX8VmzFk/XuQOpQE/svyEhOYvnZcs6bhySmBgZiIpZ+oOZaEmEQ==
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-4.8.1.tgz#2e1c32e94e76a6a0dc76cf5e801f88901eed5d06"
+  integrity sha512-CNBch76/4+BiLPOkLbBRAXsDwAwTs9KgLDneiaeinNFGVj/56/fOYKrpoG0PZ9Md85PeRBRS66wJdqyuj4vevA==
   dependencies:
     "@types/lru-cache" "^5.1.0"
-    "@types/luxon" "^1.4.0"
+    "@types/luxon" "^1.12.0"
+    lru-cache "^5.1.1"
 
 "@naturalcycles/promise-lib@^2.1.2":
   version "2.2.0"
@@ -706,7 +707,7 @@
   resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-5.1.0.tgz#57f228f2b80c046b4a1bd5cac031f81f207f4f03"
   integrity sha512-RaE0B+14ToE4l6UqdarKPnXwVDuigfFv+5j9Dze/Nqr23yyuqdNvzcZi3xB+3Agvi5R4EOgAksfv3lXX4vBt9w==
 
-"@types/luxon@^1.4.0":
+"@types/luxon@^1.12.0":
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.12.0.tgz#acf14294d18e6eba427a5e5d7dfce0f5cd2a9400"
   integrity sha512-+UzPmwHSEEyv7aGlNkVpuFxp/BirXgl8NnPGCtmyx2KXIzAapoW3IqSVk87/Z3PUk8vEL8Pe1HXEMJbNBOQgtg==
@@ -7349,9 +7350,9 @@ wordwrap@~1.0.0:
   integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
 
 worker-farm@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.6.0.tgz#aecc405976fab5a95526180846f0dba288f3a4a0"
-  integrity sha512-6w+3tHbM87WnSWnENBUvA2pxJPLhQUg5LKwUQHq3r+XPhIM+Gh2R5ycbwPCyuGbNg+lPgdcnQUhuC02kJCvffQ==
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.7.0.tgz#26a94c5391bbca926152002f69b84a4bf772e5a8"
+  integrity sha512-rvw3QTZc8lAxyVrqcSGVm5yP/IJ2UcB3U0graE3LCFoZ0Yn2x4EoVSqJKdB/T5M+FLcRPjz4TDacRf3OCfNUzw==
   dependencies:
     errno "~0.1.7"
 
