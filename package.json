@@ -9,10 +9,7 @@
   },
   "dependencies": {
     "@types/lru-cache": "^5.1.0",
-    "@types/luxon": "^1.4.0"
-  },
-  "peerDependencies": {
-    "lru-cache": ">=5.0.0"
+    "lru-cache": "^5.1.1"
   },
   "devDependencies": {
     "@naturalcycles/dev-lib": "^7.0.0",
