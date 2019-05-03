@@ -1,3 +1,10 @@
+## [4.8.1](https://github.com/NaturalCycles/js-lib/compare/v4.8.0...v4.8.1) (2019-05-03)
+
+
+### Bug Fixes
+
+* still ship `@types/luxon` ([368d7a8](https://github.com/NaturalCycles/js-lib/commit/368d7a8))
+
 # [4.8.0](https://github.com/NaturalCycles/js-lib/compare/v4.7.0...v4.8.0) (2019-05-03)
 
 
