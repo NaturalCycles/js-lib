@@ -1,3 +1,10 @@
+## [7.3.1](https://github.com/NaturalCycles/dev-lib/compare/v7.3.0...v7.3.1) (2019-05-04)
+
+
+### Bug Fixes
+
+* don't export tsconfig-paths ([bec289f](https://github.com/NaturalCycles/dev-lib/commit/bec289f))
+
 # [7.3.0](https://github.com/NaturalCycles/dev-lib/compare/v7.2.0...v7.3.0) (2019-05-04)
 
 
