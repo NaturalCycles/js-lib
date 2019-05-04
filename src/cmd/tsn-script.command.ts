@@ -7,7 +7,7 @@ export async function tsnScriptCommand (): Promise<void> {
 
   const [, , ...processArgs] = process.argv
 
-  const args: string[] = ['-P', projectTsconfigPath, '-T']
+  const args: string[] = ['-T', '-P', projectTsconfigPath, '-r', 'loud-rejection/register']
 
   if (nodeModuleExists('tsconfig-paths')) {
     args.push('-r', 'tsconfig-paths/register')
