@@ -1,3 +1,10 @@
+# [7.3.0](https://github.com/NaturalCycles/dev-lib/compare/v7.2.0...v7.3.0) (2019-05-04)
+
+
+### Features
+
+* export @types/node dep ([4ba1db0](https://github.com/NaturalCycles/dev-lib/commit/4ba1db0))
+
 # [7.2.0](https://github.com/NaturalCycles/dev-lib/compare/v7.1.0...v7.2.0) (2019-05-04)
 
 
