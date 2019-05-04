@@ -1,3 +1,11 @@
+# [7.2.0](https://github.com/NaturalCycles/dev-lib/compare/v7.1.0...v7.2.0) (2019-05-04)
+
+
+### Features
+
+* export new deps, apply loud-rejection ([ebf485e](https://github.com/NaturalCycles/dev-lib/commit/ebf485e))
+* json2env --no-fail ([3865e88](https://github.com/NaturalCycles/dev-lib/commit/3865e88))
+
 # [7.1.0](https://github.com/NaturalCycles/dev-lib/compare/v7.0.1...v7.1.0) (2019-05-03)
 
 
