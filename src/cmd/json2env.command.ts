@@ -7,6 +7,11 @@ export async function json2envCommand (): Promise<void> {
     prefix: {
       type: 'string',
     },
+    fail: {
+      type: 'boolean',
+      desc: 'Fail (exit status 1) on non-existing input file',
+      default: true,
+    },
     debug: {
       type: 'boolean',
     },
@@ -15,13 +20,20 @@ export async function json2envCommand (): Promise<void> {
     },
   })
 
-  const { _: args, prefix, debug, silent } = argv
+  const { _: args, prefix, fail, debug, silent } = argv
   if (debug) console.log({ argv })
 
   const [jsonPath] = args
 
   if (!fs.existsSync(jsonPath)) {
-    throw new Error(`Path doesn't exist: ${jsonPath}`)
+    if (fail) {
+      throw new Error(`Path doesn't exist: ${jsonPath}`)
+    }
+
+    if (!silent) {
+      console.log(`json2env input file doesn't exist, skipping without error (${jsonPath})`)
+    }
+    return
   }
 
   // read file
@@ -44,6 +56,6 @@ export async function json2envCommand (): Promise<void> {
   if (BASH_ENV) {
     await fs.appendFile(BASH_ENV, exportStr + '\n')
 
-    console.log(`BASH_ENV file appeded (${BASH_ENV})`)
+    console.log(`BASH_ENV file appended (${BASH_ENV})`)
   }
 }
