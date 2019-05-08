@@ -1,3 +1,10 @@
+# [4.9.0](https://github.com/NaturalCycles/js-lib/compare/v4.8.1...v4.9.0) (2019-05-08)
+
+
+### Features
+
+* [@log](https://github.com/log)Millis decorator ([e17d26f](https://github.com/NaturalCycles/js-lib/commit/e17d26f))
+
 ## [4.8.1](https://github.com/NaturalCycles/js-lib/compare/v4.8.0...v4.8.1) (2019-05-03)
 
 
