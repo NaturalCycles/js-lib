@@ -1,3 +1,12 @@
+# [4.10.0](https://github.com/NaturalCycles/js-lib/compare/v4.9.0...v4.10.0) (2019-05-08)
+
+
+### Features
+
+* [@log](https://github.com/log)Millis noLogStart, logResult, logResultFn ([b2c8c26](https://github.com/NaturalCycles/js-lib/commit/b2c8c26))
+* anyToAppError ([5cc1035](https://github.com/NaturalCycles/js-lib/commit/5cc1035))
+* resultToString ([a7944f8](https://github.com/NaturalCycles/js-lib/commit/a7944f8))
+
 # [4.9.0](https://github.com/NaturalCycles/js-lib/compare/v4.8.1...v4.9.0) (2019-05-08)
 
 
