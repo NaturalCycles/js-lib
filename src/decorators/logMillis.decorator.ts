@@ -14,9 +14,12 @@ export interface LogMillisOpts {
   noLogArgs?: boolean
 
   /**
-   * Skip logging start message (>> ...)
+   * Also log on method start.
+   * Example:
+   *
+   * >> syncMethodSuccess()
    */
-  noLogStart?: boolean
+  logStart?: boolean
 
   /**
    * Log method result as is (stringified).
@@ -60,7 +63,7 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   // e.g `NameOfYourClass.methodName`
   const methodSignature = [target.constructor.name, key].filter(Boolean).join('.')
 
-  const { avg, noLogArgs, noLogStart, logResult } = opt
+  const { avg, noLogArgs, logStart, logResult } = opt
   let { logResultFn } = opt
   if (logResult) logResultFn = r => resultToString(r)
 
@@ -71,7 +74,7 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
     const argsStr = noLogArgs ? '' : args.join(' ')
 
     const callSignature = `${methodSignature}(${argsStr}) #${++count}`
-    if (!noLogStart) console.log(`>> ${callSignature}`)
+    if (logStart) console.log(`>> ${callSignature}`)
 
     const ctx = this
     const started = Date.now()

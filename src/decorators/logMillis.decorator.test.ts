@@ -24,7 +24,7 @@ class C {
     throw new Error('MyError')
   }
 
-  @logMillis({ avg: 3, noLogArgs: true, noLogStart: true, logResult: true })
+  @logMillis({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
   async asyncMethodSuccessAvg (delay: number) {
     await pDelay(delay)
     return 'a'
