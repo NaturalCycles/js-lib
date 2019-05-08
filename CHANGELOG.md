@@ -1,3 +1,10 @@
+## [4.10.1](https://github.com/NaturalCycles/js-lib/compare/v4.10.0...v4.10.1) (2019-05-08)
+
+
+### Bug Fixes
+
+* [@log](https://github.com/log)Millis default to noLogStart ([d902d32](https://github.com/NaturalCycles/js-lib/commit/d902d32))
+
 # [4.10.0](https://github.com/NaturalCycles/js-lib/compare/v4.9.0...v4.10.0) (2019-05-08)
 
 
