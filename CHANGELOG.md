@@ -1,3 +1,10 @@
+# [7.4.0](https://github.com/NaturalCycles/dev-lib/compare/v7.3.1...v7.4.0) (2019-05-08)
+
+
+### Features
+
+* comment about `typeRoots` in cfg/tsconfig.json ([38faa5a](https://github.com/NaturalCycles/dev-lib/commit/38faa5a))
+
 ## [7.3.1](https://github.com/NaturalCycles/dev-lib/compare/v7.3.0...v7.3.1) (2019-05-04)
 
 
