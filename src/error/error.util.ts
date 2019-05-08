@@ -36,11 +36,9 @@ export function anyToAppError<DATA_TYPE = ErrorData> (
   data: Partial<DATA_TYPE> = {},
 ): AppError {
   const e = anyToErrorObject(o)
+  Object.assign(e.data, data)
 
-  return new AppError<DATA_TYPE>(e.message, {
-    ...e.data,
-    ...data,
-  } as DATA_TYPE)
+  return errorObjectToAppError(e)
 }
 
 export function errorToErrorObject (e: Error): ErrorObject {
