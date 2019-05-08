@@ -1,3 +1,10 @@
+## [4.10.2](https://github.com/NaturalCycles/js-lib/compare/v4.10.1...v4.10.2) (2019-05-08)
+
+
+### Bug Fixes
+
+* anyToAppError to keep stack ([a815f2d](https://github.com/NaturalCycles/js-lib/commit/a815f2d))
+
 ## [4.10.1](https://github.com/NaturalCycles/js-lib/compare/v4.10.0...v4.10.1) (2019-05-08)
 
 
