@@ -1,4 +1,7 @@
-import { anyToErrorMessage, SimpleMovingAverage } from '..'
+import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
+
+type LogResultFn = (r: any) => string
+
 export interface LogMillisOpts {
   /**
    * Log "moving average" elapsed time for up to `avg` last method calls
@@ -9,6 +12,25 @@ export interface LogMillisOpts {
    * Skip logging method arguments
    */
   noLogArgs?: boolean
+
+  /**
+   * Skip logging start message (>> ...)
+   */
+  noLogStart?: boolean
+
+  /**
+   * Log method result as is (stringified).
+   * Example:
+   *
+   * * << syncMethodSuccess() took 124 ms result: 'SomeString as result'
+   */
+  logResult?: boolean
+
+  /**
+   * Log method result via provided function that takes "result as is" as first argument and should return a String.
+   * Overrides `logResult`.
+   */
+  logResultFn?: LogResultFn
 }
 
 /**
@@ -38,7 +60,10 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   // e.g `NameOfYourClass.methodName`
   const methodSignature = [target.constructor.name, key].filter(Boolean).join('.')
 
-  const { avg, noLogArgs } = opt
+  const { avg, noLogArgs, noLogStart, logResult } = opt
+  let { logResultFn } = opt
+  if (logResult) logResultFn = r => resultToString(r)
+
   const sma = avg ? new SimpleMovingAverage(avg) : undefined
   let count = 0
 
@@ -46,7 +71,7 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
     const argsStr = noLogArgs ? '' : args.join(' ')
 
     const callSignature = `${methodSignature}(${argsStr}) #${++count}`
-    console.log(`>> ${callSignature}`)
+    if (!noLogStart) console.log(`>> ${callSignature}`)
 
     const ctx = this
     const started = Date.now()
@@ -55,23 +80,23 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
       const res = originalFn.apply(ctx, args)
 
       if (res && typeof res.then === 'function') {
-        // Result is a promise, will wait for resolution or rejection
+        // Result is a Promise, will wait for resolution or rejection
         return res
           .then((r: any) => {
-            logFinished(callSignature, started, sma)
+            logFinished(callSignature, started, sma, logResultFn, r)
             return r
           })
           .catch((err: any) => {
-            logFinished(callSignature, started, sma, err)
+            logFinished(callSignature, started, sma, logResultFn, undefined, err)
             return Promise.reject(err)
           })
       } else {
         // not a Promise
-        logFinished(callSignature, started, sma)
+        logFinished(callSignature, started, sma, logResultFn, res)
         return res
       }
     } catch (err) {
-      logFinished(callSignature, started, sma, err)
+      logFinished(callSignature, started, sma, logResultFn, undefined, err)
       throw err // rethrow
     }
   } as any
@@ -83,6 +108,8 @@ function logFinished (
   callSignature: string,
   started: number,
   sma?: SimpleMovingAverage,
+  logResultFn?: LogResultFn,
+  res?: any,
   err?: any,
 ): void {
   const ms = Date.now() - started
@@ -95,6 +122,8 @@ function logFinished (
 
   if (typeof err !== 'undefined') {
     t.push('ERROR:', anyToErrorMessage(err))
+  } else if (logResultFn) {
+    t.push('result:', logResultFn(res))
   }
 
   console.log(t.filter(Boolean).join(' '))
