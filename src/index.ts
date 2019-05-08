@@ -12,6 +12,7 @@ import {
   HttpErrorResponse,
 } from './error/error.model'
 import {
+  anyToAppError,
   anyToErrorMessage,
   anyToErrorObject,
   appErrorToErrorObject,
@@ -102,6 +103,7 @@ export {
   deepFreeze,
   anyToErrorMessage,
   anyToErrorObject,
+  anyToAppError,
   errorToErrorObject,
   errorObjectToAppError,
   errorObjectToHttpError,

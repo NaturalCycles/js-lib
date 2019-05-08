@@ -1,5 +1,6 @@
 import { AppError, HttpError } from '..'
 import {
+  anyToAppError,
   anyToErrorMessage,
   anyToErrorObject,
   appErrorToErrorObject,
@@ -54,4 +55,19 @@ test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   expect(err3.name).toBe('AppError')
   expect(err3.stack).not.toBeUndefined()
   expect(err3.data).toEqual(data)
+})
+
+test('anyToAppError snapshot', () => {
+  const out = anyItems
+    .map(i => anyToAppError(i))
+    .map(o => {
+      delete o.stack // remove from snapshot matching
+      return o
+    })
+  expect(out).toMatchSnapshot()
+
+  out.forEach(e => {
+    expect(e).toBeInstanceOf(AppError)
+    expect(e.data).toMatchObject({})
+  })
 })

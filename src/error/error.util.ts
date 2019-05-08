@@ -1,5 +1,4 @@
-import { AppError, HttpError, HttpErrorData, isObject } from '..'
-import { ErrorObject } from '../error/error.model'
+import { AppError, ErrorData, ErrorObject, HttpError, HttpErrorData, isObject } from '..'
 
 const EMPTY_STRING_MSG = 'empty_string'
 
@@ -30,6 +29,18 @@ export function anyToErrorObject (o: any): ErrorObject {
     message: anyToErrorMessage(o),
     data: { ...(o || {}).data }, // empty by default
   }
+}
+
+export function anyToAppError<DATA_TYPE = ErrorData> (
+  o: any,
+  data: Partial<DATA_TYPE> = {},
+): AppError {
+  const e = anyToErrorObject(o)
+
+  return new AppError<DATA_TYPE>(e.message, {
+    ...e.data,
+    ...data,
+  } as DATA_TYPE)
 }
 
 export function errorToErrorObject (e: Error): ErrorObject {

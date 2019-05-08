@@ -43,8 +43,8 @@ export interface Admin403ErrorData extends HttpErrorData {
  * Portable object that represents Error.
  * Has extendable generic `data` property.
  * Can be easily transformed from/to Error class via:
- * - AppError.fromErrorObject()
- * - appError.toErrorObject()
+ * - errorObjectToAppError()
+ * - appErrorToErrorObject()
  *
  * Cannot contain any properties that stock Error doesn't have, otherwise
  * it will be hard to transform it to ErrorObject.

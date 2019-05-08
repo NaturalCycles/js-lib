@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`anyToAppError snapshot 1`] = `
+Array [
+  [AppError: undefined],
+  [AppError: null],
+  [AppError: empty_string],
+  [AppError: hello a],
+  [AppError: 0],
+  [AppError: 1],
+  [AppError: -5],
+  [AppError: () => 'smth'],
+  [AppError: {}],
+  [AppError: empty_string],
+  [AppError: a],
+  [AppError: {
+  "a": "aa"
+}],
+  [AppError: err msg],
+  [AppError: http err msg],
+]
+`;
+
 exports[`anyToErrorMessage 1`] = `
 Array [
   "undefined",
