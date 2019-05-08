@@ -52,7 +52,12 @@ import {
 import { randomInt } from './util/random.util'
 import { loadScript } from './util/script.util'
 import { SimpleMovingAverage } from './util/sma'
-import { capitalizeFirstLetter, lowercaseFirstLetter, removeWhitespace } from './util/string.util'
+import {
+  capitalizeFirstLetter,
+  lowercaseFirstLetter,
+  removeWhitespace,
+  resultToString,
+} from './util/string.util'
 import { silentConsole } from './util/test.util'
 
 export {
@@ -78,6 +83,7 @@ export {
   capitalizeFirstLetter,
   lowercaseFirstLetter,
   removeWhitespace,
+  resultToString,
   pick,
   filterFalsyValues,
   filterEmptyStringValues,

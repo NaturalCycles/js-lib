@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resultToString 1`] = `
+Array [
+  "undefined",
+  "null",
+  "empty_string",
+  "hello a",
+  "0",
+  "1",
+  "-5",
+  "() => 'smth'",
+  "{}",
+  "empty_string",
+  "a",
+  "{
+  \\"a\\": \\"aa\\"
+}",
+  "err msg",
+  "http err msg",
+]
+`;
