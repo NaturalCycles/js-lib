@@ -30,6 +30,12 @@
     // Enabled should be faster, but will catch less errors
     // "skipLibCheck": true,
 
+    // Need to be specified in the project tsconfig
+    // "typeRoots": [
+    //   "node_modules/@types",
+    //   "src/@types"
+    // ],
+
     // Other
     "pretty": true,
     "newLine": "lf",
