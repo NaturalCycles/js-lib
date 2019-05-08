@@ -1,3 +1,4 @@
+import { logMillis } from './decorators/logMillis.decorator'
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
 import { memoPromise } from './decorators/memoPromise.decorator'
@@ -49,6 +50,7 @@ import {
 } from './util/object.util'
 import { randomInt } from './util/random.util'
 import { loadScript } from './util/script.util'
+import { SimpleMovingAverage } from './util/sma'
 import { capitalizeFirstLetter, lowercaseFirstLetter, removeWhitespace } from './util/string.util'
 import { silentConsole } from './util/test.util'
 
@@ -56,6 +58,7 @@ export {
   memo,
   memoCache,
   memoPromise,
+  logMillis,
   ErrorData,
   ErrorObject,
   HttpErrorData,
@@ -107,4 +110,5 @@ export {
   arrayRange,
   dedupeArray,
   flatArray,
+  SimpleMovingAverage,
 }
