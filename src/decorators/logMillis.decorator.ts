@@ -1,6 +1,10 @@
 import { anyToErrorMessage, isObject, resultToString, SimpleMovingAverage } from '..'
 
-type LogResultFn = (r: any) => string
+/**
+ * $r - result
+ * @returns array of tokens that will be `.filter(Boolean).join(' ')`
+ */
+type LogResultFn = (r: any) => any[]
 
 export interface LogMillisOpts {
   /**
@@ -12,6 +16,11 @@ export interface LogMillisOpts {
    * Skip logging method arguments
    */
   noLogArgs?: boolean
+
+  /**
+   * Skip logging result length when result is an array.
+   */
+  noLogResultLength?: boolean
 
   /**
    * Also log on method start.
@@ -63,9 +72,15 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   // e.g `NameOfYourClass.methodName`
   const methodSignature = [target.constructor.name, key].filter(Boolean).join('.')
 
-  const { avg, noLogArgs, logStart, logResult } = opt
+  const { avg, noLogArgs, logStart, logResult, noLogResultLength } = opt
   let { logResultFn } = opt
-  if (logResult) logResultFn = r => resultToString(r)
+  if (!logResultFn) {
+    if (logResult) {
+      logResultFn = r => ['result:', resultToString(r)]
+    } else if (!noLogResultLength) {
+      logResultFn = r => (Array.isArray(r) ? ['result:', r.length, 'items'] : [])
+    }
+  }
 
   const sma = avg ? new SimpleMovingAverage(avg) : undefined
   let count = 0
@@ -136,7 +151,7 @@ function logFinished (
   if (typeof err !== 'undefined') {
     t.push('ERROR:', anyToErrorMessage(err))
   } else if (logResultFn) {
-    t.push('result:', logResultFn(res))
+    t.push(...logResultFn(res))
   }
 
   console.log(t.filter(Boolean).join(' '))

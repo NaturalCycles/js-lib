@@ -30,7 +30,7 @@ class C {
     return 'a'
   }
 
-  @logMillis({ logResultFn: r => `my custom msg ${r}` })
+  @logMillis({ logResultFn: r => [`my custom msg ${r}`] })
   methodResultFn (n: number) {
     return n * 2
   }
@@ -38,6 +38,11 @@ class C {
   @logMillis()
   methodLongArg (...args: any[]) {
     return 'a'
+  }
+
+  @logMillis()
+  methodReturnsArray () {
+    return [1, 2, 3]
   }
 }
 
@@ -79,4 +84,10 @@ test('methodResultFn', () => {
 test('methodLongArg', () => {
   c.methodLongArg(5, 3, { a: 'a' }, { long: 'short' })
   c.methodLongArg(5, 3, { a: 'a' }, { long: 'longer longer value here' })
+})
+
+test('methodReturnsArray', () => {
+  c.methodReturnsArray()
+  c.methodReturnsArray()
+  c.methodReturnsArray()
 })
