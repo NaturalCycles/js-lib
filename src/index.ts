@@ -25,17 +25,15 @@ import { HttpError } from './error/http.error'
 import { ClassType, DeepReadonly, PromiseMap, StringMap, ValuesOf } from './types'
 import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
-  arrayToHash,
   by,
-  classToPlain,
   deepCopy,
   deepEquals,
   deepFreeze,
   deepTrim,
   filterEmptyStringValues,
   filterFalsyValues,
+  filterObject,
   filterUndefinedValues,
-  filterValues,
   getKeyByValue,
   invertMap,
   invertObject,
@@ -46,7 +44,7 @@ import {
   objectNullValuesToUndefined,
   pick,
   sortObjectDeep,
-  transformValues,
+  transformObject,
   unsetValue,
 } from './util/object.util'
 import { randomInt } from './util/random.util'
@@ -89,8 +87,8 @@ export {
   filterFalsyValues,
   filterEmptyStringValues,
   filterUndefinedValues,
-  filterValues,
-  transformValues,
+  filterObject,
+  transformObject,
   objectNullValuesToUndefined,
   deepEquals,
   deepCopy,
@@ -101,8 +99,6 @@ export {
   sortObjectDeep,
   unsetValue,
   mask,
-  arrayToHash,
-  classToPlain,
   getKeyByValue,
   invertObject,
   invertMap,

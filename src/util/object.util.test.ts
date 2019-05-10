@@ -1,15 +1,13 @@
 import {
-  arrayToHash,
   by,
-  classToPlain,
   deepCopy,
   deepEquals,
   deepFreeze,
   deepTrim,
   filterEmptyStringValues,
   filterFalsyValues,
+  filterObject,
   filterUndefinedValues,
-  filterValues,
   getKeyByValue,
   invertMap,
   invertObject,
@@ -21,7 +19,7 @@ import {
   objectNullValuesToUndefined,
   pick,
   sortObjectDeep,
-  transformValues,
+  transformObject,
   unsetValue,
 } from './object.util'
 
@@ -155,10 +153,10 @@ test('filterUndefinedValues', () => {
   })
 })
 
-test('filterValues', () => {
-  expect(filterValues(1, () => false)).toBe(1)
+test('filterObject', () => {
+  expect(filterObject(1, () => false)).toBe(1)
 
-  const f = filterValues
+  const f = filterObject
   const br = {
     a: 'b',
     c: null,
@@ -169,8 +167,8 @@ test('filterValues', () => {
   expect(br.c).toBeUndefined()
 })
 
-test('transformValues', () => {
-  expect(transformValues(1, () => {})).toBe(1)
+test('transformObject', () => {
+  expect(transformObject(1, () => {})).toBe(1)
 })
 
 test('objectNullValuesToUndefined', () => {
@@ -355,32 +353,6 @@ test('sortObjectDeep', () => {
 
   // console.log(sortObjectDeep(o))
   expect(sortObjectDeep(o)).toMatchSnapshot()
-})
-
-test('arrayToHash', () => {
-  const f = arrayToHash
-
-  expect(f(undefined)).toEqual({})
-  expect(f([])).toEqual({})
-
-  const a = ['a', 'b']
-  expect(f(a)).toEqual({
-    a: true,
-    b: true,
-  })
-})
-
-test('classToPlain', () => {
-  const f = classToPlain
-
-  class A {
-    constructor (public a?: string, public b?: string) {}
-  }
-
-  expect(f(undefined)).toEqual({})
-  expect(f(null)).toEqual(null)
-  expect(f({})).toEqual({})
-  expect(f(new A('aa', 'bb'))).toEqual({ a: 'aa', b: 'bb' })
 })
 
 test('getKeyByValue', async () => {

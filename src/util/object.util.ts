@@ -1,6 +1,5 @@
 import { StringMap } from '../types'
 
-// Picks just allowed fields and no other fields
 /**
  * Returns clone of `obj` with only `fields` preserved.
  */
@@ -21,46 +20,49 @@ export function pick<T, K extends keyof T> (
 }
 
 /**
- * Does NOT mutate (unless "mutate" flag is set)
- * Removes "falsy" value from the object.
+ * Removes "falsy" values from the object.
  */
 export function filterFalsyValues<T> (_obj: T, mutate = false): T {
-  return filterValues(_obj, (k, v) => !!v, mutate)
+  return filterObject(_obj, (k, v) => !!v, mutate)
 }
 
 export function filterEmptyStringValues<T> (_obj: T, mutate = false): T {
-  return filterValues(_obj, (k, v) => v !== '', mutate)
+  return filterObject(_obj, (k, v) => v !== '', mutate)
 }
 
 export function filterUndefinedValues<T> (_obj: T, mutate = false): T {
-  return filterValues(_obj, (k, v) => v !== undefined && v !== null, mutate)
+  return filterObject(_obj, (k, v) => v !== undefined && v !== null, mutate) as any
 }
 
-export function filterValues<T> (
+/**
+ * Returns clone of `obj` without properties that does not pass `predicate`.
+ * Allows filtering by both key and value.
+ */
+export function filterObject<T> (
   _obj: T,
-  predicate: (key: any, value: any) => boolean,
+  predicate: (key: keyof T, value: any) => boolean,
   mutate = false,
 ): T {
   if (!isObject(_obj)) return _obj
 
-  const o: any = mutate ? _obj : { ...(_obj as any) }
+  const o: T = mutate ? _obj : { ..._obj }
 
   Object.keys(o).forEach(k => {
-    const keep = predicate(k, o[k])
+    const keep = predicate(k as keyof T, o[k])
     if (!keep) delete o[k]
   })
 
   return o
 }
 
-export function transformValues<T> (
+export function transformObject<T> (
   _obj: T,
   transformFn: (key: any, value: any) => any,
   mutate = false,
 ): T {
   if (!isObject(_obj)) return _obj
 
-  const o: any = mutate ? _obj : { ...(_obj as any) }
+  const o: T = mutate ? _obj : { ...(_obj as any) }
 
   Object.keys(o).forEach(k => {
     o[k] = transformFn(k, o[k])
@@ -70,7 +72,7 @@ export function transformValues<T> (
 }
 
 export function objectNullValuesToUndefined<T> (_obj: T, mutate = false): T {
-  return transformValues(
+  return transformObject(
     _obj,
     (k, v) => {
       if (v === null) return undefined
@@ -202,7 +204,7 @@ export function unsetValue (obj: any, prop: string): void {
  * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
  */
 export function mask<T extends object> (_o: T, exclude: string[], _deepCopy = false): T {
-  let o = { ...(_o as object) }
+  let o = { ..._o }
   if (_deepCopy) o = deepCopy(o)
 
   exclude.forEach(e => {
@@ -210,20 +212,6 @@ export function mask<T extends object> (_o: T, exclude: string[], _deepCopy = fa
     unsetValue(o, e)
   })
   return o as T
-}
-
-/**
- * Turns ['a', b'] into {a: true, b: true}
- */
-export function arrayToHash (a: any[] = []): { [k: string]: boolean } {
-  return a.reduce((o, item) => {
-    o[item] = true
-    return o
-  }, {})
-}
-
-export function classToPlain<T = any> (obj: any = {}): T {
-  return JSON.parse(JSON.stringify(obj))
 }
 
 export function getKeyByValue<T = any> (object: any, value: any): T | undefined {
@@ -245,15 +233,18 @@ export function invertMap<K, V> (m: Map<K, V>): Map<V, K> {
   return inv
 }
 
-export function by<T = any> (items: T[] = [], by: string): StringMap<T> {
-  const r: StringMap<T> = {}
-  items.forEach((item: any) => {
+export function by<T> (items: T[] = [], by: string): StringMap<T> {
+  return items.reduce((r, item) => {
     if (item[by]) r[item[by]] = item
-  })
-  return r
+    return r
+  }, {})
 }
 
-// Source: https://github.com/substack/deep-freeze/blob/master/index.js
+/**
+ * Does Object.freeze recursively for given object.
+ *
+ * Based on: https://github.com/substack/deep-freeze/blob/master/index.js
+ */
 export function deepFreeze (o: any): void {
   Object.freeze(o)
 
