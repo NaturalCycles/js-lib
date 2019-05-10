@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/NaturalCycles/js-lib/compare/v5.0.1...v5.1.0) (2019-05-10)
+
+
+### Features
+
+* omit(), as opposite of `pick()` ([89de5ae](https://github.com/NaturalCycles/js-lib/commit/89de5ae))
+
 ## [5.0.1](https://github.com/NaturalCycles/js-lib/compare/v5.0.0...v5.0.1) (2019-05-10)
 
 
