@@ -1,14 +1,20 @@
 import { StringMap } from '../types'
 
 // Picks just allowed fields and no other fields
-// pick<T> (obj: any, fields: string[], initialObject = {}): T {
-export function pick<T> (obj: T, fields?: string[], initialObject: Partial<T> = {}): T {
+/**
+ * Returns clone of `obj` with only `fields` preserved.
+ */
+export function pick<T, K extends keyof T> (
+  obj: T,
+  fields: readonly K[] = [],
+  initialObject: Partial<T> = {},
+): Pick<T, K> {
   if (!obj || !fields || !fields.length) return obj
 
-  const o: any = initialObject
+  const o = initialObject as Pick<T, K>
 
   fields.forEach(k => {
-    if (k in obj) o[k] = (obj as any)[k]
+    if (k in obj) o[k] = obj[k]
   })
 
   return o

@@ -41,8 +41,8 @@ test('pick', () => {
 
   expect(f(obj)).toEqual(obj) // no fields
 
-  const fields: string[] = ['a', 'c', 'd', 'e']
-  const r = f(obj, fields)
+  const fields = ['a', 'c', 'd', 'e'] as const
+  const r = f(obj, fields as any)
   // console.log(r)
   expect(r).toEqual({ a: 1, c: 3, d: false })
   expect('e' in r).toBe(false) // should not add more fields with 'undefined' value
