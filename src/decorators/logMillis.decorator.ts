@@ -1,4 +1,4 @@
-import { anyToErrorMessage, isObject, resultToString, SimpleMovingAverage } from '..'
+import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
 
 /**
  * $r - result
@@ -90,13 +90,14 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
       ? ''
       : args
           .map(arg => {
-            if (isObject(arg)) {
+            // If object || array
+            if (arg && typeof arg === 'object') {
               const s = JSON.stringify(arg)
               return s.length > 30 ? '...' : s
             }
             return arg
           })
-          .join(' ')
+          .join(', ')
 
     const callSignature = `${methodSignature}(${argsStr}) #${++count}`
     if (logStart) console.log(`>> ${callSignature}`)

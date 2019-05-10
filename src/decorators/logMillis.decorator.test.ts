@@ -84,6 +84,8 @@ test('methodResultFn', () => {
 test('methodLongArg', () => {
   c.methodLongArg(5, 3, { a: 'a' }, { long: 'short' })
   c.methodLongArg(5, 3, { a: 'a' }, { long: 'longer longer value here' })
+  c.methodLongArg([1, 2, 3])
+  c.methodLongArg([1, 2, 3, 'long long looooooooooooooong'])
 })
 
 test('methodReturnsArray', () => {
