@@ -1,3 +1,22 @@
+# [5.0.0](https://github.com/NaturalCycles/js-lib/compare/v4.10.2...v5.0.0) (2019-05-10)
+
+
+### Code Refactoring
+
+* rename functions ([b019cf0](https://github.com/NaturalCycles/js-lib/commit/b019cf0))
+
+
+### Features
+
+* logMillis arg display improvement ([39d83bd](https://github.com/NaturalCycles/js-lib/commit/39d83bd))
+* stricter return type for pick() ([425cb38](https://github.com/NaturalCycles/js-lib/commit/425cb38))
+* ValuesOf type ([5b41c30](https://github.com/NaturalCycles/js-lib/commit/5b41c30))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [4.10.2](https://github.com/NaturalCycles/js-lib/compare/v4.10.1...v4.10.2) (2019-05-08)
 
 
