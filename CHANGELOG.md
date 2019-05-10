@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/NaturalCycles/js-lib/compare/v5.0.0...v5.0.1) (2019-05-10)
+
+
+### Bug Fixes
+
+* export ValueOf ([28d2e11](https://github.com/NaturalCycles/js-lib/commit/28d2e11))
+
 # [5.0.0](https://github.com/NaturalCycles/js-lib/compare/v4.10.2...v5.0.0) (2019-05-10)
 
 
