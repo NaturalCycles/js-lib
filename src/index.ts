@@ -22,7 +22,7 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
-import { ClassType, DeepReadonly, PromiseMap, StringMap, ValuesOf } from './types'
+import { ClassType, DeepReadonly, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
   by,
@@ -79,6 +79,7 @@ export {
   ClassType,
   DeepReadonly,
   ValuesOf,
+  ValueOf,
   capitalizeFirstLetter,
   lowercaseFirstLetter,
   removeWhitespace,
