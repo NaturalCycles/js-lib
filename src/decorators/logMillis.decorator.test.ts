@@ -34,6 +34,11 @@ class C {
   methodResultFn (n: number) {
     return n * 2
   }
+
+  @logMillis()
+  methodLongArg (...args: any[]) {
+    return 'a'
+  }
 }
 
 const c = new C()
@@ -69,4 +74,9 @@ test('methodResultFn', () => {
   c.methodResultFn(1)
   c.methodResultFn(2)
   c.methodResultFn(3)
+})
+
+test('methodLongArg', () => {
+  c.methodLongArg(5, 3, { a: 'a' }, { long: 'short' })
+  c.methodLongArg(5, 3, { a: 'a' }, { long: 'longer longer value here' })
 })

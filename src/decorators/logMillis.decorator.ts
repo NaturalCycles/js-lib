@@ -1,4 +1,4 @@
-import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
+import { anyToErrorMessage, isObject, resultToString, SimpleMovingAverage } from '..'
 
 type LogResultFn = (r: any) => string
 
@@ -71,7 +71,17 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   let count = 0
 
   descriptor.value = function (this: any, ...args: any[]) {
-    const argsStr = noLogArgs ? '' : args.join(' ')
+    const argsStr = noLogArgs
+      ? ''
+      : args
+          .map(arg => {
+            if (isObject(arg)) {
+              const s = JSON.stringify(arg)
+              return s.length > 30 ? '...' : s
+            }
+            return arg
+          })
+          .join(' ')
 
     const callSignature = `${methodSignature}(${argsStr}) #${++count}`
     if (logStart) console.log(`>> ${callSignature}`)
