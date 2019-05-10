@@ -1,6 +1,7 @@
 import { logMillis } from './decorators/logMillis.decorator'
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
+import { memoInstance } from './decorators/memoInstance.decorator'
 import { memoPromise } from './decorators/memoPromise.decorator'
 import { AppError } from './error/app.error'
 import {
@@ -61,6 +62,7 @@ import { silentConsole } from './util/test.util'
 
 export {
   memo,
+  memoInstance,
   memoCache,
   memoPromise,
   logMillis,
