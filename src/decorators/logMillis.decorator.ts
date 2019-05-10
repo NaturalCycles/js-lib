@@ -78,7 +78,7 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
     if (logResult) {
       logResultFn = r => ['result:', resultToString(r)]
     } else if (!noLogResultLength) {
-      logResultFn = r => (Array.isArray(r) ? ['result:', r.length, 'items'] : [])
+      logResultFn = r => (Array.isArray(r) ? [`result: ${r.length} items`] : [])
     }
   }
 
