@@ -1,3 +1,11 @@
+# [5.2.0](https://github.com/NaturalCycles/js-lib/compare/v5.1.0...v5.2.0) (2019-05-10)
+
+
+### Features
+
+* [@log](https://github.com/log)Millis noLogResultLength ([80bef6c](https://github.com/NaturalCycles/js-lib/commit/80bef6c))
+* [@memo](https://github.com/memo)Instance decorator ([00a4fd3](https://github.com/NaturalCycles/js-lib/commit/00a4fd3))
+
 # [5.1.0](https://github.com/NaturalCycles/js-lib/compare/v5.0.1...v5.1.0) (2019-05-10)
 
 
