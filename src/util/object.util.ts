@@ -1,37 +1,72 @@
+import { Omit } from 'type-fest'
 import { StringMap } from '../types'
 
 /**
- * Returns clone of `obj` with only `fields` preserved.
+ * Returns clone of `obj` with only `props` preserved.
+ * Opposite of Omit.
  */
 export function pick<T, K extends keyof T> (
   obj: T,
-  fields: readonly K[] = [],
+  props: readonly K[] = [],
   initialObject: Partial<T> = {},
 ): Pick<T, K> {
-  if (!obj || !fields || !fields.length) return obj
+  if (!obj || !props || !props.length) return obj
 
-  const o = initialObject as Pick<T, K>
+  return props.reduce((r, prop) => {
+    if (prop in obj) r[prop] = obj[prop]
+    return r
+  }, initialObject) as Pick<T, K>
+}
 
-  fields.forEach(k => {
-    if (k in obj) o[k] = obj[k]
-  })
+/**
+ * Returns clone of `obj` with `props` omitted.
+ * Opposite of Pick.
+ */
+export function omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): Omit<T, K> {
+  if (!obj || !props || !props.length) return obj
 
-  return o
+  return props.reduce(
+    (r, prop) => {
+      delete r[prop]
+      return r
+    },
+    { ...obj },
+  )
+}
+
+/**
+ * Returns object with filtered keys from `props` array.
+ * E.g:
+ * mask({...}, [
+ *  'account.id',
+ *  'account.updated',
+ * ])
+ *
+ * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
+ */
+export function mask<T extends object> (_o: T, props: string[], _deepCopy = false): T {
+  return props.reduce(
+    (r, prop) => {
+      unsetValue(r, prop)
+      return r
+    },
+    _deepCopy ? deepCopy(_o) : { ..._o },
+  )
 }
 
 /**
  * Removes "falsy" values from the object.
  */
-export function filterFalsyValues<T> (_obj: T, mutate = false): T {
-  return filterObject(_obj, (k, v) => !!v, mutate)
+export function filterFalsyValues<T> (obj: T, mutate = false): T {
+  return filterObject(obj, (k, v) => !!v, mutate)
 }
 
-export function filterEmptyStringValues<T> (_obj: T, mutate = false): T {
-  return filterObject(_obj, (k, v) => v !== '', mutate)
+export function filterEmptyStringValues<T> (obj: T, mutate = false): T {
+  return filterObject(obj, (k, v) => v !== '', mutate)
 }
 
-export function filterUndefinedValues<T> (_obj: T, mutate = false): T {
-  return filterObject(_obj, (k, v) => v !== undefined && v !== null, mutate) as any
+export function filterUndefinedValues<T> (obj: T, mutate = false): T {
+  return filterObject(obj, (k, v) => v !== undefined && v !== null, mutate)
 }
 
 /**
@@ -39,41 +74,40 @@ export function filterUndefinedValues<T> (_obj: T, mutate = false): T {
  * Allows filtering by both key and value.
  */
 export function filterObject<T> (
-  _obj: T,
+  obj: T,
   predicate: (key: keyof T, value: any) => boolean,
   mutate = false,
 ): T {
-  if (!isObject(_obj)) return _obj
+  if (!isObject(obj)) return obj
 
-  const o: T = mutate ? _obj : { ..._obj }
-
-  Object.keys(o).forEach(k => {
-    const keep = predicate(k as keyof T, o[k])
-    if (!keep) delete o[k]
-  })
-
-  return o
+  return Object.keys(obj).reduce(
+    (r, k) => {
+      if (!predicate(k as keyof T, r[k])) delete r[k]
+      return r
+    },
+    mutate ? obj : { ...obj },
+  )
 }
 
 export function transformObject<T> (
-  _obj: T,
+  obj: T,
   transformFn: (key: any, value: any) => any,
   mutate = false,
 ): T {
-  if (!isObject(_obj)) return _obj
+  if (!isObject(obj)) return obj
 
-  const o: T = mutate ? _obj : { ...(_obj as any) }
-
-  Object.keys(o).forEach(k => {
-    o[k] = transformFn(k, o[k])
-  })
-
-  return o
+  return Object.keys(obj).reduce(
+    (r, k) => {
+      r[k] = transformFn(k, r[k])
+      return r
+    },
+    mutate ? obj : { ...obj },
+  )
 }
 
-export function objectNullValuesToUndefined<T> (_obj: T, mutate = false): T {
+export function objectNullValuesToUndefined<T> (obj: T, mutate = false): T {
   return transformObject(
-    _obj,
+    obj,
     (k, v) => {
       if (v === null) return undefined
       return v
@@ -191,27 +225,6 @@ export function unsetValue (obj: any, prop: string): void {
   }
   if (!isObject(obj)) return
   delete obj[last!]
-}
-
-/**
- * Returns object with filtered keys from "exclude" array.
- * E.g:
- * mask({...}, [
- *  'account.id',
- *  'account.updated',
- * ])
- *
- * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
- */
-export function mask<T extends object> (_o: T, exclude: string[], _deepCopy = false): T {
-  let o = { ..._o }
-  if (_deepCopy) o = deepCopy(o)
-
-  exclude.forEach(e => {
-    // eval(`delete o.${e}`)
-    unsetValue(o, e)
-  })
-  return o as T
 }
 
 export function getKeyByValue<T = any> (object: any, value: any): T | undefined {

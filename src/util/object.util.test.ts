@@ -17,6 +17,7 @@ import {
   mask,
   mergeDeep,
   objectNullValuesToUndefined,
+  omit,
   pick,
   sortObjectDeep,
   transformObject,
@@ -46,6 +47,67 @@ test('pick', () => {
   expect('e' in r).toBe(false) // should not add more fields with 'undefined' value
   // should not mutate
   expect(obj.c).toBe(3)
+})
+
+test('omit', () => {
+  expect(omit(undefined as any)).toBe(undefined)
+  expect(omit(null as any)).toBe(null)
+  expect(omit({})).toEqual({})
+
+  const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: false,
+    e: undefined,
+  }
+
+  deepFreeze(obj)
+
+  expect(omit(obj)).toEqual(obj)
+
+  expect(omit(obj, ['b', 'c'])).toEqual({
+    a: 1,
+    d: false,
+    e: undefined,
+  })
+
+  expect(omit(obj, ['a', 'd', 'e'])).toEqual({
+    b: 2,
+    c: 3,
+  })
+})
+
+test('mask shallowCopy', () => {
+  const o = {
+    a: '1',
+    b: {
+      c: '2',
+      d: '1',
+      e: {
+        f: 7,
+      },
+    },
+  }
+  const r = mask(o, ['b.c'])
+  expect(r).toMatchSnapshot()
+  expect(r.b).toEqual(o.b) // cause it will mutate r.b
+})
+
+test('mask deepCopy', () => {
+  const o = {
+    a: '1',
+    b: {
+      c: '2',
+      d: '1',
+    },
+  }
+  deepFreeze(o)
+  const r = mask(o, ['b.c'], true)
+  expect(r).toMatchSnapshot()
+
+  // should not fail
+  expect(mask(o, ['c.0.0'])).toEqual(o)
 })
 
 test('deepTrim', () => {
@@ -300,38 +362,6 @@ test('mergeDeep', () => {
 
   const b1 = {}
   expect(mergeDeep(b1, a2)).toMatchSnapshot()
-})
-
-test('mask shallowCopy', () => {
-  const o = {
-    a: '1',
-    b: {
-      c: '2',
-      d: '1',
-      e: {
-        f: 7,
-      },
-    },
-  }
-  const r = mask(o, ['b.c'])
-  expect(r).toMatchSnapshot()
-  expect(r.b).toEqual(o.b) // cause it will mutate r.b
-})
-
-test('mask deepCopy', () => {
-  const o = {
-    a: '1',
-    b: {
-      c: '2',
-      d: '1',
-    },
-  }
-  deepFreeze(o)
-  const r = mask(o, ['b.c'], true)
-  expect(r).toMatchSnapshot()
-
-  // should not fail
-  expect(mask(o, ['c.0.0'])).toEqual(o)
 })
 
 test('sortObjectDeep', () => {
