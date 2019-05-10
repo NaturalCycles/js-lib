@@ -89,7 +89,7 @@ export function filterObject<T> (
   )
 }
 
-export function transformObject<T> (
+export function transformValues<T> (
   obj: T,
   transformFn: (key: any, value: any) => any,
   mutate = false,
@@ -106,7 +106,7 @@ export function transformObject<T> (
 }
 
 export function objectNullValuesToUndefined<T> (obj: T, mutate = false): T {
-  return transformObject(
+  return transformValues(
     obj,
     (k, v) => {
       if (v === null) return undefined

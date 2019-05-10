@@ -20,7 +20,7 @@ import {
   omit,
   pick,
   sortObjectDeep,
-  transformObject,
+  transformValues,
   unsetValue,
 } from './object.util'
 
@@ -229,8 +229,8 @@ test('filterObject', () => {
   expect(br.c).toBeUndefined()
 })
 
-test('transformObject', () => {
-  expect(transformObject(1, () => {})).toBe(1)
+test('transformValues', () => {
+  expect(transformValues(1, () => {})).toBe(1)
 })
 
 test('objectNullValuesToUndefined', () => {

@@ -46,7 +46,7 @@ import {
   omit,
   pick,
   sortObjectDeep,
-  transformObject,
+  transformValues,
   unsetValue,
 } from './util/object.util'
 import { randomInt } from './util/random.util'
@@ -93,7 +93,7 @@ export {
   filterEmptyStringValues,
   filterUndefinedValues,
   filterObject,
-  transformObject,
+  transformValues,
   objectNullValuesToUndefined,
   deepEquals,
   deepCopy,
