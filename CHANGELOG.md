@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/NaturalCycles/js-lib/compare/v5.2.0...v5.3.0) (2019-05-10)
+
+
+### Features
+
+* improve `[@log](https://github.com/log)Millis` ([82936c9](https://github.com/NaturalCycles/js-lib/commit/82936c9))
+
 # [5.2.0](https://github.com/NaturalCycles/js-lib/compare/v5.1.0...v5.2.0) (2019-05-10)
 
 
