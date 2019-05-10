@@ -1,3 +1,11 @@
+## [5.3.1](https://github.com/NaturalCycles/js-lib/compare/v5.3.0...v5.3.1) (2019-05-10)
+
+
+### Bug Fixes
+
+* `[@log](https://github.com/log)Millis` array results ([469f862](https://github.com/NaturalCycles/js-lib/commit/469f862))
+* revert `transformObject` to `transformValues` ([ab3e667](https://github.com/NaturalCycles/js-lib/commit/ab3e667))
+
 # [5.3.0](https://github.com/NaturalCycles/js-lib/compare/v5.2.0...v5.3.0) (2019-05-10)
 
 
