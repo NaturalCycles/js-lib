@@ -1,47 +1,47 @@
 import { pDelay } from '@naturalcycles/promise-lib'
 import { InstanceId } from '../index'
-import { logMillis } from './logMillis.decorator'
+import { logMethod } from './logMethod.decorator'
 
 class C {
-  @logMillis()
+  @logMethod()
   syncMethodSuccess () {
     return 'a'
   }
 
-  @logMillis()
+  @logMethod()
   syncMethodThrow () {
     throw new Error('MyError')
   }
 
-  @logMillis()
+  @logMethod()
   async asyncMethodSuccess () {
     await pDelay(10)
     return 'a'
   }
 
-  @logMillis()
+  @logMethod()
   async asyncMethodThrow () {
     await pDelay(10)
     throw new Error('MyError')
   }
 
-  @logMillis({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
+  @logMethod({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
   async asyncMethodSuccessAvg (delay: number) {
     await pDelay(delay)
     return 'a'
   }
 
-  @logMillis({ logResultFn: r => [`my custom msg ${r}`] })
+  @logMethod({ logResultFn: r => [`my custom msg ${r}`] })
   methodResultFn (n: number) {
     return n * 2
   }
 
-  @logMillis()
+  @logMethod()
   methodLongArg (...args: any[]) {
     return 'a'
   }
 
-  @logMillis()
+  @logMethod()
   methodReturnsArray () {
     return [1, 2, 3]
   }

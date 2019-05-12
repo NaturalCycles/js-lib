@@ -1,5 +1,5 @@
 import { getArgsSignature } from './decorators/decorator.util'
-import { logMillis } from './decorators/logMillis.decorator'
+import { logMethod } from './decorators/logMethod.decorator'
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
 import { memoInstance } from './decorators/memoInstance.decorator'
@@ -60,13 +60,14 @@ import {
   resultToString,
 } from './util/string.util'
 import { silentConsole } from './util/test.util'
+import { ms, since } from './util/time.util'
 
 export {
   memo,
   memoInstance,
   memoCache,
   memoPromise,
-  logMillis,
+  logMethod,
   getArgsSignature,
   ErrorData,
   ErrorObject,
@@ -122,4 +123,6 @@ export {
   dedupeArray,
   flatArray,
   SimpleMovingAverage,
+  since,
+  ms,
 }

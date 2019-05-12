@@ -1,4 +1,4 @@
-import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
+import { anyToErrorMessage, ms, resultToString, SimpleMovingAverage } from '..'
 import { getArgsSignature, getMethodSignature } from './decorator.util'
 
 /**
@@ -7,7 +7,7 @@ import { getArgsSignature, getMethodSignature } from './decorator.util'
  */
 type LogResultFn = (r: any) => any[]
 
-export interface LogMillisOpts {
+export interface LogMethodOpts {
   /**
    * Log "moving average" elapsed time for up to `avg` last method calls
    */
@@ -59,7 +59,7 @@ export interface LogMillisOpts {
  * >> asyncMethod()
  * << asyncMethodThrow() took 10 ms ERROR: MyError
  */
-export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
+export const logMethod = (opt: LogMethodOpts = {}): MethodDecorator => (
   target,
   key,
   descriptor,
@@ -131,12 +131,12 @@ function logFinished (
   res?: any,
   err?: any,
 ): void {
-  const ms = Date.now() - started
+  const millis = Date.now() - started
 
-  const t = ['<<', callSignature, 'took', msToStr(ms)]
+  const t = ['<<', callSignature, 'took', ms(millis)]
 
   if (sma) {
-    t.push(`(avg ${msToStr(sma.push(ms))})`)
+    t.push(`(avg ${ms(sma.push(millis))})`)
   }
 
   if (typeof err !== 'undefined') {
@@ -146,16 +146,4 @@ function logFinished (
   }
 
   console.log(t.filter(Boolean).join(' '))
-}
-
-function msToStr (ms: number): string {
-  if (ms >= 10000) {
-    return `${Math.round(ms / 1000)} sec`
-  }
-
-  if (ms >= 1000) {
-    return `${(ms / 1000).toFixed(3)} sec`
-  }
-
-  return `${Math.round(ms)} ms`
 }
