@@ -1,5 +1,4 @@
-import { arrayRange } from '..'
-import { memoInstance } from './memoInstance.decorator'
+import { arrayRange, memo } from '..'
 
 beforeEach(() => {
   jest.restoreAllMocks()
@@ -8,7 +7,7 @@ beforeEach(() => {
 class C {
   fn () {}
 
-  @memoInstance()
+  @memo()
   method (n: number) {
     this.fn()
     return n * 2

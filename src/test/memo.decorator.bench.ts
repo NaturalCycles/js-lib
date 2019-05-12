@@ -7,6 +7,7 @@ yarn tsn ./src/test/memo.decorator.bench.ts
 
 import * as Benchmark from 'benchmark'
 import { memo } from '..'
+import { memoSimple } from '../decorators/memoSimple.decorator'
 
 let c = 0
 
@@ -20,22 +21,28 @@ class C0 {
 }
 
 class C1 {
-  // getC0 (inc?: number) {
   getC0 () {
     return new C0()
   }
 }
 
 class C2 {
+  @memoSimple()
+  getC0 () {
+    return new C0()
+  }
+}
+
+class C3 {
   @memo()
   getC0 () {
-    // getC0 (inc?: number) {
     return new C0()
   }
 }
 
 const c1 = new C1()
 const c2 = new C2()
+const c3 = new C3()
 const c0 = c1.getC0()
 
 // const key = {a: 'b'}
@@ -46,17 +53,20 @@ const key = 2
 const suite = new Benchmark.Suite()
 
 suite
-  .add('f1', () => {
+  .add('no_memo', () => {
     // c1.getC0(key as any).work()
     c1.getC0().work()
     // let a = JSON.stringify({a: 'b'})
   })
-  .add('f2', () => {
+  .add('@memoSimple', () => {
     // let a = JSON.stringify(undefined)
     // (c2 as any).getC0('abc').work()
     // c2.getC0(key as any).work()
     c2.getC0().work()
     // c0.work()
+  })
+  .add('@memo', () => {
+    c3.getC0().work()
   })
   // add listeners
   .on('cycle', (event: any) => {

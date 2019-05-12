@@ -1,9 +1,7 @@
 import { getArgsSignature } from './decorators/decorator.util'
 import { logMethod } from './decorators/logMethod.decorator'
 import { memo } from './decorators/memo.decorator'
-import { memoCache } from './decorators/memoCache.decorator'
-import { memoInstance } from './decorators/memoInstance.decorator'
-import { memoPromise } from './decorators/memoPromise.decorator'
+import { MemoCache } from './decorators/memo.util'
 import { AppError } from './error/app.error'
 import {
   Admin401ErrorData,
@@ -64,9 +62,7 @@ import { ms, since } from './util/time.util'
 
 export {
   memo,
-  memoInstance,
-  memoCache,
-  memoPromise,
+  MemoCache,
   logMethod,
   getArgsSignature,
   ErrorData,
