@@ -24,15 +24,7 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
-import {
-  ClassType,
-  DeepReadonly,
-  InstanceId,
-  PromiseMap,
-  StringMap,
-  ValueOf,
-  ValuesOf,
-} from './types'
+import { InstanceId, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
   by,
@@ -89,8 +81,6 @@ export {
   loadScript,
   StringMap,
   PromiseMap,
-  ClassType,
-  DeepReadonly,
   ValuesOf,
   ValueOf,
   InstanceId,

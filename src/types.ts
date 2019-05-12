@@ -12,11 +12,6 @@ export interface PromiseMap {
   [prop: string]: Promise<any>
 }
 
-export type ClassType<T = any> = new (...args: any[]) => T
-
-// Based on: https://github.com/Microsoft/TypeScript/issues/13923
-export type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
-
 /**
  * Like `keyof`, but for arrays.
  *
