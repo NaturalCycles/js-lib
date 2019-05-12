@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/NaturalCycles/js-lib/compare/v5.4.0...v5.5.0) (2019-05-12)
+
+
+### Features
+
+* removed DeepReadonly and ClassType in favor of type-fest ([53117c5](https://github.com/NaturalCycles/js-lib/commit/53117c5))
+
 # [5.4.0](https://github.com/NaturalCycles/js-lib/compare/v5.3.1...v5.4.0) (2019-05-12)
 
 
