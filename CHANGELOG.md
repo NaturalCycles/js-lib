@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/NaturalCycles/js-lib/compare/v5.3.1...v5.4.0) (2019-05-12)
+
+
+### Features
+
+* InstanceId interface, getArgsSignature, getMethodSignature ([69da963](https://github.com/NaturalCycles/js-lib/commit/69da963))
+
 ## [5.3.1](https://github.com/NaturalCycles/js-lib/compare/v5.3.0...v5.3.1) (2019-05-10)
 
 
