@@ -1,3 +1,20 @@
+# [6.0.0](https://github.com/NaturalCycles/js-lib/compare/v5.5.0...v6.0.0) (2019-05-12)
+
+
+### Code Refactoring
+
+* `[@memo](https://github.com/memo)` to combine all other memo decorators ([aaa4fd7](https://github.com/NaturalCycles/js-lib/commit/aaa4fd7))
+
+
+### Features
+
+* logMillis > logMethod, since, ms ([23ccc88](https://github.com/NaturalCycles/js-lib/commit/23ccc88))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [5.5.0](https://github.com/NaturalCycles/js-lib/compare/v5.4.0...v5.5.0) (2019-05-12)
 
 
