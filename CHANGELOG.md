@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/NaturalCycles/js-lib/compare/v6.0.0...v6.1.0) (2019-05-12)
+
+
+### Features
+
+* removed [@memo](https://github.com/memo)Cache in favor of LRUMemoCache in nodejs-lib ([0dc0292](https://github.com/NaturalCycles/js-lib/commit/0dc0292))
+
 # [6.0.0](https://github.com/NaturalCycles/js-lib/compare/v5.5.0...v6.0.0) (2019-05-12)
 
 
