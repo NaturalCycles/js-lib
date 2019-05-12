@@ -4,12 +4,16 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 /* tslint:disable:no-invalid-this */
 import LRU from 'lru-cache'
+import { getArgsSignature, getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MemoCache, MemoSerializer } from './memo.util'
 
 export interface MemoCacheOpts {
   serializer?: MemoSerializer
   ttl?: number // in millis
   maxSize?: number
+  logHit?: boolean
+  logMiss?: boolean
+  noLogArgs?: boolean
 }
 
 class LRUMemoCache implements MemoCache {
@@ -47,30 +51,45 @@ export const memoCache = (opts: MemoCacheOpts = {}): MethodDecorator => (
 
   const originalFn = descriptor.value
 
-  if (!opts.serializer) opts.serializer = jsonMemoSerializer
+  opts.serializer = opts.serializer || jsonMemoSerializer
+  const { maxSize, serializer, ttl, logHit, logMiss, noLogArgs } = opts
 
   const lruOpts: LRU.Options<string, any> = {
-    max: opts.maxSize || 100,
-    maxAge: opts.ttl || Infinity,
+    max: maxSize || 100,
+    maxAge: ttl || Infinity,
   }
   const cache = new LRUMemoCache(lruOpts)
+  const keyStr = String(key)
+  const methodSignature = getTargetMethodSignature(target, keyStr)
 
-  descriptor.value = function (this: any, ...args: any[]): any {
+  descriptor.value = function (this: typeof target, ...args: any[]): any {
     const ctx = this
-    const cacheKey = opts.serializer!(args)
+    const cacheKey = serializer!(args)
 
     if (cache.has(cacheKey)) {
+      if (logHit) {
+        console.log(`${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memoCache hit`)
+      }
       return cache.get(cacheKey)
     }
 
+    const d = Date.now()
+
     const res: any = originalFn.apply(ctx, args)
+
+    if (logMiss) {
+      console.log(
+        `${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memoCache miss (${Date.now() -
+          d} ms)`,
+      )
+    }
 
     cache.set(cacheKey, res)
 
     return res
   } as any
   ;(descriptor.value as any).dropCache = () => {
-    console.log(`memo.dropCache (method=${String(key)})`)
+    console.log(`${methodSignature} @memoCache.dropCache()`)
     cache.clear()
   }
 

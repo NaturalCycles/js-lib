@@ -1,3 +1,4 @@
+import { getArgsSignature, getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 /* tslint:disable:promise-function-async */
@@ -14,6 +15,11 @@ export interface MemoPromiseOpts {
    * @default: true
    */
   cacheRejected: boolean
+
+  noLogArgs?: boolean
+  logHit?: boolean
+  logMissResolved?: boolean
+  logMissRejected?: boolean
 }
 
 const DEF_OPTS: MemoPromiseOpts = {
@@ -30,30 +36,45 @@ export const memoPromise = (_opts: Partial<MemoPromiseOpts> = {}): MethodDecorat
     throw new Error('Memoization can be applied only to methods')
   }
 
-  const opts = {
+  const { cacheResolved, cacheRejected, logHit, logMissResolved, logMissRejected, noLogArgs } = {
     ...DEF_OPTS,
     ..._opts,
   }
 
-  const originalFn = descriptor.value
-  // console.log(`${key} len: ${originalFn.length}`)
-
+  const keyStr = String(key)
+  const methodSignature = getTargetMethodSignature(target, keyStr)
   const cache: MemoCache = new MapMemoCache()
 
-  descriptor.value = function (this: any, ...args: any[]): Promise<any> {
+  const originalFn = descriptor.value
+
+  descriptor.value = function (this: typeof target, ...args: any[]): Promise<any> {
     const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 
     if (cache.has(cacheKey)) {
+      if (logHit) {
+        console.log(`${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memoPromise hit`)
+      }
+
       const res = cache.get(cacheKey)
       return res instanceof Error ? Promise.reject(res) : Promise.resolve(res)
     }
 
+    const d = Date.now()
+
     return (originalFn.apply(ctx, args) as Promise<any>)
       .then(res => {
         // console.log('RESOLVED', res)
+        if (logMissResolved) {
+          console.log(
+            `${methodSignature}(${getArgsSignature(
+              args,
+              noLogArgs,
+            )}) @memoPromise miss resolved (${Date.now() - d} ms)`,
+          )
+        }
 
-        if (opts.cacheResolved) {
+        if (cacheResolved) {
           cache.set(cacheKey, res)
         }
 
@@ -61,8 +82,16 @@ export const memoPromise = (_opts: Partial<MemoPromiseOpts> = {}): MethodDecorat
       })
       .catch(err => {
         // console.log('REJECTED', err)
+        if (logMissRejected) {
+          console.log(
+            `${methodSignature}(${getArgsSignature(
+              args,
+              noLogArgs,
+            )}) @memoPromise miss rejected (${Date.now() - d} ms)`,
+          )
+        }
 
-        if (opts.cacheRejected) {
+        if (cacheRejected) {
           // We put it to cache as raw Error, not Promise.reject(err)
           // So, we'll need to check if it's instanceof Error to reject it or resolve
           // Wrap as Error if it's not Error
@@ -73,7 +102,7 @@ export const memoPromise = (_opts: Partial<MemoPromiseOpts> = {}): MethodDecorat
       })
   } as any
   ;(descriptor.value as any).dropCache = () => {
-    console.log(`memoPromise.dropCache (method=${String(key)})`)
+    console.log(`${methodSignature} @memoPromise.dropCache()`)
     cache.clear()
   }
 

@@ -1,3 +1,4 @@
+import { getArgsSignature } from './decorators/decorator.util'
 import { logMillis } from './decorators/logMillis.decorator'
 import { memo } from './decorators/memo.decorator'
 import { memoCache } from './decorators/memoCache.decorator'
@@ -23,7 +24,15 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
-import { ClassType, DeepReadonly, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
+import {
+  ClassType,
+  DeepReadonly,
+  InstanceId,
+  PromiseMap,
+  StringMap,
+  ValueOf,
+  ValuesOf,
+} from './types'
 import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
   by,
@@ -66,6 +75,7 @@ export {
   memoCache,
   memoPromise,
   logMillis,
+  getArgsSignature,
   ErrorData,
   ErrorObject,
   HttpErrorData,
@@ -83,6 +93,7 @@ export {
   DeepReadonly,
   ValuesOf,
   ValueOf,
+  InstanceId,
   capitalizeFirstLetter,
   lowercaseFirstLetter,
   removeWhitespace,

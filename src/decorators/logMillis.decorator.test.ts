@@ -1,4 +1,5 @@
 import { pDelay } from '@naturalcycles/promise-lib'
+import { InstanceId } from '../index'
 import { logMillis } from './logMillis.decorator'
 
 class C {
@@ -92,4 +93,10 @@ test('methodReturnsArray', () => {
   c.methodReturnsArray()
   c.methodReturnsArray()
   c.methodReturnsArray()
+})
+
+test('instanceId', () => {
+  const c = new C()
+  ;((c as any) as InstanceId).instanceId = 'instance_1'
+  c.syncMethodSuccess()
 })

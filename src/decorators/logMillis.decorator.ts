@@ -1,4 +1,5 @@
 import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
+import { getArgsSignature, getMethodSignature } from './decorator.util'
 
 /**
  * $r - result
@@ -68,9 +69,7 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   }
 
   const originalFn = descriptor.value
-
-  // e.g `NameOfYourClass.methodName`
-  const methodSignature = [target.constructor.name, key].filter(Boolean).join('.')
+  const keyStr = String(key)
 
   const { avg, noLogArgs, logStart, logResult, noLogResultLength } = opt
   let { logResultFn } = opt
@@ -85,25 +84,16 @@ export const logMillis = (opt: LogMillisOpts = {}): MethodDecorator => (
   const sma = avg ? new SimpleMovingAverage(avg) : undefined
   let count = 0
 
-  descriptor.value = function (this: any, ...args: any[]) {
-    const argsStr = noLogArgs
-      ? ''
-      : args
-          .map(arg => {
-            // If object || array
-            if (arg && typeof arg === 'object') {
-              const s = JSON.stringify(arg)
-              return s.length > 30 ? '...' : s
-            }
-            return arg
-          })
-          .join(', ')
+  descriptor.value = function (this: typeof target, ...args: any[]) {
+    const started = Date.now()
+    const ctx = this
 
+    // e.g `NameOfYourClass.methodName`
+    // or `NameOfYourClass(instanceId).methodName`
+    const methodSignature = getMethodSignature(ctx, keyStr)
+    const argsStr = getArgsSignature(args, noLogArgs)
     const callSignature = `${methodSignature}(${argsStr}) #${++count}`
     if (logStart) console.log(`>> ${callSignature}`)
-
-    const ctx = this
-    const started = Date.now()
 
     try {
       const res = originalFn.apply(ctx, args)

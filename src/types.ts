@@ -38,3 +38,13 @@ export type ValuesOf<T extends readonly any[]> = T[number]
  * Based on: https://stackoverflow.com/a/49286056/4919972
  */
 export type ValueOf<T> = T[keyof T]
+
+/**
+ * Allows to identify instance of Class by `instanceId`.
+ */
+export interface InstanceId {
+  /**
+   * Unique id of this instance of the Class.
+   */
+  instanceId: string
+}

@@ -11,7 +11,14 @@ Otherwise resorts to JSON.stringify.
 Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
+import { getArgsSignature, getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
+
+export interface MemoOpts {
+  logHit?: boolean
+  logMiss?: boolean
+  noLogArgs?: boolean
+}
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
@@ -21,7 +28,7 @@ import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
-export const memo = (): MethodDecorator => (target, key, descriptor) => {
+export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, descriptor) => {
   if (typeof descriptor.value !== 'function') {
     throw new Error('Memoization can be applied only to methods')
   }
@@ -44,23 +51,38 @@ export const memo = (): MethodDecorator => (target, key, descriptor) => {
    */
   const cache: MemoCache = new MapMemoCache()
 
-  descriptor.value = function (this: any, ...args: any[]): any {
+  const { logHit, logMiss, noLogArgs } = opts
+  const keyStr = String(key)
+  const methodSignature = getTargetMethodSignature(target, keyStr)
+
+  descriptor.value = function (this: typeof target, ...args: any[]): any {
     const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 
     if (cache.has(cacheKey)) {
+      if (logHit) {
+        console.log(`${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo hit`)
+      }
       return cache.get(cacheKey)
     }
 
+    const d = Date.now()
+
     const res: any = originalFn.apply(ctx, args)
 
+    if (logMiss) {
+      console.log(
+        `${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo miss (${Date.now() -
+          d} ms)`,
+      )
+    }
+
     cache.set(cacheKey, res)
-    // console.log('miss', cacheKey)
 
     return res
   } as any
   ;(descriptor.value as any).dropCache = () => {
-    console.log(`memo.dropCache (method=${String(key)})`)
+    console.log(`${methodSignature} @memo.dropCache()`)
     cache.clear()
   }
 
