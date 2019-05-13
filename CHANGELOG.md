@@ -1,3 +1,11 @@
+# [7.5.0](https://github.com/NaturalCycles/dev-lib/compare/v7.4.0...v7.5.0) (2019-05-13)
+
+
+### Features
+
+* **gitignore:** make some patterns global ([240cb9a](https://github.com/NaturalCycles/dev-lib/commit/240cb9a))
+* **json2env:** --no-bash-env flag ([f6eb971](https://github.com/NaturalCycles/dev-lib/commit/f6eb971))
+
 # [7.4.0](https://github.com/NaturalCycles/dev-lib/compare/v7.3.1...v7.4.0) (2019-05-08)
 
 
