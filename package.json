@@ -28,10 +28,10 @@
     "update-from-dev-lib": "yarn tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
-    "@commitlint/cli": "^7.2.1",
-    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/config-conventional": "^7.6.0",
     "@naturalcycles/fs-lib": "^2.0.0",
-    "@naturalcycles/js-lib": "^4.5.0",
+    "@naturalcycles/js-lib": "^6.1.0",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^24.0.6",
     "@types/node": "^12.0.0",
@@ -39,17 +39,17 @@
     "ansi-colors": "^3.2.4",
     "command-exists": "^1.2.8",
     "execa": "^1.0.0",
-    "fs-extra": "^7.0.0",
+    "fs-extra": "^8.0.0",
     "husky": "^2.1.0",
     "jest-junit": "^6.2.1",
     "lint-staged": "^8.0.4",
     "loud-rejection": "^2.1.0",
-    "prettier": "^1.14.3",
+    "prettier": "^1.17.1",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.1.0",
     "tslint": "^5.11.0",
     "typescript": "^3.4.5",
-    "yargs": "^13.2.0"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {
     "@naturalcycles/semantic-release": "^1.0.0",
