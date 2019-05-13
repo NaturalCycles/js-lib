@@ -9,27 +9,26 @@
 # Global (all dirs)
 #
 *.iml
+.idea
 .DS_Store
+node_modules
+.env
+.npmrc
+.classpath
+.project
+.settings
+.externalToolBuilders
+.cache
+.gitconfig
 
 #
 # Root dir
 #
-/.idea
-/.classpath
-/.project
-/.settings
-/.externalToolBuilders
-/.cache
-/.gitconfig
 /target
 /*.log
 /log.txt
 /.sass-cache
 /.sourcemaps
-/.env
-/.npmrc
-
-/node_modules
 
 /coverage
 /report
