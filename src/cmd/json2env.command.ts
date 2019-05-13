@@ -7,6 +7,11 @@ export async function json2envCommand (): Promise<void> {
     prefix: {
       type: 'string',
     },
+    bashEnv: {
+      type: 'boolean',
+      desc: 'Populate $BASH_ENV file if BASH_ENV env variable exists',
+      default: true,
+    },
     fail: {
       type: 'boolean',
       desc: 'Fail (exit status 1) on non-existing input file',
@@ -20,7 +25,7 @@ export async function json2envCommand (): Promise<void> {
     },
   })
 
-  const { _: args, prefix, fail, debug, silent } = argv
+  const { _: args, prefix, bashEnv, fail, debug, silent } = argv
   if (debug) console.log({ argv })
 
   const [jsonPath] = args
@@ -52,10 +57,12 @@ export async function json2envCommand (): Promise<void> {
     console.log(exportStr)
   }
 
-  const { BASH_ENV } = process.env
-  if (BASH_ENV) {
-    await fs.appendFile(BASH_ENV, exportStr + '\n')
+  if (bashEnv) {
+    const { BASH_ENV } = process.env
+    if (BASH_ENV) {
+      await fs.appendFile(BASH_ENV, exportStr + '\n')
 
-    console.log(`BASH_ENV file appended (${BASH_ENV})`)
+      console.log(`BASH_ENV file appended (${BASH_ENV})`)
+    }
   }
 }
