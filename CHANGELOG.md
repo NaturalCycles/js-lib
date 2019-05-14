@@ -1,3 +1,10 @@
+# [7.6.0](https://github.com/NaturalCycles/dev-lib/compare/v7.5.0...v7.6.0) (2019-05-14)
+
+
+### Features
+
+* export json2env API ([b4eefcf](https://github.com/NaturalCycles/dev-lib/commit/b4eefcf))
+
 # [7.5.0](https://github.com/NaturalCycles/dev-lib/compare/v7.4.0...v7.5.0) (2019-05-13)
 
 
