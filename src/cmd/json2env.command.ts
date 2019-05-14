@@ -1,11 +1,15 @@
-import * as fs from 'fs-extra'
 import * as yargs from 'yargs'
-import { objectToShellExport } from '..'
+import { json2env } from '../util/env.util'
 
 export async function json2envCommand (): Promise<void> {
   const { argv } = yargs.demandCommand(1).options({
     prefix: {
       type: 'string',
+    },
+    saveEnvFile: {
+      type: 'boolean',
+      desc: 'Save $JSON_FILE_NAME.sh file that exports json vars as environment vars',
+      default: true,
     },
     bashEnv: {
       type: 'boolean',
@@ -25,44 +29,18 @@ export async function json2envCommand (): Promise<void> {
     },
   })
 
-  const { _: args, prefix, bashEnv, fail, debug, silent } = argv
+  const { _: args, prefix, saveEnvFile, bashEnv, fail, debug, silent } = argv
   if (debug) console.log({ argv })
 
   const [jsonPath] = args
 
-  if (!fs.existsSync(jsonPath)) {
-    if (fail) {
-      throw new Error(`Path doesn't exist: ${jsonPath}`)
-    }
-
-    if (!silent) {
-      console.log(`json2env input file doesn't exist, skipping without error (${jsonPath})`)
-    }
-    return
-  }
-
-  // read file
-  const json = await fs.readJson(jsonPath)
-
-  const exportStr = objectToShellExport(json, prefix)
-  if (debug) {
-    console.log(json, exportStr)
-  }
-
-  const shPath = `${jsonPath}.sh`
-  await fs.writeFile(shPath, exportStr)
-
-  if (!silent) {
-    console.log(`json2env created ${shPath}:`)
-    console.log(exportStr)
-  }
-
-  if (bashEnv) {
-    const { BASH_ENV } = process.env
-    if (BASH_ENV) {
-      await fs.appendFile(BASH_ENV, exportStr + '\n')
-
-      console.log(`BASH_ENV file appended (${BASH_ENV})`)
-    }
-  }
+  await json2env({
+    jsonPath,
+    prefix,
+    saveEnvFile,
+    bashEnv,
+    fail,
+    debug,
+    silent,
+  })
 }

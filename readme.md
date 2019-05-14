@@ -124,6 +124,7 @@ via `tsc-scripts` as a part of `build`
   CircleCI. Example: `yarn json2env someFile.json` will create `someFile.json.sh`
   - `--prefix` will prepend all keys with `prefix` string, e.g `--prefix buildInfo_` will output as
     `buildInfo_key1`, `buildInfo_key2`, etc.
+  - `--no-save-env-file` to skip saving `.sh` file
   - `--no-bash-env` to skip adding to `$BASH_ENV`
   - `--no-fail` will not throw error on missing input file
   - `--silent`

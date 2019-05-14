@@ -45,26 +45,3 @@ export async function generateBuildInfo (dev = false): Promise<BuildInfo> {
     ver,
   }
 }
-
-/**
- * Turns Object with keys/values into a *.sh script that exports all keys as values.
- *
- * @example
- * { a: 'b', b: 'c'}
- *
- * will turn into:
- *
- * export a="b"
- * export b="c"
- */
-export function objectToShellExport (o: any, prefix = ''): string {
-  return Object.keys(o)
-    .map(k => {
-      const v = o[k]
-      if (v) {
-        return `export ${prefix}${k}="${v}"`
-      }
-    })
-    .filter(Boolean)
-    .join('\n')
-}
