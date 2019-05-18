@@ -1,3 +1,10 @@
+# [7.7.0](https://github.com/NaturalCycles/dev-lib/compare/v7.6.0...v7.7.0) (2019-05-18)
+
+
+### Features
+
+* TZ=UTC for all tests, runInIDE detection ([6b0546c](https://github.com/NaturalCycles/dev-lib/commit/6b0546c))
+
 # [7.6.0](https://github.com/NaturalCycles/dev-lib/compare/v7.5.0...v7.6.0) (2019-05-14)
 
 
