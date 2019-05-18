@@ -1,3 +1,10 @@
+# [7.8.0](https://github.com/NaturalCycles/dev-lib/compare/v7.7.0...v7.8.0) (2019-05-18)
+
+
+### Features
+
+* build-copy to copy *.js files ([e557c1f](https://github.com/NaturalCycles/dev-lib/commit/e557c1f))
+
 # [7.7.0](https://github.com/NaturalCycles/dev-lib/compare/v7.6.0...v7.7.0) (2019-05-18)
 
 
