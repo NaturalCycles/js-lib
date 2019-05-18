@@ -68,6 +68,9 @@ These commands are available to be called as `yarn <command>`, because they are 
 
 #### Test commands
 
+All test commands set `TZ=UTC`. You can override it by providing `TZ` env variable **before**
+running a test command.
+
 - `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds
   `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically adds `--silent` (and `JEST_SILENT` env
   var) if all tests are run. Adds `APP_ENV=test` env var (for all runs except integration).

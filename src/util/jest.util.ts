@@ -44,7 +44,9 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
 
   const args: string[] = ['--logHeapUsage', ...processArgs]
-  const env = {}
+  const env = {
+    TZ: process.env.TZ || 'UTC',
+  }
 
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
   if (jestConfig) {

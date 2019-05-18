@@ -3,6 +3,9 @@
  * Extendable.
  */
 
+const runInIDE = process.argv.includes('--runTestsByPath')
+const ideIntegrationTest = runInIDE && process.argv.some(a => a.includes('/src/test/integration/'))
+
 const fs = require('fs-extra')
 const cwd = process.cwd()
 
@@ -11,11 +14,38 @@ const setupFilesAfterEnv = []
 if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
   setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
 }
-if (fs.pathExistsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
-  setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.unit.ts')
+
+if (ideIntegrationTest) {
+  if (fs.pathExistsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
+    setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.integration.ts')
+  }
+} else {
+  if (fs.pathExistsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
+    setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.unit.ts')
+  }
 }
 
 const transformIgnore = ['@naturalcycles']
+
+const testPathIgnorePatterns = [
+  '<rootDir>/.*/__exclude/',
+  '<rootDir>/src/environments/',
+  '<rootDir>/src/@linked/',
+  '<rootDir>/scripts/',
+  '<rootDir>/docker-build/',
+  '<rootDir>/dist/',
+]
+
+// console.log({argv: process.argv})
+
+if (runInIDE) {
+  console.log({ runInIDE, ideIntegrationTest })
+  process.env.APP_ENV = process.env.APP_ENV || 'test'
+  process.env.TZ = process.env.TZ || 'UTC'
+} else {
+  // This allows to run integration tests in IDE
+  testPathIgnorePatterns.push('<rootDir>/src/test/integration/')
+}
 
 module.exports = {
   transform: {
@@ -24,15 +54,7 @@ module.exports = {
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
   testMatch: ['<rootDir>/src/**/*.test.ts?(x)'],
-  testPathIgnorePatterns: [
-    '<rootDir>/.*/__exclude/',
-    '<rootDir>/src/environments/',
-    '<rootDir>/src/@linked/',
-    '<rootDir>/scripts/',
-    '<rootDir>/src/test/integration/',
-    '<rootDir>/docker-build/',
-    '<rootDir>/dist/',
-  ],
+  testPathIgnorePatterns,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
     // should match aliases from tsconfig.json
