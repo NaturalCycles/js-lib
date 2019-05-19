@@ -28,7 +28,6 @@ import {
   by,
   deepCopy,
   deepEquals,
-  deepFreeze,
   deepTrim,
   filterEmptyStringValues,
   filterFalsyValues,
@@ -57,8 +56,6 @@ import {
   removeWhitespace,
   resultToString,
 } from './util/string.util'
-import { silentConsole } from './util/test.util'
-import { ms, since } from './util/time.util'
 
 export {
   memo,
@@ -73,7 +70,6 @@ export {
   HttpError,
   Admin401ErrorData,
   Admin403ErrorData,
-  silentConsole,
   randomInt,
   loadScript,
   StringMap,
@@ -106,7 +102,6 @@ export {
   invertObject,
   invertMap,
   by,
-  deepFreeze,
   anyToErrorMessage,
   anyToErrorObject,
   anyToAppError,
@@ -119,6 +114,4 @@ export {
   dedupeArray,
   flatArray,
   SimpleMovingAverage,
-  since,
-  ms,
 }

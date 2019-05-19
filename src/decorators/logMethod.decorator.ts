@@ -1,4 +1,5 @@
-import { anyToErrorMessage, ms, resultToString, SimpleMovingAverage } from '..'
+import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
+import { ms } from '../util/time.util'
 import { getArgsSignature, getMethodSignature } from './decorator.util'
 
 /**

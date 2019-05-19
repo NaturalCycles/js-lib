@@ -252,25 +252,3 @@ export function by<T> (items: T[] = [], by: string): StringMap<T> {
     return r
   }, {})
 }
-
-/**
- * Does Object.freeze recursively for given object.
- *
- * Based on: https://github.com/substack/deep-freeze/blob/master/index.js
- */
-export function deepFreeze (o: any): void {
-  Object.freeze(o)
-
-  Object.getOwnPropertyNames(o).forEach(prop => {
-    if (
-      o.hasOwnProperty(prop) &&
-      o[prop] !== null &&
-      (typeof o[prop] === 'object' || typeof o[prop] === 'function') &&
-      !Object.isFrozen(o[prop])
-    ) {
-      deepFreeze(o[prop])
-    }
-  })
-
-  return o
-}

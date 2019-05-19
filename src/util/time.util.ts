@@ -1,5 +1,3 @@
-// todo: to be moved to time-lib later
-
 /**
  * Returns time passed since `from` until `until` (default to Date.now())
  */

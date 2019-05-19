@@ -1,8 +1,8 @@
+import { deepFreeze } from '@naturalcycles/test-lib'
 import {
   by,
   deepCopy,
   deepEquals,
-  deepFreeze,
   deepTrim,
   filterEmptyStringValues,
   filterFalsyValues,
@@ -426,17 +426,6 @@ test('by', () => {
     aa: { a: 'aa' },
     ab: { a: 'ab' },
   })
-})
-
-test('deepFreeze', () => {
-  const o = {
-    a: {
-      b: 'bb',
-    },
-  }
-  deepFreeze(o)
-  expect(() => (o.a = 'cc' as any)).toThrow()
-  expect(() => (o.a.b = 'cc')).toThrow()
 })
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
