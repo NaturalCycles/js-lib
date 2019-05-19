@@ -454,12 +454,10 @@
     move-file "^1.2.0"
     yargs "^13.2.2"
 
-"@naturalcycles/js-lib@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-6.1.0.tgz#d49731c08d9dda2339009a435372ffc1cc4c76e2"
-  integrity sha512-oinDX6J0h/2v6J+HISj3iz1QJmmkRzCZabv8OgdOpAZ3KSojaGDF+yLzVYHt0nEpiQiC79YkmNmK+eLZl1fwiA==
-  dependencies:
-    "@types/luxon" "^1.12.0"
+"@naturalcycles/js-lib@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-7.0.0.tgz#f9b4f8ea7b20fafa8e1256d38ee67678fc69a899"
+  integrity sha512-cnnO3xM7xNKPjTHzBiuWzdkQSEx07xQpJVi0g+5beJg1W3KTbEZJTWQVLEaKQfmrWnLa+gatSAKxB5ZWhtZGxQ==
 
 "@naturalcycles/promise-lib@^2.1.2":
   version "2.2.0"
@@ -727,11 +725,6 @@
   integrity sha512-3m6RPnO35r7Dg+uMLj1+xfZaOgIHHHut61djNjzwExXN4/Pm9has9C6I1KMYSfz7mahDhWUOVg4HW/nZdv5Pww==
   dependencies:
     "@types/jest-diff" "*"
-
-"@types/luxon@^1.12.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.13.0.tgz#e92338702d0b1b96e8d5ea6fe39d9938891aacd0"
-  integrity sha512-XmDiRVoJWgVdqX9x1a/GU4p9bSgZY7q8SOyMLs3fx1AdQcxLYAPIt/jfZm2e+PBVRWuEx1FqYNJ37kBZ53TMqA==
 
 "@types/minimatch@*":
   version "3.0.3"
