@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/NaturalCycles/js-lib/compare/v6.1.0...v7.0.0) (2019-05-19)
+
+
+### Features
+
+* moved ms, since, deepFreeze, silentConsole to other libs ([58e0f2e](https://github.com/NaturalCycles/js-lib/commit/58e0f2e))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [6.1.0](https://github.com/NaturalCycles/js-lib/compare/v6.0.0...v6.1.0) (2019-05-12)
 
 
