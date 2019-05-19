@@ -1,3 +1,10 @@
+# [7.9.0](https://github.com/NaturalCycles/dev-lib/compare/v7.8.0...v7.9.0) (2019-05-19)
+
+
+### Features
+
+* bump js-lib ([6c1980b](https://github.com/NaturalCycles/dev-lib/commit/6c1980b))
+
 # [7.8.0](https://github.com/NaturalCycles/dev-lib/compare/v7.7.0...v7.8.0) (2019-05-18)
 
 
