@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/NaturalCycles/js-lib/compare/v7.0.0...v7.1.0) (2019-05-22)
+
+
+### Features
+
+* IsoDate, IsoDateTime types ([0188864](https://github.com/NaturalCycles/js-lib/commit/0188864))
+
 # [7.0.0](https://github.com/NaturalCycles/js-lib/compare/v6.1.0...v7.0.0) (2019-05-19)
 
 
