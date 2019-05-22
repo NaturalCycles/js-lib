@@ -22,7 +22,7 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
-import { InstanceId, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
+import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { arrayRange, dedupeArray, flatArray } from './util/array.util'
 import {
   by,
@@ -77,6 +77,8 @@ export {
   ValuesOf,
   ValueOf,
   InstanceId,
+  IsoDate,
+  IsoDateTime,
   capitalizeFirstLetter,
   lowercaseFirstLetter,
   removeWhitespace,

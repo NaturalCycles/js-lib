@@ -1,3 +1,5 @@
+// Functions are duplicated there (with `@naturalcycles/time-lib`) to not have it as a mandatory dependency
+
 /**
  * Returns time passed since `from` until `until` (default to Date.now())
  */

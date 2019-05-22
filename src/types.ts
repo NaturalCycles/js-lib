@@ -43,3 +43,13 @@ export interface InstanceId {
    */
   instanceId: string
 }
+
+/**
+ * @example '2019-06-21'
+ */
+export type IsoDate = string
+
+/**
+ * @example '2019-06-21T05:21:73Z'
+ */
+export type IsoDateTime = string
