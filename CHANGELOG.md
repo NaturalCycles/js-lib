@@ -1,3 +1,10 @@
+# [7.11.0](https://github.com/NaturalCycles/dev-lib/compare/v7.10.0...v7.11.0) (2019-05-24)
+
+
+### Features
+
+* allow tests in /scripts ([1766cc0](https://github.com/NaturalCycles/dev-lib/commit/1766cc0))
+
 # [7.10.0](https://github.com/NaturalCycles/dev-lib/compare/v7.9.0...v7.10.0) (2019-05-24)
 
 
