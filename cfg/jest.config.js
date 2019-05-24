@@ -31,9 +31,6 @@ const testPathIgnorePatterns = [
   '<rootDir>/.*/__exclude/',
   '<rootDir>/src/environments/',
   '<rootDir>/src/@linked/',
-  '<rootDir>/scripts/',
-  '<rootDir>/docker-build/',
-  '<rootDir>/dist/',
 ]
 
 // console.log({argv: process.argv})
@@ -53,7 +50,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
-  testMatch: ['<rootDir>/src/**/*.test.ts?(x)'],
+  testMatch: ['<rootDir>/src/**/*.test.ts?(x)', '<rootDir>/scripts/**/*.test.ts?(x)'],
   testPathIgnorePatterns,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
