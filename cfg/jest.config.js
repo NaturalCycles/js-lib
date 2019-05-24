@@ -65,6 +65,7 @@ module.exports = {
   skipNodeResolution: true,
   globals: {
     'ts-jest': {
+      diagnostics: false,
       // skipBabel: false, // when set to 'true' it breaks code coverage
     },
   },
