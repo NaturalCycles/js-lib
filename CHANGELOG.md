@@ -1,3 +1,10 @@
+# [7.10.0](https://github.com/NaturalCycles/dev-lib/compare/v7.9.0...v7.10.0) (2019-05-24)
+
+
+### Features
+
+* ts-jest diagnostics=false ([8969b40](https://github.com/NaturalCycles/dev-lib/commit/8969b40))
+
 # [7.9.0](https://github.com/NaturalCycles/dev-lib/compare/v7.8.0...v7.9.0) (2019-05-19)
 
 
