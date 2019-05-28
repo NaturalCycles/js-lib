@@ -43,6 +43,11 @@ export async function json2env (opt: Json2EnvOpts): Promise<void> {
     if (!silent) {
       console.log(`json2env input file doesn't exist, skipping without error (${jsonPath})`)
     }
+
+    if (bashEnv) {
+      await appendBashEnv('')
+    }
+
     return
   }
 
@@ -65,12 +70,16 @@ export async function json2env (opt: Json2EnvOpts): Promise<void> {
   }
 
   if (bashEnv) {
-    const { BASH_ENV } = process.env
-    if (BASH_ENV) {
-      await fs.appendFile(BASH_ENV, exportStr + '\n')
+    await appendBashEnv(exportStr)
+  }
+}
 
-      console.log(`BASH_ENV file appended (${BASH_ENV})`)
-    }
+async function appendBashEnv (exportStr: string): Promise<void> {
+  const { BASH_ENV } = process.env
+  if (BASH_ENV) {
+    await fs.appendFile(BASH_ENV, exportStr + '\n')
+
+    console.log(`BASH_ENV file appended (${BASH_ENV})`)
   }
 }
 
