@@ -1,3 +1,10 @@
+## [7.11.1](https://github.com/NaturalCycles/dev-lib/compare/v7.11.0...v7.11.1) (2019-05-28)
+
+
+### Bug Fixes
+
+* don't fail json2env if BASH_ENV doesn't exist ([4b2c25d](https://github.com/NaturalCycles/dev-lib/commit/4b2c25d))
+
 # [7.11.0](https://github.com/NaturalCycles/dev-lib/compare/v7.10.0...v7.11.0) (2019-05-24)
 
 
