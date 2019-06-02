@@ -1,3 +1,10 @@
+# [7.12.0](https://github.com/NaturalCycles/dev-lib/compare/v7.11.1...v7.12.0) (2019-06-02)
+
+
+### Features
+
+* deps ([423794a](https://github.com/NaturalCycles/dev-lib/commit/423794a))
+
 ## [7.11.1](https://github.com/NaturalCycles/dev-lib/compare/v7.11.0...v7.11.1) (2019-05-28)
 
 
