@@ -28,8 +28,8 @@
     "update-from-dev-lib": "yarn tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
-    "@commitlint/cli": "^7.6.1",
-    "@commitlint/config-conventional": "^7.6.0",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
     "@naturalcycles/fs-lib": "^2.0.0",
     "@naturalcycles/js-lib": "^7.0.0",
     "@types/fs-extra": "^7.0.0",
