@@ -24,15 +24,18 @@ export async function execCommand (
 
   await execa(cmd, args, {
     stdio: 'inherit',
+    preferLocal: true,
     ...opt,
   }).catch(err => {
-    if (err && (err.code as any) === 'ENOENT') {
-      console.log(`Error: ENOENT (no such file or directory): ${cmd}`)
-      process.exit(1)
-    } else if (err && typeof err.code === 'number' && err.code) {
-      process.exit(err.code)
-    } else if (err && typeof err.code === 'string') {
-      console.log(`Error: ${err.message}`)
+    if (err) {
+      if (err.exitCodeName === 'ENOENT') {
+        console.log(`Error: ENOENT (no such file or directory): ${cmd}`)
+        process.exit(1)
+      } else if (err.exitCode) {
+        process.exit(err.exitCode)
+      } else if (err.exitCodeName) {
+        console.log(`Error: ${err.exitCodeName}`)
+      }
     }
 
     process.exit(1)

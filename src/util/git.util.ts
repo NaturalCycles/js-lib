@@ -21,12 +21,12 @@ export function commitMessageToTitleMessage (msg: string): string {
 export async function gitHasUncommittedChanges (): Promise<boolean> {
   // git diff-index --quiet HEAD -- || echo "untracked"
   const cmd = 'git diff-index --quiet HEAD --'
-  const { code } = await execa(cmd, {
+  const { exitCode } = await execa(cmd, {
     shell: true,
     reject: false,
   })
   // console.log(code)
-  return !!code
+  return !!exitCode
 }
 
 /**
@@ -39,14 +39,14 @@ export async function gitCommitAll (msg: string): Promise<boolean> {
   const args = ['commit', '-a', '--no-verify', '-m', msg]
 
   logExec(cmd, args)
-  const { code } = await execa(cmd, args, {
+  const { exitCode } = await execa(cmd, args, {
     // shell: true,
     stdio: 'inherit',
     reject: false,
   })
   // console.log(`gitCommitAll code: ${code}`)
 
-  return !code
+  return !exitCode
 }
 
 /**
