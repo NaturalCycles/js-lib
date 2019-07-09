@@ -1,4 +1,4 @@
-import { Omit } from 'type-fest'
+import { Except } from 'type-fest'
 import { StringMap } from '../types'
 
 /**
@@ -22,7 +22,7 @@ export function pick<T, K extends keyof T> (
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): Omit<T, K> {
+export function omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): Except<T, K> {
   if (!obj || !props || !props.length) return obj
 
   return props.reduce(
@@ -89,19 +89,19 @@ export function filterObject<T> (
   )
 }
 
-export function transformValues<T> (
-  obj: T,
-  transformFn: (key: any, value: any) => any,
+export function transformValues<IN, OUT = IN> (
+  obj: IN,
+  transformFn: (key: string, value: any) => any,
   mutate = false,
-): T {
-  if (!isObject(obj)) return obj
+): OUT {
+  if (!isObject(obj)) return obj as any
 
   return Object.keys(obj).reduce(
     (r, k) => {
       r[k] = transformFn(k, r[k])
       return r
     },
-    mutate ? obj : { ...obj },
+    ((mutate ? obj : { ...obj }) as any) as OUT,
   )
 }
 
@@ -185,14 +185,14 @@ function defaultSortFn (a: any, b: any): number {
 export function sortObjectDeep<T> (o: T): T {
   // array
   if (Array.isArray(o)) {
-    return o.map(i => sortObjectDeep(i)) as any
+    return o.map(sortObjectDeep) as any
   }
 
   if (isObject(o)) {
-    const out: any = {}
+    const out = {} as T
 
     Object.keys(o)
-      .sort((a, b) => defaultSortFn(a, b))
+      .sort(defaultSortFn)
       .forEach(k => {
         out[k] = sortObjectDeep((o as any)[k])
       })
