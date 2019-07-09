@@ -1,3 +1,10 @@
+# [7.2.0](https://github.com/NaturalCycles/js-lib/compare/v7.1.0...v7.2.0) (2019-07-09)
+
+
+### Features
+
+* upgrade type-fest ([22ec963](https://github.com/NaturalCycles/js-lib/commit/22ec963))
+
 # [7.1.0](https://github.com/NaturalCycles/js-lib/compare/v7.0.0...v7.1.0) (2019-05-22)
 
 
