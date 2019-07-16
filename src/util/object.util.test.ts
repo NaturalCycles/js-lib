@@ -364,6 +364,17 @@ test('mergeDeep', () => {
 
   const b1 = {}
   expect(_merge(b1, a2)).toMatchSnapshot()
+
+  expect(
+    _merge({ a: 'a1', o: { oo: 'oo1' } }, { b: 'b1' }, { o: { z: 'z1' } }, { a: 'a2' }),
+  ).toEqual({
+    a: 'a2',
+    b: 'b1',
+    o: {
+      oo: 'oo1',
+      z: 'z1',
+    },
+  })
 })
 
 test('sortObjectDeep', () => {

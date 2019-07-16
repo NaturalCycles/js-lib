@@ -157,7 +157,7 @@ export function isEmptyObject (obj: any): boolean {
  *
  * @category Object
  * @param target The destination object.
- * @param source The source object.
+ * @param sources The source objects.
  * @returns Returns `object`.
  * @example
  *
@@ -174,18 +174,23 @@ export function isEmptyObject (obj: any): boolean {
  *
  * Based on: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
  */
-export function _merge<TARGET, SOURCE> (target: TARGET, source: SOURCE): TARGET & SOURCE {
-  if (isObject(target) && isObject(source)) {
-    Object.keys(source).forEach(key => {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} })
-        _merge(target[key], source[key])
-      } else {
-        Object.assign(target, { [key]: source[key] })
-      }
-    })
-  }
-  return target as TARGET & SOURCE
+export function _merge<T> (target: T, ...sources: any[]): T {
+  if (!isObject(target)) return target
+
+  sources.forEach(source => {
+    if (isObject(source)) {
+      Object.keys(source).forEach(key => {
+        if (isObject(source[key])) {
+          if (!target[key]) Object.assign(target, { [key]: {} })
+          _merge(target[key], source[key])
+        } else {
+          Object.assign(target, { [key]: source[key] })
+        }
+      })
+    }
+  })
+
+  return target
 }
 
 /**
