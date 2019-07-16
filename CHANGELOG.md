@@ -1,3 +1,10 @@
+# [7.14.0](https://github.com/NaturalCycles/dev-lib/compare/v7.13.0...v7.14.0) (2019-07-16)
+
+
+### Features
+
+* remove generateBuildInfo.shell param ([c94cda4](https://github.com/NaturalCycles/dev-lib/commit/c94cda4))
+
 # [7.13.0](https://github.com/NaturalCycles/dev-lib/compare/v7.12.0...v7.13.0) (2019-07-05)
 
 
