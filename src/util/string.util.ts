@@ -1,11 +1,31 @@
 import { isObject } from './object.util'
 
-export function capitalizeFirstLetter (s: string): string {
+/**
+ * Converts the first character of string to upper case and the remaining to lower case.
+ */
+export function _capitalize (s: string = ''): string {
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+}
+
+export function _upperFirst (s: string = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export function lowercaseFirstLetter (s: string): string {
+export function _lowerFirst (s: string): string {
   return s.charAt(0).toLowerCase() + s.slice(1)
+}
+
+/**
+ * Like String.split(), but with limit, returning the tail together with last element.
+ *
+ * @return Returns the new array of string segments.
+ */
+export function _split (str: string, separator: string, limit: number): any {
+  const parts = str.split(separator)
+  const tail = parts.slice(limit - 1).join(separator)
+  const result = parts.slice(0, limit - 1)
+  result.push(tail)
+  return result
 }
 
 export function removeWhitespace (s: string): string {

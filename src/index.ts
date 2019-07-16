@@ -23,9 +23,14 @@ import {
 } from './error/error.util'
 import { HttpError } from './error/http.error'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
-import { arrayRange, dedupeArray, flatArray } from './util/array.util'
+import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
 import {
-  by,
+  _get,
+  _has,
+  _invert,
+  _merge,
+  _set,
+  _unset,
   deepCopy,
   deepEquals,
   deepTrim,
@@ -35,24 +40,23 @@ import {
   filterUndefinedValues,
   getKeyByValue,
   invertMap,
-  invertObject,
   isEmptyObject,
   isObject,
   mask,
-  mergeDeep,
   objectNullValuesToUndefined,
   omit,
   pick,
   sortObjectDeep,
   transformValues,
-  unsetValue,
 } from './util/object.util'
 import { randomInt } from './util/random.util'
 import { loadScript } from './util/script.util'
 import { SimpleMovingAverage } from './util/sma'
 import {
-  capitalizeFirstLetter,
-  lowercaseFirstLetter,
+  _capitalize,
+  _lowerFirst,
+  _split,
+  _upperFirst,
   removeWhitespace,
   resultToString,
 } from './util/string.util'
@@ -79,8 +83,10 @@ export {
   InstanceId,
   IsoDate,
   IsoDateTime,
-  capitalizeFirstLetter,
-  lowercaseFirstLetter,
+  _capitalize,
+  _upperFirst,
+  _lowerFirst,
+  _split,
   removeWhitespace,
   resultToString,
   pick,
@@ -95,13 +101,16 @@ export {
   deepCopy,
   isObject,
   isEmptyObject,
-  mergeDeep,
+  _merge,
   deepTrim,
   sortObjectDeep,
-  unsetValue,
+  _get,
+  _set,
+  _has,
+  _unset,
   mask,
   getKeyByValue,
-  invertObject,
+  _invert,
   invertMap,
   by,
   anyToErrorMessage,
@@ -112,8 +121,11 @@ export {
   errorObjectToHttpError,
   appErrorToErrorObject,
   appErrorToHttpError,
-  arrayRange,
-  dedupeArray,
-  flatArray,
+  _range,
+  _uniq,
+  _uniqBy,
+  _flatten,
+  _flattenDeep,
+  _chunk,
   SimpleMovingAverage,
 }

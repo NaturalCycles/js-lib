@@ -1,5 +1,5 @@
 import { Except } from 'type-fest'
-import { StringMap } from '../types'
+import { PropertyPath } from './lodash.types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -47,7 +47,7 @@ export function omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): E
 export function mask<T extends object> (_o: T, props: string[], _deepCopy = false): T {
   return props.reduce(
     (r, prop) => {
-      unsetValue(r, prop)
+      _unset(r, prop)
       return r
     },
     _deepCopy ? deepCopy(_o) : { ..._o },
@@ -145,19 +145,47 @@ export function isEmptyObject (obj: any): boolean {
   return obj && obj.constructor === Object && Object.keys(obj).length === 0
 }
 
-// from: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
-export function mergeDeep (target: any, source: any): any {
+/**
+ * Recursively merges own and inherited enumerable properties of source
+ * objects into the destination object, skipping source properties that resolve
+ * to `undefined`. Array and plain object properties are merged recursively.
+ * Other objects and value types are overridden by assignment. Source objects
+ * are applied from left to right. Subsequent sources overwrite property
+ * assignments of previous sources.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @category Object
+ * @param target The destination object.
+ * @param source The source object.
+ * @returns Returns `object`.
+ * @example
+ *
+ * var users = {
+ *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+ * };
+ *
+ * var ages = {
+ *   'data': [{ 'age': 36 }, { 'age': 40 }]
+ * };
+ *
+ * _.merge(users, ages);
+ * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+ *
+ * Based on: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
+ */
+export function _merge<TARGET, SOURCE> (target: TARGET, source: SOURCE): TARGET & SOURCE {
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach(key => {
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, { [key]: {} })
-        mergeDeep(target[key], source[key])
+        _merge(target[key], source[key])
       } else {
         Object.assign(target, { [key]: source[key] })
       }
     })
   }
-  return target
+  return target as TARGET & SOURCE
 }
 
 /**
@@ -177,10 +205,6 @@ export function deepTrim (o: any): any {
   return o
 }
 
-function defaultSortFn (a: any, b: any): number {
-  return a.localeCompare(b)
-}
-
 // based on: https://github.com/IndigoUnited/js-deep-sort-object
 export function sortObjectDeep<T> (o: T): T {
   // array
@@ -192,7 +216,7 @@ export function sortObjectDeep<T> (o: T): T {
     const out = {} as T
 
     Object.keys(o)
-      .sort(defaultSortFn)
+      .sort((a, b) => a.localeCompare(b))
       .forEach(k => {
         out[k] = sortObjectDeep((o as any)[k])
       })
@@ -205,7 +229,7 @@ export function sortObjectDeep<T> (o: T): T {
 
 // from: https://github.com/jonschlinkert/unset-value
 // mutates obj
-export function unsetValue (obj: any, prop: string): void {
+export function _unset<T extends object> (obj: T, prop: string): void {
   if (!isObject(obj)) {
     return
   }
@@ -232,7 +256,7 @@ export function getKeyByValue<T = any> (object: any, value: any): T | undefined 
   return Object.keys(object).find(k => object[k] === value) as any
 }
 
-export function invertObject<T> (o: any): T {
+export function _invert<T> (o: any): T {
   const inv: any = {}
   Object.keys(o).forEach(k => {
     inv[o[k]] = k
@@ -246,9 +270,91 @@ export function invertMap<K, V> (m: Map<K, V>): Map<V, K> {
   return inv
 }
 
-export function by<T> (items: T[] = [], by: string): StringMap<T> {
-  return items.reduce((r, item) => {
-    if (item[by]) r[item[by]] = item
-    return r
-  }, {})
+/**
+ * Gets the property value at path of object. If the resolved value is undefined the defaultValue is used
+ * in its place.
+ *
+ * @param obj The object to query.
+ * @param path The path of the property to get.
+ * @param def The value returned if the resolved value is undefined.
+ * @return Returns the resolved value.
+ */
+export function _get<T extends object> (obj = {} as T, path = '', def?: any): any {
+  const res = path
+    .replace(/\[([^\]]+)]/g, '.$1')
+    .split('.')
+    .reduce((o, p) => o[p], obj)
+
+  return res === undefined ? def : res
+}
+
+/**
+ * Sets the value at path of object. If a portion of path doesn’t exist it’s created. Arrays are created for
+ * missing index properties while objects are created for all other missing properties. Use _.setWith to
+ * customize path creation.
+ *
+ * @param obj The object to modify.
+ * @param path The path of the property to set.
+ * @param value The value to set.
+ * @return Returns object.
+ *
+ * Based on: https://stackoverflow.com/a/54733755/4919972
+ */
+export function _set<T extends object> (obj: T, path: PropertyPath, value?: any): any {
+  if (!obj || Object(obj) !== obj || !path) return obj // When obj is not an object
+
+  // If not yet an array, get the keys from the string-path
+  if (!Array.isArray(path)) {
+    path = String(path).match(/[^.[\]]+/g) || []
+  } else if (!path.length) {
+    return obj
+  }
+
+  path.slice(0, -1).reduce(
+    (
+      a,
+      c,
+      i, // Iterate all of them except the last one
+    ) =>
+      Object(a[c]) === a[c] // Does the key exist and is its value an object?
+        ? // Yes: then follow that path
+          a[c]
+        : // No: create the key. Is the next key a potential array-index?
+          (a[c] =
+            Math.abs(path[i + 1]) >> 0 === +path[i + 1] // tslint:disable-line
+              ? [] // Yes: assign a new array object
+              : {}), // No: assign a new plain object
+    obj,
+  )[path[path.length - 1]] = value // Finally assign the value to the last key
+
+  return obj // Return the top-level object to allow chaining
+}
+
+/**
+ * Checks if `path` is a direct property of `object` (not null, not undefined).
+ *
+ * @category Object
+ * @param obj The object to query.
+ * @param path The path to check.
+ * @returns Returns `true` if `path` exists, else `false`.
+ * @example
+ *
+ * var object = { 'a': { 'b': { 'c': 3 } } };
+ * var other = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
+ *
+ * _.has(object, 'a');
+ * // => true
+ *
+ * _.has(object, 'a.b.c');
+ * // => true
+ *
+ * _.has(object, ['a', 'b', 'c']);
+ * // => true
+ *
+ * _.has(other, 'a');
+ * // => false
+ */
+export function _has<T extends object> (obj?: T, path?: string): boolean {
+  const v = _get(obj, path)
+  return v !== undefined && v !== null
 }

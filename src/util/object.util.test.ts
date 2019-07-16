@@ -1,6 +1,11 @@
 import { deepFreeze } from '@naturalcycles/test-lib'
 import {
-  by,
+  _get,
+  _has,
+  _invert,
+  _merge,
+  _set,
+  _unset,
   deepCopy,
   deepEquals,
   deepTrim,
@@ -10,18 +15,15 @@ import {
   filterUndefinedValues,
   getKeyByValue,
   invertMap,
-  invertObject,
   isEmptyObject,
   isObject,
   isPrimitive,
   mask,
-  mergeDeep,
   objectNullValuesToUndefined,
   omit,
   pick,
   sortObjectDeep,
   transformValues,
-  unsetValue,
 } from './object.util'
 
 test('pick', () => {
@@ -296,8 +298,8 @@ test('deepEquals', () => {
   ).toBe(false)
 })
 
-test('unsetValue', () => {
-  expect(unsetValue(1, 'a')).toBeUndefined()
+test('_unset', () => {
+  expect(_unset(1 as any, 'a')).toBeUndefined()
 
   const o = {
     a: 1,
@@ -307,8 +309,8 @@ test('unsetValue', () => {
     },
     m: 5,
   }
-  unsetValue(o, 'b.c')
-  unsetValue(o, 'm')
+  _unset(o, 'b.c')
+  _unset(o, 'm')
   expect(o).toEqual({
     a: 1,
     b: {
@@ -342,8 +344,8 @@ test('isEmptyObject', () => {
 })
 
 test('mergeDeep', () => {
-  expect(mergeDeep(1, 2)).toBe(1)
-  expect(mergeDeep({}, 2)).toEqual({})
+  expect(_merge(1, 2)).toBe(1)
+  expect(_merge({}, 2)).toEqual({})
 
   const a1 = {
     b: {
@@ -358,10 +360,10 @@ test('mergeDeep', () => {
     d: 'd2',
   }
 
-  expect(mergeDeep(a1, a2)).toMatchSnapshot()
+  expect(_merge(a1, a2)).toMatchSnapshot()
 
   const b1 = {}
-  expect(mergeDeep(b1, a2)).toMatchSnapshot()
+  expect(_merge(b1, a2)).toMatchSnapshot()
 })
 
 test('sortObjectDeep', () => {
@@ -397,7 +399,7 @@ test('getKeyByValue', async () => {
   expect(getKeyByValue(o, 'ak')).toBe('a')
 })
 
-test('invertObject', async () => {
+test('invert', async () => {
   const o = {
     a: 'ak',
     b: 'bk',
@@ -407,7 +409,7 @@ test('invertObject', async () => {
     bk: 'b',
   }
 
-  expect(invertObject(o)).toEqual(inv)
+  expect(_invert(o)).toEqual(inv)
 })
 
 test('invertMap', async () => {
@@ -417,21 +419,65 @@ test('invertMap', async () => {
   expect(invertMap(o)).toEqual(inv)
 })
 
-test('by', () => {
-  expect(by(undefined, 'a')).toEqual({})
-
-  const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
-  const r = by(a, 'a')
-  expect(r).toEqual({
-    aa: { a: 'aa' },
-    ab: { a: 'ab' },
-  })
-})
-
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
   expect(isPrimitive(v)).toBe(true)
 })
 
 test.each([[[]], [{}], [() => {}]] as any[])('!isPrimitive "%s"', v => {
   expect(isPrimitive(v)).toBe(false)
+})
+
+test('_get, _has', () => {
+  const o = {
+    a: 'a',
+    b: 'b',
+    c: {
+      d: '11',
+      e: 3,
+      f: [null, undefined, 1, '5', 'd'],
+    },
+  }
+
+  expect(_get(undefined, '')).toBeUndefined()
+  expect(_get(undefined, undefined as any)).toBeUndefined()
+  expect(_get(o, '')).toBeUndefined()
+  expect(_get(o, 'a')).toBe('a')
+  expect(_get(o, 'b')).toBe('b')
+  expect(_get(o, 'c')).toEqual(o.c)
+  expect(_get(o, 'c.d')).toBe('11')
+  expect(_get(o, 'c.e')).toBe(3)
+  expect(_get(o, 'c.f')).toEqual(o.c.f)
+  expect(_get(o, 'c.f[0]')).toBe(null)
+  expect(_get(o, 'c.f.0')).toBe(null)
+  expect(_get(o, 'c.f[1]')).toBeUndefined()
+  expect(_get(o, 'c.f[1]', 'def')).toBe('def')
+  expect(_get(o, 'c.f[2]')).toBe(1)
+  expect(_get(o, 'c.f[3]')).toBe('5')
+  expect(_get(o, 'c.f[4]')).toBe('d')
+
+  expect(_has(undefined)).toBe(false)
+  expect(_has(o)).toBe(false)
+  expect(_has(o, 'a')).toBe(true)
+  expect(_has(o, 'a.b')).toBe(false)
+  expect(_has(o, 'c.d')).toBe(true)
+  expect(_has(o, 'c.f')).toBe(true)
+  expect(_has(o, 'c.f[0]')).toBe(false)
+  expect(_has(o, 'c.f[1]')).toBe(false)
+  expect(_has(o, 'c.f[2]')).toBe(true)
+  expect(_has(o, 'c.f[6]')).toBe(false)
+})
+
+test('_set', () => {
+  expect(_set(undefined as any, undefined as any)).toBeUndefined()
+  expect(_set({}, undefined as any)).toEqual({})
+  expect(_set({}, '')).toEqual({})
+  expect(_set({}, '', 'a')).toEqual({})
+  expect(_set({}, 'a', 'a1')).toEqual({ a: 'a1' })
+  expect(_set({}, 'a.b', 'a1')).toEqual({ a: { b: 'a1' } })
+  expect(_set({}, 'a.b[0]', 'a1')).toEqual({ a: { b: ['a1'] } })
+  expect(_set({}, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
+  expect(_set({ a: {} }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
+  expect(_set({ a: { b: ['b1'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
+  expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1', 'b2'] } })
+  expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.1', 'a1')).toEqual({ a: { b: ['b1', 'a1'] } })
 })

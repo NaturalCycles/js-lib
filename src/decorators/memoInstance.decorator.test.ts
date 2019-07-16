@@ -1,4 +1,4 @@
-import { arrayRange, memo } from '..'
+import { _range, memo } from '..'
 
 beforeEach(() => {
   jest.restoreAllMocks()
@@ -53,8 +53,8 @@ test('memoInstance should cache per instance', () => {
 
 // Intended to fail if memoInstance is not using WeakMap (not normal Map)
 test('leak test', () => {
-  arrayRange(0, 100).forEach(() => {
+  _range(0, 100).forEach(() => {
     const c = new C()
-    arrayRange(1, 10).forEach(n => c.method(n))
+    _range(1, 10).forEach(n => c.method(n))
   })
 })

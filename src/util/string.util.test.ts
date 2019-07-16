@@ -1,17 +1,25 @@
 import { HttpError } from '..'
 import {
-  capitalizeFirstLetter,
-  lowercaseFirstLetter,
+  _capitalize,
+  _lowerFirst,
+  _split,
+  _upperFirst,
   removeWhitespace,
   resultToString,
 } from './string.util'
 
-test('capitalizeFirstLetter', () => {
-  expect(capitalizeFirstLetter('abc')).toBe('Abc')
+test('capitalize', () => {
+  expect(_capitalize('abc')).toBe('Abc')
+  expect(_capitalize('aBc')).toBe('Abc')
 })
 
-test('lowercaseFirstLetter', () => {
-  expect(lowercaseFirstLetter('Abc')).toBe('abc')
+test('upperFirst', () => {
+  expect(_upperFirst('abc')).toBe('Abc')
+  expect(_upperFirst('aBc')).toBe('ABc')
+})
+
+test('lowerFirst', () => {
+  expect(_lowerFirst('Abc')).toBe('abc')
 })
 
 test('removeWhitespace', () => {
@@ -39,4 +47,10 @@ const anyItems = [
 
 test('resultToString', () => {
   expect(anyItems.map(resultToString)).toMatchSnapshot()
+})
+
+test('_split', () => {
+  expect(_split('a b c', ' ', 1)).toEqual(['a b c'])
+  expect(_split('a b c', ' ', 2)).toEqual(['a', 'b c'])
+  expect(_split('a b c', ' ', 3)).toEqual(['a', 'b', 'c'])
 })
