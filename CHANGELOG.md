@@ -1,3 +1,33 @@
+# [8.0.0](https://github.com/NaturalCycles/js-lib/compare/v7.2.0...v8.0.0) (2019-07-16)
+
+
+### Code Refactoring
+
+* align funciton names with lodash ([cddefe4](https://github.com/NaturalCycles/js-lib/commit/cddefe4))
+
+
+### BREAKING CHANGES
+
+* renamed functions:
+invertObject > _invert
+mergeDeep > _merge
+unsetValue > _unset
+capitalizeFirstLetter > _upperFirst
+lowercaseFirstLetter > _lowerFirst
+arrayRange > _range
+dedupeArray > _uniq
+flatArray > _flatten
+
+New methods:
+_get
+_set
+_has
+_flattenDeep
+_chunk
+_uniqBy
+_capitalize
+_split
+
 # [7.2.0](https://github.com/NaturalCycles/js-lib/compare/v7.1.0...v7.2.0) (2019-07-09)
 
 
