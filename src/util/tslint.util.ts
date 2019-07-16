@@ -1,4 +1,4 @@
-import { flatArray } from '@naturalcycles/js-lib'
+import { _flatten } from '@naturalcycles/js-lib'
 import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
@@ -18,7 +18,7 @@ export async function runTSLint (
     `--config`,
     tslintConfigPath,
     `${dir}/**/*.{ts,tsx}`,
-    ...flatArray(excludePaths.map(p => [`-e`, p])),
+    ..._flatten(excludePaths.map(p => [`-e`, p])),
     ...(tsconfigPath ? [`-p`, tsconfigPath] : []),
     `-t`,
     `stylish`,

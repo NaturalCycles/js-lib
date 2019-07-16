@@ -1,4 +1,4 @@
-import { dedupeArray } from '@naturalcycles/js-lib'
+import { _uniq } from '@naturalcycles/js-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
@@ -89,7 +89,7 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  await execCommand('jest', dedupeArray(args), {
+  await execCommand('jest', _uniq(args), {
     env,
   })
 }
