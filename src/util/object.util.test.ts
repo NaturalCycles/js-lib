@@ -4,6 +4,8 @@ import {
   _has,
   _invert,
   _merge,
+  _omit,
+  _pick,
   _set,
   _unset,
   deepCopy,
@@ -20,14 +22,12 @@ import {
   isPrimitive,
   mask,
   objectNullValuesToUndefined,
-  omit,
-  pick,
   sortObjectDeep,
   transformValues,
 } from './object.util'
 
 test('pick', () => {
-  const f = pick
+  const f = _pick
 
   expect(f(undefined as any)).toBe(undefined)
   expect(f(null as any)).toBe(null)
@@ -52,9 +52,9 @@ test('pick', () => {
 })
 
 test('omit', () => {
-  expect(omit(undefined as any)).toBe(undefined)
-  expect(omit(null as any)).toBe(null)
-  expect(omit({})).toEqual({})
+  expect(_omit(undefined as any)).toBe(undefined)
+  expect(_omit(null as any)).toBe(null)
+  expect(_omit({})).toEqual({})
 
   const obj = {
     a: 1,
@@ -66,15 +66,15 @@ test('omit', () => {
 
   deepFreeze(obj)
 
-  expect(omit(obj)).toEqual(obj)
+  expect(_omit(obj)).toEqual(obj)
 
-  expect(omit(obj, ['b', 'c'])).toEqual({
+  expect(_omit(obj, ['b', 'c'])).toEqual({
     a: 1,
     d: false,
     e: undefined,
   })
 
-  expect(omit(obj, ['a', 'd', 'e'])).toEqual({
+  expect(_omit(obj, ['a', 'd', 'e'])).toEqual({
     b: 2,
     c: 3,
   })

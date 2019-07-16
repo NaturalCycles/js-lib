@@ -5,7 +5,7 @@ import { PropertyPath } from './lodash.types'
  * Returns clone of `obj` with only `props` preserved.
  * Opposite of Omit.
  */
-export function pick<T, K extends keyof T> (
+export function _pick<T, K extends keyof T> (
   obj: T,
   props: readonly K[] = [],
   initialObject: Partial<T> = {},
@@ -22,7 +22,7 @@ export function pick<T, K extends keyof T> (
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): Except<T, K> {
+export function _omit<T, K extends keyof T> (obj: T, props: readonly K[] = []): Except<T, K> {
   if (!obj || !props || !props.length) return obj
 
   return props.reduce(
