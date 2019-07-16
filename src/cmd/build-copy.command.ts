@@ -9,5 +9,6 @@ export async function buildCopyCommand (): Promise<void> {
     baseDir,
     inputPatterns,
     outputDir,
+    dotfiles: true,
   })
 }
