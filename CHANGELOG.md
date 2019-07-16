@@ -1,3 +1,10 @@
+## [7.14.1](https://github.com/NaturalCycles/dev-lib/compare/v7.14.0...v7.14.1) (2019-07-16)
+
+
+### Bug Fixes
+
+* yarn build-copy to include dotfiles ([4a34f51](https://github.com/NaturalCycles/dev-lib/commit/4a34f51))
+
 # [7.14.0](https://github.com/NaturalCycles/dev-lib/compare/v7.13.0...v7.14.0) (2019-07-16)
 
 
