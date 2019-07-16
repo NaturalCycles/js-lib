@@ -1,3 +1,10 @@
+## [8.0.1](https://github.com/NaturalCycles/js-lib/compare/v8.0.0...v8.0.1) (2019-07-16)
+
+
+### Bug Fixes
+
+* pick > _pick, omit > _omit ([878ab14](https://github.com/NaturalCycles/js-lib/commit/878ab14))
+
 # [8.0.0](https://github.com/NaturalCycles/js-lib/compare/v7.2.0...v8.0.0) (2019-07-16)
 
 
