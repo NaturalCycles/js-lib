@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/NaturalCycles/js-lib/compare/v8.0.1...v8.1.0) (2019-07-16)
+
+
+### Features
+
+* _merge with multiple sources ([e109b4f](https://github.com/NaturalCycles/js-lib/commit/e109b4f))
+
 ## [8.0.1](https://github.com/NaturalCycles/js-lib/compare/v8.0.0...v8.0.1) (2019-07-16)
 
 
