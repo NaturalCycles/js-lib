@@ -1,3 +1,10 @@
+## [8.2.1](https://github.com/NaturalCycles/js-lib/compare/v8.2.0...v8.2.1) (2019-07-18)
+
+
+### Bug Fixes
+
+* export MemoizedFunction ([2e894b0](https://github.com/NaturalCycles/js-lib/commit/2e894b0))
+
 # [8.2.0](https://github.com/NaturalCycles/js-lib/compare/v8.1.0...v8.2.0) (2019-07-18)
 
 
