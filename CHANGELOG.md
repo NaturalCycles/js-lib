@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/NaturalCycles/js-lib/compare/v8.1.0...v8.2.0) (2019-07-18)
+
+
+### Features
+
+* memoFn ([65156f3](https://github.com/NaturalCycles/js-lib/commit/65156f3))
+
 # [8.1.0](https://github.com/NaturalCycles/js-lib/compare/v8.0.1...v8.1.0) (2019-07-16)
 
 
