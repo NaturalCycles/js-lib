@@ -24,6 +24,7 @@ import {
 import { HttpError } from './error/http.error'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
+import { memoFn } from './util/memoFn'
 import {
   _get,
   _has,
@@ -64,6 +65,7 @@ import {
 export {
   memo,
   MemoCache,
+  memoFn,
   logMethod,
   getArgsSignature,
   ErrorData,
