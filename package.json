@@ -44,6 +44,7 @@
     "jest-junit": "^7.0.0",
     "lint-staged": "^8.0.4",
     "loud-rejection": "^2.1.0",
+    "mitm": "^1.7.0",
     "prettier": "^1.17.1",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.1.0",
