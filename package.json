@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "7.14.1",
+  "version": "7.15.0",
   "description": "",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register",

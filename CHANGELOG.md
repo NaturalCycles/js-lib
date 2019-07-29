@@ -1,3 +1,11 @@
+# [7.15.0](https://github.com/NaturalCycles/dev-lib/compare/v7.14.1...v7.15.0) (2019-07-29)
+
+
+### Features
+
+* deps ([e0f094c](https://github.com/NaturalCycles/dev-lib/commit/e0f094c))
+* jestOffline() powered by 'mitm' ([cca66d2](https://github.com/NaturalCycles/dev-lib/commit/cca66d2))
+
 ## [7.14.1](https://github.com/NaturalCycles/dev-lib/compare/v7.14.0...v7.14.1) (2019-07-16)
 
 
