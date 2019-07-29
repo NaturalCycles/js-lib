@@ -1,3 +1,10 @@
+## [7.15.1](https://github.com/NaturalCycles/dev-lib/compare/v7.15.0...v7.15.1) (2019-07-29)
+
+
+### Bug Fixes
+
+* jestOffline ([33a92da](https://github.com/NaturalCycles/dev-lib/commit/33a92da))
+
 # [7.15.0](https://github.com/NaturalCycles/dev-lib/compare/v7.14.1...v7.15.0) (2019-07-29)
 
 
