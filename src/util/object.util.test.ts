@@ -9,7 +9,6 @@ import {
   _set,
   _unset,
   deepCopy,
-  deepEquals,
   deepTrim,
   filterEmptyStringValues,
   filterFalsyValues,
@@ -252,50 +251,6 @@ test('objectNullValuesToUndefined', () => {
   // mutate
   objectNullValuesToUndefined(o, true)
   expect(o).toEqual(o2)
-})
-
-test('deepEquals Issue!', () => {
-  expect(
-    deepEquals(
-      {
-        a: 1,
-        b: 2,
-      },
-      {
-        b: 2,
-        a: 1,
-      },
-    ),
-  ).toBe(true)
-})
-
-test('deepEquals', () => {
-  expect(
-    deepEquals(
-      {
-        a: 1,
-        b: 2,
-      },
-      {
-        a: 1,
-        b: 2,
-      },
-    ),
-  ).toBe(true)
-
-  expect(
-    deepEquals(
-      {
-        a: 1,
-        b: 2,
-      },
-      {
-        a: 1,
-        b: 2,
-        c: 3,
-      },
-    ),
-  ).toBe(false)
 })
 
 test('_unset', () => {

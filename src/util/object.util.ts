@@ -116,10 +116,6 @@ export function objectNullValuesToUndefined<T> (obj: T, mutate = false): T {
   )
 }
 
-export function deepEquals (a: object, b: object): boolean {
-  return JSON.stringify(sortObjectDeep(a)) === JSON.stringify(sortObjectDeep(b))
-}
-
 /**
  * Deep copy object (by json parse/stringify).
  */

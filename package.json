@@ -7,7 +7,9 @@
     "build-prod-esm": "del ./dist-esm && tsc -p tsconfig.prod.json --outDir ./dist-esm --module es2015 --declaration false",
     "build-prod-cjs": "del ./dist && tsc -p tsconfig.prod.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "type-fest": "^0.6.0"
+  },
   "devDependencies": {
     "@naturalcycles/dev-lib": "^7.0.0",
     "@naturalcycles/promise-lib": "^2.2.0",
@@ -17,7 +19,6 @@
     "@types/node": "^12.0.0",
     "benchmark": "^2.1.4",
     "jest": "^24.1.0",
-    "type-fest": "^0.6.0",
     "weak": "^1.0.1"
   },
   "files": [
@@ -34,7 +35,7 @@
   "engines": {
     "node": ">=8.11"
   },
-  "description": "",
+  "description": "Standard library for universal (browser + Node.js) javascript",
   "author": "Natural Cycles Team",
   "license": "MIT"
 }
