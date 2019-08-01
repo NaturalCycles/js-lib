@@ -1,3 +1,10 @@
+# [8.3.0](https://github.com/NaturalCycles/js-lib/compare/v8.2.1...v8.3.0) (2019-08-01)
+
+
+### Features
+
+* proper/faster deepEquals implementation ([0412d7f](https://github.com/NaturalCycles/js-lib/commit/0412d7f))
+
 ## [8.2.1](https://github.com/NaturalCycles/js-lib/compare/v8.2.0...v8.2.1) (2019-07-18)
 
 
