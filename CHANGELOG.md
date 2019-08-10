@@ -1,3 +1,10 @@
+# [7.16.0](https://github.com/NaturalCycles/dev-lib/compare/v7.15.1...v7.16.0) (2019-08-10)
+
+
+### Features
+
+* yarn test to set DEBUG_COLORS=1 ([9c946d0](https://github.com/NaturalCycles/dev-lib/commit/9c946d0))
+
 ## [7.15.1](https://github.com/NaturalCycles/dev-lib/compare/v7.15.0...v7.15.1) (2019-07-29)
 
 
