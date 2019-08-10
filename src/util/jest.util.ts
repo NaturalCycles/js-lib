@@ -46,6 +46,7 @@ export async function runJest (opt: RunJestOpt = {}): Promise<void> {
   const args: string[] = ['--logHeapUsage', ...processArgs]
   const env = {
     TZ: process.env.TZ || 'UTC',
+    DEBUG_COLORS: '1',
   }
 
   const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
