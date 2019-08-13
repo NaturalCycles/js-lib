@@ -1,3 +1,10 @@
+## [7.16.2](https://github.com/NaturalCycles/dev-lib/compare/v7.16.1...v7.16.2) (2019-08-13)
+
+
+### Bug Fixes
+
+* removing semantic-release from package.json ([3fd3721](https://github.com/NaturalCycles/dev-lib/commit/3fd3721))
+
 ## [7.16.1](https://github.com/NaturalCycles/dev-lib/compare/v7.16.0...v7.16.1) (2019-08-13)
 
 
