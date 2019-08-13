@@ -51,6 +51,8 @@ module.exports = {
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
   testMatch: ['<rootDir>/src/**/*.test.ts?(x)', '<rootDir>/scripts/**/*.test.ts?(x)'],
+  roots: ['<rootDir>/src', '<rootDir>/scripts'],
+  rootDir: cwd,
   testPathIgnorePatterns,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
@@ -89,7 +91,6 @@ module.exports = {
     '!**/*.page.ts',
     '!**/*.component.ts',
   ],
-  rootDir: cwd,
   reporters: [
     'default',
     [
