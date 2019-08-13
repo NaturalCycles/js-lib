@@ -1,3 +1,10 @@
+## [7.16.1](https://github.com/NaturalCycles/dev-lib/compare/v7.16.0...v7.16.1) (2019-08-13)
+
+
+### Performance Improvements
+
+* speedup jest tests by settings `roots` property ([8419c18](https://github.com/NaturalCycles/dev-lib/commit/8419c18))
+
 # [7.16.0](https://github.com/NaturalCycles/dev-lib/compare/v7.15.1...v7.16.0) (2019-08-10)
 
 
