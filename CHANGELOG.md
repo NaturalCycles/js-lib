@@ -1,3 +1,13 @@
+# [8.4.0](https://github.com/NaturalCycles/js-lib/compare/v8.3.0...v8.4.0) (2019-08-18)
+
+
+### Features
+
+* _debounce, _throttle based on lodash ([1ff92ff](https://github.com/NaturalCycles/js-lib/commit/1ff92ff))
+* @Debounce, @Throttle decorators ([31ad9f5](https://github.com/NaturalCycles/js-lib/commit/31ad9f5))
+* merge promise-lib functions into js-lib ([a32a8ba](https://github.com/NaturalCycles/js-lib/commit/a32a8ba))
+* pRetry, @Retry, _tryCatch, @TryCatch ([7eb9b2d](https://github.com/NaturalCycles/js-lib/commit/7eb9b2d))
+
 # [8.3.0](https://github.com/NaturalCycles/js-lib/compare/v8.2.1...v8.3.0) (2019-08-01)
 
 
