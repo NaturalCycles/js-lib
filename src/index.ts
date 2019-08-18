@@ -3,6 +3,7 @@ import { getArgsSignature } from './decorators/decorator.util'
 import { logMethod } from './decorators/logMethod.decorator'
 import { memo } from './decorators/memo.decorator'
 import { MemoCache } from './decorators/memo.util'
+import { Retry } from './decorators/retry.decorator'
 import { AppError } from './error/app.error'
 import {
   Admin401ErrorData,
@@ -31,7 +32,9 @@ import { pFilter } from './promise/pFilter'
 import { pHang } from './promise/pHang'
 import { pMap } from './promise/pMap'
 import { pProps } from './promise/pProps'
+import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
+import { _tryCatch, TryCatch, TryCatchOptions } from './promise/tryCatch'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
 import { _debounce, _throttle } from './util/debounce'
@@ -155,4 +158,10 @@ export {
   pHang,
   pState,
   AggregatedError,
+  PRetryOptions,
+  pRetry,
+  Retry,
+  _tryCatch,
+  TryCatchOptions,
+  TryCatch,
 }

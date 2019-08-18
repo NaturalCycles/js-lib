@@ -14,6 +14,7 @@
 - Decorators
   - `@memo`, `@memoCache`
   - `@Debounce`, `@Throttle`
+  - `@Retry`, `@TryCatch`
   - ...
 - Error
   - `AppError`
