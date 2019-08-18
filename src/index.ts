@@ -23,6 +23,15 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
+import { AggregatedError } from './promise/aggregatedError'
+import { pBatch, PBatchResult } from './promise/pBatch'
+import { pDefer } from './promise/pDefer'
+import { pDelay } from './promise/pDelay'
+import { pFilter } from './promise/pFilter'
+import { pHang } from './promise/pHang'
+import { pMap } from './promise/pMap'
+import { pProps } from './promise/pProps'
+import { pState } from './promise/pState'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
 import { _debounce, _throttle } from './util/debounce'
@@ -136,4 +145,14 @@ export {
   _throttle,
   Debounce,
   Throttle,
+  pMap,
+  pBatch,
+  PBatchResult,
+  pFilter,
+  pProps,
+  pDelay,
+  pDefer,
+  pHang,
+  pState,
+  AggregatedError,
 }

@@ -1,6 +1,6 @@
-import { pDelay } from '@naturalcycles/promise-lib'
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
+import { pDelay } from '..'
 import { _debounce, _throttle } from './debounce'
 import { since } from './time.util'
 

@@ -1,5 +1,4 @@
-import { pDelay } from '@naturalcycles/promise-lib'
-import { InstanceId } from '../index'
+import { InstanceId, pDelay } from '../index'
 import { logMethod } from './logMethod.decorator'
 
 class C {

@@ -491,7 +491,7 @@
   dependencies:
     type-fest "^0.6.0"
 
-"@naturalcycles/promise-lib@^2.1.2", "@naturalcycles/promise-lib@^2.2.0":
+"@naturalcycles/promise-lib@^2.1.2":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@naturalcycles/promise-lib/-/promise-lib-2.5.0.tgz#6fab72cb6af0da8f708a03c73586c67d5263ac8d"
   integrity sha512-SrGsteo4td/Dar1C0f9nLAbcdz4UdysgKUF3cFpyLXrBLvCkZe3NVUe/V79xTmf8BuNzVNlUyIcExU1PqIOFxw==
