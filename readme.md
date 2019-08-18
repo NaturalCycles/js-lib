@@ -12,7 +12,9 @@
 # Features
 
 - Decorators
-  - `memo`, `memoCache`
+  - `@memo`, `@memoCache`
+  - `@Debounce`, `@Throttle`
+  - ...
 - Error
   - `AppError`
 - Utils

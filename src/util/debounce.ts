@@ -34,7 +34,7 @@ export interface DebounceOptions {
 
 export function _debounce<T extends Function> (
   func: T,
-  wait = 0,
+  wait: number,
   options: DebounceOptions = {},
 ): T & Cancelable {
   let lastArgs: any
@@ -46,8 +46,8 @@ export function _debounce<T extends Function> (
   let lastInvokeTime = 0
   const maxing = 'maxWait' in options
 
-  let { leading = false, trailing = true, maxWait } = options
-  maxWait = maxing ? Math.max(+options.maxWait! || 0, wait) : maxWait
+  const { leading = false, trailing = true } = options
+  const maxWait = maxing ? Math.max(+options.maxWait! || 0, wait) : options.maxWait
 
   function invokeFunc (time: number) {
     const args = lastArgs
@@ -167,7 +167,7 @@ export function _debounce<T extends Function> (
 
 export function _throttle<T extends Function> (
   func: T,
-  wait = 0,
+  wait: number,
   options: ThrottleOptions = {},
 ): T & Cancelable {
   return _debounce(func, wait, {

@@ -1,3 +1,4 @@
+import { Debounce, Throttle } from './decorators/debounce.decorator'
 import { getArgsSignature } from './decorators/decorator.util'
 import { logMethod } from './decorators/logMethod.decorator'
 import { memo } from './decorators/memo.decorator'
@@ -24,6 +25,7 @@ import {
 import { HttpError } from './error/http.error'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
 import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
+import { _debounce, _throttle } from './util/debounce'
 import { deepEquals } from './util/deepEquals'
 import { memoFn } from './util/memoFn'
 import {
@@ -130,4 +132,8 @@ export {
   _flattenDeep,
   _chunk,
   SimpleMovingAverage,
+  _debounce,
+  _throttle,
+  Debounce,
+  Throttle,
 }
