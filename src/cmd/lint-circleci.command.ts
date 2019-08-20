@@ -1,4 +1,4 @@
-import * as c from 'ansi-colors'
+import c from 'chalk'
 import { execCommand } from '../util/exec.util'
 const commandExistsSync = require('command-exists').sync
 

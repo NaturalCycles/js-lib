@@ -1,4 +1,4 @@
-import * as c from 'ansi-colors'
+import c from 'chalk'
 import * as execa from 'execa'
 
 export interface ExecaOptions extends execa.Options {}
