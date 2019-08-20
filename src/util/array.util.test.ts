@@ -41,10 +41,22 @@ test('by', () => {
   expect(by(undefined, 'a')).toEqual({})
 
   const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
-  const r = by(a, 'a')
+  let r = by(a, 'a')
   expect(r).toEqual({
     aa: { a: 'aa' },
     ab: { a: 'ab' },
+  })
+
+  r = by(a, v => v.a)
+  expect(r).toEqual({
+    aa: { a: 'aa' },
+    ab: { a: 'ab' },
+  })
+
+  r = by(a, v => v.a && v.a.toUpperCase())
+  expect(r).toEqual({
+    AA: { a: 'aa' },
+    AB: { a: 'ab' },
   })
 })
 

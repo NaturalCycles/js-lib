@@ -3,6 +3,9 @@ import {
   _get,
   _has,
   _invert,
+  _mapKeys,
+  _mapObject,
+  _mapValues,
   _merge,
   _omit,
   _pick,
@@ -22,7 +25,6 @@ import {
   mask,
   objectNullValuesToUndefined,
   sortObjectDeep,
-  transformValues,
 } from './object.util'
 
 test('pick', () => {
@@ -228,10 +230,6 @@ test('filterObject', () => {
   // should mutate
   f(br, (k: any, v: any) => v !== null, true)
   expect(br.c).toBeUndefined()
-})
-
-test('transformValues', () => {
-  expect(transformValues(1, () => {})).toBe(1)
 })
 
 test('objectNullValuesToUndefined', () => {
@@ -446,4 +444,29 @@ test('_set', () => {
   expect(_set({ a: { b: ['b1'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
   expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1', 'b2'] } })
   expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.1', 'a1')).toEqual({ a: { b: ['b1', 'a1'] } })
+})
+
+test('_mapValues', () => {
+  const users = {
+    fred: { user: 'fred', age: 40 },
+    pebbles: { user: 'pebbles', age: 1 },
+  }
+  deepFreeze(users)
+  expect(_mapValues(users, u => u)).toEqual(users)
+  expect(_mapValues(users, u => u.age)).toEqual({ fred: 40, pebbles: 1 })
+  expect(_mapValues(users, 'age')).toEqual({ fred: 40, pebbles: 1 })
+})
+
+test('_mapValues', () => {
+  const o = { a: 1, b: 2 }
+  deepFreeze(o)
+  expect(_mapKeys(o, (v, k) => k + v)).toEqual({ a1: 1, b2: 2 })
+})
+
+test('_mapObject', () => {
+  const o = { b: 2, c: 3, d: 4 }
+  deepFreeze(o)
+
+  // Example that inverts keys/values in the object
+  expect(_mapObject(o, (k, v) => [v, k])).toEqual({ 2: 'b', 3: 'c', 4: 'd' })
 })

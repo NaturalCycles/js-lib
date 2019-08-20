@@ -1,5 +1,5 @@
 import { Except } from 'type-fest'
-import { PropertyPath } from './lodash.types'
+import { ObjectIterator, ObjectKVIterator, PropertyPath } from './lodash.types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -58,15 +58,15 @@ export function mask<T extends object> (_o: T, props: string[], _deepCopy = fals
  * Removes "falsy" values from the object.
  */
 export function filterFalsyValues<T> (obj: T, mutate = false): T {
-  return filterObject(obj, (k, v) => !!v, mutate)
+  return filterObject(obj, (_k, v) => !!v, mutate)
 }
 
 export function filterEmptyStringValues<T> (obj: T, mutate = false): T {
-  return filterObject(obj, (k, v) => v !== '', mutate)
+  return filterObject(obj, (_k, v) => v !== '', mutate)
 }
 
 export function filterUndefinedValues<T> (obj: T, mutate = false): T {
-  return filterObject(obj, (k, v) => v !== undefined && v !== null, mutate)
+  return filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
 }
 
 /**
@@ -89,31 +89,98 @@ export function filterObject<T> (
   )
 }
 
-export function transformValues<IN, OUT = IN> (
-  obj: IN,
-  transformFn: (key: string, value: any) => any,
+/**
+ * var users = {
+ *  'fred':    { 'user': 'fred',    'age': 40 },
+ *  'pebbles': { 'user': 'pebbles', 'age': 1 }
+ * }
+ *
+ * _.mapValues(users, function(o) { return o.age; });
+ * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.mapValues(users, 'age')
+ * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ */
+export function _mapValues<T extends object, TResult> (
+  obj: T,
+  predicate: ObjectIterator<T, TResult> | string,
   mutate = false,
-): OUT {
+): { [P in keyof T]: TResult } {
   if (!isObject(obj)) return obj as any
 
-  return Object.keys(obj).reduce(
-    (r, k) => {
-      r[k] = transformFn(k, r[k])
-      return r
+  const cb: ObjectIterator<T, TResult> =
+    typeof predicate === 'function' ? predicate : v => v[predicate]
+
+  return Object.entries(obj).reduce(
+    (map, [k, v]) => {
+      map[k] = cb(v, k, obj)
+      return map
     },
-    ((mutate ? obj : { ...obj }) as any) as OUT,
+    (mutate ? obj : {}) as { [P in keyof T]: TResult },
   )
 }
 
-export function objectNullValuesToUndefined<T> (obj: T, mutate = false): T {
-  return transformValues(
-    obj,
-    (k, v) => {
-      if (v === null) return undefined
-      return v
+/**
+ * _.mapKeys({ 'a': 1, 'b': 2 }, (value, key) => key + value)
+ * // => { 'a1': 1, 'b2': 2 }
+ */
+export function _mapKeys<T extends object> (
+  obj: T,
+  predicate: ObjectIterator<T, string>,
+): Record<string, T[keyof T]> {
+  if (!isObject(obj)) return obj as any
+
+  return Object.entries(obj).reduce(
+    (map, [k, v]) => {
+      map[String(predicate(v, k, obj))] = v
+      return map
     },
-    mutate,
+    {} as Record<string, T[keyof T]>,
   )
+}
+
+type KeyValueTuple<K, V> = [K, V]
+
+/**
+ * Maps object through predicate - a function that receives (k, v, obj)
+ * k - key
+ * v - value
+ * obj - whole object
+ *
+ * Order of arguments in the predicate is different form _mapValues / _mapKeys!
+ *
+ * Predicate should return a _tuple_ [0, 1], where:
+ * 0 - key of returned object (string)
+ * 1 - value of returned object (any)
+ *
+ * If predicate returns falsy value (e.g undefined), or a tuple where key (first item) is falsy - then such key/value pair is ignored (filtered out).
+ *
+ * Non-string keys are passed via String(...)
+ */
+export function _mapObject<T extends object, TResult> (
+  obj: T,
+  predicate: ObjectKVIterator<T, KeyValueTuple<any, any>>,
+): { [P in keyof T]: TResult } {
+  if (!isObject(obj)) return obj as any
+
+  return Object.entries(obj).reduce(
+    (map, [k, v]) => {
+      const r = predicate(k, v, obj)
+      if (r && r[0]) {
+        map[String(r[0])] = r[1]
+      }
+      return map
+    },
+    {} as { [P in keyof T]: TResult },
+  )
+}
+
+export function objectNullValuesToUndefined<T extends object, TResult> (
+  obj: T,
+  mutate = false,
+): { [P in keyof T]: TResult } {
+  return _mapValues(obj, v => (v === null ? (undefined as any) : v), mutate)
 }
 
 /**
@@ -124,7 +191,7 @@ export function deepCopy<T> (o: T): T {
 }
 
 export function isObject (item: any): boolean {
-  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null) || false
+  return (item && typeof item === 'object' && !Array.isArray(item) && true) || false
 }
 
 export function isPrimitive (v: any): boolean {

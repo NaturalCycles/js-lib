@@ -1,9 +1,7 @@
-import { StringMap } from '../types'
-
 /**
  * Extendable payload object to transfer custom additional data with AppError.
  */
-export interface ErrorData extends StringMap<any> {
+export interface ErrorData extends Record<string, any> {
   /**
    * String constant/enum that is specific for certain type of error and never changes.
    * Allows Frontend to deal with certain type of error in a specific way.

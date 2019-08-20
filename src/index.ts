@@ -44,6 +44,9 @@ import {
   _get,
   _has,
   _invert,
+  _mapKeys,
+  _mapObject,
+  _mapValues,
   _merge,
   _omit,
   _pick,
@@ -62,7 +65,6 @@ import {
   mask,
   objectNullValuesToUndefined,
   sortObjectDeep,
-  transformValues,
 } from './util/object.util'
 import { randomInt } from './util/random.util'
 import { loadScript } from './util/script.util'
@@ -111,7 +113,9 @@ export {
   filterEmptyStringValues,
   filterUndefinedValues,
   filterObject,
-  transformValues,
+  _mapKeys,
+  _mapValues,
+  _mapObject,
   objectNullValuesToUndefined,
   deepEquals,
   deepCopy,

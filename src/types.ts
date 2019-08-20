@@ -1,5 +1,7 @@
 /**
  * Map from String to String (or <T>).
+ *
+ * Alternative: Record<String, T>
  */
 export interface StringMap<T = string> {
   [k: string]: T
@@ -7,6 +9,8 @@ export interface StringMap<T = string> {
 
 /**
  * Object to be passed to pProps to resolve all promises into properties.
+ *
+ * Alternative: Record<String, Promise<any>>
  */
 export interface PromiseMap {
   [prop: string]: Promise<any>

@@ -1,5 +1,8 @@
-import { StringMap } from '../types'
-import { RecursiveArray, ValueIteratee } from './lodash.types'
+import {
+  RecursiveArray,
+  StringIteratee,
+  ValueIteratee,
+} from './lodash.types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -90,11 +93,36 @@ export function _uniqBy<T> (arr: T[], predicate: ValueIteratee<T>): T[] {
   ]
 }
 
-export function by<T> (items: T[] = [], by: string): StringMap<T> {
-  return items.reduce((r, item) => {
-    if (item[by]) r[item[by]] = item
-    return r
-  }, {})
+/**
+ * const a = [
+ *  {id: 'id1', a: 'a1'},
+ *  {id: 'id2', b: 'b1'},
+ * ]
+ *
+ * by(a, 'k')
+ * // => {
+ *   id1: {id: 'id1', a: 'a1'},
+ *   id2: {id: 'id2', b: 'b1'},
+ * }
+ *
+ * by(a, k => k.id.toUpperCase())
+ * // => {
+ *   ID1: {id: 'id1', a: 'a1'},
+ *   ID2: {id: 'id2', b: 'b1'},
+ * }
+ */
+export function by<T> (items: T[] = [], predicate: StringIteratee<T>): Record<string, T> {
+  const cb: (value: T) => string | undefined =
+    typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
+
+  return items.reduce(
+    (map, item) => {
+      const res = cb(item)
+      if (res) map[res] = item
+      return map
+    },
+    {} as Record<string, T>,
+  )
 }
 
 // todo: groupBy?
