@@ -219,7 +219,7 @@ test('filterUndefinedValues', () => {
 })
 
 test('filterObject', () => {
-  expect(filterObject(1, () => false)).toBe(1)
+  expect(filterObject(1 as any, () => false)).toBe(1)
 
   const f = filterObject
   const br = {
@@ -297,7 +297,7 @@ test('isEmptyObject', () => {
 })
 
 test('mergeDeep', () => {
-  expect(_merge(1, 2)).toBe(1)
+  expect(_merge(1 as any, 2)).toBe(1)
   expect(_merge({}, 2)).toEqual({})
 
   const a1 = {
@@ -468,5 +468,6 @@ test('_mapObject', () => {
   deepFreeze(o)
 
   // Example that inverts keys/values in the object
-  expect(_mapObject(o, (k, v) => [v, k])).toEqual({ 2: 'b', 3: 'c', 4: 'd' })
+  const mapped = _mapObject(o, (k, v) => [v, k])
+  expect(mapped).toEqual({ 2: 'b', 3: 'c', 4: 'd' })
 })
