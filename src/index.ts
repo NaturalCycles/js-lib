@@ -36,7 +36,16 @@ import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
 import { _tryCatch, TryCatch, TryCatchOptions } from './promise/tryCatch'
 import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
-import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './util/array.util'
+import {
+  _chunk,
+  _flatten,
+  _flattenDeep,
+  _range,
+  _sortBy,
+  _uniq,
+  _uniqBy,
+  by,
+} from './util/array.util'
 import { _debounce, _throttle } from './util/debounce'
 import { deepEquals } from './util/deepEquals'
 import { memoFn } from './util/memoFn'
@@ -133,6 +142,7 @@ export {
   _invert,
   invertMap,
   by,
+  _sortBy,
   anyToErrorMessage,
   anyToErrorObject,
   anyToAppError,

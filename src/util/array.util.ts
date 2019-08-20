@@ -1,8 +1,4 @@
-import {
-  RecursiveArray,
-  StringIteratee,
-  ValueIteratee,
-} from './lodash.types'
+import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from './lodash.types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -125,9 +121,23 @@ export function by<T> (items: T[] = [], predicate: StringIteratee<T>): Record<st
   )
 }
 
-// todo: groupBy?
+/**
+ * _sortBy([{age: 20}, {age: 10}], 'age')
+ * // => [{age: 10}, {age: 20}]
+ *
+ * Same:
+ * _sortBy([{age: 20}, {age: 10}], o => o.age)
+ */
+export function _sortBy<T> (items: T[], predicate: ValueIteratee<T>): T[] {
+  const cb: (value: T) => NotVoid =
+    typeof predicate === 'function' ? predicate : (item: T) => item[predicate as string]
 
-// todo: orderBy?
+  return [...items].sort((_a, _b) => {
+    const [a, b] = [_a, _b].map(cb)
+    if (typeof a === 'number' && typeof b === 'number') return Math.sign(a - b)
+    return String(a).localeCompare(String(b))
+  })
+}
 
 /**
  * Returns an array with ranges from `from` up to (but not including) `to`

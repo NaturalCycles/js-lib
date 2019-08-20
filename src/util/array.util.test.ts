@@ -1,4 +1,4 @@
-import { _chunk, _flatten, _flattenDeep, _range, _uniq, _uniqBy, by } from './array.util'
+import { _chunk, _flatten, _flattenDeep, _range, _sortBy, _uniq, _uniqBy, by } from './array.util'
 
 test('chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]
@@ -62,4 +62,10 @@ test('by', () => {
 
 test('arrayRange', () => {
   expect(_range(3, 6)).toEqual([3, 4, 5])
+})
+
+test('_sortBy', () => {
+  const a = [{ age: 20 }, { age: 10 }]
+  expect(_sortBy(a, 'age')).toEqual([{ age: 10 }, { age: 20 }])
+  expect(_sortBy(a, o => o.age)).toEqual([{ age: 10 }, { age: 20 }])
 })
