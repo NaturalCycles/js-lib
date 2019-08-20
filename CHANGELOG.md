@@ -1,3 +1,10 @@
+# [8.5.0](https://github.com/NaturalCycles/js-lib/compare/v8.4.0...v8.5.0) (2019-08-20)
+
+
+### Features
+
+* _mapKeys, _mapValues, _mapObject, by(obj, predicate) ([db72c99](https://github.com/NaturalCycles/js-lib/commit/db72c99))
+
 # [8.4.0](https://github.com/NaturalCycles/js-lib/compare/v8.3.0...v8.4.0) (2019-08-18)
 
 
