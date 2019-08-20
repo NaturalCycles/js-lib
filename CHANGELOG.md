@@ -1,3 +1,10 @@
+# [8.6.0](https://github.com/NaturalCycles/js-lib/compare/v8.5.1...v8.6.0) (2019-08-20)
+
+
+### Features
+
+* _sortBy ([7e94c27](https://github.com/NaturalCycles/js-lib/commit/7e94c27))
+
 ## [8.5.1](https://github.com/NaturalCycles/js-lib/compare/v8.5.0...v8.5.1) (2019-08-20)
 
 
