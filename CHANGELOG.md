@@ -1,3 +1,10 @@
+## [7.16.3](https://github.com/NaturalCycles/dev-lib/compare/v7.16.2...v7.16.3) (2019-08-20)
+
+
+### Bug Fixes
+
+* deps ([8c7b95d](https://github.com/NaturalCycles/dev-lib/commit/8c7b95d))
+
 ## [7.16.2](https://github.com/NaturalCycles/dev-lib/compare/v7.16.1...v7.16.2) (2019-08-13)
 
 
