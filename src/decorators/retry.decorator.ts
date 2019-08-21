@@ -1,7 +1,9 @@
 import { pRetry, PRetryOptions } from '..'
 
-export const Retry = (opt: PRetryOptions): MethodDecorator => (target, key, descriptor) => {
-  const originalFn = descriptor.value
-  descriptor.value = pRetry(originalFn as any, opt)
-  return descriptor
+export function Retry (opt: PRetryOptions): MethodDecorator {
+  return (target, key, descriptor) => {
+    const originalFn = descriptor.value
+    descriptor.value = pRetry(originalFn as any, opt)
+    return descriptor
+  }
 }
