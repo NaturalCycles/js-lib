@@ -1,3 +1,10 @@
+## [8.6.1](https://github.com/NaturalCycles/js-lib/compare/v8.6.0...v8.6.1) (2019-08-21)
+
+
+### Bug Fixes
+
+* decorators as fn declarations, to support angular AOT ([dcfc085](https://github.com/NaturalCycles/js-lib/commit/dcfc085))
+
 # [8.6.0](https://github.com/NaturalCycles/js-lib/compare/v8.5.1...v8.6.0) (2019-08-20)
 
 
