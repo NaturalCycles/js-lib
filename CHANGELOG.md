@@ -1,3 +1,10 @@
+# [7.17.0](https://github.com/NaturalCycles/dev-lib/compare/v7.16.3...v7.17.0) (2019-08-24)
+
+
+### Features
+
+* tsn/tsn-script do -r dotenv/config ([a46298d](https://github.com/NaturalCycles/dev-lib/commit/a46298d))
+
 ## [7.16.3](https://github.com/NaturalCycles/dev-lib/compare/v7.16.2...v7.16.3) (2019-08-20)
 
 
