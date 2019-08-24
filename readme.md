@@ -111,7 +111,8 @@ in that order:
 All these commands will skip type-checking for speed (`ts-node -T`). Instead, type-checking is done
 via `tsc-scripts` as a part of `build`
 
-- `tsn`: short alias for `ts-node -r tsconfig-paths/register`
+- `tsn`: short alias for `ts-node` with additional parameters:
+  `-r tsconfig-paths/register -r dotenv/config`
 - `tsn-script`: like `tsn` but for running scripts inside `./scripts` folder, will use
   `./scripts/tsconfig.json` (file will be auto-generated in not present).
 
