@@ -1,3 +1,4 @@
+import c from 'chalk'
 import * as fs from 'fs-extra'
 
 export interface Json2EnvOpts {
@@ -64,7 +65,7 @@ export async function json2env (opt: Json2EnvOpts): Promise<void> {
     await fs.writeFile(shPath, exportStr)
 
     if (!silent) {
-      console.log(`json2env created ${shPath}:`)
+      console.log(`json2env created ${c.dim(shPath)}:`)
       console.log(exportStr)
     }
   }
@@ -79,7 +80,7 @@ async function appendBashEnv (exportStr: string): Promise<void> {
   if (BASH_ENV) {
     await fs.appendFile(BASH_ENV, exportStr + '\n')
 
-    console.log(`BASH_ENV file appended (${BASH_ENV})`)
+    console.log(`BASH_ENV file appended (${c.dim(BASH_ENV)})`)
   }
 }
 
