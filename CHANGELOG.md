@@ -1,3 +1,10 @@
+# [8.7.0](https://github.com/NaturalCycles/js-lib/compare/v8.6.1...v8.7.0) (2019-08-27)
+
+
+### Features
+
+* _truncate ([bf0ccbf](https://github.com/NaturalCycles/js-lib/commit/bf0ccbf))
+
 ## [8.6.1](https://github.com/NaturalCycles/js-lib/compare/v8.6.0...v8.6.1) (2019-08-21)
 
 
