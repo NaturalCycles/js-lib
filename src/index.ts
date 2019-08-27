@@ -86,6 +86,7 @@ import {
   removeWhitespace,
   resultToString,
 } from './util/string.util'
+import { _truncate } from './util/truncate'
 
 export {
   memo,
@@ -116,6 +117,7 @@ export {
   _split,
   removeWhitespace,
   resultToString,
+  _truncate,
   _pick,
   _omit,
   filterFalsyValues,
