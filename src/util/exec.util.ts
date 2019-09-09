@@ -1,7 +1,12 @@
 import c from 'chalk'
 import * as execa from 'execa'
 
-export interface ExecaOptions extends execa.Options {}
+export interface ExecaOptions extends execa.Options {
+  /**
+   * If true - it will reject a promise with an error and NOT do `process.exit`
+   */
+  noProcessExit?: boolean
+}
 
 export async function proxyCommand (
   cmd: string,
@@ -27,6 +32,10 @@ export async function execCommand (
     preferLocal: true,
     ...opt,
   }).catch(err => {
+    if (opt.noProcessExit) {
+      throw err || new Error(`execCommand failed: ${cmd}`)
+    }
+
     if (err) {
       if (err.exitCodeName === 'ENOENT') {
         console.log(`Error: ENOENT (no such file or directory): ${cmd}`)
