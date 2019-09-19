@@ -73,7 +73,6 @@ module.exports = {
     'no-namespace': [true, 'allow-declarations'],
     // 'no-null-keyword': false,
     'no-reference': true,
-    'no-return-await': true,
     // 'no-require-imports': false,
     // 'no-shadowed-variable': false,
     'no-sparse-arrays': true,
