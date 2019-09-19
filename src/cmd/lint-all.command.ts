@@ -13,11 +13,11 @@ import { tslintAllCommand } from './tslint-all.command'
 /**
  * Due to "slowness issue" we run TSLint twice - first without project, secondly - with project.
  *
- * We run tslint BEFORE Prettier and AFTER Prettier, because tslint can delete e.g unused imports.
+ * We run tslint BEFORE Prettier, because tslint can delete e.g unused imports.
  *
  * We run TSLint separately for /src and /scripts dir, because they might have a different tsconfig.json file.
  */
-export async function lintAllCommand (): Promise<void> {
+export async function lintAllCommand(): Promise<void> {
   const { commitOnChanges, failOnChanges } = yargs.options({
     commitOnChanges: {
       type: 'boolean',
@@ -33,7 +33,6 @@ export async function lintAllCommand (): Promise<void> {
 
   await tslintAllCommand()
   await runPrettier()
-  await tslintAllCommand()
 
   if (commitOnChanges || failOnChanges) {
     // detect changes

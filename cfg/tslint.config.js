@@ -103,8 +103,6 @@ module.exports = {
       'check-function-expression',
       'check-method-declaration',
     ],
-    // This rule is the only difference between our style and Prettier style
-    'space-before-function-paren': [true, 'always'],
     'triple-equals': [true, 'allow-null-check'],
     typedef: [true, 'property-declaration'],
     // 'unified-signatures': false,

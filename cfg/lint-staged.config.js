@@ -28,7 +28,7 @@ module.exports = {
   linters: {
     // For *.ts files we run first Prettier, then TSLint
     // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.{ts,tsx}': [prettierCmd, tslintCmd, `${tslintCmd} -p tsconfig.json`, 'git add'],
+    './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p tsconfig.json`, prettierCmd, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     [`./{src,scripts,doc,cfg,.circleci,public,static}/**/*.{${prettierExtensionsExceptTs}}`]: [
@@ -39,9 +39,9 @@ module.exports = {
     // /scripts are separate, cause they require separate tsconfig.json
     // Prettier + tslint
     './scripts/**/*.{ts,tsx}': [
-      prettierCmd,
       tslintCmd,
       `${tslintCmd} -p ./scripts/tsconfig.json`,
+      prettierCmd,
       'git add',
     ],
 
