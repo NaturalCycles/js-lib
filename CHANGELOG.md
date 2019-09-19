@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/NaturalCycles/dev-lib/compare/v8.0.0...v8.1.0) (2019-09-19)
+
+
+### Features
+
+* removed `no-return-await` rule ([32ddf01](https://github.com/NaturalCycles/dev-lib/commit/32ddf01))
+
 # [8.0.0](https://github.com/NaturalCycles/dev-lib/compare/v7.18.0...v8.0.0) (2019-09-19)
 
 
