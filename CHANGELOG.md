@@ -1,3 +1,15 @@
+# [8.0.0](https://github.com/NaturalCycles/dev-lib/compare/v7.18.0...v8.0.0) (2019-09-19)
+
+
+### Features
+
+* disable 'space-before-function-paren' ([cf11968](https://github.com/NaturalCycles/dev-lib/commit/cf11968))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [7.18.0](https://github.com/NaturalCycles/dev-lib/compare/v7.17.0...v7.18.0) (2019-09-09)
 
 
