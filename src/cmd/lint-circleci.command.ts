@@ -2,7 +2,7 @@ import c from 'chalk'
 import { execCommand } from '../util/exec.util'
 const commandExistsSync = require('command-exists').sync
 
-export async function lintCircleCICommand (): Promise<void> {
+export async function lintCircleCICommand(): Promise<void> {
   if (!commandExistsSync('circleci')) {
     // Cannot validate, cause `circleci` binary is not installed
     console.log(

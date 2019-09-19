@@ -9,6 +9,6 @@ main().catch(err => {
   process.exit(1)
 })
 
-async function main () {
+async function main() {
   console.log('test script')
 }

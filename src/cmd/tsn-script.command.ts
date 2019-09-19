@@ -2,7 +2,7 @@ import { execCommand } from '../util/exec.util'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
-export async function tsnScriptCommand (): Promise<void> {
+export async function tsnScriptCommand(): Promise<void> {
   const projectTsconfigPath = await ensureProjectTsconfigScripts()
 
   const [, , ...processArgs] = process.argv

@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import { execCommand } from '../util/exec.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
-export async function tscScriptsCommand (): Promise<void> {
+export async function tscScriptsCommand(): Promise<void> {
   if (!fs.existsSync('./scripts')) {
     // ./scripts folder doesn't exist, skipping
     return

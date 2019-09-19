@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as yargs from 'yargs'
 import { generateBuildInfo } from '..'
 
-export async function generateBuildInfoCommand (): Promise<void> {
+export async function generateBuildInfoCommand(): Promise<void> {
   const { dir } = yargs.options({
     dir: {
       type: 'string',

@@ -9,7 +9,7 @@ import {
 /**
  * Runs `tslint` command for all predefined paths (e.g /src, etc).
  */
-export async function tslintAllCommand (): Promise<void> {
+export async function tslintAllCommand(): Promise<void> {
   const projectSrcDir = `./src`
   const projectScriptsDir = `./scripts`
 

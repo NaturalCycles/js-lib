@@ -4,14 +4,14 @@ import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
 
-export async function tsc (): Promise<void> {
+export async function tsc(): Promise<void> {
   await execCommand('tsc')
 }
 
 /**
  * Returns path to /scripts/tsconfig.json
  */
-export async function ensureProjectTsconfigScripts (): Promise<string> {
+export async function ensureProjectTsconfigScripts(): Promise<string> {
   const projectTsconfigPath = `./scripts/tsconfig.json`
 
   if (!fs.pathExistsSync(projectTsconfigPath)) {

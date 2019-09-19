@@ -3,7 +3,7 @@ const LOCAL_HOSTS = ['localhost', '127.0.0.1']
 /**
  * Based on: https://github.com/palmerj3/jest-offline/blob/master/index.js
  */
-export function jestOffline (): void {
+export function jestOffline(): void {
   console.log('jest offline mode')
   const Mitm = require('mitm')
   const mitm = Mitm()

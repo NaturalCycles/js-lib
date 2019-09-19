@@ -4,11 +4,11 @@ import { cfgDir } from '../cnst/paths.cnst'
 import { execCommand } from './exec.util'
 import { getFullICUPathIfExists } from './test.util'
 
-export function getJestConfigPath (): string | undefined {
+export function getJestConfigPath(): string | undefined {
   return fs.pathExistsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
 }
 
-export function getJestIntegrationConfigPath (): string | undefined {
+export function getJestIntegrationConfigPath(): string | undefined {
   return fs.pathExistsSync(`./jest.integration-test.config.js`)
     ? `./jest.integration-test.config.js`
     : `${cfgDir}/jest.integration-test.config.js`
@@ -17,7 +17,7 @@ export function getJestIntegrationConfigPath (): string | undefined {
 /**
  * Detects if jest is run with all tests, or with specific tests.
  */
-export function isRunningAllTests (): boolean {
+export function isRunningAllTests(): boolean {
   const [, , ...args] = process.argv
   const positionalArgs = args.filter(a => !a.startsWith('-'))
 
@@ -36,7 +36,7 @@ interface RunJestOpt {
  * 1. Detects `full-icu` support, sets NODE_ICU_DATA if needed.
  * 2. Adds `--silent` if running all tests at once.
  */
-export async function runJest (opt: RunJestOpt = {}): Promise<void> {
+export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   const { ci, integration, leaks } = opt
   const [, , ...processArgs] = process.argv
 

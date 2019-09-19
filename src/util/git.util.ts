@@ -2,7 +2,7 @@ import * as execa from 'execa'
 import { basename } from 'path'
 import { logExec } from './exec.util'
 
-export async function getLastGitCommitMsg (): Promise<string> {
+export async function getLastGitCommitMsg(): Promise<string> {
   // git log -1 --pretty=%B
   const cmd = 'git'
   const args = ['log', '-1', '--pretty=%B']
@@ -12,13 +12,13 @@ export async function getLastGitCommitMsg (): Promise<string> {
   return msg
 }
 
-export function commitMessageToTitleMessage (msg: string): string {
+export function commitMessageToTitleMessage(msg: string): string {
   const firstLine = msg.split('\n')[0]
   const [preTitle, title] = firstLine.split(': ')
   return title || preTitle
 }
 
-export async function gitHasUncommittedChanges (): Promise<boolean> {
+export async function gitHasUncommittedChanges(): Promise<boolean> {
   // git diff-index --quiet HEAD -- || echo "untracked"
   const cmd = 'git diff-index --quiet HEAD --'
   const { exitCode } = await execa(cmd, {
@@ -32,7 +32,7 @@ export async function gitHasUncommittedChanges (): Promise<boolean> {
 /**
  * @returns true if there were changes
  */
-export async function gitCommitAll (msg: string): Promise<boolean> {
+export async function gitCommitAll(msg: string): Promise<boolean> {
   // git commit -a -m "style(lint-all): $GIT_MSG" || true
   // const cmd = `git commit -a --no-verify -m "${msg}"`
   const cmd = `git`
@@ -52,7 +52,7 @@ export async function gitCommitAll (msg: string): Promise<boolean> {
 /**
  * @returns true if there are not pushed commits.
  */
-export async function gitIsAhead (): Promise<boolean> {
+export async function gitIsAhead(): Promise<boolean> {
   // ahead=`git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
   const cmd = `git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
   const { stdout } = await execa(cmd, { shell: true })
@@ -60,7 +60,7 @@ export async function gitIsAhead (): Promise<boolean> {
   return Number(stdout) > 0
 }
 
-export async function gitPull (): Promise<void> {
+export async function gitPull(): Promise<void> {
   const cmd = 'git'
   const args = ['pull']
   await execa(cmd, args, {
@@ -69,7 +69,7 @@ export async function gitPull (): Promise<void> {
   })
 }
 
-export async function gitPush (): Promise<void> {
+export async function gitPush(): Promise<void> {
   // git push --set-upstream origin $CIRCLE_BRANCH && echo "pushed, exiting" && exit 0
   const cmd = 'git'
   const args = ['push']
@@ -87,7 +87,7 @@ export async function gitPush (): Promise<void> {
   })
 }
 
-export async function gitCurrentCommitSha (full = false): Promise<string> {
+export async function gitCurrentCommitSha(full = false): Promise<string> {
   // git rev-parse HEAD
   const cmd = 'git'
   const args = ['rev-parse', 'HEAD']
@@ -96,7 +96,7 @@ export async function gitCurrentCommitSha (full = false): Promise<string> {
   return full ? commitSha.trim() : commitSha.trim().substr(0, 7)
 }
 
-export async function gitCurrentCommitTimestamp (): Promise<number> {
+export async function gitCurrentCommitTimestamp(): Promise<number> {
   // git log -1 --format=%ct
   const cmd = 'git'
   const args = ['log', '-1', '--format=%ct']
@@ -105,7 +105,7 @@ export async function gitCurrentCommitTimestamp (): Promise<number> {
   return Number(ts)
 }
 
-export async function gitCurrentBranchName (): Promise<string> {
+export async function gitCurrentBranchName(): Promise<string> {
   // git rev-parse --abbrev-ref HEAD
   const cmd = 'git'
   const args = ['rev-parse', '--abbrev-ref', 'HEAD']
@@ -115,7 +115,7 @@ export async function gitCurrentBranchName (): Promise<string> {
   return branchName.trim()
 }
 
-export async function gitCurrentRepoName (): Promise<string> {
+export async function gitCurrentRepoName(): Promise<string> {
   // basename -s .git `git config --get remote.origin.url`
   const cmd = 'git'
   const args = ['config', '--get', 'remote.origin.url']

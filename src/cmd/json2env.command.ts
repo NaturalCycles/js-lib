@@ -1,7 +1,7 @@
 import * as yargs from 'yargs'
 import { json2env } from '../util/env.util'
 
-export async function json2envCommand (): Promise<void> {
+export async function json2envCommand(): Promise<void> {
   const { argv } = yargs.demandCommand(1).options({
     prefix: {
       type: 'string',

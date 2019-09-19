@@ -12,7 +12,7 @@ export const prettierPaths = [
   `./*.{${prettierExtensions}},!./CHANGELOG.md`,
 ]
 
-export async function runPrettier (): Promise<void> {
+export async function runPrettier(): Promise<void> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
   const localConfig = `./prettier.config.js`
   const sharedConfig = `${cfgDir}/prettier.config.js`

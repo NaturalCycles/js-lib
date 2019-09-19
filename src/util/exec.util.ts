@@ -8,7 +8,7 @@ export interface ExecaOptions extends execa.Options {
   noProcessExit?: boolean
 }
 
-export async function proxyCommand (
+export async function proxyCommand(
   cmd: string,
   args: string[] = [],
   opt: ExecaOptions = {},
@@ -20,7 +20,7 @@ export async function proxyCommand (
   })
 }
 
-export async function execCommand (
+export async function execCommand(
   cmd: string,
   args: string[] = [],
   opt: ExecaOptions = {},
@@ -54,14 +54,14 @@ export async function execCommand (
 /**
  * Convenience method that calls execCommand with `shell: true` option.
  */
-export async function execShell (cmd: string, opt: ExecaOptions = {}): Promise<void> {
+export async function execShell(cmd: string, opt: ExecaOptions = {}): Promise<void> {
   await execCommand(cmd, [], {
     shell: true,
     ...opt,
   })
 }
 
-export function logExec (cmd: string, args: string[] = [], opt: ExecaOptions = {}): void {
+export function logExec(cmd: string, args: string[] = [], opt: ExecaOptions = {}): void {
   const cmdline = [
     ...Object.entries(opt.env || {}).map(([k, v]) => [k, v].join('=')),
     cmd,

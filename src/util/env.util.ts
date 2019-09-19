@@ -30,7 +30,7 @@ const JSON2ENV_OPT_DEF: Partial<Json2EnvOpts> = {
   fail: true,
 }
 
-export async function json2env (opt: Json2EnvOpts): Promise<void> {
+export async function json2env(opt: Json2EnvOpts): Promise<void> {
   const { jsonPath, prefix, saveEnvFile, bashEnv, fail, debug, silent } = {
     ...JSON2ENV_OPT_DEF,
     ...opt,
@@ -75,7 +75,7 @@ export async function json2env (opt: Json2EnvOpts): Promise<void> {
   }
 }
 
-async function appendBashEnv (exportStr: string): Promise<void> {
+async function appendBashEnv(exportStr: string): Promise<void> {
   const { BASH_ENV } = process.env
   if (BASH_ENV) {
     await fs.appendFile(BASH_ENV, exportStr + '\n')
@@ -95,7 +95,7 @@ async function appendBashEnv (exportStr: string): Promise<void> {
  * export a="b"
  * export b="c"
  */
-export function objectToShellExport (o: any, prefix = ''): string {
+export function objectToShellExport(o: any, prefix = ''): string {
   return Object.keys(o)
     .map(k => {
       const v = o[k]

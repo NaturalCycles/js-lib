@@ -8,7 +8,7 @@ export const tslintExcludePaths: string[] = ['./**/@linked/**', './**/__exclude/
 /**
  * @returns error code (0 == ok)
  */
-export async function runTSLint (
+export async function runTSLint(
   dir: string,
   excludePaths: string[] = [],
   tslintConfigPath: string,
@@ -28,17 +28,17 @@ export async function runTSLint (
   await execCommand('tslint', args)
 }
 
-export function getTSLintConfigPath (): string {
+export function getTSLintConfigPath(): string {
   const localTSLintConfig = `./tslint.json`
   const sharedTSLintConfig = `${cfgDir}/tslint.config.js`
   return fs.pathExistsSync(localTSLintConfig) ? localTSLintConfig : sharedTSLintConfig
 }
 
-export function getTSConfigPath (): string {
+export function getTSConfigPath(): string {
   return `./tsconfig.json`
 }
 
-export function getTSConfigPathScripts (): string {
+export function getTSConfigPathScripts(): string {
   const localTSConfigPathScripts = `./scripts/tsconfig.json`
   const sharedTSConfigScripts = `${scriptsDir}/tsconfig.json`
   return fs.pathExistsSync(localTSConfigPathScripts)

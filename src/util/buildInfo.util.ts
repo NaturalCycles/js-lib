@@ -6,7 +6,7 @@ import {
   gitCurrentRepoName,
 } from './git.util'
 
-export async function generateBuildInfo (dev = false): Promise<BuildInfo> {
+export async function generateBuildInfo(dev = false): Promise<BuildInfo> {
   const [rev, branchName, repoName, tsCommit] = dev
     ? ['devRev', 'devBranch', 'devRepo', Math.floor(Date.now() / 1000)]
     : await Promise.all([
