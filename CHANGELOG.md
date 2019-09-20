@@ -1,3 +1,10 @@
+## [8.7.1](https://github.com/NaturalCycles/js-lib/compare/v8.7.0...v8.7.1) (2019-09-20)
+
+
+### Bug Fixes
+
+* deps, lint-all ([505af1a](https://github.com/NaturalCycles/js-lib/commit/505af1a))
+
 # [8.7.0](https://github.com/NaturalCycles/js-lib/compare/v8.6.1...v8.7.0) (2019-08-27)
 
 
