@@ -3,45 +3,45 @@ import { logMethod } from './logMethod.decorator'
 
 class C {
   @logMethod()
-  syncMethodSuccess () {
+  syncMethodSuccess() {
     return 'a'
   }
 
   @logMethod()
-  syncMethodThrow () {
+  syncMethodThrow() {
     throw new Error('MyError')
   }
 
   @logMethod()
-  async asyncMethodSuccess () {
+  async asyncMethodSuccess() {
     await pDelay(10)
     return 'a'
   }
 
   @logMethod()
-  async asyncMethodThrow () {
+  async asyncMethodThrow() {
     await pDelay(10)
     throw new Error('MyError')
   }
 
   @logMethod({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
-  async asyncMethodSuccessAvg (delay: number) {
+  async asyncMethodSuccessAvg(delay: number) {
     await pDelay(delay)
     return 'a'
   }
 
   @logMethod({ logResultFn: r => [`my custom msg ${r}`] })
-  methodResultFn (n: number) {
+  methodResultFn(n: number) {
     return n * 2
   }
 
   @logMethod()
-  methodLongArg (...args: any[]) {
+  methodLongArg(...args: any[]) {
     return 'a'
   }
 
   @logMethod()
-  methodReturnsArray () {
+  methodReturnsArray() {
     return [1, 2, 3]
   }
 }

@@ -5,7 +5,7 @@ import { InstanceId } from '../index'
  * e.g `NameOfYourClass.methodName`
  * or `NameOfYourClass(instanceId).methodName`
  */
-export function getMethodSignature (ctx: any, keyStr: string): string {
+export function getMethodSignature(ctx: any, keyStr: string): string {
   const { instanceId } = ctx as InstanceId
   return `${ctx.constructor.name}${instanceId ? `#${instanceId}` : ''}.${keyStr}`
 }
@@ -13,7 +13,7 @@ export function getMethodSignature (ctx: any, keyStr: string): string {
 /**
  * @returns `NameOfYourClass.methodName`
  */
-export function getTargetMethodSignature (target: object, keyStr: string): string {
+export function getTargetMethodSignature(target: object, keyStr: string): string {
   return `${target.constructor.name}.${keyStr}`
 }
 
@@ -23,7 +23,7 @@ export function getTargetMethodSignature (target: object, keyStr: string): strin
  * returns:
  * a, b, c
  */
-export function getArgsSignature (args: any[] = [], noLogArgs = false): string {
+export function getArgsSignature(args: any[] = [], noLogArgs = false): string {
   if (noLogArgs) return ''
 
   return args

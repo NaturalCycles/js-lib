@@ -14,7 +14,7 @@ import { pMap, PMapOptions } from './pMap'
  * Promise.all for Object instead of Array.
  * Supports concurrency.
  */
-export async function pProps<T> (
+export async function pProps<T>(
   input: { [K in keyof T]: T[K] | Promise<T[K]> },
   opts?: PMapOptions,
 ): Promise<T> {

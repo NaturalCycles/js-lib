@@ -5,7 +5,7 @@ import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from './lodas
  * Returns clone of `obj` with only `props` preserved.
  * Opposite of Omit.
  */
-export function _pick<T extends object, K extends keyof T> (
+export function _pick<T extends object, K extends keyof T>(
   obj: T,
   props: readonly K[] = [],
   initialObject: Partial<T> = {},
@@ -22,7 +22,7 @@ export function _pick<T extends object, K extends keyof T> (
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function _omit<T extends object, K extends keyof T> (
+export function _omit<T extends object, K extends keyof T>(
   obj: T,
   props: readonly K[] = [],
 ): Except<T, K> {
@@ -47,7 +47,7 @@ export function _omit<T extends object, K extends keyof T> (
  *
  * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
  */
-export function mask<T extends object> (_o: T, props: string[], _deepCopy = false): T {
+export function mask<T extends object>(_o: T, props: string[], _deepCopy = false): T {
   return props.reduce(
     (r, prop) => {
       _unset(r, prop)
@@ -60,15 +60,15 @@ export function mask<T extends object> (_o: T, props: string[], _deepCopy = fals
 /**
  * Removes "falsy" values from the object.
  */
-export function filterFalsyValues<T extends object> (obj: T, mutate = false): T {
+export function filterFalsyValues<T extends object>(obj: T, mutate = false): T {
   return filterObject(obj, (_k, v) => !!v, mutate)
 }
 
-export function filterEmptyStringValues<T extends object> (obj: T, mutate = false): T {
+export function filterEmptyStringValues<T extends object>(obj: T, mutate = false): T {
   return filterObject(obj, (_k, v) => v !== '', mutate)
 }
 
-export function filterUndefinedValues<T extends object> (obj: T, mutate = false): T {
+export function filterUndefinedValues<T extends object>(obj: T, mutate = false): T {
   return filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
 }
 
@@ -76,7 +76,7 @@ export function filterUndefinedValues<T extends object> (obj: T, mutate = false)
  * Returns clone of `obj` without properties that does not pass `predicate`.
  * Allows filtering by both key and value.
  */
-export function filterObject<T extends object> (
+export function filterObject<T extends object>(
   obj: T,
   predicate: (key: keyof T, value: any) => boolean,
   mutate = false,
@@ -105,7 +105,7 @@ export function filterObject<T extends object> (
  * _.mapValues(users, 'age')
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  */
-export function _mapValues<T extends object> (
+export function _mapValues<T extends object>(
   obj: T,
   predicate: ObjectIterator<T, NotVoid> | string,
   mutate = false,
@@ -128,7 +128,7 @@ export function _mapValues<T extends object> (
  * _.mapKeys({ 'a': 1, 'b': 2 }, (value, key) => key + value)
  * // => { 'a1': 1, 'b2': 2 }
  */
-export function _mapKeys<T extends object> (
+export function _mapKeys<T extends object>(
   obj: T,
   predicate: ObjectIterator<T, string>,
 ): Record<string, T[keyof T]> {
@@ -161,7 +161,7 @@ type KeyValueTuple<K, V> = [K, V]
  *
  * Non-string keys are passed via String(...)
  */
-export function _mapObject<T extends object, TResult> (
+export function _mapObject<T extends object, TResult>(
   obj: T,
   predicate: ObjectKVIterator<T, KeyValueTuple<any, any>>,
 ): { [P in keyof T]: TResult } {
@@ -179,22 +179,22 @@ export function _mapObject<T extends object, TResult> (
   )
 }
 
-export function objectNullValuesToUndefined<T extends object> (obj: T, mutate = false): T {
+export function objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {
   return _mapValues(obj, v => (v === null ? undefined : v), mutate)
 }
 
 /**
  * Deep copy object (by json parse/stringify).
  */
-export function deepCopy<T> (o: T): T {
+export function deepCopy<T>(o: T): T {
   return JSON.parse(JSON.stringify(o))
 }
 
-export function isObject (item: any): boolean {
+export function isObject(item: any): boolean {
   return (item && typeof item === 'object' && !Array.isArray(item) && true) || false
 }
 
-export function isPrimitive (v: any): boolean {
+export function isPrimitive(v: any): boolean {
   return (
     v === null ||
     v === undefined ||
@@ -204,7 +204,7 @@ export function isPrimitive (v: any): boolean {
   )
 }
 
-export function isEmptyObject (obj: any): boolean {
+export function isEmptyObject(obj: any): boolean {
   return obj && obj.constructor === Object && Object.keys(obj).length === 0
 }
 
@@ -237,7 +237,7 @@ export function isEmptyObject (obj: any): boolean {
  *
  * Based on: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
  */
-export function _merge<T extends object> (target: T, ...sources: any[]): T {
+export function _merge<T extends object>(target: T, ...sources: any[]): T {
   if (!isObject(target)) return target
 
   sources.forEach(source => {
@@ -259,7 +259,7 @@ export function _merge<T extends object> (target: T, ...sources: any[]): T {
 /**
  * Mutates
  */
-export function deepTrim (o: any): any {
+export function deepTrim(o: any): any {
   if (!o) return o
 
   if (typeof o === 'string') {
@@ -274,7 +274,7 @@ export function deepTrim (o: any): any {
 }
 
 // based on: https://github.com/IndigoUnited/js-deep-sort-object
-export function sortObjectDeep<T extends object> (o: T): T {
+export function sortObjectDeep<T extends object>(o: T): T {
   // array
   if (Array.isArray(o)) {
     return o.map(sortObjectDeep) as any
@@ -297,7 +297,7 @@ export function sortObjectDeep<T extends object> (o: T): T {
 
 // from: https://github.com/jonschlinkert/unset-value
 // mutates obj
-export function _unset<T extends object> (obj: T, prop: string): void {
+export function _unset<T extends object>(obj: T, prop: string): void {
   if (!isObject(obj)) {
     return
   }
@@ -319,12 +319,12 @@ export function _unset<T extends object> (obj: T, prop: string): void {
   delete obj[last!]
 }
 
-export function getKeyByValue<T extends object = any> (object: any, value: any): T | undefined {
+export function getKeyByValue<T extends object = any>(object: any, value: any): T | undefined {
   if (!isObject(object)) return
   return Object.keys(object).find(k => object[k] === value) as any
 }
 
-export function _invert<T extends object> (o: any): T {
+export function _invert<T extends object>(o: any): T {
   const inv: any = {}
   Object.keys(o).forEach(k => {
     inv[o[k]] = k
@@ -332,7 +332,7 @@ export function _invert<T extends object> (o: any): T {
   return inv
 }
 
-export function invertMap<K, V> (m: Map<K, V>): Map<V, K> {
+export function invertMap<K, V>(m: Map<K, V>): Map<V, K> {
   const inv = new Map<V, K>()
   m.forEach((v, k) => inv.set(v, k))
   return inv
@@ -347,7 +347,7 @@ export function invertMap<K, V> (m: Map<K, V>): Map<V, K> {
  * @param def The value returned if the resolved value is undefined.
  * @return Returns the resolved value.
  */
-export function _get<T extends object> (obj = {} as T, path = '', def?: any): any {
+export function _get<T extends object>(obj = {} as T, path = '', def?: any): any {
   const res = path
     .replace(/\[([^\]]+)]/g, '.$1')
     .split('.')
@@ -368,7 +368,7 @@ export function _get<T extends object> (obj = {} as T, path = '', def?: any): an
  *
  * Based on: https://stackoverflow.com/a/54733755/4919972
  */
-export function _set<T extends object> (obj: T, path: PropertyPath, value?: any): any {
+export function _set<T extends object>(obj: T, path: PropertyPath, value?: any): any {
   if (!obj || Object(obj) !== obj || !path) return obj // When obj is not an object
 
   // If not yet an array, get the keys from the string-path
@@ -422,7 +422,7 @@ export function _set<T extends object> (obj: T, path: PropertyPath, value?: any)
  * _.has(other, 'a');
  * // => false
  */
-export function _has<T extends object> (obj?: T, path?: string): boolean {
+export function _has<T extends object>(obj?: T, path?: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
 }

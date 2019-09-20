@@ -1,8 +1,8 @@
 import { pRetry } from './pRetry'
 
-function createFn (succeedOnAttempt: number) {
+function createFn(succeedOnAttempt: number) {
   let attempt = 0
-  return async function someFn (...args: any[]) {
+  return async function someFn(...args: any[]) {
     attempt++
     // console.log(`fn called attempt=${attempt}`, {args})
     if (attempt >= succeedOnAttempt) {

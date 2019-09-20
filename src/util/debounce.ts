@@ -1,6 +1,6 @@
 export interface Cancelable {
-  cancel (): void
-  flush (): void
+  cancel(): void
+  flush(): void
 }
 
 export interface ThrottleOptions {
@@ -32,7 +32,7 @@ export interface DebounceOptions {
   maxWait?: number
 }
 
-export function _debounce<T extends Function> (
+export function _debounce<T extends Function>(
   func: T,
   wait: number,
   options: DebounceOptions = {},
@@ -49,7 +49,7 @@ export function _debounce<T extends Function> (
   const { leading = false, trailing = true } = options
   const maxWait = maxing ? Math.max(+options.maxWait! || 0, wait) : options.maxWait
 
-  function invokeFunc (time: number) {
+  function invokeFunc(time: number) {
     const args = lastArgs
     const thisArg = lastThis
 
@@ -59,15 +59,15 @@ export function _debounce<T extends Function> (
     return result
   }
 
-  function startTimer (pendingFunc: Function, wait: number) {
+  function startTimer(pendingFunc: Function, wait: number) {
     return setTimeout(pendingFunc, wait)
   }
 
-  function cancelTimer (id: number) {
+  function cancelTimer(id: number) {
     clearTimeout(id)
   }
 
-  function leadingEdge (time: number) {
+  function leadingEdge(time: number) {
     // Reset any `maxWait` timer.
     lastInvokeTime = time
     // Start the timer for the trailing edge.
@@ -76,7 +76,7 @@ export function _debounce<T extends Function> (
     return leading ? invokeFunc(time) : result
   }
 
-  function remainingWait (time: number) {
+  function remainingWait(time: number) {
     const timeSinceLastCall = time - lastCallTime!
     const timeSinceLastInvoke = time - lastInvokeTime
     const timeWaiting = wait - timeSinceLastCall
@@ -84,7 +84,7 @@ export function _debounce<T extends Function> (
     return maxing ? Math.min(timeWaiting, maxWait! - timeSinceLastInvoke) : timeWaiting
   }
 
-  function shouldInvoke (time: number) {
+  function shouldInvoke(time: number) {
     const timeSinceLastCall = time - lastCallTime!
     const timeSinceLastInvoke = time - lastInvokeTime
 
@@ -99,7 +99,7 @@ export function _debounce<T extends Function> (
     )
   }
 
-  function timerExpired () {
+  function timerExpired() {
     const time = Date.now()
     if (shouldInvoke(time)) {
       return trailingEdge(time)
@@ -108,7 +108,7 @@ export function _debounce<T extends Function> (
     timerId = startTimer(timerExpired, remainingWait(time))
   }
 
-  function trailingEdge (time: number) {
+  function trailingEdge(time: number) {
     timerId = undefined
 
     // Only invoke if we have `lastArgs` which means `func` has been
@@ -120,7 +120,7 @@ export function _debounce<T extends Function> (
     return result
   }
 
-  function cancel () {
+  function cancel() {
     if (timerId !== undefined) {
       cancelTimer(timerId)
     }
@@ -128,15 +128,15 @@ export function _debounce<T extends Function> (
     lastArgs = lastCallTime = lastThis = timerId = undefined
   }
 
-  function flush () {
+  function flush() {
     return timerId === undefined ? result : trailingEdge(Date.now())
   }
 
-  function pending () {
+  function pending() {
     return timerId !== undefined
   }
 
-  function debounced (this: any, ...args: any[]) {
+  function debounced(this: any, ...args: any[]) {
     const time = Date.now()
     const isInvoking = shouldInvoke(time)
 
@@ -165,7 +165,7 @@ export function _debounce<T extends Function> (
   return debounced as any
 }
 
-export function _throttle<T extends Function> (
+export function _throttle<T extends Function>(
   func: T,
   wait: number,
   options: ThrottleOptions = {},

@@ -55,7 +55,7 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
   const keyStr = String(key)
   const methodSignature = getTargetMethodSignature(target, keyStr)
 
-  descriptor.value = function (this: typeof target, ...args: any[]): any {
+  descriptor.value = function(this: typeof target, ...args: any[]): any {
     const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 

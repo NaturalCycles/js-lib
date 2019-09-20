@@ -16,7 +16,7 @@ export interface PBatchResult<T> {
 /**
  * Like pMap, but doesn't fail on errors, instead returns both successful results and errors.
  */
-export async function pBatch<IN, OUT> (
+export async function pBatch<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
   mapper: PMapMapper<IN, OUT>,
   options?: { concurrency?: number },

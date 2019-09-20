@@ -60,7 +60,7 @@ export interface LogMethodOpts {
  * >> asyncMethod()
  * << asyncMethodThrow() took 10 ms ERROR: MyError
  */
-export function logMethod (opt: LogMethodOpts = {}): MethodDecorator {
+export function logMethod(opt: LogMethodOpts = {}): MethodDecorator {
   return (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new Error('@LogMillis can be applied only to methods')
@@ -82,7 +82,7 @@ export function logMethod (opt: LogMethodOpts = {}): MethodDecorator {
     const sma = avg ? new SimpleMovingAverage(avg) : undefined
     let count = 0
 
-    descriptor.value = function (this: typeof target, ...args: any[]) {
+    descriptor.value = function(this: typeof target, ...args: any[]) {
       const started = Date.now()
       const ctx = this
 
@@ -122,7 +122,7 @@ export function logMethod (opt: LogMethodOpts = {}): MethodDecorator {
   }
 }
 
-function logFinished (
+function logFinished(
   callSignature: string,
   started: number,
   sma?: SimpleMovingAverage,

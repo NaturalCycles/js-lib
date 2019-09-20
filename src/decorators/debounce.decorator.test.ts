@@ -8,7 +8,7 @@ class C {
   // @debounce(200, {leading: true, trailing: true})
   // @throttle(200, {leading: true, trailing: true})
   @Debounce(200)
-  fn (started: number, n: number): void {
+  fn(started: number, n: number): void {
     console.log(`#${n} after ${since(started)}`)
   }
 }
@@ -16,7 +16,7 @@ class C {
 const inst = new C()
 const fn = (started: number, n: number) => inst.fn(started, n)
 
-async function startTimer (fn: Function, interval: number, count: number): Promise<void> {
+async function startTimer(fn: Function, interval: number, count: number): Promise<void> {
   const started = Date.now()
 
   await timer(0, interval)

@@ -3,15 +3,15 @@ import { isObject } from './object.util'
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
  */
-export function _capitalize (s: string = ''): string {
+export function _capitalize(s: string = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }
 
-export function _upperFirst (s: string = ''): string {
+export function _upperFirst(s: string = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export function _lowerFirst (s: string): string {
+export function _lowerFirst(s: string): string {
   return s.charAt(0).toLowerCase() + s.slice(1)
 }
 
@@ -20,7 +20,7 @@ export function _lowerFirst (s: string): string {
  *
  * @return Returns the new array of string segments.
  */
-export function _split (str: string, separator: string, limit: number): string[] {
+export function _split(str: string, separator: string, limit: number): string[] {
   const parts = str.split(separator)
   const tail = parts.slice(limit - 1).join(separator)
   const result = parts.slice(0, limit - 1)
@@ -28,7 +28,7 @@ export function _split (str: string, separator: string, limit: number): string[]
   return result
 }
 
-export function removeWhitespace (s: string): string {
+export function removeWhitespace(s: string): string {
   return s.replace(/\s/g, '')
 }
 
@@ -41,7 +41,7 @@ const EMPTY_STRING_MSG = 'empty_string'
  * `undefined` will be shown as 'undefined'
  * Objects will be JSON-pretty-printed, etc.
  */
-export function resultToString (r: any): string {
+export function resultToString(r: any): string {
   let msg: string
 
   if (r instanceof Error) {

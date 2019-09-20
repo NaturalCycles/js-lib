@@ -3,12 +3,12 @@ import { memo } from './memo.decorator'
 class A {
   counter = 0
 
-  func (n: number): void {
+  func(n: number): void {
     console.log(`func ${n}`)
   }
 
   @memo()
-  async a (a1: number, a2: number): Promise<number> {
+  async a(a1: number, a2: number): Promise<number> {
     const n = a1 * a2
     this.func(n)
     return n
@@ -20,7 +20,7 @@ class A {
    * @param a2
    */
   @memo({ noCacheRejected: true })
-  async b (a1: number, a2: number): Promise<number> {
+  async b(a1: number, a2: number): Promise<number> {
     await new Promise(resolve => setTimeout(resolve, 100))
     this.counter++
 

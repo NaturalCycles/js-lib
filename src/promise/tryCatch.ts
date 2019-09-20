@@ -21,7 +21,7 @@ export interface TryCatchOptions {
  *
  * Allows to pass onError callback.
  */
-export function _tryCatch<T extends Function> (fn: T, opt: TryCatchOptions = {}): T {
+export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}): T {
   const { onError, logError, logSuccess } = {
     logError: true,
     ...opt,
@@ -29,7 +29,7 @@ export function _tryCatch<T extends Function> (fn: T, opt: TryCatchOptions = {})
 
   const fname = fn.name || 'anonymous'
 
-  return async function (this: any, ...args: any[]) {
+  return async function(this: any, ...args: any[]) {
     const started = Date.now()
 
     try {

@@ -1,4 +1,4 @@
-export async function loadScript (src: string, async = true): Promise<void> {
+export async function loadScript(src: string, async = true): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const s = document.createElement('script')
     s.src = src

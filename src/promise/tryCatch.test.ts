@@ -25,7 +25,7 @@ test('_tryCatch', async () => {
 
 class C {
   @TryCatch()
-  fnSuccess (...args: any[]) {
+  fnSuccess(...args: any[]) {
     return args
   }
 
@@ -36,7 +36,7 @@ class C {
     logSuccess: true,
     logError: true,
   })
-  fnError () {
+  fnError() {
     throw new Error('fail')
   }
 }

@@ -2,7 +2,7 @@ import { memoFn } from './memoFn'
 
 let calledTimes = 0
 
-function fnOrig (n = 1): number {
+function fnOrig(n = 1): number {
   console.log(`fnOrig(${n}) called`)
   calledTimes++
   return n * 2

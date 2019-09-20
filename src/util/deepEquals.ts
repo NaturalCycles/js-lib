@@ -7,7 +7,7 @@ const hasProp = Object.prototype.hasOwnProperty
 /**
  * Based on: https://github.com/epoberezkin/fast-deep-equal/
  */
-export function deepEquals (a: any, b: any): boolean {
+export function deepEquals(a: any, b: any): boolean {
   if (a === b) return true
 
   if (a && b && typeof a == 'object' && typeof b == 'object') {

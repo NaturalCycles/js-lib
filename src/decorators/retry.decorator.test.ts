@@ -1,7 +1,7 @@
 import { Retry } from './retry.decorator'
 
 class C {
-  constructor (public succeedOnAttempt: number) {}
+  constructor(public succeedOnAttempt: number) {}
 
   attempt = 0
 
@@ -11,7 +11,7 @@ class C {
     delayMultiplier: 1,
     logAll: true,
   })
-  async fn (...args: any[]) {
+  async fn(...args: any[]) {
     this.attempt++
     // console.log(`fn called attempt=${attempt}`, {args})
     if (this.attempt >= this.succeedOnAttempt) {

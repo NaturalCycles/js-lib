@@ -2,7 +2,7 @@
  * Implements a Simple Moving Average algorithm.
  */
 export class SimpleMovingAverage {
-  constructor (public size: number, public data: number[] = []) {}
+  constructor(public size: number, public data: number[] = []) {}
 
   /**
    * Next index of array to push to
@@ -15,7 +15,7 @@ export class SimpleMovingAverage {
    */
   avg = 0
 
-  push (n: number): number {
+  push(n: number): number {
     this.data[this.nextIndex] = n
     this.nextIndex =
       this.nextIndex === this.size - 1
@@ -25,7 +25,7 @@ export class SimpleMovingAverage {
     return this.calculateAvg()
   }
 
-  private calculateAvg (): number {
+  private calculateAvg(): number {
     return (this.avg = this.data.length
       ? this.data.reduce((total, n) => total + n, 0) / this.data.length
       : 0)

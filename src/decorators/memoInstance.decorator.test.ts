@@ -5,10 +5,10 @@ beforeEach(() => {
 })
 
 class C {
-  fn () {}
+  fn() {}
 
   @memo()
-  method (n: number) {
+  method(n: number) {
     this.fn()
     return n * 2
   }

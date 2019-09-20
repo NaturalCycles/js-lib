@@ -59,7 +59,7 @@ export type PMapMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT 
  * 	//=> ['http://ava.li/', 'http://todomvc.com/']
  * })();
  */
-export async function pMap<IN, OUT> (
+export async function pMap<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
   mapper: PMapMapper<IN, OUT>,
   options?: PMapOptions,

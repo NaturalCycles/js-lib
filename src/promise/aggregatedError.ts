@@ -7,7 +7,7 @@ export class AggregatedError<RESULT = any> extends Error {
   errors!: Error[]
   results!: RESULT[]
 
-  constructor (errors: (Error | string)[], results: RESULT[] = []) {
+  constructor(errors: (Error | string)[], results: RESULT[] = []) {
     const mappedErrors = errors.map(e => {
       if (typeof e === 'string') return new Error(e)
       return e

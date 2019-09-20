@@ -2,7 +2,7 @@ import { pMap, PMapOptions } from './pMap'
 
 export type FilterFn<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 
-export async function pFilter<T> (
+export async function pFilter<T>(
   iterable: Iterable<T | PromiseLike<T>>,
   filterFn: FilterFn<T>,
   options?: PMapOptions,

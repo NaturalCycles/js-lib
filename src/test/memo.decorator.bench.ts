@@ -12,30 +12,30 @@ import { memoSimple } from '../decorators/memoSimple.decorator'
 let c = 0
 
 class C0 {
-  constructor (private inc?: number) {}
+  constructor(private inc?: number) {}
 
-  work () {
+  work() {
     // c += this.inc
     c++
   }
 }
 
 class C1 {
-  getC0 () {
+  getC0() {
     return new C0()
   }
 }
 
 class C2 {
   @memoSimple()
-  getC0 () {
+  getC0() {
     return new C0()
   }
 }
 
 class C3 {
   @memo()
-  getC0 () {
+  getC0() {
     return new C0()
   }
 }
@@ -72,7 +72,7 @@ suite
   .on('cycle', (event: any) => {
     console.log(String(event.target))
   })
-  .on('complete', function (this: any) {
+  .on('complete', function(this: any) {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
   })
   // run async

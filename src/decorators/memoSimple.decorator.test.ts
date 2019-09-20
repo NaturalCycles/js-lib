@@ -1,12 +1,12 @@
 import { memoSimple } from './memoSimple.decorator'
 
 class A {
-  func (n: number): void {
+  func(n: number): void {
     console.log(`func ${n}`)
   }
 
   @memoSimple()
-  a (a1: number, a2: number): number {
+  a(a1: number, a2: number): number {
     const n = a1 * a2
     this.func(n)
     return n
@@ -65,7 +65,7 @@ class B {
   cacheMisses = 0
 
   @memoSimple()
-  a (a1 = 'def') {
+  a(a1 = 'def') {
     console.log(`a called with a1=${a1}`)
     this.cacheMisses++
   }

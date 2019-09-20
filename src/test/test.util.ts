@@ -1,8 +1,8 @@
-export function randomInt (minIncl: number, maxIncl: number): number {
+export function randomInt(minIncl: number, maxIncl: number): number {
   return Math.floor(Math.random() * (maxIncl - minIncl + 1) + minIncl)
 }
 
-export function inRange (x: number, start: number, end: number): boolean {
+export function inRange(x: number, start: number, end: number): boolean {
   if (end === undefined) {
     end = start
     start = 0
@@ -11,7 +11,7 @@ export function inRange (x: number, start: number, end: number): boolean {
   return x >= Math.min(start, end) && x <= Math.max(end, start)
 }
 
-export function convertHrtime (hrtime: [number, number]) {
+export function convertHrtime(hrtime: [number, number]) {
   const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
   const milliseconds = nanoseconds / 1e6
   const seconds = nanoseconds / 1e9
@@ -23,7 +23,7 @@ export function convertHrtime (hrtime: [number, number]) {
   }
 }
 
-export function timeSpan (): () => number {
+export function timeSpan(): () => number {
   const start = process.hrtime()
   const end = (type: string) => convertHrtime(process.hrtime(start))[type]
 

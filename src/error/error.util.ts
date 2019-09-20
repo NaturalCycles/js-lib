@@ -7,7 +7,7 @@ const EMPTY_STRING_MSG = 'empty_string'
  * If object is Error - Error.message will be used.
  * Objects get converted to prettified JSON string.
  */
-export function anyToErrorMessage (o: any): string {
+export function anyToErrorMessage(o: any): string {
   let msg: string
 
   if (o instanceof Error) {
@@ -21,7 +21,7 @@ export function anyToErrorMessage (o: any): string {
   return msg || EMPTY_STRING_MSG
 }
 
-export function anyToErrorObject (o: any): ErrorObject {
+export function anyToErrorObject(o: any): ErrorObject {
   if (o instanceof Error) return errorToErrorObject(o)
 
   return {
@@ -31,7 +31,7 @@ export function anyToErrorObject (o: any): ErrorObject {
   }
 }
 
-export function anyToAppError<DATA_TYPE = ErrorData> (
+export function anyToAppError<DATA_TYPE = ErrorData>(
   o: any,
   data: Partial<DATA_TYPE> = {},
 ): AppError {
@@ -41,7 +41,7 @@ export function anyToAppError<DATA_TYPE = ErrorData> (
   return errorObjectToAppError(e)
 }
 
-export function errorToErrorObject (e: Error): ErrorObject {
+export function errorToErrorObject(e: Error): ErrorObject {
   if (e instanceof AppError) return appErrorToErrorObject(e)
 
   return {
@@ -52,7 +52,7 @@ export function errorToErrorObject (e: Error): ErrorObject {
   }
 }
 
-export function errorObjectToAppError<T> (o: ErrorObject<T>): AppError<T> {
+export function errorObjectToAppError<T>(o: ErrorObject<T>): AppError<T> {
   const err = Object.assign(new AppError(o.message, o.data), {
     // name: err.name, // cannot be assigned to a readonly property like this
     // stack: o.stack, // also readonly e.g in Firefox
@@ -65,7 +65,7 @@ export function errorObjectToAppError<T> (o: ErrorObject<T>): AppError<T> {
   return err
 }
 
-export function errorObjectToHttpError (o: ErrorObject): HttpError {
+export function errorObjectToHttpError(o: ErrorObject): HttpError {
   const err = Object.assign(
     new HttpError(o.message, {
       httpStatusCode: 500, // default
@@ -84,7 +84,7 @@ export function errorObjectToHttpError (o: ErrorObject): HttpError {
   return err
 }
 
-export function appErrorToErrorObject<T> (err: AppError<T>): ErrorObject<T> {
+export function appErrorToErrorObject<T>(err: AppError<T>): ErrorObject<T> {
   return {
     // name: err.name,
     message: err.message,
@@ -93,6 +93,6 @@ export function appErrorToErrorObject<T> (err: AppError<T>): ErrorObject<T> {
   }
 }
 
-export function appErrorToHttpError (err: AppError<HttpErrorData>): HttpError {
+export function appErrorToHttpError(err: AppError<HttpErrorData>): HttpError {
   return new HttpError(err.message, err.data)
 }

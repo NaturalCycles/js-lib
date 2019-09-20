@@ -12,7 +12,7 @@ import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from './lodash
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
-export function _chunk<T> (array: T[], size = 1): T[][] {
+export function _chunk<T>(array: T[], size = 1): T[][] {
   return array.reduce(
     (arr, item, idx) => {
       return idx % size === 0
@@ -27,7 +27,7 @@ export function _chunk<T> (array: T[], size = 1): T[][] {
  * Polyfill to Array.flat() with depth=1.
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
  */
-export function _flatten<T> (arrays: T[][]): T[] {
+export function _flatten<T>(arrays: T[][]): T[] {
   // to flat single level array
   return ([] as T[]).concat(...arrays)
 }
@@ -40,7 +40,7 @@ export function _flatten<T> (arrays: T[][]): T[] {
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_flattendeep
  */
-export function _flattenDeep<T> (arr: RecursiveArray<T>): T[] {
+export function _flattenDeep<T>(arr: RecursiveArray<T>): T[] {
   return Array.isArray(arr)
     ? arr.reduce((a: RecursiveArray<T>, b) => a.concat(_flattenDeep(b as RecursiveArray<T>)), [])
     : ([arr] as any)
@@ -49,7 +49,7 @@ export function _flattenDeep<T> (arr: RecursiveArray<T>): T[] {
 /**
  * Removes duplicates from given array.
  */
-export function _uniq<T> (a: T[]): T[] {
+export function _uniq<T>(a: T[]): T[] {
   return [...new Set(a)]
 }
 
@@ -73,7 +73,7 @@ export function _uniq<T> (a: T[]): T[] {
  *
  * Based on: https://stackoverflow.com/a/40808569/4919972
  */
-export function _uniqBy<T> (arr: T[], predicate: ValueIteratee<T>): T[] {
+export function _uniqBy<T>(arr: T[], predicate: ValueIteratee<T>): T[] {
   const cb = typeof predicate === 'function' ? predicate : (o: T) => o[predicate as any]
 
   return [
@@ -107,7 +107,7 @@ export function _uniqBy<T> (arr: T[], predicate: ValueIteratee<T>): T[] {
  *   ID2: {id: 'id2', b: 'b1'},
  * }
  */
-export function by<T> (items: T[] = [], predicate: StringIteratee<T>): Record<string, T> {
+export function by<T>(items: T[] = [], predicate: StringIteratee<T>): Record<string, T> {
   const cb: (value: T) => string | undefined =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
 
@@ -128,7 +128,7 @@ export function by<T> (items: T[] = [], predicate: StringIteratee<T>): Record<st
  * Same:
  * _sortBy([{age: 20}, {age: 10}], o => o.age)
  */
-export function _sortBy<T> (items: T[], predicate: ValueIteratee<T>): T[] {
+export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>): T[] {
   const cb: (value: T) => NotVoid =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate as string]
 
@@ -145,6 +145,6 @@ export function _sortBy<T> (items: T[], predicate: ValueIteratee<T>): T[] {
  * @example
  * range(3, 6) // [ 3, 4, 5 ]
  */
-export function _range (fromIncl: number, toExcl: number): number[] {
+export function _range(fromIncl: number, toExcl: number): number[] {
   return Array.from({ length: toExcl - fromIncl }, (_v, k) => k + fromIncl)
 }
