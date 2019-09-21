@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/NaturalCycles/dev-lib/compare/v8.1.0...v8.2.0) (2019-09-21)
+
+
+### Features
+
+* remove "dom" from tsconfig.lib (add it manually if needed) ([2671adb](https://github.com/NaturalCycles/dev-lib/commit/2671adb))
+
 # [8.1.0](https://github.com/NaturalCycles/dev-lib/compare/v8.0.0...v8.1.0) (2019-09-19)
 
 
