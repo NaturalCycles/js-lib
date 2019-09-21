@@ -11,7 +11,7 @@
 
     // Target/module
     "target": "es2018",
-    "lib": ["dom", "es2018"],
+    "lib": ["es2018"], // add "dom" if needed
     "module": "commonjs",
     "moduleResolution": "node",
 
