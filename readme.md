@@ -41,10 +41,10 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/src/test/mock`
 - `/src/test/integration` for integration tests (unit tests should be placed next to the file)
 - `/src/@linked`
-- `/src/typings`
-- `/src/environments`
+- `/src/@types`
+- `/src/env`
 - `/coverage`
-- `/report`
+- `/tmp`
   - `/jest/unit.xml`
   - `/jest/integration.xml`
   - `/coverage-integration`
@@ -95,7 +95,7 @@ in that order:
 
 #### Lint commands
 
-- `lint-all`: runs Prettier as we want it: first `prettier` on needed paths, then `tslint` on top of
+- `lint-all`: runs Prettier as we want it: first `tslint` on needed paths, then `prettier` on top of
   it.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
