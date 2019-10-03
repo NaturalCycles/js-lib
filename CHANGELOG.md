@@ -1,3 +1,15 @@
+# [8.5.0](https://github.com/NaturalCycles/dev-lib/compare/v8.4.0...v8.5.0) (2019-10-03)
+
+
+### Bug Fixes
+
+* execa is still used in git.util ([25d1b9a](https://github.com/NaturalCycles/dev-lib/commit/25d1b9a))
+
+
+### Features
+
+* use exec.util from nodejs-lib ([ec466f6](https://github.com/NaturalCycles/dev-lib/commit/ec466f6))
+
 # [8.4.0](https://github.com/NaturalCycles/dev-lib/compare/v8.3.0...v8.4.0) (2019-09-28)
 
 
