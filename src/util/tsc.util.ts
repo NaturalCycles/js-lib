@@ -1,8 +1,8 @@
 import { kpy } from '@naturalcycles/fs-lib'
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import c from 'chalk'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execCommand } from './exec.util'
 
 export async function tsc(): Promise<void> {
   await execCommand('tsc')

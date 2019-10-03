@@ -1,5 +1,5 @@
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
-import { execCommand } from '../util/exec.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
 export async function tscScriptsCommand(): Promise<void> {

@@ -1,7 +1,7 @@
 import { _flatten } from '@naturalcycles/js-lib'
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
-import { execCommand } from './exec.util'
 
 export const tslintExcludePaths: string[] = ['./**/@linked/**', './**/__exclude/**']
 

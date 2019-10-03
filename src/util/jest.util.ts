@@ -1,7 +1,7 @@
 import { _uniq } from '@naturalcycles/js-lib'
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execCommand } from './exec.util'
 import { getFullICUPathIfExists } from './test.util'
 
 export function getJestConfigPath(): string | undefined {

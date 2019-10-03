@@ -1,6 +1,6 @@
+import { logExec } from '@naturalcycles/nodejs-lib/dist/exec/exec.util'
 import * as execa from 'execa'
 import { basename } from 'path'
-import { logExec } from './exec.util'
 
 export async function getLastGitCommitMsg(): Promise<string> {
   // git log -1 --pretty=%B

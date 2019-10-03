@@ -1,4 +1,4 @@
-import { execCommand } from '../util/exec.util'
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 

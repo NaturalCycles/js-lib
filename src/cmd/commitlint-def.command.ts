@@ -1,6 +1,6 @@
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execCommand } from '../util/exec.util'
 
 export async function commitlintDefCommand(): Promise<void> {
   const cwd = process.cwd()

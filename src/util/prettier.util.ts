@@ -1,6 +1,6 @@
+import { execCommand } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execCommand } from './exec.util'
 
 export const prettierExtensions = `css,scss,ts,tsx,js,jsx,json,md,graphql,yml,yaml,html,vue`
 
