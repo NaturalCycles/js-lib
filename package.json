@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "8.5.0",
+  "version": "8.6.0",
   "description": "",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",

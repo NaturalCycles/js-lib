@@ -1,3 +1,10 @@
+# [8.6.0](https://github.com/NaturalCycles/dev-lib/compare/v8.5.0...v8.6.0) (2019-10-14)
+
+
+### Features
+
+* bump execa ([c8ac2e5](https://github.com/NaturalCycles/dev-lib/commit/c8ac2e5))
+
 # [8.5.0](https://github.com/NaturalCycles/dev-lib/compare/v8.4.0...v8.5.0) (2019-10-03)
 
 
