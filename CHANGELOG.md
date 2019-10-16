@@ -1,3 +1,10 @@
+# [8.7.0](https://github.com/NaturalCycles/dev-lib/compare/v8.6.0...v8.7.0) (2019-10-16)
+
+
+### Features
+
+* update to recent nodejs-lib, execa ([97ad276](https://github.com/NaturalCycles/dev-lib/commit/97ad276))
+
 # [8.6.0](https://github.com/NaturalCycles/dev-lib/compare/v8.5.0...v8.6.0) (2019-10-14)
 
 
