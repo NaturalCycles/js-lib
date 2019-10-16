@@ -1,4 +1,4 @@
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 
 export async function tscProdCommand(): Promise<void> {
   // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`
@@ -6,5 +6,5 @@ export async function tscProdCommand(): Promise<void> {
 
   const args: string[] = ['-P', projectTsconfigPath]
 
-  await execCommand(`tsc`, args)
+  await execWithArgs(`tsc`, args)
 }

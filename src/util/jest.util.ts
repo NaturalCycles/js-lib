@@ -1,5 +1,5 @@
 import { _uniq } from '@naturalcycles/js-lib'
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getFullICUPathIfExists } from './test.util'
@@ -90,7 +90,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  await execCommand('jest', _uniq(args), {
+  await execWithArgs('jest', _uniq(args), {
     env,
   })
 }

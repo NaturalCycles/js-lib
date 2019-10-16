@@ -1,4 +1,4 @@
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 
@@ -8,5 +8,5 @@ export async function lintStagedDefCommand(): Promise<void> {
   const sharedConfig = `${cfgDir}/lint-staged.config.js`
   const config = fs.pathExistsSync(localConfig) ? localConfig : sharedConfig
 
-  await execCommand(`lint-staged`, [`--config`, config])
+  await execWithArgs(`lint-staged`, [`--config`, config])
 }

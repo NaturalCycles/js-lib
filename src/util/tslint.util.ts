@@ -1,5 +1,5 @@
 import { _flatten } from '@naturalcycles/js-lib'
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 
@@ -25,7 +25,7 @@ export async function runTSLint(
     `--fix`,
   ]
 
-  await execCommand('tslint', args)
+  await execWithArgs('tslint', args)
 }
 
 export function getTSLintConfigPath(): string {

@@ -1,4 +1,4 @@
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
@@ -12,5 +12,5 @@ export async function tscScriptsCommand(): Promise<void> {
 
   const args: string[] = ['-P', projectTsconfigPath, '--noEmit']
 
-  await execCommand(`tsc`, args)
+  await execWithArgs(`tsc`, args)
 }

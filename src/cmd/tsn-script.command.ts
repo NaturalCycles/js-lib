@@ -1,4 +1,4 @@
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
@@ -21,5 +21,5 @@ export async function tsnScriptCommand(): Promise<void> {
     args.push('-r', 'tsconfig-paths/register')
   }
 
-  await execCommand('ts-node', [...args, ...processArgs])
+  await execWithArgs('ts-node', [...args, ...processArgs])
 }

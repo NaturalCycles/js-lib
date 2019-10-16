@@ -1,4 +1,4 @@
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 
@@ -21,5 +21,5 @@ export async function runPrettier(): Promise<void> {
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const args = [`--write`, `--config`, config, ...prettierPaths]
 
-  await execCommand('prettier', args)
+  await execWithArgs('prettier', args)
 }
