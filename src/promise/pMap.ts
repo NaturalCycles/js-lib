@@ -23,6 +23,12 @@ export interface PMapOptions {
    * @default true
    */
   stopOnError?: boolean
+
+  /**
+   * If true - will ignore errors and return results from successful operations.
+   * @default false
+   */
+  skipErrors?: boolean
 }
 
 /**
@@ -77,7 +83,7 @@ export async function pMap<IN, OUT>(
       throw new TypeError('Mapper function is required')
     }
 
-    const { concurrency, stopOnError } = options
+    const { concurrency, stopOnError, skipErrors } = options
 
     if (!(typeof concurrency === 'number' && concurrency >= 1)) {
       throw new TypeError(
@@ -106,7 +112,7 @@ export async function pMap<IN, OUT>(
         isIterableDone = true
 
         if (resolvingCount === 0) {
-          if (!stopOnError && errors.length) {
+          if (!stopOnError && !skipErrors && errors.length) {
             reject(new AggregatedError(errors, ret))
           } else {
             resolve(ret)
@@ -127,7 +133,7 @@ export async function pMap<IN, OUT>(
             next()
           },
           error => {
-            if (stopOnError) {
+            if (stopOnError && !skipErrors) {
               isRejected = true
               reject(error)
             } else {
