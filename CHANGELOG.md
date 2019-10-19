@@ -1,3 +1,10 @@
+# [8.8.0](https://github.com/NaturalCycles/js-lib/compare/v8.7.1...v8.8.0) (2019-10-19)
+
+
+### Features
+
+* pMap skipErrors option ([4121a4c](https://github.com/NaturalCycles/js-lib/commit/4121a4c))
+
 ## [8.7.1](https://github.com/NaturalCycles/js-lib/compare/v8.7.0...v8.7.1) (2019-09-20)
 
 
