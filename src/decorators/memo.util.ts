@@ -1,4 +1,4 @@
-import { isPrimitive } from '../util/object.util'
+import { isPrimitive } from '../object/object.util'
 
 export type MemoSerializer = (args: any[]) => any
 

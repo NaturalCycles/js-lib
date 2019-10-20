@@ -1,8 +1,8 @@
-import { isObject } from './object.util'
-
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
  */
+import { isObject } from '../index'
+
 export function _capitalize(s: string = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }

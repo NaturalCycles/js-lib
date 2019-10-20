@@ -1,5 +1,5 @@
 import { Except } from 'type-fest'
-import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from './lodash.types'
+import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../util/lodash.types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.

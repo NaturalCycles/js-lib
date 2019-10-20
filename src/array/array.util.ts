@@ -1,5 +1,3 @@
-import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from './lodash.types'
-
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
  * final chunk will be the remaining elements.
@@ -12,6 +10,8 @@ import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from './lodash
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
+import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../util/lodash.types'
+
 export function _chunk<T>(array: T[], size = 1): T[][] {
   return array.reduce(
     (arr, item, idx) => {
@@ -137,14 +137,4 @@ export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>): T[] {
     if (typeof a === 'number' && typeof b === 'number') return Math.sign(a - b)
     return String(a).localeCompare(String(b))
   })
-}
-
-/**
- * Returns an array with ranges from `from` up to (but not including) `to`
- *
- * @example
- * range(3, 6) // [ 3, 4, 5 ]
- */
-export function _range(fromIncl: number, toExcl: number): number[] {
-  return Array.from({ length: toExcl - fromIncl }, (_v, k) => k + fromIncl)
 }

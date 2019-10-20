@@ -1,3 +1,5 @@
+import { _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy, by } from './array/array.util'
+import { _range } from './array/range'
 import { Debounce, Throttle } from './decorators/debounce.decorator'
 import { getArgsSignature } from './decorators/decorator.util'
 import { logMethod } from './decorators/logMethod.decorator'
@@ -24,31 +26,6 @@ import {
   errorToErrorObject,
 } from './error/error.util'
 import { HttpError } from './error/http.error'
-import { AggregatedError } from './promise/aggregatedError'
-import { pBatch, PBatchResult } from './promise/pBatch'
-import { pDefer } from './promise/pDefer'
-import { pDelay } from './promise/pDelay'
-import { pFilter } from './promise/pFilter'
-import { pHang } from './promise/pHang'
-import { pMap } from './promise/pMap'
-import { pProps } from './promise/pProps'
-import { pRetry, PRetryOptions } from './promise/pRetry'
-import { pState } from './promise/pState'
-import { _tryCatch, TryCatch, TryCatchOptions } from './promise/tryCatch'
-import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
-import {
-  _chunk,
-  _flatten,
-  _flattenDeep,
-  _range,
-  _sortBy,
-  _uniq,
-  _uniqBy,
-  by,
-} from './util/array.util'
-import { _debounce, _throttle } from './util/debounce'
-import { deepEquals } from './util/deepEquals'
-import { memoFn } from './util/memoFn'
 import {
   _get,
   _has,
@@ -74,10 +51,18 @@ import {
   mask,
   objectNullValuesToUndefined,
   sortObjectDeep,
-} from './util/object.util'
-import { randomInt } from './util/random.util'
-import { loadScript } from './util/script.util'
-import { SimpleMovingAverage } from './util/sma'
+} from './object/object.util'
+import { AggregatedError } from './promise/aggregatedError'
+import { pBatch, PBatchResult } from './promise/pBatch'
+import { pDefer } from './promise/pDefer'
+import { pDelay } from './promise/pDelay'
+import { pFilter } from './promise/pFilter'
+import { pHang } from './promise/pHang'
+import { pMap } from './promise/pMap'
+import { pProps } from './promise/pProps'
+import { pRetry, PRetryOptions } from './promise/pRetry'
+import { pState } from './promise/pState'
+import { _tryCatch, TryCatch, TryCatchOptions } from './promise/tryCatch'
 import {
   _capitalize,
   _lowerFirst,
@@ -85,7 +70,14 @@ import {
   _upperFirst,
   removeWhitespace,
   resultToString,
-} from './util/string.util'
+} from './string/string.util'
+import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
+import { _debounce, _throttle } from './util/debounce'
+import { deepEquals } from './util/deepEquals'
+import { memoFn } from './util/memoFn'
+import { randomInt } from './util/random.util'
+import { loadScript } from './util/script.util'
+import { SimpleMovingAverage } from './util/sma'
 import { _truncate } from './util/truncate'
 
 export {
