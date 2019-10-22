@@ -1,7 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
   "version": "8.7.0",
-  "description": "",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",
     "tsn-script": "ts-node -r loud-rejection/register -r dotenv/config ./src/bin/tsn-script.ts",
@@ -59,8 +58,7 @@
   "devDependencies": {
     "@types/got": "^9.6.4",
     "got": "^9.6.0",
-    "jest": "^24.1.0",
-    "weak": "^1.0.1"
+    "jest": "^24.1.0"
   },
   "resolutions": {
     "@types/hapi__joi": "15.0.4"
@@ -111,6 +109,7 @@
     "type": "git",
     "url": "https://github.com/NaturalCycles/dev-lib"
   },
+  "description": "Set of opinionated configuration files and tools for common project needs",
   "author": "Natural Cycles Team",
   "license": "MIT"
 }
