@@ -17,8 +17,7 @@
     "@types/node": "^12.0.0",
     "benchmark": "^2.1.4",
     "jest": "^24.1.0",
-    "rxjs": "^6.5.2",
-    "weak": "^1.0.1"
+    "rxjs": "^6.5.2"
   },
   "files": [
     "dist",
@@ -34,6 +33,13 @@
   "sideEffects": false,
   "engines": {
     "node": ">=8.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaturalCycles/js-lib"
   },
   "description": "Standard library for universal (browser + Node.js) javascript",
   "author": "Natural Cycles Team",
