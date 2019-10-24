@@ -6,5 +6,5 @@
 {
   "extends": "../cfg/tsconfig.json",
   // `include` / `exclude` need to be specified in the project tsconfig:
-  "exclude": ["**/__exclude", "**/@linked"]
+  "exclude": ["**/__exclude"]
 }

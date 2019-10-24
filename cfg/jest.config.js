@@ -27,11 +27,7 @@ if (ideIntegrationTest) {
 
 const transformIgnore = ['@naturalcycles']
 
-const testPathIgnorePatterns = [
-  '<rootDir>/.*/__exclude/',
-  '<rootDir>/src/environments/',
-  '<rootDir>/src/@linked/',
-]
+const testPathIgnorePatterns = ['<rootDir>/.*/__exclude/', '<rootDir>/src/environments/']
 
 // console.log({argv: process.argv})
 
@@ -59,7 +55,6 @@ module.exports = {
     // should match aliases from tsconfig.json
     // as explained here: https://alexjoverm.github.io/2017/10/07/Enhance-Jest-configuration-with-Module-Aliases/
     '@src/(.*)$': '<rootDir>/src/$1',
-    '@linked/(.*)$': '<rootDir>/src/@linked/$1',
   },
   skipNodeResolution: true,
   globals: {
@@ -75,8 +70,6 @@ module.exports = {
     'src/**/*.ts',
     '!**/__exclude/**',
     '!src/index.ts',
-    '!src/@linked/**',
-    '!@linked/**',
     '!src/test/**',
     '!src/typings/**',
     '!scripts/**',

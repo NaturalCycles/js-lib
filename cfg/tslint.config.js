@@ -115,7 +115,7 @@ module.exports = {
     ],
   },
   linterOptions: {
-    exclude: ['src/@linked/**/*'],
+    exclude: ['src/**/__exclude/**/*'],
   },
   /*
   excluded: {

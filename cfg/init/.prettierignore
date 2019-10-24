@@ -1,5 +1,4 @@
 #
 # .prettierignore
 #
-/src/@linked
 /**/__exclude/**/*

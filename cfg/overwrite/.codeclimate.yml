@@ -44,7 +44,6 @@ exclude_patterns:
   - '**/*.config.*'
   - '**/*.d.ts'
   - 'build/'
-  - 'src/@linked/'
   - 'src/test/'
   - 'src/environments/'
   - 'src/env/'

@@ -40,7 +40,6 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/src/test` for generic test-related files and utilities, integration tests.
 - `/src/test/mock`
 - `/src/test/integration` for integration tests (unit tests should be placed next to the file)
-- `/src/@linked`
 - `/src/@types`
 - `/src/env`
 - `/coverage`
