@@ -3,7 +3,6 @@
   "version": "8.7.0",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",
-    "tsn-script": "ts-node -r loud-rejection/register -r dotenv/config ./src/bin/tsn-script.ts",
     "bt": "yarn tsn ./src/bin/bt.ts",
     "build": "yarn tsn ./src/bin/build.ts",
     "tsc-prod": "yarn tsn ./src/bin/tsc-prod.ts",
@@ -96,7 +95,6 @@
     "tsc-scripts": "dist/bin/tsc-scripts.js",
     "tslint-all": "dist/bin/tslint-all.js",
     "tsn": "dist/bin/tsn.js",
-    "tsn-script": "dist/bin/tsn-script.js",
     "update-from-dev-lib": "dist/bin/update-from-dev-lib.js"
   },
   "engines": {

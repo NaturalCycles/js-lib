@@ -1,14 +1,11 @@
 /*
 
-yarn tsn-script ./scripts/testScript.ts
+yarn tsn ./scripts/testScript.ts
 
 */
 
-main().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+import { runScript } from '@naturalcycles/nodejs-lib'
 
-async function main() {
+runScript(async () => {
   console.log('test script')
-}
+})
