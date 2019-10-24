@@ -1,3 +1,15 @@
+# [9.0.0](https://github.com/NaturalCycles/dev-lib/compare/v8.7.0...v9.0.0) (2019-10-24)
+
+
+### Features
+
+* merge tsn-script into tsn ([b2a0c20](https://github.com/NaturalCycles/dev-lib/commit/b2a0c2011485e8c9c81b4d12c690d67aedcac66c))
+
+
+### BREAKING CHANGES
+
+* `tsn-script` is not available anymore, use `tsn` instead
+
 # [8.7.0](https://github.com/NaturalCycles/dev-lib/compare/v8.6.0...v8.7.0) (2019-10-16)
 
 
