@@ -1,3 +1,10 @@
+## [8.8.1](https://github.com/NaturalCycles/js-lib/compare/v8.8.0...v8.8.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* export Deferred ([01bdd03](https://github.com/NaturalCycles/js-lib/commit/01bdd0333d3aacb452304d7768ace1aac8142c4a))
+
 # [8.8.0](https://github.com/NaturalCycles/js-lib/compare/v8.7.1...v8.8.0) (2019-10-19)
 
 
