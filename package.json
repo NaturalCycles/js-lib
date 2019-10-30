@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",
     "bt": "yarn tsn ./src/bin/bt.ts",

@@ -1,3 +1,10 @@
+## [9.0.1](https://github.com/NaturalCycles/dev-lib/compare/v9.0.0...v9.0.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* remove @types/dotenv ([f782e8f](https://github.com/NaturalCycles/dev-lib/commit/f782e8f6e10488c4d3095256591d6906d35c6aa5))
+
 # [9.0.0](https://github.com/NaturalCycles/dev-lib/compare/v8.7.0...v9.0.0) (2019-10-24)
 
 
