@@ -54,11 +54,11 @@ import {
 } from './object/object.util'
 import { AggregatedError } from './promise/aggregatedError'
 import { pBatch, PBatchResult } from './promise/pBatch'
-import { pDefer } from './promise/pDefer'
+import { Deferred, pDefer } from './promise/pDefer'
 import { pDelay } from './promise/pDelay'
 import { pFilter } from './promise/pFilter'
 import { pHang } from './promise/pHang'
-import { pMap } from './promise/pMap'
+import { pMap, PMapOptions } from './promise/pMap'
 import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
@@ -157,12 +157,14 @@ export {
   Debounce,
   Throttle,
   pMap,
+  PMapOptions,
   pBatch,
   PBatchResult,
   pFilter,
   pProps,
   pDelay,
   pDefer,
+  Deferred,
   pHang,
   pState,
   AggregatedError,
