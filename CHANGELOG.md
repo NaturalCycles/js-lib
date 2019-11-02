@@ -1,3 +1,10 @@
+## [9.0.2](https://github.com/NaturalCycles/dev-lib/compare/v9.0.1...v9.0.2) (2019-11-02)
+
+
+### Bug Fixes
+
+* upgrade nodejs-lib ([585a98d](https://github.com/NaturalCycles/dev-lib/commit/585a98d2fed0480c9d9e94b654d6e5b03909c1ec))
+
 ## [9.0.1](https://github.com/NaturalCycles/dev-lib/compare/v9.0.0...v9.0.1) (2019-10-30)
 
 
