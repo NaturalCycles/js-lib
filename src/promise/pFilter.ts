@@ -1,15 +1,14 @@
+import { Predicate } from '../types'
 import { pMap, PMapOptions } from './pMap'
-
-export type FilterFn<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 
 export async function pFilter<T>(
   iterable: Iterable<T | PromiseLike<T>>,
-  filterFn: FilterFn<T>,
+  filterFn: Predicate<T>,
   options?: PMapOptions,
 ): Promise<T[]> {
   const values = await pMap(
     iterable,
-    async (item, index) => Promise.all([filterFn(item, index), item]),
+    async (item, index) => await Promise.all([filterFn(item, index), item]),
     options,
   )
 

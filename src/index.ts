@@ -25,6 +25,7 @@ import {
   errorObjectToHttpError,
   errorToErrorObject,
 } from './error/error.util'
+import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import {
   _get,
@@ -53,7 +54,7 @@ import {
   sortObjectDeep,
 } from './object/object.util'
 import { AggregatedError } from './promise/aggregatedError'
-import { pBatch, PBatchResult } from './promise/pBatch'
+import { pBatch } from './promise/pBatch'
 import { Deferred, pDefer } from './promise/pDefer'
 import { pDelay } from './promise/pDelay'
 import { pFilter } from './promise/pFilter'
@@ -71,7 +72,18 @@ import {
   removeWhitespace,
   resultToString,
 } from './string/string.util'
-import { InstanceId, IsoDate, IsoDateTime, PromiseMap, StringMap, ValueOf, ValuesOf } from './types'
+import {
+  BatchResult,
+  InstanceId,
+  IsoDate,
+  IsoDateTime,
+  Mapper,
+  Predicate,
+  PromiseMap,
+  StringMap,
+  ValueOf,
+  ValuesOf,
+} from './types'
 import { _debounce, _throttle } from './util/debounce'
 import { deepEquals } from './util/deepEquals'
 import { memoFn } from './util/memoFn'
@@ -158,8 +170,11 @@ export {
   Throttle,
   pMap,
   PMapOptions,
+  Mapper,
+  Predicate,
   pBatch,
-  PBatchResult,
+  BatchResult,
+  ErrorMode,
   pFilter,
   pProps,
   pDelay,

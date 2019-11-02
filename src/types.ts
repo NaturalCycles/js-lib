@@ -17,6 +17,28 @@ export interface PromiseMap {
 }
 
 /**
+ * Function which is called for every item in `input`. Expected to return a `Promise` or value.
+ *
+ * @param input - Iterated element.
+ * @param index - Index of the element in the source array.
+ */
+export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
+
+export type Predicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
+
+export interface BatchResult<RES = any, ERR = Error> {
+  /**
+   * Array of successful executions.
+   */
+  results: RES[]
+
+  /**
+   * Returns empty array in case of 0 errors.
+   */
+  errors: ERR[]
+}
+
+/**
  * Like `keyof`, but for arrays.
  *
  * @example

@@ -7,6 +7,8 @@ Improvements:
 - Compatible with pProps (that had typings issues)
  */
 
+import { ErrorMode } from '..'
+import { Mapper } from '../types'
 import { AggregatedError } from './aggregatedError'
 
 export interface PMapOptions {
@@ -18,26 +20,14 @@ export interface PMapOptions {
   concurrency?: number
 
   /**
-   * When set to `false`, instead of stopping when a promise rejects, it will wait for all the promises to settle and then reject with an Aggregated error.
+   * @default ErrorMode.THROW_IMMEDIATELY
    *
-   * @default true
+   * When set to THROW_AGGREGATED, instead of stopping when a promise rejects, it will wait for all the promises to settle and then reject with an Aggregated error.
+   *
+   * When set to SUPPRESS - will ignore errors and return results from successful operations.
    */
-  stopOnError?: boolean
-
-  /**
-   * If true - will ignore errors and return results from successful operations.
-   * @default false
-   */
-  skipErrors?: boolean
+  errorMode?: ErrorMode
 }
-
-/**
- * Function which is called for every item in `input`. Expected to return a `Promise` or value.
- *
- * @param input - Iterated element.
- * @param index - Index of the element in the source array.
- */
-export type PMapMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
 
 /**
  * Returns a `Promise` that is fulfilled when all promises in `input` and ones returned from `mapper` are fulfilled,
@@ -67,7 +57,7 @@ export type PMapMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT 
  */
 export async function pMap<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
-  mapper: PMapMapper<IN, OUT>,
+  mapper: Mapper<IN, OUT>,
   options?: PMapOptions,
 ): Promise<OUT[]> {
   return new Promise<OUT[]>((resolve, reject) => {
@@ -83,7 +73,7 @@ export async function pMap<IN, OUT>(
       throw new TypeError('Mapper function is required')
     }
 
-    const { concurrency, stopOnError, skipErrors } = options
+    const { concurrency, errorMode = ErrorMode.THROW_IMMEDIATELY } = options
 
     if (!(typeof concurrency === 'number' && concurrency >= 1)) {
       throw new TypeError(
@@ -112,7 +102,7 @@ export async function pMap<IN, OUT>(
         isIterableDone = true
 
         if (resolvingCount === 0) {
-          if (!stopOnError && !skipErrors && errors.length) {
+          if (errors.length && errorMode === ErrorMode.THROW_AGGREGATED) {
             reject(new AggregatedError(errors, ret))
           } else {
             resolve(ret)
@@ -125,7 +115,7 @@ export async function pMap<IN, OUT>(
       resolvingCount++
 
       Promise.resolve(nextItem.value)
-        .then(element => mapper(element, i))
+        .then(async element => await mapper(element, i))
         .then(
           value => {
             ret[i] = value
@@ -133,7 +123,7 @@ export async function pMap<IN, OUT>(
             next()
           },
           error => {
-            if (stopOnError && !skipErrors) {
+            if (errorMode === ErrorMode.THROW_IMMEDIATELY) {
               isRejected = true
               reject(error)
             } else {

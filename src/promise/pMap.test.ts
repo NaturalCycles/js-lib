@@ -1,8 +1,9 @@
+import { ErrorMode, Mapper } from '../index'
 import { inRange, randomInt, timeSpan } from '../test/test.util'
 import { AggregatedError } from './aggregatedError'
 import { pBatch } from './pBatch'
 import { pDelay } from './pDelay'
-import { pMap, PMapMapper } from './pMap'
+import { pMap } from './pMap'
 
 const input = [Promise.resolve([10, 300]), [20, 200], [30, 100]]
 
@@ -25,7 +26,7 @@ const errorInput3 = [
   [() => Promise.reject(new Error('two'))],
 ]
 
-const mapper: PMapMapper = ([val, ms]) => {
+const mapper: Mapper = ([val, ms]) => {
   if (typeof val === 'function') return val()
   return pDelay(ms, val)
 }
@@ -64,21 +65,21 @@ test('handles empty iterable', async () => {
 
 test('async with concurrency: 2 (random time sequence)', async () => {
   const input = new Array(10).map(() => randomInt(0, 100))
-  const mapper: PMapMapper = value => pDelay(value).then(() => value)
+  const mapper: Mapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (problematic time sequence)', async () => {
   const input = [100, 200, 10, 36, 13, 45]
-  const mapper: PMapMapper = value => pDelay(value).then(() => value)
+  const mapper: Mapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (out of order time sequence)', async () => {
   const input = [200, 100, 50]
-  const mapper: PMapMapper = value => pDelay(value).then(() => value)
+  const mapper: Mapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
@@ -92,7 +93,7 @@ test('enforce number in options.concurrency', async () => {
 
 test('reject', async () => {
   const input = [1, 1, 0, 1]
-  const mapper: PMapMapper = async v => {
+  const mapper: Mapper = async v => {
     await pDelay(randomInt(0, 100))
     if (!v) throw new Error('Err')
     return v
@@ -105,23 +106,32 @@ test('immediately rejects when stopOnError is true', async () => {
   await expect(pMap(errorInput2, mapper, { concurrency: 1 })).rejects.toThrow('bar')
 })
 
-test('aggregate errors when stopOnError is false', async () => {
-  // should not throw
-  await pMap(input, mapper, { concurrency: 1, stopOnError: false })
+test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
+  const errorMode = ErrorMode.THROW_AGGREGATED
 
-  await expect(pMap(errorInput1, mapper, { concurrency: 1, stopOnError: false })).rejects.toThrow(
+  // should not throw
+  await pMap(input, mapper, { concurrency: 1, errorMode })
+
+  await expect(pMap(errorInput1, mapper, { concurrency: 1, errorMode })).rejects.toThrow(
     new AggregatedError(['foo', 'bar']),
   )
-  await expect(pMap(errorInput2, mapper, { concurrency: 1, stopOnError: false })).rejects.toThrow(
+  await expect(pMap(errorInput2, mapper, { concurrency: 1, errorMode })).rejects.toThrow(
     new AggregatedError(['bar', 'foo']),
   )
 
   let err: AggregatedError
-  await pMap(errorInput1, mapper, { concurrency: 1, stopOnError: false }).catch(
-    _err => (err = _err),
-  )
+  await pMap(errorInput1, mapper, { concurrency: 1, errorMode }).catch(_err => (err = _err))
   expect(err!.results).toEqual([20, 30])
   expect(err!.errors).toEqual([new Error('foo'), new Error('bar')])
+})
+
+test('suppress errors when errorMode=SUPPRESS', async () => {
+  const errorMode = ErrorMode.SUPPRESS
+
+  await pMap(input, mapper, { concurrency: 1, errorMode })
+
+  await pMap(errorInput1, mapper, { concurrency: 1, errorMode })
+  await pMap(errorInput2, mapper, { concurrency: 1, errorMode })
 })
 
 test('pBatch', async () => {

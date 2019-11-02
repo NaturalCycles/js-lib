@@ -1,28 +1,21 @@
+import { BatchResult, ErrorMode } from '..'
+import { Mapper } from '../types'
 import { AggregatedError } from './aggregatedError'
-import { pMap, PMapMapper } from './pMap'
-
-export interface PBatchResult<T> {
-  /**
-   * Array of successful executions.
-   */
-  results: T[]
-
-  /**
-   * Returns empty array in case of 0 errors.
-   */
-  errors: Error[]
-}
+import { pMap } from './pMap'
 
 /**
  * Like pMap, but doesn't fail on errors, instead returns both successful results and errors.
  */
 export async function pBatch<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
-  mapper: PMapMapper<IN, OUT>,
+  mapper: Mapper<IN, OUT>,
   options?: { concurrency?: number },
-): Promise<PBatchResult<OUT>> {
+): Promise<BatchResult<OUT>> {
   try {
-    const results = await pMap(iterable, mapper, { ...options, stopOnError: false })
+    const results = await pMap(iterable, mapper, {
+      ...options,
+      errorMode: ErrorMode.THROW_AGGREGATED,
+    })
     return {
       results,
       errors: [],
