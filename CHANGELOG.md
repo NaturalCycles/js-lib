@@ -1,3 +1,10 @@
+# [8.9.0](https://github.com/NaturalCycles/js-lib/compare/v8.8.1...v8.9.0) (2019-11-02)
+
+
+### Features
+
+* Mapper, Predicate, ErrorMode, BatchResult ([9aeced4](https://github.com/NaturalCycles/js-lib/commit/9aeced495f0f6303025f8a9a0302a161bc32d772))
+
 ## [8.8.1](https://github.com/NaturalCycles/js-lib/compare/v8.8.0...v8.8.1) (2019-10-30)
 
 
