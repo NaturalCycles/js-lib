@@ -1,7 +1,7 @@
 /**
  * Map from String to String (or <T>).
  *
- * Alternative: Record<String, T>
+ * Alternative: Record<string, T>
  */
 export interface StringMap<T = string> {
   [k: string]: T
@@ -24,7 +24,11 @@ export interface PromiseMap {
  */
 export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
 
+export const passthroughMapper: Mapper<any, any> = item => item
+
 export type Predicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
+
+export const passthroughPredicate: Predicate<any> = () => true
 
 export interface BatchResult<RES = any, ERR = Error> {
   /**
