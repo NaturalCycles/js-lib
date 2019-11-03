@@ -1,3 +1,10 @@
+# [8.10.0](https://github.com/NaturalCycles/js-lib/compare/v8.9.0...v8.10.0) (2019-11-03)
+
+
+### Features
+
+* passthroughMapper, passthroughPredicate ([191e9d4](https://github.com/NaturalCycles/js-lib/commit/191e9d493a599c4b9174f30e933cf0b04b32acce))
+
 # [8.9.0](https://github.com/NaturalCycles/js-lib/compare/v8.8.1...v8.9.0) (2019-11-02)
 
 
