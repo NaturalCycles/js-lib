@@ -25,10 +25,12 @@ export interface PromiseMap {
 export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
 
 export const passthroughMapper: Mapper<any, any> = item => item
+export const passUndefinedMapper: Mapper<any, void> = () => undefined
 
 export type Predicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 
 export const passthroughPredicate: Predicate<any> = () => true
+export const passNothingPredicate: Predicate<any> = () => false
 
 export interface BatchResult<RES = any, ERR = Error> {
   /**
