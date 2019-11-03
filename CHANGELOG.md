@@ -1,3 +1,10 @@
+# [8.11.0](https://github.com/NaturalCycles/js-lib/compare/v8.10.0...v8.11.0) (2019-11-03)
+
+
+### Features
+
+* passNothingPredicate, passUndefinedMapper ([5a66d02](https://github.com/NaturalCycles/js-lib/commit/5a66d02620273cb365ec6b522399ad86073fa6e8))
+
 # [8.10.0](https://github.com/NaturalCycles/js-lib/compare/v8.9.0...v8.10.0) (2019-11-03)
 
 
