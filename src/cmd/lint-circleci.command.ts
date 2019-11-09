@@ -1,5 +1,5 @@
 import { execWithArgs } from '@naturalcycles/nodejs-lib'
-import c from 'chalk'
+import * as c from 'chalk'
 const commandExistsSync = require('command-exists').sync
 
 export async function lintCircleCICommand(): Promise<void> {

@@ -1,4 +1,4 @@
-import c from 'chalk'
+import * as c from 'chalk'
 import * as fs from 'fs-extra'
 
 export interface Json2EnvOpts {
