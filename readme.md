@@ -64,6 +64,8 @@ These commands are available to be called as `yarn <command>`, because they are 
 
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
 - `build-prod`: "Production build". Does `del ./dist && build-copy && tsc-prod`
+- `build-prod-esm-cjs`: "Production build" for browser-lib, will produce CJS output in `./dist` and
+  ESM output in `./dist-esm`.
 
 #### Test commands
 
