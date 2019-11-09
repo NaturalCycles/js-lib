@@ -1,3 +1,10 @@
+## [9.0.3](https://github.com/NaturalCycles/dev-lib/compare/v9.0.2...v9.0.3) (2019-11-09)
+
+
+### Bug Fixes
+
+* chalk@3 ([1c956b0](https://github.com/NaturalCycles/dev-lib/commit/1c956b0f47a596ecc96d910dab360340edc7a37a))
+
 ## [9.0.2](https://github.com/NaturalCycles/dev-lib/compare/v9.0.1...v9.0.2) (2019-11-02)
 
 
