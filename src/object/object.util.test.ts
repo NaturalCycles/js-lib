@@ -377,8 +377,14 @@ test('invert', async () => {
 })
 
 test('invertMap', async () => {
-  const o = new Map([['a', 'ak'], ['b', 'bk']])
-  const inv = new Map([['ak', 'a'], ['bk', 'b']])
+  const o = new Map([
+    ['a', 'ak'],
+    ['b', 'bk'],
+  ])
+  const inv = new Map([
+    ['ak', 'a'],
+    ['bk', 'b'],
+  ])
 
   expect(invertMap(o)).toEqual(inv)
 })

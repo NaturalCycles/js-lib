@@ -5,7 +5,11 @@ test('chunk', () => {
 
   expect(_chunk(a)).toEqual([[1], [2], [3], [4], [5], [6]])
 
-  expect(_chunk(a, 2)).toEqual([[1, 2], [3, 4], [5, 6]])
+  expect(_chunk(a, 2)).toEqual([
+    [1, 2],
+    [3, 4],
+    [5, 6],
+  ])
 
   const b = [1, 2, 3]
   expect(_chunk(b, 2)).toEqual([[1, 2], [3]])

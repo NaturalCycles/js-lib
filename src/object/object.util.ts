@@ -134,13 +134,10 @@ export function _mapKeys<T extends object>(
 ): Record<string, T[keyof T]> {
   if (!isObject(obj)) return obj as any
 
-  return Object.entries(obj).reduce(
-    (map, [k, v]) => {
-      map[String(predicate(v, k, obj))] = v
-      return map
-    },
-    {} as Record<string, T[keyof T]>,
-  )
+  return Object.entries(obj).reduce((map, [k, v]) => {
+    map[String(predicate(v, k, obj))] = v
+    return map
+  }, {} as Record<string, T[keyof T]>)
 }
 
 type KeyValueTuple<K, V> = [K, V]
@@ -167,16 +164,13 @@ export function _mapObject<T extends object, TResult>(
 ): { [P in keyof T]: TResult } {
   if (!isObject(obj)) return obj as any
 
-  return Object.entries(obj).reduce(
-    (map, [k, v]) => {
-      const r = predicate(k, v, obj)
-      if (r && r[0]) {
-        map[String(r[0])] = r[1]
-      }
-      return map
-    },
-    {} as { [P in keyof T]: TResult },
-  )
+  return Object.entries(obj).reduce((map, [k, v]) => {
+    const r = predicate(k, v, obj)
+    if (r && r[0]) {
+      map[String(r[0])] = r[1]
+    }
+    return map
+  }, {} as { [P in keyof T]: TResult })
 }
 
 export function objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {

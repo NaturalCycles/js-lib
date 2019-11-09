@@ -13,14 +13,9 @@
 import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../util/lodash.types'
 
 export function _chunk<T>(array: T[], size = 1): T[][] {
-  return array.reduce(
-    (arr, item, idx) => {
-      return idx % size === 0
-        ? [...arr, [item]]
-        : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]]
-    },
-    [] as T[][],
-  )
+  return array.reduce((arr, item, idx) => {
+    return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]]
+  }, [] as T[][])
 }
 
 /**
@@ -111,14 +106,11 @@ export function by<T>(items: T[] = [], predicate: StringIteratee<T>): Record<str
   const cb: (value: T) => string | undefined =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
 
-  return items.reduce(
-    (map, item) => {
-      const res = cb(item)
-      if (res) map[res] = item
-      return map
-    },
-    {} as Record<string, T>,
-  )
+  return items.reduce((map, item) => {
+    const res = cb(item)
+    if (res) map[res] = item
+    return map
+  }, {} as Record<string, T>)
 }
 
 /**
