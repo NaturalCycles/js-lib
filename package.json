@@ -2,10 +2,7 @@
   "name": "@naturalcycles/js-lib",
   "version": "8.11.0",
   "scripts": {
-    "build": "del ./dist && tsc",
-    "build-prod": "yarn build-prod-esm & yarn build-prod-cjs & wait",
-    "build-prod-esm": "del ./dist-esm && tsc -p tsconfig.prod.json --outDir ./dist-esm --module es2015 --declaration false",
-    "build-prod-cjs": "del ./dist && tsc -p tsconfig.prod.json"
+    "build-prod": "build-prod-esm-cjs"
   },
   "dependencies": {
     "type-fest": "^0.8.0"
