@@ -19,6 +19,7 @@ node_modules
 .settings
 .externalToolBuilders
 .cache
+.stencil
 .gitconfig
 
 #
@@ -31,14 +32,11 @@ node_modules
 /.sourcemaps
 
 /coverage
-/report
 
 /dist
 /dist-cjs
 /dist-esm
 /tmp
-/deploy
-/build/deploy
 
 # All secrets are ignored, except encrypted
 /secret/**/*.*
