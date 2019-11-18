@@ -1,3 +1,10 @@
+# [9.2.0](https://github.com/NaturalCycles/dev-lib/compare/v9.1.0...v9.2.0) (2019-11-18)
+
+
+### Features
+
+* .gitignore cleanup ([51a7634](https://github.com/NaturalCycles/dev-lib/commit/51a7634c9ab6ee9c1f10695d47ffabdae0eb4f45))
+
 # [9.1.0](https://github.com/NaturalCycles/dev-lib/compare/v9.0.3...v9.1.0) (2019-11-09)
 
 
