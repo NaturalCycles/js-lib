@@ -71,6 +71,10 @@ import {
   _upperFirst,
   removeWhitespace,
   resultToString,
+  substringAfter,
+  substringAfterLast,
+  substringBefore,
+  substringBeforeLast,
 } from './string/string.util'
 import {
   BatchResult,
@@ -125,6 +129,10 @@ export {
   _split,
   removeWhitespace,
   resultToString,
+  substringBefore,
+  substringBeforeLast,
+  substringAfter,
+  substringAfterLast,
   _truncate,
   _pick,
   _omit,

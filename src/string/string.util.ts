@@ -54,3 +54,25 @@ export function resultToString(r: any): string {
 
   return msg || EMPTY_STRING_MSG
 }
+
+// These functions are modeled after Kotlin's String API
+
+export function substringBefore(s: string, delimiter: string): string {
+  const pos = s.indexOf(delimiter)
+  return s.substr(0, pos !== -1 ? pos : undefined)
+}
+
+export function substringBeforeLast(s: string, delimiter: string): string {
+  const pos = s.lastIndexOf(delimiter)
+  return s.substr(0, pos !== -1 ? pos : undefined)
+}
+
+export function substringAfter(s: string, delimiter: string): string {
+  const pos = s.indexOf(delimiter)
+  return pos !== -1 ? s.substr(pos + 1) : s
+}
+
+export function substringAfterLast(s: string, delimiter: string): string {
+  const pos = s.lastIndexOf(delimiter)
+  return pos !== -1 ? s.substr(pos + 1) : s
+}
