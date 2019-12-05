@@ -1,4 +1,3 @@
-import { Except } from 'type-fest'
 import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../util/lodash.types'
 
 /**
@@ -9,23 +8,20 @@ export function _pick<T extends object, K extends keyof T>(
   obj: T,
   props: readonly K[] = [],
   initialObject: Partial<T> = {},
-): Pick<T, K> {
+): T {
   if (!obj || !props || !props.length) return obj
 
   return props.reduce((r, prop) => {
     if (prop in obj) r[prop] = obj[prop]
     return r
-  }, initialObject) as Pick<T, K>
+  }, initialObject) as T
 }
 
 /**
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function _omit<T extends object, K extends keyof T>(
-  obj: T,
-  props: readonly K[] = [],
-): Except<T, K> {
+export function _omit<T extends object, K extends keyof T>(obj: T, props: readonly K[] = []): T {
   if (!obj || !props || !props.length) return obj
 
   return props.reduce(

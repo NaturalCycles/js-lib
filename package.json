@@ -4,9 +4,7 @@
   "scripts": {
     "build-prod": "build-prod-esm-cjs"
   },
-  "dependencies": {
-    "type-fest": "^0.8.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@naturalcycles/dev-lib": "^9.0.0",
     "@naturalcycles/test-lib": "^1.0.2",
