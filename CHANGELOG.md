@@ -1,3 +1,15 @@
+# [8.12.0](https://github.com/NaturalCycles/js-lib/compare/v8.11.0...v8.12.0) (2019-12-05)
+
+
+### Bug Fixes
+
+* _pick and _omit now return same object type ([9cb4638](https://github.com/NaturalCycles/js-lib/commit/9cb4638dd4e43e0a3b7d337d482c32650e8599af))
+
+
+### Features
+
+* substringBefore/BeforeLast/After/AfterLast ([fb408d6](https://github.com/NaturalCycles/js-lib/commit/fb408d6c8795b1c6f92a76019cad419281777152))
+
 # [8.11.0](https://github.com/NaturalCycles/js-lib/compare/v8.10.0...v8.11.0) (2019-11-03)
 
 
