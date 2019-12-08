@@ -1,7 +1,7 @@
-import * as got from 'got'
+import got from 'got'
 
 test('should throw on network connections', async () => {
-  await expect(got('example.com')).rejects.toThrow('Network request forbidden')
+  await expect(got('http://example.com')).rejects.toThrow('Network request forbidden')
 })
 
 test('should allow connection to local hosts', async () => {

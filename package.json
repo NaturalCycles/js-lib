@@ -55,8 +55,7 @@
     "yargs": "^15.0.1"
   },
   "devDependencies": {
-    "@types/got": "^9.6.4",
-    "got": "^9.6.0",
+    "got": "^10.0.2",
     "jest": "^24.1.0"
   },
   "resolutions": {
