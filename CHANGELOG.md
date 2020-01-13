@@ -1,3 +1,10 @@
+# [9.4.0](https://github.com/NaturalCycles/dev-lib/compare/v9.3.0...v9.4.0) (2020-01-13)
+
+
+### Features
+
+* deps ([86ee02a](https://github.com/NaturalCycles/dev-lib/commit/86ee02af84f467bc1db4a2f6fac65a87bcd9c32f))
+
 # [9.3.0](https://github.com/NaturalCycles/dev-lib/compare/v9.2.0...v9.3.0) (2019-12-30)
 
 
