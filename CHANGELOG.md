@@ -1,3 +1,10 @@
+# [8.13.0](https://github.com/NaturalCycles/js-lib/compare/v8.12.0...v8.13.0) (2020-01-14)
+
+
+### Features
+
+* pDeferredPromise ([046b430](https://github.com/NaturalCycles/js-lib/commit/046b430216837b1712e680b1773372c0a73f25f4))
+
 # [8.12.0](https://github.com/NaturalCycles/js-lib/compare/v8.11.0...v8.12.0) (2019-12-05)
 
 
