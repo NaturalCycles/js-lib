@@ -9,7 +9,7 @@
     "@naturalcycles/dev-lib": "^9.0.0",
     "@naturalcycles/test-lib": "^1.0.2",
     "@types/benchmark": "^1.0.31",
-    "@types/node": "^12.0.0",
+    "@types/node": "^13.1.6",
     "benchmark": "^2.1.4",
     "jest": "^24.1.0",
     "rxjs": "^6.5.2"
