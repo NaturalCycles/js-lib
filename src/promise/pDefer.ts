@@ -1,7 +1,7 @@
 export interface Deferred<T = void> {
   promise: Promise<T>
-  resolve(a?: T): void
-  reject(e?: any): void
+  resolve(a: T): void
+  reject(e?: Error): void
 }
 
 /**
@@ -16,4 +16,30 @@ export function pDefer<T = void>(): Deferred<T> {
   })
 
   return deferred
+}
+
+/**
+ * Similar to Deferred object, which is also a promise itself (instead of deferred.promise).
+ */
+export interface DeferredPromise<T = void> extends Promise<T> {
+  resolve(a: T): void
+  reject(e?: Error): void
+}
+
+/**
+ * Returns DeferredPromise.
+ */
+export function pDeferredPromise<T = void>(): DeferredPromise<T> {
+  let resolve: any
+  let reject: any
+
+  const promise = new Promise<T>((_resolve, _reject) => {
+    resolve = _resolve
+    reject = _reject
+  }) as DeferredPromise<T>
+
+  promise.resolve = resolve
+  promise.reject = reject
+
+  return promise
 }

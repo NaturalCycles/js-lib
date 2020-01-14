@@ -55,7 +55,7 @@ import {
 } from './object/object.util'
 import { AggregatedError } from './promise/aggregatedError'
 import { pBatch } from './promise/pBatch'
-import { Deferred, pDefer } from './promise/pDefer'
+import { Deferred, DeferredPromise, pDefer, pDeferredPromise } from './promise/pDefer'
 import { pDelay } from './promise/pDelay'
 import { pFilter } from './promise/pFilter'
 import { pHang } from './promise/pHang'
@@ -195,7 +195,9 @@ export {
   pProps,
   pDelay,
   pDefer,
+  pDeferredPromise,
   Deferred,
+  DeferredPromise,
   pHang,
   pState,
   AggregatedError,
