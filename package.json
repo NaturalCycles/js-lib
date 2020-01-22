@@ -50,7 +50,7 @@
     "prettier": "^1.17.1",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.1.0",
-    "tslint": "^5.11.0",
+    "tslint": "^6.0.0",
     "typescript": "^3.4.5",
     "yargs": "^15.0.1"
   },
