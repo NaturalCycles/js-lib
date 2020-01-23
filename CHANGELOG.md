@@ -1,3 +1,10 @@
+## [9.5.1](https://github.com/NaturalCycles/dev-lib/compare/v9.5.0...v9.5.1) (2020-01-23)
+
+
+### Bug Fixes
+
+* use ts-jest@25 (removes warnings) ([3da1cdb](https://github.com/NaturalCycles/dev-lib/commit/3da1cdbfae825af2e90d0feb5641ab6a62aa0609))
+
 # [9.5.0](https://github.com/NaturalCycles/dev-lib/compare/v9.4.0...v9.5.0) (2020-01-22)
 
 
