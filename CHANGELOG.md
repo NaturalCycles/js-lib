@@ -1,3 +1,10 @@
+## [9.5.2](https://github.com/NaturalCycles/dev-lib/compare/v9.5.1...v9.5.2) (2020-01-28)
+
+
+### Bug Fixes
+
+* fix linting by pinning husky to 3.x ([b2162e3](https://github.com/NaturalCycles/dev-lib/commit/b2162e330a0afd4265fa76602663a30c0996ddb0))
+
 ## [9.5.1](https://github.com/NaturalCycles/dev-lib/compare/v9.5.0...v9.5.1) (2020-01-23)
 
 
