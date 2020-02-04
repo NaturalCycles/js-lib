@@ -94,6 +94,9 @@ in that order:
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.integration.ts`
 
+Set `JEST_ALPHABETIC` env variable to run Jest tests in alphabetic order (internally it points
+`--testSequencer` to a pre-defined sequencer file that sorts all filenames alphabetically).
+
 #### Lint commands
 
 - `lint-all`: runs Prettier as we want it: first `tslint` on needed paths, then `prettier` on top of
