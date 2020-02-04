@@ -1,3 +1,11 @@
+# [9.7.0](https://github.com/NaturalCycles/dev-lib/compare/v9.6.0...v9.7.0) (2020-02-04)
+
+
+### Features
+
+* include .github into prettier files ([b79b283](https://github.com/NaturalCycles/dev-lib/commit/b79b28349599d459e938dfdf2a6c115c48d6ec03))
+* JEST_ALPHABETIC ([3f14480](https://github.com/NaturalCycles/dev-lib/commit/3f14480577b2d409066383b3c24b11a3db96ed32))
+
 # [9.6.0](https://github.com/NaturalCycles/dev-lib/compare/v9.5.2...v9.6.0) (2020-01-29)
 
 
