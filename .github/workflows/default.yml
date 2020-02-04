@@ -6,6 +6,7 @@ jobs:
   test-job:
     name: test-job
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     env:
       NODE_OPTIONS: '--max-old-space-size=3200'
       JEST_ALPHABETIC: 1
