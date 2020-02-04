@@ -6,7 +6,7 @@ export const prettierExtensions = `css,scss,ts,tsx,js,jsx,json,md,graphql,yml,ya
 
 export const prettierPaths = [
   // Everything inside these folders
-  `./{src,scripts,doc,cfg,.circleci}/**/*.{${prettierExtensions}}`,
+  `./{src,scripts,doc,cfg,.circleci,.github}/**/*.{${prettierExtensions}}`,
 
   // Root
   `./*.{${prettierExtensions}},!./CHANGELOG.md`,
