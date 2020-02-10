@@ -1,3 +1,10 @@
+## [9.7.1](https://github.com/NaturalCycles/dev-lib/compare/v9.7.0...v9.7.1) (2020-02-10)
+
+
+### Bug Fixes
+
+* include ./public into lint-all ([86db898](https://github.com/NaturalCycles/dev-lib/commit/86db898e49e1b36bea9f6270a65396401f26ebc4))
+
 # [9.7.0](https://github.com/NaturalCycles/dev-lib/compare/v9.6.0...v9.7.0) (2020-02-04)
 
 
