@@ -3,6 +3,7 @@
   "version": "9.7.1",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",
+    "tsn-test": "ts-node ./src/bin/tsn.ts ./scripts/testScript.ts",
     "bt": "yarn tsn ./src/bin/bt.ts",
     "build": "yarn tsn ./src/bin/build.ts",
     "tsc-prod": "yarn tsn ./src/bin/tsc-prod.ts",

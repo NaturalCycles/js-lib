@@ -1,4 +1,4 @@
-import { execWithArgs } from '@naturalcycles/nodejs-lib'
+import { execWithArgs, grey } from '@naturalcycles/nodejs-lib'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
@@ -19,6 +19,14 @@ export async function tsnCommand(): Promise<void> {
 
   if (nodeModuleExists('tsconfig-paths')) {
     args.push('-r', 'tsconfig-paths/register')
+  }
+
+  const { NODE_OPTIONS } = process.env
+
+  if (NODE_OPTIONS) {
+    console.log(`${grey.dim('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
+  } else {
+    console.log(`${grey.dim('NODE_OPTIONS are not defined')}`)
   }
 
   await execWithArgs('ts-node', [...args, ...processArgs])

@@ -1,5 +1,5 @@
 import { _uniq } from '@naturalcycles/js-lib'
-import { execWithArgs } from '@naturalcycles/nodejs-lib'
+import { execWithArgs, grey } from '@naturalcycles/nodejs-lib'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getFullICUPathIfExists } from './test.util'
@@ -92,6 +92,14 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
 
   if (process.env.JEST_ALPHABETIC) {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
+  }
+
+  const { NODE_OPTIONS } = process.env
+
+  if (NODE_OPTIONS) {
+    console.log(`${grey.dim('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
+  } else {
+    console.log(`${grey.dim('NODE_OPTIONS are not defined')}`)
   }
 
   await execWithArgs('jest', _uniq(args), {
