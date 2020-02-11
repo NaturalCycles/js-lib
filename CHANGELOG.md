@@ -1,3 +1,10 @@
+# [9.8.0](https://github.com/NaturalCycles/dev-lib/compare/v9.7.1...v9.8.0) (2020-02-11)
+
+
+### Features
+
+* log NODE_OPTIONS on tsn, test or by command ([bfecb8e](https://github.com/NaturalCycles/dev-lib/commit/bfecb8eb1100d1cb7eddc612d4a68b2f3fda77c5))
+
 ## [9.7.1](https://github.com/NaturalCycles/dev-lib/compare/v9.7.0...v9.7.1) (2020-02-10)
 
 
