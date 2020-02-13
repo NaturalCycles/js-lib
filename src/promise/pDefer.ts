@@ -1,6 +1,6 @@
 export interface Deferred<T = void> {
   promise: Promise<T>
-  resolve(a: T): void
+  resolve(a?: T): void
   reject(e?: Error): void
 }
 
