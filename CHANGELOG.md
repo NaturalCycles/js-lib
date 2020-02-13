@@ -1,3 +1,10 @@
+## [8.13.1](https://github.com/NaturalCycles/js-lib/compare/v8.13.0...v8.13.1) (2020-02-13)
+
+
+### Bug Fixes
+
+* Deferred.resolve interface ([a152654](https://github.com/NaturalCycles/js-lib/commit/a152654d665bae348f1fb1038fd55b0c51f7adf4))
+
 # [8.13.0](https://github.com/NaturalCycles/js-lib/compare/v8.12.0...v8.13.0) (2020-01-14)
 
 
