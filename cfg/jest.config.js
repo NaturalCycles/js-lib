@@ -42,7 +42,7 @@ if (runInIDE) {
 
 module.exports = {
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    // '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
@@ -60,7 +60,7 @@ module.exports = {
   globals: {
     'ts-jest': {
       diagnostics: false,
-      // skipBabel: false, // when set to 'true' it breaks code coverage
+      babelConfig: false, // https://kulshekhar.github.io/ts-jest/user/config/babelConfig
     },
   },
   testEnvironment: 'node',
