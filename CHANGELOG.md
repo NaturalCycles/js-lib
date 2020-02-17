@@ -1,3 +1,15 @@
+# [10.0.0](https://github.com/NaturalCycles/dev-lib/compare/v9.8.0...v10.0.0) (2020-02-17)
+
+
+### Features
+
+* don't use Babel by default with jest ([26d18d8](https://github.com/NaturalCycles/dev-lib/commit/26d18d89d42ae2b92cc2d3d45991a2f586cd5a89))
+
+
+### BREAKING CHANGES
+
+* don't use Babel by default with jest
+
 # [9.8.0](https://github.com/NaturalCycles/dev-lib/compare/v9.7.1...v9.8.0) (2020-02-11)
 
 
