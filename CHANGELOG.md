@@ -1,3 +1,10 @@
+# [10.1.0](https://github.com/NaturalCycles/dev-lib/compare/v10.0.0...v10.1.0) (2020-02-20)
+
+
+### Features
+
+* **jest:** exclude *.modal.ts from jest coverage ([5fc498c](https://github.com/NaturalCycles/dev-lib/commit/5fc498cb41233ed64e3e056f3fe2a324f52cb3a7))
+
 # [10.0.0](https://github.com/NaturalCycles/dev-lib/compare/v9.8.0...v10.0.0) (2020-02-17)
 
 
