@@ -83,6 +83,7 @@ module.exports = {
     '!**/*.mock.ts',
     '!**/*.page.ts',
     '!**/*.component.ts',
+    '!**/*.modal.ts',
   ],
   reporters: [
     'default',
