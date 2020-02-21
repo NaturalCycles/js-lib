@@ -162,7 +162,7 @@ export function _mapObject<T extends object, TResult>(
 
   return Object.entries(obj).reduce((map, [k, v]) => {
     const r = predicate(k, v, obj)
-    if (r && r[0]) {
+    if (r?.[0]) {
       map[String(r[0])] = r[1]
     }
     return map

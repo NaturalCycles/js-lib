@@ -1,4 +1,4 @@
-import { _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy, by } from './array.util'
+import { by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array.util'
 
 test('chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]
@@ -57,7 +57,7 @@ test('by', () => {
     ab: { a: 'ab' },
   })
 
-  r = by(a, v => v.a && v.a.toUpperCase())
+  r = by(a, v => v.a?.toUpperCase())
   expect(r).toEqual({
     AA: { a: 'aa' },
     AB: { a: 'ab' },
