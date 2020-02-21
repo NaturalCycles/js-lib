@@ -1,3 +1,10 @@
+# [10.2.0](https://github.com/NaturalCycles/dev-lib/compare/v10.1.0...v10.2.0) (2020-02-21)
+
+
+### Features
+
+* cfg/tsconfig.json target and lib now defaults to es2019 ([3c61726](https://github.com/NaturalCycles/dev-lib/commit/3c61726b26bf136b33eb7963ef9409c2b8159d2c))
+
 # [10.1.0](https://github.com/NaturalCycles/dev-lib/compare/v10.0.0...v10.1.0) (2020-02-20)
 
 
