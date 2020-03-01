@@ -1,3 +1,10 @@
+## [9.0.1](https://github.com/NaturalCycles/js-lib/compare/v9.0.0...v9.0.1) (2020-03-01)
+
+
+### Bug Fixes
+
+* allow DeferredPromise to resolve without value (with undefined) ([384ce54](https://github.com/NaturalCycles/js-lib/commit/384ce5459396a14d5023842e1bb392f2b82b1b9a))
+
 # [9.0.0](https://github.com/NaturalCycles/js-lib/compare/v8.13.1...v9.0.0) (2020-03-01)
 
 
