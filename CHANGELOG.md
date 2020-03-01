@@ -1,3 +1,15 @@
+# [9.0.0](https://github.com/NaturalCycles/js-lib/compare/v8.13.1...v9.0.0) (2020-03-01)
+
+
+### Features
+
+* merge pDefer and pDeferredPromise as pDefer ([f62ce02](https://github.com/NaturalCycles/js-lib/commit/f62ce02b6d4209c1c4dfaac91968f9330625bb3b))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [8.13.1](https://github.com/NaturalCycles/js-lib/compare/v8.13.0...v8.13.1) (2020-02-13)
 
 
