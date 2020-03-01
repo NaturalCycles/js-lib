@@ -1,4 +1,4 @@
-import { _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy, by } from './array/array.util'
+import { by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array/array.util'
 import { _range } from './array/range'
 import { Debounce, Throttle } from './decorators/debounce.decorator'
 import { getArgsSignature } from './decorators/decorator.util'
@@ -28,17 +28,6 @@ import {
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import {
-  _get,
-  _has,
-  _invert,
-  _mapKeys,
-  _mapObject,
-  _mapValues,
-  _merge,
-  _omit,
-  _pick,
-  _set,
-  _unset,
   deepCopy,
   deepTrim,
   filterEmptyStringValues,
@@ -52,10 +41,21 @@ import {
   mask,
   objectNullValuesToUndefined,
   sortObjectDeep,
+  _get,
+  _has,
+  _invert,
+  _mapKeys,
+  _mapObject,
+  _mapValues,
+  _merge,
+  _omit,
+  _pick,
+  _set,
+  _unset,
 } from './object/object.util'
 import { AggregatedError } from './promise/aggregatedError'
 import { pBatch } from './promise/pBatch'
-import { Deferred, DeferredPromise, pDefer, pDeferredPromise } from './promise/pDefer'
+import { DeferredPromise, pDefer } from './promise/pDefer'
 import { pDelay } from './promise/pDelay'
 import { pFilter } from './promise/pFilter'
 import { pHang } from './promise/pHang'
@@ -63,18 +63,18 @@ import { pMap, PMapOptions } from './promise/pMap'
 import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
-import { _tryCatch, TryCatch, TryCatchOptions } from './promise/tryCatch'
+import { TryCatch, TryCatchOptions, _tryCatch } from './promise/tryCatch'
 import {
-  _capitalize,
-  _lowerFirst,
-  _split,
-  _upperFirst,
   removeWhitespace,
   resultToString,
   substringAfter,
   substringAfterLast,
   substringBefore,
   substringBeforeLast,
+  _capitalize,
+  _lowerFirst,
+  _split,
+  _upperFirst,
 } from './string/string.util'
 import {
   BatchResult,
@@ -195,8 +195,6 @@ export {
   pProps,
   pDelay,
   pDefer,
-  pDeferredPromise,
-  Deferred,
   DeferredPromise,
   pHang,
   pState,
