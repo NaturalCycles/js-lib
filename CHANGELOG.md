@@ -1,3 +1,11 @@
+# [10.3.0](https://github.com/NaturalCycles/dev-lib/compare/v10.2.0...v10.3.0) (2020-03-01)
+
+
+### Features
+
+* **jest:** --passWithNoTests ([591713b](https://github.com/NaturalCycles/dev-lib/commit/591713b54b61352bdae6758349eb7794e9bfe8f2))
+* **jest-config:** set errorOnDeprecated=true ([8980c35](https://github.com/NaturalCycles/dev-lib/commit/8980c3568bb66bfbcd19b1b6568141bf8040cce5))
+
 # [10.2.0](https://github.com/NaturalCycles/dev-lib/compare/v10.1.0...v10.2.0) (2020-02-21)
 
 
