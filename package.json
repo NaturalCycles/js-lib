@@ -31,7 +31,7 @@
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
     "@naturalcycles/fs-lib": "^2.0.0",
-    "@naturalcycles/js-lib": "^8.0.0",
+    "@naturalcycles/js-lib": "^9.0.0",
     "@naturalcycles/nodejs-lib": "^7.0.0",
     "@naturalcycles/time-lib": "^1.5.0",
     "@types/fs-extra": "^8.0.0",
