@@ -64,6 +64,7 @@ module.exports = {
     },
   },
   testEnvironment: 'node',
+  errorOnDeprecated: true,
   unmockedModulePathPatterns: [],
   setupFilesAfterEnv,
   collectCoverageFrom: [
