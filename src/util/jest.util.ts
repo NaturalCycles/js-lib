@@ -43,7 +43,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   // Allow to override --maxWorkers
   let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
 
-  const args: string[] = ['--logHeapUsage', ...processArgs]
+  const args: string[] = ['--logHeapUsage', '--passWithNoTests', ...processArgs]
   const env = {
     TZ: process.env.TZ || 'UTC',
     DEBUG_COLORS: '1',
