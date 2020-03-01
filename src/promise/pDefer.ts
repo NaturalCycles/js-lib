@@ -2,7 +2,7 @@
  * Similar to Deferred object, which is also a promise itself (instead of deferred.promise).
  */
 export interface DeferredPromise<T = void> extends Promise<T> {
-  resolve(a: T): void
+  resolve(a?: T): void
   reject(e?: Error): void
 }
 

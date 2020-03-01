@@ -513,14 +513,14 @@
     rimraf "^2.5.2"
 
 "@naturalcycles/dev-lib@^10.2.0":
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-10.2.0.tgz#fa3ad040ceef035426543cc7db45cd0fb831d928"
-  integrity sha512-QuE4NiFUc6rEbWhHnCb4G59xmGvKkyePOQlHLNxa6CngGlHcDTS9kINT71cSxSTjoVDK0nEI0bAbxlRrjchE/Q==
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-10.3.0.tgz#d3b410b1e9879d3d6973ce96af1ae05abf1a9fbe"
+  integrity sha512-6FFw85amFk66Ey/eNB1d0at3hsd7Lsf/lRVGPHENKl+S7EpD4TBPq+55eSccWw4Lcli8JNzu3fwTkkKfAIUhxg==
   dependencies:
     "@commitlint/cli" "^8.0.0"
     "@commitlint/config-conventional" "^8.0.0"
     "@naturalcycles/fs-lib" "^2.0.0"
-    "@naturalcycles/js-lib" "^8.0.0"
+    "@naturalcycles/js-lib" "^9.0.0"
     "@naturalcycles/nodejs-lib" "^7.0.0"
     "@naturalcycles/time-lib" "^1.5.0"
     "@types/fs-extra" "^8.0.0"
@@ -545,32 +545,32 @@
     yargs "^15.0.1"
 
 "@naturalcycles/fs-lib@^2.0.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/fs-lib/-/fs-lib-2.5.0.tgz#89745cdd396e5a6edee65774a5049595f1955848"
-  integrity sha512-nu2Vuhnff8f4OgRz6sdOJdjFlXSXx/9zh9A74hPIthxSS5IrAgS94R/4s3t5dxaPxW4zDoOCgLf4Hp3D+fCIzw==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/fs-lib/-/fs-lib-2.6.0.tgz#070e9141f72165d304e8b260f9f56749db35ccb0"
+  integrity sha512-YrLMmeQ12JJHwf0PwBASlyctOOQ3mTLNgMoBwIFv5qqpmR0ze8u7/eq/f2X0cifKhM3CSl3mArkmiHUOrmkd4g==
   dependencies:
-    "@naturalcycles/js-lib" "^8.4.0"
+    "@naturalcycles/js-lib" "^9.0.0"
     "@naturalcycles/time-lib" "^1.5.0"
     chalk "^3.0.0"
-    cp-file "^7.0.0"
+    cp-file "^8.0.1"
     fs-extra "^8.1.0"
     globby "^11.0.0"
     loud-rejection "^2.1.0"
     move-file "^1.2.0"
     yargs "^15.1.0"
 
-"@naturalcycles/js-lib@^8.0.0", "@naturalcycles/js-lib@^8.4.0":
-  version "8.13.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-8.13.1.tgz#3d745a6757c2021530e967df87c48a568bdfa90d"
-  integrity sha512-c9ind/bJmhm5t+dbNIMjxd0OHmdB9V3vTTUd3sq+felZCGDuigx0SCi9817RkwXiuaScKUFH15bvhJbJM/Oarw==
+"@naturalcycles/js-lib@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-9.0.0.tgz#ed8804503a906e204df6f9140adb28a703660dd4"
+  integrity sha512-5PeXjSGH13csAbsdBCDDtTQbMai/t8q0/Mu4sDk/K+3jEi5vVag9futriVzGX6v03wMYHRj8hGumwD4pdKGEGQ==
 
 "@naturalcycles/nodejs-lib@^7.0.0":
-  version "7.21.3"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-7.21.3.tgz#a47b790ff92dc5d423313ad8a66043252629a893"
-  integrity sha512-skb4HrLBCqalEl+79MLSTMdpQuvpzyCSNEc0TD4nRcYj5ghV58lGUzPh4VHhi3JfRhLkEh60AmS8oMGe5rrVdA==
+  version "7.22.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-7.22.1.tgz#5224c51ca1fe72e5ce68a0db20a7d7800c89216d"
+  integrity sha512-+VkdpCiJqczCDAzzGmKlLA4/Jda/uNtU9hFiZzDc9UFwFSSLnKafuVQ3xd3QdkzS4CVcpLTm9pSF6Y+E+DNMFQ==
   dependencies:
     "@hapi/joi" "^15.0.2"
-    "@naturalcycles/js-lib" "^8.0.0"
+    "@naturalcycles/js-lib" "^9.0.0"
     "@naturalcycles/time-lib" "^1.0.0"
     "@types/hapi__joi" "^15.0.1"
     "@types/lru-cache" "^5.1.0"
@@ -1544,10 +1544,10 @@ cp-file@^6.1.0:
     pify "^4.0.1"
     safe-buffer "^5.0.1"
 
-cp-file@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-7.0.0.tgz#b9454cfd07fe3b974ab9ea0e5f29655791a9b8cd"
-  integrity sha512-0Cbj7gyvFVApzpK/uhCtQ/9kE9UnYpxMzaq5nQQC/Dh4iaj5fxp7iEFIullrYwzj8nf0qnsI1Qsx34hAeAebvw==
+cp-file@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-8.0.1.tgz#7cf382853a5a5ad2152766ab3f5a95f0189b5ccc"
+  integrity sha512-P3iYQyJegjYEoerocg071Cubh0yoebHv0ojmy499yc0YOUxatb1X5jeb9w2FmGtq7yqa1Pfq0cxmaqEzk0vMew==
   dependencies:
     graceful-fs "^4.1.2"
     make-dir "^3.0.0"
