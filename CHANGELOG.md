@@ -1,3 +1,10 @@
+# [10.4.0](https://github.com/NaturalCycles/dev-lib/compare/v10.3.0...v10.4.0) (2020-03-06)
+
+
+### Features
+
+* bump jest-junit ([70d39bf](https://github.com/NaturalCycles/dev-lib/commit/70d39bf745155ee11f8eb025c0648b1b0ec27019))
+
 # [10.3.0](https://github.com/NaturalCycles/dev-lib/compare/v10.2.0...v10.3.0) (2020-03-01)
 
 
