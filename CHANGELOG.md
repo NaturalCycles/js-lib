@@ -1,3 +1,15 @@
+# [10.0.0](https://github.com/NaturalCycles/js-lib/compare/v9.0.1...v10.0.0) (2020-03-16)
+
+
+### Features
+
+* transpile cjs to es2017 (keeping esm as es2015) ([3807aed](https://github.com/NaturalCycles/js-lib/commit/3807aed4ad265a1bc535fc1bff5c3ceec0c35ebe))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [9.0.1](https://github.com/NaturalCycles/js-lib/compare/v9.0.0...v9.0.1) (2020-03-01)
 
 
