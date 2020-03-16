@@ -1,3 +1,10 @@
+## [10.5.1](https://github.com/NaturalCycles/dev-lib/compare/v10.5.0...v10.5.1) (2020-03-16)
+
+
+### Bug Fixes
+
+* bump js-lib ([8a7130e](https://github.com/NaturalCycles/dev-lib/commit/8a7130eef4028056f78418339d6d4ada74aaf197))
+
 # [10.5.0](https://github.com/NaturalCycles/dev-lib/compare/v10.4.0...v10.5.0) (2020-03-16)
 
 
