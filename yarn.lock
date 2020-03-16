@@ -527,6 +527,11 @@
     move-file "^1.2.0"
     yargs "^15.1.0"
 
+"@naturalcycles/js-lib@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-10.0.0.tgz#4221e18fe2fc767514c8736f67f7a45129ce8152"
+  integrity sha512-uUyBRX9chqQda3o20VOzO/ub14/N1R2fw0kUuSfDo1U49sJ9cYc0K8CCe4n4EhcOKE9W1I21vbSHuTr+v4TUaw==
+
 "@naturalcycles/js-lib@^9.0.0":
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-9.0.1.tgz#2f473d1cc3c845c5ba3ac5e957cd8966586a1b72"
