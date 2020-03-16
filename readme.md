@@ -50,8 +50,8 @@
 
 # Packaging
 
-- `engines.node >= 8.11`: Node.js LTS
-- `main: dist/index.js`: commonjs, es2015
-- `module: dist-esm/index.js`: esm, es2015
+- `engines.node >= Node.js LTS`
+- `main: dist/index.js`: commonjs, es2017 - targeting Node.js
+- `module: dist-esm/index.js`: esm, es2015 - targeting Browsers
 - `types: dist/index.d.ts`: typescript types
 - `/src` folder with source `*.ts` files included

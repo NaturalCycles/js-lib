@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "lib": ["dom", "es2018"],
     "sourceMap": true,
@@ -10,6 +10,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
     "rootDir": "./src",
+    "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true
