@@ -1,3 +1,10 @@
+# [10.5.0](https://github.com/NaturalCycles/dev-lib/compare/v10.4.0...v10.5.0) (2020-03-16)
+
+
+### Features
+
+* build-prod-esm-cjs allows separate tsconfig paths ([20b1047](https://github.com/NaturalCycles/dev-lib/commit/20b1047f26dfb5bd0f36fde7d1c4b0699ace1e49))
+
 # [10.4.0](https://github.com/NaturalCycles/dev-lib/compare/v10.3.0...v10.4.0) (2020-03-06)
 
 
