@@ -1,3 +1,10 @@
+# [10.1.0](https://github.com/NaturalCycles/js-lib/compare/v10.0.0...v10.1.0) (2020-03-18)
+
+
+### Features
+
+* _truncateMiddle ([47fbb5e](https://github.com/NaturalCycles/js-lib/commit/47fbb5e7cae8641d332b36aa4a491dcde4c43975))
+
 # [10.0.0](https://github.com/NaturalCycles/js-lib/compare/v9.0.1...v10.0.0) (2020-03-16)
 
 
