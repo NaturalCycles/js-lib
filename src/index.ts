@@ -98,7 +98,7 @@ import { memoFn } from './util/memoFn'
 import { randomInt } from './util/random.util'
 import { loadScript } from './util/script.util'
 import { SimpleMovingAverage } from './util/sma'
-import { _truncate } from './util/truncate'
+import { _truncate, _truncateMiddle } from './util/truncate'
 
 export {
   memo,
@@ -134,6 +134,7 @@ export {
   substringAfter,
   substringAfterLast,
   _truncate,
+  _truncateMiddle,
   _pick,
   _omit,
   filterFalsyValues,
