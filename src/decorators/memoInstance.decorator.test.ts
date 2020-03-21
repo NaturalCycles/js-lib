@@ -1,4 +1,4 @@
-import { _range, memo } from '..'
+import { memo, _range } from '..'
 
 beforeEach(() => {
   jest.restoreAllMocks()

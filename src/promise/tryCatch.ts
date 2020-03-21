@@ -29,7 +29,7 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
 
   const fname = fn.name || 'anonymous'
 
-  return async function(this: any, ...args: any[]) {
+  return async function (this: any, ...args: any[]) {
     const started = Date.now()
 
     try {

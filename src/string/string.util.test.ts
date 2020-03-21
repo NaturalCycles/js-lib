@@ -6,12 +6,12 @@ import {
   substringBeforeLast,
 } from '..'
 import {
+  removeWhitespace,
+  resultToString,
   _capitalize,
   _lowerFirst,
   _split,
   _upperFirst,
-  removeWhitespace,
-  resultToString,
 } from './string.util'
 
 test('capitalize', () => {

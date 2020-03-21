@@ -75,7 +75,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
 
   const fname = fn.name || 'anonymous'
 
-  return async function(this: any, ...args: any[]) {
+  return async function (this: any, ...args: any[]) {
     let delay = initialDelay
     let attempt = 0
 

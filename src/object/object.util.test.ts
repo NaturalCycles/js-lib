@@ -1,16 +1,5 @@
 import { deepFreeze } from '@naturalcycles/test-lib'
 import {
-  _get,
-  _has,
-  _invert,
-  _mapKeys,
-  _mapObject,
-  _mapValues,
-  _merge,
-  _omit,
-  _pick,
-  _set,
-  _unset,
   deepCopy,
   deepTrim,
   filterEmptyStringValues,
@@ -25,6 +14,17 @@ import {
   mask,
   objectNullValuesToUndefined,
   sortObjectDeep,
+  _get,
+  _has,
+  _invert,
+  _mapKeys,
+  _mapObject,
+  _mapValues,
+  _merge,
+  _omit,
+  _pick,
+  _set,
+  _unset,
 } from './object.util'
 
 test('pick', () => {

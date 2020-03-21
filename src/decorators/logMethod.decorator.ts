@@ -82,7 +82,7 @@ export function logMethod(opt: LogMethodOpts = {}): MethodDecorator {
     const sma = avg ? new SimpleMovingAverage(avg) : undefined
     let count = 0
 
-    descriptor.value = function(this: typeof target, ...args: any[]) {
+    descriptor.value = function (this: typeof target, ...args: any[]) {
       const started = Date.now()
       const ctx = this
 

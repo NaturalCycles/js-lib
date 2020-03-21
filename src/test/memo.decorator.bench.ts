@@ -72,7 +72,7 @@ suite
   .on('cycle', (event: any) => {
     console.log(String(event.target))
   })
-  .on('complete', function(this: any) {
+  .on('complete', function (this: any) {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
   })
   // run async

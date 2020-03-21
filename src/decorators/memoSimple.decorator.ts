@@ -55,7 +55,7 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
   const keyStr = String(key)
   const methodSignature = getTargetMethodSignature(target, keyStr)
 
-  descriptor.value = function(this: typeof target, ...args: any[]): any {
+  descriptor.value = function (this: typeof target, ...args: any[]): any {
     const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 
@@ -72,8 +72,9 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
 
     if (logMiss) {
       console.log(
-        `${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo miss (${Date.now() -
-          d} ms)`,
+        `${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo miss (${
+          Date.now() - d
+        } ms)`,
       )
     }
 

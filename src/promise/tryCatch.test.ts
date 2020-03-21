@@ -1,4 +1,4 @@
-import { _tryCatch, TryCatch } from './tryCatch'
+import { TryCatch, _tryCatch } from './tryCatch'
 
 const _fnSuccess = (...args: any[]) => args
 

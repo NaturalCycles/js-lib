@@ -20,7 +20,7 @@ export function memoFn<T extends (...args: any[]) => any>(
   const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
   const fnName = fn.name
 
-  const memoizedFn = function(this: any, ...args: any[]): T {
+  const memoizedFn = function (this: any, ...args: any[]): T {
     const ctx = this
     const cacheKey = jsonMemoSerializer(args)
 
