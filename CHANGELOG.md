@@ -1,3 +1,10 @@
+# [10.6.0](https://github.com/NaturalCycles/dev-lib/compare/v10.5.2...v10.6.0) (2020-03-21)
+
+
+### Features
+
+* prettier 2.x ([2227c2c](https://github.com/NaturalCycles/dev-lib/commit/2227c2c08f66bb385c32d0ce9200cf89599b3df6))
+
 ## [10.5.2](https://github.com/NaturalCycles/dev-lib/compare/v10.5.1...v10.5.2) (2020-03-19)
 
 
