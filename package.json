@@ -32,7 +32,7 @@
     "@commitlint/config-conventional": "^8.0.0",
     "@naturalcycles/fs-lib": "^2.0.0",
     "@naturalcycles/js-lib": "^10.0.0",
-    "@naturalcycles/nodejs-lib": "^7.0.0",
+    "@naturalcycles/nodejs-lib": "^8.0.0",
     "@naturalcycles/time-lib": "^1.5.0",
     "@types/fs-extra": "^8.0.0",
     "@types/jest": "^25.1.0",
@@ -48,7 +48,7 @@
     "lint-staged": "^8.0.4",
     "loud-rejection": "^2.1.0",
     "mitm": "^1.7.0",
-    "prettier": "^1.17.1",
+    "prettier": "^2.0.1",
     "ts-jest": "^25.0.0",
     "ts-node": "^8.1.0",
     "tslint": "^6.0.0",
@@ -58,9 +58,6 @@
   "devDependencies": {
     "got": "^10.0.2",
     "jest": "^25.1.0"
-  },
-  "resolutions": {
-    "@types/hapi__joi": "15.0.4"
   },
   "files": [
     "dist",

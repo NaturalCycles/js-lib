@@ -9,7 +9,11 @@ export const prettierPaths = [
   `./{src,scripts,doc,cfg,.circleci,.github,public,static}/**/*.{${prettierExtensions}}`,
 
   // Root
-  `./*.{${prettierExtensions}},!./CHANGELOG.md`,
+  `./*.{${prettierExtensions}}`,
+
+  // Exclude
+  '!./CHANGELOG.md',
+  '!**/__exclude/**/*',
 ]
 
 export async function runPrettier(): Promise<void> {
