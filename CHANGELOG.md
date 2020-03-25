@@ -1,3 +1,10 @@
+# [10.7.0](https://github.com/NaturalCycles/dev-lib/compare/v10.6.0...v10.7.0) (2020-03-25)
+
+
+### Features
+
+* JEST_ALPHABETIC is now default ([f5b3454](https://github.com/NaturalCycles/dev-lib/commit/f5b34544a03db32e88f5bbb66340a9095b52eed9))
+
 # [10.6.0](https://github.com/NaturalCycles/dev-lib/compare/v10.5.2...v10.6.0) (2020-03-21)
 
 
