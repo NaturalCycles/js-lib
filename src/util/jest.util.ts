@@ -90,7 +90,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  if (process.env.JEST_ALPHABETIC) {
+  if (!process.env.JEST_NO_ALPHABETIC) {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
 

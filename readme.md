@@ -95,8 +95,9 @@ in that order:
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.integration.ts`
 
-Set `JEST_ALPHABETIC` env variable to run Jest tests in alphabetic order (internally it points
-`--testSequencer` to a pre-defined sequencer file that sorts all filenames alphabetically).
+`yarn test` runs tests in alphabetic order by default (internally it points `--testSequencer` to a
+pre-defined sequencer file that sorts all filenames alphabetically). Set `JEST_NO_ALPHABETIC` env
+variable to disable it.
 
 #### Lint commands
 
