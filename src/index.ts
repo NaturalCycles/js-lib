@@ -1,5 +1,7 @@
 import * as timekeeper from 'timekeeper'
 import { jestOffline } from './jestOffline.util'
+import { expectResults } from './testing/expect.util'
+import { mockAllKindsOfThings } from './testing/mockAllKindsOfThings'
 import { deepFreeze, silentConsole } from './testing/testing.util'
 import { mockTime, mockTimeMillis, MOCK_TS_2018_06_21, resetTime } from './testing/time.util'
 import { BuildInfo } from './util/buildInfo.model'
@@ -19,4 +21,6 @@ export {
   resetTime,
   MOCK_TS_2018_06_21,
   timekeeper,
+  mockAllKindsOfThings,
+  expectResults,
 }
