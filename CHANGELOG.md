@@ -1,3 +1,10 @@
+# [10.8.0](https://github.com/NaturalCycles/dev-lib/compare/v10.7.0...v10.8.0) (2020-03-25)
+
+
+### Features
+
+* merge test-lib with dev-lib ([2575f71](https://github.com/NaturalCycles/dev-lib/commit/2575f71612c2fa5fc4cc5047af2a88a43fb5a42a))
+
 # [10.7.0](https://github.com/NaturalCycles/dev-lib/compare/v10.6.0...v10.7.0) (2020-03-25)
 
 
