@@ -1,3 +1,10 @@
+# [10.10.0](https://github.com/NaturalCycles/dev-lib/compare/v10.9.0...v10.10.0) (2020-03-25)
+
+
+### Features
+
+* allow to skip ./scripts/ when running tsn ([39d5890](https://github.com/NaturalCycles/dev-lib/commit/39d589013d6a8e3b2e0789a58cc833203301e6c3))
+
 # [10.9.0](https://github.com/NaturalCycles/dev-lib/compare/v10.8.0...v10.9.0) (2020-03-25)
 
 
