@@ -1,3 +1,10 @@
+# [10.9.0](https://github.com/NaturalCycles/dev-lib/compare/v10.8.0...v10.9.0) (2020-03-25)
+
+
+### Features
+
+* mockAllKindsOfThings(), expectResults() ([85d7bae](https://github.com/NaturalCycles/dev-lib/commit/85d7baef64ffe53f191caf7d882339f90c2a7f29))
+
 # [10.8.0](https://github.com/NaturalCycles/dev-lib/compare/v10.7.0...v10.8.0) (2020-03-25)
 
 
