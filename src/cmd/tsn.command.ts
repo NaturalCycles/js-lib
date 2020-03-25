@@ -1,11 +1,24 @@
 import { execWithArgs, grey } from '@naturalcycles/nodejs-lib'
+import * as fs from 'fs'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
 export async function tsnCommand(): Promise<void> {
   const projectTsconfigPath = await ensureProjectTsconfigScripts()
 
-  const [, , ...processArgs] = process.argv
+  let [, , scriptPath = '', ...processArgs] = process.argv
+
+  // Prepend ./scripts/ if needed
+  if (
+    !scriptPath.startsWith('scripts/') &&
+    !scriptPath.startsWith('./') &&
+    !scriptPath.startsWith('/')
+  ) {
+    const newPath = './scripts/' + scriptPath
+    if (fs.existsSync(newPath)) {
+      scriptPath = newPath
+    }
+  }
 
   const args: string[] = [
     '-T',
@@ -29,5 +42,5 @@ export async function tsnCommand(): Promise<void> {
     console.log(`${grey.dim('NODE_OPTIONS are not defined')}`)
   }
 
-  await execWithArgs('ts-node', [...args, ...processArgs])
+  await execWithArgs('ts-node', [...args, scriptPath, ...processArgs])
 }
