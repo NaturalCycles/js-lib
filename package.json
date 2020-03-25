@@ -49,6 +49,7 @@
     "loud-rejection": "^2.1.0",
     "mitm": "^1.7.0",
     "prettier": "^2.0.1",
+    "timekeeper": "^2.2.0",
     "ts-jest": "^25.0.0",
     "ts-node": "^8.1.0",
     "tslint": "^6.0.0",
