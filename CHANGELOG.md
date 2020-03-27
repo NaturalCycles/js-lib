@@ -1,3 +1,10 @@
+## [10.10.1](https://github.com/NaturalCycles/dev-lib/compare/v10.10.0...v10.10.1) (2020-03-27)
+
+
+### Bug Fixes
+
+* jest.config for project without 'scripts' folder ([9ea1afb](https://github.com/NaturalCycles/dev-lib/commit/9ea1afb7edc26e798baec6f6766f7034f3debe7e))
+
 # [10.10.0](https://github.com/NaturalCycles/dev-lib/compare/v10.9.0...v10.10.0) (2020-03-25)
 
 
