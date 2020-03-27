@@ -1,5 +1,5 @@
 /**
- * Default config for `jest24+`.
+ * Default config for `jest25+`.
  * Extendable.
  */
 
@@ -25,6 +25,14 @@ if (ideIntegrationTest) {
   }
 }
 
+const testMatch = ['<rootDir>/src/**/*.test.ts?(x)']
+const roots = ['<rootDir>/src']
+const scriptDirExists = fs.pathExistsSync(`${cwd}/scripts`)
+if (scriptDirExists) {
+  testMatch.push('<rootDir>/scripts/**/*.test.ts?(x)')
+  roots.push('<rootDir>/scripts')
+}
+
 const transformIgnore = ['@naturalcycles']
 
 const testPathIgnorePatterns = ['<rootDir>/.*/__exclude/', '<rootDir>/src/environments/']
@@ -46,8 +54,8 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
-  testMatch: ['<rootDir>/src/**/*.test.ts?(x)', '<rootDir>/scripts/**/*.test.ts?(x)'],
-  roots: ['<rootDir>/src', '<rootDir>/scripts'],
+  testMatch,
+  roots,
   rootDir: cwd,
   testPathIgnorePatterns,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
