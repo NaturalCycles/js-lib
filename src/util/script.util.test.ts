@@ -1,11 +1,14 @@
 /**
- * @jest-environment jsdom
+ * env should be jsdom, but it currently leaks memory
  */
 import { loadScript } from './script.util'
 
 test('loadScript', async () => {
   // mock the world
   const el: any = {}
+  ;(global as any).document = {
+    head: {},
+  }
   document.createElement = jest.fn(() => el)
   ;(document.head!.appendChild as any) = () => {}
 

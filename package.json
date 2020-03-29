@@ -12,7 +12,9 @@
     "@types/node": "^13.1.6",
     "benchmark": "^2.1.4",
     "jest": "^25.1.0",
-    "rxjs": "^6.5.2"
+    "patch-package": "^6.2.1",
+    "rxjs": "^6.5.2",
+    "weak-napi": "^1.0.3"
   },
   "files": [
     "dist",
