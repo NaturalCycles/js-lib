@@ -64,6 +64,7 @@
     "dist",
     "scripts/tsconfig.json",
     "cfg",
+    "src",
     "!src/test",
     "!src/**/*.test.ts",
     "!src/**/__snapshots__",
