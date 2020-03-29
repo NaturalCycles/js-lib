@@ -2,4 +2,7 @@
 
 import { jestOffline } from '../jestOffline.util'
 
-jestOffline()
+const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
+if (!detectLeaks) {
+  jestOffline() // because it actually leaks
+}

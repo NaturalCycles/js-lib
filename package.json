@@ -58,7 +58,9 @@
   },
   "devDependencies": {
     "got": "^10.0.2",
-    "jest": "^25.1.0"
+    "jest": "^25.1.0",
+    "patch-package": "^6.2.1",
+    "weak-napi": "^1.0.3"
   },
   "files": [
     "dist",

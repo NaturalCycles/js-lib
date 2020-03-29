@@ -1,6 +1,9 @@
 import got from 'got'
 
+const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
+
 test('should throw on network connections', async () => {
+  if (detectLeaks) return // skip test on detectLeaks where jestOffline is disabled
   await expect(got('http://example.com')).rejects.toThrow('Network request forbidden')
 })
 
