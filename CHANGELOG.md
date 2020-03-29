@@ -1,3 +1,10 @@
+## [10.10.2](https://github.com/NaturalCycles/dev-lib/compare/v10.10.1...v10.10.2) (2020-03-29)
+
+
+### Bug Fixes
+
+* publish 'src' ([1c61e0b](https://github.com/NaturalCycles/dev-lib/commit/1c61e0b432618735d2123febe5d8fdb41cca5454))
+
 ## [10.10.1](https://github.com/NaturalCycles/dev-lib/compare/v10.10.0...v10.10.1) (2020-03-27)
 
 
