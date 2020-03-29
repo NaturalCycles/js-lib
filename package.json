@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "10.10.2",
+  "version": "10.10.3",
   "scripts": {
     "tsn": "ts-node -r loud-rejection/register -r dotenv/config",
     "tsn-test": "ts-node ./src/bin/tsn.ts testScript.ts",

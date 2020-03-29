@@ -1,3 +1,10 @@
+## [10.10.3](https://github.com/NaturalCycles/dev-lib/compare/v10.10.2...v10.10.3) (2020-03-29)
+
+
+### Bug Fixes
+
+* disable jestOffline() when --detectLeaks is on ([2240d19](https://github.com/NaturalCycles/dev-lib/commit/2240d19db7594180ba6dc90d685897a3bda65cd2))
+
 ## [10.10.2](https://github.com/NaturalCycles/dev-lib/compare/v10.10.1...v10.10.2) (2020-03-29)
 
 
