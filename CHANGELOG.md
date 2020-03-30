@@ -1,3 +1,10 @@
+## [10.11.1](https://github.com/NaturalCycles/dev-lib/compare/v10.11.0...v10.11.1) (2020-03-30)
+
+
+### Bug Fixes
+
+* revert ts-jest compilerHost/incremental ([f8aed96](https://github.com/NaturalCycles/dev-lib/commit/f8aed96dc039666d65b5ecb7e98b9794370ad0e8))
+
 # [10.11.0](https://github.com/NaturalCycles/dev-lib/compare/v10.10.3...v10.11.0) (2020-03-30)
 
 
