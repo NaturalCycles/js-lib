@@ -68,8 +68,8 @@ module.exports = {
   globals: {
     'ts-jest': {
       diagnostics: false,
-      compilerHost: true,
-      incremental: true,
+      // compilerHost: true, // disabled, cause its effects are not detected/understood yet
+      // incremental: true,
       babelConfig: false, // https://kulshekhar.github.io/ts-jest/user/config/babelConfig
     },
   },
