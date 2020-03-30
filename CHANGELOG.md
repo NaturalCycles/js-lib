@@ -1,3 +1,10 @@
+# [10.11.0](https://github.com/NaturalCycles/dev-lib/compare/v10.10.3...v10.11.0) (2020-03-30)
+
+
+### Features
+
+* ts-jest compilerHost+incremental (to be tested) ([f6f2ed0](https://github.com/NaturalCycles/dev-lib/commit/f6f2ed0280f36816c3ff80f0245e8de3786df258))
+
 ## [10.10.3](https://github.com/NaturalCycles/dev-lib/compare/v10.10.2...v10.10.3) (2020-03-29)
 
 
