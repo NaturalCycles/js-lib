@@ -139,7 +139,7 @@ function logFinished(
   }
 
   if (typeof err !== 'undefined') {
-    t.push('ERROR:', anyToErrorMessage(err))
+    t.push('ERROR:', anyToErrorMessage(err, true))
   } else if (logResultFn) {
     t.push(...logResultFn(res))
   }

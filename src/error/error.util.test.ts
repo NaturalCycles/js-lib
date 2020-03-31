@@ -1,10 +1,14 @@
-import { AppError, HttpError } from '..'
+import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
+import { AppError, HttpError, HttpErrorResponse } from '..'
 import {
   anyToAppError,
   anyToErrorMessage,
   anyToErrorObject,
   appErrorToErrorObject,
   errorObjectToAppError,
+  isErrorObject,
+  isHttpErrorObject,
+  isHttpErrorResponse,
 } from './error.util'
 
 const anyItems = [
@@ -21,23 +25,38 @@ const anyItems = [
   ['a'],
   { a: 'aa' },
   new Error('err msg'),
+  { message: 'yada' },
+  { message: 'yada', data: {} },
+  { message: 'yada', data: { httpStatusCode: 404 } },
+  new AppError('err msg'),
   new HttpError('http err msg', {
     httpStatusCode: 400,
   }),
+  {
+    error: {
+      message: 'err msg',
+      data: {
+        httpStatusCode: 400,
+        a: 'b\nc',
+      },
+    },
+  } as HttpErrorResponse,
 ]
 
 test('anyToErrorMessage', () => {
-  expect(anyItems.map(anyToErrorMessage)).toMatchSnapshot()
+  expectResults(anyToErrorMessage, anyItems).toMatchSnapshot()
+})
+
+test('anyToErrorMessage includeData=true', () => {
+  expectResults(v => anyToErrorMessage(v, true), anyItems).toMatchSnapshot()
 })
 
 test('anyToErrorObject', () => {
-  const out = anyItems
-    .map(i => anyToErrorObject(i))
-    .map(o => {
-      delete o.stack // remove from snapshot matching
-      return o
-    })
-  expect(out).toMatchSnapshot()
+  expectResults(v => {
+    const r = anyToErrorObject(v)
+    delete r.stack // remove from snapshot matching
+    return r
+  }, anyItems).toMatchSnapshot()
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
@@ -70,4 +89,16 @@ test('anyToAppError snapshot', () => {
     expect(e).toBeInstanceOf(AppError)
     expect(e.data).toMatchObject({})
   })
+})
+
+test('isErrorObject', () => {
+  expectResults(v => isErrorObject(v), anyItems).toMatchSnapshot()
+})
+
+test('isHttpErrorObject', () => {
+  expectResults(v => isHttpErrorObject(v), anyItems).toMatchSnapshot()
+})
+
+test('isHttpErrorResponse', () => {
+  expectResults(v => isHttpErrorResponse(v), anyItems).toMatchSnapshot()
 })

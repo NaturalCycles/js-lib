@@ -42,7 +42,9 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
       return r
     } catch (err) {
       if (logError) {
-        console.warn(`tryCatch.${fname} error in ${since(started)}: ${anyToErrorMessage(err)}`)
+        console.warn(
+          `tryCatch.${fname} error in ${since(started)}: ${anyToErrorMessage(err, true)}`,
+        )
       }
 
       if (onError) {

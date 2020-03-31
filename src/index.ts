@@ -24,6 +24,9 @@ import {
   errorObjectToAppError,
   errorObjectToHttpError,
   errorToErrorObject,
+  isErrorObject,
+  isHttpErrorObject,
+  isHttpErrorResponse,
 } from './error/error.util'
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
@@ -64,6 +67,7 @@ import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
 import { TryCatch, TryCatchOptions, _tryCatch } from './promise/tryCatch'
+import { jsonParseIfPossible } from './string/json.util'
 import {
   removeWhitespace,
   resultToString,
@@ -114,6 +118,9 @@ export {
   HttpError,
   Admin401ErrorData,
   Admin403ErrorData,
+  isErrorObject,
+  isHttpErrorObject,
+  isHttpErrorResponse,
   randomInt,
   loadScript,
   StringMap,
@@ -206,4 +213,5 @@ export {
   _tryCatch,
   TryCatchOptions,
   TryCatch,
+  jsonParseIfPossible,
 }

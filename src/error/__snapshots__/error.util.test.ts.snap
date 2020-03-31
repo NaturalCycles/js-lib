@@ -11,100 +11,257 @@ Array [
   [AppError: -5],
   [AppError: () => 'smth'],
   [AppError: {}],
-  [AppError: empty_string],
-  [AppError: a],
+  [AppError: []],
+  [AppError: [
+  "a"
+]],
   [AppError: {
   "a": "aa"
 }],
   [AppError: err msg],
+  [AppError: {
+  "message": "yada"
+}],
+  [AppError: yada],
+  [AppError: yada],
+  [AppError: err msg],
   [AppError: http err msg],
+  [AppError: err msg],
 ]
 `;
 
 exports[`anyToErrorMessage 1`] = `
-Array [
-  "undefined",
-  "null",
-  "empty_string",
-  "hello a",
-  "0",
-  "1",
-  "-5",
-  "() => 'smth'",
-  "{}",
-  "empty_string",
-  "a",
-  "{
+Map {
+  undefined => "undefined",
+  null => "null",
+  "" => "empty_string",
+  "hello a" => "hello a",
+  0 => "0",
+  1 => "1",
+  -5 => "-5",
+  [Function] => "() => 'smth'",
+  Object {} => "{}",
+  Array [] => "[]",
+  Array [
+    "a",
+  ] => "[
+  \\"a\\"
+]",
+  Object {
+    "a": "aa",
+  } => "{
   \\"a\\": \\"aa\\"
 }",
-  "err msg",
-  "http err msg",
-]
+  [Error: err msg] => "err msg",
+  Object {
+    "message": "yada",
+  } => "{
+  \\"message\\": \\"yada\\"
+}",
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => "yada",
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => "yada",
+  [AppError: err msg] => "err msg",
+  [HttpError: http err msg] => "http err msg",
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => "err msg",
+}
+`;
+
+exports[`anyToErrorMessage includeData=true 1`] = `
+Map {
+  undefined => "undefined",
+  null => "null",
+  "" => "empty_string",
+  "hello a" => "hello a",
+  0 => "0",
+  1 => "1",
+  -5 => "-5",
+  [Function] => "() => 'smth'",
+  Object {} => "{}",
+  Array [] => "[]",
+  Array [
+    "a",
+  ] => "[
+  \\"a\\"
+]",
+  Object {
+    "a": "aa",
+  } => "{
+  \\"a\\": \\"aa\\"
+}",
+  [Error: err msg] => "err msg",
+  Object {
+    "message": "yada",
+  } => "{
+  \\"message\\": \\"yada\\"
+}",
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => "yada",
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => "yada
+{
+  \\"httpStatusCode\\": 404
+}",
+  [AppError: err msg] => "err msg",
+  [HttpError: http err msg] => "http err msg
+{
+  \\"httpStatusCode\\": 400
+}",
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => "err msg
+{
+  \\"httpStatusCode\\": 400,
+  \\"a\\": \\"b\\\\nc\\"
+}",
+}
 `;
 
 exports[`anyToErrorObject 1`] = `
-Array [
-  Object {
+Map {
+  undefined => Object {
     "data": Object {},
     "message": "undefined",
   },
-  Object {
+  null => Object {
     "data": Object {},
     "message": "null",
   },
-  Object {
+  "" => Object {
     "data": Object {},
     "message": "empty_string",
   },
-  Object {
+  "hello a" => Object {
     "data": Object {},
     "message": "hello a",
   },
-  Object {
+  0 => Object {
     "data": Object {},
     "message": "0",
   },
-  Object {
+  1 => Object {
     "data": Object {},
     "message": "1",
   },
-  Object {
+  -5 => Object {
     "data": Object {},
     "message": "-5",
   },
-  Object {
+  [Function] => Object {
     "data": Object {},
     "message": "() => 'smth'",
   },
-  Object {
+  Object {} => Object {
     "data": Object {},
     "message": "{}",
   },
-  Object {
+  Array [] => Object {
     "data": Object {},
-    "message": "empty_string",
+    "message": "[]",
+  },
+  Array [
+    "a",
+  ] => Object {
+    "data": Object {},
+    "message": "[
+  \\"a\\"
+]",
   },
   Object {
-    "data": Object {},
-    "message": "a",
-  },
-  Object {
+    "a": "aa",
+  } => Object {
     "data": Object {},
     "message": "{
   \\"a\\": \\"aa\\"
 }",
   },
-  Object {
+  [Error: err msg] => Object {
     "data": Object {},
     "message": "err msg",
   },
   Object {
+    "message": "yada",
+  } => Object {
+    "data": Object {},
+    "message": "{
+  \\"message\\": \\"yada\\"
+}",
+  },
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => Object {
+    "data": Object {},
+    "message": "yada",
+  },
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  },
+  [AppError: err msg] => Object {
+    "data": Object {},
+    "message": "err msg",
+  },
+  [HttpError: http err msg] => Object {
     "data": Object {
       "httpStatusCode": 400,
     },
     "message": "http err msg",
   },
-]
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => Object {
+    "data": Object {
+      "a": "b
+c",
+      "httpStatusCode": 400,
+    },
+    "message": "err msg",
+  },
+}
 `;
 
 exports[`appErrorToErrorObject / errorObjectToAppError snapshot 1`] = `
@@ -114,5 +271,146 @@ Object {
   },
   "message": "hello",
   "stack": StringContaining "AppError",
+}
+`;
+
+exports[`isErrorObject 1`] = `
+Map {
+  undefined => false,
+  null => false,
+  "" => false,
+  "hello a" => false,
+  0 => false,
+  1 => false,
+  -5 => false,
+  [Function] => false,
+  Object {} => false,
+  Array [] => false,
+  Array [
+    "a",
+  ] => false,
+  Object {
+    "a": "aa",
+  } => false,
+  [Error: err msg] => false,
+  Object {
+    "message": "yada",
+  } => false,
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => true,
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => true,
+  [AppError: err msg] => true,
+  [HttpError: http err msg] => true,
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => false,
+}
+`;
+
+exports[`isHttpErrorObject 1`] = `
+Map {
+  undefined => false,
+  null => false,
+  "" => false,
+  "hello a" => false,
+  0 => false,
+  1 => false,
+  -5 => false,
+  [Function] => false,
+  Object {} => false,
+  Array [] => false,
+  Array [
+    "a",
+  ] => false,
+  Object {
+    "a": "aa",
+  } => false,
+  [Error: err msg] => false,
+  Object {
+    "message": "yada",
+  } => false,
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => false,
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => true,
+  [AppError: err msg] => false,
+  [HttpError: http err msg] => true,
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => false,
+}
+`;
+
+exports[`isHttpErrorResponse 1`] = `
+Map {
+  undefined => false,
+  null => false,
+  "" => false,
+  "hello a" => false,
+  0 => false,
+  1 => false,
+  -5 => false,
+  [Function] => false,
+  Object {} => false,
+  Array [] => false,
+  Array [
+    "a",
+  ] => false,
+  Object {
+    "a": "aa",
+  } => false,
+  [Error: err msg] => false,
+  Object {
+    "message": "yada",
+  } => false,
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => false,
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => false,
+  [AppError: err msg] => false,
+  [HttpError: http err msg] => false,
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+    },
+  } => true,
 }
 `;

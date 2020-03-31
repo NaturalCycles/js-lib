@@ -101,6 +101,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
             console.warn(
               `pRetry.${fname} attempt #${attempt} error in ${since(started)}: ${anyToErrorMessage(
                 err,
+                true,
               )}`,
             )
           }

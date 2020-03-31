@@ -609,13 +609,13 @@
     yargs "^15.0.1"
 
 "@naturalcycles/fs-lib@^2.0.0":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/fs-lib/-/fs-lib-2.6.2.tgz#05059256d2571985dd8e28a4c0e3d931e390efc1"
-  integrity sha512-J+WbPjKN5wfoRoWkkpUi6co8zHBCJxFUMvqrekTVr/L90dFymNTPx+3rZLoDn4XLjzGAsgVaQsWvp+PYS7MAZA==
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/fs-lib/-/fs-lib-2.7.0.tgz#5f69db5d98715cfa7861bfbdeee33a510bd5ca13"
+  integrity sha512-z2gXlIrzhRUyzkq/n47LXOUiMRUwOIkmhxwRFW2bO44x3lnmtDGY/9hKXWdLiwDvOaEu4VqjmBx85nKpY1rhXQ==
   dependencies:
     "@naturalcycles/js-lib" "^10.0.0"
+    "@naturalcycles/nodejs-lib" "^9.1.1"
     "@naturalcycles/time-lib" "^1.5.0"
-    chalk "^3.0.0"
     cp-file "^9.0.0"
     fs-extra "^9.0.0"
     globby "^11.0.0"
@@ -628,7 +628,7 @@
   resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-10.1.0.tgz#4a35d3db6b4e7da4f6d37a8e5b00a0521bd38457"
   integrity sha512-66uYnYCF4BIRAvgCqEv7XTX6mFgsgHtgqddBPkJkqKo6D7DAqPGbdaZq8duvhkddtmHHCeXJhbWPsrqSgQj6IQ==
 
-"@naturalcycles/nodejs-lib@^9.0.0":
+"@naturalcycles/nodejs-lib@^9.0.0", "@naturalcycles/nodejs-lib@^9.1.1":
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-9.1.1.tgz#7a42bb9690a5e93c66b0c30df3ab9f99ad2c4abd"
   integrity sha512-yxoLdSDn8o0COh3UPDnmHRYlY++BFCqv5Ruz6KQu7iqZxevOfjbvECabmeKwtYmx++j3oAAPHi8Nns9rn74MfA==
