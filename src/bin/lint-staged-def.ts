@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { lintStagedDefCommand } from '../cmd/lint-staged-def.command'
 
-lintStagedDefCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(lintStagedDefCommand)

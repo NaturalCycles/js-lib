@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { json2envCommand } from '../cmd/json2env.command'
 
-json2envCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(json2envCommand)

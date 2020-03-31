@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { tscProdCommand } from '../cmd/tsc-prod.command'
 
-tscProdCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(tscProdCommand)

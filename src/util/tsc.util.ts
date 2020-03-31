@@ -1,6 +1,6 @@
 import { kpy } from '@naturalcycles/fs-lib'
+import { boldGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as c from 'chalk'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 
@@ -24,7 +24,7 @@ export async function ensureProjectTsconfigScripts(): Promise<string> {
       outputDir: './scripts',
     })
 
-    console.log(`${c.grey('/scripts/tsconfig.json')} file is automatically added`)
+    console.log(`${boldGrey('/scripts/tsconfig.json')} file is automatically added`)
   }
 
   return projectTsconfigPath

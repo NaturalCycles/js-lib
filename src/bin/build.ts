@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { buildCommand } from '../cmd/build.command'
 
-buildCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(buildCommand)

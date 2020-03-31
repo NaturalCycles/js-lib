@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { prettierAllCommand } from '../cmd/prettier-all.command'
 
-prettierAllCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(prettierAllCommand)

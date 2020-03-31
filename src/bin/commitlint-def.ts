@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { commitlintDefCommand } from '../cmd/commitlint-def.command'
 
-commitlintDefCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(commitlintDefCommand)

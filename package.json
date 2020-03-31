@@ -38,7 +38,6 @@
     "@types/jest": "^25.1.0",
     "@types/node": "^13.1.1",
     "@types/yargs": "^15.0.0",
-    "chalk": "^3.0.0",
     "command-exists": "^1.2.8",
     "dotenv": "^8.1.0",
     "execa": "^4.0.0",

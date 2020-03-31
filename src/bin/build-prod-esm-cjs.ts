@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { buildProdESMCJSCommand } from '../cmd/build-prod-esm-cjs.command'
 
-buildProdESMCJSCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(buildProdESMCJSCommand)

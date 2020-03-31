@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { tslintAllCommand } from '../cmd/tslint-all.command'
 
-tslintAllCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(tslintAllCommand)

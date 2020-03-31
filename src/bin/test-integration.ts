@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { testIntegrationCommand } from '../cmd/test-integration.command'
 
-testIntegrationCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(testIntegrationCommand)

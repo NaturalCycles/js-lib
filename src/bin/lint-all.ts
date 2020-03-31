@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { lintAllCommand } from '../cmd/lint-all.command'
 
-lintAllCommand().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+runScript(lintAllCommand)

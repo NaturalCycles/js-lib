@@ -597,9 +597,9 @@
   integrity sha512-66uYnYCF4BIRAvgCqEv7XTX6mFgsgHtgqddBPkJkqKo6D7DAqPGbdaZq8duvhkddtmHHCeXJhbWPsrqSgQj6IQ==
 
 "@naturalcycles/nodejs-lib@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-9.0.0.tgz#34fd7e7b4c65a8050c23bbb4115b22163731995b"
-  integrity sha512-q8YsVsDB7/AL1jGf4wsFLivXye/KhDjdipxWFaDqh+XOKXG8phte7vvX38/jSA4pHtePQSTPUxbuQjQbOJLgYw==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-9.1.0.tgz#45ba98f10e8974e3b1acdb4bc5f323826064b9eb"
+  integrity sha512-XbxVCZUbbHSt33sMEnVT4hY/4Z03aEQ4WQKNH0j+dMk/KzLhnfFSvcMQc98LkywghZgjCpZlPwqgzonlBJxf1g==
   dependencies:
     "@hapi/joi" "^17.1.1"
     "@naturalcycles/js-lib" "^10.0.0"
