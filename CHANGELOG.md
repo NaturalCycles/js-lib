@@ -1,3 +1,10 @@
+# [10.12.0](https://github.com/NaturalCycles/dev-lib/compare/v10.11.1...v10.12.0) (2020-03-31)
+
+
+### Features
+
+* deps, export /testing ([1c18789](https://github.com/NaturalCycles/dev-lib/commit/1c18789384b499972b7e2e749655f01b4651bd30))
+
 ## [10.11.1](https://github.com/NaturalCycles/dev-lib/compare/v10.11.0...v10.11.1) (2020-03-30)
 
 
