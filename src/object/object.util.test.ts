@@ -1,4 +1,4 @@
-import { deepFreeze } from '@naturalcycles/test-lib'
+import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import {
   deepCopy,
   deepTrim,

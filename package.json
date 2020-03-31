@@ -7,7 +7,6 @@
   "dependencies": {},
   "devDependencies": {
     "@naturalcycles/dev-lib": "^10.2.0",
-    "@naturalcycles/test-lib": "^1.0.2",
     "@types/benchmark": "^1.0.31",
     "@types/node": "^13.1.6",
     "benchmark": "^2.1.4",
