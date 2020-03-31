@@ -1,4 +1,4 @@
-import { execWithArgs } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as c from 'chalk'
 const commandExistsSync = require('command-exists').sync
 

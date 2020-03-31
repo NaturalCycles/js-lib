@@ -6,28 +6,28 @@
 const runInIDE = process.argv.includes('--runTestsByPath')
 const ideIntegrationTest = runInIDE && process.argv.some(a => a.includes('/src/test/integration/'))
 
-const fs = require('fs-extra')
+const fs = require('fs')
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
 const setupFilesAfterEnv = []
-if (fs.pathExistsSync(`${cwd}/src/test/setupJest.ts`)) {
+if (fs.existsSync(`${cwd}/src/test/setupJest.ts`)) {
   setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.ts')
 }
 
 if (ideIntegrationTest) {
-  if (fs.pathExistsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
+  if (fs.existsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
     setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.integration.ts')
   }
 } else {
-  if (fs.pathExistsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
+  if (fs.existsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
     setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.unit.ts')
   }
 }
 
 const testMatch = ['<rootDir>/src/**/*.test.ts?(x)']
 const roots = ['<rootDir>/src']
-const scriptDirExists = fs.pathExistsSync(`${cwd}/scripts`)
+const scriptDirExists = fs.existsSync(`${cwd}/scripts`)
 if (scriptDirExists) {
   testMatch.push('<rootDir>/scripts/**/*.test.ts?(x)')
   roots.push('<rootDir>/scripts')

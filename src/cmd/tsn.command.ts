@@ -1,4 +1,5 @@
-import { execWithArgs, grey } from '@naturalcycles/nodejs-lib'
+import { dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { nodeModuleExists } from '../util/test.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
@@ -37,9 +38,9 @@ export async function tsnCommand(): Promise<void> {
   const { NODE_OPTIONS } = process.env
 
   if (NODE_OPTIONS) {
-    console.log(`${grey.dim('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
+    console.log(`${dimGrey('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
   } else {
-    console.log(`${grey.dim('NODE_OPTIONS are not defined')}`)
+    console.log(`${dimGrey('NODE_OPTIONS are not defined')}`)
   }
 
   await execWithArgs('ts-node', [...args, scriptPath, ...processArgs])

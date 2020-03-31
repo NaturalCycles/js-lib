@@ -1,5 +1,5 @@
 import { kpy } from '@naturalcycles/fs-lib'
-import { execCommand } from '@naturalcycles/nodejs-lib'
+import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as c from 'chalk'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'

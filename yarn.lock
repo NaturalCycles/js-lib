@@ -596,10 +596,10 @@
   resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-10.1.0.tgz#4a35d3db6b4e7da4f6d37a8e5b00a0521bd38457"
   integrity sha512-66uYnYCF4BIRAvgCqEv7XTX6mFgsgHtgqddBPkJkqKo6D7DAqPGbdaZq8duvhkddtmHHCeXJhbWPsrqSgQj6IQ==
 
-"@naturalcycles/nodejs-lib@^8.0.0":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-8.6.0.tgz#99d69636e4e74ad0496b61e3ca3e59fc69d2580b"
-  integrity sha512-ENxt+2r4igbOFPXvpm4Cgh4+Xm1apWeoAbFrrLeZXqjRpbzYooEs9JI1jZPj4Q2c5wo25JRvi2vKgP44BXNYkQ==
+"@naturalcycles/nodejs-lib@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-9.0.0.tgz#34fd7e7b4c65a8050c23bbb4115b22163731995b"
+  integrity sha512-q8YsVsDB7/AL1jGf4wsFLivXye/KhDjdipxWFaDqh+XOKXG8phte7vvX38/jSA4pHtePQSTPUxbuQjQbOJLgYw==
   dependencies:
     "@hapi/joi" "^17.1.1"
     "@naturalcycles/js-lib" "^10.0.0"
@@ -618,7 +618,6 @@
     got "^10.0.2"
     lru-cache "^5.1.1"
     nanoid "^3.0.0"
-    rxjs "^6.5.2"
     through2-concurrent "^2.0.0"
     yargs "^15.3.1"
 
@@ -782,9 +781,9 @@
   integrity sha512-RaE0B+14ToE4l6UqdarKPnXwVDuigfFv+5j9Dze/Nqr23yyuqdNvzcZi3xB+3Agvi5R4EOgAksfv3lXX4vBt9w==
 
 "@types/node@*", "@types/node@^13.1.1":
-  version "13.9.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.5.tgz#59738bf30b31aea1faa2df7f4a5f55613750cf00"
-  integrity sha512-hkzMMD3xu6BrJpGVLeQ3htQQNAcOrJjX7WFmtK8zWQpz2UJf13LCFF2ALA7c9OVdvc2vQJeDdjfR35M0sBCxvw==
+  version "13.9.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.8.tgz#09976420fc80a7a00bf40680c63815ed8c7616f4"
+  integrity sha512-1WgO8hsyHynlx7nhP1kr0OFzsgKz5XDQL+Lfc3b1Q3qIln/n8cKD4m09NJ0+P1Rq7Zgnc7N0+SsMnoD1rEb0kA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -4551,7 +4550,7 @@ run-parallel@^1.1.9:
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
   integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
 
-rxjs@^6.3.3, rxjs@^6.5.2:
+rxjs@^6.3.3:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.4.tgz#e0777fe0d184cec7872df147f303572d414e211c"
   integrity sha512-naMQXcgEo3csAEGvw/NydRA0fuS2nDZJiw1YUWFKU7aPPAPGZEsD4Iimit96qwCieH6y614MCLYwdkrWx7z/7Q==

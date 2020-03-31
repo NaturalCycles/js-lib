@@ -1,4 +1,4 @@
-import { execWithArgs } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
 

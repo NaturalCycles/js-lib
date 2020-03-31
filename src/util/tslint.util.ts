@@ -1,5 +1,5 @@
 import { _flatten } from '@naturalcycles/js-lib'
-import { execWithArgs } from '@naturalcycles/nodejs-lib'
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs-extra'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 
