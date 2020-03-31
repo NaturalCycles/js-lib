@@ -1,3 +1,10 @@
+# [10.2.0](https://github.com/NaturalCycles/js-lib/compare/v10.1.0...v10.2.0) (2020-03-31)
+
+
+### Features
+
+* jsonParseIfPossible, isErrorObject & friends ([30f91d6](https://github.com/NaturalCycles/js-lib/commit/30f91d6de4f56fd5018f51f9b75f5b2454d7cfea))
+
 # [10.1.0](https://github.com/NaturalCycles/js-lib/compare/v10.0.0...v10.1.0) (2020-03-18)
 
 
