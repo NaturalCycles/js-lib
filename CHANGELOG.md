@@ -1,3 +1,10 @@
+# [10.13.0](https://github.com/NaturalCycles/dev-lib/compare/v10.12.0...v10.13.0) (2020-03-31)
+
+
+### Features
+
+* use runScript ([1078887](https://github.com/NaturalCycles/dev-lib/commit/10788878d4212309e999916fd87a6c6ebf3909f7))
+
 # [10.12.0](https://github.com/NaturalCycles/dev-lib/compare/v10.11.1...v10.12.0) (2020-03-31)
 
 
