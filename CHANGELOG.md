@@ -1,3 +1,10 @@
+## [10.14.2](https://github.com/NaturalCycles/dev-lib/compare/v10.14.1...v10.14.2) (2020-04-04)
+
+
+### Bug Fixes
+
+* use native fs instead of fs-extra ([2ab4a9e](https://github.com/NaturalCycles/dev-lib/commit/2ab4a9e2bad871bbe9fb597af6d1da2a76e24302))
+
 ## [10.14.1](https://github.com/NaturalCycles/dev-lib/compare/v10.14.0...v10.14.1) (2020-04-04)
 
 
