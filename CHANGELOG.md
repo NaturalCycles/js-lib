@@ -1,3 +1,10 @@
+## [10.13.1](https://github.com/NaturalCycles/dev-lib/compare/v10.13.0...v10.13.1) (2020-04-04)
+
+
+### Bug Fixes
+
+* skip tests if jest is not installed locally ([db2d289](https://github.com/NaturalCycles/dev-lib/commit/db2d2892432cb700157fd534a2c0bad24e9c4110))
+
 # [10.13.0](https://github.com/NaturalCycles/dev-lib/compare/v10.12.0...v10.13.0) (2020-03-31)
 
 
