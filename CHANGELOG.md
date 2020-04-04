@@ -1,3 +1,10 @@
+## [10.14.1](https://github.com/NaturalCycles/dev-lib/compare/v10.14.0...v10.14.1) (2020-04-04)
+
+
+### Bug Fixes
+
+* deps, testing tsn in orb ([5ec880f](https://github.com/NaturalCycles/dev-lib/commit/5ec880feca1d60ebbaf59972aa3650e8311798af))
+
 # [10.14.0](https://github.com/NaturalCycles/dev-lib/compare/v10.13.1...v10.14.0) (2020-04-04)
 
 
