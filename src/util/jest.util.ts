@@ -1,9 +1,9 @@
 import { _uniq } from '@naturalcycles/js-lib'
-import { dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
+import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs-extra'
 import { cfgDir } from '../cnst/paths.cnst'
-import { getFullICUPathIfExists } from './test.util'
+import { getFullICUPathIfExists, nodeModuleExists } from './test.util'
 
 export function getJestConfigPath(): string | undefined {
   return fs.pathExistsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
@@ -38,6 +38,11 @@ interface RunJestOpt {
  * 2. Adds `--silent` if running all tests at once.
  */
 export async function runJest(opt: RunJestOpt = {}): Promise<void> {
+  if (!nodeModuleExists('jest')) {
+    console.log(dimGrey(`node_modules/${white('jest')} not found, skipping tests`))
+    return
+  }
+
   const { ci, integration, leaks } = opt
   const [, , ...processArgs] = process.argv
 
@@ -77,7 +82,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     maxWorkers = maxWorkers || '--maxWorkers=1'
   }
 
-  if (maxWorkers) args.push(maxWorkers)
+  if (maxWorkers) args.push(maxWorkers!)
 
   if (args.includes('--silent')) {
     Object.assign(env, {
