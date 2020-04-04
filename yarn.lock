@@ -575,7 +575,21 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-"@naturalcycles/fs-lib@^2.0.0":
+"@naturalcycles/cli@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/cli/-/cli-1.0.0.tgz#d4e01415b283840358cdc0cee81daec02ad983f0"
+  integrity sha512-C1ZqOT0aLbkiEPk0MowdOtaexupWccxw+dtL75ZE5MSXlhUhADawrXAW0FJSfYIkbvarKWAfVS3ixVjtp40cig==
+  dependencies:
+    "@naturalcycles/fs-lib" "^2.7.0"
+    "@naturalcycles/js-lib" "^10.2.0"
+    "@naturalcycles/nodejs-lib" "^9.1.3"
+    dotenv "^8.2.0"
+    fs-extra "^9.0.0"
+    loud-rejection "^2.2.0"
+    ts-node "^8.8.1"
+    typescript "^3.8.3"
+
+"@naturalcycles/fs-lib@^2.0.0", "@naturalcycles/fs-lib@^2.7.0":
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/@naturalcycles/fs-lib/-/fs-lib-2.7.0.tgz#5f69db5d98715cfa7861bfbdeee33a510bd5ca13"
   integrity sha512-z2gXlIrzhRUyzkq/n47LXOUiMRUwOIkmhxwRFW2bO44x3lnmtDGY/9hKXWdLiwDvOaEu4VqjmBx85nKpY1rhXQ==
@@ -590,12 +604,12 @@
     move-file "^1.2.0"
     yargs "^15.1.0"
 
-"@naturalcycles/js-lib@^10.0.0":
+"@naturalcycles/js-lib@^10.0.0", "@naturalcycles/js-lib@^10.2.0":
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-10.2.0.tgz#01d208bd4be8177b98f6211a5db1d0e4c20e96dc"
   integrity sha512-213yzsfrGVJNoDHZz1pgkLEvtmJDdOjewDIAOFtiVwwkbT4RY315dpW5T3efof7emg7hrevjHKtrAliTO6lEtw==
 
-"@naturalcycles/nodejs-lib@^9.0.0", "@naturalcycles/nodejs-lib@^9.1.1":
+"@naturalcycles/nodejs-lib@^9.0.0", "@naturalcycles/nodejs-lib@^9.1.1", "@naturalcycles/nodejs-lib@^9.1.3":
   version "9.1.3"
   resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-9.1.3.tgz#f743a63882ba97dd23adddd0ecd0bf6028d2facf"
   integrity sha512-EBLt/hutADZIgUBGhpE6Tt6dFX5aRphHOR70tJYXjNstNiZfIOcgB5XLrwUzS9wZDUuXEScl3jBEw036jUUXLA==
@@ -1809,7 +1823,7 @@ dot-prop@^3.0.0:
   dependencies:
     is-obj "^1.0.0"
 
-dotenv@^8.1.0:
+dotenv@^8.1.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
@@ -3535,7 +3549,7 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-loud-rejection@^2.1.0:
+loud-rejection@^2.1.0, loud-rejection@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/loud-rejection/-/loud-rejection-2.2.0.tgz#4255eb6e9c74045b0edc021fa7397ab655a8517c"
   integrity sha512-S0FayMXku80toa5sZ6Ro4C+s+EtFDCsyJNG/AzFMfX3AxD5Si4dZsgzm/kKnbOxHl5Cv8jBlno8+3XYIh2pNjQ==
@@ -5184,7 +5198,7 @@ ts-jest@^25.0.0:
     semver "6.x"
     yargs-parser "18.x"
 
-ts-node@^8.1.0:
+ts-node@^8.1.0, ts-node@^8.8.1:
   version "8.8.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.8.1.tgz#7c4d3e9ed33aa703b64b28d7f9d194768be5064d"
   integrity sha512-10DE9ONho06QORKAaCBpPiFCdW+tZJuY/84tyypGtl6r+/C7Asq0dhqbRZURuUlLQtZxxDvT8eoj8cGW0ha6Bg==
@@ -5272,7 +5286,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.4.5:
+typescript@^3.4.5, typescript@^3.8.3:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
   integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==

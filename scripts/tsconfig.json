@@ -1,10 +1,11 @@
 //
-// @naturalcycles/dev-lib/scripts/tsconfig.json
-//
-// Default config for /scripts
+// tsconfig.json for /scripts
 //
 {
-  "extends": "../cfg/tsconfig.json",
-  // `include` / `exclude` need to be specified in the project tsconfig:
+  "extends": "@naturalcycles/dev-lib/scripts/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "../dist"
+  },
   "exclude": ["**/__exclude"]
 }

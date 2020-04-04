@@ -113,15 +113,6 @@ variable to disable it.
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
   ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
 
-#### Run commands
-
-All these commands will skip type-checking for speed (`ts-node -T`). Instead, type-checking is done
-via `tsc-scripts` as a part of `build`
-
-- `tsn`: short alias for `ts-node` with additional parameters
-  `-r tsconfig-paths/register -r dotenv/config`. Will use `./scripts/tsconfig.json` (file will be
-  auto-generated in not present).
-
 #### Other commands
 
 - `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
