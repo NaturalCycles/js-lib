@@ -1,6 +1,6 @@
 import { _flatten } from '@naturalcycles/js-lib'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as fs from 'fs-extra'
+import * as fs from 'fs'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 
 export const tslintExcludePaths: string[] = ['./**/__exclude/**']
@@ -31,7 +31,7 @@ export async function runTSLint(
 export function getTSLintConfigPath(): string {
   const localTSLintConfig = `./tslint.json`
   const sharedTSLintConfig = `${cfgDir}/tslint.config.js`
-  return fs.pathExistsSync(localTSLintConfig) ? localTSLintConfig : sharedTSLintConfig
+  return fs.existsSync(localTSLintConfig) ? localTSLintConfig : sharedTSLintConfig
 }
 
 export function getTSConfigPath(): string {
@@ -41,7 +41,5 @@ export function getTSConfigPath(): string {
 export function getTSConfigPathScripts(): string {
   const localTSConfigPathScripts = `./scripts/tsconfig.json`
   const sharedTSConfigScripts = `${scriptsDir}/tsconfig.json`
-  return fs.pathExistsSync(localTSConfigPathScripts)
-    ? localTSConfigPathScripts
-    : sharedTSConfigScripts
+  return fs.existsSync(localTSConfigPathScripts) ? localTSConfigPathScripts : sharedTSConfigScripts
 }

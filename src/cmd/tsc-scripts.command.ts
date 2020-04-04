@@ -1,5 +1,5 @@
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as fs from 'fs-extra'
+import * as fs from 'fs'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
 export async function tscScriptsCommand(): Promise<void> {

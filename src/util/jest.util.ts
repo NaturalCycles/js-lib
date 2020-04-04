@@ -1,16 +1,16 @@
 import { _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as fs from 'fs-extra'
+import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getFullICUPathIfExists, nodeModuleExists } from './test.util'
 
 export function getJestConfigPath(): string | undefined {
-  return fs.pathExistsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
+  return fs.existsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
 }
 
 export function getJestIntegrationConfigPath(): string | undefined {
-  return fs.pathExistsSync(`./jest.integration-test.config.js`)
+  return fs.existsSync(`./jest.integration-test.config.js`)
     ? `./jest.integration-test.config.js`
     : `${cfgDir}/jest.integration-test.config.js`
 }
@@ -45,6 +45,8 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
 
   const { ci, integration, leaks } = opt
   const [, , ...processArgs] = process.argv
+
+  // console.log(processArgs) // todo: solve to run it in dev-lib
 
   // Allow to override --maxWorkers
   let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))

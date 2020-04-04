@@ -1,8 +1,9 @@
 import { boldGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-const commandExistsSync = require('command-exists').sync
 
 export async function lintCircleCICommand(): Promise<void> {
+  const commandExistsSync = require('command-exists').sync
+
   if (!commandExistsSync('circleci')) {
     // Cannot validate, cause `circleci` binary is not installed
     console.log(
