@@ -1,3 +1,16 @@
+# [10.14.0](https://github.com/NaturalCycles/dev-lib/compare/v10.13.1...v10.14.0) (2020-04-04)
+
+
+### Bug Fixes
+
+* tsconfig path ([bfec79d](https://github.com/NaturalCycles/dev-lib/commit/bfec79ddfa7a7f5c32d1a888f9380180833193f4))
+* unneeded dep ([4315219](https://github.com/NaturalCycles/dev-lib/commit/4315219e2e6769f27c4286c1c658912629bd8adf))
+
+
+### Features
+
+* tsn command is moved away to @naturalcycles/cli ([236ecb1](https://github.com/NaturalCycles/dev-lib/commit/236ecb1674f20905b119199545bac9f5408732ee))
+
 ## [10.13.1](https://github.com/NaturalCycles/dev-lib/compare/v10.13.0...v10.13.1) (2020-04-04)
 
 
