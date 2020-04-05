@@ -1,3 +1,10 @@
+## [10.14.3](https://github.com/NaturalCycles/dev-lib/compare/v10.14.2...v10.14.3) (2020-04-05)
+
+
+### Bug Fixes
+
+* pin prettier 2.0.2 ([4d79390](https://github.com/NaturalCycles/dev-lib/commit/4d79390d0d7ccb3ee1132aea0fedb7285d8230a7))
+
 ## [10.14.2](https://github.com/NaturalCycles/dev-lib/compare/v10.14.1...v10.14.2) (2020-04-04)
 
 
