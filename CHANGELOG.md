@@ -1,3 +1,10 @@
+## [10.2.1](https://github.com/NaturalCycles/js-lib/compare/v10.2.0...v10.2.1) (2020-04-11)
+
+
+### Bug Fixes
+
+* _pick and _omit REQUIRE props now ([8513bad](https://github.com/NaturalCycles/js-lib/commit/8513bad8eb3a6016426396026d7e0c2acc2233b8))
+
 # [10.2.0](https://github.com/NaturalCycles/js-lib/compare/v10.1.0...v10.2.0) (2020-03-31)
 
 
