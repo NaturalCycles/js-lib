@@ -30,9 +30,10 @@ import {
 test('pick', () => {
   const f = _pick
 
-  expect(f(undefined as any)).toBe(undefined)
-  expect(f(null as any)).toBe(null)
-  expect(f({})).toEqual({})
+  // disabled, cause you HAVE TO provide non-empty props
+  // expect(f(undefined as any)).toBe(undefined)
+  // expect(f(null as any)).toBe(null)
+  // expect(f({})).toEqual({})
 
   const obj = {
     a: 1,
@@ -41,7 +42,10 @@ test('pick', () => {
     d: false,
   }
 
-  expect(f(obj)).toEqual(obj) // no fields
+  // expect(f(obj)).toEqual(obj) // no fields
+
+  // empty fields
+  expect(f(obj, [])).toEqual({})
 
   const fields = ['a', 'c', 'd', 'e'] as const
   const r = f(obj, fields as any)
@@ -53,9 +57,9 @@ test('pick', () => {
 })
 
 test('omit', () => {
-  expect(_omit(undefined as any)).toBe(undefined)
-  expect(_omit(null as any)).toBe(null)
-  expect(_omit({})).toEqual({})
+  // expect(_omit(undefined as any)).toBe(undefined)
+  // expect(_omit(null as any)).toBe(null)
+  // expect(_omit({})).toEqual({})
 
   const obj = {
     a: 1,
@@ -67,7 +71,10 @@ test('omit', () => {
 
   deepFreeze(obj)
 
-  expect(_omit(obj)).toEqual(obj)
+  // expect(_omit(obj)).toEqual(obj)
+
+  // empty props
+  expect(_omit(obj, [])).toEqual(obj)
 
   expect(_omit(obj, ['b', 'c'])).toEqual({
     a: 1,

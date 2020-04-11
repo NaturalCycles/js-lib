@@ -6,10 +6,10 @@ import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../util
  */
 export function _pick<T extends object, K extends keyof T>(
   obj: T,
-  props: readonly K[] = [],
+  props: readonly K[],
   initialObject: Partial<T> = {},
 ): T {
-  if (!obj || !props || !props.length) return obj
+  if (!obj) return obj
 
   return props.reduce((r, prop) => {
     if (prop in obj) r[prop] = obj[prop]
@@ -21,8 +21,8 @@ export function _pick<T extends object, K extends keyof T>(
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function _omit<T extends object, K extends keyof T>(obj: T, props: readonly K[] = []): T {
-  if (!obj || !props || !props.length) return obj
+export function _omit<T extends object, K extends keyof T>(obj: T, props: readonly K[]): T {
+  if (!obj) return obj
 
   return props.reduce(
     (r, prop) => {
