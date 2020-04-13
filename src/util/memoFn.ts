@@ -1,7 +1,7 @@
+import { since } from '..'
 import { getArgsSignature } from '../decorators/decorator.util'
 import { MemoOpts } from '../decorators/memo.decorator'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from '../decorators/memo.util'
-import { since } from './time.util'
 
 export interface MemoizedFunction {
   cache: MemoCache

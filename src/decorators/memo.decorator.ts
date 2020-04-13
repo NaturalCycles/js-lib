@@ -4,7 +4,7 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 // https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
 
-import { since } from '../util/time.util'
+import { since } from '..'
 import { getArgsSignature, getMethodSignature, getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 

@@ -1,7 +1,6 @@
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
-import { pDelay } from '..'
-import { since } from '../util/time.util'
+import { pDelay, since } from '..'
 import { Debounce } from './debounce.decorator'
 
 class C {

@@ -1,5 +1,4 @@
-import { anyToErrorMessage } from '..'
-import { since } from '../util/time.util'
+import { anyToErrorMessage, since } from '..'
 
 export interface PRetryOptions {
   maxAttempts: number

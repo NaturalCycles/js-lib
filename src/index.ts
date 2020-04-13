@@ -80,6 +80,7 @@ import {
   _split,
   _upperFirst,
 } from './string/string.util'
+import { ms, since } from './time/time.util'
 import {
   BatchResult,
   InstanceId,
@@ -216,4 +217,6 @@ export {
   jsonParseIfPossible,
   StringifyAnyOptions,
   stringifyAny,
+  ms,
+  since,
 }
