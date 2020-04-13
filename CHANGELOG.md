@@ -1,3 +1,15 @@
+# [11.0.0](https://github.com/NaturalCycles/js-lib/compare/v10.4.0...v11.0.0) (2020-04-13)
+
+
+### Features
+
+* loadScript moved away to frontend-lib ([a96ef0e](https://github.com/NaturalCycles/js-lib/commit/a96ef0e594339b7f5b04e22c9689328d0bd089a1))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [10.4.0](https://github.com/NaturalCycles/js-lib/compare/v10.3.0...v10.4.0) (2020-04-13)
 
 
