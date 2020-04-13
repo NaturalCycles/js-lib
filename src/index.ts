@@ -101,6 +101,7 @@ import { _debounce, _throttle } from './util/debounce'
 import { deepEquals } from './util/deepEquals'
 import { memoFn } from './util/memoFn'
 import { randomInt } from './util/random.util'
+import { gb, hb, kb, mb } from './util/size.util'
 import { SimpleMovingAverage } from './util/sma'
 import { _truncate, _truncateMiddle } from './util/truncate'
 
@@ -217,4 +218,8 @@ export {
   stringifyAny,
   ms,
   since,
+  hb,
+  gb,
+  mb,
+  kb,
 }
