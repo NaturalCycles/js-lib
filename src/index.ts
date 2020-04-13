@@ -101,7 +101,6 @@ import { _debounce, _throttle } from './util/debounce'
 import { deepEquals } from './util/deepEquals'
 import { memoFn } from './util/memoFn'
 import { randomInt } from './util/random.util'
-import { loadScript } from './util/script.util'
 import { SimpleMovingAverage } from './util/sma'
 import { _truncate, _truncateMiddle } from './util/truncate'
 
@@ -123,7 +122,6 @@ export {
   isHttpErrorObject,
   isHttpErrorResponse,
   randomInt,
-  loadScript,
   StringMap,
   PromiseMap,
   ValuesOf,
