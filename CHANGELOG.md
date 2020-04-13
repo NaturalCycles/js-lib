@@ -1,3 +1,10 @@
+# [11.1.0](https://github.com/NaturalCycles/js-lib/compare/v11.0.0...v11.1.0) (2020-04-13)
+
+
+### Features
+
+* kb, mb, gb, hb (moved here from nodejs-lib) ([aeddc0c](https://github.com/NaturalCycles/js-lib/commit/aeddc0ce734ab9d9bd685bf01d5e3dbc105142f2))
+
 # [11.0.0](https://github.com/NaturalCycles/js-lib/compare/v10.4.0...v11.0.0) (2020-04-13)
 
 
