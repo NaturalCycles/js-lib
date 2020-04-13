@@ -1,3 +1,10 @@
+# [10.3.0](https://github.com/NaturalCycles/js-lib/compare/v10.2.1...v10.3.0) (2020-04-13)
+
+
+### Features
+
+* stringifyAny ([883edc7](https://github.com/NaturalCycles/js-lib/commit/883edc702f6e776c30f22552707b858298c8de30))
+
 ## [10.2.1](https://github.com/NaturalCycles/js-lib/compare/v10.2.0...v10.2.1) (2020-04-11)
 
 
