@@ -33,8 +33,6 @@ if (scriptDirExists) {
   roots.push('<rootDir>/scripts')
 }
 
-const transformIgnore = ['@naturalcycles']
-
 const testPathIgnorePatterns = ['<rootDir>/.*/__exclude/', '<rootDir>/src/environments/']
 
 // console.log({argv: process.argv})
@@ -53,7 +51,7 @@ module.exports = {
     // '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
   },
-  transformIgnorePatterns: [`node_modules/(?!${transformIgnore.join('|')})`],
+  transformIgnorePatterns: ['/node_modules/'], // Jest default value
   testMatch,
   roots,
   rootDir: cwd,
