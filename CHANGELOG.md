@@ -1,3 +1,10 @@
+## [10.14.7](https://github.com/NaturalCycles/dev-lib/compare/v10.14.6...v10.14.7) (2020-04-13)
+
+
+### Bug Fixes
+
+* **jest:** transformIgnorePatterns back to Jest defaults ([5b459fb](https://github.com/NaturalCycles/dev-lib/commit/5b459fb02f81edea4cf8ef5272c14e5f4372f053))
+
 ## [10.14.6](https://github.com/NaturalCycles/dev-lib/compare/v10.14.5...v10.14.6) (2020-04-13)
 
 
