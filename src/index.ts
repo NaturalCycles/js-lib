@@ -67,7 +67,7 @@ import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
 import { TryCatch, TryCatchOptions, _tryCatch } from './promise/tryCatch'
-import { jsonParseIfPossible } from './string/json.util'
+import { jsonParseIfPossible, stringifyAny, StringifyAnyOptions } from './string/json.util'
 import {
   removeWhitespace,
   resultToString,
@@ -214,4 +214,6 @@ export {
   TryCatchOptions,
   TryCatch,
   jsonParseIfPossible,
+  StringifyAnyOptions,
+  stringifyAny,
 }
