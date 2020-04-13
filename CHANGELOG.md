@@ -1,3 +1,10 @@
+# [10.4.0](https://github.com/NaturalCycles/js-lib/compare/v10.3.0...v10.4.0) (2020-04-13)
+
+
+### Features
+
+* ms, since (moved here from time-lib) ([11dfd45](https://github.com/NaturalCycles/js-lib/commit/11dfd45b41e87814504e2777115e1c0c57d8cf32))
+
 # [10.3.0](https://github.com/NaturalCycles/js-lib/compare/v10.2.1...v10.3.0) (2020-04-13)
 
 
