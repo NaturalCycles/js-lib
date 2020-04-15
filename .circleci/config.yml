@@ -37,3 +37,4 @@ workflows:
       - tools/nightly-job
       - tools/test-leaks-job
       - tools/snyk-job
+      - tools/yarn-audit-job
