@@ -9,7 +9,6 @@ version: 2.1
 #
 orbs:
   tools: naturalcycles/tools@volatile
-  # tools: naturalcycles/tools@dev:1
 
 #
 # Workflows
@@ -37,3 +36,4 @@ workflows:
     jobs:
       - tools/nightly-job
       - tools/test-leaks-job
+      - tools/snyk-job
