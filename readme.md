@@ -65,6 +65,16 @@ async stack-traces, etc).
 # API
 
 - [Promise utils](#promise-utils)
+- [Object](#object)
+- [Array](#array)
+- [String](#string)
+- [Number](#number)
+- [Json](#json)
+- [Time](#time)
+- [Math](#math)
+- [Units](#units)
+- [Decorators](#decorators)
+- [Error utils](#error-utils)
 - [Types](#types)
 
 #### Promise utils
