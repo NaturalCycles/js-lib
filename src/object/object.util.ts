@@ -180,8 +180,11 @@ export function _deepCopy<T>(o: T): T {
   return JSON.parse(JSON.stringify(o))
 }
 
+/**
+ * Returns true if item is Object, not null and not Array.
+ */
 export function _isObject(item: any): boolean {
-  return (item && typeof item === 'object' && !Array.isArray(item) && true) || false
+  return (typeof item === 'object' && item !== null && !Array.isArray(item)) || false
 }
 
 export function _isPrimitive(v: any): boolean {
