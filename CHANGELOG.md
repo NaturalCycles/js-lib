@@ -1,3 +1,17 @@
+# [12.0.0](https://github.com/NaturalCycles/js-lib/compare/v11.1.0...v12.0.0) (2020-04-19)
+
+
+### Code Refactoring
+
+* unify _ naming convention, bootstrap docs ([f3e61eb](https://github.com/NaturalCycles/js-lib/commit/f3e61eb49c46a173bd2a45a394e2634e63e66dd2))
+
+
+### BREAKING CHANGES
+
+* many function names changed to include _ prefix. Decorators are now also _ prefixed, and PascalCased.
+
+A couple of functions are made redundant and removed.
+
 # [11.1.0](https://github.com/NaturalCycles/js-lib/compare/v11.0.0...v11.1.0) (2020-04-13)
 
 
