@@ -1,3 +1,10 @@
+## [12.0.1](https://github.com/NaturalCycles/js-lib/compare/v12.0.0...v12.0.1) (2020-04-19)
+
+
+### Bug Fixes
+
+* clarify and export _isObject, also _isPrimitive ([d9d71ef](https://github.com/NaturalCycles/js-lib/commit/d9d71ef2807948ce4757a6d48ec97b3c77ba4f7c))
+
 # [12.0.0](https://github.com/NaturalCycles/js-lib/compare/v11.1.0...v12.0.0) (2020-04-19)
 
 
