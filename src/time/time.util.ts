@@ -1,8 +1,8 @@
 /**
  * Returns time passed since `from` until `until` (default to Date.now())
  */
-export function since(from: number, until = Date.now()): string {
-  return ms(until - from)
+export function _since(from: number, until = Date.now()): string {
+  return _ms(until - from)
 }
 
 /**
@@ -14,7 +14,7 @@ export function since(from: number, until = Date.now()): string {
  * 59m2s
  * 1h3m12s
  */
-export function ms(millis: number): string {
+export function _ms(millis: number): string {
   // <1 sec
   if (millis < 1000) return `${Math.round(millis)} ms`
 

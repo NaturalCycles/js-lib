@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mask deepCopy 1`] = `
+exports[`_mask 1`] = `
 Object {
   "a": "1",
   "b": Object {
@@ -9,7 +9,7 @@ Object {
 }
 `;
 
-exports[`mask shallowCopy 1`] = `
+exports[`mask with mutation 1`] = `
 Object {
   "a": "1",
   "b": Object {
@@ -38,33 +38,5 @@ Object {
     "c2": "c2",
   },
   "d": "d2",
-}
-`;
-
-exports[`sortObjectDeep 1`] = `
-Object {
-  "a": 1,
-  "aa": 6,
-  "b": 2,
-  "c": Object {
-    "d": Object {
-      "aa": 1,
-      "j": 5,
-      "m": 4,
-    },
-    "dd": Array [
-      3,
-      2,
-      1,
-      0,
-      55,
-    ],
-    "ddd": Array [
-      "b",
-      "c",
-      "a",
-    ],
-    "m": "sdf",
-  },
 }
 `;

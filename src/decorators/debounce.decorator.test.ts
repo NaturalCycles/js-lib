@@ -1,14 +1,14 @@
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
-import { pDelay, since } from '..'
-import { Debounce } from './debounce.decorator'
+import { pDelay, _since } from '..'
+import { _Debounce } from './debounce.decorator'
 
 class C {
   // @debounce(200, {leading: true, trailing: true})
   // @throttle(200, {leading: true, trailing: true})
-  @Debounce(200)
+  @_Debounce(200)
   fn(started: number, n: number): void {
-    console.log(`#${n} after ${since(started)}`)
+    console.log(`#${n} after ${_since(started)}`)
   }
 }
 

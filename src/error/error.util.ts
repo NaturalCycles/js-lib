@@ -5,19 +5,19 @@ import {
   HttpError,
   HttpErrorData,
   HttpErrorResponse,
-  jsonParseIfPossible,
+  _jsonParseIfPossible,
 } from '..'
 
 const EMPTY_STRING_MSG = 'empty_string'
 
-export function anyToAppError<DATA_TYPE = ErrorData>(
+export function _anyToAppError<DATA_TYPE = ErrorData>(
   o: any,
   data: Partial<DATA_TYPE> = {},
 ): AppError {
-  const e = anyToErrorObject(o)
+  const e = _anyToErrorObject(o)
   Object.assign(e.data, data)
 
-  return errorObjectToAppError(e)
+  return _errorObjectToAppError(e)
 }
 
 /**
@@ -26,16 +26,16 @@ export function anyToAppError<DATA_TYPE = ErrorData>(
  * If object is Error - Error.message will be used.
  * Objects get converted to prettified JSON string.
  */
-export function anyToErrorObject(o: any): ErrorObject {
-  if (o instanceof Error) return errorToErrorObject(o)
+export function _anyToErrorObject(o: any): ErrorObject {
+  if (o instanceof Error) return _errorToErrorObject(o)
 
-  o = jsonParseIfPossible(o)
+  o = _jsonParseIfPossible(o)
 
-  if (isHttpErrorResponse(o)) {
+  if (_isHttpErrorResponse(o)) {
     return (o as HttpErrorResponse).error
   }
 
-  if (isErrorObject(o)) return o
+  if (_isErrorObject(o)) return o
 
   let message: string
 
@@ -59,8 +59,8 @@ export function anyToErrorObject(o: any): ErrorObject {
  * Uses anyToErrorObject() and takes `message` and `data` from it.
  * Pass includeData=true to include JSON-pretty-stringified `data` object (if not empty)
  */
-export function anyToErrorMessage(o: any, includeData = false): string {
-  const eo = anyToErrorObject(o)
+export function _anyToErrorMessage(o: any, includeData = false): string {
+  const eo = _anyToErrorObject(o)
 
   return [
     eo.message,
@@ -70,8 +70,8 @@ export function anyToErrorMessage(o: any, includeData = false): string {
     .join('\n')
 }
 
-export function errorToErrorObject(e: Error): ErrorObject {
-  if (e instanceof AppError) return appErrorToErrorObject(e)
+export function _errorToErrorObject(e: Error): ErrorObject {
+  if (e instanceof AppError) return _appErrorToErrorObject(e)
 
   return {
     // name: e.name,
@@ -81,7 +81,7 @@ export function errorToErrorObject(e: Error): ErrorObject {
   }
 }
 
-export function errorObjectToAppError<T>(o: ErrorObject<T>): AppError<T> {
+export function _errorObjectToAppError<T>(o: ErrorObject<T>): AppError<T> {
   const err = Object.assign(new AppError(o.message, o.data), {
     // name: err.name, // cannot be assigned to a readonly property like this
     // stack: o.stack, // also readonly e.g in Firefox
@@ -94,7 +94,7 @@ export function errorObjectToAppError<T>(o: ErrorObject<T>): AppError<T> {
   return err
 }
 
-export function errorObjectToHttpError(o: ErrorObject): HttpError {
+export function _errorObjectToHttpError(o: ErrorObject): HttpError {
   const err = Object.assign(
     new HttpError(o.message, {
       httpStatusCode: 500, // default
@@ -113,7 +113,7 @@ export function errorObjectToHttpError(o: ErrorObject): HttpError {
   return err
 }
 
-export function appErrorToErrorObject<T>(err: AppError<T>): ErrorObject<T> {
+export function _appErrorToErrorObject<T>(err: AppError<T>): ErrorObject<T> {
   return {
     // name: err.name,
     message: err.message,
@@ -122,18 +122,18 @@ export function appErrorToErrorObject<T>(err: AppError<T>): ErrorObject<T> {
   }
 }
 
-export function appErrorToHttpError(err: AppError<HttpErrorData>): HttpError {
+export function _appErrorToHttpError(err: AppError<HttpErrorData>): HttpError {
   return new HttpError(err.message, err.data)
 }
 
-export function isHttpErrorResponse(o: any): boolean {
-  return isHttpErrorObject(o?.error)
+export function _isHttpErrorResponse(o: any): boolean {
+  return _isHttpErrorObject(o?.error)
 }
 
-export function isHttpErrorObject(o: any): boolean {
+export function _isHttpErrorObject(o: any): boolean {
   return typeof o?.message === 'string' && typeof o?.data?.httpStatusCode === 'number'
 }
 
-export function isErrorObject(o: any): boolean {
+export function _isErrorObject(o: any): boolean {
   return typeof o?.message === 'string' && typeof o?.data === 'object'
 }

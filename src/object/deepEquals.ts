@@ -7,7 +7,7 @@ const hasProp = Object.prototype.hasOwnProperty
 /**
  * Based on: https://github.com/epoberezkin/fast-deep-equal/
  */
-export function deepEquals(a: any, b: any): boolean {
+export function _deepEquals(a: any, b: any): boolean {
   if (a === b) return true
 
   if (a && b && typeof a == 'object' && typeof b == 'object') {
@@ -20,7 +20,7 @@ export function deepEquals(a: any, b: any): boolean {
     if (arrA && arrB) {
       length = a.length
       if (length != b.length) return false
-      for (i = length; i-- !== 0; ) if (!deepEquals(a[i], b[i])) return false
+      for (i = length; i-- !== 0; ) if (!_deepEquals(a[i], b[i])) return false
       return true
     }
 
@@ -45,7 +45,7 @@ export function deepEquals(a: any, b: any): boolean {
 
     for (i = length; i-- !== 0; ) {
       key = keys[i]
-      if (!deepEquals(a[key], b[key])) return false
+      if (!_deepEquals(a[key], b[key])) return false
     }
 
     return true

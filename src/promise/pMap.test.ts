@@ -1,6 +1,6 @@
-import { ErrorMode, Mapper } from '../index'
-import { inRange, randomInt, timeSpan } from '../test/test.util'
-import { AggregatedError } from './aggregatedError'
+import { ErrorMode, Mapper, _inRange, _randomInt } from '..'
+import { timeSpan } from '../test/test.util'
+import { AggregatedError } from './AggregatedError'
 import { pBatch } from './pBatch'
 import { pDelay } from './pDelay'
 import { pMap } from './pMap'
@@ -34,13 +34,13 @@ const mapper: Mapper = ([val, ms]) => {
 test('main', async () => {
   const end = timeSpan()
   expect(await pMap(input, mapper)).toEqual([10, 20, 30])
-  expect(inRange(end(), 290, 430)).toBe(true)
+  expect(_inRange(end(), 290, 430)).toBe(true)
 })
 
 test('concurrency: 1', async () => {
   const end = timeSpan()
   expect(await pMap(input, mapper, { concurrency: 1 })).toEqual([10, 20, 30])
-  expect(inRange(end(), 590, 760)).toBe(true)
+  expect(_inRange(end(), 590, 760)).toBe(true)
 })
 
 test('concurrency: 4', async () => {
@@ -52,7 +52,7 @@ test('concurrency: 4', async () => {
     async () => {
       running++
       expect(running <= concurrency).toBe(true)
-      await pDelay(randomInt(30, 200))
+      await pDelay(_randomInt(30, 200))
       running--
     },
     { concurrency },
@@ -64,7 +64,7 @@ test('handles empty iterable', async () => {
 })
 
 test('async with concurrency: 2 (random time sequence)', async () => {
-  const input = new Array(10).map(() => randomInt(0, 100))
+  const input = new Array(10).map(() => _randomInt(0, 100))
   const mapper: Mapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
@@ -84,17 +84,10 @@ test('async with concurrency: 2 (out of order time sequence)', async () => {
   expect(result).toEqual(input)
 })
 
-test('enforce number in options.concurrency', async () => {
-  await expect(pMap([], () => {}, { concurrency: 0 })).rejects.toThrow(TypeError)
-  await expect(pMap([], () => {}, { concurrency: undefined })).rejects.toThrow(TypeError)
-  await expect(pMap([], 2 as any)).rejects.toThrow(TypeError)
-  await expect(pMap([], () => {}, { concurrency: 1 })).resolves
-})
-
 test('reject', async () => {
   const input = [1, 1, 0, 1]
   const mapper: Mapper = async v => {
-    await pDelay(randomInt(0, 100))
+    await pDelay(_randomInt(0, 100))
     if (!v) throw new Error('Err')
     return v
   }

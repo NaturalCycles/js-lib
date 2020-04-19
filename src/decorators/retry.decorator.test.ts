@@ -1,11 +1,11 @@
-import { Retry } from './retry.decorator'
+import { _Retry } from './retry.decorator'
 
 class C {
   constructor(public succeedOnAttempt: number) {}
 
   attempt = 0
 
-  @Retry({
+  @_Retry({
     maxAttempts: 3,
     delay: 100,
     delayMultiplier: 1,

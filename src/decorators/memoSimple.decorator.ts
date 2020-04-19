@@ -11,7 +11,7 @@ Otherwise resorts to JSON.stringify.
 Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
-import { getArgsSignature, getTargetMethodSignature } from './decorator.util'
+import { _getArgsSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 export interface MemoOpts {
@@ -19,6 +19,8 @@ export interface MemoOpts {
   logMiss?: boolean
   noLogArgs?: boolean
 }
+
+// memoSimple decorator is NOT exported. Only used in benchmarks currently
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
@@ -53,7 +55,7 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
 
   const { logHit, logMiss, noLogArgs } = opts
   const keyStr = String(key)
-  const methodSignature = getTargetMethodSignature(target, keyStr)
+  const methodSignature = _getTargetMethodSignature(target, keyStr)
 
   descriptor.value = function (this: typeof target, ...args: any[]): any {
     const ctx = this
@@ -61,7 +63,7 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
 
     if (cache.has(cacheKey)) {
       if (logHit) {
-        console.log(`${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo hit`)
+        console.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
       }
       return cache.get(cacheKey)
     }
@@ -72,7 +74,7 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
 
     if (logMiss) {
       console.log(
-        `${methodSignature}(${getArgsSignature(args, noLogArgs)}) @memo miss (${
+        `${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${
           Date.now() - d
         } ms)`,
       )

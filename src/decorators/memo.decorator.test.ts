@@ -1,11 +1,11 @@
-import { memo } from './memo.decorator'
+import { _Memo } from './memo.decorator'
 
 class A {
   func(n: number): void {
     console.log(`func ${n}`)
   }
 
-  @memo()
+  @_Memo()
   a(a1: number, a2: number): number {
     const n = a1 * a2
     this.func(n)
@@ -58,13 +58,13 @@ test('MEMO_DROP_CACHE', () => {
 
 test('memo unsupported', () => {
   const pd = { value: 'property' } as PropertyDescriptor
-  expect(() => memo()(null as any, 'a', pd)).toThrow()
+  expect(() => _Memo()(null as any, 'a', pd)).toThrow()
 })
 
 class B {
   cacheMisses = 0
 
-  @memo()
+  @_Memo()
   a(a1 = 'def') {
     console.log(`a called with a1=${a1}`)
     this.cacheMisses++

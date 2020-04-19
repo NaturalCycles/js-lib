@@ -1,4 +1,4 @@
-import { memo, _range } from '..'
+import { _Memo, _range } from '..'
 
 beforeEach(() => {
   jest.restoreAllMocks()
@@ -7,7 +7,7 @@ beforeEach(() => {
 class C {
   fn() {}
 
-  @memo()
+  @_Memo()
   method(n: number) {
     this.fn()
     return n * 2

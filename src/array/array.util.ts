@@ -10,9 +10,9 @@
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
-import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../util/lodash.types'
+import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../lodash.types'
 
-export function _chunk<T>(array: T[], size = 1): T[][] {
+export function _chunk<T>(array: readonly T[], size = 1): T[][] {
   return array.reduce((arr, item, idx) => {
     return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]]
   }, [] as T[][])
@@ -44,7 +44,7 @@ export function _flattenDeep<T>(arr: RecursiveArray<T>): T[] {
 /**
  * Removes duplicates from given array.
  */
-export function _uniq<T>(a: T[]): T[] {
+export function _uniq<T>(a: readonly T[]): T[] {
   return [...new Set(a)]
 }
 
@@ -68,7 +68,7 @@ export function _uniq<T>(a: T[]): T[] {
  *
  * Based on: https://stackoverflow.com/a/40808569/4919972
  */
-export function _uniqBy<T>(arr: T[], predicate: ValueIteratee<T>): T[] {
+export function _uniqBy<T>(arr: readonly T[], predicate: ValueIteratee<T>): T[] {
   const cb = typeof predicate === 'function' ? predicate : (o: T) => o[predicate as any]
 
   return [
@@ -102,7 +102,7 @@ export function _uniqBy<T>(arr: T[], predicate: ValueIteratee<T>): T[] {
  *   ID2: {id: 'id2', b: 'b1'},
  * }
  */
-export function by<T>(items: T[] = [], predicate: StringIteratee<T>): Record<string, T> {
+export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): Record<string, T> {
   const cb: (value: T) => string | undefined =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
 
@@ -120,11 +120,11 @@ export function by<T>(items: T[] = [], predicate: StringIteratee<T>): Record<str
  * Same:
  * _sortBy([{age: 20}, {age: 10}], o => o.age)
  */
-export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>): T[] {
+export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>, mutate = false): T[] {
   const cb: (value: T) => NotVoid =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate as string]
 
-  return [...items].sort((_a, _b) => {
+  return (mutate ? items : [...items]).sort((_a, _b) => {
     const [a, b] = [_a, _b].map(cb)
     if (typeof a === 'number' && typeof b === 'number') return Math.sign(a - b)
     return String(a).localeCompare(String(b))

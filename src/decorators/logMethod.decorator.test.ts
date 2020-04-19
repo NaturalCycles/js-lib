@@ -1,46 +1,46 @@
 import { InstanceId, pDelay } from '../index'
-import { logMethod } from './logMethod.decorator'
+import { _LogMethod } from './logMethod.decorator'
 
 class C {
-  @logMethod()
+  @_LogMethod()
   syncMethodSuccess() {
     return 'a'
   }
 
-  @logMethod()
+  @_LogMethod()
   syncMethodThrow() {
     throw new Error('MyError')
   }
 
-  @logMethod()
+  @_LogMethod()
   async asyncMethodSuccess() {
     await pDelay(10)
     return 'a'
   }
 
-  @logMethod()
+  @_LogMethod()
   async asyncMethodThrow() {
     await pDelay(10)
     throw new Error('MyError')
   }
 
-  @logMethod({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
+  @_LogMethod({ avg: 3, noLogArgs: true, logStart: true, logResult: true })
   async asyncMethodSuccessAvg(delay: number) {
     await pDelay(delay)
     return 'a'
   }
 
-  @logMethod({ logResultFn: r => [`my custom msg ${r}`] })
+  @_LogMethod({ logResultFn: r => [`my custom msg ${r}`] })
   methodResultFn(n: number) {
     return n * 2
   }
 
-  @logMethod()
+  @_LogMethod()
   methodLongArg(...args: any[]) {
     return 'a'
   }
 
-  @logMethod()
+  @_LogMethod()
   methodReturnsArray() {
     return [1, 2, 3]
   }

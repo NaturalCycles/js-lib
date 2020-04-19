@@ -16,10 +16,10 @@ import { pMap, PMapOptions } from './pMap'
  */
 export async function pProps<T>(
   input: { [K in keyof T]: T[K] | Promise<T[K]> },
-  opts?: PMapOptions,
+  opt?: PMapOptions,
 ): Promise<T> {
   const keys = Object.keys(input)
-  const values = await pMap(Object.values(input), r => r, opts)
+  const values = await pMap(Object.values(input), r => r, opt)
 
   const r = {} as T
   values.forEach((v, i) => {

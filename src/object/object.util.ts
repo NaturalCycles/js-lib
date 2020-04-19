@@ -1,4 +1,4 @@
-import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../util/lodash.types'
+import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../lodash.types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -7,78 +7,82 @@ import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../util
 export function _pick<T extends object, K extends keyof T>(
   obj: T,
   props: readonly K[],
-  initialObject: Partial<T> = {},
+  mutate = false,
 ): T {
-  if (!obj) return obj
-
-  return props.reduce((r, prop) => {
-    if (prop in obj) r[prop] = obj[prop]
-    return r
-  }, initialObject) as T
+  if (mutate) {
+    // Start as original object (mutable), DELETE properties that are not whitelisted
+    return Object.keys(obj).reduce((r, prop) => {
+      if (!props.includes(prop as K)) delete r[prop]
+      return r
+    }, obj)
+  } else {
+    // Start as empty object, pick/add needed properties
+    return props.reduce((r, prop) => {
+      if (prop in obj) r[prop] = obj[prop]
+      return r
+    }, {} as T)
+  }
 }
 
 /**
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function _omit<T extends object, K extends keyof T>(obj: T, props: readonly K[]): T {
-  if (!obj) return obj
-
+export function _omit<T extends object, K extends keyof T>(
+  obj: T,
+  props: readonly K[],
+  mutate = false,
+): T {
   return props.reduce(
     (r, prop) => {
       delete r[prop]
       return r
     },
-    { ...obj },
+    mutate ? obj : { ...obj },
   )
 }
 
 /**
  * Returns object with filtered keys from `props` array.
  * E.g:
- * mask({...}, [
+ * _mask({...}, [
  *  'account.id',
  *  'account.updated',
  * ])
- *
- * Pass deepCopy if you want to protect the whole object (not just first level) from mutation.
  */
-export function mask<T extends object>(_o: T, props: string[], _deepCopy = false): T {
+export function _mask<T extends object>(obj: T, props: string[], mutate = false): T {
   return props.reduce(
     (r, prop) => {
       _unset(r, prop)
       return r
     },
-    _deepCopy ? deepCopy(_o) : { ..._o },
+    mutate ? obj : _deepCopy(obj),
   )
 }
 
 /**
  * Removes "falsy" values from the object.
  */
-export function filterFalsyValues<T extends object>(obj: T, mutate = false): T {
-  return filterObject(obj, (_k, v) => !!v, mutate)
+export function _filterFalsyValues<T extends object>(obj: T, mutate = false): T {
+  return _filterObject(obj, (_k, v) => !!v, mutate)
 }
 
-export function filterEmptyStringValues<T extends object>(obj: T, mutate = false): T {
-  return filterObject(obj, (_k, v) => v !== '', mutate)
-}
-
-export function filterUndefinedValues<T extends object>(obj: T, mutate = false): T {
-  return filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
+/**
+ * Removes values from the object that are `null` or `undefined`.
+ */
+export function _filterUndefinedValues<T extends object>(obj: T, mutate = false): T {
+  return _filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
 }
 
 /**
  * Returns clone of `obj` without properties that does not pass `predicate`.
  * Allows filtering by both key and value.
  */
-export function filterObject<T extends object>(
+export function _filterObject<T extends object>(
   obj: T,
   predicate: (key: keyof T, value: any) => boolean,
   mutate = false,
 ): T {
-  if (!isObject(obj)) return obj
-
   return Object.keys(obj).reduce(
     (r, k) => {
       if (!predicate(k as keyof T, r[k])) delete r[k]
@@ -106,8 +110,6 @@ export function _mapValues<T extends object>(
   predicate: ObjectIterator<T, NotVoid> | string,
   mutate = false,
 ): T {
-  if (!isObject(obj)) return obj as any
-
   const cb: ObjectIterator<T, NotVoid> =
     typeof predicate === 'function' ? predicate : v => v[predicate]
 
@@ -123,13 +125,13 @@ export function _mapValues<T extends object>(
 /**
  * _.mapKeys({ 'a': 1, 'b': 2 }, (value, key) => key + value)
  * // => { 'a1': 1, 'b2': 2 }
+ *
+ * Does not support `mutate` flag currently.
  */
 export function _mapKeys<T extends object>(
   obj: T,
   predicate: ObjectIterator<T, string>,
 ): Record<string, T[keyof T]> {
-  if (!isObject(obj)) return obj as any
-
   return Object.entries(obj).reduce((map, [k, v]) => {
     map[String(predicate(v, k, obj))] = v
     return map
@@ -158,8 +160,6 @@ export function _mapObject<T extends object, TResult>(
   obj: T,
   predicate: ObjectKVIterator<T, KeyValueTuple<any, any>>,
 ): { [P in keyof T]: TResult } {
-  if (!isObject(obj)) return obj as any
-
   return Object.entries(obj).reduce((map, [k, v]) => {
     const r = predicate(k, v, obj)
     if (r?.[0]) {
@@ -169,22 +169,22 @@ export function _mapObject<T extends object, TResult>(
   }, {} as { [P in keyof T]: TResult })
 }
 
-export function objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {
+export function _objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {
   return _mapValues(obj, v => (v === null ? undefined : v), mutate)
 }
 
 /**
- * Deep copy object (by json parse/stringify).
+ * Deep copy object (by json parse/stringify, since it has unbeatable performance+simplicity combo).
  */
-export function deepCopy<T>(o: T): T {
+export function _deepCopy<T>(o: T): T {
   return JSON.parse(JSON.stringify(o))
 }
 
-export function isObject(item: any): boolean {
+export function _isObject(item: any): boolean {
   return (item && typeof item === 'object' && !Array.isArray(item) && true) || false
 }
 
-export function isPrimitive(v: any): boolean {
+export function _isPrimitive(v: any): boolean {
   return (
     v === null ||
     v === undefined ||
@@ -194,7 +194,7 @@ export function isPrimitive(v: any): boolean {
   )
 }
 
-export function isEmptyObject(obj: any): boolean {
+export function _isEmptyObject(obj: any): boolean {
   return obj && obj.constructor === Object && Object.keys(obj).length === 0
 }
 
@@ -228,12 +228,10 @@ export function isEmptyObject(obj: any): boolean {
  * Based on: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
  */
 export function _merge<T extends object>(target: T, ...sources: any[]): T {
-  if (!isObject(target)) return target
-
   sources.forEach(source => {
-    if (isObject(source)) {
+    if (_isObject(source)) {
       Object.keys(source).forEach(key => {
-        if (isObject(source[key])) {
+        if (_isObject(source[key])) {
           if (!target[key]) Object.assign(target, { [key]: {} })
           _merge(target[key], source[key])
         } else {
@@ -249,37 +247,15 @@ export function _merge<T extends object>(target: T, ...sources: any[]): T {
 /**
  * Mutates
  */
-export function deepTrim(o: any): any {
+export function _deepTrim<T extends object | string>(o: T): T {
   if (!o) return o
 
   if (typeof o === 'string') {
-    return o.trim()
+    return o.trim() as T
   } else if (typeof o === 'object') {
     Object.keys(o).forEach(k => {
-      o[k] = deepTrim(o[k])
+      o[k] = _deepTrim(o[k])
     })
-  }
-
-  return o
-}
-
-// based on: https://github.com/IndigoUnited/js-deep-sort-object
-export function sortObjectDeep<T extends object>(o: T): T {
-  // array
-  if (Array.isArray(o)) {
-    return o.map(sortObjectDeep) as any
-  }
-
-  if (isObject(o)) {
-    const out = {} as T
-
-    Object.keys(o)
-      .sort((a, b) => a.localeCompare(b))
-      .forEach(k => {
-        out[k] = sortObjectDeep((o as any)[k])
-      })
-
-    return out
   }
 
   return o
@@ -288,7 +264,7 @@ export function sortObjectDeep<T extends object>(o: T): T {
 // from: https://github.com/jonschlinkert/unset-value
 // mutates obj
 export function _unset<T extends object>(obj: T, prop: string): void {
-  if (!isObject(obj)) {
+  if (!_isObject(obj)) {
     return
   }
   if (obj.hasOwnProperty(prop)) {
@@ -301,28 +277,28 @@ export function _unset<T extends object>(obj: T, prop: string): void {
   while (segs.length && segs[segs.length - 1].slice(-1) === '\\') {
     last = segs.pop()!.slice(0, -1) + '.' + last
   }
-  while (segs.length && isObject(obj)) {
+  while (segs.length && _isObject(obj)) {
     const k = (prop = segs.shift()!)
     obj = obj[k]
   }
-  if (!isObject(obj)) return
+  if (!_isObject(obj)) return
   delete obj[last!]
 }
 
-export function getKeyByValue<T extends object = any>(object: any, value: any): T | undefined {
-  if (!isObject(object)) return
+export function _getKeyByValue<T extends object = any>(object: any, value: any): T | undefined {
+  if (!_isObject(object)) return
   return Object.keys(object).find(k => object[k] === value) as any
 }
 
 export function _invert<T extends object>(o: any): T {
-  const inv: any = {}
+  const inv = {} as T
   Object.keys(o).forEach(k => {
     inv[o[k]] = k
   })
   return inv
 }
 
-export function invertMap<K, V>(m: Map<K, V>): Map<V, K> {
+export function _invertMap<K, V>(m: ReadonlyMap<K, V>): Map<V, K> {
   const inv = new Map<V, K>()
   m.forEach((v, k) => inv.set(v, k))
   return inv
@@ -358,14 +334,14 @@ export function _get<T extends object>(obj = {} as T, path = '', def?: any): any
  *
  * Based on: https://stackoverflow.com/a/54733755/4919972
  */
-export function _set<T extends object>(obj: T, path: PropertyPath, value?: any): any {
-  if (!obj || Object(obj) !== obj || !path) return obj // When obj is not an object
+export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, value?: any): OUT {
+  if (!obj || Object(obj) !== obj || !path) return obj as any // When obj is not an object
 
   // If not yet an array, get the keys from the string-path
   if (!Array.isArray(path)) {
     path = String(path).match(/[^.[\]]+/g) || []
   } else if (!path.length) {
-    return obj
+    return obj as any
   }
 
   path.slice(0, -1).reduce(
@@ -385,7 +361,7 @@ export function _set<T extends object>(obj: T, path: PropertyPath, value?: any):
     obj,
   )[path[path.length - 1]] = value // Finally assign the value to the last key
 
-  return obj // Return the top-level object to allow chaining
+  return obj as any // Return the top-level object to allow chaining
 }
 
 /**
@@ -412,7 +388,7 @@ export function _set<T extends object>(obj: T, path: PropertyPath, value?: any):
  * _.has(other, 'a');
  * // => false
  */
-export function _has<T extends object>(obj?: T, path?: string): boolean {
+export function _has<T extends object>(obj: T, path?: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
 }

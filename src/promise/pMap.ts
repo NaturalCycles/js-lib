@@ -9,7 +9,7 @@ Improvements:
 
 import { ErrorMode } from '..'
 import { Mapper } from '../types'
-import { AggregatedError } from './aggregatedError'
+import { AggregatedError } from './AggregatedError'
 
 export interface PMapOptions {
   /**
@@ -36,7 +36,7 @@ export interface PMapOptions {
  *
  * @param iterable - Iterated over concurrently in the `mapper` function.
  * @param mapper - Function which is called for every item in `input`. Expected to return a `Promise` or value.
- * @param options - Options-object.
+ * @param opt - Options-object.
  *
  * @example
  *
@@ -58,28 +58,10 @@ export interface PMapOptions {
 export async function pMap<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
   mapper: Mapper<IN, OUT>,
-  options?: PMapOptions,
+  opt: PMapOptions = {},
 ): Promise<OUT[]> {
   return new Promise<OUT[]>((resolve, reject) => {
-    options = Object.assign(
-      {
-        concurrency: Infinity,
-        stopOnError: true,
-      },
-      options,
-    )
-
-    if (typeof mapper !== 'function') {
-      throw new TypeError('Mapper function is required')
-    }
-
-    const { concurrency, errorMode = ErrorMode.THROW_IMMEDIATELY } = options
-
-    if (!(typeof concurrency === 'number' && concurrency >= 1)) {
-      throw new TypeError(
-        `Expected \`concurrency\` to be a number from 1 and up, got \`${concurrency}\` (${typeof concurrency})`,
-      )
-    }
+    const { concurrency = Infinity, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
 
     const ret: OUT[] = []
     const iterator = iterable[Symbol.iterator]()

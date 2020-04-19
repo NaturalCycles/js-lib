@@ -1,26 +1,24 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import {
-  deepCopy,
-  deepTrim,
-  filterEmptyStringValues,
-  filterFalsyValues,
-  filterObject,
-  filterUndefinedValues,
-  getKeyByValue,
-  invertMap,
-  isEmptyObject,
-  isObject,
-  isPrimitive,
-  mask,
-  objectNullValuesToUndefined,
-  sortObjectDeep,
+  _deepCopy,
+  _deepTrim,
+  _filterFalsyValues,
+  _filterObject,
+  _filterUndefinedValues,
   _get,
+  _getKeyByValue,
   _has,
   _invert,
+  _invertMap,
+  _isEmptyObject,
+  _isObject,
+  _isPrimitive,
   _mapKeys,
   _mapObject,
   _mapValues,
+  _mask,
   _merge,
+  _objectNullValuesToUndefined,
   _omit,
   _pick,
   _set,
@@ -30,19 +28,12 @@ import {
 test('pick', () => {
   const f = _pick
 
-  // disabled, cause you HAVE TO provide non-empty props
-  // expect(f(undefined as any)).toBe(undefined)
-  // expect(f(null as any)).toBe(null)
-  // expect(f({})).toEqual({})
-
   const obj = {
     a: 1,
     b: 2,
     c: 3,
     d: false,
   }
-
-  // expect(f(obj)).toEqual(obj) // no fields
 
   // empty fields
   expect(f(obj, [])).toEqual({})
@@ -54,13 +45,17 @@ test('pick', () => {
   expect('e' in r).toBe(false) // should not add more fields with 'undefined' value
   // should not mutate
   expect(obj.c).toBe(3)
+  expect(r).not.toBe(obj)
+
+  // should mutate
+  const obj2 = f(obj, ['a'], true)
+  expect(obj2).toEqual({
+    a: 1,
+  })
+  expect(obj2).toBe(obj)
 })
 
 test('omit', () => {
-  // expect(_omit(undefined as any)).toBe(undefined)
-  // expect(_omit(null as any)).toBe(null)
-  // expect(_omit({})).toEqual({})
-
   const obj = {
     a: 1,
     b: 2,
@@ -88,7 +83,41 @@ test('omit', () => {
   })
 })
 
-test('mask shallowCopy', () => {
+test('omit mutate', () => {
+  const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: false,
+    e: undefined,
+  }
+
+  const obj2 = _omit(obj, ['b', 'c'], true)
+  expect(obj2).toEqual({
+    a: 1,
+    d: false,
+    e: undefined,
+  })
+  expect(obj2).toBe(obj)
+})
+
+test('_mask', () => {
+  const o = {
+    a: '1',
+    b: {
+      c: '2',
+      d: '1',
+    },
+  }
+  deepFreeze(o)
+  const r = _mask(o, ['b.c'])
+  expect(r).toMatchSnapshot()
+
+  // should not fail
+  expect(_mask(o, ['c.0.0'])).toEqual(o)
+})
+
+test('mask with mutation', () => {
   const o = {
     a: '1',
     b: {
@@ -99,29 +128,14 @@ test('mask shallowCopy', () => {
       },
     },
   }
-  const r = mask(o, ['b.c'])
+  const r = _mask(o, ['b.c'], true)
   expect(r).toMatchSnapshot()
   expect(r.b).toEqual(o.b) // cause it will mutate r.b
-})
-
-test('mask deepCopy', () => {
-  const o = {
-    a: '1',
-    b: {
-      c: '2',
-      d: '1',
-    },
-  }
-  deepFreeze(o)
-  const r = mask(o, ['b.c'], true)
-  expect(r).toMatchSnapshot()
-
-  // should not fail
-  expect(mask(o, ['c.0.0'])).toEqual(o)
+  expect(r).toBe(o)
 })
 
 test('deepTrim', () => {
-  const f = deepTrim
+  const f = _deepTrim
   const o = {
     a: 'abc ',
     b: 'c',
@@ -141,10 +155,10 @@ test('deepTrim', () => {
     },
   })
 
-  expect(f(undefined)).toBe(undefined)
+  // expect(f(undefined)).toBe(undefined)
 
   expect(
-    deepTrim({
+    _deepTrim({
       a: ' b',
       c: 'd ',
       e: ' f ',
@@ -159,7 +173,7 @@ test('deepTrim', () => {
 })
 
 test('filterFalsyValues', () => {
-  const f = filterFalsyValues
+  const f = _filterFalsyValues
   const o = Object.freeze({
     a: 1,
     b: 0,
@@ -181,31 +195,6 @@ test('filterFalsyValues', () => {
   expect(o2.b).toBe(undefined)
 })
 
-test('filterEmptyStringValues', () => {
-  const f = filterEmptyStringValues
-  const o = {
-    a: 1,
-    b: 0,
-    c: undefined,
-    d: null,
-    e: '',
-    f: 'wer',
-  }
-  expect(f(o)).toEqual({
-    a: 1,
-    b: 0,
-    c: undefined,
-    d: null,
-    f: 'wer',
-  })
-  // should NOT mutate
-  expect(o.e).toBe('')
-
-  // should mutate if needed
-  f(o, true)
-  expect(o.e).toBe(undefined)
-})
-
 test('filterUndefinedValues', () => {
   const o = {
     a: 1,
@@ -217,7 +206,7 @@ test('filterUndefinedValues', () => {
   }
   deepFreeze(o)
 
-  expect(filterUndefinedValues(o)).toEqual({
+  expect(_filterUndefinedValues(o)).toEqual({
     a: 1,
     b: 0,
     e: '',
@@ -226,9 +215,9 @@ test('filterUndefinedValues', () => {
 })
 
 test('filterObject', () => {
-  expect(filterObject(1 as any, () => false)).toBe(1)
+  // expect(_filterObject(1 as any, () => false)).toBe(1)
 
-  const f = filterObject
+  const f = _filterObject
   const br = {
     a: 'b',
     c: null,
@@ -251,10 +240,10 @@ test('objectNullValuesToUndefined', () => {
     c: 1,
   }
 
-  expect(objectNullValuesToUndefined(o)).toEqual(o2)
+  expect(_objectNullValuesToUndefined(o)).toEqual(o2)
 
   // mutate
-  objectNullValuesToUndefined(o, true)
+  _objectNullValuesToUndefined(o, true)
   expect(o).toEqual(o2)
 })
 
@@ -289,17 +278,17 @@ test('deepCopy', () => {
       d: 4,
     },
   }
-  expect(deepCopy(o)).toEqual(o)
+  expect(_deepCopy(o)).toEqual(o)
 })
 
 test('isObject', () => {
-  expect(isObject(undefined)).toBe(false)
+  expect(_isObject(undefined)).toBe(false)
 })
 
 test('isEmptyObject', () => {
   const a = [1, 0, -1, undefined, null, 'wer', 'a', '', {}, { a: 'b' }]
 
-  const empty = a.filter(i => isEmptyObject(i))
+  const empty = a.filter(i => _isEmptyObject(i))
   expect(empty).toEqual([{}])
 })
 
@@ -337,37 +326,16 @@ test('mergeDeep', () => {
   })
 })
 
-test('sortObjectDeep', () => {
-  const o = {
-    b: 2,
-    a: 1,
-    c: {
-      d: {
-        m: 4,
-        j: 5,
-        aa: 1,
-      },
-      m: 'sdf',
-      dd: [3, 2, 1, 0, 55],
-      ddd: ['b', 'c', 'a'],
-    },
-    aa: 6,
-  }
-
-  // console.log(sortObjectDeep(o))
-  expect(sortObjectDeep(o)).toMatchSnapshot()
-})
-
 test('getKeyByValue', async () => {
-  expect(getKeyByValue(undefined, 'v')).toBeUndefined()
-  expect(getKeyByValue(1, 'v')).toBeUndefined()
+  expect(_getKeyByValue(undefined, 'v')).toBeUndefined()
+  expect(_getKeyByValue(1, 'v')).toBeUndefined()
 
   const o = {
     a: 'ak',
     b: 'bk',
   }
-  expect(getKeyByValue(o, 'bk')).toBe('b')
-  expect(getKeyByValue(o, 'ak')).toBe('a')
+  expect(_getKeyByValue(o, 'bk')).toBe('b')
+  expect(_getKeyByValue(o, 'ak')).toBe('a')
 })
 
 test('invert', async () => {
@@ -393,15 +361,15 @@ test('invertMap', async () => {
     ['bk', 'b'],
   ])
 
-  expect(invertMap(o)).toEqual(inv)
+  expect(_invertMap(o)).toEqual(inv)
 })
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
-  expect(isPrimitive(v)).toBe(true)
+  expect(_isPrimitive(v)).toBe(true)
 })
 
 test.each([[[]], [{}], [() => {}]] as any[])('!isPrimitive "%s"', v => {
-  expect(isPrimitive(v)).toBe(false)
+  expect(_isPrimitive(v)).toBe(false)
 })
 
 test('_get, _has', () => {
@@ -432,7 +400,7 @@ test('_get, _has', () => {
   expect(_get(o, 'c.f[3]')).toBe('5')
   expect(_get(o, 'c.f[4]')).toBe('d')
 
-  expect(_has(undefined)).toBe(false)
+  // expect(_has(undefined)).toBe(false)
   expect(_has(o)).toBe(false)
   expect(_has(o, 'a')).toBe(true)
   expect(_has(o, 'a.b')).toBe(false)

@@ -1,4 +1,4 @@
-import { memo } from './memo.decorator'
+import { _Memo } from './memo.decorator'
 
 class A {
   counter = 0
@@ -7,7 +7,7 @@ class A {
     console.log(`func ${n}`)
   }
 
-  @memo()
+  @_Memo()
   async a(a1: number, a2: number): Promise<number> {
     const n = a1 * a2
     this.func(n)
@@ -19,7 +19,7 @@ class A {
    * @param a1
    * @param a2
    */
-  @memo({ noCacheRejected: true })
+  @_Memo({ noCacheRejected: true })
   async b(a1: number, a2: number): Promise<number> {
     await new Promise(resolve => setTimeout(resolve, 100))
     this.counter++

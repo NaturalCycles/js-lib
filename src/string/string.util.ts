@@ -1,8 +1,6 @@
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
  */
-import { isObject } from '../index'
-
 export function _capitalize(s: string = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }
@@ -28,51 +26,50 @@ export function _split(str: string, separator: string, limit: number): string[] 
   return result
 }
 
-export function removeWhitespace(s: string): string {
+export function _removeWhitespace(s: string): string {
   return s.replace(/\s/g, '')
 }
 
-const EMPTY_STRING_MSG = 'empty_string'
+/**
+ * _.truncate('hi-diddly-ho there, neighborino')
+ * // => 'hi-diddly-ho there, neighbo...'
+ */
+export function _truncate(s: string, maxLen: number, omission = '...'): string {
+  if (!s || s.length <= maxLen) return s
+
+  return s.substr(0, maxLen - omission.length) + omission
+}
 
 /**
- * Transforms any "result" to String.
- * For logging/printing/human purposes.
- * For example, '' will be shown as 'empty_string'
- * `undefined` will be shown as 'undefined'
- * Objects will be JSON-pretty-printed, etc.
+ * _.truncateMiddle('abcdefghijklmnopqrstuvwxyz', 10)
+ * // => 'abcd...xyz'
  */
-export function resultToString(r: any): string {
-  let msg: string
+export function _truncateMiddle(s: string, maxLen: number, omission = '...'): string {
+  if (!s || s.length <= maxLen) return s
 
-  if (r instanceof Error) {
-    msg = r.message
-  } else if (isObject(r)) {
-    msg = JSON.stringify(r, null, 2)
-  } else {
-    msg = String(r)
-  }
-
-  return msg || EMPTY_STRING_MSG
+  const mark1 = Math.round((maxLen - omission.length) / 2)
+  const mark2 = s.length - Math.floor((maxLen - omission.length) / 2)
+  return s.substr(0, mark1) + omission + s.substr(mark2)
 }
 
 // These functions are modeled after Kotlin's String API
 
-export function substringBefore(s: string, delimiter: string): string {
+export function _substringBefore(s: string, delimiter: string): string {
   const pos = s.indexOf(delimiter)
   return s.substr(0, pos !== -1 ? pos : undefined)
 }
 
-export function substringBeforeLast(s: string, delimiter: string): string {
+export function _substringBeforeLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
   return s.substr(0, pos !== -1 ? pos : undefined)
 }
 
-export function substringAfter(s: string, delimiter: string): string {
+export function _substringAfter(s: string, delimiter: string): string {
   const pos = s.indexOf(delimiter)
   return pos !== -1 ? s.substr(pos + 1) : s
 }
 
-export function substringAfterLast(s: string, delimiter: string): string {
+export function _substringAfterLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
   return pos !== -1 ? s.substr(pos + 1) : s
 }

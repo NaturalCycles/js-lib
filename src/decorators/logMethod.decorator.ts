@@ -1,6 +1,6 @@
-import { anyToErrorMessage, resultToString, SimpleMovingAverage } from '..'
-import { ms } from '../time/time.util'
-import { getArgsSignature, getMethodSignature } from './decorator.util'
+import { SimpleMovingAverage, _anyToErrorMessage, _stringifyAny } from '..'
+import { _ms } from '../time/time.util'
+import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
 /**
  * $r - result
@@ -8,7 +8,7 @@ import { getArgsSignature, getMethodSignature } from './decorator.util'
  */
 type LogResultFn = (r: any) => any[]
 
-export interface LogMethodOpts {
+export interface LogMethodOptions {
   /**
    * Log "moving average" elapsed time for up to `avg` last method calls
    */
@@ -60,7 +60,7 @@ export interface LogMethodOpts {
  * >> asyncMethod()
  * << asyncMethodThrow() took 10 ms ERROR: MyError
  */
-export function logMethod(opt: LogMethodOpts = {}): MethodDecorator {
+export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new Error('@LogMillis can be applied only to methods')
@@ -73,7 +73,7 @@ export function logMethod(opt: LogMethodOpts = {}): MethodDecorator {
     let { logResultFn } = opt
     if (!logResultFn) {
       if (logResult) {
-        logResultFn = r => ['result:', resultToString(r)]
+        logResultFn = r => ['result:', _stringifyAny(r)]
       } else if (!noLogResultLength) {
         logResultFn = r => (Array.isArray(r) ? [`result: ${r.length} items`] : [])
       }
@@ -88,8 +88,8 @@ export function logMethod(opt: LogMethodOpts = {}): MethodDecorator {
 
       // e.g `NameOfYourClass.methodName`
       // or `NameOfYourClass(instanceId).methodName`
-      const methodSignature = getMethodSignature(ctx, keyStr)
-      const argsStr = getArgsSignature(args, noLogArgs)
+      const methodSignature = _getMethodSignature(ctx, keyStr)
+      const argsStr = _getArgsSignature(args, noLogArgs)
       const callSignature = `${methodSignature}(${argsStr}) #${++count}`
       if (logStart) console.log(`>> ${callSignature}`)
 
@@ -132,14 +132,14 @@ function logFinished(
 ): void {
   const millis = Date.now() - started
 
-  const t = ['<<', callSignature, 'took', ms(millis)]
+  const t = ['<<', callSignature, 'took', _ms(millis)]
 
   if (sma) {
-    t.push(`(avg ${ms(sma.push(millis))})`)
+    t.push(`(avg ${_ms(sma.push(millis))})`)
   }
 
   if (typeof err !== 'undefined') {
-    t.push('ERROR:', anyToErrorMessage(err, true))
+    t.push('ERROR:', _anyToErrorMessage(err, true))
   } else if (logResultFn) {
     t.push(...logResultFn(res))
   }

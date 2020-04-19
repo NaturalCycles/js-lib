@@ -1,19 +1,19 @@
-import { since } from '..'
-import { getArgsSignature } from '../decorators/decorator.util'
-import { MemoOpts } from '../decorators/memo.decorator'
-import { jsonMemoSerializer, MapMemoCache, MemoCache } from '../decorators/memo.util'
+import { _since } from '..'
+import { _getArgsSignature } from './decorator.util'
+import { MemoOptions } from './memo.decorator'
+import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 export interface MemoizedFunction {
   cache: MemoCache
 }
 
-export function memoFn<T extends (...args: any[]) => any>(
+export function _memoFn<T extends (...args: any[]) => any>(
   fn: T,
-  opts: MemoOpts = {},
+  opt: MemoOptions = {},
 ): T & MemoizedFunction {
   const { logHit, logMiss, noLogArgs, cacheFactory, noCacheRejected, noCacheResolved } = {
     cacheFactory: () => new MapMemoCache(),
-    ...opts,
+    ...opt,
   }
 
   const cache = cacheFactory()
@@ -26,7 +26,7 @@ export function memoFn<T extends (...args: any[]) => any>(
 
     if (cache.has(cacheKey)) {
       if (logHit) {
-        console.log(`${fnName}(${getArgsSignature(args, noLogArgs)}) memoFn hit`)
+        console.log(`${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn hit`)
       }
 
       const res = cache.get(cacheKey)
@@ -48,7 +48,7 @@ export function memoFn<T extends (...args: any[]) => any>(
           // console.log('RESOLVED', res)
           if (logMiss) {
             console.log(
-              `${fnName}(${getArgsSignature(args, noLogArgs)}) memoFn miss resolved (${since(
+              `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss resolved (${_since(
                 started,
               )})`,
             )
@@ -64,7 +64,7 @@ export function memoFn<T extends (...args: any[]) => any>(
           // console.log('REJECTED', err)
           if (logMiss) {
             console.log(
-              `${fnName}(${getArgsSignature(args, noLogArgs)}) memoFn miss rejected (${since(
+              `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss rejected (${_since(
                 started,
               )})`,
             )
@@ -82,7 +82,7 @@ export function memoFn<T extends (...args: any[]) => any>(
     } else {
       if (logMiss) {
         console.log(
-          `${fnName}(${getArgsSignature(args, noLogArgs)}) @memo miss (${since(started)})`,
+          `${fnName}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${_since(started)})`,
         )
       }
 

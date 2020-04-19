@@ -1,4 +1,4 @@
-import { memoFn } from './memoFn'
+import { _memoFn } from './memoFn'
 
 let calledTimes = 0
 
@@ -8,7 +8,7 @@ function fnOrig(n = 1): number {
   return n * 2
 }
 
-const fn = memoFn(fnOrig)
+const fn = _memoFn(fnOrig)
 
 beforeEach(() => {
   jest.restoreAllMocks()

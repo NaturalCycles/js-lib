@@ -1,4 +1,4 @@
-import { anyToErrorMessage, since } from '..'
+import { _anyToErrorMessage, _since } from '..'
 
 export interface PRetryOptions {
   maxAttempts: number
@@ -55,16 +55,10 @@ export interface PRetryOptions {
 }
 
 export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
-  const { maxAttempts, delay: initialDelay, delayMultiplier, predicate } = {
-    delay: 500,
-    delayMultiplier: 2,
-    ...opt,
-  }
-  let { logFirstAttempt, logRetries, logFailures, logSuccess } = {
-    logRetries: true,
-    logFailures: true,
-    ...opt,
-  }
+  const { maxAttempts, delay: initialDelay = 500, delayMultiplier = 2, predicate } = opt
+
+  let { logFirstAttempt, logRetries = true, logFailures = false, logSuccess } = opt
+
   if (opt.logAll) {
     logFirstAttempt = logRetries = logFailures = true
   }
@@ -92,16 +86,15 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
           const r = await fn.apply(this, args)
 
           if (logSuccess) {
-            console.log(`pRetry.${fname} attempt #${attempt} succeeded in ${since(started)}`)
+            console.log(`pRetry.${fname} attempt #${attempt} succeeded in ${_since(started)}`)
           }
           resolve(r)
         } catch (err) {
           if (logFailures) {
             console.warn(
-              `pRetry.${fname} attempt #${attempt} error in ${since(started)}: ${anyToErrorMessage(
-                err,
-                true,
-              )}`,
+              `pRetry.${fname} attempt #${attempt} error in ${_since(
+                started,
+              )}: ${_anyToErrorMessage(err, true)}`,
             )
           }
 

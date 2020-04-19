@@ -1,10 +1,10 @@
-import { isPrimitive } from '../object/object.util'
+import { _isPrimitive } from '../object/object.util'
 
 export type MemoSerializer = (args: any[]) => any
 
 export const jsonMemoSerializer: MemoSerializer = args => {
   if (!args.length) return undefined
-  if (args.length === 1 && isPrimitive(args[0])) return args[0]
+  if (args.length === 1 && _isPrimitive(args[0])) return args[0]
   return JSON.stringify(args)
 }
 

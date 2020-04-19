@@ -1,4 +1,5 @@
-import { by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array.util'
+import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
+import { _by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array.util'
 
 test('chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]
@@ -42,22 +43,22 @@ test('uniqBy', () => {
 })
 
 test('by', () => {
-  expect(by(undefined, 'a')).toEqual({})
+  expect(_by(undefined, 'a')).toEqual({})
 
   const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
-  let r = by(a, 'a')
+  let r = _by(a, 'a')
   expect(r).toEqual({
     aa: { a: 'aa' },
     ab: { a: 'ab' },
   })
 
-  r = by(a, v => v.a)
+  r = _by(a, v => v.a)
   expect(r).toEqual({
     aa: { a: 'aa' },
     ab: { a: 'ab' },
   })
 
-  r = by(a, v => v.a?.toUpperCase())
+  r = _by(a, v => v.a?.toUpperCase())
   expect(r).toEqual({
     AA: { a: 'aa' },
     AB: { a: 'ab' },
@@ -66,6 +67,14 @@ test('by', () => {
 
 test('_sortBy', () => {
   const a = [{ age: 20 }, { age: 10 }]
+  deepFreeze(a)
   expect(_sortBy(a, 'age')).toEqual([{ age: 10 }, { age: 20 }])
   expect(_sortBy(a, o => o.age)).toEqual([{ age: 10 }, { age: 20 }])
+})
+
+test('_sortBy with mutation', () => {
+  const a = [{ age: 20 }, { age: 10 }]
+  const r = _sortBy(a, 'age', true)
+  expect(r).toEqual([{ age: 10 }, { age: 20 }])
+  expect(r).toBe(a)
 })

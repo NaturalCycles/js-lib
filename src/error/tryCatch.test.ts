@@ -1,4 +1,4 @@
-import { TryCatch, _tryCatch } from './tryCatch'
+import { _TryCatch, _tryCatch } from './tryCatch'
 
 const _fnSuccess = (...args: any[]) => args
 
@@ -24,12 +24,12 @@ test('_tryCatch', async () => {
 })
 
 class C {
-  @TryCatch()
+  @_TryCatch()
   fnSuccess(...args: any[]) {
     return args
   }
 
-  @TryCatch({
+  @_TryCatch({
     onError: err => {
       console.log('onError fired with: ', err.message)
     },

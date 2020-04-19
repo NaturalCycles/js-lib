@@ -1,18 +1,5 @@
-import {
-  HttpError,
-  substringAfter,
-  substringAfterLast,
-  substringBefore,
-  substringBeforeLast,
-} from '..'
-import {
-  removeWhitespace,
-  resultToString,
-  _capitalize,
-  _lowerFirst,
-  _split,
-  _upperFirst,
-} from './string.util'
+import { _substringAfter, _substringAfterLast, _substringBefore, _substringBeforeLast } from '..'
+import { _capitalize, _lowerFirst, _removeWhitespace, _split, _upperFirst } from './string.util'
 
 test('capitalize', () => {
   expect(_capitalize('abc')).toBe('Abc')
@@ -29,30 +16,7 @@ test('lowerFirst', () => {
 })
 
 test('removeWhitespace', () => {
-  expect(removeWhitespace(' 1 * A ')).toBe('1*A')
-})
-
-const anyItems = [
-  undefined,
-  null,
-  '',
-  'hello a',
-  0,
-  1,
-  -5,
-  () => 'smth',
-  {},
-  [],
-  ['a'],
-  { a: 'aa' },
-  new Error('err msg'),
-  new HttpError('http err msg', {
-    httpStatusCode: 400,
-  }),
-]
-
-test('resultToString', () => {
-  expect(anyItems.map(resultToString)).toMatchSnapshot()
+  expect(_removeWhitespace(' 1 * A ')).toBe('1*A')
 })
 
 test('_split', () => {
@@ -65,8 +29,8 @@ test('substringBefore, substringAfter', () => {
   const s1 = 'someFile.test.ts'
   const s2 = '/Users/lalala/someFile.test.ts'
 
-  expect(substringBefore(s1, '.')).toBe('someFile')
-  expect(substringAfter(s1, '.')).toBe('test.ts')
-  expect(substringBeforeLast(s2, '/')).toBe(`/Users/lalala`)
-  expect(substringAfterLast(s2, '/')).toBe(`someFile.test.ts`)
+  expect(_substringBefore(s1, '.')).toBe('someFile')
+  expect(_substringAfter(s1, '.')).toBe('test.ts')
+  expect(_substringBeforeLast(s2, '/')).toBe(`/Users/lalala`)
+  expect(_substringAfterLast(s2, '/')).toBe(`someFile.test.ts`)
 })

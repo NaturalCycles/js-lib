@@ -1,6 +1,6 @@
 import { BatchResult, ErrorMode } from '..'
 import { Mapper } from '../types'
-import { AggregatedError } from './aggregatedError'
+import { AggregatedError } from './AggregatedError'
 import { pMap } from './pMap'
 
 /**
@@ -9,11 +9,11 @@ import { pMap } from './pMap'
 export async function pBatch<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
   mapper: Mapper<IN, OUT>,
-  options?: { concurrency?: number },
+  opt?: { concurrency?: number },
 ): Promise<BatchResult<OUT>> {
   try {
     const results = await pMap(iterable, mapper, {
-      ...options,
+      ...opt,
       errorMode: ErrorMode.THROW_AGGREGATED,
     })
     return {

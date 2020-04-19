@@ -1,4 +1,4 @@
-import { anyToErrorMessage, since } from '..'
+import { _anyToErrorMessage, _since } from '../index'
 
 export interface TryCatchOptions {
   onError?: (err: Error) => any
@@ -35,14 +35,14 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
       const r = await fn.apply(this, args)
 
       if (logSuccess) {
-        console.log(`tryCatch.${fname} succeeded in ${since(started)}`)
+        console.log(`tryCatch.${fname} succeeded in ${_since(started)}`)
       }
 
       return r
     } catch (err) {
       if (logError) {
         console.warn(
-          `tryCatch.${fname} error in ${since(started)}: ${anyToErrorMessage(err, true)}`,
+          `tryCatch.${fname} error in ${_since(started)}: ${_anyToErrorMessage(err, true)}`,
         )
       }
 
@@ -56,7 +56,7 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
   } as any
 }
 
-export const TryCatch = (opt: TryCatchOptions = {}): MethodDecorator => (
+export const _TryCatch = (opt: TryCatchOptions = {}): MethodDecorator => (
   target,
   key,
   descriptor,

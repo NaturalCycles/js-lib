@@ -1,11 +1,13 @@
-import { by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array/array.util'
+import { _by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array/array.util'
 import { _range } from './array/range'
-import { Debounce, Throttle } from './decorators/debounce.decorator'
-import { getArgsSignature } from './decorators/decorator.util'
-import { logMethod } from './decorators/logMethod.decorator'
-import { memo } from './decorators/memo.decorator'
+import { _debounce, _throttle } from './decorators/debounce'
+import { _Debounce, _Throttle } from './decorators/debounce.decorator'
+import { _getArgsSignature } from './decorators/decorator.util'
+import { _LogMethod } from './decorators/logMethod.decorator'
+import { _Memo } from './decorators/memo.decorator'
 import { MemoCache } from './decorators/memo.util'
-import { Retry } from './decorators/retry.decorator'
+import { _memoFn } from './decorators/memoFn'
+import { _Retry } from './decorators/retry.decorator'
 import { AppError } from './error/app.error'
 import {
   Admin401ErrorData,
@@ -16,47 +18,49 @@ import {
   HttpErrorResponse,
 } from './error/error.model'
 import {
-  anyToAppError,
-  anyToErrorMessage,
-  anyToErrorObject,
-  appErrorToErrorObject,
-  appErrorToHttpError,
-  errorObjectToAppError,
-  errorObjectToHttpError,
-  errorToErrorObject,
-  isErrorObject,
-  isHttpErrorObject,
-  isHttpErrorResponse,
+  _anyToAppError,
+  _anyToErrorMessage,
+  _anyToErrorObject,
+  _appErrorToErrorObject,
+  _appErrorToHttpError,
+  _errorObjectToAppError,
+  _errorObjectToHttpError,
+  _errorToErrorObject,
+  _isErrorObject,
+  _isHttpErrorObject,
+  _isHttpErrorResponse,
 } from './error/error.util'
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
+import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
+import { SimpleMovingAverage } from './math/sma'
+import { _inRange, _randomInt } from './number/number.util'
+import { _deepEquals } from './object/deepEquals'
 import {
-  deepCopy,
-  deepTrim,
-  filterEmptyStringValues,
-  filterFalsyValues,
-  filterObject,
-  filterUndefinedValues,
-  getKeyByValue,
-  invertMap,
-  isEmptyObject,
-  isObject,
-  mask,
-  objectNullValuesToUndefined,
-  sortObjectDeep,
+  _deepCopy,
+  _deepTrim,
+  _filterFalsyValues,
+  _filterObject,
+  _filterUndefinedValues,
   _get,
+  _getKeyByValue,
   _has,
   _invert,
+  _invertMap,
+  _isEmptyObject,
   _mapKeys,
   _mapObject,
   _mapValues,
+  _mask,
   _merge,
+  _objectNullValuesToUndefined,
   _omit,
   _pick,
   _set,
   _unset,
 } from './object/object.util'
-import { AggregatedError } from './promise/aggregatedError'
+import { _sortObjectDeep } from './object/sortObjectDeep'
+import { AggregatedError } from './promise/AggregatedError'
 import { pBatch } from './promise/pBatch'
 import { DeferredPromise, pDefer } from './promise/pDefer'
 import { pDelay } from './promise/pDelay'
@@ -66,51 +70,45 @@ import { pMap, PMapOptions } from './promise/pMap'
 import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
-import { TryCatch, TryCatchOptions, _tryCatch } from './promise/tryCatch'
-import { jsonParseIfPossible, stringifyAny, StringifyAnyOptions } from './string/json.util'
+import { StringifyAnyOptions, _jsonParseIfPossible, _stringifyAny } from './string/json.util'
 import {
-  removeWhitespace,
-  resultToString,
-  substringAfter,
-  substringAfterLast,
-  substringBefore,
-  substringBeforeLast,
   _capitalize,
   _lowerFirst,
+  _removeWhitespace,
   _split,
+  _substringAfter,
+  _substringAfterLast,
+  _substringBefore,
+  _substringBeforeLast,
+  _truncate,
+  _truncateMiddle,
   _upperFirst,
 } from './string/string.util'
-import { ms, since } from './time/time.util'
+import { _ms, _since } from './time/time.util'
 import {
   BatchResult,
   InstanceId,
   IsoDate,
   IsoDateTime,
   Mapper,
-  passNothingPredicate,
-  passthroughMapper,
-  passthroughPredicate,
-  passUndefinedMapper,
   Predicate,
   PromiseMap,
   StringMap,
   ValueOf,
   ValuesOf,
+  _passNothingPredicate,
+  _passthroughMapper,
+  _passthroughPredicate,
+  _passUndefinedMapper,
 } from './types'
-import { _debounce, _throttle } from './util/debounce'
-import { deepEquals } from './util/deepEquals'
-import { memoFn } from './util/memoFn'
-import { randomInt } from './util/random.util'
-import { gb, hb, kb, mb } from './util/size.util'
-import { SimpleMovingAverage } from './util/sma'
-import { _truncate, _truncateMiddle } from './util/truncate'
+import { _gb, _hb, _kb, _mb } from './unit/size.util'
 
 export {
-  memo,
+  _Memo,
   MemoCache,
-  memoFn,
-  logMethod,
-  getArgsSignature,
+  _memoFn,
+  _LogMethod,
+  _getArgsSignature,
   ErrorData,
   ErrorObject,
   HttpErrorData,
@@ -119,10 +117,11 @@ export {
   HttpError,
   Admin401ErrorData,
   Admin403ErrorData,
-  isErrorObject,
-  isHttpErrorObject,
-  isHttpErrorResponse,
-  randomInt,
+  _isErrorObject,
+  _isHttpErrorObject,
+  _isHttpErrorResponse,
+  _randomInt,
+  _inRange,
   StringMap,
   PromiseMap,
   ValuesOf,
@@ -134,49 +133,46 @@ export {
   _upperFirst,
   _lowerFirst,
   _split,
-  removeWhitespace,
-  resultToString,
-  substringBefore,
-  substringBeforeLast,
-  substringAfter,
-  substringAfterLast,
+  _removeWhitespace,
+  _substringBefore,
+  _substringBeforeLast,
+  _substringAfter,
+  _substringAfterLast,
   _truncate,
   _truncateMiddle,
   _pick,
   _omit,
-  filterFalsyValues,
-  filterEmptyStringValues,
-  filterUndefinedValues,
-  filterObject,
+  _filterFalsyValues,
+  _filterUndefinedValues,
+  _filterObject,
   _mapKeys,
   _mapValues,
   _mapObject,
-  objectNullValuesToUndefined,
-  deepEquals,
-  deepCopy,
-  isObject,
-  isEmptyObject,
+  _objectNullValuesToUndefined,
+  _deepEquals,
+  _deepCopy,
+  _isEmptyObject,
   _merge,
-  deepTrim,
-  sortObjectDeep,
+  _deepTrim,
+  _sortObjectDeep,
   _get,
   _set,
   _has,
   _unset,
-  mask,
-  getKeyByValue,
+  _mask,
+  _getKeyByValue,
   _invert,
-  invertMap,
-  by,
+  _invertMap,
+  _by,
   _sortBy,
-  anyToErrorMessage,
-  anyToErrorObject,
-  anyToAppError,
-  errorToErrorObject,
-  errorObjectToAppError,
-  errorObjectToHttpError,
-  appErrorToErrorObject,
-  appErrorToHttpError,
+  _anyToErrorMessage,
+  _anyToErrorObject,
+  _anyToAppError,
+  _errorToErrorObject,
+  _errorObjectToAppError,
+  _errorObjectToHttpError,
+  _appErrorToErrorObject,
+  _appErrorToHttpError,
   _range,
   _uniq,
   _uniqBy,
@@ -186,16 +182,16 @@ export {
   SimpleMovingAverage,
   _debounce,
   _throttle,
-  Debounce,
-  Throttle,
+  _Debounce,
+  _Throttle,
   pMap,
   PMapOptions,
   Mapper,
   Predicate,
-  passthroughMapper,
-  passUndefinedMapper,
-  passthroughPredicate,
-  passNothingPredicate,
+  _passthroughMapper,
+  _passUndefinedMapper,
+  _passthroughPredicate,
+  _passNothingPredicate,
   pBatch,
   BatchResult,
   ErrorMode,
@@ -209,17 +205,17 @@ export {
   AggregatedError,
   PRetryOptions,
   pRetry,
-  Retry,
+  _Retry,
   _tryCatch,
   TryCatchOptions,
-  TryCatch,
-  jsonParseIfPossible,
+  _TryCatch,
+  _jsonParseIfPossible,
   StringifyAnyOptions,
-  stringifyAny,
-  ms,
-  since,
-  hb,
-  gb,
-  mb,
-  kb,
+  _stringifyAny,
+  _ms,
+  _since,
+  _hb,
+  _gb,
+  _mb,
+  _kb,
 }

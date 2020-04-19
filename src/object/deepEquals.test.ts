@@ -1,8 +1,8 @@
-import { deepEquals } from './deepEquals'
+import { _deepEquals } from './deepEquals'
 
 test('deepEquals Issue!', () => {
   expect(
-    deepEquals(
+    _deepEquals(
       {
         a: 1,
         b: 2,
@@ -17,7 +17,7 @@ test('deepEquals Issue!', () => {
 
 test('deepEquals', () => {
   expect(
-    deepEquals(
+    _deepEquals(
       {
         a: 1,
         b: 2,
@@ -30,7 +30,7 @@ test('deepEquals', () => {
   ).toBe(true)
 
   expect(
-    deepEquals(
+    _deepEquals(
       {
         a: 1,
         b: 2,

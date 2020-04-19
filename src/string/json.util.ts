@@ -2,9 +2,9 @@
  * Attempts to parse object as JSON.
  * Returns original object if JSON parse failed (silently).
  */
-import { AppError, ErrorObject, isErrorObject } from '..'
+import { AppError, ErrorObject, _isErrorObject } from '..'
 
-export function jsonParseIfPossible(obj: any): any {
+export function _jsonParseIfPossible(obj: any): any {
   if (typeof obj === 'string' && obj) {
     try {
       return JSON.parse(obj)
@@ -48,21 +48,21 @@ export interface StringifyAnyOptions {
  *
  * TODO: This function implementation/purpose very much overlaps with `anyToErrorMessage`. Clarify it somehow.
  */
-export function stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
+export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   let s: string
 
-  obj = jsonParseIfPossible(obj) // in case it's e.g non-pretty JSON, or even a stringified ErrorObject
+  obj = _jsonParseIfPossible(obj) // in case it's e.g non-pretty JSON, or even a stringified ErrorObject
 
   if (obj instanceof Error) {
     // Stack includes message
     s = (!opt.noErrorStack && obj.stack) || [obj?.name, obj.message].filter(Boolean).join(': ')
 
-    if (obj instanceof AppError || isErrorObject(obj)) {
+    if (obj instanceof AppError || _isErrorObject(obj)) {
       const data = ((obj as any) as ErrorObject).data
-      s = [s, Object.keys(data).length > 0 && stringifyAny(data, opt)].filter(Boolean).join('\n')
+      s = [s, Object.keys(data).length > 0 && _stringifyAny(data, opt)].filter(Boolean).join('\n')
     }
-  } else if (isErrorObject(obj)) {
-    s = [obj.message, Object.keys(obj.data).length > 0 && stringifyAny(obj.data, opt)]
+  } else if (_isErrorObject(obj)) {
+    s = [obj.message, Object.keys(obj.data).length > 0 && _stringifyAny(obj.data, opt)]
       .filter(Boolean)
       .join('\n')
   } else if (typeof obj === 'string') {

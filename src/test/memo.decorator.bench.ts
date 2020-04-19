@@ -6,7 +6,7 @@ yarn tsn ./src/test/memo.decorator.bench.ts
 /* tslint:disable:no-unused-variable */
 
 import * as Benchmark from 'benchmark'
-import { memo } from '..'
+import { _Memo } from '..'
 import { memoSimple } from '../decorators/memoSimple.decorator'
 
 let c = 0
@@ -34,7 +34,7 @@ class C2 {
 }
 
 class C3 {
-  @memo()
+  @_Memo()
   getC0() {
     return new C0()
   }

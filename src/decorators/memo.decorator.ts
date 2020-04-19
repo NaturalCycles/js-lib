@@ -4,11 +4,11 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 // https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
 
-import { since } from '..'
-import { getArgsSignature, getMethodSignature, getTargetMethodSignature } from './decorator.util'
+import { _since } from '..'
+import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
-export interface MemoOpts {
+export interface MemoOptions {
   logHit?: boolean
   logMiss?: boolean
 
@@ -47,7 +47,7 @@ export interface MemoOpts {
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
-export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, descriptor) => {
+export const _Memo = (opts: MemoOptions = {}): MethodDecorator => (target, key, descriptor) => {
   if (typeof descriptor.value !== 'function') {
     throw new Error('Memoization can be applied only to methods')
   }
@@ -69,7 +69,7 @@ export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, desc
   }
   const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
   const keyStr = String(key)
-  const methodSignature = getTargetMethodSignature(target, keyStr)
+  const methodSignature = _getTargetMethodSignature(target, keyStr)
 
   descriptor.value = function (this: typeof target, ...args: any[]): any {
     const ctx = this
@@ -81,7 +81,7 @@ export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, desc
     } else if (cache.get(ctx)!.has(cacheKey)) {
       if (logHit) {
         console.log(
-          `${getMethodSignature(ctx, keyStr)}(${getArgsSignature(
+          `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
             args,
             noLogArgs,
           )}) @memoInstance hit`,
@@ -107,10 +107,10 @@ export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, desc
           // console.log('RESOLVED', res)
           if (logMiss) {
             console.log(
-              `${getMethodSignature(ctx, keyStr)}(${getArgsSignature(
+              `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
                 args,
                 noLogArgs,
-              )}) @memo miss resolved (${since(started)})`,
+              )}) @memo miss resolved (${_since(started)})`,
             )
           }
 
@@ -124,10 +124,10 @@ export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, desc
           // console.log('REJECTED', err)
           if (logMiss) {
             console.log(
-              `${getMethodSignature(ctx, keyStr)}(${getArgsSignature(
+              `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
                 args,
                 noLogArgs,
-              )}) @memo miss rejected (${since(started)})`,
+              )}) @memo miss rejected (${_since(started)})`,
             )
           }
 
@@ -143,10 +143,10 @@ export const memo = (opts: MemoOpts = {}): MethodDecorator => (target, key, desc
     } else {
       if (logMiss) {
         console.log(
-          `${getMethodSignature(ctx, keyStr)}(${getArgsSignature(
+          `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
             args,
             noLogArgs,
-          )}) @memo miss (${since(started)})`,
+          )}) @memo miss (${_since(started)})`,
         )
       }
 

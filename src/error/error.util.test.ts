@@ -1,14 +1,14 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
 import { AppError, HttpError, HttpErrorResponse } from '..'
 import {
-  anyToAppError,
-  anyToErrorMessage,
-  anyToErrorObject,
-  appErrorToErrorObject,
-  errorObjectToAppError,
-  isErrorObject,
-  isHttpErrorObject,
-  isHttpErrorResponse,
+  _anyToAppError,
+  _anyToErrorMessage,
+  _anyToErrorObject,
+  _appErrorToErrorObject,
+  _errorObjectToAppError,
+  _isErrorObject,
+  _isHttpErrorObject,
+  _isHttpErrorResponse,
 } from './error.util'
 
 const anyItems = [
@@ -44,16 +44,16 @@ const anyItems = [
 ]
 
 test('anyToErrorMessage', () => {
-  expectResults(anyToErrorMessage, anyItems).toMatchSnapshot()
+  expectResults(_anyToErrorMessage, anyItems).toMatchSnapshot()
 })
 
 test('anyToErrorMessage includeData=true', () => {
-  expectResults(v => anyToErrorMessage(v, true), anyItems).toMatchSnapshot()
+  expectResults(v => _anyToErrorMessage(v, true), anyItems).toMatchSnapshot()
 })
 
 test('anyToErrorObject', () => {
   expectResults(v => {
-    const r = anyToErrorObject(v)
+    const r = _anyToErrorObject(v)
     delete r.stack // remove from snapshot matching
     return r
   }, anyItems).toMatchSnapshot()
@@ -62,14 +62,14 @@ test('anyToErrorObject', () => {
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   const data = { a: 'b' }
   const err1 = new AppError('hello', data)
-  const err2 = appErrorToErrorObject(err1)
+  const err2 = _appErrorToErrorObject(err1)
   // console.log(err2)
 
   expect(err2).toMatchSnapshot({
     stack: expect.stringContaining('AppError'),
   })
 
-  const err3 = errorObjectToAppError(err2)
+  const err3 = _errorObjectToAppError(err2)
   expect(err3.message).toBe('hello')
   expect(err3.name).toBe('AppError')
   expect(err3.stack).not.toBeUndefined()
@@ -78,7 +78,7 @@ test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
 
 test('anyToAppError snapshot', () => {
   const out = anyItems
-    .map(i => anyToAppError(i))
+    .map(i => _anyToAppError(i))
     .map(o => {
       delete o.stack // remove from snapshot matching
       return o
@@ -92,13 +92,13 @@ test('anyToAppError snapshot', () => {
 })
 
 test('isErrorObject', () => {
-  expectResults(v => isErrorObject(v), anyItems).toMatchSnapshot()
+  expectResults(v => _isErrorObject(v), anyItems).toMatchSnapshot()
 })
 
 test('isHttpErrorObject', () => {
-  expectResults(v => isHttpErrorObject(v), anyItems).toMatchSnapshot()
+  expectResults(v => _isHttpErrorObject(v), anyItems).toMatchSnapshot()
 })
 
 test('isHttpErrorResponse', () => {
-  expectResults(v => isHttpErrorResponse(v), anyItems).toMatchSnapshot()
+  expectResults(v => _isHttpErrorResponse(v), anyItems).toMatchSnapshot()
 })
