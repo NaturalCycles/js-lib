@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { testCICommand } from '../cmd/test-ci.command'
 
-runScript(testCICommand, { noExit: true })
+// not runScript, because there's some dark magic happening with jest
+testCICommand().catch(err => {
+  console.error(err)
+  process.exit(1)
+})
