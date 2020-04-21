@@ -3,4 +3,4 @@
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { testCICommand } from '../cmd/test-ci.command'
 
-runScript(testCICommand)
+runScript(testCICommand, { noExit: true })

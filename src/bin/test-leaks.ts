@@ -3,4 +3,4 @@
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { testLeaksCommand } from '../cmd/test-leaks.command'
 
-runScript(testLeaksCommand)
+runScript(testLeaksCommand, { noExit: true })
