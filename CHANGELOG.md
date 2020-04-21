@@ -1,3 +1,10 @@
+## [10.14.9](https://github.com/NaturalCycles/dev-lib/compare/v10.14.8...v10.14.9) (2020-04-21)
+
+
+### Bug Fixes
+
+* jest --maxWorkers=1 ([9cdd747](https://github.com/NaturalCycles/dev-lib/commit/9cdd747c296023bbedf9b3b005e761ef0de7500e))
+
 ## [10.14.8](https://github.com/NaturalCycles/dev-lib/compare/v10.14.7...v10.14.8) (2020-04-19)
 
 
