@@ -1,3 +1,10 @@
+## [10.14.11](https://github.com/NaturalCycles/dev-lib/compare/v10.14.10...v10.14.11) (2020-04-21)
+
+
+### Bug Fixes
+
+* revert the madness ([1b2ba40](https://github.com/NaturalCycles/dev-lib/commit/1b2ba404df758e4e32541e55d20568bb1793fcc9))
+
 ## [10.14.10](https://github.com/NaturalCycles/dev-lib/compare/v10.14.9...v10.14.10) (2020-04-21)
 
 
