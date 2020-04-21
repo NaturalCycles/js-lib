@@ -1,3 +1,10 @@
+## [10.14.10](https://github.com/NaturalCycles/dev-lib/compare/v10.14.9...v10.14.10) (2020-04-21)
+
+
+### Bug Fixes
+
+* jest dark magic process.exit tricks ([210b87f](https://github.com/NaturalCycles/dev-lib/commit/210b87f1fc555cadc0d6b3cc946ad21a34483456))
+
 ## [10.14.9](https://github.com/NaturalCycles/dev-lib/compare/v10.14.8...v10.14.9) (2020-04-21)
 
 
