@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "10.14.11",
+  "version": "10.14.12",
   "scripts": {
     "tsn-debug": "tsn testScript.ts",
     "bt": "tsn ./src/bin/bt.ts",
