@@ -323,11 +323,11 @@ Things that should exist in [type-fest](https://github.com/sindresorhus/type-fes
 ```typescript
 const m: StringMap = { a: 'a' }
 // Same as:
-// const m: { [a: string]: string }
+// const m: { [a: string]: string | undefined }
 
 const m: StringMap<number> = { a: 5 }
 // Same as:
-// const m: { [a: string]: number }
+// const m: { [a: string]: number | undefined }
 ```
 
 # Packaging
