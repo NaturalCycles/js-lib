@@ -1,3 +1,15 @@
+# [13.0.0](https://github.com/NaturalCycles/js-lib/compare/v12.0.1...v13.0.0) (2020-04-22)
+
+
+### Features
+
+* StringMap values are now "nullable" ([ead49f0](https://github.com/NaturalCycles/js-lib/commit/ead49f010712b6eb634082c99bdd8fe2f28c26f1))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [12.0.1](https://github.com/NaturalCycles/js-lib/compare/v12.0.0...v12.0.1) (2020-04-19)
 
 
