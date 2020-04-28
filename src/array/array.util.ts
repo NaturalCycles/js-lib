@@ -130,3 +130,22 @@ export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>, mutate = fal
     return String(a).localeCompare(String(b))
   })
 }
+
+/**
+ * @example
+ * _intersection([2, 1], [2, 3])
+ * // [2]
+ */
+export function _intersection<T>(...arrays: T[][]): T[] {
+  if (arrays.length === 0) return [] // edge case
+  return arrays.reduce((a, b) => a.filter(v => b.includes(v)))
+}
+
+/**
+ * @example
+ * _difference([2, 1], [2, 3])
+ * // [1]
+ */
+export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
+  return diffs.reduce((a, b) => a.filter(c => !b.includes(c)), source)
+}

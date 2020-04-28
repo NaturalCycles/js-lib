@@ -1,4 +1,14 @@
-import { _by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array/array.util'
+import {
+  _by,
+  _chunk,
+  _difference,
+  _flatten,
+  _flattenDeep,
+  _intersection,
+  _sortBy,
+  _uniq,
+  _uniqBy,
+} from './array/array.util'
 import { _range } from './array/range'
 import { _debounce, _throttle } from './decorators/debounce'
 import { _Debounce, _Throttle } from './decorators/debounce.decorator'
@@ -169,6 +179,8 @@ export {
   _invertMap,
   _by,
   _sortBy,
+  _intersection,
+  _difference,
   _anyToErrorMessage,
   _anyToErrorObject,
   _anyToAppError,

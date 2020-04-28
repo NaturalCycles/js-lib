@@ -50,6 +50,26 @@ don't natively support async/await (es2017).
 Exports default CJS version for Node as es2017 (with native async/await, for better performance,
 async stack-traces, etc).
 
+## Mutation
+
+All function does **NOT** mutate the arguments by default.
+
+Many functions support "mutation flag", which can be set to `true` to perform a mutation.
+
+For example:
+
+```typescript
+const obj = { a: 'a', b: 'b' }
+
+// Non-mutating (default)
+const obj2 = _pick(obj, ['a'])
+// { a: 'a' }
+
+// Mutating (opt-in)
+_pick(obj, ['a'], true)
+// obj was mutated
+```
+
 # Highlights
 
 - `pMap` (based on https://github.com/sindresorhus/p-map)
@@ -152,9 +172,70 @@ Based on https://github.com/sindresorhus/delay
 
 ###### \_pick
 
+Inspired by Lodash's [\_.pick](https://lodash.com/docs/#pick).
+
+```typescript
+_pick({ a: 'a', b: 'b', c: 'c' }, ['a', 'b'])
+// { a: 'a', b: 'b' }
+
+_pick({ a: 'a', b: 'b', c: 'c' }, ['a'])
+// { a: 'a' }
+
+_pick({ a: 'a', b: 'b', c: 'c' }, ['d'])
+// {}
+
+_pick({ a: 'a', b: 'b', c: 'c' }, [])
+// {}
+
+// Supports "mutation flag" which would mutate the object and return it (same object):
+const obj = { a: 'a', b: 'b', c: 'c' }
+const obj2 = _pick(obj, ['a'], true)
+obj === obj2 // true
+```
+
 ###### \_omit
 
+Inspired by Lodash's [\_.omit](https://lodash.com/docs/#omit). The opposite of `_pick`.
+
+```typescript
+_omit({ a: 'a', b: 'b', c: 'c' }, ['a', 'b'])
+// { c: 'c' }
+
+_omit({ a: 'a', b: 'b', c: 'c' }, ['a'])
+// {  b: 'b', c: 'c' }
+
+_omit({ a: 'a', b: 'b', c: 'c' }, ['d'])
+// { a: 'a', b: 'b', c: 'c' }
+
+_omit({ a: 'a', b: 'b', c: 'c' }, [])
+// { a: 'a', b: 'b', c: 'c' }
+
+// Supports "mutation flag" which would mutate the object and return it (same object):
+const obj = { a: 'a', b: 'b', c: 'c' }
+const obj2 = _omit(obj, ['a', 'b'], true)
+obj === obj2 // true
+```
+
 ###### \_mask
+
+Similar to `_omit`, but supports deep object access via dot-notation (`a.b`). Supports "mutation
+flag" argument.
+
+```typescript
+const obj = {
+  a: 'a',
+  b: {
+    b1: 'b1',
+    b2: 'b2',
+  },
+}
+
+_mask(obj, ['b.b1'])
+// { a: 'a', b: { b1: 'b1' }}
+
+_mask(obj, ['b.b1'], true)
+// obj was mutated
+```
 
 ###### \_filterFalsyValues
 
@@ -213,6 +294,42 @@ Based on https://github.com/sindresorhus/delay
 ###### \_by
 
 ###### \_sortBy
+
+###### \_intersection
+
+Inspired by Lodash's [\_.intersection](https://lodash.com/docs/#intersection).
+
+```typescript
+_intersection([2, 1], [2, 3])
+// [2]
+
+_intersection([1], [2])
+// []
+
+_intersection()
+// []
+
+_intersection([1])
+// [1]
+```
+
+###### \_difference
+
+Inspired by Lodash's [\_.difference](https://lodash.com/docs/#difference)
+
+```typescript
+_difference([2, 1], [2, 3])
+// [1]
+
+_difference([1], [2])
+// [1]
+
+_difference([1], [1])
+// []
+
+_difference([1])
+// [1]
+```
 
 #### String
 

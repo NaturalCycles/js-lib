@@ -1,5 +1,15 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
-import { _by, _chunk, _flatten, _flattenDeep, _sortBy, _uniq, _uniqBy } from './array.util'
+import {
+  _by,
+  _chunk,
+  _difference,
+  _flatten,
+  _flattenDeep,
+  _intersection,
+  _sortBy,
+  _uniq,
+  _uniqBy,
+} from './array.util'
 
 test('chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]
@@ -77,4 +87,30 @@ test('_sortBy with mutation', () => {
   const r = _sortBy(a, 'age', true)
   expect(r).toEqual([{ age: 10 }, { age: 20 }])
   expect(r).toBe(a)
+})
+
+test('_intersection', () => {
+  const f = _intersection
+  expect(f()).toEqual([])
+  expect(f([1])).toEqual([1])
+  expect(f([1], [1])).toEqual([1])
+  expect(f([1], [1, 2])).toEqual([1])
+  expect(f([1], [2])).toEqual([])
+  expect(f([2, 1], [2, 3])).toEqual([2])
+
+  expect(f([1], [1], [1])).toEqual([1])
+  expect(f([1], [1], [])).toEqual([])
+  expect(f([1], [1, 2], [])).toEqual([])
+  expect(f([1, 2], [1, 2, 3], [1, 2, 3, 4])).toEqual([1, 2])
+})
+
+test('_difference', () => {
+  const f = _difference
+  expect(f([1])).toEqual([1])
+  expect(f([1], [1])).toEqual([])
+  expect(f([1], [1, 2])).toEqual([])
+  expect(f([1, 2], [2])).toEqual([1])
+  expect(f([2, 1], [2, 3])).toEqual([1])
+  expect(f([2, 1], [3])).toEqual([2, 1])
+  expect(f([2, 4, 1], [3], [2], [3])).toEqual([4, 1])
 })
