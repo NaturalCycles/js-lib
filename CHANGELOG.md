@@ -1,3 +1,10 @@
+# [13.1.0](https://github.com/NaturalCycles/js-lib/compare/v13.0.0...v13.1.0) (2020-04-28)
+
+
+### Features
+
+* _intersection, _difference ([6bb2495](https://github.com/NaturalCycles/js-lib/commit/6bb24959af6eab951e54d33e33ee2de641be10d8))
+
 # [13.0.0](https://github.com/NaturalCycles/js-lib/compare/v12.0.1...v13.0.0) (2020-04-22)
 
 
