@@ -13,7 +13,7 @@
     "jest": "^25.1.0",
     "patch-package": "^6.2.1",
     "rxjs": "^6.5.2",
-    "weak-napi": "^1.0.3"
+    "weak-napi": "^2.0.0"
   },
   "files": [
     "dist",
