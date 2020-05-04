@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "got": "^11.0.0",
-    "jest": "^25.1.0",
+    "jest": "^26.0.0",
     "patch-package": "^6.2.1",
     "weak-napi": "^2.0.0"
   },
