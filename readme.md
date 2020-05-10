@@ -22,7 +22,7 @@ This unlocks all commands listed below, e.g:
     yarn test
     yarn lint-all
 
-By default it uses default configs for Prettier and TSLint that are included in this package (for
+By default, it uses default configs for Prettier and TSLint that are included in this package (for
 convenience). You can override them by putting your own `prettier.config.js` / `tslint.json` in root
 folder of your project.
 
@@ -41,10 +41,9 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/scripts` for all non-production source files / scripts.
 - `/src/test` for generic test-related files and utilities, integration tests.
 - `/src/test/mock`
-- `/src/test/integration` for integration tests (unit tests should be placed next to the file)
 - `/src/@types`
 - `/src/env`
-- `/coverage`
+- `/coverage` for unit test coverage
 - `/tmp`
   - `/jest/unit.xml`
   - `/jest/integration.xml`
@@ -72,17 +71,33 @@ These commands are available to be called as `yarn <command>`, because they are 
 
 #### Test commands
 
-All test commands set `TZ=UTC`. You can override it by providing `TZ` env variable **before**
-running a test command.
+There are 3 categories of tests supported:
 
-- `test`: alias for `jest`. Automatically detects `full-icu` module presense, adds
-  `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically adds `--silent` (and `JEST_SILENT` env
-  var) if all tests are run. Adds `APP_ENV=test` env var (for all runs except integration).
+- Unit tests (default) `*.test.ts`
+- Integration tests `*.integration.test.ts`
+- Manual tests `*.manual.test.ts`
+
+Unit tests are default. All tests are run on `yarn test`.
+
+Integration tests (optional) allow to have a setup file (`src/test/setupJest.integration.ts`) where
+you can define separate environment settings. You can use it to run so-called "integration tests" -
+tests that interface with outside world (network, DB, APIs, etc). While unit tests are restricted to
+not use network calls.
+
+Manual tests (optional) are sub-category of integration tests that you never want to run
+automatically in any environment. They're useful to run tests manually every now and then.
+
+All test commands set `TZ=UTC`. You can override it by providing `TZ` env variable **before**
+running a test command. Adds `APP_ENV=test` env var (for all runs except integration). Automatically
+detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically
+adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
+
+- `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`)
 - `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory
   issue"
-- `test-integration`: runs Jest with `jest.integration-test.config.js` config. Which will only run
-  tests from `./src/test/integration` folder.
+- `test-integration`: runs `*.integration.test.ts` with `jest.integration-test.config.js` config.
 - `test-integration-ci`
+- `test-manual`: runs `*.manual.test.ts` with `jest.manual-test.config.js`.
 - `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak`
   module to be installed in target project).
 
@@ -96,6 +111,11 @@ in that order:
 
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.integration.ts`
+
+For manual tests:
+
+- `<rootDir>/src/test/setupJest.ts`
+- `<rootDir>/src/test/setupJest.manual.ts`
 
 `yarn test` runs tests in alphabetic order by default (internally it points `--testSequencer` to a
 pre-defined sequencer file that sorts all filenames alphabetically). Set `JEST_NO_ALPHABETIC` env
@@ -154,22 +174,3 @@ These files are meant to be extended in target project, so act as _recommended d
 - `prettier.config.js`
 - `tslint.json`
 - `jest.config.js`
-
-## Dependencies
-
-`@naturalcycles/dev-lib` is supposed to be included as `devDependency`.
-
-It has dependencies that will be installed to all modules.
-
-ONLY the dependencies that are:
-
-- **stable**
-- safe to automatically update according to semver (e.g `^1.0.0`)
-
-are included.
-
-Examples of what devDeps **cannot** be included:
-
-- `jest`
-
-Deps that are listed here are _blessed_ and battle-tested.

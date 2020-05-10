@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
-import { testCICommand } from '../cmd/test-ci.command'
+import { runJest } from '../util/jest.util'
 
-runScript(testCICommand)
+runScript(async () => {
+  await runJest({ ci: true })
+})

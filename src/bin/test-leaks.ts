@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
-import { testLeaksCommand } from '../cmd/test-leaks.command'
+import { runJest } from '../util/jest.util'
 
-runScript(testLeaksCommand)
+runScript(async () => {
+  await runJest({ leaks: true })
+})

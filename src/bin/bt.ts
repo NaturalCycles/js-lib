@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
-import { btCommand } from '../cmd/bt.command'
+import * as fs from 'fs-extra'
+import { tscScriptsCommand } from '../cmd/tsc-scripts.command'
+import { runJest } from '../util/jest.util'
+import { tsc } from '../util/tsc.util'
 
-runScript(btCommand)
+runScript(async () => {
+  await fs.emptyDir('./dist')
+  await tsc()
+  await tscScriptsCommand()
+  await runJest()
+})

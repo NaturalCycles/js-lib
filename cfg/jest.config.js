@@ -1,10 +1,11 @@
 /**
- * Default config for `jest25+`.
+ * Default config for jest.
  * Extendable.
  */
 
 const runInIDE = process.argv.includes('--runTestsByPath')
-const ideIntegrationTest = runInIDE && process.argv.some(a => a.includes('/src/test/integration/'))
+const ideIntegrationTest = runInIDE && process.argv.some(a => a.endsWith('.integration.test.ts'))
+const ideManualTest = runInIDE && process.argv.some(a => a.endsWith('.manual.test.ts'))
 
 const fs = require('fs')
 const cwd = process.cwd()
@@ -18,6 +19,10 @@ if (fs.existsSync(`${cwd}/src/test/setupJest.ts`)) {
 if (ideIntegrationTest) {
   if (fs.existsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
     setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.integration.ts')
+  }
+} else if (ideManualTest) {
+  if (fs.existsSync(`${cwd}/src/test/setupJest.manual.ts`)) {
+    setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.manual.ts')
   }
 } else {
   if (fs.existsSync(`${cwd}/src/test/setupJest.unit.ts`)) {
@@ -38,12 +43,12 @@ const testPathIgnorePatterns = ['<rootDir>/.*/__exclude/', '<rootDir>/src/enviro
 // console.log({argv: process.argv})
 
 if (runInIDE) {
-  console.log({ runInIDE, ideIntegrationTest })
+  console.log({ runInIDE, ideIntegrationTest, ideManualTest })
   process.env.APP_ENV = process.env.APP_ENV || 'test'
   process.env.TZ = process.env.TZ || 'UTC'
 } else {
-  // This allows to run integration tests in IDE
-  testPathIgnorePatterns.push('<rootDir>/src/test/integration/')
+  // This allows to run integration/manual tests in IDE
+  testPathIgnorePatterns.push('\\.integration\\.test\\.ts$', '\\.manual\\.test\\.ts$')
 }
 
 module.exports = {

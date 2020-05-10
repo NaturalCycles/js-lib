@@ -15,6 +15,12 @@ export function getJestIntegrationConfigPath(): string | undefined {
     : `${cfgDir}/jest.integration-test.config.js`
 }
 
+export function getJestManualConfigPath(): string | undefined {
+  return fs.existsSync(`./jest.manual-test.config.js`)
+    ? `./jest.manual-test.config.js`
+    : `${cfgDir}/jest.manual-test.config.js`
+}
+
 /**
  * Detects if jest is run with all tests, or with specific tests.
  */
@@ -30,6 +36,7 @@ export function isRunningAllTests(): boolean {
 interface RunJestOpt {
   ci?: boolean
   integration?: boolean
+  manual?: boolean
   leaks?: boolean
 }
 
@@ -43,7 +50,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     return
   }
 
-  const { ci, integration, leaks } = opt
+  const { ci, integration, manual, leaks } = opt
   const [, , ...processArgs] = process.argv
 
   // console.log(processArgs) // todo: solve to run it in dev-lib
@@ -57,7 +64,16 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     DEBUG_COLORS: '1',
   }
 
-  const jestConfig = integration ? getJestIntegrationConfigPath() : getJestConfigPath()
+  let jestConfig: string | undefined
+
+  if (manual) {
+    jestConfig = getJestManualConfigPath()
+  } else if (integration) {
+    jestConfig = getJestIntegrationConfigPath()
+  } else {
+    jestConfig = getJestConfigPath()
+  }
+
   if (jestConfig) {
     args.push(`--config=${jestConfig}`)
   }
@@ -92,7 +108,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  if (!opt.integration && !process.env.APP_ENV) {
+  if (!integration && !manual && !process.env.APP_ENV) {
     Object.assign(env, {
       APP_ENV: 'test',
     })
