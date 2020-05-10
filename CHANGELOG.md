@@ -1,3 +1,10 @@
+# [10.15.0](https://github.com/NaturalCycles/dev-lib/compare/v10.14.12...v10.15.0) (2020-05-10)
+
+
+### Features
+
+* run all *.integration.test.ts, not just in specific folder ([4926851](https://github.com/NaturalCycles/dev-lib/commit/492685150717b4d4e4e541ece40f142c015aeb7f))
+
 ## [10.14.12](https://github.com/NaturalCycles/dev-lib/compare/v10.14.11...v10.14.12) (2020-04-22)
 
 
