@@ -183,11 +183,11 @@ export function _deepCopy<T>(o: T): T {
 /**
  * Returns true if item is Object, not null and not Array.
  */
-export function _isObject(item: any): boolean {
+export function _isObject(item: any): item is object {
   return (typeof item === 'object' && item !== null && !Array.isArray(item)) || false
 }
 
-export function _isPrimitive(v: any): boolean {
+export function _isPrimitive(v: any): v is null | undefined | number | boolean | string {
   return (
     v === null ||
     v === undefined ||

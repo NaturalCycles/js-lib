@@ -126,14 +126,14 @@ export function _appErrorToHttpError(err: AppError<HttpErrorData>): HttpError {
   return new HttpError(err.message, err.data)
 }
 
-export function _isHttpErrorResponse(o: any): boolean {
+export function _isHttpErrorResponse(o: any): o is HttpErrorResponse {
   return _isHttpErrorObject(o?.error)
 }
 
-export function _isHttpErrorObject(o: any): boolean {
+export function _isHttpErrorObject(o: any): o is ErrorObject<HttpErrorData> {
   return typeof o?.message === 'string' && typeof o?.data?.httpStatusCode === 'number'
 }
 
-export function _isErrorObject(o: any): boolean {
+export function _isErrorObject(o: any): o is ErrorObject {
   return typeof o?.message === 'string' && typeof o?.data === 'object'
 }
