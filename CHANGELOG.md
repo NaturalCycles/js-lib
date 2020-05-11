@@ -1,3 +1,10 @@
+## [10.15.1](https://github.com/NaturalCycles/dev-lib/compare/v10.15.0...v10.15.1) (2020-05-11)
+
+
+### Bug Fixes
+
+* buildProdCommand was used by backend-lib ([af470de](https://github.com/NaturalCycles/dev-lib/commit/af470de849b1ccc4d5242cfa8fbab81c513c4e83))
+
 # [10.15.0](https://github.com/NaturalCycles/dev-lib/compare/v10.14.12...v10.15.0) (2020-05-10)
 
 
