@@ -1,3 +1,10 @@
+## [13.1.2](https://github.com/NaturalCycles/js-lib/compare/v13.1.1...v13.1.2) (2020-05-11)
+
+
+### Bug Fixes
+
+* use the fruits of previous ts types improvement ([8344903](https://github.com/NaturalCycles/js-lib/commit/8344903aff6f33f4ff945a437644cb2b82015c86))
+
 ## [13.1.1](https://github.com/NaturalCycles/js-lib/compare/v13.1.0...v13.1.1) (2020-05-11)
 
 
