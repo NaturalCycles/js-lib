@@ -2,7 +2,7 @@
  * Attempts to parse object as JSON.
  * Returns original object if JSON parse failed (silently).
  */
-import { AppError, ErrorObject, _isErrorObject } from '..'
+import { AppError, _isErrorObject } from '..'
 
 export function _jsonParseIfPossible(obj: any): any {
   if (typeof obj === 'string' && obj) {
@@ -58,7 +58,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     s = (!opt.noErrorStack && obj.stack) || [obj?.name, obj.message].filter(Boolean).join(': ')
 
     if (obj instanceof AppError || _isErrorObject(obj)) {
-      const data = ((obj as any) as ErrorObject).data
+      const data = obj.data
       s = [s, Object.keys(data).length > 0 && _stringifyAny(data, opt)].filter(Boolean).join('\n')
     }
   } else if (_isErrorObject(obj)) {

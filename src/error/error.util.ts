@@ -32,7 +32,7 @@ export function _anyToErrorObject(o: any): ErrorObject {
   o = _jsonParseIfPossible(o)
 
   if (_isHttpErrorResponse(o)) {
-    return (o as HttpErrorResponse).error
+    return o.error
   }
 
   if (_isErrorObject(o)) return o
