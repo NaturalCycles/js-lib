@@ -10,7 +10,7 @@
     "@types/benchmark": "^1.0.31",
     "@types/node": "^13.1.6",
     "benchmark": "^2.1.4",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "patch-package": "^6.2.1",
     "rxjs": "^6.5.2",
     "weak-napi": "^2.0.0"
