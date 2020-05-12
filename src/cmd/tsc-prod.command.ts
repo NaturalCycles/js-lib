@@ -1,3 +1,5 @@
+import { _since } from '@naturalcycles/js-lib'
+import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 
 export async function tscProdCommand(): Promise<void> {
@@ -6,5 +8,7 @@ export async function tscProdCommand(): Promise<void> {
 
   const args: string[] = ['-P', projectTsconfigPath]
 
+  const started = Date.now()
   await execWithArgs(`tsc`, args)
+  console.log(`${boldGrey('tsc prod')} ${dimGrey(`took ` + _since(started))}`)
 }

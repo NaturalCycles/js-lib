@@ -1,11 +1,14 @@
 import { kpy } from '@naturalcycles/fs-lib'
-import { boldGrey } from '@naturalcycles/nodejs-lib/dist/colors'
+import { _since } from '@naturalcycles/js-lib'
+import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
 
 export async function tsc(): Promise<void> {
+  const started = Date.now()
   await execCommand('tsc')
+  console.log(`${boldGrey('tsc')} ${dimGrey(`took ` + _since(started))}`)
 }
 
 /**
