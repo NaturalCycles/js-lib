@@ -1,3 +1,10 @@
+## [10.15.3](https://github.com/NaturalCycles/dev-lib/compare/v10.15.2...v10.15.3) (2020-05-12)
+
+
+### Bug Fixes
+
+* deps (typescript@3.9), cli timings ([5593a6d](https://github.com/NaturalCycles/dev-lib/commit/5593a6d0660afdf20f121352c751ed1edc4e35b5))
+
 ## [10.15.2](https://github.com/NaturalCycles/dev-lib/compare/v10.15.1...v10.15.2) (2020-05-11)
 
 
