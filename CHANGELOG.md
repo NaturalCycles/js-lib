@@ -1,3 +1,10 @@
+## [13.1.3](https://github.com/NaturalCycles/js-lib/compare/v13.1.2...v13.1.3) (2020-05-13)
+
+
+### Bug Fixes
+
+* tslib as peerDependency ([ba2516f](https://github.com/NaturalCycles/js-lib/commit/ba2516fbf5dcb04b7c16acec68f3d674a13b7dab))
+
 ## [13.1.2](https://github.com/NaturalCycles/js-lib/compare/v13.1.1...v13.1.2) (2020-05-11)
 
 
