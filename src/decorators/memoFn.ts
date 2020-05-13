@@ -1,4 +1,4 @@
-import { _since } from '..'
+import { _since } from '../time/time.util'
 import { _getArgsSignature } from './decorator.util'
 import { MemoOptions } from './memo.decorator'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'

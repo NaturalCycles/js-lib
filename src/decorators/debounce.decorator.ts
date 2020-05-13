@@ -1,5 +1,4 @@
-import { _debounce, _throttle } from '..'
-import { DebounceOptions, ThrottleOptions } from './debounce'
+import { DebounceOptions, ThrottleOptions, _debounce, _throttle } from './debounce'
 
 export function _Debounce(wait: number, opt: DebounceOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
