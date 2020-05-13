@@ -886,10 +886,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
-"@types/node@*", "@types/node@^13.1.1":
-  version "13.13.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.5.tgz#96ec3b0afafd64a4ccea9107b75bf8489f0e5765"
-  integrity sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
+"@types/node@*", "@types/node@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.0.tgz#f50aa29539341f47266f35d68201be985c5cb722"
+  integrity sha512-BZHGudjgZ8cweaQC2Q7hKpZNT2sq//NNbc7KcuTdti10S/tKIXpqiAgzZZFdwm6uUdRE9jy6UYSESNvB5rmFgA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -922,9 +922,9 @@
     "@types/through2" "*"
 
 "@types/through2@*":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@types/through2/-/through2-2.0.34.tgz#9c2a259a238dace2a05a2f8e94b786961bc27ac4"
-  integrity sha512-nhRG8+RuG/L+0fAZBQYaRflXKjTrHOKH8MFTChnf+dNVMxA3wHYYrfj0tztK0W51ABXjGfRCDc0vRkecCOrsow==
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/@types/through2/-/through2-2.0.35.tgz#9add1643da9f936ecf0622311759b33e881047e8"
+  integrity sha512-5puhsegK8DdiZkVL71+iL67KxKd92l7kzzzeclc+idlp5L6PbjxDDQX9JCIA6jOUS9aNHgcmONyW5CRtZUvKFw==
   dependencies:
     "@types/node" "*"
 
