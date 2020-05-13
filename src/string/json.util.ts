@@ -4,10 +4,13 @@
  */
 import { AppError, _isErrorObject } from '..'
 
-export function _jsonParseIfPossible(obj: any): any {
+export function _jsonParseIfPossible(
+  obj: any,
+  reviver?: (this: any, key: string, value: any) => any,
+): any {
   if (typeof obj === 'string' && obj) {
     try {
-      return JSON.parse(obj)
+      return JSON.parse(obj, reviver)
     } catch {}
   }
 
