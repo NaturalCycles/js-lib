@@ -1,3 +1,10 @@
+## [13.1.4](https://github.com/NaturalCycles/js-lib/compare/v13.1.3...v13.1.4) (2020-05-13)
+
+
+### Bug Fixes
+
+* _jsonParseIfPossble reviver support ([5d4fa16](https://github.com/NaturalCycles/js-lib/commit/5d4fa168da7c317f25d67522124caa506ab036a0))
+
 ## [13.1.3](https://github.com/NaturalCycles/js-lib/compare/v13.1.2...v13.1.3) (2020-05-13)
 
 
