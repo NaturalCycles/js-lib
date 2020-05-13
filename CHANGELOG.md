@@ -1,3 +1,10 @@
+## [10.15.4](https://github.com/NaturalCycles/dev-lib/compare/v10.15.3...v10.15.4) (2020-05-13)
+
+
+### Bug Fixes
+
+* deps (@types/node@14) ([9f240e8](https://github.com/NaturalCycles/dev-lib/commit/9f240e867a0b825a2216bf1fefc2fcb898acb31a))
+
 ## [10.15.3](https://github.com/NaturalCycles/dev-lib/compare/v10.15.2...v10.15.3) (2020-05-12)
 
 
