@@ -35,7 +35,7 @@
     "@naturalcycles/js-lib": "^13.0.0",
     "@naturalcycles/nodejs-lib": "^10.0.0",
     "@naturalcycles/time-lib": "^3.0.1",
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^9.0.0",
     "@types/jest": "^25.1.0",
     "@types/node": "^14.0.0",
     "@types/yargs": "^15.0.0",
@@ -48,7 +48,7 @@
     "mitm": "^1.7.0",
     "prettier": "^2.0.4",
     "timekeeper": "^2.2.0",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "^26.0.0",
     "tslint": "^6.0.0",
     "typescript": "^3.4.5",
     "yargs": "^15.0.1"
