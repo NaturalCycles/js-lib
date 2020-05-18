@@ -25,6 +25,7 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
     } else {
       Object.defineProperty(this, 'stack', {
         value: new Error().stack,
+        configurable: true,
       })
     }
   }

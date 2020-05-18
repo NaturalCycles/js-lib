@@ -22,6 +22,7 @@ export class HttpError<DATA_TYPE extends HttpErrorData = HttpErrorData> extends 
     } else {
       Object.defineProperty(this, 'stack', {
         value: new Error().stack,
+        configurable: true,
       })
     }
   }

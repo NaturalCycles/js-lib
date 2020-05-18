@@ -108,6 +108,7 @@ export function _errorObjectToHttpError(o: ErrorObject): HttpError {
 
   Object.defineProperty(err, 'stack', {
     value: o.stack,
+    configurable: true,
   })
 
   return err

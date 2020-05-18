@@ -35,6 +35,7 @@ export class AggregatedError<RESULT = any> extends Error {
     } else {
       Object.defineProperty(this, 'stack', {
         value: new Error().stack,
+        configurable: true,
       })
     }
   }
