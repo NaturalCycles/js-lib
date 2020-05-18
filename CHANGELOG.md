@@ -1,3 +1,10 @@
+## [13.1.5](https://github.com/NaturalCycles/js-lib/compare/v13.1.4...v13.1.5) (2020-05-18)
+
+
+### Bug Fixes
+
+* can't redefine non-configurable property "stack" in FF ([64734a1](https://github.com/NaturalCycles/js-lib/commit/64734a1496d1532064a6a16883c3049f27a27c93))
+
 ## [13.1.4](https://github.com/NaturalCycles/js-lib/compare/v13.1.3...v13.1.4) (2020-05-13)
 
 
