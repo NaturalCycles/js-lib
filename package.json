@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "version": "13.1.5",
+  "version": "13.2.0",
   "scripts": {
     "build-prod": "build-prod-esm-cjs"
   },

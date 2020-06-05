@@ -1,3 +1,10 @@
+# [13.2.0](https://github.com/NaturalCycles/js-lib/compare/v13.1.5...v13.2.0) (2020-06-05)
+
+
+### Features
+
+* _stringMapValues, _stringMapEntries ([8b880dc](https://github.com/NaturalCycles/js-lib/commit/8b880dc573d253f01832c8f8f479d39b05c57aed))
+
 ## [13.1.5](https://github.com/NaturalCycles/js-lib/compare/v13.1.4...v13.1.5) (2020-05-18)
 
 
