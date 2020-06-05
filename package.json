@@ -16,8 +16,7 @@
     "jest": "^26.0.1",
     "patch-package": "^6.2.1",
     "rxjs": "^6.5.2",
-    "tslib": "^2.0.0",
-    "weak-napi": "^2.0.0"
+    "tslib": "^2.0.0"
   },
   "files": [
     "dist",
