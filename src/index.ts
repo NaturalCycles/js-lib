@@ -69,6 +69,8 @@ import {
   _omit,
   _pick,
   _set,
+  _stringMapEntries,
+  _stringMapValues,
   _unset,
 } from './object/object.util'
 import { _sortObjectDeep } from './object/sortObjectDeep'
@@ -141,6 +143,8 @@ export {
   InstanceId,
   IsoDate,
   IsoDateTime,
+  _stringMapValues,
+  _stringMapEntries,
   _capitalize,
   _upperFirst,
   _lowerFirst,

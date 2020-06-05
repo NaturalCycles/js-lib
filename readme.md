@@ -277,6 +277,16 @@ _mask(obj, ['b.b1'], true)
 
 ###### \_deepEquals
 
+###### \_stringMapValues
+
+Needed due to https://github.com/microsoft/TypeScript/issues/13778 Only affects typings, no runtime
+effect.
+
+###### \_stringMapEntries
+
+Needed due to https://github.com/microsoft/TypeScript/issues/13778 Only affects typings, no runtime
+effect.
+
 #### Array
 
 ###### \_range

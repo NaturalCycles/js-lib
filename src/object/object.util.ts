@@ -1,4 +1,5 @@
 import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../lodash.types'
+import { StringMap } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -394,4 +395,16 @@ export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, v
 export function _has<T extends object>(obj: T, path?: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
+}
+
+/**
+ * Needed due to https://github.com/microsoft/TypeScript/issues/13778
+ * Only affects typings, no runtime effect.
+ */
+export function _stringMapValues<T>(m: StringMap<T>): T[] {
+  return Object.values(m) as T[]
+}
+
+export function _stringMapEntries<T>(m: StringMap<T>): [string, T][] {
+  return Object.entries(m) as [string, T][]
 }
