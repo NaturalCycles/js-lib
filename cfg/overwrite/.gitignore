@@ -21,6 +21,7 @@ node_modules
 .cache
 .stencil
 .gitconfig
+.lighthouseci
 
 #
 # Root dir

@@ -19,7 +19,9 @@ node_modules
 .settings
 .externalToolBuilders
 .cache
+.stencil
 .gitconfig
+.lighthouseci
 
 #
 # Root dir
@@ -37,8 +39,6 @@ node_modules
 /dist-cjs
 /dist-esm
 /tmp
-/deploy
-/build/deploy
 
 # All secrets are ignored, except encrypted
 /secret/**/*.*
