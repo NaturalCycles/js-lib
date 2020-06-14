@@ -1,3 +1,10 @@
+## [10.15.6](https://github.com/NaturalCycles/dev-lib/compare/v10.15.5...v10.15.6) (2020-06-14)
+
+
+### Bug Fixes
+
+* deps ([bc9633d](https://github.com/NaturalCycles/dev-lib/commit/bc9633d327676e11a50c35f139fda68708fa4933))
+
 ## [10.15.5](https://github.com/NaturalCycles/dev-lib/compare/v10.15.4...v10.15.5) (2020-05-15)
 
 
