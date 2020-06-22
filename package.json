@@ -28,8 +28,8 @@
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.0.0",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/fs-lib": "^2.0.0",
     "@naturalcycles/js-lib": "^13.0.0",
@@ -43,7 +43,7 @@
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "husky": "^3.0.0",
-    "jest-junit": "^10.0.0",
+    "jest-junit": "^11.0.0",
     "lint-staged": "^8.0.4",
     "mitm": "^1.7.0",
     "prettier": "^2.0.4",
