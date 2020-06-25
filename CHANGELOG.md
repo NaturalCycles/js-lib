@@ -1,3 +1,10 @@
+# [10.16.0](https://github.com/NaturalCycles/dev-lib/compare/v10.15.8...v10.16.0) (2020-06-25)
+
+
+### Features
+
+* support "solution-style" tsconfig.base.json ([fe4c8be](https://github.com/NaturalCycles/dev-lib/commit/fe4c8bed58edf01b8a90050f0247be11f0a16419))
+
 ## [10.15.8](https://github.com/NaturalCycles/dev-lib/compare/v10.15.7...v10.15.8) (2020-06-25)
 
 
