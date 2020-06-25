@@ -1,3 +1,10 @@
+## [10.15.8](https://github.com/NaturalCycles/dev-lib/compare/v10.15.7...v10.15.8) (2020-06-25)
+
+
+### Bug Fixes
+
+* allow to run manual/integration tests outside from `src/*` ([1056a96](https://github.com/NaturalCycles/dev-lib/commit/1056a9627cf395f6d4e6cb76d4af492308bb2e71))
+
 ## [10.15.7](https://github.com/NaturalCycles/dev-lib/compare/v10.15.6...v10.15.7) (2020-06-22)
 
 
