@@ -35,7 +35,9 @@ export function getTSLintConfigPath(): string {
 }
 
 export function getTSConfigPath(): string {
-  return `./tsconfig.json`
+  const defaultTSConfigPath = './tsconfig.json'
+  const baseTSConfigPath = './tsconfig.base.json' // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
+  return fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
 }
 
 export function getTSConfigPathScripts(): string {

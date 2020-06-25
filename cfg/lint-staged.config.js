@@ -19,6 +19,10 @@ const localConfigTSLint = `${cwd}/tslint.json`
 const sharedConfigTSLint = `${cfgDir}/tslint.config.js`
 const configTSLint = fs.existsSync(localConfigTSLint) ? localConfigTSLint : sharedConfigTSLint
 
+const defaultTSConfigPath = 'tsconfig.json'
+const baseTSConfigPath = 'tsconfig.base.json' // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
+const tsconfigPath = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
+
 const prettierCmd = `prettier --write --config ${configPrettier}`
 const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
 
@@ -28,7 +32,7 @@ module.exports = {
   linters: {
     // For *.ts files we run first Prettier, then TSLint
     // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p tsconfig.json`, prettierCmd, 'git add'],
+    './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p ${tsconfigPath}`, prettierCmd, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     [`./{src,scripts,doc,cfg,.circleci,.github,public,static}/**/*.{${prettierExtensionsExceptTs}}`]: [
