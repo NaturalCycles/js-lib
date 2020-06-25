@@ -17,7 +17,7 @@ if (fs.existsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
 
 module.exports = {
   ...require('./jest.config'),
-  testMatch: ['<rootDir>/src/test/**/*.integration.test.ts'],
+  testMatch: ['<rootDir>/src/**/*.integration.test.ts'],
   testPathIgnorePatterns: ['<rootDir>/.*/__exclude/'],
   setupFilesAfterEnv,
   coverageDirectory: 'tmp/coverage-integration',

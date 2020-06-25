@@ -17,7 +17,7 @@ if (fs.existsSync(`${cwd}/src/test/setupJest.manual.ts`)) {
 
 module.exports = {
   ...require('./jest.config'),
-  testMatch: ['<rootDir>/src/test/**/*.manual.test.ts'],
+  testMatch: ['<rootDir>/src/**/*.manual.test.ts'],
   testPathIgnorePatterns: ['<rootDir>/.*/__exclude/'],
   setupFilesAfterEnv,
   // Should never need coverage or reporters, but anyway
