@@ -132,11 +132,11 @@ export function _mapValues<T extends object>(
 export function _mapKeys<T extends object>(
   obj: T,
   predicate: ObjectIterator<T, string>,
-): Record<string, T[keyof T]> {
+): StringMap<T[keyof T]> {
   return Object.entries(obj).reduce((map, [k, v]) => {
     map[String(predicate(v, k, obj))] = v
     return map
-  }, {} as Record<string, T[keyof T]>)
+  }, {} as StringMap<T[keyof T]>)
 }
 
 type KeyValueTuple<K, V> = [K, V]

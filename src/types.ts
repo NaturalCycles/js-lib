@@ -1,7 +1,7 @@
 /**
  * Map from String to String (or <T>).
  *
- * Alternative: Record<string, T>
+ * Alternative: Record<string, T | undefined>
  */
 export interface StringMap<T = string> {
   [k: string]: T | undefined

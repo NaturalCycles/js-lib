@@ -1,7 +1,7 @@
 /**
  * Extendable payload object to transfer custom additional data with AppError.
  */
-export interface ErrorData extends Record<string, any> {
+export interface ErrorData {
   /**
    * String constant/enum that is specific for certain type of error and never changes.
    * Allows Frontend to deal with certain type of error in a specific way.
@@ -17,6 +17,11 @@ export interface ErrorData extends Record<string, any> {
    * Error id in some error tracking system (e.g Sentry).
    */
   errorId?: string
+
+  /**
+   * Open-ended.
+   */
+  [k: string]: any
 }
 
 export interface HttpErrorData extends ErrorData {

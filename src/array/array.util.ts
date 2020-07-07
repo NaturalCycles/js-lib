@@ -1,3 +1,6 @@
+import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../lodash.types'
+import { StringMap } from '../types'
+
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
  * final chunk will be the remaining elements.
@@ -10,8 +13,6 @@
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
-import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../lodash.types'
-
 export function _chunk<T>(array: readonly T[], size = 1): T[][] {
   return array.reduce((arr, item, idx) => {
     return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]]
@@ -102,7 +103,7 @@ export function _uniqBy<T>(arr: readonly T[], predicate: ValueIteratee<T>): T[] 
  *   ID2: {id: 'id2', b: 'b1'},
  * }
  */
-export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): Record<string, T> {
+export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): StringMap<T> {
   const cb: (value: T) => string | undefined =
     typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
 
@@ -110,7 +111,7 @@ export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): 
     const res = cb(item)
     if (res) map[res] = item
     return map
-  }, {} as Record<string, T>)
+  }, {} as StringMap<T>)
 }
 
 /**
