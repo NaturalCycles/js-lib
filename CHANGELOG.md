@@ -1,3 +1,10 @@
+## [13.2.1](https://github.com/NaturalCycles/js-lib/compare/v13.2.0...v13.2.1) (2020-07-07)
+
+
+### Bug Fixes
+
+* use StringMap instead of Record by default ([94b2750](https://github.com/NaturalCycles/js-lib/commit/94b27505f6c4ea9181ebf9cf77f677aedd417007))
+
 # [13.2.0](https://github.com/NaturalCycles/js-lib/compare/v13.1.5...v13.2.0) (2020-06-05)
 
 
