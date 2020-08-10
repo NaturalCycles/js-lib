@@ -1,3 +1,10 @@
+# [13.3.0](https://github.com/NaturalCycles/js-lib/compare/v13.2.1...v13.3.0) (2020-08-10)
+
+
+### Features
+
+* _range to support 1-arg and 3-arg usage, aligned with lodash ([a16aefb](https://github.com/NaturalCycles/js-lib/commit/a16aefb5207b9f52d938810bc76809c3aa0acce9))
+
 ## [13.2.1](https://github.com/NaturalCycles/js-lib/compare/v13.2.0...v13.2.1) (2020-07-07)
 
 
