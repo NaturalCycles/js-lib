@@ -249,7 +249,9 @@ export function _merge<T extends object>(target: T, ...sources: any[]): T {
 }
 
 /**
- * Mutates
+ * Trims all object VALUES deeply.
+ * Doesn't touch object KEYS.
+ * Mutates.
  */
 export function _deepTrim<T extends object | string>(o: T): T {
   if (!o) return o
