@@ -1,3 +1,15 @@
+# [14.0.0](https://github.com/NaturalCycles/js-lib/compare/v13.3.0...v14.0.0) (2020-08-17)
+
+
+### Features
+
+* _findLast, _takeWhile, _takeRightWhile, _dropWhile, _dropRightWhile, _countBy ([119a667](https://github.com/NaturalCycles/js-lib/commit/119a667664709d1d22b556c4c3e6f8ccb7a65a9c))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 # [13.3.0](https://github.com/NaturalCycles/js-lib/compare/v13.2.1...v13.3.0) (2020-08-10)
 
 
