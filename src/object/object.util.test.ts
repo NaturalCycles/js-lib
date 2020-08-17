@@ -427,21 +427,20 @@ test('_set', () => {
   expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.1', 'a1')).toEqual({ a: { b: ['b1', 'a1'] } })
 })
 
+test('_mapKeys', () => {
+  const o = { a: 1, b: 2 }
+  deepFreeze(o)
+  expect(_mapKeys(o, (k, v) => k + v)).toEqual({ a1: 1, b2: 2 })
+})
+
 test('_mapValues', () => {
   const users = {
     fred: { user: 'fred', age: 40 },
     pebbles: { user: 'pebbles', age: 1 },
   }
   deepFreeze(users)
-  expect(_mapValues(users, u => u)).toEqual(users)
-  expect(_mapValues(users, u => u.age)).toEqual({ fred: 40, pebbles: 1 })
-  expect(_mapValues(users, 'age')).toEqual({ fred: 40, pebbles: 1 })
-})
-
-test('_mapValues', () => {
-  const o = { a: 1, b: 2 }
-  deepFreeze(o)
-  expect(_mapKeys(o, (v, k) => k + v)).toEqual({ a1: 1, b2: 2 })
+  expect(_mapValues(users, (_k, v) => v)).toEqual(users)
+  expect(_mapValues(users, (_k, v) => v.age)).toEqual({ fred: 40, pebbles: 1 })
 })
 
 test('_mapObject', () => {

@@ -18,16 +18,15 @@ export interface PromiseMap {
 
 /**
  * Function which is called for every item in `input`. Expected to return a `Promise` or value.
- *
- * @param input - Iterated element.
- * @param index - Index of the element in the source array.
  */
-export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
+export type AsyncMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
+export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT
 
-export const _passthroughMapper: Mapper<any, any> = item => item
+export const _passthroughMapper: Mapper = item => item
 export const _passUndefinedMapper: Mapper<any, void> = () => undefined
 
-export type Predicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
+export type Predicate<T> = (item: T, index: number) => boolean
+export type AsyncPredicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 
 export const _passthroughPredicate: Predicate<any> = () => true
 export const _passNothingPredicate: Predicate<any> = () => false

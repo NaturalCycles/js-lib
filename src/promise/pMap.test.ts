@@ -1,4 +1,4 @@
-import { ErrorMode, Mapper, _inRange, _randomInt } from '..'
+import { AsyncMapper, ErrorMode, _inRange, _randomInt } from '..'
 import { timeSpan } from '../test/test.util'
 import { AggregatedError } from './AggregatedError'
 import { pBatch } from './pBatch'
@@ -26,7 +26,7 @@ const errorInput3 = [
   [() => Promise.reject(new Error('two'))],
 ]
 
-const mapper: Mapper = ([val, ms]) => {
+const mapper: AsyncMapper = ([val, ms]) => {
   if (typeof val === 'function') return val()
   return pDelay(ms, val)
 }
@@ -65,28 +65,28 @@ test('handles empty iterable', async () => {
 
 test('async with concurrency: 2 (random time sequence)', async () => {
   const input = new Array(10).map(() => _randomInt(0, 100))
-  const mapper: Mapper = value => pDelay(value).then(() => value)
+  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (problematic time sequence)', async () => {
   const input = [100, 200, 10, 36, 13, 45]
-  const mapper: Mapper = value => pDelay(value).then(() => value)
+  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (out of order time sequence)', async () => {
   const input = [200, 100, 50]
-  const mapper: Mapper = value => pDelay(value).then(() => value)
+  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('reject', async () => {
   const input = [1, 1, 0, 1]
-  const mapper: Mapper = async v => {
+  const mapper: AsyncMapper = async v => {
     await pDelay(_randomInt(0, 100))
     if (!v) throw new Error('Err')
     return v

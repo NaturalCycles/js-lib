@@ -2,11 +2,17 @@ import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import {
   _by,
   _chunk,
+  _countBy,
   _difference,
+  _dropRightWhile,
+  _dropWhile,
+  _findLast,
   _flatten,
   _flattenDeep,
   _intersection,
   _sortBy,
+  _takeRightWhile,
+  _takeWhile,
   _uniq,
   _uniqBy,
 } from './array.util'
@@ -49,14 +55,14 @@ test('uniqBy', () => {
 
   expect(_uniqBy([2.1, 1.2, 2.3], Math.floor)).toEqual([2.1, 1.2])
 
-  expect(_uniqBy([{ x: 1 }, { x: 2 }, { x: 1 }], 'x')).toEqual([{ x: 1 }, { x: 2 }])
+  expect(_uniqBy([{ x: 1 }, { x: 2 }, { x: 1 }], r => r.x)).toEqual([{ x: 1 }, { x: 2 }])
 })
 
 test('by', () => {
-  expect(_by(undefined, 'a')).toEqual({})
+  // expect(_by(undefined, (r: any) => r.a)).toEqual({})
 
   const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
-  let r = _by(a, 'a')
+  let r = _by(a, r => r.a)
   expect(r).toEqual({
     aa: { a: 'aa' },
     ab: { a: 'ab' },
@@ -78,15 +84,55 @@ test('by', () => {
 test('_sortBy', () => {
   const a = [{ age: 20 }, { age: 10 }]
   deepFreeze(a)
-  expect(_sortBy(a, 'age')).toEqual([{ age: 10 }, { age: 20 }])
+  expect(_sortBy(a, r => r.age)).toEqual([{ age: 10 }, { age: 20 }])
   expect(_sortBy(a, o => o.age)).toEqual([{ age: 10 }, { age: 20 }])
 })
 
 test('_sortBy with mutation', () => {
   const a = [{ age: 20 }, { age: 10 }]
-  const r = _sortBy(a, 'age', true)
+  const r = _sortBy(a, r => r.age, true)
   expect(r).toEqual([{ age: 10 }, { age: 20 }])
   expect(r).toBe(a)
+})
+
+test('_findLast', () => {
+  expect(_findLast([1, 2, 3, 4], n => n % 2 === 1)).toBe(3)
+})
+
+test('_takeWhile', () => {
+  expect(_takeWhile([1, 2, 3, 4, 5, 2, 1], v => v <= 3)).toEqual([1, 2, 3])
+  expect(_takeWhile([1, 2, 3, 4, 5, 2, 1], v => v > 5)).toEqual([])
+})
+
+test('_takeRightWhile', () => {
+  expect(_takeRightWhile([1, 2, 3, 4, 5, 2, 1], v => v <= 3)).toEqual([1, 2])
+  expect(_takeRightWhile([1, 2, 3, 4, 5, 2, 1], v => v > 5)).toEqual([])
+})
+
+test('_dropWhile', () => {
+  expect(_dropWhile([1, 2, 3, 4, 5, 2, 1], v => v <= 3)).toEqual([4, 5, 2, 1])
+  expect(_dropWhile([1, 2, 3, 4, 5, 2, 1], v => v > 5)).toEqual([1, 2, 3, 4, 5, 2, 1])
+  expect(_dropWhile([1, 2, 3, 4, 5, 2, 1], v => v < 10)).toEqual([])
+})
+
+test('_dropRightWhile', () => {
+  expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v <= 3)).toEqual([1, 2, 3, 4, 5])
+  expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v > 5)).toEqual([1, 2, 3, 4, 5, 2, 1])
+  expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v < 10)).toEqual([])
+})
+
+test('_countBy', () => {
+  expect(_countBy(['a', 'aa', 'aaa', 'aaa', 'aaaa'], r => r.length)).toEqual({
+    1: 1,
+    2: 1,
+    3: 2,
+    4: 1,
+  })
+
+  expect(_countBy([1, 2, 3, 4, 5], n => (n % 2 === 0 ? 'even' : 'odd'))).toEqual({
+    even: 2,
+    odd: 3,
+  })
 })
 
 test('_intersection', () => {

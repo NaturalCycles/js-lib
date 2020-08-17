@@ -1,5 +1,5 @@
-import { NotVoid, RecursiveArray, StringIteratee, ValueIteratee } from '../lodash.types'
-import { StringMap } from '../types'
+import { RecursiveArray } from '../lodash.types'
+import { Mapper, Predicate, StringMap } from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -54,9 +54,6 @@ export function _uniq<T>(a: readonly T[]): T[] {
  * invoked for each element in `array` to generate the criterion by which
  * uniqueness is computed. The iteratee is invoked with one argument: (value).
  *
- * @category Array
- * @param arr The array to inspect.
- * @param predicate The iteratee invoked per element.
  * @returns Returns the new duplicate free array.
  * @example
  *
@@ -69,13 +66,11 @@ export function _uniq<T>(a: readonly T[]): T[] {
  *
  * Based on: https://stackoverflow.com/a/40808569/4919972
  */
-export function _uniqBy<T>(arr: readonly T[], predicate: ValueIteratee<T>): T[] {
-  const cb = typeof predicate === 'function' ? predicate : (o: T) => o[predicate as any]
-
+export function _uniqBy<T>(arr: readonly T[], mapper: Mapper<T, any>): T[] {
   return [
     ...arr
-      .reduce((map, item) => {
-        const key = item === null || item === undefined ? item : cb(item)
+      .reduce((map, item, index) => {
+        const key = item === null || item === undefined ? item : mapper(item, index)
 
         if (!map.has(key)) map.set(key, item)
 
@@ -103,12 +98,9 @@ export function _uniqBy<T>(arr: readonly T[], predicate: ValueIteratee<T>): T[] 
  *   ID2: {id: 'id2', b: 'b1'},
  * }
  */
-export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): StringMap<T> {
-  const cb: (value: T) => string | undefined =
-    typeof predicate === 'function' ? predicate : (item: T) => item[predicate]
-
-  return items.reduce((map, item) => {
-    const res = cb(item)
+export function _by<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T> {
+  return items.reduce((map, item, index) => {
+    const res = mapper(item, index)
     if (res) map[res] = item
     return map
   }, {} as StringMap<T>)
@@ -121,16 +113,53 @@ export function _by<T>(items: readonly T[] = [], predicate: StringIteratee<T>): 
  * Same:
  * _sortBy([{age: 20}, {age: 10}], o => o.age)
  */
-export function _sortBy<T>(items: T[], predicate: ValueIteratee<T>, mutate = false): T[] {
-  const cb: (value: T) => NotVoid =
-    typeof predicate === 'function' ? predicate : (item: T) => item[predicate as string]
-
+export function _sortBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): T[] {
   return (mutate ? items : [...items]).sort((_a, _b) => {
-    const [a, b] = [_a, _b].map(cb)
+    const [a, b] = [_a, _b].map(mapper)
     if (typeof a === 'number' && typeof b === 'number') return Math.sign(a - b)
     return String(a).localeCompare(String(b))
   })
 }
+
+/**
+ * Like items.find(), but it tries to find from the END of the array.
+ */
+export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined {
+  return [...items].reverse().find(predicate)
+}
+
+export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+  let proceed = true
+  return items.filter((v, index) => (proceed = proceed && predicate(v, index)))
+}
+
+export function _takeRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+  let proceed = true
+  return [...items].reverse().filter((v, index) => (proceed = proceed && predicate(v, index)))
+}
+
+export function _dropWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+  let proceed = false
+  return items.filter((v, index) => (proceed = proceed || !predicate(v, index)))
+}
+
+export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+  let proceed = false
+  return [...items]
+    .reverse()
+    .filter((v, index) => (proceed = proceed || !predicate(v, index)))
+    .reverse()
+}
+
+export function _countBy<T, V = any>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
+  return items.reduce((map, item, index) => {
+    const key = mapper(item, index)
+    map[key] = (map[key] || 0) + 1
+    return map
+  }, {})
+}
+
+// investigate: _groupBy, _clamp
 
 /**
  * @example

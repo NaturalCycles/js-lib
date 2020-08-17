@@ -1,9 +1,9 @@
-import { Predicate } from '../types'
+import { AsyncPredicate } from '../types'
 import { pMap, PMapOptions } from './pMap'
 
 export async function pFilter<T>(
   iterable: Iterable<T | PromiseLike<T>>,
-  filterFn: Predicate<T>,
+  filterFn: AsyncPredicate<T>,
   opt?: PMapOptions,
 ): Promise<T[]> {
   const values = await pMap(

@@ -8,7 +8,7 @@ Improvements:
  */
 
 import { ErrorMode } from '..'
-import { Mapper } from '../types'
+import { AsyncMapper } from '../types'
 import { AggregatedError } from './AggregatedError'
 
 export interface PMapOptions {
@@ -57,7 +57,7 @@ export interface PMapOptions {
  */
 export async function pMap<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
-  mapper: Mapper<IN, OUT>,
+  mapper: AsyncMapper<IN, OUT>,
   opt: PMapOptions = {},
 ): Promise<OUT[]> {
   return new Promise<OUT[]>((resolve, reject) => {

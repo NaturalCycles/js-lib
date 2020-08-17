@@ -243,9 +243,9 @@ _mask(obj, ['b.b1'], true)
 
 ###### \_filterObject
 
-###### \_mapValues
-
 ###### \_mapKeys
+
+###### \_mapValues
 
 ###### \_mapObject
 
@@ -304,6 +304,42 @@ Only affects typings, no runtime effect.
 ###### \_by
 
 ###### \_sortBy
+
+###### \_findLast
+
+Like `.find()`, but tries to find an element from the END of the array.
+
+###### \_takeWhile, \_takeRightWhile, \_dropWhile, \_dropRightWhile
+
+```typescript
+const a = [1, 2, 3, 4, 5, 2, 1]
+
+_takeWhile(a, r => r <= 3)
+// [1, 2, 3]
+
+_takeRightWhile(a, r => r <= 3)
+// [1, 2]
+// Note that the order is reversed when taking from Right!
+
+_dropWhile(a, r => r <= 3)
+// [4, 5, 2, 1]
+
+_dropRightWhile(a, r => r <= 3)
+// [5, 4, 3, 2, 1]
+// Note that the order is reversed when dropping from Right!
+```
+
+###### \_countBy
+
+```typescript
+_countBy(['a', 'aa', 'aaa', 'aaa', 'aaaa'], r => r.length)
+// {
+//   1: 1,
+//   2: 1,
+//   3: 2,
+//   4: 1,
+// })
+```
 
 ###### \_intersection
 
@@ -366,6 +402,23 @@ _difference([1])
 #### Number
 
 ###### \_inRange
+
+```typescript
+_inRange(-10, 1, 5)
+// false
+
+_inRange(1, 1, 5)
+// true
+
+_inRange(3, 1, 5)
+// true
+
+_inRange(5, 1, 5)
+// false
+
+_inRange(7, 1, 5)
+// false
+```
 
 #### Json
 

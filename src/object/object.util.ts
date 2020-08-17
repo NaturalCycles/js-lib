@@ -1,4 +1,4 @@
-import { NotVoid, ObjectIterator, ObjectKVIterator, PropertyPath } from '../lodash.types'
+import { ObjectMapper, PropertyPath } from '../lodash.types'
 import { StringMap } from '../types'
 
 /**
@@ -106,40 +106,32 @@ export function _filterObject<T extends object>(
  * _.mapValues(users, 'age')
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  */
-export function _mapValues<T extends object>(
+export function _mapValues<T extends object, OUT = T>(
   obj: T,
-  predicate: ObjectIterator<T, NotVoid> | string,
+  mapper: ObjectMapper<T, any>,
   mutate = false,
-): T {
-  const cb: ObjectIterator<T, NotVoid> =
-    typeof predicate === 'function' ? predicate : v => v[predicate]
-
-  return Object.entries(obj).reduce(
-    (map, [k, v]) => {
-      map[k] = cb(v, k, obj)
-      return map
-    },
-    mutate ? obj : ({} as T),
-  )
+): OUT {
+  return Object.entries(obj).reduce((map, [k, v]) => {
+    map[k] = mapper(k, v, obj)
+    return map
+  }, (mutate ? obj : {}) as OUT)
 }
 
 /**
- * _.mapKeys({ 'a': 1, 'b': 2 }, (value, key) => key + value)
+ * _.mapKeys({ 'a': 1, 'b': 2 }, (key, value) => key + value)
  * // => { 'a1': 1, 'b2': 2 }
  *
- * Does not support `mutate` flag currently.
+ * Does not support `mutate` flag.
  */
 export function _mapKeys<T extends object>(
   obj: T,
-  predicate: ObjectIterator<T, string>,
+  mapper: ObjectMapper<T, any>,
 ): StringMap<T[keyof T]> {
   return Object.entries(obj).reduce((map, [k, v]) => {
-    map[String(predicate(v, k, obj))] = v
+    map[mapper(k, v, obj)] = v
     return map
-  }, {} as StringMap<T[keyof T]>)
+  }, {})
 }
-
-type KeyValueTuple<K, V> = [K, V]
 
 /**
  * Maps object through predicate - a function that receives (k, v, obj)
@@ -157,21 +149,21 @@ type KeyValueTuple<K, V> = [K, V]
  *
  * Non-string keys are passed via String(...)
  */
-export function _mapObject<T extends object, TResult>(
-  obj: T,
-  predicate: ObjectKVIterator<T, KeyValueTuple<any, any>>,
-): { [P in keyof T]: TResult } {
+export function _mapObject<IN extends object, OUT>(
+  obj: IN,
+  mapper: ObjectMapper<IN, [any, any]>, // todo: name the tuple arguments when TS 4.0 is ready
+): { [P in keyof IN]: OUT } {
   return Object.entries(obj).reduce((map, [k, v]) => {
-    const r = predicate(k, v, obj)
-    if (r?.[0]) {
-      map[String(r[0])] = r[1]
+    const r = mapper(k, v, obj) || []
+    if (r[0]) {
+      map[r[0]] = r[1]
     }
     return map
-  }, {} as { [P in keyof T]: TResult })
+  }, {} as { [P in keyof IN]: OUT })
 }
 
 export function _objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {
-  return _mapValues(obj, v => (v === null ? undefined : v), mutate)
+  return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate)
 }
 
 /**
