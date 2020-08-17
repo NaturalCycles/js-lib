@@ -32,7 +32,7 @@
     "@commitlint/config-conventional": "^9.0.1",
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/fs-lib": "^2.0.0",
-    "@naturalcycles/js-lib": "^13.0.0",
+    "@naturalcycles/js-lib": "^14.0.0",
     "@naturalcycles/nodejs-lib": "^11.0.0",
     "@naturalcycles/time-lib": "^3.0.1",
     "@types/fs-extra": "^9.0.0",
