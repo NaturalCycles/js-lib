@@ -1,3 +1,10 @@
+# [14.1.0](https://github.com/NaturalCycles/js-lib/compare/v14.0.0...v14.1.0) (2020-08-19)
+
+
+### Features
+
+* _groupBy ([d3e6371](https://github.com/NaturalCycles/js-lib/commit/d3e637142afb9bbf633c20983884e28d63e4f765))
+
 # [14.0.0](https://github.com/NaturalCycles/js-lib/compare/v13.3.0...v14.0.0) (2020-08-17)
 
 
