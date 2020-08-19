@@ -9,6 +9,7 @@ import {
   _findLast,
   _flatten,
   _flattenDeep,
+  _groupBy,
   _intersection,
   _sortBy,
   _takeRightWhile,
@@ -16,8 +17,9 @@ import {
   _uniq,
   _uniqBy,
 } from './array.util'
+import { _range } from './range'
 
-test('chunk', () => {
+test('_chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]
 
   expect(_chunk(a)).toEqual([[1], [2], [3], [4], [5], [6]])
@@ -34,22 +36,22 @@ test('chunk', () => {
   expect(_chunk([])).toEqual([])
 })
 
-test('flatten', () => {
+test('_flatten', () => {
   const a = [[1, 2], [3], [4, 5]]
   expect(_flatten(a)).toEqual([1, 2, 3, 4, 5])
 })
 
-test('flattenDeep', () => {
+test('_flattenDeep', () => {
   expect(_flattenDeep([[1, 2], [3], [4, 5]])).toEqual([1, 2, 3, 4, 5])
   expect(_flattenDeep([[1, [2]], [3], [4, 5]])).toEqual([1, 2, 3, 4, 5])
 })
 
-test('uniq', () => {
+test('_uniq', () => {
   const a = [1, 2, 2, 1, 3, 5, 3, 4]
   expect(_uniq(a)).toEqual([1, 2, 3, 5, 4])
 })
 
-test('uniqBy', () => {
+test('_uniqBy', () => {
   const a = [1, 2, 2, 1, 3, 5, 3, 4]
   expect(_uniqBy(a, a => a)).toEqual([1, 2, 3, 5, 4])
 
@@ -58,7 +60,7 @@ test('uniqBy', () => {
   expect(_uniqBy([{ x: 1 }, { x: 2 }, { x: 1 }], r => r.x)).toEqual([{ x: 1 }, { x: 2 }])
 })
 
-test('by', () => {
+test('_by', () => {
   // expect(_by(undefined, (r: any) => r.a)).toEqual({})
 
   const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
@@ -78,6 +80,13 @@ test('by', () => {
   expect(r).toEqual({
     AA: { a: 'aa' },
     AB: { a: 'ab' },
+  })
+})
+
+test('_groupBy', () => {
+  expect(_groupBy(_range(5), n => (n % 2 ? 'odd' : 'even'))).toEqual({
+    even: [0, 2, 4],
+    odd: [1, 3],
   })
 })
 

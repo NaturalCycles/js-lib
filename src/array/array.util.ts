@@ -86,24 +86,47 @@ export function _uniqBy<T>(arr: readonly T[], mapper: Mapper<T, any>): T[] {
  *  {id: 'id2', b: 'b1'},
  * ]
  *
- * by(a, 'k')
+ * _by(a, r => r.id)
  * // => {
  *   id1: {id: 'id1', a: 'a1'},
  *   id2: {id: 'id2', b: 'b1'},
  * }
  *
- * by(a, k => k.id.toUpperCase())
+ * _by(a, r => r.id.toUpperCase())
  * // => {
  *   ID1: {id: 'id1', a: 'a1'},
  *   ID2: {id: 'id2', b: 'b1'},
  * }
+ *
+ * Returning `undefined` from the Mapper will EXCLUDE the item.
  */
 export function _by<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T> {
   return items.reduce((map, item, index) => {
     const res = mapper(item, index)
-    if (res) map[res] = item
+    if (res !== undefined) map[res] = item
     return map
   }, {} as StringMap<T>)
+}
+
+/**
+ * const a = [1, 2, 3, 4, 5]
+ *
+ * _groupBy(a, r => r % 2 ? 'even' : 'odd')
+ * // => {
+ *   odd: [1, 3, 5],
+ *   even: [2, 4],
+ * }
+ *
+ * Returning `undefined` from the Mapper will EXCLUDE the item.
+ */
+export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T[]> {
+  return items.reduce((map, item, index) => {
+    const res = mapper(item, index)
+    if (res !== undefined) {
+      map[res] = [...(map[res] || []), item]
+    }
+    return map
+  }, {} as StringMap<T[]>)
 }
 
 /**

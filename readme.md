@@ -303,6 +303,33 @@ Only affects typings, no runtime effect.
 
 ###### \_by
 
+```typescript
+const a = [
+  { id: 'id1', a: 'a1' },
+  { id: 'id2', b: 'b1' },
+]
+
+_by(a, r => r.id)
+// {
+//  id1: {id: 'id1', a: 'a1'},
+//  id2: {id: 'id2', b: 'b1'},
+//}
+```
+
+###### \_groupBy
+
+```typescript
+const a = [1, 2, 3, 4, 5]
+
+_groupBy(a, r => (r % 2 ? 'even' : 'odd'))
+// {
+//  odd: [1, 3, 5],
+//  even: [2, 4],
+// }
+```
+
+Returning `undefined` from the Mapper will EXCLUDE the item.
+
 ###### \_sortBy
 
 ###### \_findLast
