@@ -1,3 +1,10 @@
+# [14.2.0](https://github.com/NaturalCycles/js-lib/compare/v14.1.0...v14.2.0) (2020-08-24)
+
+
+### Features
+
+* _isEmpty, _undefinedIfEmpty, _filterEmptyValues ([09b4fd9](https://github.com/NaturalCycles/js-lib/commit/09b4fd93b07dc468da32a878fe8335f41c31e160))
+
 # [14.1.0](https://github.com/NaturalCycles/js-lib/compare/v14.0.0...v14.1.0) (2020-08-19)
 
 
