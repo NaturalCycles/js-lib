@@ -241,6 +241,32 @@ _mask(obj, ['b.b1'], true)
 
 ###### \_filterUndefinedValues
 
+###### \_filterEmptyValues
+
+Filters the object by removing all key-value pairs where Value is Empty (according to \_isEmpty()
+specification).
+
+```typescript
+_filterEmptyValues({
+  a: 0,
+  b: '',
+  c: [],
+  d: {},
+  e: {
+    f: [],
+  },
+  g: new Set(),
+  h: 'h',
+})
+// {
+//   a: 0,
+//   e: {
+//     f: [],
+//   },
+//   h: 'h',
+//  })
+```
+
 ###### \_filterObject
 
 ###### \_mapKeys
@@ -254,6 +280,22 @@ _mask(obj, ['b.b1'], true)
 ###### \_deepCopy
 
 ###### \_isPrimitive
+
+###### \_isEmpty
+
+Object is considered empty if it's one of:
+
+- `undefined`
+- `''` (empty string)
+- `[]` (empty array)
+- `{}` (empty object)
+- `new Map()` (empty Map)
+- `new Set()` (empty Set)
+
+###### \_undefinedIfEmpty
+
+Returns `undefined` if it's empty (according to `_isEmpty()` specification), otherwise returns the
+original object.
 
 ###### \_merge
 

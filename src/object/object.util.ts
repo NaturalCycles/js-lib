@@ -195,6 +195,48 @@ export function _isEmptyObject(obj: any): boolean {
 }
 
 /**
+ * Object is considered empty if it's one of:
+ * undefined
+ * '' (empty string)
+ * [] (empty array)
+ * {} (empty object)
+ * new Map() (empty Map)
+ * new Set() (empty Set)
+ */
+export function _isEmpty(obj: any): boolean {
+  if (obj === undefined) return true
+
+  if (typeof obj === 'string' || Array.isArray(obj)) {
+    return obj.length === 0
+  }
+
+  if (obj instanceof Map || obj instanceof Set) {
+    return obj.size === 0
+  }
+
+  if (typeof obj === 'object') {
+    return Object.keys(obj).length === 0
+  }
+
+  return false
+}
+
+/**
+ * Returns `undefined` if it's empty (according to `_isEmpty()` specification),
+ * otherwise returns the original object.
+ */
+export function _undefinedIfEmpty<T>(obj: T | undefined): T | undefined {
+  return _isEmpty(obj) ? undefined : obj
+}
+
+/**
+ * Filters the object by removing all key-value pairs where Value is Empty (according to _isEmpty() specification).
+ */
+export function _filterEmptyValues<T extends object>(obj: T, mutate = false) {
+  return _filterObject(obj, (_k, v) => !_isEmpty(v), mutate)
+}
+
+/**
  * Recursively merges own and inherited enumerable properties of source
  * objects into the destination object, skipping source properties that resolve
  * to `undefined`. Array and plain object properties are merged recursively.

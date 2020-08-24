@@ -9,7 +9,7 @@ Object {
 }
 `;
 
-exports[`mask with mutation 1`] = `
+exports[`_mask with mutation 1`] = `
 Object {
   "a": "1",
   "b": Object {
@@ -21,7 +21,7 @@ Object {
 }
 `;
 
-exports[`mergeDeep 1`] = `
+exports[`_merge 1`] = `
 Object {
   "b": Object {
     "c": "c1",
@@ -32,7 +32,7 @@ Object {
 }
 `;
 
-exports[`mergeDeep 2`] = `
+exports[`_merge 2`] = `
 Object {
   "b": Object {
     "c2": "c2",
