@@ -84,3 +84,8 @@ export type IsoDate = string
  * @example '2019-06-21T05:21:73Z'
  */
 export type IsoDateTime = string
+
+/**
+ * Named type for JSON.parse second argument
+ */
+export type Reviver = (this: any, key: string, value: any) => any
