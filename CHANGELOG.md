@@ -1,3 +1,10 @@
+# [14.3.0](https://github.com/NaturalCycles/js-lib/compare/v14.2.0...v14.3.0) (2020-09-21)
+
+
+### Features
+
+* Reviver type ([f6d4af9](https://github.com/NaturalCycles/js-lib/commit/f6d4af90561aa103960452d001eb337aa5fd2687))
+
 # [14.2.0](https://github.com/NaturalCycles/js-lib/compare/v14.1.0...v14.2.0) (2020-08-24)
 
 
