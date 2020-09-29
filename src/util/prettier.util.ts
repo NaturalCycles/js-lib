@@ -1,15 +1,14 @@
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
-
-export const prettierExtensions = `css,scss,ts,tsx,js,jsx,json,md,graphql,yml,yaml,html,vue`
+const { prettierDirs, prettierExtensions } = require('../../cfg/_cnst')
 
 export const prettierPaths = [
   // Everything inside these folders
-  `./{src,scripts,doc,cfg,.circleci,.github,public,static}/**/*.{${prettierExtensions}}`,
+  `./{${prettierDirs}}/**/*.{${prettierExtensions},ts,tsx}`,
 
   // Root
-  `./*.{${prettierExtensions}}`,
+  `./*.{${prettierExtensions},ts,tsx}`,
 
   // Exclude
   '!./CHANGELOG.md',

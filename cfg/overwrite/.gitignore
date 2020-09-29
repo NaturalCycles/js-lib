@@ -20,6 +20,7 @@ node_modules
 .externalToolBuilders
 .cache
 .stencil
+.nuxt
 .gitconfig
 .lighthouseci
 
@@ -45,7 +46,5 @@ node_modules
 
 /scripts/try.*
 /logs
-/platforms
-/plugins
 /www/*
 !/www/.gitkeep

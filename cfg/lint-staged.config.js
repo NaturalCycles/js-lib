@@ -5,6 +5,7 @@
 */
 
 const fs = require('fs')
+const { prettierDirs, prettierExtensions } = require('./_cnst')
 const cfgDir = __dirname
 
 // Use default configs if not specified in target dir
@@ -26,8 +27,6 @@ const tsconfigPath = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaul
 const prettierCmd = `prettier --write --config ${configPrettier}`
 const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
 
-const prettierExtensionsExceptTs = `css,scss,js,jsx,json,md,graphql,yml,yaml,html,vue`
-
 module.exports = {
   linters: {
     // For *.ts files we run first Prettier, then TSLint
@@ -35,10 +34,7 @@ module.exports = {
     './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p ${tsconfigPath}`, prettierCmd, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-    [`./{src,scripts,doc,cfg,.circleci,.github,public,static}/**/*.{${prettierExtensionsExceptTs}}`]: [
-      prettierCmd,
-      'git add',
-    ],
+    [`./{${prettierDirs}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
 
     // /scripts are separate, cause they require separate tsconfig.json
     // Prettier + tslint
@@ -50,7 +46,7 @@ module.exports = {
     ],
 
     // Files in root dir
-    [`./*.{${prettierExtensionsExceptTs}}`]: [prettierCmd, 'git add'],
+    [`./*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
 
     // CircleCI config (if modified)
     [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
