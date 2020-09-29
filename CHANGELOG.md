@@ -1,3 +1,10 @@
+# [10.17.0](https://github.com/NaturalCycles/dev-lib/compare/v10.16.6...v10.17.0) (2020-09-29)
+
+
+### Features
+
+* more dirs in prettierDirs, dry the config ([71a9f59](https://github.com/NaturalCycles/dev-lib/commit/71a9f59beb9373b144f635a323d59dd353755741))
+
 ## [10.16.6](https://github.com/NaturalCycles/dev-lib/compare/v10.16.5...v10.16.6) (2020-09-21)
 
 
