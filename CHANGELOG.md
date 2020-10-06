@@ -1,3 +1,10 @@
+# [10.18.0](https://github.com/NaturalCycles/dev-lib/compare/v10.17.1...v10.18.0) (2020-10-06)
+
+
+### Features
+
+* add ./e2e dir to prettierDirs ([23fdc36](https://github.com/NaturalCycles/dev-lib/commit/23fdc36435f3a1090e38d1754e48740ce292511e))
+
 ## [10.17.1](https://github.com/NaturalCycles/dev-lib/compare/v10.17.0...v10.17.1) (2020-10-05)
 
 
