@@ -2,10 +2,10 @@ import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import {
   _deepCopy,
   _deepTrim,
-  _filterEmptyValues,
-  _filterFalsyValues,
+  _filterEmpty,
+  _filterFalsy,
+  _filterNullish,
   _filterObject,
-  _filterUndefinedValues,
   _get,
   _getKeyByValue,
   _has,
@@ -175,8 +175,8 @@ test('_deepTrim', () => {
   })
 })
 
-test('_filterFalsyValues', () => {
-  const f = _filterFalsyValues
+test('_filterFalsy', () => {
+  const f = _filterFalsy
   const o = Object.freeze({
     a: 1,
     b: 0,
@@ -198,7 +198,7 @@ test('_filterFalsyValues', () => {
   expect(o2.b).toBe(undefined)
 })
 
-test('_filterUndefinedValues', () => {
+test('_filterNullish', () => {
   const o = {
     a: 1,
     b: 0,
@@ -209,7 +209,7 @@ test('_filterUndefinedValues', () => {
   }
   deepFreeze(o)
 
-  expect(_filterUndefinedValues(o)).toEqual({
+  expect(_filterNullish(o)).toEqual({
     a: 1,
     b: 0,
     e: '',
@@ -243,9 +243,9 @@ test('_undefinedIfEmpty', () => {
   nonEmpty.forEach(item => expect(_undefinedIfEmpty(item)).toEqual(item))
 })
 
-test('_filterEmptyValues', () => {
+test('_filterEmpty', () => {
   expect(
-    _filterEmptyValues({
+    _filterEmpty({
       a: 0,
       b: '',
       c: [],
