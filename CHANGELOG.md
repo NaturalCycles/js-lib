@@ -1,3 +1,10 @@
+## [14.3.2](https://github.com/NaturalCycles/js-lib/compare/v14.3.1...v14.3.2) (2020-10-13)
+
+
+### Bug Fixes
+
+* revert recent rename ([9ab6976](https://github.com/NaturalCycles/js-lib/commit/9ab697656258b8868a26c7320433f772c5cf4bed))
+
 ## [14.3.1](https://github.com/NaturalCycles/js-lib/compare/v14.3.0...v14.3.1) (2020-10-12)
 
 
