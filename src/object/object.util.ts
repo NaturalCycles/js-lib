@@ -64,29 +64,22 @@ export function _mask<T extends object>(obj: T, props: string[], mutate = false)
 /**
  * Removes "falsy" values from the object.
  */
-export function _filterFalsy<T extends object>(obj: T, mutate = false): T {
-  return _filterObject(obj, (_k, v) => !!v, mutate)
-}
-
-/**
- * @deprecated use _filterFalsy
- */
 export function _filterFalsyValues<T extends object>(obj: T, mutate = false): T {
-  return _filterFalsy(obj, mutate)
+  return _filterObject(obj, (_k, v) => !!v, mutate)
 }
 
 /**
  * Removes values from the object that are `null` or `undefined`.
  */
-export function _filterNullish<T extends object>(obj: T, mutate = false): T {
+export function _filterNullishValues<T extends object>(obj: T, mutate = false): T {
   return _filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
 }
 
 /**
- * @deprecated use _filterNullish
+ * @deprecated use _filterNullishValues
  */
 export function _filterUndefinedValues<T extends object>(obj: T, mutate = false): T {
-  return _filterNullish(obj, mutate)
+  return _filterNullishValues(obj, mutate)
 }
 
 /**
@@ -246,7 +239,7 @@ export function _undefinedIfEmpty<T>(obj: T | undefined): T | undefined {
 /**
  * Filters the object by removing all key-value pairs where Value is Empty (according to _isEmpty() specification).
  */
-export function _filterEmpty<T extends object>(obj: T, mutate = false) {
+export function _filterEmptyValues<T extends object>(obj: T, mutate = false) {
   return _filterObject(obj, (_k, v) => !_isEmpty(v), mutate)
 }
 

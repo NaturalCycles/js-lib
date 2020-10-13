@@ -237,17 +237,17 @@ _mask(obj, ['b.b1'], true)
 // obj was mutated
 ```
 
-###### \_filterFalsy
+###### \_filterFalsyValues
 
-###### \_filterNullish
+###### \_filterNullishValues
 
-###### \_filterEmpty
+###### \_filterEmptyValues
 
 Filters the object by removing all key-value pairs where Value is Empty (according to \_isEmpty()
 specification).
 
 ```typescript
-_filterEmpty({
+_filterEmptyValues({
   a: 0,
   b: '',
   c: [],
