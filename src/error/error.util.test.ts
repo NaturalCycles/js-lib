@@ -1,5 +1,5 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import { AppError, HttpError, HttpErrorResponse } from '..'
+import { AppError, HttpError, HttpErrorResponse, _assert } from '..'
 import {
   _anyToAppError,
   _anyToErrorMessage,
@@ -101,4 +101,10 @@ test('isHttpErrorObject', () => {
 
 test('isHttpErrorResponse', () => {
   expectResults(v => _isHttpErrorResponse(v), anyItems).toMatchSnapshot()
+})
+
+test('_assert', () => {
+  _assert(1 === 1) // should not throw
+
+  expect(() => _assert(1 * 1 === 2)).toThrowErrorMatchingSnapshot()
 })

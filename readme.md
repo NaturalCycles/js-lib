@@ -563,6 +563,8 @@ _inRange(7, 1, 5)
 
 ###### \_isErrorObject
 
+###### \_assert
+
 #### Types
 
 Things that should exist in [type-fest](https://github.com/sindresorhus/type-fest), but don't (yet).
