@@ -1,3 +1,10 @@
+# [14.4.0](https://github.com/NaturalCycles/js-lib/compare/v14.3.2...v14.4.0) (2020-10-15)
+
+
+### Features
+
+* _assert ([0ec4d0c](https://github.com/NaturalCycles/js-lib/commit/0ec4d0c4bfbc82683cf721ba02c5bce87cdd103a))
+
 ## [14.3.2](https://github.com/NaturalCycles/js-lib/compare/v14.3.1...v14.3.2) (2020-10-13)
 
 
