@@ -1,3 +1,10 @@
+# [14.5.0](https://github.com/NaturalCycles/js-lib/compare/v14.4.0...v14.5.0) (2020-10-16)
+
+
+### Features
+
+* _assertEquals, _assertDeepEquals ([33b338c](https://github.com/NaturalCycles/js-lib/commit/33b338cda1491d68ba6654fb2a08f55696bb6536))
+
 # [14.4.0](https://github.com/NaturalCycles/js-lib/compare/v14.3.2...v14.4.0) (2020-10-15)
 
 
