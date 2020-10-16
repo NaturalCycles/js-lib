@@ -565,6 +565,10 @@ _inRange(7, 1, 5)
 
 ###### \_assert
 
+###### \_assertEquals
+
+###### \_assertDeepEquals
+
 #### Types
 
 Things that should exist in [type-fest](https://github.com/sindresorhus/type-fest), but don't (yet).

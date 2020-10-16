@@ -138,30 +138,3 @@ export function _isHttpErrorObject(o: any): o is ErrorObject<HttpErrorData> {
 export function _isErrorObject(o: any): o is ErrorObject {
   return typeof o?.message === 'string' && typeof o?.data === 'object'
 }
-
-/**
- * Evaluates the `condition` (casts it to Boolean).
- * Expects it to be truthy, otherwise throws AppError.
- *
- * Should be used NOT for "expected" / user-facing errors, but
- * vice-versa - for completely unexpected and 100% buggy "should never happen" cases.
- *
- * It'll result in http 500 on the server (cause that's the right code for "unexpected" errors).
- *
- * API is similar to Node's assert(), except:
- * 1. Throws js-lib's AppError
- * 2. Has a default message, if not provided
- * 3. Sets `userFriendly` flag to true if message was provided (more clear error to debug).
- */
-export function _assert(
-  condition: any, // will be evaluated as Boolean
-  message?: string,
-  errorData?: ErrorData,
-): asserts condition {
-  if (!condition) {
-    throw new AppError(message || '_assert error (see stacktrace)', {
-      userFriendly: !!message, // if Message was provided - treat it as "user-friendly" (cause it's always more clear)
-      ...errorData,
-    })
-  }
-}

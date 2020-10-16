@@ -26,6 +26,7 @@ import { MemoCache } from './decorators/memo.util'
 import { _memoFn } from './decorators/memoFn'
 import { _Retry } from './decorators/retry.decorator'
 import { AppError } from './error/app.error'
+import { _assert, _assertDeepEquals, _assertEquals } from './error/assert'
 import {
   Admin401ErrorData,
   Admin403ErrorData,
@@ -40,7 +41,6 @@ import {
   _anyToErrorObject,
   _appErrorToErrorObject,
   _appErrorToHttpError,
-  _assert,
   _errorObjectToAppError,
   _errorObjectToHttpError,
   _errorToErrorObject,
@@ -148,6 +148,8 @@ export {
   _isHttpErrorObject,
   _isHttpErrorResponse,
   _assert,
+  _assertEquals,
+  _assertDeepEquals,
   _randomInt,
   _inRange,
   StringMap,

@@ -32,7 +32,7 @@ export interface StringifyAnyOptions {
 }
 
 /**
- * Inspired by inspectAny from nodejs-lib, which is based on util.inpect that is not available in Browser.
+ * Inspired by inspectAny from nodejs-lib, which is based on util.inpect that is not available in the Browser.
  * Potentially can do this (with extra 2Kb gz size): https://github.com/deecewan/browser-util-inspect
  *
  * Transforms ANY to human-readable string (via JSON.stringify pretty).
@@ -73,7 +73,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   } else {
     try {
       s = JSON.stringify(obj, null, 2)
-    } catch (_) {
+    } catch {
       s = String(obj) // fallback
     }
   }

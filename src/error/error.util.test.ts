@@ -102,9 +102,3 @@ test('isHttpErrorObject', () => {
 test('isHttpErrorResponse', () => {
   expectResults(v => _isHttpErrorResponse(v), anyItems).toMatchSnapshot()
 })
-
-test('_assert', () => {
-  _assert(1 === 1) // should not throw
-
-  expect(() => _assert(1 * 1 === 2)).toThrowErrorMatchingSnapshot()
-})
