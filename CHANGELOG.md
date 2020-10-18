@@ -1,3 +1,10 @@
+## [14.5.1](https://github.com/NaturalCycles/js-lib/compare/v14.5.0...v14.5.1) (2020-10-18)
+
+
+### Bug Fixes
+
+* export Mapper, Predicate ([85f6bd6](https://github.com/NaturalCycles/js-lib/commit/85f6bd637d5c2f749869bfc2ff05c9b232b53b25))
+
 # [14.5.0](https://github.com/NaturalCycles/js-lib/compare/v14.4.0...v14.5.0) (2020-10-16)
 
 
