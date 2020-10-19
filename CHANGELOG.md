@@ -1,3 +1,10 @@
+## [10.18.1](https://github.com/NaturalCycles/dev-lib/compare/v10.18.0...v10.18.1) (2020-10-19)
+
+
+### Bug Fixes
+
+* don't collect jest coverage from *.test.ts ([027b5f4](https://github.com/NaturalCycles/dev-lib/commit/027b5f48d49e56d5338eb87b20bbf9ee9fbfb81b))
+
 # [10.18.0](https://github.com/NaturalCycles/dev-lib/compare/v10.17.1...v10.18.0) (2020-10-06)
 
 
