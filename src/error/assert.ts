@@ -1,6 +1,5 @@
-import { _deepEquals, _stringifyAny } from '..'
+import { HttpErrorData, _deepEquals, _stringifyAny } from '..'
 import { AppError } from './app.error'
-import { ErrorData } from './error.model'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).
@@ -10,6 +9,7 @@ import { ErrorData } from './error.model'
  * vice-versa - for completely unexpected and 100% buggy "should never happen" cases.
  *
  * It'll result in http 500 on the server (cause that's the right code for "unexpected" errors).
+ * Pass { httpStatusCode: x } at errorData argument to override the http code (will be picked up by backend-lib).
  *
  * API is similar to Node's assert(), except:
  * 1. Throws js-lib's AppError
@@ -19,7 +19,7 @@ import { ErrorData } from './error.model'
 export function _assert(
   condition: any, // will be evaluated as Boolean
   message?: string,
-  errorData?: ErrorData,
+  errorData?: HttpErrorData,
 ): asserts condition {
   if (!condition) {
     throw new AppError(message || '_assert error (see stacktrace)', {
@@ -39,7 +39,7 @@ export function _assertEquals<T>(
   actual: any,
   expected: T,
   message?: string,
-  errorData?: ErrorData,
+  errorData?: HttpErrorData,
 ): asserts actual is T {
   if (actual !== expected) {
     let msg = `_assertEquals got (${actual}), but expected (${expected})`
@@ -61,7 +61,7 @@ export function _assertDeepEquals<T>(
   actual: any,
   expected: T,
   message?: string,
-  errorData?: ErrorData,
+  errorData?: HttpErrorData,
 ): asserts actual is T {
   if (!_deepEquals(actual, expected)) {
     const msg = [
