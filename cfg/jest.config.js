@@ -93,6 +93,7 @@ module.exports = {
     '!src/env/**',
     '!src/bin/**',
     '!public/**',
+    '!**/*.test.ts',
     '!**/*.module.ts',
     '!**/*.mock.ts',
     '!**/*.page.ts',
