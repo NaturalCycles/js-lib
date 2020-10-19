@@ -1,3 +1,10 @@
+## [14.5.2](https://github.com/NaturalCycles/js-lib/compare/v14.5.1...v14.5.2) (2020-10-19)
+
+
+### Bug Fixes
+
+* _assert* now allow httpStatusCode (HttpErrorData instead of ErrorData) ([03a0658](https://github.com/NaturalCycles/js-lib/commit/03a065824c3bcdeab5a41eb855178d44b9c0d1f5))
+
 ## [14.5.1](https://github.com/NaturalCycles/js-lib/compare/v14.5.0...v14.5.1) (2020-10-18)
 
 
