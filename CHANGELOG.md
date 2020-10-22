@@ -1,3 +1,10 @@
+## [14.5.4](https://github.com/NaturalCycles/js-lib/compare/v14.5.3...v14.5.4) (2020-10-22)
+
+
+### Bug Fixes
+
+* revert exports field ([42d07ee](https://github.com/NaturalCycles/js-lib/commit/42d07eee330322750a5f975fd865baa084a0494d))
+
 ## [14.5.3](https://github.com/NaturalCycles/js-lib/compare/v14.5.2...v14.5.3) (2020-10-22)
 
 
