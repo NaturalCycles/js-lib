@@ -30,6 +30,9 @@
   "module": "dist-esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": "./dist-esm/index.js"
+  },
   "engines": {
     "node": ">=10.13"
   },
@@ -41,6 +44,12 @@
     "url": "https://github.com/NaturalCycles/js-lib"
   },
   "description": "Standard library for universal (browser + Node.js) javascript",
+  "keywords": [
+    "js-lib",
+    "lodash",
+    "p-map",
+    "standard library"
+  ],
   "author": "Natural Cycles Team",
   "license": "MIT"
 }
