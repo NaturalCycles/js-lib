@@ -1,3 +1,10 @@
+## [14.5.5](https://github.com/NaturalCycles/js-lib/compare/v14.5.4...v14.5.5) (2020-10-22)
+
+
+### Bug Fixes
+
+* define the "exports" field as conditional ([acc34c8](https://github.com/NaturalCycles/js-lib/commit/acc34c84f2313f1ca6c6ec2d009ab7d37e170ec9))
+
 ## [14.5.4](https://github.com/NaturalCycles/js-lib/compare/v14.5.3...v14.5.4) (2020-10-22)
 
 
