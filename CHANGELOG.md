@@ -1,3 +1,10 @@
+## [14.5.3](https://github.com/NaturalCycles/js-lib/compare/v14.5.2...v14.5.3) (2020-10-22)
+
+
+### Bug Fixes
+
+* experimental package.json "exports" field for ESM ([fb67d98](https://github.com/NaturalCycles/js-lib/commit/fb67d9849762e361e11f2b5c93160777efa495a3))
+
 ## [14.5.2](https://github.com/NaturalCycles/js-lib/compare/v14.5.1...v14.5.2) (2020-10-19)
 
 
