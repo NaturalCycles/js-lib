@@ -1,3 +1,10 @@
+# [10.19.0](https://github.com/NaturalCycles/dev-lib/compare/v10.18.1...v10.19.0) (2020-10-24)
+
+
+### Features
+
+* mockAllKindsOfThings extended with ErrorWithCode ([4f1a0ac](https://github.com/NaturalCycles/dev-lib/commit/4f1a0acab065f8f91d19687d5cec54a88391cd83))
+
 ## [10.18.1](https://github.com/NaturalCycles/dev-lib/compare/v10.18.0...v10.18.1) (2020-10-19)
 
 
