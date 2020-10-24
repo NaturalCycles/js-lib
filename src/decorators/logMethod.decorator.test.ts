@@ -48,12 +48,12 @@ class C {
 
 const c = new C()
 
-test('syncMethodSuccess', async () => {
+test('syncMethodSuccess', () => {
   const r = c.syncMethodSuccess()
   expect(r).toBe('a')
 })
 
-test('syncMethodSuccessAvg', async () => {
+test('asyncMethodSuccessAvg', async () => {
   // Repeating to test count, avg, logResult, noLogStart, noLogArgs
   await c.asyncMethodSuccessAvg(1)
   await c.asyncMethodSuccessAvg(10)
@@ -61,7 +61,7 @@ test('syncMethodSuccessAvg', async () => {
   await c.asyncMethodSuccessAvg(30)
 })
 
-test('syncMethodThrow', async () => {
+test('syncMethodThrow', () => {
   expect(() => c.syncMethodThrow()).toThrow('MyError')
 })
 

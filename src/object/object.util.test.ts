@@ -377,7 +377,7 @@ test('_merge', () => {
   })
 })
 
-test('_getKeyByValue', async () => {
+test('_getKeyByValue', () => {
   expect(_getKeyByValue(undefined, 'v')).toBeUndefined()
   expect(_getKeyByValue(1, 'v')).toBeUndefined()
 
@@ -389,7 +389,7 @@ test('_getKeyByValue', async () => {
   expect(_getKeyByValue(o, 'ak')).toBe('a')
 })
 
-test('_invert', async () => {
+test('_invert', () => {
   const o = {
     a: 'ak',
     b: 'bk',
@@ -402,7 +402,7 @@ test('_invert', async () => {
   expect(_invert(o)).toEqual(inv)
 })
 
-test('_invertMap', async () => {
+test('_invertMap', () => {
   const o = new Map([
     ['a', 'ak'],
     ['b', 'bk'],
