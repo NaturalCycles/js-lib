@@ -1,3 +1,11 @@
+# [14.6.0](https://github.com/NaturalCycles/js-lib/compare/v14.5.5...v14.6.0) (2020-10-24)
+
+
+### Features
+
+* _createPromiseDecorator (experimental) ([98dff3f](https://github.com/NaturalCycles/js-lib/commit/98dff3fc7a54721a27d6956db2a89f6390fadb89))
+* _stringifyAny now handles "Error with code" ([12652e0](https://github.com/NaturalCycles/js-lib/commit/12652e0454caec30f3a56afcf51e4c566a1fd69c))
+
 ## [14.5.5](https://github.com/NaturalCycles/js-lib/compare/v14.5.4...v14.5.5) (2020-10-22)
 
 
