@@ -63,6 +63,8 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     if (obj instanceof AppError || _isErrorObject(obj)) {
       const data = obj.data
       s = [s, Object.keys(data).length > 0 && _stringifyAny(data, opt)].filter(Boolean).join('\n')
+    } else if (typeof (obj as any).code === 'string') {
+      s = (obj as any).code + '\n' + s
     }
   } else if (_isErrorObject(obj)) {
     s = [obj.message, Object.keys(obj.data).length > 0 && _stringifyAny(obj.data, opt)]
