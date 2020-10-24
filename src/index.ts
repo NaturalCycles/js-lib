@@ -17,6 +17,11 @@ import {
   _uniqBy,
 } from './array/array.util'
 import { _range } from './array/range'
+import {
+  PromiseDecoratorCfg,
+  PromiseDecoratorResp,
+  _createPromiseDecorator,
+} from './decorators/createPromiseDecorator'
 import { _debounce, _throttle } from './decorators/debounce'
 import { _Debounce, _Throttle } from './decorators/debounce.decorator'
 import { _getArgsSignature } from './decorators/decorator.util'
@@ -138,6 +143,9 @@ export {
   _memoFn,
   _LogMethod,
   _getArgsSignature,
+  _createPromiseDecorator,
+  PromiseDecoratorCfg,
+  PromiseDecoratorResp,
   ErrorData,
   ErrorObject,
   HttpErrorData,
