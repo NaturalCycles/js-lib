@@ -1,3 +1,10 @@
+## [14.6.1](https://github.com/NaturalCycles/js-lib/compare/v14.6.0...v14.6.1) (2020-10-26)
+
+
+### Bug Fixes
+
+* _assert errorData as Partial<HttpErrorData> ([37b1e00](https://github.com/NaturalCycles/js-lib/commit/37b1e000e8cfde96911f5e9c7ea2ffae11f898a4))
+
 # [14.6.0](https://github.com/NaturalCycles/js-lib/compare/v14.5.5...v14.6.0) (2020-10-24)
 
 
