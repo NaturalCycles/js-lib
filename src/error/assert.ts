@@ -19,7 +19,7 @@ import { AppError } from './app.error'
 export function _assert(
   condition: any, // will be evaluated as Boolean
   message?: string,
-  errorData?: HttpErrorData,
+  errorData?: Partial<HttpErrorData>,
 ): asserts condition {
   if (!condition) {
     throw new AppError(message || '_assert error (see stacktrace)', {
@@ -39,7 +39,7 @@ export function _assertEquals<T>(
   actual: any,
   expected: T,
   message?: string,
-  errorData?: HttpErrorData,
+  errorData?: Partial<HttpErrorData>,
 ): asserts actual is T {
   if (actual !== expected) {
     let msg = `_assertEquals got (${actual}), but expected (${expected})`
@@ -61,7 +61,7 @@ export function _assertDeepEquals<T>(
   actual: any,
   expected: T,
   message?: string,
-  errorData?: HttpErrorData,
+  errorData?: Partial<HttpErrorData>,
 ): asserts actual is T {
   if (!_deepEquals(actual, expected)) {
     const msg = [

@@ -2,17 +2,20 @@ import { _getTargetMethodSignature } from './decorator.util'
 
 export interface PromiseDecoratorCfg<T> {
   decoratorName: string
+
   /**
    * Called BEFORE the original function.
    * Returns void.
    */
   beforeFn?: (r: PromiseDecoratorResp) => void
+
   /**
    * Called just AFTER the original function.
    * The output of this hook will be passed further,
    * so, pay attention to pass through (or modify) the result.
    */
   thenFn?: (r: PromiseDecoratorResp & { res: T }) => T
+
   /**
    * Called on Promise.reject.
    * If `catchFn` is not present - will re-throw the error,
@@ -21,6 +24,7 @@ export interface PromiseDecoratorCfg<T> {
    * Whatever `catchFn` returns - passed to the original output.
    */
   catchFn?: (r: PromiseDecoratorResp & { err: any }) => T
+
   /**
    * Fires AFTER thenFn / catchFn, like a usual Promise.finally().
    * Doesn't have access to neither res nor err (same as Promise.finally).
