@@ -16,8 +16,6 @@ export function deepFreeze(o: any): void {
       deepFreeze(o[prop])
     }
   })
-
-  return o
 }
 
 export function silentConsole(): void {
