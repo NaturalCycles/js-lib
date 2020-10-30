@@ -1,3 +1,20 @@
+# [10.20.0](https://github.com/NaturalCycles/dev-lib/compare/v10.19.0...v10.20.0) (2020-10-30)
+
+
+### Bug Fixes
+
+* es6-compiant import of 'execa' ([28b563a](https://github.com/NaturalCycles/dev-lib/commit/28b563a25499663b73b6afe7400527dd1a9ffad4))
+
+
+### Features
+
+* experimental jest.esbuild.transformer.js ([1dbc6a9](https://github.com/NaturalCycles/dev-lib/commit/1dbc6a96269eec2260a09408772da63a79177f25))
+
+
+### Performance Improvements
+
+* speedup jestOffline test ([a58a93f](https://github.com/NaturalCycles/dev-lib/commit/a58a93ff06d6f32368e59b4fd76ff353a48d95f1))
+
 # [10.19.0](https://github.com/NaturalCycles/dev-lib/compare/v10.18.1...v10.19.0) (2020-10-24)
 
 
