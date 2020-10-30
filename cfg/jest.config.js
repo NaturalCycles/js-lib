@@ -55,6 +55,8 @@ module.exports = {
   transform: {
     // '^.+\\.js$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',
+    // example (experimental):
+    // '^.+\\.ts$': '@naturalcycles/dev-lib/cfg/jest.esbuild.transformer.js',
   },
   transformIgnorePatterns: ['/node_modules/'], // Jest default value
   testMatch,

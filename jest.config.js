@@ -1,4 +1,7 @@
 module.exports = {
   ...require('./cfg/jest.config'),
-  cacheDirectory: './tmp/cache-jest',
+  // debug esbuild
+  // transform: {
+  //   '^.+\\.ts$': './my-transformer.js',
+  // },
 }
