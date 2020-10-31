@@ -34,7 +34,7 @@ module.exports = {
     './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p ${tsconfigPath}`, prettierCmd, 'git add'],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-    [`./{${prettierDirs}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
+    [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
 
     // /scripts are separate, cause they require separate tsconfig.json
     // Prettier + tslint
