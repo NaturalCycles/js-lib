@@ -1,3 +1,10 @@
+## [10.21.1](https://github.com/NaturalCycles/dev-lib/compare/v10.21.0...v10.21.1) (2020-10-31)
+
+
+### Bug Fixes
+
+* lint-staged.config.js } bug found! ([ee8873b](https://github.com/NaturalCycles/dev-lib/commit/ee8873bd38bf215a3a51995e1bb0a1f79bc1a2f2))
+
 # [10.21.0](https://github.com/NaturalCycles/dev-lib/compare/v10.20.0...v10.21.0) (2020-10-31)
 
 
