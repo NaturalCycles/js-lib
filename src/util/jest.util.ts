@@ -3,7 +3,7 @@ import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { getFullICUPathIfExists, nodeModuleExists } from './test.util'
+import { nodeModuleExists } from './test.util'
 
 export function getJestConfigPath(): string | undefined {
   return fs.existsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
@@ -41,8 +41,7 @@ interface RunJestOpt {
 }
 
 /**
- * 1. Detects `full-icu` support, sets NODE_ICU_DATA if needed.
- * 2. Adds `--silent` if running all tests at once.
+ * 1. Adds `--silent` if running all tests at once.
  */
 export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   if (!nodeModuleExists('jest')) {
@@ -86,13 +85,6 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
   if (ci || isRunningAllTests()) {
     args.push('--silent')
-  }
-
-  const fullICUPath = getFullICUPathIfExists()
-  if (fullICUPath) {
-    Object.assign(env, {
-      NODE_ICU_DATA: fullICUPath,
-    })
   }
 
   if (leaks) {

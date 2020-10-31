@@ -6,8 +6,3 @@ import * as fs from 'fs'
 export function nodeModuleExists(moduleName: string): boolean {
   return fs.existsSync(`./node_modules/${moduleName}`)
 }
-
-export function getFullICUPathIfExists(): string | undefined {
-  const path = `./node_modules/full-icu`
-  return fs.existsSync(path) ? path : undefined
-}

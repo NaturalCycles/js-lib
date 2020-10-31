@@ -89,7 +89,6 @@ automatically in any environment. They're useful to run tests manually every now
 
 All test commands set `TZ=UTC`. You can override it by providing `TZ` env variable **before**
 running a test command. Adds `APP_ENV=test` env var (for all runs except integration). Automatically
-detects `full-icu` module presense, adds `NODE_ICU_DATA=${fullICUPath}` if needed. Automatically
 adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
 
 - `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`)
