@@ -1,3 +1,10 @@
+# [10.21.0](https://github.com/NaturalCycles/dev-lib/compare/v10.20.0...v10.21.0) (2020-10-31)
+
+
+### Features
+
+* remove auto-NODE_ICU_DATA feature ([89cb025](https://github.com/NaturalCycles/dev-lib/commit/89cb0257717df547105fa2ae8b6b6b356c2a415f))
+
 # [10.20.0](https://github.com/NaturalCycles/dev-lib/compare/v10.19.0...v10.20.0) (2020-10-30)
 
 
