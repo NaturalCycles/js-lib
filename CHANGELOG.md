@@ -1,3 +1,10 @@
+# [10.22.0](https://github.com/NaturalCycles/dev-lib/compare/v10.21.1...v10.22.0) (2020-11-01)
+
+
+### Features
+
+* fs-sync-mania ([4499ee1](https://github.com/NaturalCycles/dev-lib/commit/4499ee18bad1c90c4525ce94396e99f6ec6a6468))
+
 ## [10.21.1](https://github.com/NaturalCycles/dev-lib/compare/v10.21.0...v10.21.1) (2020-10-31)
 
 
