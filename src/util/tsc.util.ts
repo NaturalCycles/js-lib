@@ -1,4 +1,4 @@
-import { kpy } from '@naturalcycles/fs-lib'
+import { kpySync } from '@naturalcycles/fs-lib'
 import { _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
@@ -14,14 +14,14 @@ export async function tsc(): Promise<void> {
 /**
  * Returns path to /scripts/tsconfig.json
  */
-export async function ensureProjectTsconfigScripts(): Promise<string> {
+export function ensureProjectTsconfigScripts(): string {
   const projectTsconfigPath = `./scripts/tsconfig.json`
 
   if (!fs.existsSync(projectTsconfigPath)) {
     // You cannot just use a shared `tsconfig.scripts.json` because of relative paths for `include`
     // So, it will be copied into the project
 
-    await kpy({
+    kpySync({
       baseDir: `${cfgDir}/init/scripts/`,
       inputPatterns: ['tsconfig.json'],
       outputDir: './scripts',

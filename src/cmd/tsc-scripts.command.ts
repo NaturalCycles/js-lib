@@ -10,7 +10,7 @@ export async function tscScriptsCommand(): Promise<void> {
     return
   }
 
-  const projectTsconfigPath = await ensureProjectTsconfigScripts()
+  const projectTsconfigPath = ensureProjectTsconfigScripts()
 
   const args: string[] = ['-P', projectTsconfigPath, '--noEmit']
 

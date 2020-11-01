@@ -30,13 +30,13 @@ const JSON2ENV_OPT_DEF: Partial<Json2EnvOpts> = {
   fail: true,
 }
 
-export async function json2env(opt: Json2EnvOpts): Promise<void> {
+export function json2env(opt: Json2EnvOpts): void {
   const { jsonPath, prefix, saveEnvFile, bashEnv, fail, debug, silent } = {
     ...JSON2ENV_OPT_DEF,
     ...opt,
   }
 
-  if (!(await fs.pathExists(jsonPath))) {
+  if (!fs.pathExistsSync(jsonPath)) {
     if (fail) {
       throw new Error(`Path doesn't exist: ${jsonPath}`)
     }
@@ -46,14 +46,14 @@ export async function json2env(opt: Json2EnvOpts): Promise<void> {
     }
 
     if (bashEnv) {
-      await appendBashEnv('')
+      appendBashEnv('')
     }
 
     return
   }
 
   // read file
-  const json = await fs.readJson(jsonPath)
+  const json = fs.readJsonSync(jsonPath)
 
   const exportStr = objectToShellExport(json, prefix)
   if (debug) {
@@ -62,7 +62,7 @@ export async function json2env(opt: Json2EnvOpts): Promise<void> {
 
   if (saveEnvFile) {
     const shPath = `${jsonPath}.sh`
-    await fs.writeFile(shPath, exportStr)
+    fs.writeFileSync(shPath, exportStr)
 
     if (!silent) {
       console.log(`json2env created ${dimGrey(shPath)}:`)
@@ -71,14 +71,14 @@ export async function json2env(opt: Json2EnvOpts): Promise<void> {
   }
 
   if (bashEnv) {
-    await appendBashEnv(exportStr)
+    appendBashEnv(exportStr)
   }
 }
 
-async function appendBashEnv(exportStr: string): Promise<void> {
+function appendBashEnv(exportStr: string): void {
   const { BASH_ENV } = process.env
   if (BASH_ENV) {
-    await fs.appendFile(BASH_ENV, exportStr + '\n')
+    fs.appendFileSync(BASH_ENV, exportStr + '\n')
 
     console.log(`BASH_ENV file appended (${dimGrey(BASH_ENV)})`)
   }

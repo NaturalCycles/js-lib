@@ -1,8 +1,8 @@
-import { kpy } from '@naturalcycles/fs-lib'
+import { kpySync } from '@naturalcycles/fs-lib'
 import { cfgOverwriteDir } from '../cnst/paths.cnst'
 
-export async function initFromDevLibCommand(): Promise<void> {
-  await kpy({
+export function initFromDevLibCommand(): void {
+  kpySync({
     baseDir: cfgOverwriteDir,
     outputDir: './',
     dotfiles: true,

@@ -1,6 +1,6 @@
-import { kpy } from '@naturalcycles/fs-lib'
+import { kpySync } from '@naturalcycles/fs-lib'
 
-export async function buildCopyCommand(): Promise<void> {
+export function buildCopyCommand(): void {
   const baseDir = 'src'
   const inputPatterns = [
     '**',
@@ -12,7 +12,7 @@ export async function buildCopyCommand(): Promise<void> {
   ]
   const outputDir = 'dist'
 
-  await kpy({
+  kpySync({
     baseDir,
     inputPatterns,
     outputDir,

@@ -7,7 +7,7 @@ import { runJest } from '../util/jest.util'
 import { tsc } from '../util/tsc.util'
 
 runScript(async () => {
-  await fs.emptyDir('./dist')
+  fs.emptyDirSync('./dist')
   await tsc()
   await tscScriptsCommand()
   await runJest()

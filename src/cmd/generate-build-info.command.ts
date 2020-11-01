@@ -14,8 +14,8 @@ export async function generateBuildInfoCommand(): Promise<void> {
   const buildInfo = await generateBuildInfo()
   console.log(buildInfo)
 
-  if (dir) await fs.ensureDir(dir)
+  if (dir) fs.ensureDirSync(dir)
 
   const buildInfoPath = dir ? path.resolve(dir, 'buildInfo.json') : 'buildInfo.json'
-  await fs.writeJson(buildInfoPath, buildInfo, { spaces: 2 })
+  fs.writeJsonSync(buildInfoPath, buildInfo, { spaces: 2 })
 }
