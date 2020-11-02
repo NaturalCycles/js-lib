@@ -1,3 +1,10 @@
+# [14.7.0](https://github.com/NaturalCycles/js-lib/compare/v14.6.1...v14.7.0) (2020-11-02)
+
+
+### Features
+
+* _average, _averageWeighted ([5fbc827](https://github.com/NaturalCycles/js-lib/commit/5fbc8279272b750885d7134181d361400e7c2e19))
+
 ## [14.6.1](https://github.com/NaturalCycles/js-lib/compare/v14.6.0...v14.6.1) (2020-10-26)
 
 
