@@ -509,6 +509,17 @@ _inRange(7, 1, 5)
 
 ###### \_randomInt
 
+###### \_average
+
+Calculate an average of the array of numbers.
+
+```typescript
+_average([1, 2, 3, 4])
+// 2.5
+```
+
+###### \_averageWeighted
+
 ###### SimpleMovingAverage
 
 #### Units

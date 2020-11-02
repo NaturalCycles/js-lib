@@ -56,6 +56,7 @@ import {
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
+import { _average, _averageWeighted } from './math/math.util'
 import { SimpleMovingAverage } from './math/sma'
 import { _inRange, _randomInt } from './number/number.util'
 import { _deepEquals } from './object/deepEquals'
@@ -238,6 +239,8 @@ export {
   _flattenDeep,
   _chunk,
   SimpleMovingAverage,
+  _average,
+  _averageWeighted,
   _debounce,
   _throttle,
   _Debounce,
