@@ -1,4 +1,4 @@
-import { kpySync } from '@naturalcycles/fs-lib'
+import { kpySync } from '@naturalcycles/nodejs-lib'
 import { cfgOverwriteDir } from '../cnst/paths.cnst'
 
 export function updateFromDevLibCommand(): void {

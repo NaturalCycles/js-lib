@@ -140,16 +140,6 @@ variable to disable it.
 - `generate-build-info`: generate `buildInfo.json`
   - `--dir <someDir>` will save it to given dir
   - `--shell` will also generate `buildInfo.sh`
-- `json2env`: for specified `.json` file will create `.json.sh` file next to it that will "export"
-  all values of json file as environment variables. Will also append \$BASH_ENV (if defined) for
-  CircleCI. Example: `yarn json2env someFile.json` will create `someFile.json.sh`
-  - `--prefix` will prepend all keys with `prefix` string, e.g `--prefix buildInfo_` will output as
-    `buildInfo_key1`, `buildInfo_key2`, etc.
-  - `--no-save-env-file` to skip saving `.sh` file
-  - `--no-bash-env` to skip adding to `$BASH_ENV`
-  - `--no-fail` will not throw error on missing input file
-  - `--silent`
-  - `--debug`
 
 ## Non-extendable config files
 

@@ -1,5 +1,5 @@
-import { kpySync } from '@naturalcycles/fs-lib'
 import { _since } from '@naturalcycles/js-lib'
+import { kpySync } from '@naturalcycles/nodejs-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
