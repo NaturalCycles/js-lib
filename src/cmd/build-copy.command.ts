@@ -1,4 +1,4 @@
-import { kpySync } from '@naturalcycles/nodejs-lib'
+import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 
 export function buildCopyCommand(): void {
   const baseDir = 'src'

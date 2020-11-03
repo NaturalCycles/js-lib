@@ -651,9 +651,9 @@
   integrity sha512-z07DimgS6j8EhRyjQW+Lg7WINHaFwhGjubJ2PbD6+wVJJSDzt0+fXimFqbViWlAOrposB2KEyMBX1uLRowgCnQ==
 
 "@naturalcycles/nodejs-lib@^12.0.0":
-  version "12.8.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.8.0.tgz#c344d52f71a6dbdcf0e90699c2728b7b6c8ae9fe"
-  integrity sha512-FCmtivonlxR1pas5Pt/KT73IZK6mrwmWDAAnSfSMrITQgWDgWMgAXHWFpIoVLbtB+8Cy10fz/pHyYqmFw3hojA==
+  version "12.8.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.8.1.tgz#8f9dd551d49ab9e163c552c40c0059bf6ba60cbe"
+  integrity sha512-Kvr8UEDsRUOBYp3TxctH1SjoARDhlcj9tlBCAtgbSSqe0JrP0vkUGSc9RjP9/Hhi8CblCgPIw5GWlys9Uk8gwg==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@naturalcycles/time-lib" "^3.0.1"

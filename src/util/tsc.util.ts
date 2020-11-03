@@ -1,7 +1,7 @@
 import { _since } from '@naturalcycles/js-lib'
-import { kpySync } from '@naturalcycles/nodejs-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
+import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
 
