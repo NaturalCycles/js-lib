@@ -1,3 +1,10 @@
+# [10.23.0](https://github.com/NaturalCycles/dev-lib/compare/v10.22.0...v10.23.0) (2020-11-03)
+
+
+### Features
+
+* json2env moved away from here to nodejs-lib ([b78c464](https://github.com/NaturalCycles/dev-lib/commit/b78c4643f9c407ff4ab90aa2cd8e9bcd7585e172))
+
 # [10.22.0](https://github.com/NaturalCycles/dev-lib/compare/v10.21.1...v10.22.0) (2020-11-01)
 
 
