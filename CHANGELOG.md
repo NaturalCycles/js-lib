@@ -1,3 +1,10 @@
+## [10.23.1](https://github.com/NaturalCycles/dev-lib/compare/v10.23.0...v10.23.1) (2020-11-03)
+
+
+### Bug Fixes
+
+* kpySync import path from nodejs-lib ([950c337](https://github.com/NaturalCycles/dev-lib/commit/950c337d268cc7e64278fe85dd501451a6fa0dbe))
+
 # [10.23.0](https://github.com/NaturalCycles/dev-lib/compare/v10.22.0...v10.23.0) (2020-11-03)
 
 
