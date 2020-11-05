@@ -1,3 +1,10 @@
+# [14.8.0](https://github.com/NaturalCycles/js-lib/compare/v14.7.0...v14.8.0) (2020-11-05)
+
+
+### Features
+
+* _sortNumbers, _median, _percentile ([bb5e8f7](https://github.com/NaturalCycles/js-lib/commit/bb5e8f73e3770b24fad390a040840dbcea07ba68))
+
 # [14.7.0](https://github.com/NaturalCycles/js-lib/compare/v14.6.1...v14.7.0) (2020-11-02)
 
 
