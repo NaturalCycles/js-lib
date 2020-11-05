@@ -14,3 +14,16 @@ export function _randomInt(minIncl: number, maxIncl: number): number {
 export function _inRange(x: number, minIncl: number, maxExcl: number): boolean {
   return x >= minIncl && x < maxExcl
 }
+
+/**
+ * This function exists, because in JS you cannot just .sort() numbers,
+ * as .sort() function first maps everything to String.
+ *
+ * @example
+ *
+ * _sortNumbers([1, 3, 2])
+ * // [1, 2, 3]
+ */
+export function _sortNumbers(numbers: number[], mutate = false): number[] {
+  return (mutate ? numbers : [...numbers]).sort((a, b) => Math.sign(a - b))
+}

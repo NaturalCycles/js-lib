@@ -374,6 +374,8 @@ Returning `undefined` from the Mapper will EXCLUDE the item.
 
 ###### \_sortBy
 
+###### \_sortNumbers
+
 ###### \_findLast
 
 Like `.find()`, but tries to find an element from the END of the array.
@@ -519,6 +521,10 @@ _average([1, 2, 3, 4])
 ```
 
 ###### \_averageWeighted
+
+###### \_median
+
+###### \_percentile
 
 ###### SimpleMovingAverage
 
