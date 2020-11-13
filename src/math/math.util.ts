@@ -44,7 +44,7 @@ export function _percentile(values: number[], pc: number): number {
   const floorPos = Math.floor(pos)
   const ceilPos = Math.ceil(pos)
 
-  return _averageWeighted([sorted[floorPos], sorted[ceilPos]], [dec, 1 - dec])
+  return _averageWeighted([sorted[floorPos], sorted[ceilPos]], [1 - dec, dec])
 }
 
 /**
