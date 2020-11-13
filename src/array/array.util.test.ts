@@ -11,6 +11,7 @@ import {
   _flattenDeep,
   _groupBy,
   _intersection,
+  _mapToObject,
   _sortBy,
   _takeRightWhile,
   _takeWhile,
@@ -168,4 +169,24 @@ test('_difference', () => {
   expect(f([2, 1], [2, 3])).toEqual([1])
   expect(f([2, 1], [3])).toEqual([2, 1])
   expect(f([2, 4, 1], [3], [2], [3])).toEqual([4, 1])
+})
+
+test('_mapToObject', () => {
+  expect(_mapToObject(_range(3), i => [i, i * 2])).toEqual({
+    0: 0,
+    1: 2,
+    2: 4,
+  })
+
+  expect(_mapToObject(_range(3), i => [i, `id${i}`])).toEqual({
+    0: 'id0',
+    1: 'id1',
+    2: 'id2',
+  })
+
+  // Filtering
+  expect(_mapToObject(_range(5), i => i % 2 && [i, i])).toEqual({
+    1: 1,
+    3: 3,
+  })
 })

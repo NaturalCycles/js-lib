@@ -1,4 +1,5 @@
-import { StringMap, _range } from '..'
+import { _range } from '..'
+import { _mapToObject } from '../array/array.util'
 import { _average, _averageWeighted, _median, _percentile } from './math.util'
 
 const numbers = [
@@ -59,11 +60,9 @@ test.each([
 
 test('_percentile', () => {
   const numbers = [1200, 1400]
-  const pcs: StringMap<number> = {}
-  _range(11).forEach(i => {
-    const pc = i * 10
-    pcs[pc] = _percentile(numbers, pc)
-  })
+
+  const pcs = _mapToObject(_range(0, 101, 10), pc => [pc, _percentile(numbers, pc)])
+
   // console.log(pcs)
   expect(pcs).toMatchInlineSnapshot(`
     Object {

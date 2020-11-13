@@ -202,3 +202,32 @@ export function _intersection<T>(...arrays: T[][]): T[] {
 export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
   return diffs.reduce((a, b) => a.filter(c => !b.includes(c)), source)
 }
+
+/**
+ * Map an array of T to a StringMap<V>,
+ * by returning a tuple of [key, value] from a mapper function.
+ * Return undefined/null/false/0/void to filter out (not include) a value.
+ *
+ * @example
+ *
+ * _mapToObject([1, 2, 3], n => [n, n * 2])
+ * // { '1': 2, '2': 4, '3': 6 }
+ *
+ * _mapToObject([1, 2, 3], n => [n, `id${n}`])
+ * // { '1': 'id1, '2': 'id2', '3': 'id3' }
+ */
+export function _mapToObject<T, V>(
+  array: T[],
+  mapper: (item: T) => [key: any, value: V] | undefined | null | false | 0 | void,
+): StringMap<V> {
+  const m: StringMap<V> = {}
+
+  array.forEach(item => {
+    const r = mapper(item)
+    if (!r) return // filtering
+
+    m[r[0]] = r[1]
+  })
+
+  return m
+}
