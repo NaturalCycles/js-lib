@@ -1,3 +1,10 @@
+## [14.9.1](https://github.com/NaturalCycles/js-lib/compare/v14.9.0...v14.9.1) (2020-11-13)
+
+
+### Bug Fixes
+
+* bug in _percentile ([f27f118](https://github.com/NaturalCycles/js-lib/commit/f27f118495760f18155281b042d07b7eef5f796c))
+
 # [14.9.0](https://github.com/NaturalCycles/js-lib/compare/v14.8.0...v14.9.0) (2020-11-13)
 
 
