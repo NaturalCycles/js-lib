@@ -376,6 +376,12 @@ Returning `undefined` from the Mapper will EXCLUDE the item.
 
 ###### \_sortNumbers
 
+###### \_toFixed
+
+###### \_toPrecision
+
+###### \_round
+
 ###### \_findLast
 
 Like `.find()`, but tries to find an element from the END of the array.

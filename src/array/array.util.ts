@@ -139,7 +139,7 @@ export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): String
 export function _sortBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): T[] {
   return (mutate ? items : [...items]).sort((_a, _b) => {
     const [a, b] = [_a, _b].map(mapper)
-    if (typeof a === 'number' && typeof b === 'number') return Math.sign(a - b)
+    if (typeof a === 'number' && typeof b === 'number') return a - b
     return String(a).localeCompare(String(b))
   })
 }

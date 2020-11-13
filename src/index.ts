@@ -58,7 +58,14 @@ import { HttpError } from './error/http.error'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
 import { _average, _averageWeighted, _median, _percentile } from './math/math.util'
 import { SimpleMovingAverage } from './math/sma'
-import { _inRange, _randomInt, _sortNumbers } from './number/number.util'
+import {
+  _inRange,
+  _randomInt,
+  _round,
+  _sortNumbers,
+  _toFixed,
+  _toPrecision,
+} from './number/number.util'
 import { _deepEquals } from './object/deepEquals'
 import {
   _deepCopy,
@@ -217,6 +224,9 @@ export {
   _groupBy,
   _sortBy,
   _sortNumbers,
+  _toFixed,
+  _toPrecision,
+  _round,
   _findLast,
   _takeWhile,
   _takeRightWhile,
