@@ -1,3 +1,10 @@
+# [14.9.0](https://github.com/NaturalCycles/js-lib/compare/v14.8.0...v14.9.0) (2020-11-13)
+
+
+### Features
+
+* _toFixed, _toPrecision, _round ([b8bf81b](https://github.com/NaturalCycles/js-lib/commit/b8bf81bf29499e72a4bed885943787afb0b8cd0f))
+
 # [14.8.0](https://github.com/NaturalCycles/js-lib/compare/v14.7.0...v14.8.0) (2020-11-05)
 
 
