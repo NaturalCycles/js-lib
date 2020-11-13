@@ -1,3 +1,10 @@
+# [14.10.0](https://github.com/NaturalCycles/js-lib/compare/v14.9.1...v14.10.0) (2020-11-13)
+
+
+### Features
+
+* _mapToObject ([bc20b68](https://github.com/NaturalCycles/js-lib/commit/bc20b68f424d27462362b4b02bb4006fe9502263))
+
 ## [14.9.1](https://github.com/NaturalCycles/js-lib/compare/v14.9.0...v14.9.1) (2020-11-13)
 
 
