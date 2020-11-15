@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    branches: [master, next]
+    branches: [master, next, act]
 
 jobs:
   release-job:
@@ -12,18 +12,23 @@ jobs:
     steps:
       - { uses: actions/checkout@v2, with: { persist-credentials: true } }
       - { uses: actions/setup-node@v1, with: { node-version: 14 } }
+
+      # Cache for npm/npx in ~/.npm
       - uses: actions/cache@v2
-        id: cache
+        with:
+          path: ~/.npm
+          key: npm-v1-${{ runner.os }}
+
+      # Normal cache for yarn in ./node_modules
+      - uses: actions/cache@v2
         with:
           path: ./node_modules
-          key: deps-release-v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: deps-v1-${{ runner.os }}-
+          key: deps-v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: yarn
-        run: |
-          yarn --frozen-lockfile add -D @naturalcycles/semantic-release
+        run: yarn --frozen-lockfile
 
       - name: release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn release
+        run: npx @naturalcycles/semantic-release

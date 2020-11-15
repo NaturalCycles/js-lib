@@ -52,7 +52,6 @@
     "yargs": "^16.0.0"
   },
   "devDependencies": {
-    "@naturalcycles/semantic-release": "^1.6.0",
     "got": "^11.0.0",
     "jest": "^26.0.0"
   },
