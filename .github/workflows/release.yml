@@ -28,6 +28,9 @@ jobs:
       - name: yarn
         run: yarn --frozen-lockfile
 
+      - name: build
+        run: yarn build-prod
+
       - name: release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
