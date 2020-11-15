@@ -10,7 +10,7 @@ jobs:
       NODE_OPTIONS: '--max-old-space-size=3200'
     steps:
       - { uses: actions/checkout@v2, with: { persist-credentials: false } }
-      - { uses: actions/setup-node@v1, with: { node-version: '14.x' } }
+      - { uses: actions/setup-node@v1, with: { node-version: 14 } }
       - uses: actions/cache@v2
         with:
           path: ./node_modules
