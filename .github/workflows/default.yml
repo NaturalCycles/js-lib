@@ -1,20 +1,17 @@
-name: Actions
+name: default
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
-  test-job:
-    name: test-job
+  build-and-test-job:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     env:
       NODE_OPTIONS: '--max-old-space-size=3200'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - uses: actions/cache@v1
+      - { uses: actions/checkout@v2, with: { persist-credentials: false } }
+      - { uses: actions/setup-node@v1, with: { node-version: '14.x' } }
+      - uses: actions/cache@v2
         with:
           path: ./node_modules
           key: ${{ github.repository }}-${{ runner.os }}-${{ hashFiles('yarn.lock') }}-deps-v1
@@ -25,19 +22,12 @@ jobs:
           yarn --frozen-lockfile
 
       - name: build
-        run: |
-          yarn build
+        run: yarn build
 
       - name: test
-        run: |
-          echo $NODE_OPTIONS
-          yarn test-ci
+        run: yarn test-ci
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: unit.xml
-          path: tmp/jest/unit.xml
-      - uses: actions/upload-artifact@v1
-        with:
-          name: coverage-unit
-          path: coverage/lcov-report
+      - uses: actions/upload-artifact@v2
+        with: { name: 'unit.xml', path: 'tmp/jest/unit.xml' }
+      - uses: actions/upload-artifact@v2
+        with: { name: 'coverage-unit', path: 'coverage/lcov-report' }

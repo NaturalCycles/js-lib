@@ -18,23 +18,19 @@ workflows:
   default-workflow:
     jobs:
       - tools/publish-job:
-          filters:
-            branches:
-              only: master
-      - tools/build-job
+          filters: { branches: { only: master } }
+      #      - tools/build-job
       - tools/test-job:
           CC_TEST_REPORTER_ID: 791311fd4ab23bf9d0246fe1d1b4b589656a0de6d8a9a1a6d91a098b8816ea85
-      - tools/test-leaks-job
+  #      - tools/test-leaks-job
 
   nightly-workflow:
     triggers:
       - schedule:
           cron: '0 4 * * *' # 04:00 every day
-          filters:
-            branches:
-              only: master
+          filters: { branches: { only: master } }
     jobs:
       - tools/nightly-job
-      - tools/test-leaks-job
-      - tools/snyk-job
-      - tools/yarn-audit-job
+#      - tools/test-leaks-job
+#      - tools/snyk-job
+#      - tools/yarn-audit-job

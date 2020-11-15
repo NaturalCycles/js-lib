@@ -10,6 +10,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2f796927dce4bc0db5f6/test_coverage)](https://codeclimate.com/github/NaturalCycles/dev-lib/test_coverage)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/package/npm/snyk/badge.svg)](https://snyk.io/package/npm/@naturalcycles/dev-lib)
+[![Actions](https://github.com/NaturalCycles/dev-lib/workflows/default/badge.svg)](https://github.com/NaturalCycles/dev-lib/actions)
 
 ## How to use
 
