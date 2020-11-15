@@ -1,0 +1,29 @@
+name: release
+
+on:
+  push:
+    branches: [master, next]
+
+jobs:
+  release-job:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    env: { NODE_OPTIONS: '--max-old-space-size=3200' }
+    steps:
+      - { uses: actions/checkout@v2, with: { persist-credentials: true } }
+      - { uses: actions/setup-node@v1, with: { node-version: 14 } }
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: ./node_modules
+          key: deps-release-v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: deps-v1-${{ runner.os }}-
+
+      - name: yarn
+        run: |
+          yarn --frozen-lockfile add -D @naturalcycles/semantic-release
+
+      - name: release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release
