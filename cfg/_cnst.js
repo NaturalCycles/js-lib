@@ -4,4 +4,5 @@ module.exports = {
   ],
   // .tsx? is excluded
   prettierExtensions: 'css,scss,js,jsx,json,md,graphql,yml,yaml,html,vue',
+  lintExclude: ['./**/__exclude/**', './docs/.vuepress/dist/**', './CHANGELOG.md'],
 }

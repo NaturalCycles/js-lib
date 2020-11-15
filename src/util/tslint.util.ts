@@ -3,8 +3,6 @@ import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 
-export const tslintExcludePaths: string[] = ['./**/__exclude/**']
-
 /**
  * @returns error code (0 == ok)
  */

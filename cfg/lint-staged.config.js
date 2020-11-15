@@ -5,7 +5,7 @@
 */
 
 const fs = require('fs')
-const { prettierDirs, prettierExtensions } = require('./_cnst')
+const { prettierDirs, prettierExtensions, lintExclude } = require('./_cnst')
 const cfgDir = __dirname
 
 // Use default configs if not specified in target dir
@@ -52,5 +52,5 @@ module.exports = {
     [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
   },
 
-  ignore: ['./**/__exclude/**/*', './CHANGELOG.md'],
+  ignore: lintExclude,
 }

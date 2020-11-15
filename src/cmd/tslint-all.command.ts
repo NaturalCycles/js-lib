@@ -3,8 +3,8 @@ import {
   getTSConfigPathScripts,
   getTSLintConfigPath,
   runTSLint,
-  tslintExcludePaths,
 } from '../util/tslint.util'
+const { lintExclude } = require('../../cfg/_cnst')
 
 /**
  * Runs `tslint` command for all predefined paths (e.g /src, etc).
@@ -18,9 +18,9 @@ export async function tslintAllCommand(): Promise<void> {
   const tsconfigPathScripts = getTSConfigPathScripts()
 
   // /src
-  await runTSLint(projectSrcDir, tslintExcludePaths, tslintConfigPath)
-  await runTSLint(projectSrcDir, tslintExcludePaths, tslintConfigPath, tsconfigPath)
+  await runTSLint(projectSrcDir, lintExclude, tslintConfigPath)
+  await runTSLint(projectSrcDir, lintExclude, tslintConfigPath, tsconfigPath)
   // /scripts
-  await runTSLint(projectScriptsDir, tslintExcludePaths, tslintConfigPath)
-  await runTSLint(projectScriptsDir, tslintExcludePaths, tslintConfigPath, tsconfigPathScripts)
+  await runTSLint(projectScriptsDir, lintExclude, tslintConfigPath)
+  await runTSLint(projectScriptsDir, lintExclude, tslintConfigPath, tsconfigPathScripts)
 }
