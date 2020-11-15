@@ -1,3 +1,10 @@
+## [10.25.1](https://github.com/NaturalCycles/dev-lib/compare/v10.25.0...v10.25.1) (2020-11-15)
+
+
+### Bug Fixes
+
+* test release with gh actions ([ab8248f](https://github.com/NaturalCycles/dev-lib/commit/ab8248f5d76e737cc611539bf73e96b0e744c8db))
+
 # [10.25.0](https://github.com/NaturalCycles/dev-lib/compare/v10.24.0...v10.25.0) (2020-11-15)
 
 
