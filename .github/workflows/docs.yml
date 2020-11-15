@@ -1,0 +1,31 @@
+name: docs
+
+on:
+  push:
+    branches: [master, docs]
+
+jobs:
+  docs-job:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    env: { NODE_OPTIONS: '--max-old-space-size=3200' }
+    steps:
+      - { uses: actions/checkout@v2, with: { persist-credentials: false } }
+      - { uses: actions/setup-node@v1, with: { node-version: 14 } }
+      - uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: deps-v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - { name: yarn, run: yarn --frozen-lockfile }
+
+      - name: docs-build
+        run: yarn docs-build
+
+      - name: publish docs to github pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/.vuepress/dist
+          force_orphan: true
+          commit_message: 'deploy docs [skip ci]'
+          # publish_branch: gh-pages

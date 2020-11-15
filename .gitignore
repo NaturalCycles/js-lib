@@ -9,46 +9,43 @@
 # Global (all dirs)
 #
 *.iml
+.idea
 .DS_Store
+node_modules
+.env
+.npmrc
+.classpath
+.project
+.settings
+.externalToolBuilders
+.cache
+.stencil
+.nuxt
+.gitconfig
+.lighthouseci
 
 #
 # Root dir
 #
-/.idea
-/.classpath
-/.project
-/.settings
-/.externalToolBuilders
-/.cache
-/.gitconfig
 /target
 /*.log
 /log.txt
 /.sass-cache
 /.sourcemaps
-/.env
-/.npmrc
-
-/node_modules
+/docs/.vuepress/dist
 
 /coverage
-/report
 
 /dist
 /dist-cjs
 /dist-esm
 /tmp
-/deploy
-/build/deploy
 
 # All secrets are ignored, except encrypted
 /secret/**/*.*
 !/secret/**/*.enc
 
-/src/@linked
 /scripts/try.*
 /logs
-/platforms
-/plugins
 /www/*
 !/www/.gitkeep

@@ -2,7 +2,9 @@
   "name": "@naturalcycles/js-lib",
   "version": "14.10.0",
   "scripts": {
-    "build-prod": "build-prod-esm-cjs"
+    "build-prod": "build-prod-esm-cjs",
+    "docs-serve": "vuepress dev docs",
+    "docs-build": "vuepress build docs"
   },
   "peerDependencies": {
     "tslib": ">=1.10.0"
@@ -15,8 +17,12 @@
     "benchmark": "^2.1.4",
     "jest": "^26.0.1",
     "patch-package": "^6.2.1",
+    "prettier": "^2.1.2",
     "rxjs": "^6.5.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "vue-class-component": "^7.2.6",
+    "vuepress": "^1.7.1",
+    "vuepress-plugin-typescript": "^0.3.1"
   },
   "files": [
     "dist",
