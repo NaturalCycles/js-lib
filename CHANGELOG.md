@@ -1,3 +1,10 @@
+# [10.24.0](https://github.com/NaturalCycles/dev-lib/compare/v10.23.1...v10.24.0) (2020-11-15)
+
+
+### Features
+
+* use /docs (not /doc) convention ([5346e2e](https://github.com/NaturalCycles/dev-lib/commit/5346e2e6a4f99bedfdd53d6dd686d95298b64bdd))
+
 ## [10.23.1](https://github.com/NaturalCycles/dev-lib/compare/v10.23.0...v10.23.1) (2020-11-03)
 
 
