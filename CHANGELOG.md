@@ -1,3 +1,10 @@
+# [10.25.0](https://github.com/NaturalCycles/dev-lib/compare/v10.24.0...v10.25.0) (2020-11-15)
+
+
+### Features
+
+* DRY lint exclusions, add /docs/.vuepress/dist to the list ([6cd66b7](https://github.com/NaturalCycles/dev-lib/commit/6cd66b75b13cee4c953849b22d3b296e2c4b1abe))
+
 # [10.24.0](https://github.com/NaturalCycles/dev-lib/compare/v10.23.1...v10.24.0) (2020-11-15)
 
 
