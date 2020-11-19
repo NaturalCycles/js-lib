@@ -13,9 +13,9 @@ export async function getLastGitCommitMsg(): Promise<string> {
 }
 
 export function commitMessageToTitleMessage(msg: string): string {
-  const firstLine = msg.split('\n')[0]
+  const firstLine = msg.split('\n')[0]!
   const [preTitle, title] = firstLine.split(': ')
-  return title || preTitle
+  return title || preTitle!
 }
 
 export async function gitHasUncommittedChanges(): Promise<boolean> {
