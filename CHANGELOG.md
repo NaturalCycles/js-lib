@@ -1,3 +1,10 @@
+## [14.10.1](https://github.com/NaturalCycles/js-lib/compare/v14.10.0...v14.10.1) (2020-11-19)
+
+
+### Bug Fixes
+
+* typescript@4.1, noUncheckedIndexedAccess=true ([f8e074c](https://github.com/NaturalCycles/js-lib/commit/f8e074ce397ba825a3f0ab5965596313773f7716))
+
 # [14.10.0](https://github.com/NaturalCycles/js-lib/compare/v14.9.1...v14.10.0) (2020-11-13)
 
 
