@@ -16,7 +16,7 @@ export function _average(values: number[]): number {
  * valuesArray and weightsArray length is expected to be the same.
  */
 export function _averageWeighted(values: number[], weights: number[]): number {
-  const numerator = values.map((value, i) => value * weights[i]).reduce((a, b) => a + b)
+  const numerator = values.map((value, i) => value * weights[i]!).reduce((a, b) => a + b)
 
   const denominator = weights.reduce((a, b) => a + b)
 
@@ -44,7 +44,7 @@ export function _percentile(values: number[], pc: number): number {
   const floorPos = Math.floor(pos)
   const ceilPos = Math.ceil(pos)
 
-  return _averageWeighted([sorted[floorPos], sorted[ceilPos]], [1 - dec, dec])
+  return _averageWeighted([sorted[floorPos]!, sorted[ceilPos]!], [1 - dec, dec])
 }
 
 /**

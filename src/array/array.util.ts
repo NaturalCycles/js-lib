@@ -15,7 +15,7 @@ import { Mapper, Predicate, StringMap } from '../types'
  */
 export function _chunk<T>(array: readonly T[], size = 1): T[][] {
   return array.reduce((arr, item, idx) => {
-    return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]]
+    return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0]!, item]]
   }, [] as T[][])
 }
 

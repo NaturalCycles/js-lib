@@ -23,7 +23,7 @@ export async function pProps<T>(
 
   const r = {} as T
   values.forEach((v, i) => {
-    r[keys[i]] = v
+    r[keys[i]!] = v
   })
   return r
 }

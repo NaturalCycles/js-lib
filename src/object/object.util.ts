@@ -321,7 +321,7 @@ export function _unset<T extends object>(obj: T, prop: string): void {
 
   const segs = prop.split('.')
   let last = segs.pop()
-  while (segs.length && segs[segs.length - 1].slice(-1) === '\\') {
+  while (segs.length && segs[segs.length - 1]!.slice(-1) === '\\') {
     last = segs.pop()!.slice(0, -1) + '.' + last
   }
   while (segs.length && _isObject(obj)) {
@@ -406,7 +406,7 @@ export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, v
               ? [] // Yes: assign a new array object
               : {}), // No: assign a new plain object
     obj,
-  )[path[path.length - 1]] = value // Finally assign the value to the last key
+  )[path[path.length - 1]!] = value // Finally assign the value to the last key
 
   return obj as any // Return the top-level object to allow chaining
 }

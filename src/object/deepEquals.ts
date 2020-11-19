@@ -41,11 +41,11 @@ export function _deepEquals(a: any, b: any): boolean {
 
     if (length !== keyList(b).length) return false
 
-    for (i = length; i-- !== 0; ) if (!hasProp.call(b, keys[i])) return false
+    for (i = length; i-- !== 0; ) if (!hasProp.call(b, keys[i]!)) return false
 
     for (i = length; i-- !== 0; ) {
       key = keys[i]
-      if (!_deepEquals(a[key], b[key])) return false
+      if (!_deepEquals(a[key!], b[key!])) return false
     }
 
     return true
