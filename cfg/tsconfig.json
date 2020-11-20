@@ -25,7 +25,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUncheckedIndexedAccess": false, // will be turned to true later
+    "noUncheckedIndexedAccess": true,
 
     // todo: monitor if we should have it default or not
     // Enabled should be faster, but will catch less errors

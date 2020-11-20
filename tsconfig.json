@@ -1,7 +1,6 @@
 {
   "extends": "./cfg/tsconfig.json",
   "compilerOptions": {
-    "noUncheckedIndexedAccess": true,
     "outDir": "./dist"
   },
   "include": ["src"],

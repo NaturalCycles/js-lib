@@ -634,14 +634,14 @@
     typescript "^4.0.2"
 
 "@naturalcycles/js-lib@^14.0.0":
-  version "14.10.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.10.0.tgz#1aee39f29ad8956151f2c2afe6e40a75c7ed01d9"
-  integrity sha512-8QRjFB+r9hTwvMv9wsKj7Sc7VrpYkHjdkXzYnahbIDGxAY7BIed74DHdVv5RP3wDTM7ikO4gvyaf890QQtrSjQ==
+  version "14.10.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.10.1.tgz#593ca4bdde8a822990f559b0d2d87321567bb8aa"
+  integrity sha512-PLbAU6X/KExMZzPGPtrwMhbBI0tw7mJWQSTj5QvMCKZ8alwb2iZVNe4piGYjVl9ybflDPts19sdP1UfCdAqa/A==
 
 "@naturalcycles/nodejs-lib@^12.0.0", "@naturalcycles/nodejs-lib@^12.8.0":
-  version "12.11.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.11.0.tgz#8f997b5b865004a81b371a72e120dabb702a26a2"
-  integrity sha512-eQkddq3LsnsWtSZmoUwyqJKKwG3IQeVc9oqgsZh5a1siWXFthyMACsEPsJV2lep4dWyS9an8RCZQxygOcQm3Eg==
+  version "12.11.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.11.1.tgz#844f7a8fac5d3a6a827377c97373e529b91be586"
+  integrity sha512-kQvZX86Begyvqz5/jKs8PL+i3lp+WG9EyTQi4euoEAIhR07pwnro4oFPDwISrhL5o9LVcJJrEKku/5K+r/BoFA==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@naturalcycles/time-lib" "^3.0.1"
@@ -3797,9 +3797,9 @@ ms@2.1.2, ms@^2.1.1:
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 nanoid@^3.0.0:
-  version "3.1.16"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.16.tgz#b21f0a7d031196faf75314d7c65d36352beeef64"
-  integrity sha512-+AK8MN0WHji40lj8AEuwLOvLSbWYApQpre/aFJZD71r43wVRLrOYS4FmJOPQYon1TqB462RzrrxlfA74XRES8w==
+  version "3.1.17"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.17.tgz#948d606594e925dff72076201922f6e22d4cc543"
+  integrity sha512-5mmlQz73ohlISpARejqTwgYzh92wwBccatETsLOI+VKkY6Lx/Dj3wvG7tCoKjX+eEaZWn0gB7Xkfl5JatHQTeA==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -4209,9 +4209,9 @@ prelude-ls@~1.1.2:
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
 prettier@^2.0.4:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.1.2.tgz#3050700dae2e4c8b67c4c3f666cdb8af405e1ce5"
-  integrity sha512-16c7K+x4qVlJg9rEbXl7HEGmQyZlG4R9AgP+oHKRMsMsuk8s+ATStlf1NpDqyBI1HpVyfjLOeMhH2LvuNvV5Vg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.0.tgz#8a03c7777883b29b37fb2c4348c66a78e980418b"
+  integrity sha512-yYerpkvseM4iKD/BXLYUkQV5aKt4tQPqaGW6EsZjzyu0r7sVZZNPJW4Y8MyKmicp6t42XUPcBVA+H6sB3gqndw==
 
 pretty-format@^26.0.0, pretty-format@^26.6.2:
   version "26.6.2"
