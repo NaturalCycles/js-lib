@@ -1,3 +1,10 @@
+# [10.26.0](https://github.com/NaturalCycles/dev-lib/compare/v10.25.4...v10.26.0) (2020-11-20)
+
+
+### Features
+
+* noUncheckedIndexedAccess=true is by default now ([ea2ad02](https://github.com/NaturalCycles/dev-lib/commit/ea2ad02e1552fe3607f5b968870eb18f00f683be))
+
 ## [10.25.4](https://github.com/NaturalCycles/dev-lib/compare/v10.25.3...v10.25.4) (2020-11-19)
 
 
