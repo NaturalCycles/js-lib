@@ -1,3 +1,10 @@
+## [14.10.2](https://github.com/NaturalCycles/js-lib/compare/v14.10.1...v14.10.2) (2020-11-22)
+
+
+### Bug Fixes
+
+* testing function overloads (on _range right now) ([1a54106](https://github.com/NaturalCycles/js-lib/commit/1a541063215ffc51841b127d473c239ac444eb82))
+
 ## [14.10.1](https://github.com/NaturalCycles/js-lib/compare/v14.10.0...v14.10.1) (2020-11-19)
 
 
