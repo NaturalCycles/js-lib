@@ -8,6 +8,8 @@
  * range(3, 6) // [ 3, 4, 5 ]
  * range(1, 10, 2) // [ 1, 3, 5, 7, 9 ]
  */
+export function _range(toExcl: number): number[]
+export function _range(fromIncl: number, toExcl: number, step?: number): number[]
 export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
   if (toExcl === undefined) {
     return Array.from(Array(fromIncl), (_, i) => i)
