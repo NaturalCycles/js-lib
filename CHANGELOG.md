@@ -1,3 +1,10 @@
+# [10.27.0](https://github.com/NaturalCycles/dev-lib/compare/v10.26.0...v10.27.0) (2020-11-23)
+
+
+### Features
+
+* export git* api from git.util (still experimental) ([750cbbb](https://github.com/NaturalCycles/dev-lib/commit/750cbbb169d70dc3f9febc109b1f31565b04a8a9))
+
 # [10.26.0](https://github.com/NaturalCycles/dev-lib/compare/v10.25.4...v10.26.0) (2020-11-20)
 
 
