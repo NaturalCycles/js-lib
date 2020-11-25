@@ -1,3 +1,10 @@
+# [14.11.0](https://github.com/NaturalCycles/js-lib/compare/v14.10.2...v14.11.0) (2020-11-25)
+
+
+### Features
+
+* bump es target es2017>es2019 for node an es2015>es2017 for browsers (esm) ([ec35823](https://github.com/NaturalCycles/js-lib/commit/ec35823e0de2191fdeab83b3eedebe1d31aecfbf))
+
 ## [14.10.2](https://github.com/NaturalCycles/js-lib/compare/v14.10.1...v14.10.2) (2020-11-22)
 
 
