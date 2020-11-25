@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2019", // node 12 lts+ (will be es2020 when AppEngine starts to support Node 14 lts)
     "module": "commonjs",
-    "lib": ["dom", "es2018"],
+    "lib": ["dom", "esnext"],
     "sourceMap": true,
     "declaration": true,
     "outDir": "./dist",

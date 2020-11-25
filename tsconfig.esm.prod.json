@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es2015" // targets browsers
+    "target": "es2017" // targets es2017+ browsers
   },
   "exclude": ["src/test", "src/**/*.test.*"]
 }

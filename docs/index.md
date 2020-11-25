@@ -44,10 +44,9 @@ A:
 This package is intended to be 0-dependency, "not bloated", tree-shakeable. Supported by reasonably
 modern Browsers and Node.js latest LTS.
 
-To fulfil that requirement it exports ESM version (for Browsers) as es2015, to support Browsers that
-don't natively support async/await (es2017).
+To fulfil that requirement it exports ESM version (for Browsers) as es2017.
 
-Exports default CJS version for Node as es2017 (with native async/await, for better performance,
+Exports default CJS version for Node as es2019 (with native async/await, for better performance,
 async stack-traces, etc).
 
 ## Mutation
@@ -85,7 +84,7 @@ _pick(obj, ['a'], true)
 # Packaging
 
 - `engines.node >= Node.js LTS`
-- `main: dist/index.js`: commonjs, es2017 - targeting Node.js
-- `module: dist-esm/index.js`: esm, es2015 - targeting Browsers
+- `main: dist/index.js`: commonjs, es2019 - targeting Node.js
+- `module: dist-esm/index.js`: esm, es2017 - targeting Browsers
 - `types: dist/index.d.ts`: typescript types
 - `/src` folder with source `*.ts` files included
