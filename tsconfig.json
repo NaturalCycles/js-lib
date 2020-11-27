@@ -1,20 +1,11 @@
 {
+  "extends": "@naturalcycles/dev-lib/cfg/tsconfig.json",
   "compilerOptions": {
     "target": "es2019", // node 12 lts+ (will be es2020 when AppEngine starts to support Node 14 lts)
-    "module": "commonjs",
     "lib": ["dom", "esnext"],
-    "sourceMap": true,
-    "declaration": true,
     "outDir": "./dist",
-    "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "moduleResolution": "node",
-    "rootDir": "./src",
-    "importHelpers": true,
-    "noUncheckedIndexedAccess": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true
+    "rootDir": "./src"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/__exclude"]
 }
