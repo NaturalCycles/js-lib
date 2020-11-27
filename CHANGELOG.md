@@ -1,3 +1,10 @@
+# [10.28.0](https://github.com/NaturalCycles/dev-lib/compare/v10.27.0...v10.28.0) (2020-11-27)
+
+
+### Features
+
+* tsconfig/ts-jest isolatedModules now default to `true` ([0aa07b0](https://github.com/NaturalCycles/dev-lib/commit/0aa07b00a661314ef9363725baa83049b4d5573f))
+
 # [10.27.0](https://github.com/NaturalCycles/dev-lib/compare/v10.26.0...v10.27.0) (2020-11-23)
 
 
