@@ -31,6 +31,11 @@
     // Enabled should be faster, but will catch less errors
     // "skipLibCheck": true,
 
+    // Faster compilation in general
+    // Support for external compilers (e.g esbuild)
+    // Speedup in Jest by using "isolatedModules" in 'ts-jest' config
+    "isolatedModules": true,
+
     // Need to be specified in the project tsconfig
     // "typeRoots": [
     //   "node_modules/@types",

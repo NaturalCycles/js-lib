@@ -1,5 +1,7 @@
 test('emtpy', () => {})
 
+export {}
+
 /*
 test('runPrettier, shared config', async () => {
   const _execCommand = ((execCommand as any) = jest.fn())

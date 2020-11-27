@@ -5,3 +5,5 @@ test('APP_ENV should be `test`', () => {
 test('TZ should be UTC', () => {
   expect(process.env.TZ).toBe('UTC')
 })
+
+export {}

@@ -1,1 +1,3 @@
 test.todo('empty')
+
+export {}
