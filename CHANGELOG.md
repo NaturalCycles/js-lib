@@ -1,3 +1,10 @@
+## [14.11.1](https://github.com/NaturalCycles/js-lib/compare/v14.11.0...v14.11.1) (2020-11-27)
+
+
+### Bug Fixes
+
+* adopt isolatedModules=true ([119669e](https://github.com/NaturalCycles/js-lib/commit/119669edfe4c4b0053eb7bfb1eb73d7db40a090f))
+
 # [14.11.0](https://github.com/NaturalCycles/js-lib/compare/v14.10.2...v14.11.0) (2020-11-25)
 
 
