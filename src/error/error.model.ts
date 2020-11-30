@@ -19,6 +19,13 @@ export interface ErrorData {
   errorId?: string
 
   /**
+   * Sometimes error.message gets "decorated" with extra information
+   * (e.g frontend-lib adds a method, url, etc for all the errors)
+   * `originalMessage` is used to preserve the original `error.message` as it came from the backend.
+   */
+  originalMessage?: string
+
+  /**
    * Open-ended.
    */
   [k: string]: any
