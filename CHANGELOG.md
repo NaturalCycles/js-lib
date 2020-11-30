@@ -1,3 +1,10 @@
+# [14.12.0](https://github.com/NaturalCycles/js-lib/compare/v14.11.1...v14.12.0) (2020-11-30)
+
+
+### Features
+
+* ErrorData.originalMessage?: string ([49125f9](https://github.com/NaturalCycles/js-lib/commit/49125f9832eb752813e87e32db5edae5a1cee53a))
+
 ## [14.11.1](https://github.com/NaturalCycles/js-lib/compare/v14.11.0...v14.11.1) (2020-11-27)
 
 
