@@ -1,3 +1,10 @@
+## [10.28.2](https://github.com/NaturalCycles/dev-lib/compare/v10.28.1...v10.28.2) (2021-01-19)
+
+
+### Bug Fixes
+
+* don't collect coverage from *.script.ts ([542f2fe](https://github.com/NaturalCycles/dev-lib/commit/542f2fe06c3170bc84d558e740eaf5a37fb1120c))
+
 ## [10.28.1](https://github.com/NaturalCycles/dev-lib/compare/v10.28.0...v10.28.1) (2020-12-03)
 
 
