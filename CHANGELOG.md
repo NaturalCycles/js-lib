@@ -1,3 +1,10 @@
+# [14.13.0](https://github.com/NaturalCycles/js-lib/compare/v14.12.0...v14.13.0) (2021-01-19)
+
+
+### Features
+
+* _createDeterministicRandom() ([c9c6d57](https://github.com/NaturalCycles/js-lib/commit/c9c6d57c2c8f4cd0715710c406b904eeb0994a78))
+
 # [14.12.0](https://github.com/NaturalCycles/js-lib/compare/v14.11.1...v14.12.0) (2020-11-30)
 
 
