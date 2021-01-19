@@ -59,6 +59,7 @@ import { HttpError } from './error/http.error'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
 import { _average, _averageWeighted, _median, _percentile } from './math/math.util'
 import { SimpleMovingAverage } from './math/sma'
+import { _createDeterministicRandom } from './number/createDeterministicRandom'
 import {
   _inRange,
   _randomInt,
@@ -191,6 +192,7 @@ export {
   _assertEquals,
   _assertDeepEquals,
   _randomInt,
+  _createDeterministicRandom,
   _inRange,
   _stringMapValues,
   _stringMapEntries,
