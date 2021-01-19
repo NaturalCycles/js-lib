@@ -391,7 +391,7 @@ export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, v
     return obj as any
   }
 
-  path.slice(0, -1).reduce(
+  ;(path as any[]).slice(0, -1).reduce(
     (
       a,
       c,
