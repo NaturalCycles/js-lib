@@ -97,6 +97,7 @@ module.exports = {
     '!src/bin/**',
     '!public/**',
     '!**/*.test.ts',
+    '!**/*.script.ts',
     '!**/*.module.ts',
     '!**/*.mock.ts',
     '!**/*.page.ts',
