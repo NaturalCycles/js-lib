@@ -1,3 +1,10 @@
+## [14.13.1](https://github.com/NaturalCycles/js-lib/compare/v14.13.0...v14.13.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* pRetry predicate to have Error type, docs ([afb9a0d](https://github.com/NaturalCycles/js-lib/commit/afb9a0dbaa0f360295b0ee5b33f48eca758ee3fe))
+
 # [14.13.0](https://github.com/NaturalCycles/js-lib/compare/v14.12.0...v14.13.0) (2021-01-19)
 
 
