@@ -1,3 +1,10 @@
+# [14.14.0](https://github.com/NaturalCycles/js-lib/compare/v14.13.1...v14.14.0) (2021-02-23)
+
+
+### Features
+
+* pRetry to have better default options ([3118ea7](https://github.com/NaturalCycles/js-lib/commit/3118ea726a9dcc6d24bde6c5d75c763d067c12ef))
+
 ## [14.13.1](https://github.com/NaturalCycles/js-lib/compare/v14.13.0...v14.13.1) (2021-02-23)
 
 
