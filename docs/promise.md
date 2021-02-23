@@ -43,6 +43,18 @@ Deferred, or RxJS's Subject (which is both an Observable and allows to emit valu
 
 Based on https://github.com/sindresorhus/p-retry
 
+Returns a Function (!), enhanced with retry capabilities.
+
+```ts
+const save = pRetry(async () => await dao.save(), {
+  maxAttempts: 5,
+  predicate: err => err?.message.includes('GOAWAY'),
+})
+
+await save()
+// will try up to 5 times, but only if err.message contains GOAWAY
+```
+
 ## pDelay
 
 Based on https://github.com/sindresorhus/delay

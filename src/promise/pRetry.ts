@@ -1,6 +1,11 @@
 import { _anyToErrorMessage, _since } from '..'
 
 export interface PRetryOptions {
+  /**
+   * How many attempts to try.
+   * First attempt is not a retry, but "initial try". It still counts.
+   * maxAttempts of 2 will be 1 try and 1 retry.
+   */
   maxAttempts: number
 
   /**
@@ -21,7 +26,7 @@ export interface PRetryOptions {
    *
    * @default () => true
    */
-  predicate?: (err: any, attempt: number, maxAttempts: number) => boolean
+  predicate?: (err: Error, attempt: number, maxAttempts: number) => boolean
 
   /**
    * @default false
@@ -54,6 +59,9 @@ export interface PRetryOptions {
   logNone?: boolean
 }
 
+/**
+ * Returns a Function (!), enhanced with retry capabilities.
+ */
 export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
   const { maxAttempts, delay: initialDelay = 500, delayMultiplier = 2, predicate } = opt
 
@@ -72,7 +80,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
     let delay = initialDelay
     let attempt = 0
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const next = async () => {
         const started = Date.now()
 
