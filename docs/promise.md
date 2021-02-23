@@ -45,6 +45,17 @@ Based on https://github.com/sindresorhus/p-retry
 
 Returns a Function (!), enhanced with retry capabilities.
 
+Simplest example:
+
+```ts
+const save = pRetry(async () => await dao.save())
+
+await save()
+// will retry 3 times, with default delay of 1 second and exponential back-off (x2 delay multiplier)
+```
+
+Advanced example (with options):
+
 ```ts
 const save = pRetry(async () => await dao.save(), {
   maxAttempts: 5,

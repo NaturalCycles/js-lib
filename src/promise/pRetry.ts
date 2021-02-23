@@ -4,12 +4,14 @@ export interface PRetryOptions {
   /**
    * How many attempts to try.
    * First attempt is not a retry, but "initial try". It still counts.
-   * maxAttempts of 2 will be 1 try and 1 retry.
+   * maxAttempts of 4 will be 1 try and 3 retries.
+   *
+   * @default 4
    */
-  maxAttempts: number
+  maxAttempts?: number
 
   /**
-   * @default 500 ms
+   * @default 1000 ms
    */
   delay?: number
 
@@ -29,11 +31,13 @@ export interface PRetryOptions {
   predicate?: (err: Error, attempt: number, maxAttempts: number) => boolean
 
   /**
+   * Log the first attempt (which is not a "retry" yet).
    * @default false
    */
   logFirstAttempt?: boolean
 
   /**
+   * Log retries - attempts that go after the first one.
    * @default true
    */
   logRetries?: boolean
@@ -61,11 +65,12 @@ export interface PRetryOptions {
 
 /**
  * Returns a Function (!), enhanced with retry capabilities.
+ * Implements "Exponential back-off strategy" by multiplying the delay by `delayMultiplier` with each try.
  */
-export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
-  const { maxAttempts, delay: initialDelay = 500, delayMultiplier = 2, predicate } = opt
+export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
+  const { maxAttempts = 4, delay: initialDelay = 1000, delayMultiplier = 2, predicate } = opt
 
-  let { logFirstAttempt, logRetries = true, logFailures = false, logSuccess } = opt
+  let { logFirstAttempt = false, logRetries = true, logFailures = false, logSuccess = false } = opt
 
   if (opt.logAll) {
     logFirstAttempt = logRetries = logFailures = true
@@ -74,7 +79,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
     logSuccess = logFirstAttempt = logRetries = logFailures = false
   }
 
-  const fname = fn.name || 'anonymous'
+  const fname = ['pRetry', fn.name].filter(Boolean).join('.')
 
   return async function (this: any, ...args: any[]) {
     let delay = initialDelay
@@ -86,23 +91,24 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions): T {
 
         try {
           attempt++
-          if ((attempt === 1 && logFirstAttempt) || logRetries) {
-            console.log(`pRetry.${fname} attempt #${attempt}...`)
+          if ((attempt === 1 && logFirstAttempt) || (attempt > 1 && logRetries)) {
+            console.log(`${fname} attempt #${attempt}...`)
           }
 
           // tslint:disable-next-line:no-invalid-this
           const r = await fn.apply(this, args)
 
           if (logSuccess) {
-            console.log(`pRetry.${fname} attempt #${attempt} succeeded in ${_since(started)}`)
+            console.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
           }
           resolve(r)
         } catch (err) {
           if (logFailures) {
             console.warn(
-              `pRetry.${fname} attempt #${attempt} error in ${_since(
-                started,
-              )}: ${_anyToErrorMessage(err, true)}`,
+              `${fname} attempt #${attempt} error in ${_since(started)}: ${_anyToErrorMessage(
+                err,
+                true,
+              )}`,
             )
           }
 
