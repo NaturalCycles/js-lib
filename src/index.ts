@@ -6,3 +6,13 @@ export { generateBuildInfo, buildProdCommand }
 export type { BuildInfo }
 
 export * from './util/git.util'
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      TZ?: string
+      APP_ENV?: string
+      JEST_NO_ALPHABETIC?: string
+    }
+  }
+}

@@ -10,9 +10,9 @@
     "@babel/highlight" "^7.12.13"
 
 "@babel/compat-data@^7.13.0":
-  version "7.13.5"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.13.5.tgz#1e3b9043df6e3f5cfa750854adeb0c7a222d15a8"
-  integrity sha512-+c3G3S8n5ziRyfLybmgm9Y6KgoCni+s0hkV0I5bIpGWhu8uqEQo/VGnETY8YS6PFwedAoXOqfe4FhrvbtsLu+Q==
+  version "7.13.6"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.13.6.tgz#11972d07db4c2317afdbf41d6feb3a730301ef4e"
+  integrity sha512-VhgqKOWYVm7lQXlvbJnWOzwfAQATd2nV52koT0HZ/LdDH0m4DUDwkKYsH+IwpXb+bKPyBJzawA4I6nBKqZcpQw==
 
 "@babel/core@^7.1.0", "@babel/core@^7.7.5":
   version "7.13.1"
@@ -254,9 +254,9 @@
     "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/runtime@^7.0.0":
-  version "7.13.4"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.4.tgz#a2f5b5304d6f98a94053e6737321501347325617"
-  integrity sha512-pZLFG10nRL1hPF9J0/WdxjVuLEanSge8W3Ct+Kls9fNhD4vOi9bhuAU8DdNARvBE9GTg6UhQFcEIF1XhIZd9ZA==
+  version "7.13.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.6.tgz#86e0fad6cbb46a680e21c1aa4748717a058d345a"
+  integrity sha512-Y/DEVhSQ91u27rxq7D0EH/sewS6+x06p/MgO1VppbDHMzYXLZrAR5cFjCom78e9RUw1BQAq6qJg6fXc/ep7glA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -656,14 +656,14 @@
     typescript "^4.0.2"
 
 "@naturalcycles/js-lib@^14.0.0":
-  version "14.13.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.13.0.tgz#cb9e87a6dcd6a52e483168a1b0160346688a5ae4"
-  integrity sha512-QPT84ZLGomxpmr5akbNXunGVRvIVeHb+TSm98ATZBmI456BvtmIz6CirfPTpGuBAzG4b0jTY0VIpVah1oCLsAg==
+  version "14.14.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.14.0.tgz#8c915bc05d7774889b1c6727b01725d2b1f12791"
+  integrity sha512-BatE1To1IC8+xsuSB1Odo65ltCayZkCCI4476/7qbolHj026P1qUarlJ0BpXdy8zLBvwZWF9fF3SpQN2bdhcQQ==
 
 "@naturalcycles/nodejs-lib@^12.0.0", "@naturalcycles/nodejs-lib@^12.8.0":
-  version "12.12.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.12.0.tgz#a4a6ddfa3d0abf85ed2dfbc60da9302fc39841e0"
-  integrity sha512-pHNgfrgQNekWIwABdfGnUVL3PT1dw+xQ9p6JOQZ+IEiwmJt3lI1zJdOZkOtbrMa0ejl4MHvY7Hu/qv9vHhLj7Q==
+  version "12.12.1"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.12.1.tgz#7ae1f38b6161175aae2347cf4610e26d949c20e1"
+  integrity sha512-NrYenJnmFihvnl9xSn1PPRK66L5E/geOHokaRjfru//UzWddctwFjqU2z5v4X9XGhSm6ed040F8OgaCR7TM+qw==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@naturalcycles/time-lib" "^3.0.1"
@@ -3916,9 +3916,9 @@ node-notifier@^8.0.0:
     which "^2.0.2"
 
 node-releases@^1.1.70:
-  version "1.1.70"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.70.tgz#66e0ed0273aa65666d7fe78febe7634875426a08"
-  integrity sha512-Slf2s69+2/uAD79pVVQo8uSiC34+g8GWY8UH2Qtqv34ZfhYrxpYpfzs9Js9d6O0mbDmALuxaTlplnBTnSELcrw==
+  version "1.1.71"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.71.tgz#cb1334b179896b1c89ecfdd4b725fb7bbdfc7dbb"
+  integrity sha512-zR6HoT6LrLCRBwukmrVbHv0EpEQjksO6GmFcZQQuCAy139BEsoVKPYnf3jongYW83fAa1torLGYwxxky/p28sg==
 
 normalize-package-data@^2.5.0:
   version "2.5.0"
@@ -5184,9 +5184,9 @@ trim-off-newlines@^1.0.0:
   integrity sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
 
 ts-jest@^26.0.0:
-  version "26.5.1"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.1.tgz#4d53ee4481552f57c1624f0bd3425c8b17996150"
-  integrity sha512-G7Rmo3OJMvlqE79amJX8VJKDiRcd7/r61wh9fnvvG8cAjhA9edklGw/dCxRSQmfZ/z8NDums5srSVgwZos1qfg==
+  version "26.5.2"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.2.tgz#5281d6b44c2f94f71205728a389edc3d7995b0c4"
+  integrity sha512-bwyJ2zJieSugf7RB+o8fgkMeoMVMM2KPDE0UklRLuACxjwJsOrZNo6chrcScmK33YavPSwhARffy8dZx5LJdUQ==
   dependencies:
     "@types/jest" "26.x"
     bs-logger "0.x"
@@ -5295,9 +5295,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 typescript@^4.0.2:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
-  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.2.tgz#1450f020618f872db0ea17317d16d8da8ddb8c4c"
+  integrity sha512-tbb+NVrLfnsJy3M59lsDgrzWIflR4d4TIUjz+heUnHZwdF7YsrMTKoRERiIvI2lvBG95dfpLxB21WZhys1bgaQ==
 
 "underscore@>= 1.1.6 < 1.6":
   version "1.5.2"
