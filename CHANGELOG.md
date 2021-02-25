@@ -1,3 +1,10 @@
+# [10.29.0](https://github.com/NaturalCycles/dev-lib/compare/v10.28.4...v10.29.0) (2021-02-25)
+
+
+### Features
+
+* noPropertyAccessFromIndexSignature=true in tsconfig (ts 4.2) ([0fca8d1](https://github.com/NaturalCycles/dev-lib/commit/0fca8d1544ce0552a81d978c66234e089f1270e5))
+
 ## [10.28.4](https://github.com/NaturalCycles/dev-lib/compare/v10.28.3...v10.28.4) (2021-02-23)
 
 
