@@ -39,6 +39,14 @@ Deferred, or RxJS's Subject (which is both an Observable and allows to emit valu
 // todo: example
 ```
 
+## pDelay
+
+Based on https://github.com/sindresorhus/delay
+
+```ts
+// todo: example
+```
+
 ## pRetry
 
 Based on https://github.com/sindresorhus/p-retry
@@ -66,12 +74,22 @@ await save()
 // will try up to 5 times, but only if err.message contains GOAWAY
 ```
 
-## pDelay
+## pTimeout
 
-Based on https://github.com/sindresorhus/delay
+Based on https://github.com/sindresorhus/p-timeout
+
+Decorates a Function with a timeout.
+
+Throws an Error if the Function is not resolved in a certain time.
+
+If the Function rejects - passes this rejection further.
 
 ```ts
-// todo: example
+const decoratedFn = pTimeout(someFunction, { timeout: 1000 })
+
+await decoratedFn()
+// will throw Timeout error if `someFunction` is not finished in 1000 ms.
+// otherwise will pass
 ```
 
 ## pHang

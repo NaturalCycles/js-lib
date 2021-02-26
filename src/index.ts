@@ -31,6 +31,7 @@ import { _Memo } from './decorators/memo.decorator'
 import { MemoCache } from './decorators/memo.util'
 import { _memoFn } from './decorators/memoFn'
 import { _Retry } from './decorators/retry.decorator'
+import { _Timeout } from './decorators/timeout.decorator'
 import { AppError } from './error/app.error'
 import { _assert, _assertDeepEquals, _assertEquals } from './error/assert'
 import {
@@ -111,6 +112,7 @@ import { pMap, PMapOptions } from './promise/pMap'
 import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
+import { pTimeout, PTimeoutOptions } from './promise/pTimeout'
 import { StringifyAnyOptions, _jsonParseIfPossible, _stringifyAny } from './string/json.util'
 import {
   _capitalize,
@@ -173,6 +175,7 @@ export type {
   BatchResult,
   DeferredPromise,
   PRetryOptions,
+  PTimeoutOptions,
   TryCatchOptions,
   StringifyAnyOptions,
 }
@@ -290,7 +293,9 @@ export {
   pState,
   AggregatedError,
   pRetry,
+  pTimeout,
   _Retry,
+  _Timeout,
   _tryCatch,
   _TryCatch,
   _jsonParseIfPossible,
