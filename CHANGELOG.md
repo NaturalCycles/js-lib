@@ -1,3 +1,10 @@
+# [14.15.0](https://github.com/NaturalCycles/js-lib/compare/v14.14.0...v14.15.0) (2021-02-26)
+
+
+### Features
+
+* pTimeout, @_Timeout ([87f0e27](https://github.com/NaturalCycles/js-lib/commit/87f0e27ae84d3ad8935be48eea9944e203a49790))
+
 # [14.14.0](https://github.com/NaturalCycles/js-lib/compare/v14.13.1...v14.14.0) (2021-02-23)
 
 
