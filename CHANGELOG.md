@@ -1,3 +1,10 @@
+## [10.29.1](https://github.com/NaturalCycles/dev-lib/compare/v10.29.0...v10.29.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* remove esbuild dep as we don't use it yet ([913aadd](https://github.com/NaturalCycles/dev-lib/commit/913aadd8ecbf320568c15625af893d925dfd9839))
+
 # [10.29.0](https://github.com/NaturalCycles/dev-lib/compare/v10.28.4...v10.29.0) (2021-02-25)
 
 
