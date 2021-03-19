@@ -1,3 +1,11 @@
+# [14.16.0](https://github.com/NaturalCycles/js-lib/compare/v14.15.0...v14.16.0) (2021-03-19)
+
+
+### Features
+
+* add pTo promise wrapper ([bd98401](https://github.com/NaturalCycles/js-lib/commit/bd98401b7bb53c92e0d29ec7bdbe4e4895ed9fd8))
+* export pTo on index ([bee94c1](https://github.com/NaturalCycles/js-lib/commit/bee94c148523fb24a405bfadfcd16d372d9a9fe8))
+
 # [14.15.0](https://github.com/NaturalCycles/js-lib/compare/v14.14.0...v14.15.0) (2021-02-26)
 
 
