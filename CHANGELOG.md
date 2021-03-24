@@ -1,3 +1,10 @@
+# [10.30.0](https://github.com/NaturalCycles/dev-lib/compare/v10.29.1...v10.30.0) (2021-03-24)
+
+
+### Features
+
+* **ci:** add branch env var to commitlint execution ([6a39908](https://github.com/NaturalCycles/dev-lib/commit/6a399081f17e52d86f7198476b040e46c2556379))
+
 ## [10.29.1](https://github.com/NaturalCycles/dev-lib/compare/v10.29.0...v10.29.1) (2021-03-11)
 
 
