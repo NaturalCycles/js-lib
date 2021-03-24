@@ -113,7 +113,7 @@ import { pProps } from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
 import { pTimeout, PTimeoutOptions } from './promise/pTimeout'
-import {pTo} from './promise/pTo'
+import { pTuple } from './promise/pTuple'
 import { StringifyAnyOptions, _jsonParseIfPossible, _stringifyAny } from './string/json.util'
 import {
   _capitalize,
@@ -295,7 +295,7 @@ export {
   AggregatedError,
   pRetry,
   pTimeout,
-  pTo,
+  pTuple,
   _Retry,
   _Timeout,
   _tryCatch,

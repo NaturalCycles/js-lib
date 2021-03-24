@@ -92,6 +92,31 @@ await decoratedFn()
 // otherwise will pass
 ```
 
+## pTuple
+
+Based on: https://github.com/scopsy/await-to-js
+
+Async await wrapper for easy error handling. Wraps async await calls in try catch blocks and returns
+a Tuple containing the error or the results of the promise
+
+```ts
+interface ServerResponse {
+  test: number
+}
+
+interface CustomError {
+  code: number
+  data: {
+    title: string
+    body: string
+  }
+}
+
+const p = Promise.resolve({ test: 123 })
+
+const [error, result] = await pTuple<ServerResponse, CustomError>(p)
+```
+
 ## pHang
 
 ```ts
