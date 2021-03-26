@@ -1,3 +1,10 @@
+# [10.31.0](https://github.com/NaturalCycles/dev-lib/compare/v10.30.0...v10.31.0) (2021-03-26)
+
+
+### Features
+
+* es2020 in tsconfig.json, node 14 LTS+ ([6b2901c](https://github.com/NaturalCycles/dev-lib/commit/6b2901c38e744d037c7db895cbfa84367944dfd8))
+
 # [10.30.0](https://github.com/NaturalCycles/dev-lib/compare/v10.29.1...v10.30.0) (2021-03-24)
 
 
