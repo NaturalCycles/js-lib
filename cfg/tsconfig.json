@@ -10,8 +10,8 @@
     // "rootDir": "./src",
 
     // Target/module
-    "target": "es2019",
-    "lib": ["es2019"], // add "dom" if needed
+    "target": "es2020",
+    "lib": ["es2020"], // add "dom" if needed
     "module": "commonjs",
     "moduleResolution": "node",
 

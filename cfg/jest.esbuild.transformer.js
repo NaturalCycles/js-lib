@@ -14,7 +14,7 @@ module.exports = {
       loader: 'ts',
       // platform: 'node',
       format: 'cjs',
-      target: 'es2019',
+      target: 'es2020',
       sourcemap: true,
       //     tsconfigRaw: `{
       //   "compilerOptions": {
