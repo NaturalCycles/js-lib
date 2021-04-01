@@ -112,7 +112,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
             )
           }
 
-          if (attempt > maxAttempts || (predicate && !predicate(err, attempt, maxAttempts))) {
+          if (attempt >= maxAttempts || (predicate && !predicate(err, attempt, maxAttempts))) {
             // Give up
             reject(err)
           } else {

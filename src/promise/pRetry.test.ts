@@ -16,7 +16,7 @@ function createFn(succeedOnAttempt: number) {
 test('pRetry', async () => {
   const fn = pRetry(createFn(3), {
     maxAttempts: 3,
-    delay: 100,
+    delay: 10,
     delayMultiplier: 1,
     logAll: true,
     // predicate: () => false,
@@ -25,4 +25,14 @@ test('pRetry', async () => {
   const r = await fn(1, 2, 3)
   // console.log(r)
   expect(r).toEqual([1, 2, 3])
+})
+
+test('pRetry should throw on fail', async () => {
+  const fn = pRetry(createFn(3), {
+    maxAttempts: 2, // so, it'll never succeed
+    delay: 10,
+    delayMultiplier: 1,
+    logAll: true,
+  })
+  await expect(fn(1, 2, 3)).rejects.toThrowErrorMatchingInlineSnapshot(`"fail"`)
 })
