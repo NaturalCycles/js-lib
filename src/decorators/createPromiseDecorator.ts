@@ -1,20 +1,20 @@
 import { _getTargetMethodSignature } from './decorator.util'
 
-export interface PromiseDecoratorCfg<T> {
+export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
   decoratorName: string
 
   /**
    * Called BEFORE the original function.
    * Returns void.
    */
-  beforeFn?: (r: PromiseDecoratorResp) => void
+  beforeFn?: (r: PromiseDecoratorResp<PARAMS>) => void
 
   /**
    * Called just AFTER the original function.
    * The output of this hook will be passed further,
    * so, pay attention to pass through (or modify) the result.
    */
-  thenFn?: (r: PromiseDecoratorResp & { res: T }) => T
+  thenFn?: (r: PromiseDecoratorResp<PARAMS> & { res: RES }) => RES
 
   /**
    * Called on Promise.reject.
@@ -23,17 +23,17 @@ export interface PromiseDecoratorCfg<T> {
    * If `catchFn` is present - it's responsible for handling or re-throwing the error.
    * Whatever `catchFn` returns - passed to the original output.
    */
-  catchFn?: (r: PromiseDecoratorResp & { err: any }) => T
+  catchFn?: (r: PromiseDecoratorResp<PARAMS> & { err: any }) => RES
 
   /**
    * Fires AFTER thenFn / catchFn, like a usual Promise.finally().
    * Doesn't have access to neither res nor err (same as Promise.finally).
    */
-  finallyFn?: (r: PromiseDecoratorResp) => any
+  finallyFn?: (r: PromiseDecoratorResp<PARAMS>) => any
 }
 
-export interface PromiseDecoratorResp {
-  decoratorParams?: any
+export interface PromiseDecoratorResp<PARAMS> {
+  decoratorParams?: PARAMS
   args?: any[]
   started?: number
   target: any
@@ -52,9 +52,9 @@ export interface PromiseDecoratorResp {
  *
  * @experimental
  */
-export function _createPromiseDecorator<T = any>(
-  cfg: PromiseDecoratorCfg<T>,
-  decoratorParams?: any,
+export function _createPromiseDecorator<RES = any, PARAMS = any>(
+  cfg: PromiseDecoratorCfg<RES, PARAMS>,
+  decoratorParams?: PARAMS,
 ): MethodDecorator {
   const { decoratorName } = cfg
 
@@ -91,7 +91,7 @@ export function _createPromiseDecorator<T = any>(
           .then(() => originalMethod.apply(this, args))
           .then(res => {
             // console.log(`${cfg.decoratorName} After`)
-            const resp: PromiseDecoratorResp = {
+            const resp: PromiseDecoratorResp<PARAMS> = {
               decoratorParams,
               args,
               key,
@@ -114,7 +114,7 @@ export function _createPromiseDecorator<T = any>(
           .catch(err => {
             console.error(`@${decoratorName} ${methodSignature} catch:`, err)
 
-            const resp: PromiseDecoratorResp = {
+            const resp: PromiseDecoratorResp<PARAMS> = {
               decoratorParams,
               args,
               key,
