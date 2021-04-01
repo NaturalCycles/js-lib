@@ -1,3 +1,10 @@
+## [14.18.2](https://github.com/NaturalCycles/js-lib/compare/v14.18.1...v14.18.2) (2021-04-01)
+
+
+### Bug Fixes
+
+* pRetry off-by-1 error with maxAttempts ([8a2245b](https://github.com/NaturalCycles/js-lib/commit/8a2245bcf07e9b1678c3e32a8adc155bcecabad0))
+
 ## [14.18.1](https://github.com/NaturalCycles/js-lib/compare/v14.18.0...v14.18.1) (2021-04-01)
 
 
