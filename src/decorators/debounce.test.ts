@@ -27,10 +27,10 @@ test('_debounce', async () => {
   // await runStream(_throttle(originalFn, 200, { leading: false, trailing: false }), 10, 100)
   // await pDelay(2000)
 
-  const fn = _debounce(originalFn, 200, { leading: false, trailing: false, maxWait: 300 })
+  const fn = _debounce(originalFn, 20, { leading: false, trailing: false, maxWait: 300 })
   // const fn = _throttle(originalFn, 200, {leading: false, trailing: false})
 
-  await startTimer(fn, 100, 10)
+  await startTimer(fn, 10, 10)
 })
 
 // Test cases:

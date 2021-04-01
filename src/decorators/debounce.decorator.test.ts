@@ -6,7 +6,7 @@ import { _Debounce } from './debounce.decorator'
 class C {
   // @debounce(200, {leading: true, trailing: true})
   // @throttle(200, {leading: true, trailing: true})
-  @_Debounce(200)
+  @_Debounce(20)
   fn(started: number, n: number): void {
     console.log(`#${n} after ${_since(started)}`)
   }
@@ -32,5 +32,5 @@ async function startTimer(fn: Function, interval: number, count: number): Promis
 }
 
 test('@debounce', async () => {
-  await startTimer(fn, 100, 10)
+  await startTimer(fn, 10, 10)
 })
