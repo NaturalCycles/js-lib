@@ -1,3 +1,10 @@
+## [14.18.1](https://github.com/NaturalCycles/js-lib/compare/v14.18.0...v14.18.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* correct _createPromiseDecorator nullability in types ([6964cae](https://github.com/NaturalCycles/js-lib/commit/6964cae47f82bdf91a078235e974ceeb9c251d10))
+
 # [14.18.0](https://github.com/NaturalCycles/js-lib/compare/v14.17.0...v14.18.0) (2021-04-01)
 
 
