@@ -33,9 +33,9 @@ export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
 }
 
 export interface PromiseDecoratorResp<PARAMS> {
-  decoratorParams?: PARAMS
-  args?: any[]
-  started?: number
+  decoratorParams: PARAMS
+  args: any[]
+  started: number
   target: any
   key: string
   decoratorName: string
@@ -54,7 +54,7 @@ export interface PromiseDecoratorResp<PARAMS> {
  */
 export function _createPromiseDecorator<RES = any, PARAMS = any>(
   cfg: PromiseDecoratorCfg<RES, PARAMS>,
-  decoratorParams?: PARAMS,
+  decoratorParams: PARAMS = {} as any,
 ): MethodDecorator {
   const { decoratorName } = cfg
 
@@ -84,6 +84,7 @@ export function _createPromiseDecorator<RES = any, PARAMS = any>(
                 key,
                 target,
                 decoratorName,
+                started,
               })
             }
           })
