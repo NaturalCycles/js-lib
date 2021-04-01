@@ -1,3 +1,10 @@
+# [14.18.0](https://github.com/NaturalCycles/js-lib/compare/v14.17.0...v14.18.0) (2021-04-01)
+
+
+### Features
+
+* _createPromiseDecorator to support PARAMS generic ([be297dd](https://github.com/NaturalCycles/js-lib/commit/be297ddf82dc86858de2f33eb8a970dbf492167c))
+
 # [14.17.0](https://github.com/NaturalCycles/js-lib/compare/v14.16.0...v14.17.0) (2021-03-26)
 
 
