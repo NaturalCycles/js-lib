@@ -20,10 +20,7 @@ export function _lowerFirst(s: string): string {
  */
 export function _split(str: string, separator: string, limit: number): string[] {
   const parts = str.split(separator)
-  const tail = parts.slice(limit - 1).join(separator)
-  const result = parts.slice(0, limit - 1)
-  result.push(tail)
-  return result
+  return [...parts.slice(0, limit - 1), parts.slice(limit - 1).join(separator)]
 }
 
 export function _removeWhitespace(s: string): string {

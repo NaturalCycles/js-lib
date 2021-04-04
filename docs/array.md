@@ -2,15 +2,91 @@
 
 ## \_range
 
+Quickly generate an incremental array of numbers.
+
+- Starts with 0, unless specified differently
+- Step is 1, unless specified differently
+- Lower bound is **inclusive**, higher-bound is **exclusive**.
+
+```ts
+_range(3)
+// [0, 1, 2]
+
+_range(3, 6)
+// [3, 4, 5]
+
+_range(1, 10, 2)
+// [1, 3, 5, 7, 9]
+```
+
 ## \_chunk
+
+Splits an input array into "chunks" of defined size. Last/remaining chunk may be of "incomplete"
+size. Returns array-of-arrays.
+
+```ts
+const a = [1, 2, 3, 4, 5, 6]
+
+_chunk(a, 2)
+// [[1, 2], [3, 4], [5, 6]]
+
+_chunk(a, 3)
+// [[1, 2, 3], [4, 5, 6]]
+
+_chunk(a, 4)
+// [[1, 2, 3, 4], [5, 6]]]
+```
 
 ## \_flatten
 
+Polyfill to `Array.flat()` with depth=1. From
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
+
+```ts
+_flatten([
+  [1, 2],
+  [3, 4],
+])
+// [1, 2, 3, 4]
+```
+
 ## \_flattenDeep
+
+Based on https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_flattendeep
+
+Recursive `Array.flat()`, with infinite depth.
+
+```ts
+_flattenDeep([
+  [
+    [1, 2],
+    [3, 4],
+  ],
+  [5, 6],
+  [7],
+])
+// [1, 2, 3, 4, 5, 6, 7]
+```
 
 ## \_uniq
 
+Convenience function to remove duplicates from an array of **primitives**.
+
+```ts
+const a = [1, 2, 2, 3]
+_uniq(a)
+// [1, 2, 3]
+```
+
 ## \_uniqBy
+
+Remove duplicates from array of objects, providing a comparator function.
+
+```ts
+const a = [{ age: 18 }, { age: 20 }, { age: 18 }]
+_uniqBy(a, obj => obj.age)
+// [{ age: 18 }, { age: 20 }]
+```
 
 ## \_by
 
@@ -43,17 +119,34 @@ Returning `undefined` from the Mapper will EXCLUDE the item.
 
 ## \_sortBy
 
+Sort an array of object, providing a comparator function.
+
+```ts
+const a = [{ age: 18 }, { age: 20 }, { age: 19 }]
+_sortBy(a, obj => obj.age)
+// [{ age: 18 }, {age: 19 }, { age: 20 }]
+```
+
 ## \_sortNumbers
 
-## \_toFixed
+Sort an array of numbers. Needs a special treatment because of a caveat, that a default comparator
+function compares things as Strings (even Numbers), so '21' > '100'.
 
-## \_toPrecision
-
-## \_round
+```ts
+const a = [1, 3, 2]
+_sortNumbers(a)
+// [1, 2, 3]
+```
 
 ## \_findLast
 
 Like `.find()`, but tries to find an element from the END of the array.
+
+```ts
+const a = [1, 2, 3, 4, 5]
+_findLast(a, n => n % 2 === 0)
+// 4
+```
 
 ## \_takeWhile, \_takeRightWhile, \_dropWhile, \_dropRightWhile
 

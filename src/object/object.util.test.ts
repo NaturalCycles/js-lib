@@ -114,7 +114,14 @@ test('_mask', () => {
   }
   deepFreeze(o)
   const r = _mask(o, ['b.c'])
-  expect(r).toMatchSnapshot()
+  expect(r).toMatchInlineSnapshot(`
+    Object {
+      "a": "1",
+      "b": Object {
+        "d": "1",
+      },
+    }
+  `)
 
   // should not fail
   expect(_mask(o, ['c.0.0'])).toEqual(o)
@@ -132,7 +139,17 @@ test('_mask with mutation', () => {
     },
   }
   const r = _mask(o, ['b.c'], true)
-  expect(r).toMatchSnapshot()
+  expect(r).toMatchInlineSnapshot(`
+    Object {
+      "a": "1",
+      "b": Object {
+        "d": "1",
+        "e": Object {
+          "f": 7,
+        },
+      },
+    }
+  `)
   expect(r.b).toEqual(o.b) // cause it will mutate r.b
   expect(r).toBe(o)
 })
@@ -360,21 +377,38 @@ test('_merge', () => {
     d: 'd2',
   }
 
-  expect(_merge(a1, a2)).toMatchSnapshot()
+  expect(_merge(a1, a2)).toMatchInlineSnapshot(`
+    Object {
+      "b": Object {
+        "c": "c1",
+        "c2": "c2",
+      },
+      "d": "d2",
+      "e": "e1",
+    }
+  `)
 
   const b1 = {}
-  expect(_merge(b1, a2)).toMatchSnapshot()
+  expect(_merge(b1, a2)).toMatchInlineSnapshot(`
+    Object {
+      "b": Object {
+        "c2": "c2",
+      },
+      "d": "d2",
+    }
+  `)
 
-  expect(
-    _merge({ a: 'a1', o: { oo: 'oo1' } }, { b: 'b1' }, { o: { z: 'z1' } }, { a: 'a2' }),
-  ).toEqual({
-    a: 'a2',
-    b: 'b1',
-    o: {
-      oo: 'oo1',
-      z: 'z1',
-    },
-  })
+  expect(_merge({ a: 'a1', o: { oo: 'oo1' } }, { b: 'b1' }, { o: { z: 'z1' } }, { a: 'a2' }))
+    .toMatchInlineSnapshot(`
+    Object {
+      "a": "a2",
+      "b": "b1",
+      "o": Object {
+        "oo": "oo1",
+        "z": "z1",
+      },
+    }
+  `)
 })
 
 test('_getKeyByValue', () => {
