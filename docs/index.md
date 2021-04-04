@@ -41,8 +41,9 @@ A:
   but complicated.
 - First-class TypeScript support (all code in this repo is TypeScript).
 
-This package is intended to be 0-dependency, "not bloated", tree-shakeable. Supported by reasonably
-modern Browsers and Node.js latest LTS.
+This package is intended to be 0-dependency (exception: [tslib](https://github.com/Microsoft/tslib)
+from TypeScript), "not bloated", tree-shakeable. Supported by reasonably modern Browsers and Node.js
+latest LTS.
 
 To fulfil that requirement it exports ESM version (for Browsers) as es2017.
 
@@ -84,7 +85,7 @@ _pick(obj, ['a'], true)
 # Packaging
 
 - `engines.node >= Node.js LTS`
-- `main: dist/index.js`: commonjs, es2019 - targeting Node.js
+- `main: dist/index.js`: commonjs, es2020 - targeting Node.js
 - `module: dist-esm/index.js`: esm, es2017 - targeting Browsers
 - `types: dist/index.d.ts`: typescript types
 - `/src` folder with source `*.ts` files included

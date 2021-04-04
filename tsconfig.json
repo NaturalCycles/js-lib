@@ -1,7 +1,6 @@
 {
   "extends": "@naturalcycles/dev-lib/cfg/tsconfig.json",
   "compilerOptions": {
-    "target": "es2019", // node 12 lts+ (will be es2020 when AppEngine starts to support Node 14 lts)
     "lib": ["dom", "esnext"],
     "outDir": "./dist",
     "rootDir": "./src"
