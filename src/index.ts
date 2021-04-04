@@ -114,6 +114,7 @@ import { pRetry, PRetryOptions } from './promise/pRetry'
 import { pState } from './promise/pState'
 import { pTimeout, PTimeoutOptions } from './promise/pTimeout'
 import { pTuple } from './promise/pTuple'
+import { _camelCase, _kebabCase, _snakeCase } from './string/case'
 import { StringifyAnyOptions, _jsonParseIfPossible, _stringifyAny } from './string/json.util'
 import {
   _capitalize,
@@ -308,4 +309,7 @@ export {
   _gb,
   _mb,
   _kb,
+  _snakeCase,
+  _camelCase,
+  _kebabCase,
 }

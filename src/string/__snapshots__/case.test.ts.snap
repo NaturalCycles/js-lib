@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_camelCase 1`] = `
+Map {
+  "Add data" => "addData",
+  "directorOfTrackAndTrigger" => "directorOfTrackAndTrigger",
+  "directorOfOptiPush" => "directorOfOptiPush",
+  "a" => "a",
+  "aa" => "aa",
+  "aA" => "aA",
+  "Aa" => "aa",
+  "Lo Lo Lo  Lo" => "loLoLoLo",
+  "Consent_marketing" => "consentMarketing",
+  "Consent_MARKETING" => "consentMarketing",
+  "LH test" => "lhTest",
+  "foo2bar" => "foo2Bar",
+  "__FOO_BAR__" => "fooBar",
+  "--FOO-BAR--" => "fooBar",
+  "add_data" => "addData",
+  "director_of_track_and_trigger" => "directorOfTrackAndTrigger",
+  "director_of_opti_push" => "directorOfOptiPush",
+  "a_a" => "aA",
+  "lo_lo_lo_lo" => "loLoLoLo",
+  "consent_marketing" => "consentMarketing",
+  "lh_test" => "lhTest",
+  "foo_2_bar" => "foo2Bar",
+  "foo_bar" => "fooBar",
+}
+`;
+
+exports[`_kebabCase 1`] = `
+Map {
+  "Add data" => "add-data",
+  "directorOfTrackAndTrigger" => "director-of-track-and-trigger",
+  "directorOfOptiPush" => "director-of-opti-push",
+  "a" => "a",
+  "aa" => "aa",
+  "aA" => "a-a",
+  "Aa" => "aa",
+  "Lo Lo Lo  Lo" => "lo-lo-lo-lo",
+  "Consent_marketing" => "consent-marketing",
+  "Consent_MARKETING" => "consent-marketing",
+  "LH test" => "lh-test",
+  "foo2bar" => "foo-2-bar",
+  "__FOO_BAR__" => "foo-bar",
+  "--FOO-BAR--" => "foo-bar",
+}
+`;
+
+exports[`_snakeCase 1`] = `
+Map {
+  "Add data" => "add_data",
+  "directorOfTrackAndTrigger" => "director_of_track_and_trigger",
+  "directorOfOptiPush" => "director_of_opti_push",
+  "a" => "a",
+  "aa" => "aa",
+  "aA" => "a_a",
+  "Aa" => "aa",
+  "Lo Lo Lo  Lo" => "lo_lo_lo_lo",
+  "Consent_marketing" => "consent_marketing",
+  "Consent_MARKETING" => "consent_marketing",
+  "LH test" => "lh_test",
+  "foo2bar" => "foo_2_bar",
+  "__FOO_BAR__" => "foo_bar",
+  "--FOO-BAR--" => "foo_bar",
+}
+`;
