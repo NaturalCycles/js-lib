@@ -1,3 +1,10 @@
+# [14.19.0](https://github.com/NaturalCycles/js-lib/compare/v14.18.2...v14.19.0) (2021-04-04)
+
+
+### Features
+
+* make tslib a dependency (not peer) ([06f30ac](https://github.com/NaturalCycles/js-lib/commit/06f30ac8c391182ba49becdd27450bdd9d2c2269))
+
 ## [14.18.2](https://github.com/NaturalCycles/js-lib/compare/v14.18.1...v14.18.2) (2021-04-01)
 
 
