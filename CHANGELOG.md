@@ -1,3 +1,10 @@
+# [14.20.0](https://github.com/NaturalCycles/js-lib/compare/v14.19.0...v14.20.0) (2021-04-04)
+
+
+### Features
+
+* _camelCase, _snakeCase, _kebabCase ([ba4d5ce](https://github.com/NaturalCycles/js-lib/commit/ba4d5ce20351facc67d79da84b262537206a4fc5))
+
 # [14.19.0](https://github.com/NaturalCycles/js-lib/compare/v14.18.2...v14.19.0) (2021-04-04)
 
 
