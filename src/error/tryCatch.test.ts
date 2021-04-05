@@ -42,7 +42,7 @@ class C {
 }
 const c = new C()
 
-test('@TryCatch', async () => {
+test('@_TryCatch', async () => {
   const r = await c.fnSuccess(1, 2, 3)
   expect(r).toEqual([1, 2, 3])
 

@@ -1,7 +1,7 @@
 /**
  * Error that aggregates a number of other errors.
- * .message contains concatenated error _messages_ (no stacks).
  * .errors contain raw original errors to be accessed if needed.
+ * .results contain the results of some batch operation (if needed).
  */
 export class AggregatedError<RESULT = any> extends Error {
   errors!: Error[]
