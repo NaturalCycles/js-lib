@@ -1,3 +1,10 @@
+# [14.21.0](https://github.com/NaturalCycles/js-lib/compare/v14.20.0...v14.21.0) (2021-04-05)
+
+
+### Features
+
+* allow _tryCatch onError to return a value ([e670019](https://github.com/NaturalCycles/js-lib/commit/e670019dc70d0e8cd187f81d4da4fb78283aff88))
+
 # [14.20.0](https://github.com/NaturalCycles/js-lib/compare/v14.19.0...v14.20.0) (2021-04-04)
 
 
