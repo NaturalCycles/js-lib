@@ -1,6 +1,10 @@
 import { _anyToErrorMessage, _since } from '../index'
 
 export interface TryCatchOptions {
+  /**
+   * The value returned from the function will be returned from the wrapped method (!).
+   * onError function may be asynchronous.
+   */
   onError?: (err: Error) => any
 
   /**
@@ -19,6 +23,8 @@ export interface TryCatchOptions {
  * Only applies to async functions (or, turns sync function into async).
  *
  * Allows to pass onError callback.
+ *
+ * @experimental
  */
 export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}): T {
   const { onError, logError, logSuccess } = {
@@ -48,7 +54,7 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
 
       if (onError) {
         try {
-          onError(err)
+          return await onError(err)
         } catch (_ignored) {}
       }
       // returns undefined, but doesn't rethrow
