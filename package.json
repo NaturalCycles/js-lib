@@ -39,7 +39,7 @@
     "require": "./dist/index.js"
   },
   "engines": {
-    "node": ">=14.16.0"
+    "node": ">=14.15.0"
   },
   "publishConfig": {
     "access": "public"
