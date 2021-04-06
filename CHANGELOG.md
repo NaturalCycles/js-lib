@@ -1,3 +1,10 @@
+## [14.21.1](https://github.com/NaturalCycles/js-lib/compare/v14.21.0...v14.21.1) (2021-04-06)
+
+
+### Bug Fixes
+
+* node>=14.15.0 in package.json (not 14.16+) ([12930a6](https://github.com/NaturalCycles/js-lib/commit/12930a679b8d3461cf2a0fb889f4b5703904dc6c))
+
 # [14.21.0](https://github.com/NaturalCycles/js-lib/compare/v14.20.0...v14.21.0) (2021-04-05)
 
 
