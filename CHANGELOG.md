@@ -1,3 +1,10 @@
+## [10.32.1](https://github.com/NaturalCycles/dev-lib/compare/v10.32.0...v10.32.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* wrong stylelint extensions ([b7db7fd](https://github.com/NaturalCycles/dev-lib/commit/b7db7fd42482fe390f6cb8f0ef9596eb52b19023))
+
 # [10.32.0](https://github.com/NaturalCycles/dev-lib/compare/v10.31.0...v10.32.0) (2021-04-08)
 
 
