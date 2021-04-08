@@ -5,10 +5,10 @@ const { prettierDirs, prettierExtensions, lintExclude } = require('../../cfg/_cn
 
 export const prettierPaths = [
   // Everything inside these folders
-  `./{${prettierDirs}}/**/*.{${prettierExtensions},ts,tsx}`,
+  `./{${prettierDirs}}/**/*.{${prettierExtensions},ts,tsx,css,scss}`,
 
   // Root
-  `./*.{${prettierExtensions},ts,tsx}`,
+  `./*.{${prettierExtensions},ts,tsx,css,scss}`,
 
   // Exclude
   ...lintExclude.map((s: string) => `!${s}`),
@@ -16,9 +16,7 @@ export const prettierPaths = [
 
 export async function runPrettier(): Promise<void> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
-  const localConfig = `./prettier.config.js`
-  const sharedConfig = `${cfgDir}/prettier.config.js`
-  const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
+  const config = [`./prettier.config.js`, `${cfgDir}/prettier.config.js`].find(fs.existsSync)!
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const args = [`--write`, `--config`, config, ...prettierPaths]

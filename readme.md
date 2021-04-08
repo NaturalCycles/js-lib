@@ -22,9 +22,9 @@ This unlocks all commands listed below, e.g:
     yarn test
     yarn lint-all
 
-By default, it uses default configs for Prettier and TSLint that are included in this package (for
-convenience). You can override them by putting your own `prettier.config.js` / `tslint.json` in root
-folder of your project.
+By default, it uses default configs for Prettier, TSLint (to be replaced by ESLint soon), Stylelint,
+that are included in this package (for convenience). You can override them by putting your own
+`prettier.config.js`, `tslint.json`, `stylelint.config.json` in the root folder of your project.
 
 ## Conventions
 
@@ -123,13 +123,13 @@ variable to disable it.
 
 #### Lint commands
 
-- `lint-all`: runs Prettier as we want it: first `tslint` on needed paths, then `prettier` on top of
-  it.
+- `lint-all`: runs TSLint, Stylelint, Prettier, in the right order.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
 
 - `tslint-all`: runs `tslint` on needed paths
+- `stylelint-all`: runs `stylelint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
   ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)

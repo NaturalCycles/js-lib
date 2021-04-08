@@ -8,6 +8,7 @@ import {
   gitPush,
 } from '../util/git.util'
 import { runPrettier } from '../util/prettier.util'
+import { stylelintAll } from '../util/stylelint.util'
 import { tslintAllCommand } from './tslint-all.command'
 
 /**
@@ -32,6 +33,7 @@ export async function lintAllCommand(): Promise<void> {
   const hadChangesBefore = await gitHasUncommittedChanges()
 
   await tslintAllCommand()
+  await stylelintAll()
   await runPrettier()
 
   if (commitOnChanges || failOnChanges) {

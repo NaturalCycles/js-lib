@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
-import { runPrettier } from '../util/prettier.util'
+import { stylelintAll } from '../util/stylelint.util'
 
 runScript(async () => {
-  await runPrettier()
+  await stylelintAll()
 })
