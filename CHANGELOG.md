@@ -1,3 +1,10 @@
+# [10.33.0](https://github.com/NaturalCycles/dev-lib/compare/v10.32.1...v10.33.0) (2021-04-08)
+
+
+### Features
+
+* stylelint bikeshedding properties ([b95ffbc](https://github.com/NaturalCycles/dev-lib/commit/b95ffbc8fcbb9ac4aebf48d21e27ef7027fd2c00))
+
 ## [10.32.1](https://github.com/NaturalCycles/dev-lib/compare/v10.32.0...v10.32.1) (2021-04-08)
 
 
