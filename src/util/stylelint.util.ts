@@ -6,7 +6,7 @@ const { prettierDirs, stylelintExtensions, lintExclude } = require('../../cfg/_c
 
 export const stylelintPaths = [
   // Everything inside these folders
-  `./{${prettierDirs}}/**/*.{${stylelintExtensions},ts,tsx}`,
+  `./{${prettierDirs}}/**/*.{${stylelintExtensions}}`,
 
   // Exclude
   ...lintExclude.map((s: string) => `!${s}`),
