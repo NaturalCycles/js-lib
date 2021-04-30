@@ -1,3 +1,10 @@
+## [10.33.1](https://github.com/NaturalCycles/dev-lib/compare/v10.33.0...v10.33.1) (2021-04-30)
+
+
+### Bug Fixes
+
+* deps ([8864cca](https://github.com/NaturalCycles/dev-lib/commit/8864ccad78ecd70d6deebc0cde304d081e4babe7))
+
 # [10.33.0](https://github.com/NaturalCycles/dev-lib/compare/v10.32.1...v10.33.0) (2021-04-08)
 
 
