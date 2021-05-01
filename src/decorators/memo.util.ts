@@ -15,6 +15,8 @@ export interface MemoCache {
   clear(): void
 }
 
+// SingleValueMemoCache and ObjectMemoCache are example-only, not used in production code
+/*
 export class SingleValueMemoCache implements MemoCache {
   private v: any = undefined
   private valueSet = false
@@ -57,6 +59,7 @@ export class ObjectMemoCache implements MemoCache {
     this.v = {}
   }
 }
+ */
 
 export class MapMemoCache implements MemoCache {
   private m = new Map<any, any>()
