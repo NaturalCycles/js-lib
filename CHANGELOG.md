@@ -1,3 +1,10 @@
+# [14.22.0](https://github.com/NaturalCycles/js-lib/compare/v14.21.1...v14.22.0) (2021-05-01)
+
+
+### Features
+
+* _shuffle ([57c9f4f](https://github.com/NaturalCycles/js-lib/commit/57c9f4f160c818dff76ff8d70e719951133b8f85))
+
 ## [14.21.1](https://github.com/NaturalCycles/js-lib/compare/v14.21.0...v14.21.1) (2021-04-06)
 
 
