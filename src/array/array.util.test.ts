@@ -1,4 +1,5 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
+import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import {
   _by,
   _chunk,
@@ -12,6 +13,7 @@ import {
   _groupBy,
   _intersection,
   _mapToObject,
+  _shuffle,
   _sortBy,
   _takeRightWhile,
   _takeWhile,
@@ -189,4 +191,35 @@ test('_mapToObject', () => {
     1: 1,
     3: 3,
   })
+})
+
+test('_shuffle', () => {
+  const a = [1, 2, 3, 4, 5]
+  Object.freeze(a) // should not be mutated
+
+  const deterministicRandom = _createDeterministicRandom()
+  jest.spyOn(Math, 'random').mockImplementation(() => deterministicRandom())
+
+  const b = _shuffle(a)
+  expect(b).toMatchInlineSnapshot(`
+    Array [
+      1,
+      3,
+      4,
+      2,
+      5,
+    ]
+  `)
+
+  _shuffle(b, true)
+  // should be mutated
+  expect(b).toMatchInlineSnapshot(`
+    Array [
+      2,
+      3,
+      4,
+      1,
+      5,
+    ]
+  `)
 })

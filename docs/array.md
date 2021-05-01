@@ -234,3 +234,21 @@ _mapToObject([1, 2, 3], n => [n, n * 2])
 _mapToObject([1, 2, 3], n => [n, `id${n}`])
 // { '1': 'id1, '2': 'id2', '3': 'id3' }
 ```
+
+## \_shuffle
+
+Randomly shuffle an array values.
+
+Uses Fisher–Yates algorithm.
+
+Based on: https://stackoverflow.com/a/12646864/4919972
+
+```ts
+const a = [1, 2, 3, 4, 5]
+const b = _shuffle(a)
+// [3, 1, 2, 5, 4]
+
+// Mutating example
+_shuffle(a)
+// a == [4, 2, 3, 1, 5]
+```

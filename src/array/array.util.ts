@@ -231,3 +231,19 @@ export function _mapToObject<T, V>(
 
   return m
 }
+
+/**
+ * Randomly shuffle an array values.
+ * Fisher–Yates algorithm.
+ * Based on: https://stackoverflow.com/a/12646864/4919972
+ */
+export function _shuffle<T>(array: T[], mutate = false): T[] {
+  const a = mutate ? array : [...array]
+
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j]!, a[i]!]
+  }
+
+  return a
+}
