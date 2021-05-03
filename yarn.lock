@@ -659,9 +659,9 @@
     tslib "^2.0.0"
 
 "@naturalcycles/nodejs-lib@^12.0.0", "@naturalcycles/nodejs-lib@^12.8.0":
-  version "12.14.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.14.1.tgz#d5a1108483df7bbf8ef4241170cf78b3b25bfdeb"
-  integrity sha512-EUpDKFD6eLT09W9Un7Q6eA4Wmej/5bUez9f7XWn6N7QUVtMgsze8bgLxcdY0UZx0L18bC2KgHPiJhBg37aRMbg==
+  version "12.14.2"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.14.2.tgz#7b96334ee3fdc6a7bfdc1b2cb07ec011491b76cd"
+  integrity sha512-cNK8Y8ZPJVZEMyy8/0EaH1EXmisrSg1RZh+2YkSq1HX/F+uTAf1VCMWhN6ELqyOE6YoCgOXSb78ytdC9kTWnkA==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@naturalcycles/time-lib" "^3.0.1"
@@ -681,7 +681,7 @@
     move-file "^2.0.0"
     nanoid "^3.0.0"
     through2-concurrent "^2.0.0"
-    yargs "^16.0.0"
+    yargs "^17.0.0"
 
 "@naturalcycles/time-lib@^3.0.1":
   version "3.2.0"
@@ -2395,6 +2395,15 @@ fragment-cache@^0.2.1:
   integrity sha1-QpD60n8T6Jvn8zeZxrxaCr//DRk=
   dependencies:
     map-cache "^0.2.2"
+
+fs-extra@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.0.tgz#9ff61b655dde53fb34a82df84bb214ce802e17c1"
+  integrity sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
 
 fs-extra@^9.0.0:
   version "9.1.0"
@@ -6241,7 +6250,7 @@ yargs@^15.4.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^16.0.0, yargs@^16.2.0:
+yargs@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
   integrity sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
