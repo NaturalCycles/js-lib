@@ -1,3 +1,10 @@
+## [10.33.4](https://github.com/NaturalCycles/dev-lib/compare/v10.33.3...v10.33.4) (2021-05-09)
+
+
+### Bug Fixes
+
+* deps, use more native fs.* ([feaffff](https://github.com/NaturalCycles/dev-lib/commit/feaffff9b9a3d5df405174175e4442a4a7877116))
+
 ## [10.33.3](https://github.com/NaturalCycles/dev-lib/compare/v10.33.2...v10.33.3) (2021-05-03)
 
 
