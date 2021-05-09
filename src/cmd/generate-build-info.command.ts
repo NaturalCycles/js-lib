@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import * as fs from 'fs'
 import * as path from 'path'
 import * as yargs from 'yargs'
 import { generateBuildInfo } from '..'
@@ -14,8 +14,8 @@ export async function generateBuildInfoCommand(): Promise<void> {
   const buildInfo = await generateBuildInfo()
   console.log(buildInfo)
 
-  if (dir) fs.ensureDirSync(dir)
+  if (dir) fs.mkdirSync(dir, { recursive: true })
 
   const buildInfoPath = dir ? path.resolve(dir, 'buildInfo.json') : 'buildInfo.json'
-  fs.writeJsonSync(buildInfoPath, buildInfo, { spaces: 2 })
+  fs.writeFileSync(buildInfoPath, JSON.stringify(buildInfo, null, 2))
 }

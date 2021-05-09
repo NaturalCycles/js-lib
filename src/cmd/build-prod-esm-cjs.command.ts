@@ -1,5 +1,5 @@
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as fs from 'fs-extra'
+import * as fs from 'fs'
 
 // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`
 const TSCONF_CJS_PATH = `./tsconfig.cjs.prod.json`
@@ -8,10 +8,10 @@ const TSCONF_PATH = `./tsconfig.prod.json`
 
 export async function buildProdESMCJSCommand(): Promise<void> {
   const [cjsExists, esmExists] = [
-    fs.pathExistsSync(TSCONF_CJS_PATH),
-    fs.pathExistsSync(TSCONF_ESM_PATH),
-    fs.emptyDirSync('./dist'),
-    fs.emptyDirSync('./dist-esm'),
+    fs.existsSync(TSCONF_CJS_PATH),
+    fs.existsSync(TSCONF_ESM_PATH),
+    fs.rmSync('./dist', { recursive: true, force: true }),
+    fs.rmSync('./dist-esm', { recursive: true, force: true }),
   ]
 
   const cjsPath = cjsExists ? TSCONF_CJS_PATH : TSCONF_PATH
