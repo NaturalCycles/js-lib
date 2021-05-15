@@ -1,3 +1,10 @@
+# [10.34.0](https://github.com/NaturalCycles/dev-lib/compare/v10.33.4...v10.34.0) (2021-05-15)
+
+
+### Features
+
+* eslint support (opt-in currently) ([bfd7858](https://github.com/NaturalCycles/dev-lib/commit/bfd78588642de67a6b7435aee62b1936d18690c9))
+
 ## [10.33.4](https://github.com/NaturalCycles/dev-lib/compare/v10.33.3...v10.33.4) (2021-05-09)
 
 
