@@ -8,6 +8,6 @@ test('should throw on network connections', async () => {
 })
 
 test('should allow connection to local hosts', async () => {
-  await got('http://127.0.0.1', { timeout: 1, retry: 0 }).catch(_ignored => {})
-  await got('http://localhost', { timeout: 1, retry: 0 }).catch(_ignored => {})
-}, 20000)
+  await got('http://127.0.0.1', { timeout: 1, retry: 0 }).catch(_ => {})
+  await got('http://localhost', { timeout: 1, retry: 0 }).catch(_ => {})
+}, 20_000)

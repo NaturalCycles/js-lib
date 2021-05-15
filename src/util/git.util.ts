@@ -1,6 +1,6 @@
 import { logExec } from '@naturalcycles/nodejs-lib/dist/exec/exec.util'
 import execa = require('execa')
-import { basename } from 'path'
+import * as path from 'path'
 
 export async function getLastGitCommitMsg(): Promise<string> {
   // git log -1 --pretty=%B
@@ -93,7 +93,7 @@ export async function gitCurrentCommitSha(full = false): Promise<string> {
   const args = ['rev-parse', 'HEAD']
 
   const { stdout: commitSha } = await execa(cmd, args)
-  return full ? commitSha.trim() : commitSha.trim().substr(0, 7)
+  return full ? commitSha.trim() : commitSha.trim().slice(0, 7)
 }
 
 export async function gitCurrentCommitTimestamp(): Promise<number> {
@@ -121,7 +121,7 @@ export async function gitCurrentRepoName(): Promise<string> {
   const args = ['config', '--get', 'remote.origin.url']
 
   const { stdout: originUrl } = await execa(cmd, args)
-  const repoName = basename(originUrl, '.git')
+  const repoName = path.basename(originUrl, '.git')
   // console.log(`gitCurrentRepoName: ${repoName}`)
   return repoName
 }

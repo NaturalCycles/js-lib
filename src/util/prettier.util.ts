@@ -16,7 +16,9 @@ export const prettierPaths = [
 
 export async function runPrettier(): Promise<void> {
   // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
-  const config = [`./prettier.config.js`, `${cfgDir}/prettier.config.js`].find(fs.existsSync)!
+  const config = [`./prettier.config.js`, `${cfgDir}/prettier.config.js`].find(f =>
+    fs.existsSync(f),
+  )!
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const args = [`--write`, `--config`, config, ...prettierPaths]

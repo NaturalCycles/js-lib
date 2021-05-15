@@ -25,7 +25,7 @@ export function getJestManualConfigPath(): string | undefined {
  * Detects if jest is run with all tests, or with specific tests.
  */
 export function isRunningAllTests(): boolean {
-  const [, , ...args] = process.argv
+  const args = process.argv.slice(2)
   const positionalArgs = args.filter(a => !a.startsWith('-'))
 
   // console.log(process.argv, positionalArgs)
@@ -50,7 +50,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   }
 
   const { ci, integration, manual, leaks } = opt
-  const [, , ...processArgs] = process.argv
+  const processArgs = process.argv.slice(2)
 
   // console.log(processArgs) // todo: solve to run it in dev-lib
 
@@ -92,7 +92,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     maxWorkers = maxWorkers || '--maxWorkers=1'
   }
 
-  if (maxWorkers) args.push(maxWorkers!)
+  if (maxWorkers) args.push(maxWorkers)
 
   if (args.includes('--silent')) {
     Object.assign(env, {

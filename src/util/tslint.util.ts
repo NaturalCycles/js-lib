@@ -3,9 +3,6 @@ import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
 
-/**
- * @returns error code (0 == ok)
- */
 export async function runTSLint(
   dir: string,
   excludePaths: string[] = [],
@@ -42,4 +39,26 @@ export function getTSConfigPathScripts(): string {
   const localTSConfigPathScripts = `./scripts/tsconfig.json`
   const sharedTSConfigScripts = `${scriptsDir}/tsconfig.json`
   return fs.existsSync(localTSConfigPathScripts) ? localTSConfigPathScripts : sharedTSConfigScripts
+}
+
+export function getESLintConfigPath(): string {
+  const localConfig = `./.eslintrc.js`
+  const sharedConfig = `${cfgDir}/eslint.config.js`
+  return fs.existsSync(localConfig) ? localConfig : sharedConfig
+}
+
+export async function runESLint(
+  dir: string,
+  configPath: string,
+  tsconfigPath?: string,
+): Promise<void> {
+  const args = [
+    `--config`,
+    configPath,
+    `${dir}/**/*.{ts,tsx}`,
+    ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
+    `--fix`,
+  ]
+
+  await execWithArgs('eslint', args)
 }

@@ -1,5 +1,6 @@
 import { AppError } from '@naturalcycles/js-lib'
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const mockAllKindsOfThings = () => {
   const errorWithCode = new Error('Error with code')
   Object.assign(errorWithCode, {
@@ -11,8 +12,8 @@ export const mockAllKindsOfThings = () => {
     null,
     true,
     false,
-    NaN,
-    Infinity,
+    Number.NaN,
+    Number.POSITIVE_INFINITY,
     '',
     ' ',
     'ho ho ho',

@@ -57,7 +57,7 @@ export async function lintAllCommand(): Promise<void> {
       // fail on changes
       if (failOnChanges) {
         console.log('lint-all failOnChanges: exiting with status 1')
-        process.exit(1)
+        process.exitCode = 1
       }
     }
   }

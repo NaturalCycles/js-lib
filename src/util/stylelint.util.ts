@@ -13,7 +13,9 @@ export const stylelintPaths = [
 ]
 
 export async function stylelintAll(): Promise<void> {
-  const config = [`./stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(fs.existsSync)!
+  const config = [`./stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(f =>
+    fs.existsSync(f),
+  )!
 
   const args = [`--fix`, `--allow-empty-input`, `--config`, config, ...stylelintPaths]
 

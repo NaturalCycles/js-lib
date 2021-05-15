@@ -1,6 +1,6 @@
 import * as timekeeper from 'timekeeper'
 
-export const MOCK_TS_2018_06_21 = 1529539200
+export const MOCK_TS_2018_06_21 = 1_529_539_200
 
 /**
  * Locks time-related functions to return always same time.

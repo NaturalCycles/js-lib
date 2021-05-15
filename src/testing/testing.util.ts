@@ -8,7 +8,7 @@ export function deepFreeze(o: any): void {
 
   Object.getOwnPropertyNames(o).forEach(prop => {
     if (
-      o.hasOwnProperty(prop) &&
+      o.hasOwnProperty(prop) && // eslint-disable-line no-prototype-builtins
       o[prop] !== null &&
       (typeof o[prop] === 'object' || typeof o[prop] === 'function') &&
       !Object.isFrozen(o[prop])
@@ -19,11 +19,11 @@ export function deepFreeze(o: any): void {
 }
 
 export function silentConsole(): void {
-  console.log = () => undefined
-  console.debug = () => undefined
-  console.info = () => undefined
-  console.warn = () => undefined
-  console.error = () => undefined
-  console.time = () => undefined
-  console.table = () => undefined
+  console.log = () => {}
+  console.debug = () => {}
+  console.info = () => {}
+  console.warn = () => {}
+  console.error = () => {}
+  console.time = () => {}
+  console.table = () => {}
 }

@@ -15,9 +15,9 @@ test('mockTime default', () => {
 
   expect(Date.now()).toBeGreaterThanOrEqual(now)
 
-  mockTimeMillis(123456)
+  mockTimeMillis(123_456)
 
-  expect(Date.now()).toBe(123456)
+  expect(Date.now()).toBe(123_456)
 
   resetTime()
 

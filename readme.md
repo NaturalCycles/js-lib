@@ -129,6 +129,7 @@ variable to disable it.
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
 
 - `tslint-all`: runs `tslint` on needed paths
+- `eslint-all`: runs `eslint` on needed paths
 - `stylelint-all`: runs `stylelint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
@@ -163,4 +164,5 @@ These files are meant to be extended in target project, so act as _recommended d
 - `lint-staged.config.js`
 - `prettier.config.js`
 - `tslint.json`
+- `eslint.config.json`
 - `jest.config.js`
