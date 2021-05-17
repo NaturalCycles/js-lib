@@ -1,3 +1,10 @@
+## [10.34.1](https://github.com/NaturalCycles/dev-lib/compare/v10.34.0...v10.34.1) (2021-05-17)
+
+
+### Bug Fixes
+
+* eslint --no-error-on-unmatched-pattern ([8319d14](https://github.com/NaturalCycles/dev-lib/commit/8319d143d23c043c8f999bb4e96177270566d6cb))
+
 # [10.34.0](https://github.com/NaturalCycles/dev-lib/compare/v10.33.4...v10.34.0) (2021-05-15)
 
 
