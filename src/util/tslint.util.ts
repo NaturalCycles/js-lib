@@ -57,6 +57,7 @@ export async function runESLint(
     configPath,
     `${dir}/**/*.{ts,tsx}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
+    `--no-error-on-unmatched-pattern`,
     `--fix`,
   ]
 
