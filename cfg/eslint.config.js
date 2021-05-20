@@ -1,11 +1,11 @@
 /**
- * @naturalcycles/dev-lib/cfg/eslint.config.json
+ * @naturalcycles/dev-lib/cfg/eslint.config.js
  *
  * Shared eslint config.
  */
 module.exports = {
   env: {
-    es6: true,
+    es2020: true,
     node: true,
     'jest/globals': true,
   },
@@ -158,7 +158,7 @@ module.exports = {
     'no-import-assign': 0, // used in some unit tests
     'no-inner-declarations': 2,
     'no-invalid-regexp': 2,
-    'no-invalid-this': 2,
+    'no-invalid-this': 0, // too many false positives in valid classes
     'no-irregular-whitespace': 2,
     'no-misleading-character-class': 2,
     'no-mixed-spaces-and-tabs': 2,
