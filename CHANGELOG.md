@@ -1,3 +1,10 @@
+## [11.0.1](https://github.com/NaturalCycles/dev-lib/compare/v11.0.0...v11.0.1) (2021-05-20)
+
+
+### Bug Fixes
+
+* **eslint:** disable no-duplicate-imports as too buggy ([cb1eaff](https://github.com/NaturalCycles/dev-lib/commit/cb1eaff62a167277f2ee55e3247be5491e2df5e9))
+
 # [11.0.0](https://github.com/NaturalCycles/dev-lib/compare/v10.34.2...v11.0.0) (2021-05-20)
 
 
