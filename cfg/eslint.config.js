@@ -214,7 +214,7 @@ module.exports = {
     'no-useless-catch': 2,
     'no-useless-escape': 2,
     'no-unneeded-ternary': 2,
-    'no-duplicate-imports': 2,
+    'no-duplicate-imports': 0, // too many false-positives (with e.g import type + import on next line)
     'no-var': 2,
     'no-with': 2,
     'object-shorthand': 2,
