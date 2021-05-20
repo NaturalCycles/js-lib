@@ -197,6 +197,7 @@ module.exports = {
     ],
     'no-self-assign': 2,
     'no-setter-return': 2,
+    'no-shadow': 0, // it is buggy with TypeScript enums
     'no-shadow-restricted-names': 2,
     'no-sparse-arrays': 2,
     'no-this-before-super': 2,
@@ -212,6 +213,8 @@ module.exports = {
     'no-unused-vars': 0, // replaced by `unused-imports/no-unused-vars`
     'no-useless-catch': 2,
     'no-useless-escape': 2,
+    'no-unneeded-ternary': 2,
+    'no-duplicate-imports': 2,
     'no-var': 2,
     'no-with': 2,
     'object-shorthand': 2,
@@ -232,6 +235,8 @@ module.exports = {
     ],
     'use-isnan': 2,
     'valid-typeof': 2,
+    'no-await-in-loop': 2,
+    'no-extend-native': 2,
     'jest/expect-expect': 0,
     'jest/no-commented-out-tests': 0,
     'jest/no-export': 0, // conflicts with typescript isolatedModules

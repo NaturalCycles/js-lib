@@ -17,6 +17,8 @@ const configPrettier = [`${cwd}/prettier.config.js`, `${cfgDir}/prettier.config.
 
 const configTSLint = [`${cwd}/tslint.json`, `${cfgDir}/tslint.config.js`].find(fs.existsSync)
 
+const configESLint = [`${cwd}/.eslintrc.js`, `${cfgDir}/eslint.config.js`].find(fs.existsSync)
+
 const configStyleLint = [`${cwd}/stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(
   fs.existsSync,
 )
@@ -27,20 +29,29 @@ const tsconfigPath = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaul
 
 const prettierCmd = `prettier --write --config ${configPrettier}`
 const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
+const eslintCmdRoot = `eslint --fix --config ${configESLint} --parser-options=project:./${tsconfigPath}`
+const eslintCmdScripts = `eslint --fix --config ${configESLint} --parser-options=project:./scripts/tsconfig.json`
 const styleLintCmd = `stylelint --fix --config ${configStyleLint}`
 
 module.exports = {
   linters: {
-    // For *.ts files we run first Prettier, then TSLint
+    // *.ts files: eslint, tslint, prettier
     // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.{ts,tsx}': [tslintCmd, `${tslintCmd} -p ${tsconfigPath}`, prettierCmd, 'git add'],
+    './src/**/*.{ts,tsx}': [
+      eslintCmdRoot,
+      tslintCmd,
+      `${tslintCmd} -p ${tsconfigPath}`,
+      prettierCmd,
+      'git add',
+    ],
 
     // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
     [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
 
     // /scripts are separate, cause they require separate tsconfig.json
-    // Prettier + tslint
+    // eslint, tslint, Prettier
     './scripts/**/*.{ts,tsx}': [
+      eslintCmdScripts,
       tslintCmd,
       `${tslintCmd} -p ./scripts/tsconfig.json`,
       prettierCmd,

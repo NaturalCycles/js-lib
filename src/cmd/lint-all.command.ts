@@ -9,6 +9,7 @@ import {
 } from '../util/git.util'
 import { runPrettier } from '../util/prettier.util'
 import { stylelintAll } from '../util/stylelint.util'
+import { eslintAllCommand } from './eslint-all.command'
 import { tslintAllCommand } from './tslint-all.command'
 
 /**
@@ -32,6 +33,8 @@ export async function lintAllCommand(): Promise<void> {
 
   const hadChangesBefore = await gitHasUncommittedChanges()
 
+  // Currently we position ESLint before TSLint, but let's monitor if it's ok
+  await eslintAllCommand()
   await tslintAllCommand()
   await stylelintAll()
   await runPrettier()
