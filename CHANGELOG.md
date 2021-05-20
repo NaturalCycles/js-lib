@@ -1,3 +1,10 @@
+## [10.34.2](https://github.com/NaturalCycles/dev-lib/compare/v10.34.1...v10.34.2) (2021-05-20)
+
+
+### Bug Fixes
+
+* **eslint:** disable no-invalid-this ([0bf0812](https://github.com/NaturalCycles/dev-lib/commit/0bf08124646574934f98f52b8d72c732fc39f048))
+
 ## [10.34.1](https://github.com/NaturalCycles/dev-lib/compare/v10.34.0...v10.34.1) (2021-05-17)
 
 
