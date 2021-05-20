@@ -1,3 +1,15 @@
+# [11.0.0](https://github.com/NaturalCycles/dev-lib/compare/v10.34.2...v11.0.0) (2021-05-20)
+
+
+### Features
+
+* eslint enabled by default ([6c0ee33](https://github.com/NaturalCycles/dev-lib/commit/6c0ee33b51349f69c59387345de4d530d6085590))
+
+
+### BREAKING CHANGES
+
+* ^^^
+
 ## [10.34.2](https://github.com/NaturalCycles/dev-lib/compare/v10.34.1...v10.34.2) (2021-05-20)
 
 
