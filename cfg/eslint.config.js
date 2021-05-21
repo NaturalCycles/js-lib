@@ -9,6 +9,9 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
+  globals: {
+    NodeJS: 'readable',
+  },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
