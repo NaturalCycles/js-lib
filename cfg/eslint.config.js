@@ -69,7 +69,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-array-constructor': 2,
-    '@typescript-eslint/no-empty-interface': 2,
+    '@typescript-eslint/no-empty-interface': 0, // too inconvenient
     '@typescript-eslint/no-extra-non-null-assertion': 2,
     '@typescript-eslint/no-extra-semi': 0, // prettier handles it
     '@typescript-eslint/no-floating-promises': 2,
