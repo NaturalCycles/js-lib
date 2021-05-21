@@ -1,3 +1,10 @@
+## [11.0.3](https://github.com/NaturalCycles/dev-lib/compare/v11.0.2...v11.0.3) (2021-05-21)
+
+
+### Bug Fixes
+
+* **eslint:** disable more buggy eslint rules ([dc9c0ea](https://github.com/NaturalCycles/dev-lib/commit/dc9c0eaddd10eefa04847632f0b2bbae8be1f9f3))
+
 ## [11.0.2](https://github.com/NaturalCycles/dev-lib/compare/v11.0.1...v11.0.2) (2021-05-21)
 
 
