@@ -3,6 +3,7 @@ const keyList = Object.keys
 const hasProp = Object.prototype.hasOwnProperty
 
 /* tslint:disable:triple-equals */
+/* eslint-disable eqeqeq */
 
 /**
  * Based on: https://github.com/epoberezkin/fast-deep-equal/

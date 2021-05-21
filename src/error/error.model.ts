@@ -63,6 +63,7 @@ export interface Admin403ErrorData extends HttpErrorData {
 export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
   /**
    * Name of the error / error class.
+   *
    * @default Error
    */
   // Name is removed right now, cause we should not rely on "name"

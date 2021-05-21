@@ -1,4 +1,5 @@
 /* tslint:disable:no-bitwise */
+/* eslint-disable no-bitwise */
 
 /**
  * Returns a "deterministic Math.random() function"

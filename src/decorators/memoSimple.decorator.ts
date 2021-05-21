@@ -30,16 +30,18 @@ export interface MemoOpts {
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
-export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key, descriptor) => {
-  if (typeof descriptor.value !== 'function') {
-    throw new Error('Memoization can be applied only to methods')
-  }
+export const memoSimple =
+  (opts: MemoOpts = {}): MethodDecorator =>
+  (target, key, descriptor) => {
+    if (typeof descriptor.value !== 'function') {
+      throw new TypeError('Memoization can be applied only to methods')
+    }
 
-  const originalFn = descriptor.value
-  // console.log(`${key} len: ${originalFn.length}`)
+    const originalFn = descriptor.value
+    // console.log(`${key} len: ${originalFn.length}`)
 
-  // todo: optimization disabled until "default arg value" use case is solved (see memo.decorator.test.ts)
-  /*
+    // todo: optimization disabled until "default arg value" use case is solved (see memo.decorator.test.ts)
+    /*
   let cache: MemoCache
 
   // Function with 0 arguments
@@ -51,43 +53,43 @@ export const memoSimple = (opts: MemoOpts = {}): MethodDecorator => (target, key
     // cache = new ObjectMemoCache()
   }
    */
-  const cache: MemoCache = new MapMemoCache()
+    const cache: MemoCache = new MapMemoCache()
 
-  const { logHit, logMiss, noLogArgs } = opts
-  const keyStr = String(key)
-  const methodSignature = _getTargetMethodSignature(target, keyStr)
+    const { logHit, logMiss, noLogArgs } = opts
+    const keyStr = String(key)
+    const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-  descriptor.value = function (this: typeof target, ...args: any[]): any {
-    const ctx = this
-    const cacheKey = jsonMemoSerializer(args)
+    descriptor.value = function (this: typeof target, ...args: any[]): any {
+      const ctx = this
+      const cacheKey = jsonMemoSerializer(args)
 
-    if (cache.has(cacheKey)) {
-      if (logHit) {
-        console.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
+      if (cache.has(cacheKey)) {
+        if (logHit) {
+          console.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
+        }
+        return cache.get(cacheKey)
       }
-      return cache.get(cacheKey)
+
+      const d = Date.now()
+
+      const res: any = originalFn.apply(ctx, args)
+
+      if (logMiss) {
+        console.log(
+          `${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${
+            Date.now() - d
+          } ms)`,
+        )
+      }
+
+      cache.set(cacheKey, res)
+
+      return res
+    } as any
+    ;(descriptor.value as any).dropCache = () => {
+      console.log(`${methodSignature} @memo.dropCache()`)
+      cache.clear()
     }
 
-    const d = Date.now()
-
-    const res: any = originalFn.apply(ctx, args)
-
-    if (logMiss) {
-      console.log(
-        `${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${
-          Date.now() - d
-        } ms)`,
-      )
-    }
-
-    cache.set(cacheKey, res)
-
-    return res
-  } as any
-  ;(descriptor.value as any).dropCache = () => {
-    console.log(`${methodSignature} @memo.dropCache()`)
-    cache.clear()
+    return descriptor
   }
-
-  return descriptor
-}

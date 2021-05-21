@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function convertHrtime(hrtime: [number, number]) {
   const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
   const milliseconds = nanoseconds / 1e6

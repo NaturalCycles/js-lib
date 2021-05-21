@@ -36,7 +36,7 @@ class C {
   }
 
   @_LogMethod()
-  methodLongArg(...args: any[]) {
+  methodLongArg(..._args: any[]) {
     return 'a'
   }
 
@@ -96,6 +96,6 @@ test('methodReturnsArray', () => {
 
 test('instanceId', () => {
   const c = new C()
-  ;((c as any) as InstanceId).instanceId = 'instance_1'
+  ;(c as any as InstanceId).instanceId = 'instance_1'
   c.syncMethodSuccess()
 })

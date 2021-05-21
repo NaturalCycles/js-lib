@@ -64,7 +64,7 @@ export function _createPromiseDecorator<RES = any, PARAMS = any>(
     pd: PropertyDescriptor,
   ): PropertyDescriptor {
     // console.log(`@Decorator.${cfg.decoratorName} called: ` + propertyKey, pd, target)
-    const originalMethod = pd.value!
+    const originalMethod = pd.value
     const key = String(propertyKey)
     const methodSignature = _getTargetMethodSignature(target, key)
 

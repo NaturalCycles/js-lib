@@ -4,6 +4,7 @@ import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
 /**
  * $r - result
+ *
  * @returns array of tokens that will be `.filter(Boolean).join(' ')`
  */
 type LogResultFn = (r: any) => any[]
@@ -63,7 +64,7 @@ export interface LogMethodOptions {
 export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
-      throw new Error('@LogMillis can be applied only to methods')
+      throw new TypeError('@LogMillis can be applied only to methods')
     }
 
     const originalFn = descriptor.value

@@ -48,7 +48,7 @@ test('concurrency: 4', async () => {
   let running = 0
 
   await pMap(
-    new Array(100).fill(0),
+    Array.from({ length: 100 }).fill(0),
     async () => {
       running++
       expect(running <= concurrency).toBe(true)
@@ -64,7 +64,7 @@ test('handles empty iterable', async () => {
 })
 
 test('async with concurrency: 2 (random time sequence)', async () => {
-  const input = new Array(10).map(() => _randomInt(0, 100))
+  const input = Array.from({ length: 10 }).map(() => _randomInt(0, 100))
   const mapper: AsyncMapper = value => pDelay(value).then(() => value)
   const result = await pMap(input, mapper, { concurrency: 2 })
   expect(result).toEqual(input)

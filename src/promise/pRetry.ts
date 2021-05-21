@@ -32,12 +32,14 @@ export interface PRetryOptions {
 
   /**
    * Log the first attempt (which is not a "retry" yet).
+   *
    * @default false
    */
   logFirstAttempt?: boolean
 
   /**
    * Log retries - attempts that go after the first one.
+   *
    * @default true
    */
   logRetries?: boolean
@@ -67,6 +69,7 @@ export interface PRetryOptions {
  * Returns a Function (!), enhanced with retry capabilities.
  * Implements "Exponential back-off strategy" by multiplying the delay by `delayMultiplier` with each try.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
   const { maxAttempts = 4, delay: initialDelay = 1000, delayMultiplier = 2, predicate } = opt
 

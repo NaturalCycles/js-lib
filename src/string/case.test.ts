@@ -23,7 +23,7 @@ test('_snakeCase', () => {
 })
 
 test('_camelCase', () => {
-  const allWords = [...words, ...words.map(_snakeCase)]
+  const allWords = [...words, ...words.map(w => _snakeCase(w))]
   expectResults(s => _camelCase(s), allWords).toMatchSnapshot()
 })
 

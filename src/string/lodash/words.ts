@@ -1,5 +1,7 @@
 // from: https://github.com/lodash/lodash/blob/master/words.js
 
+/* eslint-disable */
+
 import { unicodeWords } from './unicodeWords'
 
 const hasUnicodeWord = RegExp.prototype.test.bind(

@@ -16,6 +16,7 @@ class A {
 
   /**
    * Rejects 1 and 2nd time, resolved then
+   *
    * @param a1
    * @param a2
    */

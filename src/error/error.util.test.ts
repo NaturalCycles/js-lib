@@ -1,5 +1,5 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import { AppError, HttpError, HttpErrorResponse, _assert } from '..'
+import { AppError, HttpError, HttpErrorResponse } from '..'
 import {
   _anyToAppError,
   _anyToErrorMessage,

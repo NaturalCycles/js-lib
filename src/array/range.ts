@@ -1,3 +1,5 @@
+/* eslint-disable no-redeclare, unicorn/no-new-array */
+
 /**
  * Returns an array with ranges from `from` up to (but not including) `to`.
  *
@@ -12,7 +14,7 @@ export function _range(toExcl: number): number[]
 export function _range(fromIncl: number, toExcl: number, step?: number): number[]
 export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
   if (toExcl === undefined) {
-    return Array.from(Array(fromIncl), (_, i) => i)
+    return Array.from(new Array(fromIncl), (_, i) => i)
   }
 
   return Array.from(

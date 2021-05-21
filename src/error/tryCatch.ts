@@ -54,20 +54,18 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
 
       if (onError) {
         try {
-          return await onError(err)
-        } catch (_ignored) {}
+          return await onError(err) // eslint-disable-line @typescript-eslint/return-await
+        } catch {}
       }
       // returns undefined, but doesn't rethrow
     }
   } as any
 }
 
-export const _TryCatch = (opt: TryCatchOptions = {}): MethodDecorator => (
-  target,
-  key,
-  descriptor,
-) => {
-  const originalFn = descriptor.value
-  descriptor.value = _tryCatch(originalFn as any, opt)
-  return descriptor
-}
+export const _TryCatch =
+  (opt: TryCatchOptions = {}): MethodDecorator =>
+  (target, key, descriptor) => {
+    const originalFn = descriptor.value
+    descriptor.value = _tryCatch(originalFn as any, opt)
+    return descriptor
+  }

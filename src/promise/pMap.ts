@@ -61,7 +61,7 @@ export async function pMap<IN, OUT>(
   opt: PMapOptions = {},
 ): Promise<OUT[]> {
   return new Promise<OUT[]>((resolve, reject) => {
-    const { concurrency = Infinity, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
+    const { concurrency = Number.POSITIVE_INFINITY, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
 
     const ret: OUT[] = []
     const iterator = iterable[Symbol.iterator]()
@@ -104,12 +104,12 @@ export async function pMap<IN, OUT>(
             resolvingCount--
             next()
           },
-          error => {
+          err => {
             if (errorMode === ErrorMode.THROW_IMMEDIATELY) {
               isRejected = true
-              reject(error)
+              reject(err)
             } else {
-              errors.push(error)
+              errors.push(err)
               resolvingCount--
               next()
             }

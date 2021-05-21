@@ -1,5 +1,7 @@
 import { _TryCatch, _tryCatch } from './tryCatch'
 
+/* eslint-disable @typescript-eslint/await-thenable */
+
 const _fnSuccess = (...args: any[]) => args
 
 const _fnError = () => {
@@ -13,7 +15,7 @@ test('_tryCatch', async () => {
 
   const fnError = _tryCatch(_fnError, {
     onError: err => {
-      console.log('onError fired with: ', err.message)
+      console.log('onError fired with:', err.message)
     },
     logSuccess: true,
     logError: true,
@@ -31,7 +33,7 @@ class C {
 
   @_TryCatch({
     onError: err => {
-      console.log('onError fired with: ', err.message)
+      console.log('onError fired with:', err.message)
     },
     logSuccess: true,
     logError: true,

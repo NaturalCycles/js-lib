@@ -5,7 +5,7 @@ import { HttpErrorData } from './error.model'
  * Base class for HTTP errors - errors that define HTTP error code.
  */
 export class HttpError<
-  DATA_TYPE extends HttpErrorData = HttpErrorData
+  DATA_TYPE extends HttpErrorData = HttpErrorData,
 > extends AppError<DATA_TYPE> {
   constructor(message: string, data: DATA_TYPE) {
     super(message, data)
@@ -21,7 +21,7 @@ export class HttpError<
       Error.captureStackTrace(this, this.constructor)
     } else {
       Object.defineProperty(this, 'stack', {
-        value: new Error().stack,
+        value: new Error().stack, // eslint-disable-line unicorn/error-message
         configurable: true,
       })
     }

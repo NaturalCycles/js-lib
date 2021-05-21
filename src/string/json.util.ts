@@ -82,7 +82,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
 
   // Handle maxLen
   if (opt.maxLen && s.length > opt.maxLen) {
-    s = s.substr(0, opt.maxLen) + `... ${Math.ceil(s.length / 1024)} KB message truncated`
+    s = s.slice(0, opt.maxLen) + `... ${Math.ceil(s.length / 1024)} KB message truncated`
   }
 
   return s

@@ -138,7 +138,7 @@ export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): String
  */
 export function _sortBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): T[] {
   return (mutate ? items : [...items]).sort((_a, _b) => {
-    const [a, b] = [_a, _b].map(mapper)
+    const [a, b] = [_a, _b].map(mapper) // eslint-disable-line unicorn/no-array-callback-reference
     if (typeof a === 'number' && typeof b === 'number') return a - b
     return String(a).localeCompare(String(b))
   })
@@ -148,7 +148,7 @@ export function _sortBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): 
  * Like items.find(), but it tries to find from the END of the array.
  */
 export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined {
-  return [...items].reverse().find(predicate)
+  return [...items].reverse().find(predicate) // eslint-disable-line unicorn/no-array-callback-reference
 }
 
 export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {
@@ -174,7 +174,7 @@ export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
     .reverse()
 }
 
-export function _countBy<T, V = any>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
+export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
   return items.reduce((map, item, index) => {
     const key = mapper(item, index)
     map[key] = (map[key] || 0) + 1

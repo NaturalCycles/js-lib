@@ -239,7 +239,7 @@ export function _undefinedIfEmpty<T>(obj: T | undefined): T | undefined {
 /**
  * Filters the object by removing all key-value pairs where Value is Empty (according to _isEmpty() specification).
  */
-export function _filterEmptyValues<T extends object>(obj: T, mutate = false) {
+export function _filterEmptyValues<T extends object>(obj: T, mutate = false): T {
   return _filterObject(obj, (_k, v) => !_isEmpty(v), mutate)
 }
 
@@ -314,6 +314,7 @@ export function _unset<T extends object>(obj: T, prop: string): void {
   if (!_isObject(obj)) {
     return
   }
+  // eslint-disable-next-line no-prototype-builtins
   if (obj.hasOwnProperty(prop)) {
     delete obj[prop]
     return
@@ -402,6 +403,7 @@ export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, v
           a[c]
         : // No: create the key. Is the next key a potential array-index?
           (a[c] =
+            // eslint-disable-next-line
             Math.abs(path[i + 1]) >> 0 === +path[i + 1] // tslint:disable-line
               ? [] // Yes: assign a new array object
               : {}), // No: assign a new plain object

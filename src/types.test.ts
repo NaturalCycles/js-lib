@@ -7,7 +7,7 @@ import {
 } from './types'
 
 test('types', () => {
-  const _reviver: Reviver = (k: string, v: string) => {}
+  const _reviver: Reviver = (_k, _v) => {}
 
   expect(_passthroughMapper('a', 1)).toBe('a')
   expect(_passUndefinedMapper('a', 1)).toBeUndefined()

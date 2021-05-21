@@ -18,7 +18,7 @@ test.each([
   [2, 2, 3, true],
   [2, 2, 1, false],
   [2, 2, 2, false],
-  [2, -Infinity, 3, true],
+  [2, Number.NEGATIVE_INFINITY, 3, true],
 ])('_inRange(%s, %s, %s) === %s', (n, minIncl, maxExcl, result) => {
   expect(_inRange(n, minIncl, maxExcl)).toBe(result)
 })

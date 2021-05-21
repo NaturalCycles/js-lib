@@ -47,118 +47,120 @@ export interface MemoOptions {
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
-export const _Memo = (opts: MemoOptions = {}): MethodDecorator => (target, key, descriptor) => {
-  if (typeof descriptor.value !== 'function') {
-    throw new Error('Memoization can be applied only to methods')
-  }
+export const _Memo =
+  (opts: MemoOptions = {}): MethodDecorator =>
+  (target, key, descriptor) => {
+    if (typeof descriptor.value !== 'function') {
+      throw new TypeError('Memoization can be applied only to methods')
+    }
 
-  const originalFn = descriptor.value
+    const originalFn = descriptor.value
 
-  // Map<ctx => MemoCache<cacheKey, result>>
-  //
-  // Internal map is from cacheKey to result
-  // External map is from ctx (instance of class) to Internal map
-  // External map is Weak to not cause memory leaks, to allow ctx objects to be garbage collected
-  // UPD: tests show that normal Map also doesn't leak (to be tested further)
-  // Normal Map is needed to allow .dropCache()
-  const cache = new Map<object, MemoCache>()
+    // Map<ctx => MemoCache<cacheKey, result>>
+    //
+    // Internal map is from cacheKey to result
+    // External map is from ctx (instance of class) to Internal map
+    // External map is Weak to not cause memory leaks, to allow ctx objects to be garbage collected
+    // UPD: tests show that normal Map also doesn't leak (to be tested further)
+    // Normal Map is needed to allow .dropCache()
+    const cache = new Map<object, MemoCache>()
 
-  const { logHit, logMiss, noLogArgs, cacheFactory, noCacheRejected, noCacheResolved } = {
-    cacheFactory: () => new MapMemoCache(),
-    ...opts,
-  }
-  const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
-  const keyStr = String(key)
-  const methodSignature = _getTargetMethodSignature(target, keyStr)
+    const { logHit, logMiss, noLogArgs, cacheFactory, noCacheRejected, noCacheResolved } = {
+      cacheFactory: () => new MapMemoCache(),
+      ...opts,
+    }
+    const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
+    const keyStr = String(key)
+    const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-  descriptor.value = function (this: typeof target, ...args: any[]): any {
-    const ctx = this
+    descriptor.value = function (this: typeof target, ...args: any[]): any {
+      const ctx = this
 
-    const cacheKey = jsonMemoSerializer(args)
+      const cacheKey = jsonMemoSerializer(args)
 
-    if (!cache.has(ctx)) {
-      cache.set(ctx, cacheFactory())
-    } else if (cache.get(ctx)!.has(cacheKey)) {
-      if (logHit) {
-        console.log(
-          `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-            args,
-            noLogArgs,
-          )}) @memoInstance hit`,
-        )
+      if (!cache.has(ctx)) {
+        cache.set(ctx, cacheFactory())
+      } else if (cache.get(ctx)!.has(cacheKey)) {
+        if (logHit) {
+          console.log(
+            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
+              args,
+              noLogArgs,
+            )}) @memoInstance hit`,
+          )
+        }
+
+        const res = cache.get(ctx)!.get(cacheKey)
+
+        if (awaitPromise) {
+          return res instanceof Error ? Promise.reject(res) : Promise.resolve(res)
+        } else {
+          return res
+        }
       }
 
-      const res = cache.get(ctx)!.get(cacheKey)
+      const started = Date.now()
+
+      const res: any = originalFn.apply(ctx, args)
 
       if (awaitPromise) {
-        return res instanceof Error ? Promise.reject(res) : Promise.resolve(res)
+        return (res as Promise<any>)
+          .then(res => {
+            // console.log('RESOLVED', res)
+            if (logMiss) {
+              console.log(
+                `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
+                  args,
+                  noLogArgs,
+                )}) @memo miss resolved (${_since(started)})`,
+              )
+            }
+
+            if (!noCacheResolved) {
+              cache.get(ctx)!.set(cacheKey, res)
+            }
+
+            return res
+          })
+          .catch(err => {
+            // console.log('REJECTED', err)
+            if (logMiss) {
+              console.log(
+                `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
+                  args,
+                  noLogArgs,
+                )}) @memo miss rejected (${_since(started)})`,
+              )
+            }
+
+            if (!noCacheRejected) {
+              // We put it to cache as raw Error, not Promise.reject(err)
+              // So, we'll need to check if it's instanceof Error to reject it or resolve
+              // Wrap as Error if it's not Error
+              cache.get(ctx)!.set(cacheKey, err instanceof Error ? err : new Error(err))
+            }
+
+            return Promise.reject(err)
+          })
       } else {
+        if (logMiss) {
+          console.log(
+            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
+              args,
+              noLogArgs,
+            )}) @memo miss (${_since(started)})`,
+          )
+        }
+
+        cache.get(ctx)!.set(cacheKey, res)
         return res
       }
+    } as any
+    ;(descriptor.value as any).dropCache = () => {
+      console.log(`${methodSignature} @memo.dropCache()`)
+      cache.forEach(memoCache => memoCache.clear())
+      cache.clear()
     }
 
-    const started = Date.now()
-
-    const res: any = originalFn.apply(ctx, args)
-
-    if (awaitPromise) {
-      return (res as Promise<any>)
-        .then(res => {
-          // console.log('RESOLVED', res)
-          if (logMiss) {
-            console.log(
-              `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-                args,
-                noLogArgs,
-              )}) @memo miss resolved (${_since(started)})`,
-            )
-          }
-
-          if (!noCacheResolved) {
-            cache.get(ctx)!.set(cacheKey, res)
-          }
-
-          return res
-        })
-        .catch(err => {
-          // console.log('REJECTED', err)
-          if (logMiss) {
-            console.log(
-              `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-                args,
-                noLogArgs,
-              )}) @memo miss rejected (${_since(started)})`,
-            )
-          }
-
-          if (!noCacheRejected) {
-            // We put it to cache as raw Error, not Promise.reject(err)
-            // So, we'll need to check if it's instanceof Error to reject it or resolve
-            // Wrap as Error if it's not Error
-            cache.get(ctx)!.set(cacheKey, err instanceof Error ? err : new Error(err))
-          }
-
-          return Promise.reject(err)
-        })
-    } else {
-      if (logMiss) {
-        console.log(
-          `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-            args,
-            noLogArgs,
-          )}) @memo miss (${_since(started)})`,
-        )
-      }
-
-      cache.get(ctx)!.set(cacheKey, res)
-      return res
-    }
-  } as any
-  ;(descriptor.value as any).dropCache = () => {
-    console.log(`${methodSignature} @memo.dropCache()`)
-    cache.forEach(memoCache => memoCache.clear())
-    cache.clear()
+    return descriptor
   }
-
-  return descriptor
-}

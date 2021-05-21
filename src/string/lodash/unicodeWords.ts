@@ -1,4 +1,6 @@
 // from: https://github.com/lodash/lodash/blob/master/.internal/unicodeWords.js
+/* eslint-disable */
+
 /** Used to compose unicode character classes. */
 const rsAstralRange = '\\ud800-\\udfff'
 const rsComboMarksRange = '\\u0300-\\u036f'
@@ -56,7 +58,7 @@ const rsOrdUpper = '\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])'
 const rsSeq = rsOptVar + reOptMod + rsOptJoin
 const rsEmoji = `(?:${[rsDingbat, rsRegional, rsSurrPair].join('|')})${rsSeq}`
 
-const reUnicodeWords = RegExp(
+const reUnicodeWords = new RegExp(
   [
     `${rsUpper}?${rsLower}+${rsOptContrLower}(?=${[rsBreak, rsUpper, '$'].join('|')})`,
     `${rsMiscUpper}+${rsOptContrUpper}(?=${[rsBreak, rsUpper + rsMiscLower, '$'].join('|')})`,

@@ -64,19 +64,19 @@ export class ObjectMemoCache implements MemoCache {
 export class MapMemoCache implements MemoCache {
   private m = new Map<any, any>()
 
-  has(k: any) {
+  has(k: any): boolean {
     return this.m.has(k)
   }
 
-  get(k: any) {
+  get(k: any): any {
     return this.m.get(k)
   }
 
-  set(k: any, v: any) {
+  set(k: any, v: any): void {
     this.m.set(k, v)
   }
 
-  clear() {
+  clear(): void {
     this.m.clear()
   }
 }

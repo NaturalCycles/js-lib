@@ -10,14 +10,14 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@naturalcycles/dev-lib": "^10.2.0",
+    "@naturalcycles/dev-lib": "^11.0.1",
     "@types/benchmark": "^2.1.0",
     "@types/node": "^15.0.1",
     "benchmark": "^2.1.4",
     "jest": "^26.0.1",
     "patch-package": "^6.2.1",
     "prettier": "^2.1.2",
-    "rxjs": "^6.5.2",
+    "rxjs": "^7.0.1",
     "vuepress": "^1.7.1",
     "vuepress-plugin-typescript": "^0.3.1"
   },

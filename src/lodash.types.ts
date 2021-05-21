@@ -2,9 +2,9 @@ export type PropertyName = string | number | symbol
 
 export type ObjectMapper<OBJ, OUT> = (key: string, value: OBJ[keyof OBJ], obj: OBJ) => OUT
 
-export interface RecursiveArray<T> extends Array<T | RecursiveArray<T>> {}
+export type RecursiveArray<T> = (T | RecursiveArray<T>)[]
 
-export type Many<T> = T | ReadonlyArray<T>
+export type Many<T> = T | readonly T[]
 export type PropertyPath = Many<PropertyName>
 
 export type KeyValueTuple<K, V> = [K, V]

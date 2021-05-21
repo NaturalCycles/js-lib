@@ -4,7 +4,7 @@ import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 class C implements InstanceId {
   instanceId!: string
 
-  method1(a: string, b: string, c: number, d: any): string {
+  method1(a: string, _b: string, _c: number, _d: any): string {
     return a
   }
 }
