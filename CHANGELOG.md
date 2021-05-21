@@ -1,3 +1,10 @@
+## [11.0.5](https://github.com/NaturalCycles/dev-lib/compare/v11.0.4...v11.0.5) (2021-05-21)
+
+
+### Bug Fixes
+
+* **eslint:** NodeJS in globals ([a2ee7a0](https://github.com/NaturalCycles/dev-lib/commit/a2ee7a0bb29f13e6c5cfac36b213cb7c81b97733))
+
 ## [11.0.4](https://github.com/NaturalCycles/dev-lib/compare/v11.0.3...v11.0.4) (2021-05-21)
 
 
