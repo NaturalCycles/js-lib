@@ -81,7 +81,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-misused-new': 2,
     '@typescript-eslint/no-non-null-asserted-optional-chain': 2,
-    '@typescript-eslint/no-this-alias': 2,
+    '@typescript-eslint/no-this-alias': 0, // buggy
     '@typescript-eslint/no-unused-expressions': 2,
     '@typescript-eslint/prefer-as-const': 2,
     '@typescript-eslint/prefer-for-of': 2,
@@ -273,6 +273,8 @@ module.exports = {
     '@typescript-eslint/array-type': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
+    'unicorn/no-abusive-eslint-disable': 0,
+    'unicorn/number-literal-case': 0, // conflicts with prettier
     'unicorn/prevent-abbreviations': 0,
     'unicorn/prefer-module': 0,
     'unicorn/no-null': 0,
@@ -299,6 +301,7 @@ module.exports = {
     'unicorn/consistent-destructuring': 0, // todo: enable later
     'unicorn/no-nested-ternary': 0,
     'unicorn/consistent-function-scoping': 0, // todo: consider enabling later
+    'unicorn/no-this-assignment': 0,
     '@typescript-eslint/return-await': [2, 'always'],
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/no-misused-promises': 0,
