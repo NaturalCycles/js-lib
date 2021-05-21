@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "version": "14.22.0",
+  "version": "14.22.1",
   "scripts": {
     "build-prod": "build-prod-esm-cjs",
     "docs-serve": "vuepress dev docs",

@@ -1,3 +1,10 @@
+## [14.22.1](https://github.com/NaturalCycles/js-lib/compare/v14.22.0...v14.22.1) (2021-05-21)
+
+
+### Bug Fixes
+
+* adopt eslint ([008352c](https://github.com/NaturalCycles/js-lib/commit/008352c2f386239fc1c0135e9e3e039918c4eb85))
+
 # [14.22.0](https://github.com/NaturalCycles/js-lib/compare/v14.21.1...v14.22.0) (2021-05-01)
 
 
