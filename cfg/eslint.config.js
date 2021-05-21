@@ -273,6 +273,8 @@ module.exports = {
     '@typescript-eslint/array-type': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
+    'unicorn/no-process-exit': 0,
+    'unicorn/no-array-push-push': 0,
     'unicorn/no-abusive-eslint-disable': 0,
     'unicorn/number-literal-case': 0, // conflicts with prettier
     'unicorn/prevent-abbreviations': 0,
