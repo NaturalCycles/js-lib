@@ -1,3 +1,10 @@
+## [11.0.2](https://github.com/NaturalCycles/dev-lib/compare/v11.0.1...v11.0.2) (2021-05-21)
+
+
+### Bug Fixes
+
+* **eslint:** disable buggy `no-empty-interface` rule ([2442458](https://github.com/NaturalCycles/dev-lib/commit/24424582d5deee6204ba3cc793a7747ae6ac2093))
+
 ## [11.0.1](https://github.com/NaturalCycles/dev-lib/compare/v11.0.0...v11.0.1) (2021-05-20)
 
 
