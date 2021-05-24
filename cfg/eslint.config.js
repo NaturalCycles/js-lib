@@ -297,7 +297,7 @@ module.exports = {
       2,
       {
         name: 'err',
-        ignore: ['err2'],
+        ignore: [/^err\d*$/, /^_/],
       },
     ],
     'unicorn/prefer-switch': 0,
