@@ -1,3 +1,10 @@
+## [11.0.7](https://github.com/NaturalCycles/dev-lib/compare/v11.0.6...v11.0.7) (2021-05-24)
+
+
+### Bug Fixes
+
+* **eslint:** more eslint tuning ([ac353fb](https://github.com/NaturalCycles/dev-lib/commit/ac353fb1c94f6470cf9aa5125923420959713726))
+
 ## [11.0.6](https://github.com/NaturalCycles/dev-lib/compare/v11.0.5...v11.0.6) (2021-05-24)
 
 
