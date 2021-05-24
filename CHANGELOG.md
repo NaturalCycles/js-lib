@@ -1,3 +1,10 @@
+## [11.0.6](https://github.com/NaturalCycles/dev-lib/compare/v11.0.5...v11.0.6) (2021-05-24)
+
+
+### Bug Fixes
+
+* **eslint:** disable unicorn/no-array-callback-reference ([0e5addb](https://github.com/NaturalCycles/dev-lib/commit/0e5addb81156443b4c46108a13d6cbdd23c0ab2b))
+
 ## [11.0.5](https://github.com/NaturalCycles/dev-lib/compare/v11.0.4...v11.0.5) (2021-05-21)
 
 
