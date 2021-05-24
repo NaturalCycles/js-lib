@@ -276,6 +276,7 @@ module.exports = {
     '@typescript-eslint/array-type': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
+    'unicorn/no-array-callback-reference': 0, // false positives
     'unicorn/no-process-exit': 0,
     'unicorn/no-array-push-push': 0,
     'unicorn/no-abusive-eslint-disable': 0,
