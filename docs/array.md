@@ -19,6 +19,23 @@ _range(1, 10, 2)
 // [1, 3, 5, 7, 9]
 ```
 
+## \_times
+
+From Lodash `_.times`.
+
+Similar to `_range`, generates a range of numbers from 0.
+
+Has optional Mapper (second argument).
+
+Returns the output from the Mapper, or raw numbers.
+
+```ts
+_times(1) // [0]
+_times(2) // [0, 1]
+_times(2, String) // ['0', '1']
+_times(3, i => i * 2) // [0, 2, 4]
+```
+
 ## \_chunk
 
 Splits an input array into "chunks" of defined size. Last/remaining chunk may be of "incomplete"

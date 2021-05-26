@@ -1,11 +1,11 @@
-import { ObjectMapper, PropertyPath } from '../lodash.types'
-import { StringMap } from '../types'
+import { ObjectMapper, ObjectPredicate, PropertyPath } from '../lodash.types'
+import { StringMap, ValueOf } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
  * Opposite of Omit.
  */
-export function _pick<T extends object, K extends keyof T>(
+export function _pick<T extends Record<string, any>, K extends keyof T>(
   obj: T,
   props: readonly K[],
   mutate = false,
@@ -29,7 +29,7 @@ export function _pick<T extends object, K extends keyof T>(
  * Returns clone of `obj` with `props` omitted.
  * Opposite of Pick.
  */
-export function _omit<T extends object, K extends keyof T>(
+export function _omit<T extends Record<string, any>, K extends keyof T>(
   obj: T,
   props: readonly K[],
   mutate = false,
@@ -51,7 +51,7 @@ export function _omit<T extends object, K extends keyof T>(
  *  'account.updated',
  * ])
  */
-export function _mask<T extends object>(obj: T, props: string[], mutate = false): T {
+export function _mask<T extends Record<string, any>>(obj: T, props: string[], mutate = false): T {
   return props.reduce(
     (r, prop) => {
       _unset(r, prop)
@@ -64,21 +64,21 @@ export function _mask<T extends object>(obj: T, props: string[], mutate = false)
 /**
  * Removes "falsy" values from the object.
  */
-export function _filterFalsyValues<T extends object>(obj: T, mutate = false): T {
+export function _filterFalsyValues<T extends Record<string, any>>(obj: T, mutate = false): T {
   return _filterObject(obj, (_k, v) => !!v, mutate)
 }
 
 /**
  * Removes values from the object that are `null` or `undefined`.
  */
-export function _filterNullishValues<T extends object>(obj: T, mutate = false): T {
+export function _filterNullishValues<T extends Record<string, any>>(obj: T, mutate = false): T {
   return _filterObject(obj, (_k, v) => v !== undefined && v !== null, mutate)
 }
 
 /**
  * @deprecated use _filterNullishValues
  */
-export function _filterUndefinedValues<T extends object>(obj: T, mutate = false): T {
+export function _filterUndefinedValues<T extends Record<string, any>>(obj: T, mutate = false): T {
   return _filterNullishValues(obj, mutate)
 }
 
@@ -86,14 +86,14 @@ export function _filterUndefinedValues<T extends object>(obj: T, mutate = false)
  * Returns clone of `obj` without properties that does not pass `predicate`.
  * Allows filtering by both key and value.
  */
-export function _filterObject<T extends object>(
+export function _filterObject<T extends Record<string, any>>(
   obj: T,
-  predicate: (key: keyof T, value: any) => boolean,
+  predicate: ObjectPredicate<T>,
   mutate = false,
 ): T {
   return Object.keys(obj).reduce(
     (r, k) => {
-      if (!predicate(k as keyof T, r[k])) delete r[k]
+      if (!predicate(k as keyof T, r[k], obj)) delete r[k]
       return r
     },
     mutate ? obj : { ...obj },
@@ -113,7 +113,7 @@ export function _filterObject<T extends object>(
  * _.mapValues(users, 'age')
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  */
-export function _mapValues<T extends object, OUT = T>(
+export function _mapValues<T extends Record<string, any>, OUT = T>(
   obj: T,
   mapper: ObjectMapper<T, any>,
   mutate = false,
@@ -130,9 +130,9 @@ export function _mapValues<T extends object, OUT = T>(
  *
  * Does not support `mutate` flag.
  */
-export function _mapKeys<T extends object>(
+export function _mapKeys<T extends Record<string, any>>(
   obj: T,
-  mapper: ObjectMapper<T, any>,
+  mapper: ObjectMapper<T, string>,
 ): StringMap<T[keyof T]> {
   return Object.entries(obj).reduce((map, [k, v]) => {
     map[mapper(k, v, obj)] = v
@@ -156,20 +156,30 @@ export function _mapKeys<T extends object>(
  *
  * Non-string keys are passed via String(...)
  */
-export function _mapObject<IN extends object, OUT>(
+export function _mapObject<IN extends Record<string, any>, OUT>(
   obj: IN,
-  mapper: ObjectMapper<IN, [any, any]>, // todo: name the tuple arguments when TS 4.0 is ready
+  mapper: ObjectMapper<IN, [key: string, value: any]>,
 ): { [P in keyof IN]: OUT } {
   return Object.entries(obj).reduce((map, [k, v]) => {
     const r = mapper(k, v, obj) || []
     if (r[0]) {
-      map[r[0]] = r[1]
+      ;(map[r[0]] as any) = r[1]
     }
     return map
   }, {} as { [P in keyof IN]: OUT })
 }
 
-export function _objectNullValuesToUndefined<T extends object>(obj: T, mutate = false): T {
+export function _findKeyByValue<T extends Record<string, any>>(
+  obj: T,
+  v: ValueOf<T>,
+): string | undefined {
+  return Object.entries(obj).find(([_, value]) => value === v)?.[0]
+}
+
+export function _objectNullValuesToUndefined<T extends Record<string, any>>(
+  obj: T,
+  mutate = false,
+): T {
   return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate)
 }
 
@@ -183,7 +193,7 @@ export function _deepCopy<T>(o: T): T {
 /**
  * Returns true if item is Object, not null and not Array.
  */
-export function _isObject(item: any): item is object {
+export function _isObject(item: any): item is Record<string, any> {
   return (typeof item === 'object' && item !== null && !Array.isArray(item)) || false
 }
 
@@ -239,7 +249,7 @@ export function _undefinedIfEmpty<T>(obj: T | undefined): T | undefined {
 /**
  * Filters the object by removing all key-value pairs where Value is Empty (according to _isEmpty() specification).
  */
-export function _filterEmptyValues<T extends object>(obj: T, mutate = false): T {
+export function _filterEmptyValues<T extends Record<string, any>>(obj: T, mutate = false): T {
   return _filterObject(obj, (_k, v) => !_isEmpty(v), mutate)
 }
 
@@ -272,7 +282,7 @@ export function _filterEmptyValues<T extends object>(obj: T, mutate = false): T 
  *
  * Based on: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
  */
-export function _merge<T extends object>(target: T, ...sources: any[]): T {
+export function _merge<T extends Record<string, any>>(target: T, ...sources: any[]): T {
   sources.forEach(source => {
     if (_isObject(source)) {
       Object.keys(source).forEach(key => {
@@ -294,7 +304,7 @@ export function _merge<T extends object>(target: T, ...sources: any[]): T {
  * Doesn't touch object KEYS.
  * Mutates.
  */
-export function _deepTrim<T extends object | string>(o: T): T {
+export function _deepTrim<T extends Record<string, any> | string>(o: T): T {
   if (!o) return o
 
   if (typeof o === 'string') {
@@ -310,7 +320,7 @@ export function _deepTrim<T extends object | string>(o: T): T {
 
 // from: https://github.com/jonschlinkert/unset-value
 // mutates obj
-export function _unset<T extends object>(obj: T, prop: string): void {
+export function _unset<T extends Record<string, any>>(obj: T, prop: string): void {
   if (!_isObject(obj)) {
     return
   }
@@ -333,13 +343,8 @@ export function _unset<T extends object>(obj: T, prop: string): void {
   delete obj[last!]
 }
 
-export function _getKeyByValue<T extends object = any>(object: any, value: any): T | undefined {
-  if (!_isObject(object)) return
-  return Object.keys(object).find(k => object[k] === value) as any
-}
-
-export function _invert<T extends object>(o: any): T {
-  const inv = {} as T
+export function _invert(o: Record<string, any>): StringMap {
+  const inv: StringMap = {}
   Object.keys(o).forEach(k => {
     inv[o[k]] = k
   })
@@ -361,7 +366,7 @@ export function _invertMap<K, V>(m: ReadonlyMap<K, V>): Map<V, K> {
  * @param def The value returned if the resolved value is undefined.
  * @return Returns the resolved value.
  */
-export function _get<T extends object>(obj = {} as T, path = '', def?: any): any {
+export function _get<T extends Record<string, any>>(obj = {} as T, path = '', def?: any): any {
   const res = path
     .replace(/\[([^\]]+)]/g, '.$1')
     .split('.')
@@ -382,7 +387,11 @@ export function _get<T extends object>(obj = {} as T, path = '', def?: any): any
  *
  * Based on: https://stackoverflow.com/a/54733755/4919972
  */
-export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, value?: any): OUT {
+export function _set<IN extends Record<string, any>, OUT = IN>(
+  obj: IN,
+  path: PropertyPath,
+  value?: any,
+): OUT {
   if (!obj || Object(obj) !== obj || !path) return obj as any // When obj is not an object
 
   // If not yet an array, get the keys from the string-path
@@ -437,7 +446,7 @@ export function _set<IN extends object, OUT = IN>(obj: IN, path: PropertyPath, v
  * _.has(other, 'a');
  * // => false
  */
-export function _has<T extends object>(obj: T, path?: string): boolean {
+export function _has<T extends Record<string, any>>(obj: T, path?: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
 }

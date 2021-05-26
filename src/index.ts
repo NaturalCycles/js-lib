@@ -20,7 +20,7 @@ import {
   _uniq,
   _uniqBy,
 } from './array/array.util'
-import { _range } from './array/range'
+import { _range, _times } from './array/range'
 import {
   PromiseDecoratorCfg,
   PromiseDecoratorResp,
@@ -82,8 +82,8 @@ import {
   _filterNullishValues,
   _filterObject,
   _filterUndefinedValues,
+  _findKeyByValue,
   _get,
-  _getKeyByValue,
   _has,
   _invert,
   _invertMap,
@@ -148,6 +148,7 @@ import {
   StringMap,
   ValueOf,
   ValuesOf,
+  _noop,
   _passNothingPredicate,
   _passthroughMapper,
   _passthroughPredicate,
@@ -242,7 +243,6 @@ export {
   _has,
   _unset,
   _mask,
-  _getKeyByValue,
   _invert,
   _invertMap,
   _by,
@@ -262,6 +262,7 @@ export {
   _difference,
   _shuffle,
   _mapToObject,
+  _findKeyByValue,
   _anyToErrorMessage,
   _anyToErrorObject,
   _anyToAppError,
@@ -271,6 +272,7 @@ export {
   _appErrorToErrorObject,
   _appErrorToHttpError,
   _range,
+  _times,
   _uniq,
   _uniqBy,
   _flatten,
@@ -290,6 +292,7 @@ export {
   _passUndefinedMapper,
   _passthroughPredicate,
   _passNothingPredicate,
+  _noop,
   pBatch,
   ErrorMode,
   pFilter,

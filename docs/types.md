@@ -37,3 +37,33 @@ export type Predicate<T> = (item: T, index: number) => boolean
 ```ts
 export type AsyncPredicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 ```
+
+## \_passthroughPredicate
+
+Predicate that passes everything (returns `true` for every item).
+
+```ts
+_passthroughPredicate(anything) // true
+  [(1, 2, 3)].filter(_passthroughPredicate)
+// [1, 2, 3]
+```
+
+## \_passNothingPredicate
+
+Predicate that passes nothing (returns `false` for every item).
+
+```ts
+_passNothingPredicate(anything) // false
+  [(1, 2, 3)].filter(_passNothingPredicate)
+// []
+```
+
+## \_noop
+
+Function that takes any arguments and returns `undefined`. Literally does nothing.
+
+Can be useful to replace some real world functions with mocks.
+
+```ts
+element.click = _noop
+```

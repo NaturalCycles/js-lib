@@ -1,5 +1,6 @@
 import {
   Reviver,
+  _noop,
   _passNothingPredicate,
   _passthroughMapper,
   _passthroughPredicate,
@@ -13,4 +14,7 @@ test('types', () => {
   expect(_passUndefinedMapper('a', 1)).toBeUndefined()
   expect(_passthroughPredicate('a', 1)).toBe(true)
   expect(_passNothingPredicate('a', 1)).toBe(false)
+
+  expect(_noop()).toBeUndefined()
+  expect(_noop('hey', 'jude')).toBeUndefined()
 })

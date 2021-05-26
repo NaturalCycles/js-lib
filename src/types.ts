@@ -25,6 +25,11 @@ export type Mapper<IN = any, OUT = any> = (input: IN, index: number) => OUT
 export const _passthroughMapper: Mapper = item => item
 export const _passUndefinedMapper: Mapper<any, void> = () => undefined
 
+/**
+ * Function that does nothings and returns `undefined`.
+ */
+export const _noop = (..._args: any[]): undefined => undefined
+
 export type Predicate<T> = (item: T, index: number) => boolean
 export type AsyncPredicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 

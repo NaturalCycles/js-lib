@@ -106,9 +106,9 @@
     regexpu-core "^4.7.1"
 
 "@babel/helper-define-polyfill-provider@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@babel/helper-define-polyfill-provider/-/helper-define-polyfill-provider-0.2.2.tgz#b9f469f11b38b4c947f069e2cda44f5a56b8b533"
-  integrity sha512-XjIrEdsW56J7UXKr88RWr6EwjyWSu7b+o1EwFUysFvME1nTNdg6z9l+zaSj/uMFIorUuIAjTWDQULUQauQG3Cw==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@babel/helper-define-polyfill-provider/-/helper-define-polyfill-provider-0.2.3.tgz#0525edec5094653a282688d34d846e4c75e9c0b6"
+  integrity sha512-RH3QDAfRMzj7+0Nqu5oqgO5q9mFtQEVvCRsi8qCEfzLR9p2BHfn5FzhSB2oj1fF7I2+DcTORkYaQ6aTR9Cofew==
   dependencies:
     "@babel/helper-compilation-targets" "^7.13.0"
     "@babel/helper-module-imports" "^7.12.13"
@@ -1336,9 +1336,9 @@
     typescript "^4.0.2"
 
 "@naturalcycles/dev-lib@^11.0.1":
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-11.1.0.tgz#91bc4519814573a44865561bac86b8c6737a2d74"
-  integrity sha512-H91YUjUHoXB+r3wuG9SySsRxOoe0wCRalPu1id27G815BVhzLNLJ0yqvcsRmBr8GJY+ckFqX2ivgMgf29WXz+A==
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-11.2.0.tgz#7a6f42c99c0f021d9a33401db4b94d985285c051"
+  integrity sha512-hITQry++9PlG2USSsixi6+4zTGi4gELN21hCVdKIN65Tc0r3LbJYVYgRK5VE4WlvAzqBZgFlAuQ3rA8auGv14w==
   dependencies:
     "@commitlint/cli" "^12.0.0"
     "@commitlint/config-conventional" "^12.0.0"
@@ -1376,16 +1376,16 @@
     yargs "^17.0.0"
 
 "@naturalcycles/js-lib@^14.0.0":
-  version "14.22.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.22.1.tgz#b04be7581aa515d0db152d9655d31ce74c646ff1"
-  integrity sha512-HYEaH83W0J0g22pfdqxs1LGvT8Y9tn8VTx2ijZzIP46MUWQHf/mSa7+fxGUDycFEgRzGwJr+5b13/3I8anYwdQ==
+  version "14.23.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.23.0.tgz#dd5f6554ee0002b48fd41044b961f7df600ef52d"
+  integrity sha512-FWH4sm9CdUV75WjiRUkvVkrul+VD/ggQKRe0ZSGCKqybOgwDbQd7cfoX1S4l3N34rBnh8IWVBy3ddYXLhEQRag==
   dependencies:
     tslib "^2.0.0"
 
 "@naturalcycles/nodejs-lib@^12.0.0", "@naturalcycles/nodejs-lib@^12.8.0":
-  version "12.14.3"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.14.3.tgz#6d1db7e4f4d6c2530cc98b3bc875398735da81e6"
-  integrity sha512-+jP4iqM1FAO1MtyOJ6wn4J6iUjaYl0exzZzHwHotd/XZLXd2vkKjAOUgbG4qjU2inzrkfZxl2jG9C7JGFwB6pQ==
+  version "12.14.4"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-12.14.4.tgz#d138bec14cf2cab46397331694b4bd225d8ff33c"
+  integrity sha512-De5a3Dme7P2LU3FBc+f5FDpiHWiswSCoAN4s3/LOL0fylE4zNgg/3ImUrEAkRjXEUw7iJbQZ5umAEuRlok8NJQ==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@naturalcycles/time-lib" "^3.0.1"
@@ -1395,7 +1395,7 @@
     chalk "^4.0.0"
     cp-file "^9.0.0"
     debug "^4.1.1"
-    dotenv "^9.0.0"
+    dotenv "^10.0.0"
     execa "^5.0.0"
     fs-extra "^10.0.0"
     globby "^11.0.0"
@@ -3389,9 +3389,9 @@ ci-info@^2.0.0:
   integrity sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
 
 ci-info@^3.0.0, ci-info@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.1.1.tgz#9a32fcefdf7bcdb6f0a7e1c0f8098ec57897b80a"
-  integrity sha512-kdRWLBIJwdsYJWYJFtAFFYxybguqeF91qpZaggjG5Nf8QKdizFG2hjqvaTXbxFIcYbSaD74KpAXv6BSm17DHEQ==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.2.0.tgz#2876cb948a498797b5236f0095bc057d0dca38b6"
+  integrity sha512-dVqRX7fLUm8J6FgHJ418XuIgDLZDkYcDFTeL6TA2gt5WlIZUQrrH6EZrNClwT/H0FateUsZkGIOPRrLbP+PR9A==
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
@@ -4506,11 +4506,6 @@ dotenv@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
-
-dotenv@^9.0.0:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-9.0.2.tgz#dacc20160935a37dea6364aa1bef819fb9b6ab05"
-  integrity sha512-I9OvvrHp4pIARv4+x9iuewrWycX6CcZtoAu1XrzPxc5UygMJXJZYmBsynku8IkrJwgypE5DGNjDPmPRhDCptUg==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -11639,9 +11634,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typescript@^4.0.2:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
-  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
+  integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"

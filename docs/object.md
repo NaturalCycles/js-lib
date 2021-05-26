@@ -195,6 +195,25 @@ _mapObject(obj, (k, v) => {
 // { a2: 2, b4: 4, c6: 6 }
 ```
 
+## \_findKeyByValue
+
+Fiven an object, find a key `string` for a given `value: any`.
+
+Inspired by Lodash's `_.findKey`.
+
+```ts
+const obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+}
+
+_findKeyByValue(obj, 1) // 'a'
+_findKeyByValue(obj, 2) // 'b'
+_findKeyByValue(obj, 3) // 'c'
+_findKeyByValue(obj, 4) // undefined
+```
+
 ## \_objectNullValuesToUndefined
 
 Returns a clone of the object where `null` values are replaced with `undefined`
@@ -390,21 +409,6 @@ const obj3 = {
 _deepEquals(obj1, obj2) // true
 _deepEquals(obj1, obj3) // false
 _deepEquals(obj2, obj3) // false
-```
-
-## \_getKeyByValue
-
-As the name says - it tries to find and return the key that matches provided value.
-
-```ts
-const obj = {
-  a: '1',
-  b: '2',
-  // ...
-}
-
-_getKeyByValue(obj, '2') // 'b'
-_getKeyByValue(obj, '-1') // undefined, cause not found
 ```
 
 ## \_invert

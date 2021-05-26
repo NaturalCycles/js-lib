@@ -6,8 +6,8 @@ import {
   _filterFalsyValues,
   _filterNullishValues,
   _filterObject,
+  _findKeyByValue,
   _get,
-  _getKeyByValue,
   _has,
   _invert,
   _invertMap,
@@ -411,18 +411,6 @@ test('_merge', () => {
   `)
 })
 
-test('_getKeyByValue', () => {
-  expect(_getKeyByValue(undefined, 'v')).toBeUndefined()
-  expect(_getKeyByValue(1, 'v')).toBeUndefined()
-
-  const o = {
-    a: 'ak',
-    b: 'bk',
-  }
-  expect(_getKeyByValue(o, 'bk')).toBe('b')
-  expect(_getKeyByValue(o, 'ak')).toBe('a')
-})
-
 test('_invert', () => {
   const o = {
     a: 'ak',
@@ -533,6 +521,15 @@ test('_mapObject', () => {
   deepFreeze(o)
 
   // Example that inverts keys/values in the object
-  const mapped = _mapObject(o, (k, v) => [v, k])
+  const mapped = _mapObject(o, (k, v) => [String(v), k])
   expect(mapped).toEqual({ 2: 'b', 3: 'c', 4: 'd' })
+})
+
+test('_findKeyByValue', () => {
+  const o = { b: 2, c: 3, d: 4 }
+  expect(_findKeyByValue(o, 2)).toBe('b')
+  expect(_findKeyByValue(o, 3)).toBe('c')
+  expect(_findKeyByValue(o, 4)).toBe('d')
+  expect(_findKeyByValue(o, 5)).toBeUndefined()
+  expect(_findKeyByValue(o, undefined as any)).toBeUndefined()
 })
