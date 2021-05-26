@@ -25,6 +25,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "suppressImplicitAnyIndexErrors": true,
+    "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
 
