@@ -51,6 +51,7 @@ if (runInIDE) {
   testPathIgnorePatterns.push('\\.integration\\.test\\.ts$', '\\.manual\\.test\\.ts$')
 }
 
+/** @typedef {import('ts-jest/dist/types')} */
 module.exports = {
   transform: {
     // '^.+\\.js$': 'babel-jest',

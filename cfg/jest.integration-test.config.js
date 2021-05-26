@@ -15,6 +15,7 @@ if (fs.existsSync(`${cwd}/src/test/setupJest.integration.ts`)) {
   setupFilesAfterEnv.push('<rootDir>/src/test/setupJest.integration.ts')
 }
 
+/** @typedef {import('ts-jest/dist/types')} */
 module.exports = {
   ...require('./jest.config'),
   testMatch: ['<rootDir>/src/**/*.integration.test.ts'],
