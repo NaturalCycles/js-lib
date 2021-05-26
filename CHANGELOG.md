@@ -1,3 +1,10 @@
+# [11.2.0](https://github.com/NaturalCycles/dev-lib/compare/v11.1.0...v11.2.0) (2021-05-26)
+
+
+### Features
+
+* `noImplicitOverride: true` in shared tsconfig (ts4.3 feature) ([324b03a](https://github.com/NaturalCycles/dev-lib/commit/324b03a5a167e403217cf390f993d7f09f155a4e))
+
 # [11.1.0](https://github.com/NaturalCycles/dev-lib/compare/v11.0.7...v11.1.0) (2021-05-26)
 
 
