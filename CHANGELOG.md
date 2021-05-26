@@ -1,3 +1,10 @@
+# [14.23.0](https://github.com/NaturalCycles/js-lib/compare/v14.22.1...v14.23.0) (2021-05-26)
+
+
+### Features
+
+* _sum, _sumBy, _clamp (exactly as per Lodash) ([f25950d](https://github.com/NaturalCycles/js-lib/commit/f25950d02d5950fcbb7d19d99d5a4d1f4a77dd71))
+
 ## [14.22.1](https://github.com/NaturalCycles/js-lib/compare/v14.22.0...v14.22.1) (2021-05-21)
 
 
