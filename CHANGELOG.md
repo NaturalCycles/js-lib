@@ -1,3 +1,10 @@
+# [11.1.0](https://github.com/NaturalCycles/dev-lib/compare/v11.0.7...v11.1.0) (2021-05-26)
+
+
+### Features
+
+* deps (ts-jest 27 included) ([ecc9427](https://github.com/NaturalCycles/dev-lib/commit/ecc942791415c950c28fa01daa23ac7093c8f902))
+
 ## [11.0.7](https://github.com/NaturalCycles/dev-lib/compare/v11.0.6...v11.0.7) (2021-05-24)
 
 
