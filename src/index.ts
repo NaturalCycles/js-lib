@@ -13,6 +13,8 @@ import {
   _mapToObject,
   _shuffle,
   _sortBy,
+  _sum,
+  _sumBy,
   _takeRightWhile,
   _takeWhile,
   _uniq,
@@ -63,6 +65,7 @@ import { _average, _averageWeighted, _median, _percentile } from './math/math.ut
 import { SimpleMovingAverage } from './math/sma'
 import { _createDeterministicRandom } from './number/createDeterministicRandom'
 import {
+  _clamp,
   _inRange,
   _randomInt,
   _round,
@@ -314,4 +317,7 @@ export {
   _snakeCase,
   _camelCase,
   _kebabCase,
+  _sum,
+  _sumBy,
+  _clamp,
 }

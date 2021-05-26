@@ -182,7 +182,7 @@ export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<numbe
   }, {})
 }
 
-// investigate: _groupBy, _clamp
+// investigate: _groupBy
 
 /**
  * @example
@@ -201,6 +201,17 @@ export function _intersection<T>(...arrays: T[][]): T[] {
  */
 export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
   return diffs.reduce((a, b) => a.filter(c => !b.includes(c)), source)
+}
+
+export function _sum(items: number[]): number {
+  return items.reduce((sum, n) => sum + n, 0)
+}
+
+export function _sumBy<T>(items: T[], mapper: Mapper<T, number | undefined>): number {
+  return items
+    .map((v, i) => mapper(v, i)!)
+    .filter(i => typeof i === 'number') // count only numbers, nothing else
+    .reduce((sum, n) => sum + n, 0)
 }
 
 /**

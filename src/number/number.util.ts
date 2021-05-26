@@ -15,6 +15,10 @@ export function _inRange(x: number, minIncl: number, maxExcl: number): boolean {
   return x >= minIncl && x < maxExcl
 }
 
+export function _clamp(x: number, minIncl: number, maxIncl: number): number {
+  return x <= minIncl ? minIncl : x >= maxIncl ? maxIncl : x
+}
+
 /**
  * This function exists, because in JS you cannot just .sort() numbers,
  * as .sort() function first maps everything to String.

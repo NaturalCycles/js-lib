@@ -22,6 +22,24 @@ _inRange(7, 1, 5)
 // false
 ```
 
+## \_clamp
+
+Inspired by Lodash's `_clamp`.
+
+"Clamps" (fits) the number (first argument) within the min/max ranges of 2nd/3rd arguments (range
+inclusive).
+
+```ts
+// range is always [5, 10] in these cases
+_clamp(3, 5, 10) // 5
+_clamp(4, 5, 10) // 5
+_clamp(5, 5, 10) // 5
+_clamp(6, 5, 10) // 6
+_clamp(9, 5, 10) // 9
+_clamp(10, 5, 10) // 10
+_clamp(11, 5, 10) // 10
+```
+
 ## \_toFixed
 
 Same as `Number.toFixed`, but conveniently casts the output to Number.

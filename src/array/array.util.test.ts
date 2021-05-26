@@ -15,6 +15,8 @@ import {
   _mapToObject,
   _shuffle,
   _sortBy,
+  _sum,
+  _sumBy,
   _takeRightWhile,
   _takeWhile,
   _uniq,
@@ -222,4 +224,22 @@ test('_shuffle', () => {
       5,
     ]
   `)
+})
+
+test.each([
+  [[], 0],
+  [[2], 2],
+  [[-1, 4], 3],
+])('_sum %s == %s', (items: number[], result: number) => {
+  expect(_sum(items)).toBe(result)
+})
+
+test('_sumBy', () => {
+  const items = [
+    { a: 1 },
+    { a: 2 },
+    { b: 3 }, // a is undefined
+  ]
+
+  expect(_sumBy(items, i => i.a)).toBe(3)
 })

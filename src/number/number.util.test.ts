@@ -1,5 +1,5 @@
 import { _inRange, _randomInt, _sortNumbers } from '../index'
-import { _round, _toFixed, _toPrecision } from './number.util'
+import { _clamp, _round, _toFixed, _toPrecision } from './number.util'
 
 test('_randomInt', () => {
   const f = _randomInt
@@ -94,4 +94,19 @@ test.each([
   ],
 ])('_sortNumbers %s', (numbers, result) => {
   expect(_sortNumbers(numbers)).toEqual(result)
+})
+
+test.each([
+  [3, 5, 10, 5],
+  [4, 5, 10, 5],
+  [5, 5, 10, 5],
+  [6, 5, 10, 6],
+  [8, 5, 10, 8],
+  [9, 5, 10, 9],
+  [10, 5, 10, 10],
+  [11, 5, 10, 10],
+  [999, 5, 10, 10],
+  [-10, 5, 10, 5],
+])('_clamp(%s, %s, %s) == %s', (x, min, max, result) => {
+  expect(_clamp(x, min, max)).toBe(result)
 })

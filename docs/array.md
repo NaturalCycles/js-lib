@@ -216,6 +216,32 @@ _difference([1])
 // [1]
 ```
 
+## \_sum
+
+Inspired by Lodash's [\_.sum](https://lodash.com/docs/#sum)
+
+Same as Lodash, sum of empty array returns 0 (not NaN, not error)
+
+```ts
+_sum([]) // 0
+_sum([1]) // 1
+_sum([1, 2]) // 3
+```
+
+## \_sumBy
+
+Inspired by Lodash's [\_.sumBy](https://lodash.com/docs/#sumBy)
+
+```ts
+const items = [
+  { a: 1 },
+  { a: 2 },
+  { b: 3 }, // `a` is undefined (not a number) here, will be treated as 0
+]
+
+_sumBy(items, i => i.a) // 1 + 2 + 0 == 3
+```
+
 ## \_mapToObject
 
 Map an array of `T` to a `StringMap<V>`, by returning a tuple of `[key, value]` from a mapper
