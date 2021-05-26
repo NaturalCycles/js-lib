@@ -1,3 +1,10 @@
+# [14.24.0](https://github.com/NaturalCycles/js-lib/compare/v14.23.0...v14.24.0) (2021-05-26)
+
+
+### Features
+
+* _times, _findKeyByValue (replaces _getKeyByValue) ([8cd5d44](https://github.com/NaturalCycles/js-lib/commit/8cd5d442b231dc19204f6a9d16b89f13bdda8c1a))
+
 # [14.23.0](https://github.com/NaturalCycles/js-lib/compare/v14.22.1...v14.23.0) (2021-05-26)
 
 
