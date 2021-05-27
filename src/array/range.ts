@@ -22,9 +22,3 @@ export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
     (_, i) => i * step + fromIncl,
   )
 }
-
-export function _times<T>(times: number, mapper?: (index: number) => T): T[] {
-  const m = mapper || (i => i as any)
-
-  return Array.from({ length: times }, (_, i) => m(i))
-}

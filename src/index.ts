@@ -20,7 +20,7 @@ import {
   _uniq,
   _uniqBy,
 } from './array/array.util'
-import { _range, _times } from './array/range'
+import { _range } from './array/range'
 import {
   PromiseDecoratorCfg,
   PromiseDecoratorResp,
@@ -272,7 +272,6 @@ export {
   _appErrorToErrorObject,
   _appErrorToHttpError,
   _range,
-  _times,
   _uniq,
   _uniqBy,
   _flatten,
