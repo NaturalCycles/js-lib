@@ -1,3 +1,10 @@
+## [14.24.1](https://github.com/NaturalCycles/js-lib/compare/v14.24.0...v14.24.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* remove _times as too similar to _range ([f2596c6](https://github.com/NaturalCycles/js-lib/commit/f2596c6cdcdf26306ca872003a9f97ded6aa3915))
+
 # [14.24.0](https://github.com/NaturalCycles/js-lib/compare/v14.23.0...v14.24.0) (2021-05-26)
 
 
