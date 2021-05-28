@@ -11,14 +11,19 @@ import {
 export async function eslintAllCommand(): Promise<void> {
   const projectSrcDir = `./src`
   const projectScriptsDir = `./scripts`
+  const projectE2eDir = `./e2e`
 
-  const configPath = getESLintConfigPath()
+  const eslintConfigPath = getESLintConfigPath()
   const tsconfigPath = getTSConfigPath()
   const tsconfigPathScripts = getTSConfigPathScripts()
+  const tsconfigPathE2e = `./e2e/tsconfig.json`
 
   // /src
-  await runESLint(projectSrcDir, configPath, tsconfigPath)
+  await runESLint(projectSrcDir, eslintConfigPath, tsconfigPath)
 
   // /scripts
-  await runESLint(projectScriptsDir, configPath, tsconfigPathScripts)
+  await runESLint(projectScriptsDir, eslintConfigPath, tsconfigPathScripts)
+
+  // /e2e
+  await runESLint(projectE2eDir, eslintConfigPath, tsconfigPathE2e)
 }

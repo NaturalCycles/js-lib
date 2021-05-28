@@ -1,7 +1,7 @@
 /*
   Default config for `lint-staged`.
   Extendable.
-  Supports default configs for `prettier`, `stylelint`, `tslint`, if they are not found in target project.
+  Supports default configs for `prettier`, `stylelint`, `tslint`, `eslint`, if they are not found in target project.
 */
 
 const fs = require('fs')
@@ -11,62 +11,82 @@ const cfgDir = __dirname
 // Use default configs if not specified in target dir
 const cwd = process.cwd()
 
-const configPrettier = [`${cwd}/prettier.config.js`, `${cfgDir}/prettier.config.js`].find(
-  fs.existsSync,
-)
+const configPrettier =
+  [`${cwd}/prettier.config.js`].find(fs.existsSync) || `${cfgDir}/prettier.config.js`
 
-const configTSLint = [`${cwd}/tslint.json`, `${cfgDir}/tslint.config.js`].find(fs.existsSync)
+const configTSLint = [`${cwd}/tslint.json`].find(fs.existsSync) || `${cfgDir}/tslint.config.js`
 
-const configESLint = [`${cwd}/.eslintrc.js`, `${cfgDir}/eslint.config.js`].find(fs.existsSync)
+const configESLint = [`${cwd}/.eslintrc.js`].find(fs.existsSync) || `${cfgDir}/eslint.config.js`
 
-const configStyleLint = [`${cwd}/stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(
-  fs.existsSync,
-)
+const configStyleLint =
+  [`${cwd}/stylelint.config.js`].find(fs.existsSync) || `${cfgDir}/stylelint.config.js`
 
 const defaultTSConfigPath = 'tsconfig.json'
 const baseTSConfigPath = 'tsconfig.base.json' // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
-const tsconfigPath = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
+const tsconfigPathRoot = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
 
 const prettierCmd = `prettier --write --config ${configPrettier}`
 const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
-const eslintCmdRoot = `eslint --fix --config ${configESLint} --parser-options=project:./${tsconfigPath}`
-const eslintCmdScripts = `eslint --fix --config ${configESLint} --parser-options=project:./scripts/tsconfig.json`
+const eslintCmd = `eslint --fix --config ${configESLint}`
 const styleLintCmd = `stylelint --fix --config ${configStyleLint}`
 
-module.exports = {
-  linters: {
-    // *.ts files: eslint, tslint, prettier
-    // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-    './src/**/*.{ts,tsx}': [
-      eslintCmdRoot,
-      tslintCmd,
-      `${tslintCmd} -p ${tsconfigPath}`,
-      prettierCmd,
-      'git add',
-    ],
+const linters = {
+  // *.ts files: eslint, tslint, prettier
+  // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
+  './src/**/*.{ts,tsx}': [
+    `${eslintCmd} --parser-options=project:./${tsconfigPathRoot}`,
+    tslintCmd,
+    `${tslintCmd} -p ${tsconfigPathRoot}`,
+    prettierCmd,
+    'git add',
+  ],
 
-    // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-    [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
+  // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
+  [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
 
-    // /scripts are separate, cause they require separate tsconfig.json
+  // Files for Stylelint + Prettier
+  [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: [styleLintCmd, prettierCmd, 'git add'],
+
+  // Files in root dir
+  [`./*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
+}
+
+// /scripts are separate, cause they require separate tsconfig.json
+if (fs.existsSync(`./scripts`)) {
+  Object.assign(linters, {
     // eslint, tslint, Prettier
     './scripts/**/*.{ts,tsx}': [
-      eslintCmdScripts,
+      `${eslintCmd} --parser-options=project:./scripts/tsconfig.json`,
       tslintCmd,
       `${tslintCmd} -p ./scripts/tsconfig.json`,
       prettierCmd,
       'git add',
     ],
+  })
+}
 
-    // Files for Stylelint + Prettier
-    [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: [styleLintCmd, prettierCmd, 'git add'],
+// /e2e
+if (fs.existsSync(`./e2e`)) {
+  Object.assign(linters, {
+    // eslint, tslint, Prettier
+    './e2e/**/*.{ts,tsx}': [
+      `${eslintCmd} --parser-options=project:./e2e/tsconfig.json`,
+      tslintCmd,
+      `${tslintCmd} -p ./e2e/tsconfig.json`,
+      prettierCmd,
+      'git add',
+    ],
+  })
+}
 
-    // Files in root dir
-    [`./*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
-
-    // CircleCI config (if modified)
+// CircleCI config (if modified)
+if (fs.existsSync(`./.circleci`)) {
+  Object.assign(linters, {
     [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
-  },
+  })
+}
 
+module.exports = {
+  linters,
   ignore: lintExclude,
 }

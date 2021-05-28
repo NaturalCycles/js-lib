@@ -9,6 +9,8 @@ export async function runTSLint(
   tslintConfigPath: string,
   tsconfigPath?: string,
 ): Promise<void> {
+  if (!fs.existsSync(dir)) return // faster like this
+
   const args = [
     `--config`,
     tslintConfigPath,
@@ -52,6 +54,8 @@ export async function runESLint(
   configPath: string,
   tsconfigPath?: string,
 ): Promise<void> {
+  if (!fs.existsSync(dir)) return // faster to bail-out like this
+
   const args = [
     `--config`,
     configPath,
