@@ -32,33 +32,24 @@ export function getTSLintConfigPath(): string {
 }
 
 export function getTSConfigPath(): string {
-  const defaultTSConfigPath = './tsconfig.json'
-  const baseTSConfigPath = './tsconfig.base.json' // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
-  return fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
+  // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
+  return [`./tsconfig.base.json`].find(p => fs.existsSync(p)) || `./tsconfig.json`
 }
 
 export function getTSConfigPathScripts(): string {
-  const localTSConfigPathScripts = `./scripts/tsconfig.json`
-  const sharedTSConfigScripts = `${scriptsDir}/tsconfig.json`
-  return fs.existsSync(localTSConfigPathScripts) ? localTSConfigPathScripts : sharedTSConfigScripts
-}
-
-export function getESLintConfigPath(): string {
-  const localConfig = `./.eslintrc.js`
-  const sharedConfig = `${cfgDir}/eslint.config.js`
-  return fs.existsSync(localConfig) ? localConfig : sharedConfig
+  return [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
 }
 
 export async function runESLint(
   dir: string,
-  configPath: string,
+  eslintConfigPath: string,
   tsconfigPath?: string,
 ): Promise<void> {
   if (!fs.existsSync(dir)) return // faster to bail-out like this
 
   const args = [
     `--config`,
-    configPath,
+    eslintConfigPath,
     `${dir}/**/*.{ts,tsx}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,

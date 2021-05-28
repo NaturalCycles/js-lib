@@ -8,33 +8,30 @@ const fs = require('fs')
 const { prettierDirs, prettierExtensions, stylelintExtensions, lintExclude } = require('./_cnst')
 const cfgDir = __dirname
 
-// Use default configs if not specified in target dir
-const cwd = process.cwd()
+const prettierConfigPath =
+  [`prettier.config.js`].find(fs.existsSync) || `${cfgDir}/prettier.config.js`
 
-const configPrettier =
-  [`${cwd}/prettier.config.js`].find(fs.existsSync) || `${cfgDir}/prettier.config.js`
+const tslintConfigPath = [`tslint.json`].find(fs.existsSync) || `${cfgDir}/tslint.config.js`
 
-const configTSLint = [`${cwd}/tslint.json`].find(fs.existsSync) || `${cfgDir}/tslint.config.js`
+const stylelintConfigPath =
+  [`stylelint.config.js`].find(fs.existsSync) || `${cfgDir}/stylelint.config.js`
 
-const configESLint = [`${cwd}/.eslintrc.js`].find(fs.existsSync) || `${cfgDir}/eslint.config.js`
+// this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
+const tsconfigPathRoot = ['tsconfig.base.json'].find(p => fs.existsSync(p)) || 'tsconfig.json'
 
-const configStyleLint =
-  [`${cwd}/stylelint.config.js`].find(fs.existsSync) || `${cfgDir}/stylelint.config.js`
+const eslintConfigPathRoot =
+  ['.eslintrc.js'].find(p => fs.existsSync(p)) || `${cfgDir}/eslint.config.js`
 
-const defaultTSConfigPath = 'tsconfig.json'
-const baseTSConfigPath = 'tsconfig.base.json' // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
-const tsconfigPathRoot = fs.existsSync(baseTSConfigPath) ? baseTSConfigPath : defaultTSConfigPath
-
-const prettierCmd = `prettier --write --config ${configPrettier}`
-const tslintCmd = `tslint -t stylish --fix --config ${configTSLint}`
-const eslintCmd = `eslint --fix --config ${configESLint}`
-const styleLintCmd = `stylelint --fix --config ${configStyleLint}`
+const prettierCmd = `prettier --write --config ${prettierConfigPath}`
+const tslintCmd = `tslint -t stylish --fix --config ${tslintConfigPath}`
+const eslintCmd = `eslint --fix`
+const styleLintCmd = `stylelint --fix --config ${stylelintConfigPath}`
 
 const linters = {
   // *.ts files: eslint, tslint, prettier
   // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
   './src/**/*.{ts,tsx}': [
-    `${eslintCmd} --parser-options=project:./${tsconfigPathRoot}`,
+    `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot}`,
     tslintCmd,
     `${tslintCmd} -p ${tsconfigPathRoot}`,
     prettierCmd,
@@ -53,10 +50,14 @@ const linters = {
 
 // /scripts are separate, cause they require separate tsconfig.json
 if (fs.existsSync(`./scripts`)) {
+  const eslintConfigPathScripts =
+    ['./scripts/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
+    `${cfgDir}/eslint.config.js`
+
   Object.assign(linters, {
     // eslint, tslint, Prettier
     './scripts/**/*.{ts,tsx}': [
-      `${eslintCmd} --parser-options=project:./scripts/tsconfig.json`,
+      `${eslintCmd} --config ${eslintConfigPathScripts} --parser-options=project:./scripts/tsconfig.json`,
       tslintCmd,
       `${tslintCmd} -p ./scripts/tsconfig.json`,
       prettierCmd,
@@ -67,10 +68,14 @@ if (fs.existsSync(`./scripts`)) {
 
 // /e2e
 if (fs.existsSync(`./e2e`)) {
+  const eslintConfigPathE2e =
+    ['./e2e/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
+    `${cfgDir}/eslint.config.js`
+
   Object.assign(linters, {
     // eslint, tslint, Prettier
     './e2e/**/*.{ts,tsx}': [
-      `${eslintCmd} --parser-options=project:./e2e/tsconfig.json`,
+      `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./e2e/tsconfig.json`,
       tslintCmd,
       `${tslintCmd} -p ./e2e/tsconfig.json`,
       prettierCmd,

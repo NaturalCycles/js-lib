@@ -11,6 +11,8 @@ module.exports = {
   },
   globals: {
     NodeJS: 'readable',
+    // testcafe
+    fixture: 'readable',
   },
   extends: [
     'eslint:recommended',
