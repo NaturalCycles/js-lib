@@ -1,3 +1,10 @@
+# [11.3.0](https://github.com/NaturalCycles/dev-lib/compare/v11.2.0...v11.3.0) (2021-05-28)
+
+
+### Features
+
+* include e2e folder in linting (lint-staged, eslint, tslint) ([802c241](https://github.com/NaturalCycles/dev-lib/commit/802c241a511dc32ebac7dfac840f15f482acd180))
+
 # [11.2.0](https://github.com/NaturalCycles/dev-lib/compare/v11.1.0...v11.2.0) (2021-05-26)
 
 
