@@ -1,3 +1,10 @@
+# [11.4.0](https://github.com/NaturalCycles/dev-lib/compare/v11.3.0...v11.4.0) (2021-05-28)
+
+
+### Features
+
+* support for e2e/.eslintrc.js file, support `fixture` global by default ([68b69f1](https://github.com/NaturalCycles/dev-lib/commit/68b69f12aa0b7fb63a80deb3f1d1e5b746c2c864))
+
 # [11.3.0](https://github.com/NaturalCycles/dev-lib/compare/v11.2.0...v11.3.0) (2021-05-28)
 
 
