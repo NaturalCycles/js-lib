@@ -4,6 +4,7 @@
   Supports default configs for `prettier`, `stylelint`, `tslint`, `eslint`, if they are not found in target project.
 */
 
+const micromatch = require('micromatch')
 const fs = require('fs')
 const { prettierDirs, prettierExtensions, stylelintExtensions, lintExclude } = require('./_cnst')
 const cfgDir = __dirname
@@ -30,22 +31,39 @@ const styleLintCmd = `stylelint --fix --config ${stylelintConfigPath}`
 const linters = {
   // *.ts files: eslint, tslint, prettier
   // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-  './src/**/*.{ts,tsx}': [
-    `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot}`,
-    tslintCmd,
-    `${tslintCmd} -p ${tsconfigPathRoot}`,
-    prettierCmd,
-    'git add',
-  ],
+  './src/**/*.{ts,tsx}': match => {
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [
+      `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot}`,
+      tslintCmd,
+      `${tslintCmd} -p ${tsconfigPathRoot}`,
+      prettierCmd,
+    ].map(s => `${s} ${filesList}`)
+  },
 
   // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-  [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
-
+  [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: match => {
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [prettierCmd].map(s => `${s} ${filesList}`)
+  },
   // Files for Stylelint + Prettier
-  [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: [styleLintCmd, prettierCmd, 'git add'],
+  [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: match => {
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [styleLintCmd, prettierCmd].map(s => `${s} ${filesList}`)
+  },
 
   // Files in root dir
-  [`./*.{${prettierExtensions}}`]: [prettierCmd, 'git add'],
+  [`./*.{${prettierExtensions}}`]: match => {
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [prettierCmd].map(s => `${s} ${filesList}`)
+  },
+
+  // CircleCI config (if modified)
+  [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
 }
 
 // /scripts are separate, cause they require separate tsconfig.json
@@ -56,13 +74,16 @@ if (fs.existsSync(`./scripts`)) {
 
   Object.assign(linters, {
     // eslint, tslint, Prettier
-    './scripts/**/*.{ts,tsx}': [
-      `${eslintCmd} --config ${eslintConfigPathScripts} --parser-options=project:./scripts/tsconfig.json`,
-      tslintCmd,
-      `${tslintCmd} -p ./scripts/tsconfig.json`,
-      prettierCmd,
-      'git add',
-    ],
+    './scripts/**/*.{ts,tsx}': match => {
+      const filesList = micromatch.not(match, lintExclude).join(' ')
+      if (!filesList) return []
+      return [
+        `${eslintCmd} --config ${eslintConfigPathScripts} --parser-options=project:./scripts/tsconfig.json`,
+        tslintCmd,
+        `${tslintCmd} -p ./scripts/tsconfig.json`,
+        prettierCmd,
+      ].map(s => `${s} ${filesList}`)
+    },
   })
 }
 
@@ -74,24 +95,17 @@ if (fs.existsSync(`./e2e`)) {
 
   Object.assign(linters, {
     // eslint, tslint, Prettier
-    './e2e/**/*.{ts,tsx}': [
-      `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./e2e/tsconfig.json`,
-      tslintCmd,
-      `${tslintCmd} -p ./e2e/tsconfig.json`,
-      prettierCmd,
-      'git add',
-    ],
+    './e2e/**/*.{ts,tsx}': match => {
+      const filesList = micromatch.not(match, lintExclude).join(' ')
+      if (!filesList) return []
+      return [
+        `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./e2e/tsconfig.json`,
+        tslintCmd,
+        `${tslintCmd} -p ./e2e/tsconfig.json`,
+        prettierCmd,
+      ].map(s => `${s} ${filesList}`)
+    },
   })
 }
 
-// CircleCI config (if modified)
-if (fs.existsSync(`./.circleci`)) {
-  Object.assign(linters, {
-    [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
-  })
-}
-
-module.exports = {
-  linters,
-  ignore: lintExclude,
-}
+module.exports = linters
