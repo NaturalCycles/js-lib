@@ -1,3 +1,10 @@
+# [11.5.0](https://github.com/NaturalCycles/dev-lib/compare/v11.4.0...v11.5.0) (2021-05-30)
+
+
+### Features
+
+* upgrade lint-staged ([5285b5c](https://github.com/NaturalCycles/dev-lib/commit/5285b5c98f6b2cbf36788b51596d2265f3a84a72))
+
 # [11.4.0](https://github.com/NaturalCycles/dev-lib/compare/v11.3.0...v11.4.0) (2021-05-28)
 
 
