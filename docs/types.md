@@ -2,6 +2,11 @@
 
 Things that should exist in [type-fest](https://github.com/sindresorhus/type-fest), but don't (yet).
 
+Some types are copy-pasted from `type-fest`, because:
+
+1. To not introduce (another) dependency of this 0-dep lib
+2. To avoid multiple `type-fest` versions conflicts (that happened many times in the past)
+
 ## StringMap
 
 ```ts
@@ -67,3 +72,11 @@ Can be useful to replace some real world functions with mocks.
 ```ts
 element.click = _noop
 ```
+
+## Merge
+
+## ReadonlyDeep
+
+## Promisable
+
+## PromiseValue
