@@ -1,3 +1,17 @@
+# [14.25.0](https://github.com/NaturalCycles/js-lib/compare/v14.24.1...v14.25.0) (2021-05-31)
+
+
+### Bug Fixes
+
+* improve pProps typings ([9a0ba38](https://github.com/NaturalCycles/js-lib/commit/9a0ba384ba36ba2ea93496f767a8e06178ef19f5))
+
+
+### Features
+
+* deprecate _stringMap{Values,Entries} ([6b81fc2](https://github.com/NaturalCycles/js-lib/commit/6b81fc2d547940d09a1cf9d82ceacd6e1abd6813))
+* include selected types from `type-fest` ([b57403b](https://github.com/NaturalCycles/js-lib/commit/b57403b125fbe34b1fdefcdad0ad6fc7068926ef))
+* revert StringMap to not have undefined values ([a0624b0](https://github.com/NaturalCycles/js-lib/commit/a0624b08812e91517ac2746e04d35cce00a0efd9))
+
 ## [14.24.1](https://github.com/NaturalCycles/js-lib/compare/v14.24.0...v14.24.1) (2021-05-27)
 
 
