@@ -12,10 +12,14 @@ Some types are copy-pasted from `type-fest`, because:
 ```ts
 const m: StringMap = { a: 'a' }
 // Same as:
+// const m: { [a: string]: string }
+// With `noUncheckedIndexedAccess: true` in `tsconfig` (it's on by default in `dev-lib`) it becomes:
 // const m: { [a: string]: string | undefined }
 
 const m: StringMap<number> = { a: 5 }
 // Same as:
+// const m: { [a: string]: number }
+// With `noUncheckedIndexedAccess: true`:
 // const m: { [a: string]: number | undefined }
 ```
 

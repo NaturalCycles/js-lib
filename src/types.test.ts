@@ -1,5 +1,6 @@
 import {
   Reviver,
+  StringMap,
   _noop,
   _passNothingPredicate,
   _passthroughMapper,
@@ -17,4 +18,7 @@ test('types', () => {
 
   expect(_noop()).toBeUndefined()
   expect(_noop('hey', 'jude')).toBeUndefined()
+
+  const map: StringMap = { a: 'a', b: 'b' }
+  const _a = map['a']
 })
