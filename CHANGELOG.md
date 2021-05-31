@@ -1,3 +1,10 @@
+## [14.25.1](https://github.com/NaturalCycles/js-lib/compare/v14.25.0...v14.25.1) (2021-05-31)
+
+
+### Bug Fixes
+
+* export type-fest types differently ([f70585d](https://github.com/NaturalCycles/js-lib/commit/f70585d33395dc562d107319f84e29de68465170))
+
 # [14.25.0](https://github.com/NaturalCycles/js-lib/compare/v14.24.1...v14.25.0) (2021-05-31)
 
 
