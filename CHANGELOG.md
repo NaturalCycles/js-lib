@@ -1,3 +1,15 @@
+# [14.26.0](https://github.com/NaturalCycles/js-lib/compare/v14.25.1...v14.26.0) (2021-05-31)
+
+
+### Bug Fixes
+
+* revert StringMap to have `| undefined` ([3dfb689](https://github.com/NaturalCycles/js-lib/commit/3dfb6898dff971f371a535eec3a0affa2bff3165))
+
+
+### Features
+
+* ConditionalPick, ConditionalExcept types ([73556dd](https://github.com/NaturalCycles/js-lib/commit/73556ddc77a69a57ea71e9d06f992d2d7eb3ddf6))
+
 ## [14.25.1](https://github.com/NaturalCycles/js-lib/compare/v14.25.0...v14.25.1) (2021-05-31)
 
 
