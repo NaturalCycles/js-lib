@@ -2,10 +2,13 @@ import {
   Reviver,
   StringMap,
   _noop,
+  _objectKeys,
   _passNothingPredicate,
   _passthroughMapper,
   _passthroughPredicate,
   _passUndefinedMapper,
+  _stringMapEntries,
+  _stringMapValues,
 } from './types'
 
 test('types', () => {
@@ -21,4 +24,12 @@ test('types', () => {
 
   const map: StringMap = { a: 'a', b: 'b' }
   const _a = map['a']
+})
+
+test('_stringMapValues, _stringMapEntries', () => {
+  const o = { b: 2, c: 3, d: 4 }
+  const _b = o['b'] // number | undefined
+  const _values = _stringMapValues(o) // number[]
+  const _entries = _stringMapEntries(o) // [string, number][]
+  const _keys = _objectKeys(o)
 })

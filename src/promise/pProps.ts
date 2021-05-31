@@ -8,21 +8,20 @@ Improvements:
 - Included Typescript typings (no need for @types/p-props)
  */
 
-import { PromiseValue } from '../typeFest'
 import { pMap, PMapOptions } from './pMap'
 
 /**
  * Promise.all for Object instead of Array.
  * Supports concurrency.
  */
-export async function pProps<T extends Record<string, any>>(
-  input: T,
+export async function pProps<T>(
+  input: { [K in keyof T]: T[K] | Promise<T[K]> },
   opt?: PMapOptions,
-): Promise<{ [key in keyof T]: PromiseValue<T[key]> }> {
+): Promise<T> {
   const keys = Object.keys(input) as (keyof T)[]
   const values = await pMap(Object.values(input), r => r, opt)
 
-  const r = {} as { [key in keyof T]: PromiseValue<T[key]> }
+  const r = {} as T
   values.forEach((v, i) => {
     r[keys[i]!] = v
   })

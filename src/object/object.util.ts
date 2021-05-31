@@ -450,19 +450,3 @@ export function _has<T extends Record<string, any>>(obj: T, path?: string): bool
   const v = _get(obj, path)
   return v !== undefined && v !== null
 }
-
-/**
- * Needed due to https://github.com/microsoft/TypeScript/issues/13778
- * Only affects typings, no runtime effect.
- */
-export function _stringMapValues<T>(m: StringMap<T>): T[] {
-  return Object.values(m) as T[]
-}
-
-/**
- * Needed due to https://github.com/microsoft/TypeScript/issues/13778
- * Only affects typings, no runtime effect.
- */
-export function _stringMapEntries<T>(m: StringMap<T>): [k: string, v: T][] {
-  return Object.entries(m) as [string, T][]
-}

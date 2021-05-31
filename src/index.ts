@@ -100,8 +100,6 @@ import {
   _omit,
   _pick,
   _set,
-  _stringMapEntries,
-  _stringMapValues,
   _undefinedIfEmpty,
   _unset,
 } from './object/object.util'
@@ -158,10 +156,13 @@ import {
   ValueOf,
   ValuesOf,
   _noop,
+  _objectKeys,
   _passNothingPredicate,
   _passthroughMapper,
   _passthroughPredicate,
   _passUndefinedMapper,
+  _stringMapEntries,
+  _stringMapValues,
 } from './types'
 import { _gb, _hb, _kb, _mb } from './unit/size.util'
 
@@ -222,6 +223,7 @@ export {
   _inRange,
   _stringMapValues,
   _stringMapEntries,
+  _objectKeys,
   _capitalize,
   _upperFirst,
   _lowerFirst,

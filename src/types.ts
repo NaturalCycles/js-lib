@@ -94,3 +94,29 @@ export type IsoDateTime = string
  * Named type for JSON.parse second argument
  */
 export type Reviver = (this: any, key: string, value: any) => any
+
+/**
+ * Needed due to https://github.com/microsoft/TypeScript/issues/13778
+ * Only affects typings, no runtime effect.
+ */
+export function _stringMapValues<T>(m: StringMap<T>): T[] {
+  return Object.values(m) as T[]
+}
+
+/**
+ * Needed due to https://github.com/microsoft/TypeScript/issues/13778
+ * Only affects typings, no runtime effect.
+ */
+export function _stringMapEntries<T>(m: StringMap<T>): [k: string, v: T][] {
+  return Object.entries(m) as [string, T][]
+}
+
+/**
+ * Like `Object.keys`, but returns keys typed as `keyof T`, not as just `string`.
+ * This is how TypeScript should work, actually.
+ *
+ * @experimental
+ */
+export function _objectKeys<T extends Record<string, any>>(obj: T): (keyof T)[] {
+  return Object.keys(obj)
+}

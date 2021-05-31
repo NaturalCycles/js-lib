@@ -1,5 +1,4 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
-import { StringMap } from '../types'
 import {
   _deepCopy,
   _deepTrim,
@@ -25,8 +24,6 @@ import {
   _omit,
   _pick,
   _set,
-  _stringMapEntries,
-  _stringMapValues,
   _undefinedIfEmpty,
   _unset,
 } from './object.util'
@@ -537,11 +534,4 @@ test('_findKeyByValue', () => {
   expect(_findKeyByValue(o, 4)).toBe('d')
   expect(_findKeyByValue(o, 5)).toBeUndefined()
   expect(_findKeyByValue(o, undefined as any)).toBeUndefined()
-})
-
-test('_stringMapValues, _stringMapEntries', () => {
-  const o: StringMap<number> = { b: 2, c: 3, d: 4 }
-  const _b = o['b'] // number | undefined
-  const _values = _stringMapValues(o) // number[]
-  const _entries = _stringMapEntries(o) // [string, number][]
 })
