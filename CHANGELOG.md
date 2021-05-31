@@ -1,3 +1,10 @@
+# [11.6.0](https://github.com/NaturalCycles/dev-lib/compare/v11.5.0...v11.6.0) (2021-05-31)
+
+
+### Features
+
+* **jest:** add `d.ts` to moduleFileExtensions ([995571b](https://github.com/NaturalCycles/dev-lib/commit/995571b4c52755fd6f835c68a6c6a555015f3778))
+
 # [11.5.0](https://github.com/NaturalCycles/dev-lib/compare/v11.4.0...v11.5.0) (2021-05-30)
 
 
