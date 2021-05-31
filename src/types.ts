@@ -4,7 +4,7 @@
  * Alternative: Record<string, T | undefined>
  */
 export interface StringMap<T = string> {
-  [k: string]: T
+  [k: string]: T | undefined
 }
 
 /**
@@ -13,7 +13,7 @@ export interface StringMap<T = string> {
  * Alternative: Record<String, Promise<any>>
  */
 export interface PromiseMap {
-  [prop: string]: Promise<any>
+  [prop: string]: Promise<any> | undefined
 }
 
 /**

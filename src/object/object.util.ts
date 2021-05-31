@@ -454,19 +454,15 @@ export function _has<T extends Record<string, any>>(obj: T, path?: string): bool
 /**
  * Needed due to https://github.com/microsoft/TypeScript/issues/13778
  * Only affects typings, no runtime effect.
- *
- * @deprecated StringMap has removed `| undefined`, so, normal Object.values can be used
  */
 export function _stringMapValues<T>(m: StringMap<T>): T[] {
-  return Object.values(m)
+  return Object.values(m) as T[]
 }
 
 /**
  * Needed due to https://github.com/microsoft/TypeScript/issues/13778
  * Only affects typings, no runtime effect.
- *
- * @deprecated StringMap has removed `| undefined`, so, normal Object.entries can be used
  */
 export function _stringMapEntries<T>(m: StringMap<T>): [k: string, v: T][] {
-  return Object.entries(m)
+  return Object.entries(m) as [string, T][]
 }
