@@ -134,10 +134,7 @@ import {
   _upperFirst,
 } from './string/string.util'
 import { _ms, _since } from './time/time.util'
-import { Merge } from './type-fest/merge'
-import { Promisable } from './type-fest/promisable'
-import { PromiseValue } from './type-fest/promise-value'
-import { ReadonlyDeep } from './type-fest/readonly-deep'
+import { Merge, Promisable, PromiseValue, ReadonlyDeep } from './typeFest'
 import {
   AsyncMapper,
   AsyncPredicate,

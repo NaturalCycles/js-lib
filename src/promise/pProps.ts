@@ -8,7 +8,7 @@ Improvements:
 - Included Typescript typings (no need for @types/p-props)
  */
 
-import { PromiseValue } from '../type-fest/promise-value'
+import { PromiseValue } from '../typeFest'
 import { pMap, PMapOptions } from './pMap'
 
 /**
