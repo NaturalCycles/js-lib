@@ -64,7 +64,7 @@ module.exports = {
   roots,
   rootDir: cwd,
   testPathIgnorePatterns,
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'd.ts', 'json'],
   moduleNameMapper: {
     // should match aliases from tsconfig.json
     // as explained here: https://alexjoverm.github.io/2017/10/07/Enhance-Jest-configuration-with-Module-Aliases/
