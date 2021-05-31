@@ -235,6 +235,8 @@ test('_filterNullishValues', () => {
     e: '',
     f: 'wer',
   })
+
+  const _f = _filterNullishValues(o)
 })
 
 const empty = ['', {}, [], new Map(), new Set()]

@@ -183,3 +183,102 @@ export type PromiseValue<PromiseType, Otherwise = PromiseType> = PromiseType ext
 >
   ? { 0: PromiseValue<Value>; 1: Value }[PromiseType extends Promise<unknown> ? 0 : 1]
   : Otherwise
+
+/**
+ Extract the keys from a type where the value type of the key extends the given `Condition`.
+ Internally this is used for the `ConditionalPick` and `ConditionalExcept` types.
+ @example
+ ```
+ import {ConditionalKeys} from 'type-fest';
+ interface Example {
+	a: string;
+	b: string | number;
+	c?: string;
+	d: {};
+}
+ type StringKeysOnly = ConditionalKeys<Example, string>;
+ //=> 'a'
+ ```
+ To support partial types, make sure your `Condition` is a union of undefined (for example, `string | undefined`) as demonstrated below.
+ @example
+ ```
+ type StringKeysAndUndefined = ConditionalKeys<Example, string | undefined>;
+ //=> 'a' | 'c'
+ ```
+ @category Utilities
+ */
+export type ConditionalKeys<Base, Condition> = NonNullable<
+  // Wrap in `NonNullable` to strip away the `undefined` type from the produced union.
+  {
+    // Map through all the keys of the given base type.
+    [Key in keyof Base]: Base[Key] extends Condition // Pick only keys with types extending the given `Condition` type.
+      ? // Retain this key since the condition passes.
+        Key
+      : // Discard this key since the condition fails.
+        never
+
+    // Convert the produced object into a union type of the keys which passed the conditional test.
+  }[keyof Base]
+>
+
+/**
+ Exclude keys from a shape that matches the given `Condition`.
+ This is useful when you want to create a new type with a specific set of keys from a shape. For example, you might want to exclude all the primitive properties from a class and form a new shape containing everything but the primitive properties.
+ @example
+ ```
+ import {Primitive, ConditionalExcept} from 'type-fest';
+ class Awesome {
+	name: string;
+	successes: number;
+	failures: bigint;
+	run() {}
+}
+ type ExceptPrimitivesFromAwesome = ConditionalExcept<Awesome, Primitive>;
+ //=> {run: () => void}
+ ```
+ @example
+ ```
+ import {ConditionalExcept} from 'type-fest';
+ interface Example {
+	a: string;
+	b: string | number;
+	c: () => void;
+	d: {};
+}
+ type NonStringKeysOnly = ConditionalExcept<Example, string>;
+ //=> {b: string | number; c: () => void; d: {}}
+ ```
+ @category Utilities
+ */
+export type ConditionalExcept<Base, Condition> = Except<Base, ConditionalKeys<Base, Condition>>
+
+/**
+ Pick keys from the shape that matches the given `Condition`.
+ This is useful when you want to create a new type from a specific subset of an existing type. For example, you might want to pick all the primitive properties from a class and form a new automatically derived type.
+ @example
+ ```
+ import {Primitive, ConditionalPick} from 'type-fest';
+ class Awesome {
+	name: string;
+	successes: number;
+	failures: bigint;
+	run() {}
+}
+ type PickPrimitivesFromAwesome = ConditionalPick<Awesome, Primitive>;
+ //=> {name: string; successes: number; failures: bigint}
+ ```
+ @example
+ ```
+ import {ConditionalPick} from 'type-fest';
+ interface Example {
+	a: string;
+	b: string | number;
+	c: () => void;
+	d: {};
+}
+ type StringKeysOnly = ConditionalPick<Example, string>;
+ //=> {a: string}
+ ```
+ @category Utilities
+ */
+export type ConditionalPick<Base, Condition> = Pick<Base, ConditionalKeys<Base, Condition>>

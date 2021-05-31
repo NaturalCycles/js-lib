@@ -134,7 +134,15 @@ import {
   _upperFirst,
 } from './string/string.util'
 import { _ms, _since } from './time/time.util'
-import { Merge, Promisable, PromiseValue, ReadonlyDeep } from './typeFest'
+import {
+  ConditionalExcept,
+  ConditionalPick,
+  Merge,
+  Promisable,
+  PromiseValue,
+  ReadonlyDeep,
+  Simplify,
+} from './typeFest'
 import {
   AsyncMapper,
   AsyncPredicate,
@@ -190,6 +198,9 @@ export type {
   ReadonlyDeep,
   Promisable,
   PromiseValue,
+  Simplify,
+  ConditionalPick,
+  ConditionalExcept,
 }
 
 export {
