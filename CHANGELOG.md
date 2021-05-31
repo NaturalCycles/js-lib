@@ -1,3 +1,10 @@
+## [14.26.1](https://github.com/NaturalCycles/js-lib/compare/v14.26.0...v14.26.1) (2021-05-31)
+
+
+### Bug Fixes
+
+* revert pProps types as they were ([f050787](https://github.com/NaturalCycles/js-lib/commit/f0507877c306b14208ac857c25a08b7ecc3f4067))
+
 # [14.26.0](https://github.com/NaturalCycles/js-lib/compare/v14.25.1...v14.26.0) (2021-05-31)
 
 
