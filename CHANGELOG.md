@@ -1,3 +1,10 @@
+# [11.7.0](https://github.com/NaturalCycles/dev-lib/compare/v11.6.0...v11.7.0) (2021-06-02)
+
+
+### Features
+
+* **eslint:** bump plugin-unicorn, disable unicorn/prefer-string-slice ([dad2e00](https://github.com/NaturalCycles/dev-lib/commit/dad2e008427fb6a7c70631205bc44eeac0bfc7b4))
+
 # [11.6.0](https://github.com/NaturalCycles/dev-lib/compare/v11.5.0...v11.6.0) (2021-05-31)
 
 
