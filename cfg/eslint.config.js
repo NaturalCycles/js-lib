@@ -311,6 +311,10 @@ module.exports = {
     'unicorn/consistent-function-scoping': 0, // todo: consider enabling later
     'unicorn/no-this-assignment': 0,
     'unicorn/prefer-string-slice': 0,
+    'unicorn/prefer-number-properties': 0,
+    'unicorn/prefer-negative-index': 0,
+    'unicorn/prefer-regexp-test': 0,
+    'unicorn/prefer-query-selector': 0,
     '@typescript-eslint/return-await': [2, 'always'],
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/no-misused-promises': 0,
