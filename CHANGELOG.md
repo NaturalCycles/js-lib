@@ -1,3 +1,10 @@
+# [11.8.0](https://github.com/NaturalCycles/dev-lib/compare/v11.7.0...v11.8.0) (2021-06-02)
+
+
+### Features
+
+* **eslint:** disable more annoying rules ([8ff4984](https://github.com/NaturalCycles/dev-lib/commit/8ff498482c23aff9c2afcd5943abd613afdb2507))
+
 # [11.7.0](https://github.com/NaturalCycles/dev-lib/compare/v11.6.0...v11.7.0) (2021-06-02)
 
 
