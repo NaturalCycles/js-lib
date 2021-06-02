@@ -1,3 +1,10 @@
+# [14.27.0](https://github.com/NaturalCycles/js-lib/compare/v14.26.2...v14.27.0) (2021-06-02)
+
+
+### Features
+
+* export Class type (from type-fest) ([b457789](https://github.com/NaturalCycles/js-lib/commit/b457789e5d8a468e7fb4c5c019ca771150e767c5))
+
 ## [14.26.2](https://github.com/NaturalCycles/js-lib/compare/v14.26.1...v14.26.2) (2021-06-02)
 
 
