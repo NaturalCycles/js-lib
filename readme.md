@@ -48,7 +48,7 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
   - `/jest/unit.xml`
   - `/jest/integration.xml`
   - `/coverage-integration`
-- `/docs` for Docs (convention followed by Github Pages, Vuepress, etc)
+- `/docs` for Docs (convention followed by Github Pages, Conventional commits, Vuepress, etc)
 
 ### Yarn commands
 

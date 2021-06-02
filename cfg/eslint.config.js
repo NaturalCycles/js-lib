@@ -310,6 +310,7 @@ module.exports = {
     'unicorn/no-nested-ternary': 0,
     'unicorn/consistent-function-scoping': 0, // todo: consider enabling later
     'unicorn/no-this-assignment': 0,
+    'unicorn/prefer-string-slice': 0,
     '@typescript-eslint/return-await': [2, 'always'],
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/no-misused-promises': 0,
