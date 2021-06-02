@@ -1,3 +1,10 @@
+## [14.26.2](https://github.com/NaturalCycles/js-lib/compare/v14.26.1...v14.26.2) (2021-06-02)
+
+
+### Bug Fixes
+
+* clarify output type of `_findKeyByValue` and `_invert` ([691be3a](https://github.com/NaturalCycles/js-lib/commit/691be3a901bae906eab838dd99eb55d6be10aadd))
+
 ## [14.26.1](https://github.com/NaturalCycles/js-lib/compare/v14.26.0...v14.26.1) (2021-05-31)
 
 
