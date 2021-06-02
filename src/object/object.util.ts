@@ -169,11 +169,11 @@ export function _mapObject<IN extends Record<string, any>, OUT>(
   }, {} as { [P in keyof IN]: OUT })
 }
 
-export function _findKeyByValue<T extends Record<string, any>>(
+export function _findKeyByValue<T extends Record<any, any>>(
   obj: T,
   v: ValueOf<T>,
-): string | undefined {
-  return Object.entries(obj).find(([_, value]) => value === v)?.[0]
+): keyof T | undefined {
+  return Object.entries(obj).find(([_, value]) => value === v)?.[0] as keyof T
 }
 
 export function _objectNullValuesToUndefined<T extends Record<string, any>>(
@@ -343,8 +343,10 @@ export function _unset<T extends Record<string, any>>(obj: T, prop: string): voi
   delete obj[last!]
 }
 
-export function _invert(o: Record<string, any>): StringMap {
-  const inv: StringMap = {}
+export function _invert<T extends Record<any, any>>(
+  o: T,
+): { [k in ValueOf<T>]: keyof T | undefined } {
+  const inv = {} as { [k in ValueOf<T>]: keyof T }
   Object.keys(o).forEach(k => {
     inv[o[k]] = k
   })

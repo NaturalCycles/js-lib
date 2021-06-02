@@ -418,12 +418,13 @@ test('_invert', () => {
     a: 'ak',
     b: 'bk',
   }
-  const inv = {
+  const inv = _invert(o)
+  const _v1 = inv['ak'] // typeof _v1 should be `a` | `b` | undefined
+
+  expect(inv).toEqual({
     ak: 'a',
     bk: 'b',
-  }
-
-  expect(_invert(o)).toEqual(inv)
+  })
 })
 
 test('_invertMap', () => {
@@ -534,4 +535,18 @@ test('_findKeyByValue', () => {
   expect(_findKeyByValue(o, 4)).toBe('d')
   expect(_findKeyByValue(o, 5)).toBeUndefined()
   expect(_findKeyByValue(o, undefined as any)).toBeUndefined()
+
+  enum CHAR {
+    A = 'A',
+    B = 'B',
+  }
+
+  const map: Record<CHAR, number> = {
+    [CHAR.A]: 1,
+    [CHAR.B]: 2,
+  }
+
+  const char = _findKeyByValue(map, 2)
+  // typeof char should be `CHAR | undefined`, not `string | undefined`
+  expect(char).toBe(CHAR.B)
 })
