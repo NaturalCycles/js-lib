@@ -282,3 +282,9 @@ export type ConditionalExcept<Base, Condition> = Except<Base, ConditionalKeys<Ba
  @category Utilities
  */
 export type ConditionalPick<Base, Condition> = Pick<Base, ConditionalKeys<Base, Condition>>
+
+/**
+ Matches a [`class` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes).
+ @category Basic
+ */
+export type Class<T = any> = new (...args: any[]) => T

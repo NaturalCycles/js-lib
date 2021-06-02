@@ -133,6 +133,7 @@ import {
 } from './string/string.util'
 import { _ms, _since } from './time/time.util'
 import {
+  Class,
   ConditionalExcept,
   ConditionalPick,
   Merge,
@@ -202,6 +203,7 @@ export type {
   Simplify,
   ConditionalPick,
   ConditionalExcept,
+  Class,
 }
 
 export {
