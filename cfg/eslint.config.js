@@ -315,6 +315,7 @@ module.exports = {
     'unicorn/prefer-negative-index': 0,
     'unicorn/prefer-regexp-test': 0,
     'unicorn/prefer-query-selector': 0,
+    'unicorn/prefer-prototype-methods': 0, // false-positive on node promisify() of callback functions
     '@typescript-eslint/return-await': [2, 'always'],
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/no-misused-promises': 0,
