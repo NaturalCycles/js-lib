@@ -1,3 +1,10 @@
+## [11.8.1](https://github.com/NaturalCycles/dev-lib/compare/v11.8.0...v11.8.1) (2021-06-03)
+
+
+### Bug Fixes
+
+* **eslint:** disable brand-new `unicorn/prefer-prototype-methods` rule ([e4f6d31](https://github.com/NaturalCycles/dev-lib/commit/e4f6d311196fdeb1bb615836a1530b12dd62ab1d))
+
 # [11.8.0](https://github.com/NaturalCycles/dev-lib/compare/v11.7.0...v11.8.0) (2021-06-02)
 
 
