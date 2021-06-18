@@ -1,3 +1,10 @@
+## [11.8.2](https://github.com/NaturalCycles/dev-lib/compare/v11.8.1...v11.8.2) (2021-06-18)
+
+
+### Bug Fixes
+
+* **eslint:** disable buggy `@typescript-eslint/prefer-regexp-exec` ([edee2a3](https://github.com/NaturalCycles/dev-lib/commit/edee2a37ad386d613539277f037c043552fa0e30))
+
 ## [11.8.1](https://github.com/NaturalCycles/dev-lib/compare/v11.8.0...v11.8.1) (2021-06-03)
 
 
