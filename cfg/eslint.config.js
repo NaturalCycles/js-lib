@@ -276,6 +276,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/array-type': 2,
+    '@typescript-eslint/prefer-regexp-exec': 0, // auto-fixer breaks code sometimes!
     'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
     'unicorn/no-array-callback-reference': 0, // false positives
