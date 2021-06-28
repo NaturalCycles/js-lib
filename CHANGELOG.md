@@ -1,3 +1,10 @@
+# [11.9.0](https://github.com/NaturalCycles/dev-lib/compare/v11.8.4...v11.9.0) (2021-06-28)
+
+
+### Features
+
+* bump husky to 4.x (experimental) ([987c5e8](https://github.com/NaturalCycles/dev-lib/commit/987c5e825dfb9f1484d627d4fd84b57321947dee))
+
 ## [11.8.4](https://github.com/NaturalCycles/dev-lib/compare/v11.8.3...v11.8.4) (2021-06-28)
 
 
