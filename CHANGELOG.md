@@ -1,3 +1,10 @@
+## [11.8.4](https://github.com/NaturalCycles/dev-lib/compare/v11.8.3...v11.8.4) (2021-06-28)
+
+
+### Bug Fixes
+
+* running lint-staged via node api, not via execa ([4dcb1b9](https://github.com/NaturalCycles/dev-lib/commit/4dcb1b92945fe4be616a2b8b43c5671178e27480))
+
 ## [11.8.3](https://github.com/NaturalCycles/dev-lib/compare/v11.8.2...v11.8.3) (2021-06-28)
 
 
