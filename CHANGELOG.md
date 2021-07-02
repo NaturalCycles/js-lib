@@ -1,3 +1,10 @@
+## [11.9.1](https://github.com/NaturalCycles/dev-lib/compare/v11.9.0...v11.9.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* deps, ignore `/loader` (stencil) ([3516540](https://github.com/NaturalCycles/dev-lib/commit/3516540fdf66708dbc43250c91f0e1cb74e2b826))
+
 # [11.9.0](https://github.com/NaturalCycles/dev-lib/compare/v11.8.4...v11.9.0) (2021-06-28)
 
 
