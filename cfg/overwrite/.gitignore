@@ -33,6 +33,7 @@ node_modules
 /.sass-cache
 /.sourcemaps
 /docs/.vuepress/dist
+/loader
 
 /coverage
 
