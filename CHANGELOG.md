@@ -1,3 +1,17 @@
+# [12.0.0](https://github.com/NaturalCycles/dev-lib/compare/v11.9.1...v12.0.0) (2021-07-02)
+
+
+### Features
+
+* upgrade to husky7 ([63acec1](https://github.com/NaturalCycles/dev-lib/commit/63acec1f58444b26d031cf444dd940a7a3792274))
+
+
+### BREAKING CHANGES
+
+* upgrade to husky7
+
+https://typicode.github.io/husky/#/?id=migrate-from-v4-to-v7
+
 ## [11.9.1](https://github.com/NaturalCycles/dev-lib/compare/v11.9.0...v11.9.1) (2021-07-02)
 
 
