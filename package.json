@@ -37,7 +37,7 @@
     "@naturalcycles/time-lib": "^3.0.1",
     "@types/fs-extra": "^9.0.0",
     "@types/jest": "^26.0.0",
-    "@types/node": "^15.0.1",
+    "@types/node": "^16.0.0",
     "@types/yargs": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
