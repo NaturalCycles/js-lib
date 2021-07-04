@@ -82,6 +82,10 @@ export function _filterUndefinedValues<T extends Record<string, any>>(obj: T, mu
   return _filterNullishValues(obj, mutate)
 }
 
+export function _filterEmptyArrays<T extends Record<string, any>>(obj: T, mutate = false): T {
+  return _filterObject(obj, (_k, v) => !Array.isArray(v) || v.length > 0, mutate)
+}
+
 /**
  * Returns clone of `obj` without properties that does not pass `predicate`.
  * Allows filtering by both key and value.
@@ -214,6 +218,7 @@ export function _isEmptyObject(obj: any): boolean {
 /**
  * Object is considered empty if it's one of:
  * undefined
+ * null
  * '' (empty string)
  * [] (empty array)
  * {} (empty object)
@@ -221,7 +226,7 @@ export function _isEmptyObject(obj: any): boolean {
  * new Set() (empty Set)
  */
 export function _isEmpty(obj: any): boolean {
-  if (obj === undefined) return true
+  if (obj === undefined || obj === null) return true
 
   if (typeof obj === 'string' || Array.isArray(obj)) {
     return obj.length === 0

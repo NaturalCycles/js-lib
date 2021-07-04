@@ -77,6 +77,7 @@ import { _deepEquals } from './object/deepEquals'
 import {
   _deepCopy,
   _deepTrim,
+  _filterEmptyArrays,
   _filterEmptyValues,
   _filterFalsyValues,
   _filterNullishValues,
@@ -242,6 +243,7 @@ export {
   _filterFalsyValues,
   _filterUndefinedValues,
   _filterNullishValues,
+  _filterEmptyArrays,
   _filterEmptyValues,
   _filterObject,
   _undefinedIfEmpty,

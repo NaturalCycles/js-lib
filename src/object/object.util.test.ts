@@ -2,6 +2,7 @@ import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import {
   _deepCopy,
   _deepTrim,
+  _filterEmptyArrays,
   _filterEmptyValues,
   _filterFalsyValues,
   _filterNullishValues,
@@ -236,30 +237,34 @@ test('_filterNullishValues', () => {
   const _f = _filterNullishValues(o)
 })
 
-const empty = ['', {}, [], new Map(), new Set()]
-
-const nonEmpty = [
-  0,
-  1,
-  'a',
-  { a: 'a' },
-  ['a'],
-  [undefined],
-  [{}],
-  new Map([['a', 'b']]),
-  new Set(['']),
-  false,
-  true,
-]
-
-test('_isEmpty', () => {
-  empty.forEach(item => expect(_isEmpty(item)).toBe(true))
-  nonEmpty.forEach(item => expect(_isEmpty(item)).toBe(false))
+test('_filterEmptyArrays', () => {
+  expect(_filterEmptyArrays({})).toEqual({})
+  expect(_filterEmptyArrays({ a: 'a' })).toEqual({ a: 'a' })
+  expect(_filterEmptyArrays({ a: 'a', b: [], c: 'c' })).toEqual({ a: 'a', c: 'c' })
 })
 
-test('_undefinedIfEmpty', () => {
-  empty.forEach(item => expect(_undefinedIfEmpty(item)).toBeUndefined())
-  nonEmpty.forEach(item => expect(_undefinedIfEmpty(item)).toEqual(item))
+test.each([
+  [undefined, true],
+  [null, true],
+  ['', true],
+  [{}, true],
+  [[], true],
+  [new Map(), true],
+  [new Set(), true],
+  [0, false],
+  [1, false],
+  ['a', false],
+  [{ a: 'a' }, false],
+  [['a'], false],
+  [[undefined], false],
+  [[{}], false],
+  [new Map([['a', 'b']]), false],
+  [new Set(['']), false],
+  [false, false],
+  [true, false],
+])('_isEmpty %s == %s', (v, empty) => {
+  expect(_isEmpty(v)).toBe(empty)
+  expect(_undefinedIfEmpty(v)).toBe(empty ? undefined : v)
 })
 
 test('_filterEmptyValues', () => {

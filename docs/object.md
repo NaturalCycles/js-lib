@@ -96,6 +96,19 @@ _filterNullishValues({
 // { a: 'a', d: '' }
 ```
 
+## \_filterEmptyArrays
+
+Returns an object will all empty arrays filtered out. Non-mutating by default.
+
+```ts
+_filterEmptyArrays({
+  a: 'a',
+  b: [], // empty array
+  c: 'c',
+})
+// { a: 'a', c: 'c' }
+```
+
 ## \_filterEmptyValues
 
 Filters the object by removing all key-value pairs where Value is Empty (according to `_isEmpty()`
