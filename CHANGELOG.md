@@ -1,3 +1,10 @@
+# [14.28.0](https://github.com/NaturalCycles/js-lib/compare/v14.27.0...v14.28.0) (2021-07-04)
+
+
+### Features
+
+* _filterEmptyArrays ([fa30feb](https://github.com/NaturalCycles/js-lib/commit/fa30feb16906af058ea1ffb316b88a2a632e9347))
+
 # [14.27.0](https://github.com/NaturalCycles/js-lib/compare/v14.26.2...v14.27.0) (2021-06-02)
 
 
