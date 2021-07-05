@@ -1,3 +1,10 @@
+## [12.0.2](https://github.com/NaturalCycles/dev-lib/compare/v12.0.1...v12.0.2) (2021-07-05)
+
+
+### Bug Fixes
+
+* fail on `lint-staged` failure ([587ed1d](https://github.com/NaturalCycles/dev-lib/commit/587ed1d83f5070598d6df868e1df14daa49efcfe))
+
 ## [12.0.1](https://github.com/NaturalCycles/dev-lib/compare/v12.0.0...v12.0.1) (2021-07-03)
 
 
