@@ -7,7 +7,8 @@ module.exports = {
   env: {
     es2020: true,
     node: true,
-    'jest/globals': true,
+    jest: true,
+    // 'jest/globals': true,
   },
   globals: {
     NodeJS: 'readable',
@@ -18,9 +19,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    // "prettier",
-    // "prettier/@typescript-eslint"
-    'plugin:jest/recommended',
+    // 'plugin:jest/recommended', // add manually if needed!
     'plugin:unicorn/recommended',
   ],
   ignorePatterns: ['**/__exclude/**'],
@@ -35,7 +34,7 @@ module.exports = {
     'eslint-plugin-import',
     '@typescript-eslint',
     'unused-imports',
-    'jest',
+    // 'jest', // add manually if needed!
     'unicorn',
   ],
   rules: {

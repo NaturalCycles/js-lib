@@ -166,3 +166,17 @@ These files are meant to be extended in target project, so act as _recommended d
 - `tslint.json`
 - `eslint.config.json`
 - `jest.config.js`
+
+## Extending eslint config
+
+### Jest
+
+```js
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'plugin:jest/recommended', // add manually if needed!
+  ],
+  plugins: ['jest'],
+}
+```
