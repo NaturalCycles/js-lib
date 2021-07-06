@@ -1,3 +1,10 @@
+## [12.0.3](https://github.com/NaturalCycles/dev-lib/compare/v12.0.2...v12.0.3) (2021-07-06)
+
+
+### Bug Fixes
+
+* **eslint:** disable jest eslint plugin by default ([929de02](https://github.com/NaturalCycles/dev-lib/commit/929de0266622fa7004f841556122b715d9fa90c3))
+
 ## [12.0.2](https://github.com/NaturalCycles/dev-lib/compare/v12.0.1...v12.0.2) (2021-07-05)
 
 
