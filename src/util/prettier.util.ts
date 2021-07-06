@@ -1,14 +1,14 @@
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
-const { prettierDirs, prettierExtensions, lintExclude } = require('../../cfg/_cnst')
+const { prettierDirs, prettierExtensionsAll, lintExclude } = require('../../cfg/_cnst')
 
-export const prettierPaths = [
+const prettierPaths = [
   // Everything inside these folders
-  `./{${prettierDirs}}/**/*.{${prettierExtensions},ts,tsx,css,scss}`,
+  `./{${prettierDirs}}/**/*.{${prettierExtensionsAll}}`,
 
   // Root
-  `./*.{${prettierExtensions},ts,tsx,css,scss}`,
+  `./*.{${prettierExtensionsAll}}`,
 
   // Exclude
   ...lintExclude.map((s: string) => `!${s}`),

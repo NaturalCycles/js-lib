@@ -6,7 +6,13 @@
 
 const micromatch = require('micromatch')
 const fs = require('fs')
-const { prettierDirs, prettierExtensions, stylelintExtensions, lintExclude } = require('./_cnst')
+const {
+  prettierDirs,
+  prettierExtensionsExclusive,
+  prettierExtensionsAll,
+  stylelintExtensions,
+  lintExclude,
+} = require('./_cnst')
 const cfgDir = __dirname
 
 const prettierConfigPath =
@@ -43,11 +49,22 @@ const linters = {
   },
 
   // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
-  [`./{${prettierDirs}}/**/*.{${prettierExtensions}}`]: match => {
+  [`./{${prettierDirs}}/**/*.{${prettierExtensionsExclusive}}`]: match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
     return [prettierCmd].map(s => `${s} ${filesList}`)
   },
+
+  // Files for ESLint + Prettier
+  // doesn't work, cause typescript parser+rules are conflicting
+  // [`./{${prettierDirs}}/**/*.{js,jsx}`]: match => {
+  //   const filesList = micromatch.not(match, lintExclude).join(' ')
+  //   if (!filesList) return []
+  //   return [
+  //     `${eslintCmd} --config ${eslintConfigPathRoot} --parser=espree`,
+  //     prettierCmd].map(s => `${s} ${filesList}`)
+  // },
+
   // Files for Stylelint + Prettier
   [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
@@ -56,7 +73,7 @@ const linters = {
   },
 
   // Files in root dir
-  [`./*.{${prettierExtensions}}`]: match => {
+  [`./*.{${prettierExtensionsAll}}`]: match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
     return [prettierCmd].map(s => `${s} ${filesList}`)
