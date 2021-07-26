@@ -174,9 +174,7 @@ These files are meant to be extended in target project, so act as _recommended d
 ```js
 // .eslintrc.js
 module.exports = {
-  extends: [
-    'plugin:jest/recommended', // add manually if needed!
-  ],
+  extends: ['plugin:jest/recommended'],
   plugins: ['jest'],
 }
 ```
