@@ -1,3 +1,11 @@
+# [12.1.0](https://github.com/NaturalCycles/dev-lib/compare/v12.0.4...v12.1.0) (2021-08-01)
+
+
+### Features
+
+* add `/resources` dir to prettier ([5093a96](https://github.com/NaturalCycles/dev-lib/commit/5093a962a4d14300d5a2d4f57f473ef063e8e57f))
+* stop publishing `src` dir ([2ea0795](https://github.com/NaturalCycles/dev-lib/commit/2ea079500735af5d56d88a4b263d70b4404f388e))
+
 ## [12.0.4](https://github.com/NaturalCycles/dev-lib/compare/v12.0.3...v12.0.4) (2021-07-26)
 
 
