@@ -1,3 +1,10 @@
+# [14.29.0](https://github.com/NaturalCycles/js-lib/compare/v14.28.0...v14.29.0) (2021-08-01)
+
+
+### Features
+
+* _try (similar to pTuple but for sync functions) ([280b438](https://github.com/NaturalCycles/js-lib/commit/280b438bcc135827dc1d0e2de5feb044c4d0d197))
+
 # [14.28.0](https://github.com/NaturalCycles/js-lib/compare/v14.27.0...v14.28.0) (2021-07-04)
 
 
