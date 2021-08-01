@@ -71,12 +71,7 @@
   "files": [
     "dist",
     "scripts/tsconfig.json",
-    "cfg",
-    "src",
-    "!src/test",
-    "!src/**/*.test.ts",
-    "!src/**/__snapshots__",
-    "!src/**/__exclude"
+    "cfg"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
