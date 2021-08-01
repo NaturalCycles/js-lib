@@ -43,6 +43,10 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 - `/src/test/mock`
 - `/src/@types`
 - `/src/env`
+- `/cfg` conventional folder to store and publish shared configs. E.g. shared `tsconfig.json` or
+  such.
+- `/resources` files that will be published to npm, but that are not "source code". E.g. json files,
+  schemas, configs, etc.
 - `/coverage` for unit test coverage
 - `/tmp`
   - `/jest/unit.xml`
