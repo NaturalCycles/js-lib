@@ -60,6 +60,7 @@ import {
 } from './error/error.util'
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
+import { _try } from './error/try'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
 import { _average, _averageWeighted, _median, _percentile } from './math/math.util'
 import { SimpleMovingAverage } from './math/sma'
@@ -330,6 +331,7 @@ export {
   _Timeout,
   _tryCatch,
   _TryCatch,
+  _try,
   _jsonParseIfPossible,
   _stringifyAny,
   _ms,

@@ -1,6 +1,7 @@
 {
   "extends": "@naturalcycles/dev-lib/cfg/tsconfig.json",
   "compilerOptions": {
+    "sourceMap": true,
     "lib": ["dom", "esnext"],
     "outDir": "./dist",
     "rootDir": "./src"

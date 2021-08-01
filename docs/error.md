@@ -155,3 +155,14 @@ Similar to [\_assertEquals](#assertequals), but does a deep assertion (using
 Subclass of `Error` that contains `.errors: Error[]` - array of errors from some batch operation.
 
 May also contain `.results: RESULT[]` - results from some batch operation (if needed).
+
+## \_try
+
+Calls a function, returns a Tuple of `[error, value]`. Allows to write shorter code that avoids
+try/catch. Useful e.g. in unit tests.
+
+Similar to [pTuple](./promise.md/#ptuple), but for sync functions.
+
+```ts
+const [err, v] = _try(() => someFunction())
+```
