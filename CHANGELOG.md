@@ -1,3 +1,10 @@
+# [14.30.0](https://github.com/NaturalCycles/js-lib/compare/v14.29.0...v14.30.0) (2021-08-05)
+
+
+### Features
+
+* _last ([18bc875](https://github.com/NaturalCycles/js-lib/commit/18bc87588524b4a54b602122fda7b5fca429746c))
+
 # [14.29.0](https://github.com/NaturalCycles/js-lib/compare/v14.28.0...v14.29.0) (2021-08-01)
 
 
