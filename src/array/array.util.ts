@@ -258,3 +258,10 @@ export function _shuffle<T>(array: T[], mutate = false): T[] {
 
   return a
 }
+
+/**
+ * Returns last item of the array (or undefined if array is empty).
+ */
+export function _last<T>(array: T[]): T | undefined {
+  return array[array.length - 1]
+}

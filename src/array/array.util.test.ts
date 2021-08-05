@@ -12,6 +12,7 @@ import {
   _flattenDeep,
   _groupBy,
   _intersection,
+  _last,
   _mapToObject,
   _shuffle,
   _sortBy,
@@ -242,4 +243,12 @@ test('_sumBy', () => {
   ]
 
   expect(_sumBy(items, i => i.a)).toBe(3)
+})
+
+test('_last', () => {
+  expect(_last([])).toBeUndefined()
+  expect(_last([undefined])).toBeUndefined()
+  expect(_last([1, undefined])).toBeUndefined()
+  expect(_last([1, 2])).toBe(2)
+  expect(_last([1])).toBe(1)
 })

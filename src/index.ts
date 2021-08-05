@@ -10,6 +10,7 @@ import {
   _flattenDeep,
   _groupBy,
   _intersection,
+  _last,
   _mapToObject,
   _shuffle,
   _sortBy,
@@ -346,4 +347,5 @@ export {
   _sum,
   _sumBy,
   _clamp,
+  _last,
 }

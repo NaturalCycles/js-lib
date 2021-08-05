@@ -278,3 +278,17 @@ const b = _shuffle(a)
 _shuffle(a)
 // a == [4, 2, 3, 1, 5]
 ```
+
+## \_last
+
+Returns last element of the array, or `undefined` if the array is empty.
+
+Very simple **semantic** convenience method (lodash-inspired).
+
+```ts
+const a = [1, 2, 3]
+_last(a) // 3
+
+const a = []
+_last(a) // undefined
+```
