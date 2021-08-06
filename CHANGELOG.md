@@ -1,3 +1,10 @@
+# [14.31.0](https://github.com/NaturalCycles/js-lib/compare/v14.30.0...v14.31.0) (2021-08-06)
+
+
+### Features
+
+* MemoOptions.cacheKeyFn ([71c05fe](https://github.com/NaturalCycles/js-lib/commit/71c05fe91298f8f3fd9c6fd8e62fe4158846051b))
+
 # [14.30.0](https://github.com/NaturalCycles/js-lib/compare/v14.29.0...v14.30.0) (2021-08-05)
 
 
