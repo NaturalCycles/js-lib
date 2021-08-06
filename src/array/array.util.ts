@@ -175,11 +175,14 @@ export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
 }
 
 export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
-  return items.reduce((map, item, index) => {
+  const map: StringMap<number> = {}
+
+  items.forEach((item, index) => {
     const key = mapper(item, index)
     map[key] = (map[key] || 0) + 1
-    return map
-  }, {})
+  })
+
+  return map
 }
 
 // investigate: _groupBy
