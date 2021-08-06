@@ -11,10 +11,15 @@ export function _memoFn<T extends (...args: any[]) => any>(
   fn: T,
   opt: MemoOptions = {},
 ): T & MemoizedFunction {
-  const { logHit, logMiss, noLogArgs, cacheFactory, noCacheRejected, noCacheResolved } = {
-    cacheFactory: () => new MapMemoCache(),
-    ...opt,
-  }
+  const {
+    logHit,
+    logMiss,
+    noLogArgs,
+    noCacheRejected,
+    noCacheResolved,
+    cacheFactory = () => new MapMemoCache(),
+    cacheKeyFn = jsonMemoSerializer,
+  } = opt
 
   const cache = cacheFactory()
   const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
@@ -22,7 +27,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
 
   const memoizedFn = function (this: any, ...args: any[]): T {
     const ctx = this
-    const cacheKey = jsonMemoSerializer(args)
+    const cacheKey = cacheKeyFn(args)
 
     if (cache.has(cacheKey)) {
       if (logHit) {

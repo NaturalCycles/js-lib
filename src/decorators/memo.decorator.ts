@@ -25,6 +25,11 @@ export interface MemoOptions {
   cacheFactory?: () => MemoCache
 
   /**
+   * Provide a custom implementation of CacheKey function.
+   */
+  cacheKeyFn?: (args: any[]) => any
+
+  /**
    * Don't cache resolved promises.
    * Setting this to `true` will make the decorator to await the result.
    */
@@ -48,7 +53,7 @@ export interface MemoOptions {
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
 export const _Memo =
-  (opts: MemoOptions = {}): MethodDecorator =>
+  (opt: MemoOptions = {}): MethodDecorator =>
   (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new TypeError('Memoization can be applied only to methods')
@@ -65,10 +70,16 @@ export const _Memo =
     // Normal Map is needed to allow .dropCache()
     const cache = new Map<object, MemoCache>()
 
-    const { logHit, logMiss, noLogArgs, cacheFactory, noCacheRejected, noCacheResolved } = {
-      cacheFactory: () => new MapMemoCache(),
-      ...opts,
-    }
+    const {
+      logHit,
+      logMiss,
+      noLogArgs,
+      cacheFactory = () => new MapMemoCache(),
+      cacheKeyFn = jsonMemoSerializer,
+      noCacheRejected,
+      noCacheResolved,
+    } = opt
+
     const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
@@ -76,7 +87,7 @@ export const _Memo =
     descriptor.value = function (this: typeof target, ...args: any[]): any {
       const ctx = this
 
-      const cacheKey = jsonMemoSerializer(args)
+      const cacheKey = cacheKeyFn(args)
 
       if (!cache.has(ctx)) {
         cache.set(ctx, cacheFactory())

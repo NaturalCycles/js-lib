@@ -31,7 +31,7 @@ export interface MemoOpts {
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
 export const memoSimple =
-  (opts: MemoOpts = {}): MethodDecorator =>
+  (opt: MemoOpts = {}): MethodDecorator =>
   (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new TypeError('Memoization can be applied only to methods')
@@ -55,7 +55,7 @@ export const memoSimple =
    */
     const cache: MemoCache = new MapMemoCache()
 
-    const { logHit, logMiss, noLogArgs } = opts
+    const { logHit, logMiss, noLogArgs } = opt
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
