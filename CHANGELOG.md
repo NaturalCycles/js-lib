@@ -1,3 +1,10 @@
+## [12.1.2](https://github.com/NaturalCycles/dev-lib/compare/v12.1.1...v12.1.2) (2021-08-11)
+
+
+### Bug Fixes
+
+* deps ([a33e269](https://github.com/NaturalCycles/dev-lib/commit/a33e26940516ff28fa6a7aea5712e56cca6effbc))
+
 ## [12.1.1](https://github.com/NaturalCycles/dev-lib/compare/v12.1.0...v12.1.1) (2021-08-04)
 
 
