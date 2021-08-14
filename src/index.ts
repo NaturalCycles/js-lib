@@ -148,6 +148,7 @@ import {
 import {
   AsyncMapper,
   AsyncPredicate,
+  BaseDBEntity,
   BatchResult,
   InstanceId,
   IsoDate,
@@ -156,7 +157,9 @@ import {
   Predicate,
   PromiseMap,
   Reviver,
+  SavedDBEntity,
   StringMap,
+  UnixTimestamp,
   ValueOf,
   ValuesOf,
   _noop,
@@ -207,6 +210,9 @@ export type {
   ConditionalPick,
   ConditionalExcept,
   Class,
+  UnixTimestamp,
+  BaseDBEntity,
+  SavedDBEntity,
 }
 
 export {

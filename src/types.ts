@@ -51,22 +51,22 @@ export interface BatchResult<RES = any, ERR = Error> {
 /**
  * Like `keyof`, but for arrays.
  *
+ * Based on: https://github.com/Microsoft/TypeScript/issues/20965#issuecomment-354858633
+ *
  * @example
  *
  * const arr = ['a', 'b'] as const
  * type Foo = ValuesOf<typeof arr> // 'a' | 'b'
- *
- * Based on: https://github.com/Microsoft/TypeScript/issues/20965#issuecomment-354858633
  */
 export type ValuesOf<T extends readonly any[]> = T[number]
 
 /**
+ * Based on: https://stackoverflow.com/a/49286056/4919972
+ *
  * @example
  *
  * type Foo = { a: string, b: number }
  * type ValueOfFoo = ValueOf<Foo> // string | number
- *
- * Based on: https://stackoverflow.com/a/49286056/4919972
  */
 export type ValueOf<T> = T[keyof T]
 
@@ -81,14 +81,50 @@ export interface InstanceId {
 }
 
 /**
+ * Interface explicitly states that the value is an ISO Date string (without time).
+ *
  * @example '2019-06-21'
  */
 export type IsoDate = string
 
 /**
+ * Interface explicitly states that the value is an ISO DateTime string (with time).
+ *
  * @example '2019-06-21T05:21:73Z'
  */
 export type IsoDateTime = string
+
+/**
+ * Interface explicitly states that the value is a Unix timestamp (in seconds).
+ *
+ * @example 1628945450
+ */
+export type UnixTimestamp = number
+
+/**
+ * Base interface for any Entity that was saved to DB.
+ */
+export interface SavedDBEntity {
+  id: string
+
+  /**
+   * unixTimestamp of when the entity was first created (in the DB).
+   */
+  created: UnixTimestamp
+
+  /**
+   * unixTimestamp of when the entity was last updated (in the DB).
+   */
+  updated: UnixTimestamp
+}
+
+/**
+ * Base interface for any Entity that can be saved to DB.
+ * This interface fits when entity was NOT YET saved to DB,
+ * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
+ * When it's known to be saved - `SavedDBEntity` interface can be used instead.
+ */
+export type BaseDBEntity = Partial<SavedDBEntity>
 
 /**
  * Named type for JSON.parse second argument
