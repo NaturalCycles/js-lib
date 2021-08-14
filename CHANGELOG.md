@@ -1,3 +1,10 @@
+## [14.32.1](https://github.com/NaturalCycles/js-lib/compare/v14.32.0...v14.32.1) (2021-08-14)
+
+
+### Bug Fixes
+
+* jsonSchema generics ([2ba759a](https://github.com/NaturalCycles/js-lib/commit/2ba759a0572e54153ba3e251c784a06eec6022a9))
+
 # [14.32.0](https://github.com/NaturalCycles/js-lib/compare/v14.31.0...v14.32.0) (2021-08-14)
 
 
