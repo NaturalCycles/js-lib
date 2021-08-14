@@ -1,3 +1,11 @@
+# [14.32.0](https://github.com/NaturalCycles/js-lib/compare/v14.31.0...v14.32.0) (2021-08-14)
+
+
+### Features
+
+* jsonSchema interfaces and builders (experimental!) ([ad7be25](https://github.com/NaturalCycles/js-lib/commit/ad7be25430e686206369d1fea20c8b97947b1779))
+* types ([2264978](https://github.com/NaturalCycles/js-lib/commit/2264978fe17d6e06b3d023cb70b8e020143fd014))
+
 # [14.31.0](https://github.com/NaturalCycles/js-lib/compare/v14.30.0...v14.31.0) (2021-08-06)
 
 
