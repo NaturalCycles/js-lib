@@ -104,7 +104,7 @@ Object {
 `;
 
 exports[`addressSchema 1`] = `
-JsonSchemaObjectExtendable {
+Object {
   "additionalProperties": false,
   "properties": Object {
     "address1": Object {

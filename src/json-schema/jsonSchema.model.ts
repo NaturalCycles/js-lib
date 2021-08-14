@@ -46,7 +46,7 @@ export interface JsonSchemaAny<T = any> {
    * This is a temporary "intermediate AST" field that is used inside the parser.
    * In the final schema this field will NOT be present.
    */
-  requiredField?: boolean
+  optionalField?: true
 }
 
 export interface JsonSchemaConst<T extends string | number | boolean = any>

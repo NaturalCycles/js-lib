@@ -1,6 +1,8 @@
-import { BaseDBEntity } from '../types'
-import { jsonSchema } from './jsonSchemaBuilder'
+import { BaseDBEntity } from '../index'
+import { jsonSchema, JsonSchemaAnyBuilder } from './jsonSchemaBuilder'
 import { baseDBEntityJsonSchema, savedDBEntityJsonSchema } from './jsonSchemas'
+
+const s = new JsonSchemaAnyBuilder().$schemaDraft7().set$id('sdf')
 
 interface Address {
   countryCode: string
@@ -15,31 +17,35 @@ interface Address {
 // interface AddressBM extends Address, BaseDBEntity {}
 // interface AddressDBM extends Address, SavedDBEntity {}
 
-const addressJsonSchema = jsonSchema
-  .object<Address>({
-    countryCode: jsonSchema.string().countryCode(),
-    zip: jsonSchema.string().minLength(1).maxLength(40),
-    city: jsonSchema.string(),
-    address1: jsonSchema.string(),
-    address2: jsonSchema.string().optional(),
-    region: jsonSchema.string().optional(),
-    phone: jsonSchema.string().optional(),
-  })
-  .build()
+const addressJsonSchema = jsonSchema.object<Address>({
+  countryCode: jsonSchema.string().countryCode(),
+  zip: jsonSchema.string().length(1, 40),
+  city: jsonSchema.string(),
+  address1: jsonSchema.string(),
+  address2: jsonSchema.string().optional(),
+  region: jsonSchema.string().optional(),
+  phone: jsonSchema.string().optional(),
+})
 
-const addressBMJsonSchema = addressJsonSchema.extendWithSchema(baseDBEntityJsonSchema)
-const addressDBMJsonSchema = addressJsonSchema.extendWithSchema(savedDBEntityJsonSchema)
+const addressBMJsonSchema = addressJsonSchema.extend(baseDBEntityJsonSchema)
+const addressDBMJsonSchema = addressJsonSchema.extend(savedDBEntityJsonSchema)
 
 // alternative
 
-const addressBMJsonSchema2 = baseDBEntityJsonSchema.extendWithSchema(addressJsonSchema)
-const addressDBMJsonSchema2 = savedDBEntityJsonSchema.extendWithSchema(addressJsonSchema)
+const addressBMJsonSchema2 = baseDBEntityJsonSchema.extend(addressJsonSchema)
+const addressDBMJsonSchema2 = savedDBEntityJsonSchema.extend(addressJsonSchema)
 
 // alternative 2
-const addressBMJsonSchema3 = addressJsonSchema.extendWithProps<BaseDBEntity>({
-  id: jsonSchema.string().optional(),
-  created: jsonSchema.unixTimestamp().optional(),
-  updated: jsonSchema.unixTimestamp().optional(),
+const addressBMJsonSchema3 = addressJsonSchema.extend(
+  jsonSchema.object<BaseDBEntity>({
+    id: jsonSchema.string().optional(),
+    created: jsonSchema.unixTimestamp().optional(),
+    updated: jsonSchema.unixTimestamp().optional(),
+  }),
+)
+
+test('b2', () => {
+  console.log(JSON.stringify(s, null, 2))
 })
 
 test('simpleStringSchema', () => {
@@ -53,19 +59,19 @@ Object {
 })
 
 test('addressSchema', () => {
-  expect(addressJsonSchema).toMatchSnapshot()
+  expect(addressJsonSchema.build()).toMatchSnapshot()
 })
 
 test('addressBMJsonSchema', () => {
-  expect(addressBMJsonSchema).toMatchSnapshot()
-  expect(addressBMJsonSchema2).toEqual(addressBMJsonSchema)
-  expect(addressBMJsonSchema3).toEqual(addressBMJsonSchema)
+  expect(addressBMJsonSchema.build()).toMatchSnapshot()
+  expect(addressBMJsonSchema2.build()).toEqual(addressBMJsonSchema.build())
+  expect(addressBMJsonSchema3.build()).toEqual(addressBMJsonSchema.build())
 })
 
 test('addressDBMJsonSchema', () => {
   addressDBMJsonSchema.required.sort()
   addressDBMJsonSchema2.required.sort()
 
-  expect(addressDBMJsonSchema).toMatchSnapshot()
-  expect(addressDBMJsonSchema2).toEqual(addressDBMJsonSchema)
+  expect(addressDBMJsonSchema.build()).toMatchSnapshot()
+  expect(addressDBMJsonSchema2.build()).toEqual(addressDBMJsonSchema.build())
 })
