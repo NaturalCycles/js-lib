@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addressBMJsonSchema 1`] = `
+Object {
+  "additionalProperties": false,
+  "properties": Object {
+    "address1": Object {
+      "type": "string",
+    },
+    "address2": Object {
+      "type": "string",
+    },
+    "city": Object {
+      "type": "string",
+    },
+    "countryCode": Object {
+      "format": "countryCode",
+      "type": "string",
+    },
+    "created": Object {
+      "format": "unixTimestamp",
+      "type": "number",
+    },
+    "id": Object {
+      "type": "string",
+    },
+    "phone": Object {
+      "type": "string",
+    },
+    "region": Object {
+      "type": "string",
+    },
+    "updated": Object {
+      "format": "unixTimestamp",
+      "type": "number",
+    },
+    "zip": Object {
+      "maxLength": 40,
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": Array [
+    "countryCode",
+    "zip",
+    "city",
+    "address1",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`addressDBMJsonSchema 1`] = `
+Object {
+  "additionalProperties": false,
+  "properties": Object {
+    "address1": Object {
+      "type": "string",
+    },
+    "address2": Object {
+      "type": "string",
+    },
+    "city": Object {
+      "type": "string",
+    },
+    "countryCode": Object {
+      "format": "countryCode",
+      "type": "string",
+    },
+    "created": Object {
+      "format": "unixTimestamp",
+      "type": "number",
+    },
+    "id": Object {
+      "type": "string",
+    },
+    "phone": Object {
+      "type": "string",
+    },
+    "region": Object {
+      "type": "string",
+    },
+    "updated": Object {
+      "format": "unixTimestamp",
+      "type": "number",
+    },
+    "zip": Object {
+      "maxLength": 40,
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": Array [
+    "address1",
+    "city",
+    "countryCode",
+    "created",
+    "id",
+    "updated",
+    "zip",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`addressSchema 1`] = `
+JsonSchemaObjectExtendable {
+  "additionalProperties": false,
+  "properties": Object {
+    "address1": Object {
+      "type": "string",
+    },
+    "address2": Object {
+      "type": "string",
+    },
+    "city": Object {
+      "type": "string",
+    },
+    "countryCode": Object {
+      "format": "countryCode",
+      "type": "string",
+    },
+    "phone": Object {
+      "type": "string",
+    },
+    "region": Object {
+      "type": "string",
+    },
+    "zip": Object {
+      "maxLength": 40,
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": Array [
+    "countryCode",
+    "zip",
+    "city",
+    "address1",
+  ],
+  "type": "object",
+}
+`;

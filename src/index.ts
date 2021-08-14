@@ -63,6 +63,35 @@ import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import { _try } from './error/try'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
+import {
+  JsonSchema,
+  JsonSchemaAny,
+  JsonSchemaArray,
+  JsonSchemaBoolean,
+  JsonSchemaConst,
+  JsonSchemaEnum,
+  JsonSchemaNull,
+  JsonSchemaNumber,
+  JsonSchemaObject,
+  JsonSchemaRef,
+  JsonSchemaString,
+  JsonSchemaTuple,
+} from './json-schema/jsonSchema.model'
+import { mergeJsonSchemaObjects } from './json-schema/jsonSchema.util'
+import {
+  jsonSchema,
+  JsonSchemaAnyBuilder,
+  JsonSchemaArrayBuilder,
+  JsonSchemaConstBuilder,
+  JsonSchemaEnumBuilder,
+  JsonSchemaNullBuilder,
+  JsonSchemaNumberBuilder,
+  JsonSchemaObjectBuilder,
+  JsonSchemaObjectExtendable,
+  JsonSchemaRefBuilder,
+  JsonSchemaStringBuilder,
+  JsonSchemaTupleBuilder,
+} from './json-schema/jsonSchemaBuilder'
 import { _average, _averageWeighted, _median, _percentile } from './math/math.util'
 import { SimpleMovingAverage } from './math/sma'
 import { _createDeterministicRandom } from './number/createDeterministicRandom'
@@ -213,6 +242,18 @@ export type {
   UnixTimestamp,
   BaseDBEntity,
   SavedDBEntity,
+  JsonSchema,
+  JsonSchemaAny,
+  JsonSchemaRef,
+  JsonSchemaConst,
+  JsonSchemaEnum,
+  JsonSchemaString,
+  JsonSchemaNumber,
+  JsonSchemaBoolean,
+  JsonSchemaNull,
+  JsonSchemaObject,
+  JsonSchemaArray,
+  JsonSchemaTuple,
 }
 
 export {
@@ -354,4 +395,17 @@ export {
   _sumBy,
   _clamp,
   _last,
+  mergeJsonSchemaObjects,
+  jsonSchema,
+  JsonSchemaObjectExtendable,
+  JsonSchemaAnyBuilder,
+  JsonSchemaStringBuilder,
+  JsonSchemaNumberBuilder,
+  JsonSchemaObjectBuilder,
+  JsonSchemaArrayBuilder,
+  JsonSchemaTupleBuilder,
+  JsonSchemaEnumBuilder,
+  JsonSchemaConstBuilder,
+  JsonSchemaRefBuilder,
+  JsonSchemaNullBuilder,
 }
