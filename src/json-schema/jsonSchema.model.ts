@@ -2,17 +2,17 @@ import { StringMap } from '../types'
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 export type JsonSchema<T = any> =
-  | JsonSchemaAny
-  | JsonSchemaRef
+  | JsonSchemaAny<T>
+  | JsonSchemaRef<T>
   | JsonSchemaConst
   | JsonSchemaEnum
   | JsonSchemaString
   | JsonSchemaNumber
   | JsonSchemaBoolean
   | JsonSchemaNull
-  | JsonSchemaObject
-  | JsonSchemaArray
-  | JsonSchemaTuple
+  | JsonSchemaObject<T>
+  | JsonSchemaArray<T>
+  | JsonSchemaTuple<T>
 
 export interface JsonSchemaAny<T = any> {
   $schema?: string
