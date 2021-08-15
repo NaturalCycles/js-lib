@@ -52,6 +52,10 @@ export interface StringifyAnyOptions {
  * TODO: This function implementation/purpose very much overlaps with `anyToErrorMessage`. Clarify it somehow.
  */
 export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
+  if (obj === undefined) return 'undefined'
+  if (typeof obj === 'function') return 'function'
+  if (typeof obj === 'symbol') return obj.toString()
+
   let s: string
 
   obj = _jsonParseIfPossible(obj) // in case it's e.g non-pretty JSON, or even a stringified ErrorObject
@@ -80,9 +84,13 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     }
   }
 
+  // Shouldn't happen, but some weird input parameters may return this
+  if (s === undefined) return 'undefined'
+
   // Handle maxLen
-  if (opt.maxLen && s.length > opt.maxLen) {
-    s = s.slice(0, opt.maxLen) + `... ${Math.ceil(s.length / 1024)} KB message truncated`
+  const { maxLen = 1000 } = opt
+  if (maxLen && s.length > maxLen) {
+    s = s.slice(0, maxLen) + `... ${Math.ceil(s.length / 1024)} KB message truncated`
   }
 
   return s

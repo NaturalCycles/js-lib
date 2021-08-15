@@ -87,7 +87,7 @@ Map {
 
 exports[`stringifyAny 1`] = `
 Map {
-  undefined => undefined,
+  undefined => "undefined",
   null => "null",
   true => "true",
   false => "false",
@@ -145,7 +145,7 @@ Map {
   \\"message\\": \\"Reference already exists\\",
   \\"documentation_url\\": \\"https://developer.github.com/v3/git/refs/#create-a-reference\\"
 }",
-  [Function] => undefined,
+  [Function] => "function",
   /i am regex, who are you\\?/ => "{}",
   Map {
     "a" => "b",
@@ -162,7 +162,7 @@ Error: Error with code",
 {
   \\"k1\\": \\"v1\\"
 }",
-  Symbol(a_am_symbol) => undefined,
+  Symbol(a_am_symbol) => "Symbol(a_am_symbol)",
   1984-06-21T00:00:00.000Z => "\\"1984-06-21T00:00:00.000Z\\"",
 }
 `;
