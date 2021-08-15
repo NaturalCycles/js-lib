@@ -1,3 +1,10 @@
+## [14.33.1](https://github.com/NaturalCycles/js-lib/compare/v14.33.0...v14.33.1) (2021-08-15)
+
+
+### Bug Fixes
+
+* _stringifyAny to use maxLen and not fail ([de4dead](https://github.com/NaturalCycles/js-lib/commit/de4dead34a25b970724247e2be6803adced2883f))
+
 # [14.33.0](https://github.com/NaturalCycles/js-lib/compare/v14.32.1...v14.33.0) (2021-08-14)
 
 
