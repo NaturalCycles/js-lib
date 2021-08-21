@@ -1,3 +1,10 @@
+# [14.34.0](https://github.com/NaturalCycles/js-lib/compare/v14.33.1...v14.34.0) (2021-08-21)
+
+
+### Features
+
+* export KeyValueTuple, ObjectMapper, ObjectPredicate types ([a4add57](https://github.com/NaturalCycles/js-lib/commit/a4add5710731148d8e2dc324e6e08d35564d2c4b))
+
 ## [14.33.1](https://github.com/NaturalCycles/js-lib/compare/v14.33.0...v14.33.1) (2021-08-15)
 
 
