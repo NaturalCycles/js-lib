@@ -1,5 +1,5 @@
-import { ObjectMapper, ObjectPredicate, PropertyPath } from '../lodash.types'
-import { StringMap, ValueOf } from '../types'
+import { PropertyPath } from '../lodash.types'
+import { ObjectMapper, ObjectPredicate, StringMap, ValueOf } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
