@@ -15,18 +15,23 @@ import {
  * If object is Error - Error.message will be used.
  * Objects (not Errors) get converted to prettified JSON string (via `_stringifyAny`).
  */
-export function _anyToErrorObject(o: any, opt?: StringifyAnyOptions): ErrorObject {
+export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
+  o: any,
+  opt?: StringifyAnyOptions,
+): ErrorObject<DATA_TYPE> {
   if (o instanceof Error) {
-    return _errorToErrorObject(o, opt?.includeErrorStack)
+    return _errorToErrorObject<DATA_TYPE>(o, opt?.includeErrorStack)
   }
 
   o = _jsonParseIfPossible(o)
 
   if (_isHttpErrorResponse(o)) {
-    return o.error
+    return o.error as any
   }
 
-  if (_isErrorObject(o)) return o
+  if (_isErrorObject(o)) {
+    return o as ErrorObject<DATA_TYPE>
+  }
 
   // Here we are sure it has no `data` property,
   // so, fair to return `data: {}` in the end
@@ -38,7 +43,7 @@ export function _anyToErrorObject(o: any, opt?: StringifyAnyOptions): ErrorObjec
   return {
     name: 'Error',
     message,
-    data: {}, // empty
+    data: {} as DATA_TYPE, // empty
   }
 }
 
