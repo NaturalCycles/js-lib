@@ -1,3 +1,10 @@
+# [14.36.0](https://github.com/NaturalCycles/js-lib/compare/v14.35.0...v14.36.0) (2021-08-24)
+
+
+### Features
+
+* StringifyAnyOptions.stringifyFn ([6977a48](https://github.com/NaturalCycles/js-lib/commit/6977a4873756edba47c2e40cd16ee25d34bfd765))
+
 # [14.35.0](https://github.com/NaturalCycles/js-lib/compare/v14.34.0...v14.35.0) (2021-08-24)
 
 
