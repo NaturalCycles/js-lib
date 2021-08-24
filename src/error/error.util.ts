@@ -38,7 +38,10 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   // Also we're sure it includes no "error name", e.g no `Error: ...`,
   // so, fair to include `name: 'Error'`
 
-  const message = _stringifyAny(o, opt)
+  const message = _stringifyAny(o, {
+    includeErrorData: true, // cause we're returning an ErrorObject, not a stringified error (yet)
+    ...opt,
+  })
 
   return {
     name: 'Error',
