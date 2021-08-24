@@ -1,3 +1,10 @@
+## [14.36.1](https://github.com/NaturalCycles/js-lib/compare/v14.36.0...v14.36.1) (2021-08-24)
+
+
+### Bug Fixes
+
+* _anyToErrorObject to support generic ([bc6b724](https://github.com/NaturalCycles/js-lib/commit/bc6b724bed7f592865969dfb7a5b26032be2fa43))
+
 # [14.36.0](https://github.com/NaturalCycles/js-lib/compare/v14.35.0...v14.36.0) (2021-08-24)
 
 
