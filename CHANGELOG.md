@@ -1,3 +1,10 @@
+# [14.35.0](https://github.com/NaturalCycles/js-lib/compare/v14.34.0...v14.35.0) (2021-08-24)
+
+
+### Features
+
+* clarify assert/error functions ([c81bbc9](https://github.com/NaturalCycles/js-lib/commit/c81bbc992cf8938490c38182cd0944d716bbf241))
+
 # [14.34.0](https://github.com/NaturalCycles/js-lib/compare/v14.33.1...v14.34.0) (2021-08-21)
 
 
