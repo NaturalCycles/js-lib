@@ -1,4 +1,4 @@
-import { _anyToErrorMessage, _since } from '..'
+import { _since, _stringifyAny } from '..'
 
 export interface PRetryOptions {
   /**
@@ -108,10 +108,9 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
         } catch (err) {
           if (logFailures) {
             console.warn(
-              `${fname} attempt #${attempt} error in ${_since(started)}: ${_anyToErrorMessage(
-                err,
-                true,
-              )}`,
+              `${fname} attempt #${attempt} error in ${_since(started)}:\n${_stringifyAny(err, {
+                includeErrorData: true,
+              })}`,
             )
           }
 

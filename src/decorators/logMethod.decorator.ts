@@ -1,4 +1,4 @@
-import { SimpleMovingAverage, _anyToErrorMessage, _stringifyAny } from '..'
+import { SimpleMovingAverage, _stringifyAny } from '..'
 import { _ms } from '../time/time.util'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
@@ -140,7 +140,7 @@ function logFinished(
   }
 
   if (typeof err !== 'undefined') {
-    t.push('ERROR:', _anyToErrorMessage(err, true))
+    t.push('ERROR:', _stringifyAny(err, { includeErrorData: true }))
   } else if (logResultFn) {
     t.push(...logResultFn(res))
   }

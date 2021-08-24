@@ -1,4 +1,4 @@
-import { _appErrorToErrorObject } from './error.util'
+import { _errorToErrorObject } from '../index'
 import { HttpError } from './http.error'
 
 const throwHttpError = () => {
@@ -11,7 +11,7 @@ const throwHttpErrorAsync = async () => {
 test('default error to match snapshot', async () => {
   const err = new HttpError('error', { httpStatusCode: 500 })
   // console.log(err)
-  expect(_appErrorToErrorObject(err)).toMatchSnapshot({
+  expect(_errorToErrorObject(err, true)).toMatchSnapshot({
     stack: expect.stringContaining('HttpError'),
   })
 

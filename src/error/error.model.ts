@@ -64,12 +64,13 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
   /**
    * Name of the error / error class.
    *
-   * @default Error
+   * @example `Error`
    */
   // Name is removed right now, cause we should not rely on "name"
   // due to "subclassing reasons" (you lose name when you subclass)
   // It's allowed to rely on error.code and error.data.* instead
-  // name: string
+  // UPD: not anymore. Subclassing issues are fully fixed now (for es2015+ code)
+  name: string
 
   /**
    * Error.message

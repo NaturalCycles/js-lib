@@ -1,4 +1,4 @@
-import { HttpErrorData, _deepEquals, _stringifyAny } from '..'
+import { ErrorData, HttpErrorData, _deepEquals, _stringifyAny } from '..'
 import { AppError } from './app.error'
 
 /**
@@ -22,7 +22,7 @@ export function _assert(
   errorData?: Partial<HttpErrorData>,
 ): asserts condition {
   if (!condition) {
-    throw new AppError(message || '_assert error (see stacktrace)', {
+    throw new AssertionError(message || 'see stacktrace', {
       userFriendly: true,
       ...errorData,
     })
@@ -42,9 +42,15 @@ export function _assertEquals<T>(
   errorData?: Partial<HttpErrorData>,
 ): asserts actual is T {
   if (actual !== expected) {
-    let msg = `_assertEquals got (${actual}), but expected (${expected})`
-    if (message) msg += `, ${message}`
-    throw new AppError(msg, {
+    const msg = [
+      message || 'not equal',
+      `got     : ${_stringifyAny(actual)}`,
+      `expected: ${_stringifyAny(expected)}`,
+    ]
+      .filter(Boolean)
+      .join('\n')
+
+    throw new AssertionError(msg, {
       userFriendly: true,
       ...errorData,
     })
@@ -65,17 +71,38 @@ export function _assertDeepEquals<T>(
 ): asserts actual is T {
   if (!_deepEquals(actual, expected)) {
     const msg = [
-      `_assertDeepEquals`,
+      message || `not deeply equal`,
       `got     : ${_stringifyAny(actual)}`,
       `expected: ${_stringifyAny(expected)}`,
-      message,
     ]
       .filter(Boolean)
       .join('\n')
 
-    throw new AppError(msg, {
+    throw new AssertionError(msg, {
       userFriendly: true,
       ...errorData,
     })
+  }
+}
+
+export class AssertionError extends AppError {
+  constructor(message: string, data: ErrorData) {
+    super(message, data)
+
+    this.constructor = AssertionError
+    ;(this as any).__proto__ = AssertionError.prototype
+    Object.defineProperty(this, 'name', {
+      value: this.constructor.name,
+      configurable: true, // otherwise throws with "TypeError: Cannot redefine property: name"
+    })
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor)
+    } else {
+      Object.defineProperty(this, 'stack', {
+        value: new Error().stack, // eslint-disable-line unicorn/error-message
+        configurable: true,
+      })
+    }
   }
 }

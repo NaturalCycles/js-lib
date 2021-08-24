@@ -6,6 +6,7 @@ Object {
     "httpStatusCode": 500,
   },
   "message": "error",
+  "name": "HttpError",
   "stack": StringContaining "HttpError",
 }
 `;

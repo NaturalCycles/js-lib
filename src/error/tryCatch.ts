@@ -1,4 +1,4 @@
-import { _anyToErrorMessage, _since } from '../index'
+import { _since, _stringifyAny } from '../index'
 
 export interface TryCatchOptions {
   /**
@@ -48,7 +48,9 @@ export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}):
     } catch (err) {
       if (logError) {
         console.warn(
-          `tryCatch.${fname} error in ${_since(started)}: ${_anyToErrorMessage(err, true)}`,
+          `tryCatch.${fname} error in ${_since(started)}:\n${_stringifyAny(err, {
+            includeErrorData: true,
+          })}`,
         )
       }
 

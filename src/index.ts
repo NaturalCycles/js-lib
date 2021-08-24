@@ -37,7 +37,7 @@ import { _memoFn } from './decorators/memoFn'
 import { _Retry } from './decorators/retry.decorator'
 import { _Timeout } from './decorators/timeout.decorator'
 import { AppError } from './error/app.error'
-import { _assert, _assertDeepEquals, _assertEquals } from './error/assert'
+import { AssertionError, _assert, _assertDeepEquals, _assertEquals } from './error/assert'
 import {
   Admin401ErrorData,
   Admin403ErrorData,
@@ -47,13 +47,8 @@ import {
   HttpErrorResponse,
 } from './error/error.model'
 import {
-  _anyToAppError,
-  _anyToErrorMessage,
   _anyToErrorObject,
-  _appErrorToErrorObject,
-  _appErrorToHttpError,
   _errorObjectToAppError,
-  _errorObjectToHttpError,
   _errorToErrorObject,
   _isErrorObject,
   _isHttpErrorObject,
@@ -269,6 +264,7 @@ export {
   _createPromiseDecorator,
   AppError,
   HttpError,
+  AssertionError,
   _isErrorObject,
   _isHttpErrorObject,
   _isHttpErrorResponse,
@@ -339,14 +335,9 @@ export {
   _shuffle,
   _mapToObject,
   _findKeyByValue,
-  _anyToErrorMessage,
   _anyToErrorObject,
-  _anyToAppError,
   _errorToErrorObject,
   _errorObjectToAppError,
-  _errorObjectToHttpError,
-  _appErrorToErrorObject,
-  _appErrorToHttpError,
   _range,
   _uniq,
   _uniqBy,

@@ -2,7 +2,7 @@
  * Attempts to parse object as JSON.
  * Returns original object if JSON parse failed (silently).
  */
-import { AppError, _isErrorObject } from '..'
+import { _isErrorObject, _isHttpErrorObject, _isHttpErrorResponse } from '..'
 
 export function _jsonParseIfPossible(
   obj: any,
@@ -25,10 +25,18 @@ export interface StringifyAnyOptions {
   maxLen?: number
 
   /**
+   * Pass true to include "stringified" `error.data` in the output.
+   *
    * @default false
-   * Set to true to not print Error.stack (keeping just Error.message).
    */
-  noErrorStack?: boolean
+  includeErrorData?: boolean
+
+  /**
+   * Set to true to print Error.stack instead of just Error.message.
+   *
+   * @default false
+   */
+  includeErrorStack?: boolean
 }
 
 /**
@@ -48,35 +56,67 @@ export interface StringifyAnyOptions {
  *
  * Returns 'empty_string' if empty string is passed.
  * Returns 'undefined' if undefined is passed (default util.inspect behavior).
- *
- * TODO: This function implementation/purpose very much overlaps with `anyToErrorMessage`. Clarify it somehow.
  */
 export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   if (obj === undefined) return 'undefined'
+  if (obj === null) return 'null'
   if (typeof obj === 'function') return 'function'
   if (typeof obj === 'symbol') return obj.toString()
 
   let s: string
 
+  // Parse JSON string, if possible
   obj = _jsonParseIfPossible(obj) // in case it's e.g non-pretty JSON, or even a stringified ErrorObject
 
-  if (obj instanceof Error) {
-    // Stack includes message
-    s = (!opt.noErrorStack && obj.stack) || [obj?.name, obj.message].filter(Boolean).join(': ')
+  //
+  // HttpErrorResponse
+  //
+  if (_isHttpErrorResponse(obj)) {
+    return _stringifyAny(obj.error, opt)
+  }
 
-    if (obj instanceof AppError || _isErrorObject(obj)) {
-      const data = obj.data
-      s = [s, Object.keys(data).length > 0 && _stringifyAny(data, opt)].filter(Boolean).join('\n')
-    } else if (typeof (obj as any).code === 'string') {
-      s = (obj as any).code + '\n' + s
+  if (obj instanceof Error || _isErrorObject(obj)) {
+    //
+    // Error or ErrorObject
+    //
+
+    if (opt.includeErrorStack && obj.stack) {
+      // Stack includes message
+      s = obj.stack
+    } else {
+      // Omit "default" error name as non-informative
+      // UPD: no, it's still important to understand that we're dealing with Error and not just some string
+      // if (obj?.name === 'Error') {
+      //   s = obj.message
+      // }
+      s = [obj.name, obj.message].join(': ')
     }
-  } else if (_isErrorObject(obj)) {
-    s = [obj.message, Object.keys(obj.data).length > 0 && _stringifyAny(obj.data, opt)]
-      .filter(Boolean)
-      .join('\n')
+
+    if (_isErrorObject(obj)) {
+      if (_isHttpErrorObject(obj)) {
+        // `replace` here works ONCE, exactly as we need it
+        s = s.replace('HttpError', `HttpError(${obj.data.httpStatusCode})`)
+      }
+
+      // Here we ensure it has `data`
+      const { data } = obj
+      if (opt.includeErrorData && Object.keys(data).length > 0) {
+        s = [s, _stringifyAny(data, opt)].join('\n')
+      }
+    } else if (typeof (obj as any).code === 'string') {
+      // Error that has no `data`, but has `code` property
+      s = [s, `code: ${(obj as any).code}`].join('\n')
+    }
   } else if (typeof obj === 'string') {
+    //
+    // String
+    //
+
     s = obj.trim() || 'empty_string'
   } else {
+    //
+    // Other
+    //
     try {
       s = JSON.stringify(obj, null, 2)
     } catch {
