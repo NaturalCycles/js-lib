@@ -1,3 +1,10 @@
+## [14.36.2](https://github.com/NaturalCycles/js-lib/compare/v14.36.1...v14.36.2) (2021-08-24)
+
+
+### Bug Fixes
+
+* include errorData in `_anyToErrorObject` ([aac4f0c](https://github.com/NaturalCycles/js-lib/commit/aac4f0cb46a4364420c14dfbc88bcdd4bdf9d6d2))
+
 ## [14.36.1](https://github.com/NaturalCycles/js-lib/compare/v14.36.0...v14.36.1) (2021-08-24)
 
 
