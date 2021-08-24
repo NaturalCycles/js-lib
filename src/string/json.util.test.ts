@@ -1,8 +1,8 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { HttpErrorResponse } from '../error/error.model'
 import { HttpError } from '../error/http.error'
-import { _errorToErrorObject } from '../index'
-import { _jsonParseIfPossible, _stringifyAny } from './json.util'
+import { _errorToErrorObject, _stringifyAny } from '../index'
+import { _jsonParseIfPossible } from './json.util'
 
 test('jsonParseIfPossible', () => {
   expectResults(v => _jsonParseIfPossible(v), mockAllKindsOfThings()).toMatchSnapshot()

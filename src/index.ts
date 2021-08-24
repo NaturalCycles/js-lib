@@ -143,7 +143,7 @@ import { pState } from './promise/pState'
 import { pTimeout, PTimeoutOptions } from './promise/pTimeout'
 import { pTuple } from './promise/pTuple'
 import { _camelCase, _kebabCase, _snakeCase } from './string/case'
-import { StringifyAnyOptions, _jsonParseIfPossible, _stringifyAny } from './string/json.util'
+import { _jsonParseIfPossible } from './string/json.util'
 import {
   _capitalize,
   _lowerFirst,
@@ -157,6 +157,7 @@ import {
   _truncateMiddle,
   _upperFirst,
 } from './string/string.util'
+import { JsonStringifyFunction, StringifyAnyOptions, _stringifyAny } from './string/stringifyAny'
 import { _ms, _since } from './time/time.util'
 import {
   Class,
@@ -231,6 +232,7 @@ export type {
   PTimeoutOptions,
   TryCatchOptions,
   StringifyAnyOptions,
+  JsonStringifyFunction,
   Merge,
   ReadonlyDeep,
   Promisable,
