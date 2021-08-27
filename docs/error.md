@@ -57,22 +57,9 @@ and types about the containing `error` object.
 Handling these type of errors is done "automatically" in `getKy` of the `frontend-lib`, and in
 `getGot` of the `backend-lib`.
 
-## \_anyToErrorMessage
+## \_anyToError
 
-Convenience function to cast `any` (whatever type or shape was thrown!) to a human error message.
-
-Takes advantage of `ErrorObject` specification (if detected) to properly log the contained `data`
-object.
-
-Pass `false` to the second parameter (`includeData`) to avoid logging `data` object.
-
-## \_anyToAppError
-
-Cast `any` to `AppError`.
-
-## \_anyToErrorObject
-
-Cast `any` to `ErrorObject`.
+Cast `any` to `Error`.
 
 ## \_errorToErrorObject
 
@@ -81,10 +68,6 @@ Cast `Error` to `ErrorObject`.
 ## \_errorObjectToAppError
 
 Cast `ErrorObject` to `AppError`.
-
-## \_errorObjectToHttpError
-
-Cast `ErrorObject` to `HttpError`.
 
 ## \_appErrorToErrorObject
 
@@ -149,6 +132,22 @@ deep-check.
 
 Similar to [\_assertEquals](#assertequals), but does a deep assertion (using
 [\_deepEquals](./object.md#deepequals)).
+
+## \_assertIsError
+
+Asserts that passed value is `instanceof Error`.
+
+## \_assertsIsTypeOf
+
+Asserts that `typeof value` matches expected type.
+
+## \_assertsIsString
+
+Asserts that `typeof value === 'string`
+
+## \_assertsIsNumber
+
+Asserts that `typeof value === 'number`
 
 ## AggregatedError
 

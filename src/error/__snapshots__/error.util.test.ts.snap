@@ -1,5 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`anyToError 1`] = `
+Map {
+  undefined => [Error: undefined],
+  null => [Error: null],
+  "" => [Error: empty_string],
+  "hello a" => [Error: hello a],
+  0 => [Error: 0],
+  1 => [Error: 1],
+  -5 => [Error: -5],
+  [Function] => [Error: function],
+  Object {} => [Error: {}],
+  Array [] => [Error: []],
+  Array [
+    "a",
+  ] => [Error: [
+  "a"
+]],
+  Object {
+    "a": "aa",
+  } => [Error: {
+  "a": "aa"
+}],
+  [Error: err msg] => [Error: err msg],
+  Object {
+    "message": "yada",
+  } => [Error: {
+  "message": "yada"
+}],
+  Object {
+    "data": Object {},
+    "message": "yada",
+  } => [Error: {
+  "message": "yada",
+  "data": {}
+}],
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => [Error: {
+  "message": "yada",
+  "data": {
+    "httpStatusCode": 404
+  }
+}],
+  Object {
+    "message": "yada",
+    "name": "Error",
+  } => [Error: {
+  "name": "Error",
+  "message": "yada"
+}],
+  Object {
+    "data": Object {},
+    "message": "yada",
+    "name": "Error",
+  } => [Error: Error: yada],
+  Object {
+    "data": Object {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+    "name": "Error",
+  } => [Error: Error: yada],
+  [AppError: err msg] => [AppError: err msg],
+  [HttpError: http err msg] => [HttpError: http err msg],
+  Object {
+    "error": Object {
+      "data": Object {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+      "name": "HttpError",
+    },
+  } => [Error: HttpError(400): err msg],
+}
+`;
+
 exports[`anyToErrorObject 1`] = `
 Map {
   undefined => Object {

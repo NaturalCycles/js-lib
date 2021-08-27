@@ -1,6 +1,7 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
 import { AppError, ErrorObject, HttpError, HttpErrorResponse, _errorToErrorObject } from '..'
 import {
+  _anyToError,
   _anyToErrorObject,
   _errorObjectToAppError,
   _isErrorObject,
@@ -49,6 +50,10 @@ const anyItems = [
 
 test('anyToErrorObject', () => {
   expectResults(v => _anyToErrorObject(v), anyItems).toMatchSnapshot()
+})
+
+test('anyToError', () => {
+  expectResults(v => _anyToError(v), anyItems).toMatchSnapshot()
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {

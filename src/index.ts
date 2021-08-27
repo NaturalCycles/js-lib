@@ -37,7 +37,16 @@ import { _memoFn } from './decorators/memoFn'
 import { _Retry } from './decorators/retry.decorator'
 import { _Timeout } from './decorators/timeout.decorator'
 import { AppError } from './error/app.error'
-import { AssertionError, _assert, _assertDeepEquals, _assertEquals } from './error/assert'
+import {
+  AssertionError,
+  _assert,
+  _assertDeepEquals,
+  _assertEquals,
+  _assertIsError,
+  _assertIsNumber,
+  _assertIsString,
+  _assertTypeOf,
+} from './error/assert'
 import {
   Admin401ErrorData,
   Admin403ErrorData,
@@ -47,6 +56,7 @@ import {
   HttpErrorResponse,
 } from './error/error.model'
 import {
+  _anyToError,
   _anyToErrorObject,
   _errorObjectToAppError,
   _errorToErrorObject,
@@ -273,6 +283,10 @@ export {
   _assert,
   _assertEquals,
   _assertDeepEquals,
+  _assertIsError,
+  _assertIsString,
+  _assertIsNumber,
+  _assertTypeOf,
   _randomInt,
   _createDeterministicRandom,
   _inRange,
@@ -337,6 +351,7 @@ export {
   _shuffle,
   _mapToObject,
   _findKeyByValue,
+  _anyToError,
   _anyToErrorObject,
   _errorToErrorObject,
   _errorObjectToAppError,

@@ -44,8 +44,8 @@ export function _assertEquals<T>(
   if (actual !== expected) {
     const msg = [
       message || 'not equal',
-      `got     : ${_stringifyAny(actual)}`,
       `expected: ${_stringifyAny(expected)}`,
+      `got     : ${_stringifyAny(actual)}`,
     ]
       .filter(Boolean)
       .join('\n')
@@ -72,8 +72,8 @@ export function _assertDeepEquals<T>(
   if (!_deepEquals(actual, expected)) {
     const msg = [
       message || `not deeply equal`,
-      `got     : ${_stringifyAny(actual)}`,
       `expected: ${_stringifyAny(expected)}`,
+      `got     : ${_stringifyAny(actual)}`,
     ]
       .filter(Boolean)
       .join('\n')
@@ -81,6 +81,43 @@ export function _assertDeepEquals<T>(
     throw new AssertionError(msg, {
       userFriendly: true,
       ...errorData,
+    })
+  }
+}
+
+export function _assertIsError<ERR extends Error = Error>(
+  err: any,
+  message?: string,
+): asserts err is ERR {
+  if (!(err instanceof Error)) {
+    const msg = [message || `expected to be instanceof Error`, `actual typeof: ${typeof err}`].join(
+      '\n',
+    )
+
+    throw new AssertionError(msg, {
+      userFriendly: true,
+    })
+  }
+}
+
+export function _assertIsString(v: any, message?: string): asserts v is string {
+  _assertTypeOf<string>(v, 'string', message)
+}
+
+export function _assertIsNumber(v: any, message?: string): asserts v is number {
+  _assertTypeOf<number>(v, 'number', message)
+}
+
+export function _assertTypeOf<T>(v: any, expectedType: string, message?: string): asserts v is T {
+  if (typeof v !== expectedType) {
+    const msg = [
+      message || `unexpected type`,
+      `expected: ${expectedType}`,
+      `got     : ${typeof v}`,
+    ].join('\n')
+
+    throw new AssertionError(msg, {
+      userFriendly: true,
     })
   }
 }

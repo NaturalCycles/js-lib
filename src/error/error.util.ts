@@ -10,6 +10,24 @@ import {
 } from '..'
 
 /**
+ * Useful to ensure that error in `catch (err) { ... }`
+ * is indeed an Error (and not e.g `string` or `undefined`).
+ * 99% of the cases it will be Error already.
+ * Becomes more useful since TypeScript 4.4 made `err` of type `unknown` by default.
+ *
+ * Alternatively, if you're sure it's Error - you can use `_assertIsError(err)`.
+ */
+export function _anyToError(o: any, opt?: StringifyAnyOptions): Error {
+  if (o instanceof Error) {
+    // Already an Error - return as-is
+    return o
+  }
+
+  const message = _stringifyAny(o, opt)
+  return new Error(message)
+}
+
+/**
  * Converts "anything" to ErrorObject.
  * Detects if it's HttpErrorResponse, HttpErrorObject, ErrorObject, Error, etc..
  * If object is Error - Error.message will be used.
