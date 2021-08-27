@@ -1,3 +1,10 @@
+# [14.38.0](https://github.com/NaturalCycles/js-lib/compare/v14.37.0...v14.38.0) (2021-08-27)
+
+
+### Features
+
+* _anyToError, _assertIsError ([bd15a9e](https://github.com/NaturalCycles/js-lib/commit/bd15a9e7a4ca278ad698a0e19d43bfc235ed926c))
+
 # [14.37.0](https://github.com/NaturalCycles/js-lib/compare/v14.36.2...v14.37.0) (2021-08-27)
 
 
