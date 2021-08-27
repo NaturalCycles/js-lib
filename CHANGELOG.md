@@ -1,3 +1,10 @@
+# [14.37.0](https://github.com/NaturalCycles/js-lib/compare/v14.36.2...v14.37.0) (2021-08-27)
+
+
+### Features
+
+* adapt errors to be `unknown`, to match ts 4.4 behavior ([008257e](https://github.com/NaturalCycles/js-lib/commit/008257e8b25f831d1e9627ca64021220ff612c67))
+
 ## [14.36.2](https://github.com/NaturalCycles/js-lib/compare/v14.36.1...v14.36.2) (2021-08-24)
 
 
