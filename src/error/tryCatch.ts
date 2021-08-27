@@ -5,7 +5,7 @@ export interface TryCatchOptions {
    * The value returned from the function will be returned from the wrapped method (!).
    * onError function may be asynchronous.
    */
-  onError?: (err: Error) => any
+  onError?: (err: unknown) => any
 
   /**
    * @default false

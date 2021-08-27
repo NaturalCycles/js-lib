@@ -70,7 +70,7 @@ export type ValuesOf<T extends readonly any[]> = T[number]
  */
 export type ValueOf<T> = T[keyof T]
 
-export type KeyValueTuple<K, V> = [K, V]
+export type KeyValueTuple<K, V> = [key: K, value: V]
 
 export type ObjectMapper<OBJ, OUT> = (key: string, value: OBJ[keyof OBJ], obj: OBJ) => OUT
 

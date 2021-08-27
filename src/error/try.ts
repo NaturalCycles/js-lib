@@ -9,12 +9,12 @@
  *
  * const [err, v] = _try(() => someFunction())
  */
-export function _try<ERR extends Error = Error, RETURN = void>(
+export function _try<ERR = unknown, RETURN = void>(
   fn: () => RETURN,
 ): [err: ERR | undefined, value: RETURN | undefined] {
   try {
     return [undefined, fn()]
   } catch (err) {
-    return [err, undefined]
+    return [err as ERR, undefined]
   }
 }
