@@ -390,6 +390,29 @@ _sortObjectDeep(obj)
 // }
 ```
 
+## \_sortObject
+
+Allows to sort object by the list of known keys.
+
+Example:
+
+```ts
+const obj = {
+  b: 'b',
+  c: 'c',
+  extra: 'extra',
+  a: 'a',
+}
+
+_sortObject(obj, ['a', 'b', 'c'])
+// {
+//   a: 'a',
+//   b: 'b',
+//   c: 'c',
+//   extra: 'extra',
+// }
+```
+
 ## \_deepEquals
 
 Based on [epoberezkin/fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal/).

@@ -143,6 +143,7 @@ import {
   _undefinedIfEmpty,
   _unset,
 } from './object/object.util'
+import { _sortObject } from './object/sortObject'
 import { _sortObjectDeep } from './object/sortObjectDeep'
 import { AggregatedError } from './promise/AggregatedError'
 import { pBatch } from './promise/pBatch'
@@ -340,6 +341,7 @@ export {
   _merge,
   _deepTrim,
   _sortObjectDeep,
+  _sortObject,
   _get,
   _set,
   _has,
