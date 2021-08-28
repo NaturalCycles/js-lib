@@ -1,3 +1,10 @@
+# [14.40.0](https://github.com/NaturalCycles/js-lib/compare/v14.39.0...v14.40.0) (2021-08-28)
+
+
+### Features
+
+* jsonSchema improvements ([5f04d66](https://github.com/NaturalCycles/js-lib/commit/5f04d663e91a35479f5937ed923121b02bf13050))
+
 # [14.39.0](https://github.com/NaturalCycles/js-lib/compare/v14.38.0...v14.39.0) (2021-08-28)
 
 
