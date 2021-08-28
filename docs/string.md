@@ -103,6 +103,14 @@ _substringAfterLast('file1.test.ts', '.')
 // 'ts'
 ```
 
+## \_substringBetweenLast
+
+```ts
+const s = '/Users/lalala/someFile.test.ts'
+_substringBetweenLast(s, '/', '.'))
+// 'someFile'
+```
+
 ## \_truncate
 
 Truncates the string to the needed length, putting `...` (or a custom "ending") in the end, if
@@ -125,3 +133,16 @@ Truncates the string in the middle.
 _truncateMiddle('abcdefghijklmnopqrstuvwxyz', 10)
 // 'abcd...xyz'
 ```
+
+## \_replaceAll
+
+Polyfill for
+[String.prototype.replaceAll](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll).
+
+Based on regex implementation (slightly faster than "split/join" implementation).
+
+## \_nl2br
+
+Converts `\n` (aka new-line) to `<br>`, to be presented in HTML.
+
+Keeps `\n`, so if it's printed in non-HTML environment it still looks ok-ish.

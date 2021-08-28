@@ -1,5 +1,14 @@
 import { _substringAfter, _substringAfterLast, _substringBefore, _substringBeforeLast } from '..'
-import { _capitalize, _lowerFirst, _removeWhitespace, _split, _upperFirst } from './string.util'
+import {
+  _capitalize,
+  _lowerFirst,
+  _nl2br,
+  _removeWhitespace,
+  _replaceAll,
+  _split,
+  _substringBetweenLast,
+  _upperFirst,
+} from './string.util'
 
 test('capitalize', () => {
   expect(_capitalize('abc')).toBe('Abc')
@@ -33,4 +42,24 @@ test('substringBefore, substringAfter', () => {
   expect(_substringAfter(s1, '.')).toBe('test.ts')
   expect(_substringBeforeLast(s2, '/')).toBe(`/Users/lalala`)
   expect(_substringAfterLast(s2, '/')).toBe(`someFile.test.ts`)
+})
+
+test('_substringBetweenLast', () => {
+  const s = '/Users/lalala/someFile.test.ts'
+  expect(_substringBetweenLast(s, '/', '.')).toBe('someFile')
+})
+
+test.each([['aabbcc', 'b', '.', 'aa..cc']])(
+  '_replaceAll %s %s %s',
+  (s, find, replaceWith, result) => {
+    expect(_replaceAll(s, find, replaceWith)).toBe(result)
+  },
+)
+
+test.each([
+  ['', ''],
+  ['a', 'a'],
+  ['a\nb', 'a<br>\nb'],
+])('_nl2br("%s") to be "%s"', (input, result) => {
+  expect(_nl2br(input)).toBe(result)
 })

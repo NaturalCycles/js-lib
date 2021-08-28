@@ -72,3 +72,38 @@ export function _substringAfterLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
   return pos !== -1 ? s.substr(pos + 1) : s
 }
+
+/**
+ * Returns the substring between LAST `leftDelimiter` and then FIRST `rightDelimiter`.
+ *
+ * @example
+ *
+ * const s = '/Users/lalala/someFile.test.ts'
+ * _substringBetweenLast(s, '/', '.')
+ * // `someFile`
+ */
+export function _substringBetweenLast(
+  s: string,
+  leftDelimiter: string,
+  rightDelimiter: string,
+): string {
+  return _substringBefore(_substringAfterLast(s, leftDelimiter), rightDelimiter)
+}
+
+/**
+ * Polyfill for es2021 `String.prototype.replaceAll`.
+ * Uses regex implementation that's a bit faster than another popular "split/join" implementation.
+ *
+ * Based on: https://stackoverflow.com/a/1144788/4919972
+ */
+export function _replaceAll(s: string, find: string, replaceWith: string): string {
+  return s.replace(new RegExp(find, 'g'), replaceWith)
+}
+
+/**
+ * Converts `\n` (aka new-line) to `<br>`, to be presented in HTML.
+ * Keeps `\n`, so if it's printed in non-HTML environment it still looks ok-ish.
+ */
+export function _nl2br(s: string): string {
+  return s.replace(/\n/g, '<br>\n')
+}
