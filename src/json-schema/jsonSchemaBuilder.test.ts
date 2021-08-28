@@ -75,3 +75,20 @@ test('addressDBMJsonSchema', () => {
   expect(addressDBMJsonSchema.build()).toMatchSnapshot()
   expect(addressDBMJsonSchema2.build()).toEqual(addressDBMJsonSchema.build())
 })
+
+test('oneOf', () => {
+  const s = jsonSchema.allOf([jsonSchema.string(), jsonSchema.string().countryCode()])
+  expect(s.build()).toMatchInlineSnapshot(`
+Object {
+  "allOf": Array [
+    Object {
+      "type": "string",
+    },
+    Object {
+      "format": "countryCode",
+      "type": "string",
+    },
+  ],
+}
+`)
+})

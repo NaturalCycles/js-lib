@@ -3,6 +3,10 @@ import { StringMap } from '../types'
 // eslint-disable-next-line unused-imports/no-unused-vars
 export type JsonSchema<T = any> =
   | JsonSchemaAny<T>
+  | JsonSchemaOneOf
+  | JsonSchemaAllOf
+  | JsonSchemaAnyOf
+  | JsonSchemaNot<T>
   | JsonSchemaRef<T>
   | JsonSchemaConst
   | JsonSchemaEnum
@@ -29,14 +33,6 @@ export interface JsonSchemaAny<T = any> {
 
   default?: T
 
-  // union type
-  oneOf?: JsonSchema[]
-  // intersection type
-  allOf?: JsonSchema[]
-  // other types
-  anyOf?: JsonSchema[]
-  not?: JsonSchema
-
   // https://json-schema.org/understanding-json-schema/reference/conditionals.html#id6
   if?: JsonSchema
   then?: JsonSchema
@@ -47,6 +43,28 @@ export interface JsonSchemaAny<T = any> {
    * In the final schema this field will NOT be present.
    */
   optionalField?: true
+}
+
+/**
+ * Union type
+ */
+export interface JsonSchemaOneOf extends JsonSchemaAny {
+  oneOf: JsonSchema[]
+}
+
+/**
+ * Intersection type
+ */
+export interface JsonSchemaAllOf extends JsonSchemaAny {
+  allOf: JsonSchema[]
+}
+
+export interface JsonSchemaAnyOf extends JsonSchemaAny {
+  anyOf: JsonSchema[]
+}
+
+export interface JsonSchemaNot<T = any> extends JsonSchemaAny {
+  not: JsonSchema<T>
 }
 
 export interface JsonSchemaConst<T extends string | number | boolean = any>

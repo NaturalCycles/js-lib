@@ -1,7 +1,9 @@
 import { _uniq } from '../array/array.util'
 import {
   BaseDBEntity,
+  JsonSchemaAllOf,
   JsonSchemaArray,
+  JsonSchemaOneOf,
   JsonSchemaTuple,
   mergeJsonSchemaObjects,
   SavedDBEntity,
@@ -30,7 +32,7 @@ import {
 export const jsonSchema = {
   any: (p?: Partial<JsonSchema>) => new JsonSchemaAnyBuilder(p),
   const: <T extends string | number | boolean>(value: T, p?: Partial<JsonSchema>) =>
-    new JsonSchemaConstBuilder(value, p),
+    new JsonSchemaConstBuilder<T>(value, p),
   ref: <T = any>($ref: string, p?: Partial<JsonSchema>) => new JsonSchemaRefBuilder<T>($ref, p),
   enum: <T extends number | string>(enumValues: T[], p?: Partial<JsonSchema>) =>
     new JsonSchemaEnumBuilder<T>(enumValues, p),
@@ -57,6 +59,8 @@ export const jsonSchema = {
   ) => new JsonSchemaObjectBuilder<T>().addProperties(props),
   array: <ITEM = any>(items: JsonSchema<ITEM>) => new JsonSchemaArrayBuilder<ITEM>(items),
   tuple: <T = any>(items: JsonSchema[]) => new JsonSchemaTupleBuilder<T>(items),
+  oneOf: (items: JsonSchema[]) => new JsonSchemaOneOfBuilder(items),
+  allOf: (items: JsonSchema[]) => new JsonSchemaAllOfBuilder(items),
 }
 
 export class JsonSchemaAnyBuilder<T = any> implements JsonSchemaAny<T> {
@@ -431,4 +435,20 @@ export class JsonSchemaTupleBuilder<T = any>
   items!: JsonSchema[]
   minItems!: number
   maxItems!: number
+}
+
+export class JsonSchemaOneOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaOneOf {
+  constructor(public override oneOf: JsonSchema[], p: JsonSchemaAny = {}) {
+    super({
+      ...p,
+    })
+  }
+}
+
+export class JsonSchemaAllOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaAllOf {
+  constructor(public override allOf: JsonSchema[], p: JsonSchemaAny = {}) {
+    super({
+      ...p,
+    })
+  }
 }
