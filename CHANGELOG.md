@@ -1,3 +1,10 @@
+# [14.39.0](https://github.com/NaturalCycles/js-lib/compare/v14.38.0...v14.39.0) (2021-08-28)
+
+
+### Features
+
+* _substringBetweenLast, _replaceAll, _nl2br ([10c92f0](https://github.com/NaturalCycles/js-lib/commit/10c92f00125a69e07dc5779dd09ca1275594dd66))
+
 # [14.38.0](https://github.com/NaturalCycles/js-lib/compare/v14.37.0...v14.38.0) (2021-08-27)
 
 
