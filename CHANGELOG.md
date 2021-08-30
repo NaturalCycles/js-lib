@@ -1,3 +1,10 @@
+## [12.1.3](https://github.com/NaturalCycles/dev-lib/compare/v12.1.2...v12.1.3) (2021-08-30)
+
+
+### Bug Fixes
+
+* cleanup tslint rules that exist in eslint ([cf0dd40](https://github.com/NaturalCycles/dev-lib/commit/cf0dd403edcd9116f9b9883649956f8923782e62))
+
 ## [12.1.2](https://github.com/NaturalCycles/dev-lib/compare/v12.1.1...v12.1.2) (2021-08-11)
 
 
