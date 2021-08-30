@@ -68,6 +68,7 @@ import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import { _try } from './error/try'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
+import { JSON_SCHEMA_ORDER } from './json-schema/jsonSchema.cnst'
 import {
   JsonSchema,
   JsonSchemaAllOf,
@@ -89,6 +90,7 @@ import {
 import { mergeJsonSchemaObjects } from './json-schema/jsonSchema.util'
 import {
   jsonSchema,
+  JsonSchemaAllOfBuilder,
   JsonSchemaAnyBuilder,
   JsonSchemaArrayBuilder,
   JsonSchemaConstBuilder,
@@ -96,6 +98,7 @@ import {
   JsonSchemaNullBuilder,
   JsonSchemaNumberBuilder,
   JsonSchemaObjectBuilder,
+  JsonSchemaOneOfBuilder,
   JsonSchemaRefBuilder,
   JsonSchemaStringBuilder,
   JsonSchemaTupleBuilder,
@@ -436,4 +439,7 @@ export {
   JsonSchemaConstBuilder,
   JsonSchemaRefBuilder,
   JsonSchemaNullBuilder,
+  JsonSchemaOneOfBuilder,
+  JsonSchemaAllOfBuilder,
+  JSON_SCHEMA_ORDER,
 }

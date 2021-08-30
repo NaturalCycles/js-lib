@@ -8,8 +8,10 @@ import {
   mergeJsonSchemaObjects,
   SavedDBEntity,
   _deepCopy,
+  _sortObject,
 } from '../index'
 import { StringMap } from '../types'
+import { JSON_SCHEMA_ORDER } from './jsonSchema.cnst'
 import {
   JsonSchema,
   JsonSchemaAny,
@@ -128,7 +130,7 @@ export class JsonSchemaAnyBuilder<T = any> implements JsonSchemaAny<T> {
    * Same as if it would be JSON.stringified.
    * Completely not necessary, but can be used for pretty-printing.
    */
-  build = (): JsonSchemaAny<T> => _deepCopy(this)
+  build = (): JsonSchemaAny<T> => _sortObject(_deepCopy(this), JSON_SCHEMA_ORDER as any)
 }
 
 export class JsonSchemaNullBuilder extends JsonSchemaAnyBuilder<null> implements JsonSchemaNull {
@@ -378,7 +380,7 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>>
     return this.baseDBEntity().addRequired(['id', 'created', 'updated']) as any
   }
 
-  override build = (): JsonSchemaObject<T> => _deepCopy(this)
+  override build = (): JsonSchemaObject<T> => _sortObject(_deepCopy(this), JSON_SCHEMA_ORDER as any)
 
   clone(): JsonSchemaObjectBuilder<T> {
     return new JsonSchemaObjectBuilder<T>(_deepCopy(this))

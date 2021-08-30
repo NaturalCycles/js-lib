@@ -92,3 +92,17 @@ Object {
 }
 `)
 })
+
+test('order', () => {
+  const s = addressDBMJsonSchema.$schemaDraft7().set$id('AddressDBM').build()
+  expect(Object.keys(s)).toMatchInlineSnapshot(`
+Array [
+  "$schema",
+  "$id",
+  "type",
+  "properties",
+  "required",
+  "additionalProperties",
+]
+`)
+})
