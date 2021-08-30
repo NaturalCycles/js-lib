@@ -241,6 +241,7 @@ module.exports = {
     'valid-typeof': 2,
     'no-await-in-loop': 2,
     'no-extend-native': 2,
+    'guard-for-in': 2,
     'jest/expect-expect': 0,
     'jest/no-commented-out-tests': 0,
     'jest/no-export': 0, // conflicts with typescript isolatedModules
