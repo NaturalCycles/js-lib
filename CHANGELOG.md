@@ -1,3 +1,11 @@
+# [14.41.0](https://github.com/NaturalCycles/js-lib/compare/v14.40.0...v14.41.0) (2021-08-30)
+
+
+### Features
+
+* _sortObject ([dddc4ba](https://github.com/NaturalCycles/js-lib/commit/dddc4ba67f58a5f6c350800c207b393bf9152312))
+* JSON_SCHEMA_ORDER ([132f010](https://github.com/NaturalCycles/js-lib/commit/132f010308f1c4ac90fd6c35d0962a753c91787d))
+
 # [14.40.0](https://github.com/NaturalCycles/js-lib/compare/v14.39.0...v14.40.0) (2021-08-28)
 
 
