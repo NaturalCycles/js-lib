@@ -1,3 +1,10 @@
+# [14.42.0](https://github.com/NaturalCycles/js-lib/compare/v14.41.0...v14.42.0) (2021-09-04)
+
+
+### Features
+
+* clarify jsonSchema model and builder ([1bc1a78](https://github.com/NaturalCycles/js-lib/commit/1bc1a7863f47fb99a4ba3e7ab0d03109c9ee28f2))
+
 # [14.41.0](https://github.com/NaturalCycles/js-lib/compare/v14.40.0...v14.41.0) (2021-08-30)
 
 
