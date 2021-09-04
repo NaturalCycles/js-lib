@@ -2,8 +2,6 @@ import { BaseDBEntity } from '../index'
 import { jsonSchema, JsonSchemaAnyBuilder } from './jsonSchemaBuilder'
 import { baseDBEntityJsonSchema, savedDBEntityJsonSchema } from './jsonSchemas'
 
-const s = new JsonSchemaAnyBuilder().$schemaDraft7().set$id('sdf')
-
 interface Address {
   countryCode: string
   zip: string
@@ -44,8 +42,15 @@ const addressBMJsonSchema3 = addressJsonSchema.extend(
   }),
 )
 
-test('b2', () => {
-  console.log(JSON.stringify(s, null, 2))
+test('json stringify/parse builder', () => {
+  const s = new JsonSchemaAnyBuilder().$schemaDraft7().set$id('sdf')
+  // console.log(JSON.stringify(s, null, 2))
+  expect(JSON.parse(JSON.stringify(s))).toMatchInlineSnapshot(`
+Object {
+  "$id": "sdf",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+}
+`)
 })
 
 test('simpleStringSchema', () => {

@@ -32,19 +32,20 @@ import {
  * Inspired by Joi
  */
 export const jsonSchema = {
-  any: (p?: Partial<JsonSchema>) => new JsonSchemaAnyBuilder(p),
-  const: <T extends string | number | boolean>(value: T, p?: Partial<JsonSchema>) =>
+  any: (p?: Partial<JsonSchemaAny>) => new JsonSchemaAnyBuilder(p),
+  const: <T = unknown>(value: T, p?: Partial<JsonSchemaConst>) =>
     new JsonSchemaConstBuilder<T>(value, p),
-  ref: <T = any>($ref: string, p?: Partial<JsonSchema>) => new JsonSchemaRefBuilder<T>($ref, p),
-  enum: <T extends number | string>(enumValues: T[], p?: Partial<JsonSchema>) =>
+  ref: <T = unknown>($ref: string, p?: Partial<JsonSchemaRef>) =>
+    new JsonSchemaRefBuilder<T>($ref, p),
+  enum: <T = unknown>(enumValues: T[], p?: Partial<JsonSchemaEnum>) =>
     new JsonSchemaEnumBuilder<T>(enumValues, p),
   boolean: () => new JsonSchemaBooleanBuilder(),
   null: () => new JsonSchemaNullBuilder(),
-  // // number types
+  // number types
   number: () => new JsonSchemaNumberBuilder(),
   integer: () => new JsonSchemaNumberBuilder().integer(),
   unixTimestamp: () => new JsonSchemaNumberBuilder().unixTimestamp(),
-  // // string types
+  // string types
   string: () => new JsonSchemaStringBuilder(),
   dateString: () => new JsonSchemaStringBuilder().date(),
   // email: () => new JsonSchemaStringBuilder().email(),
@@ -59,13 +60,13 @@ export const jsonSchema = {
       [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
     },
   ) => new JsonSchemaObjectBuilder<T>().addProperties(props),
-  array: <ITEM = any>(items: JsonSchema<ITEM>) => new JsonSchemaArrayBuilder<ITEM>(items),
-  tuple: <T = any>(items: JsonSchema[]) => new JsonSchemaTupleBuilder<T>(items),
+  array: <ITEM = unknown>(items: JsonSchema<ITEM>) => new JsonSchemaArrayBuilder<ITEM>(items),
+  tuple: <T extends any[] = unknown[]>(items: JsonSchema[]) => new JsonSchemaTupleBuilder<T>(items),
   oneOf: (items: JsonSchema[]) => new JsonSchemaOneOfBuilder(items),
   allOf: (items: JsonSchema[]) => new JsonSchemaAllOfBuilder(items),
 }
 
-export class JsonSchemaAnyBuilder<T = any> implements JsonSchemaAny<T> {
+export class JsonSchemaAnyBuilder<T = unknown> implements JsonSchemaAny<T> {
   constructor(p: Partial<JsonSchema> = {}) {
     Object.assign(this, {
       ...p,
@@ -128,9 +129,10 @@ export class JsonSchemaAnyBuilder<T = any> implements JsonSchemaAny<T> {
   /**
    * Produces a "clean schema object" without methods.
    * Same as if it would be JSON.stringified.
-   * Completely not necessary, but can be used for pretty-printing.
    */
-  build = (): JsonSchemaAny<T> => _sortObject(_deepCopy(this), JSON_SCHEMA_ORDER as any)
+  build(): JsonSchemaAny<T> {
+    return _sortObject(JSON.parse(JSON.stringify(this)), JSON_SCHEMA_ORDER as any)
+  }
 }
 
 export class JsonSchemaNullBuilder extends JsonSchemaAnyBuilder<null> implements JsonSchemaNull {
@@ -142,9 +144,13 @@ export class JsonSchemaNullBuilder extends JsonSchemaAnyBuilder<null> implements
   }
 
   override type!: 'null'
+
+  override build(): JsonSchemaNull {
+    return super.build() as any
+  }
 }
 
-export class JsonSchemaConstBuilder<T extends string | number | boolean>
+export class JsonSchemaConstBuilder<T>
   extends JsonSchemaAnyBuilder<T>
   implements JsonSchemaConst<T>
 {
@@ -156,6 +162,10 @@ export class JsonSchemaConstBuilder<T extends string | number | boolean>
   }
 
   const!: T
+
+  override build(): JsonSchemaConst<T> {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaRefBuilder<T> extends JsonSchemaAnyBuilder<T> implements JsonSchemaRef<T> {
@@ -167,12 +177,13 @@ export class JsonSchemaRefBuilder<T> extends JsonSchemaAnyBuilder<T> implements 
   }
 
   $ref!: string
+
+  override build(): JsonSchemaRef<T> {
+    return super.build() as any
+  }
 }
 
-export class JsonSchemaEnumBuilder<T extends number | string>
-  extends JsonSchemaAnyBuilder<T>
-  implements JsonSchemaEnum<T>
-{
+export class JsonSchemaEnumBuilder<T> extends JsonSchemaAnyBuilder<T> implements JsonSchemaEnum<T> {
   constructor(enumValues: T[], p: JsonSchemaAny = {}) {
     super({
       enum: enumValues,
@@ -181,6 +192,10 @@ export class JsonSchemaEnumBuilder<T extends number | string>
   }
 
   enum!: T[]
+
+  override build(): JsonSchemaEnum<T> {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaBooleanBuilder
@@ -195,6 +210,10 @@ export class JsonSchemaBooleanBuilder
   }
 
   override type!: 'boolean'
+
+  override build(): JsonSchemaBoolean {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaNumberBuilder
@@ -240,6 +259,10 @@ export class JsonSchemaNumberBuilder
   unixTimestampMillis = () => this.setFormat('unixTimestampMillis')
   utcOffset = () => this.setFormat('utcOffset')
   utcOffsetHours = () => this.setFormat('utcOffsetHours')
+
+  override build(): JsonSchemaNumber {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaStringBuilder
@@ -306,6 +329,10 @@ export class JsonSchemaStringBuilder
 
   // contentMediaType?: string
   // contentEncoding?: string
+
+  override build(): JsonSchemaString {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaObjectBuilder<T extends Record<any, any>>
@@ -380,7 +407,9 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>>
     return this.baseDBEntity().addRequired(['id', 'created', 'updated']) as any
   }
 
-  override build = (): JsonSchemaObject<T> => _sortObject(_deepCopy(this), JSON_SCHEMA_ORDER as any)
+  override build(): JsonSchemaObject<T> {
+    return super.build() as any
+  }
 
   clone(): JsonSchemaObjectBuilder<T> {
     return new JsonSchemaObjectBuilder<T>(_deepCopy(this))
@@ -391,7 +420,7 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>>
   }
 }
 
-export class JsonSchemaArrayBuilder<ITEM = any>
+export class JsonSchemaArrayBuilder<ITEM>
   extends JsonSchemaAnyBuilder<ITEM[]>
   implements JsonSchemaArray<ITEM>
 {
@@ -416,9 +445,13 @@ export class JsonSchemaArrayBuilder<ITEM = any>
   max = (maxItems: number): this => Object.assign(this, { maxItems })
   setUniqueItems = (uniqueItems: number): this => Object.assign(this, { uniqueItems })
   unique = (uniqueItems: number): this => Object.assign(this, { uniqueItems })
+
+  override build(): JsonSchemaArray<ITEM> {
+    return super.build() as any
+  }
 }
 
-export class JsonSchemaTupleBuilder<T = any>
+export class JsonSchemaTupleBuilder<T extends any[]>
   extends JsonSchemaAnyBuilder<T>
   implements JsonSchemaTuple<T>
 {
@@ -437,6 +470,10 @@ export class JsonSchemaTupleBuilder<T = any>
   items!: JsonSchema[]
   minItems!: number
   maxItems!: number
+
+  override build(): JsonSchemaTuple<T> {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaOneOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaOneOf {
@@ -445,6 +482,10 @@ export class JsonSchemaOneOfBuilder extends JsonSchemaAnyBuilder implements Json
       ...p,
     })
   }
+
+  override build(): JsonSchemaOneOf {
+    return super.build() as any
+  }
 }
 
 export class JsonSchemaAllOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaAllOf {
@@ -452,5 +493,9 @@ export class JsonSchemaAllOfBuilder extends JsonSchemaAnyBuilder implements Json
     super({
       ...p,
     })
+  }
+
+  override build(): JsonSchemaAllOf {
+    return super.build() as any
   }
 }

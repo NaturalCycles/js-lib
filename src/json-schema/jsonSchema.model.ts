@@ -8,8 +8,8 @@ export type JsonSchema<T = any> =
   | JsonSchemaAnyOf
   | JsonSchemaNot<T>
   | JsonSchemaRef<T>
-  | JsonSchemaConst
-  | JsonSchemaEnum
+  | JsonSchemaConst<T>
+  | JsonSchemaEnum<T>
   | JsonSchemaString
   | JsonSchemaNumber
   | JsonSchemaBoolean
@@ -18,7 +18,7 @@ export type JsonSchema<T = any> =
   | JsonSchemaArray<T>
   | JsonSchemaTuple<T>
 
-export interface JsonSchemaAny<T = any> {
+export interface JsonSchemaAny<T = unknown> {
   $schema?: string
   $id?: string
   title?: string
@@ -63,12 +63,13 @@ export interface JsonSchemaAnyOf extends JsonSchemaAny {
   anyOf: JsonSchema[]
 }
 
-export interface JsonSchemaNot<T = any> extends JsonSchemaAny {
+export interface JsonSchemaNot<T = unknown> extends JsonSchemaAny {
   not: JsonSchema<T>
 }
 
-export interface JsonSchemaConst<T extends string | number | boolean = any>
-  extends JsonSchemaAny<T> {
+// Trying to loosen the type restrictions, to make things simpler. To be monitored!
+// export interface JsonSchemaConst<T extends string | number | boolean = any>
+export interface JsonSchemaConst<T = unknown> extends JsonSchemaAny<T> {
   const: T // literal type
 }
 
@@ -106,15 +107,17 @@ export interface JsonSchemaNull extends JsonSchemaAny<null> {
   type: 'null'
 }
 
-export interface JsonSchemaEnum<T extends string | number = any> extends JsonSchemaAny<T> {
+// export interface JsonSchemaEnum<T extends string | number = any> extends JsonSchemaAny<T> {
+export interface JsonSchemaEnum<T = unknown> extends JsonSchemaAny<T> {
   enum: T[]
 }
 
-export interface JsonSchemaRef<T = any> extends JsonSchemaAny<T> {
+export interface JsonSchemaRef<T = unknown> extends JsonSchemaAny<T> {
   $ref: string
 }
 
-export interface JsonSchemaObject<T extends Record<any, any> = any> extends JsonSchemaAny<T> {
+export interface JsonSchemaObject<T extends Record<any, any> = Record<any, unknown>>
+  extends JsonSchemaAny<T> {
   type: 'object'
   // let's be strict and require all these
   properties: {
@@ -143,7 +146,7 @@ export interface JsonSchemaObject<T extends Record<any, any> = any> extends Json
   dependencies?: StringMap<string[]>
 }
 
-export interface JsonSchemaArray<ITEM = any> extends JsonSchemaAny<ITEM[]> {
+export interface JsonSchemaArray<ITEM = unknown> extends JsonSchemaAny<ITEM[]> {
   type: 'array'
   items: JsonSchema<ITEM>
   minItems?: number
@@ -151,7 +154,7 @@ export interface JsonSchemaArray<ITEM = any> extends JsonSchemaAny<ITEM[]> {
   uniqueItems?: boolean
 }
 
-export interface JsonSchemaTuple<T = any> extends JsonSchemaAny<T> {
+export interface JsonSchemaTuple<T = unknown> extends JsonSchemaAny<T> {
   type: 'array'
   items: JsonSchema[]
   minItems: number
