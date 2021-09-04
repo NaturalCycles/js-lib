@@ -26,6 +26,10 @@ import {
 
 /* eslint-disable id-blacklist, @typescript-eslint/explicit-module-boundary-types */
 
+export interface JsonSchemaBuilder<T = unknown> {
+  build(): JsonSchema<T>
+}
+
 /**
  * Fluent (chainable) API to manually create Json Schemas.
  * Inspired by Joi
@@ -109,10 +113,9 @@ export const jsonSchema = {
   },
 }
 
-export class JsonSchemaAnyBuilder<
-  T = unknown,
-  SCHEMA_TYPE extends JsonSchemaAny<T> = JsonSchemaAny<T>,
-> {
+export class JsonSchemaAnyBuilder<T = unknown, SCHEMA_TYPE extends JsonSchema<T> = JsonSchema<T>>
+  implements JsonSchemaBuilder<T>
+{
   constructor(protected schema: SCHEMA_TYPE) {}
 
   /**
@@ -313,8 +316,8 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>> extends JsonSch
     })
   }
 
-  addProperties(props: { [k in keyof T]: JsonSchemaAnyBuilder<T[k]> }): this {
-    Object.entries(props).forEach(([k, builder]: [keyof T, JsonSchemaAnyBuilder]) => {
+  addProperties(props: { [k in keyof T]: JsonSchemaBuilder<T[k]> }): this {
+    Object.entries(props).forEach(([k, builder]: [keyof T, JsonSchemaBuilder]) => {
       const schema = builder.build()
       if (!schema.optionalField) {
         this.schema.required.push(k)
@@ -383,7 +386,7 @@ export class JsonSchemaArrayBuilder<ITEM> extends JsonSchemaAnyBuilder<
   ITEM[],
   JsonSchemaArray<ITEM>
 > {
-  constructor(itemsSchema: JsonSchemaAnyBuilder<ITEM>) {
+  constructor(itemsSchema: JsonSchemaBuilder<ITEM>) {
     super({
       type: 'array',
       items: itemsSchema.build(),
@@ -408,7 +411,7 @@ export class JsonSchemaTupleBuilder<T extends any[]> extends JsonSchemaAnyBuilde
   T,
   JsonSchemaTuple<T>
 > {
-  constructor(items: JsonSchemaAnyBuilder[]) {
+  constructor(items: JsonSchemaBuilder[]) {
     super({
       type: 'array',
       items: items.map(b => b.build()),
