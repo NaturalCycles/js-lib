@@ -1,3 +1,10 @@
+## [14.42.1](https://github.com/NaturalCycles/js-lib/compare/v14.42.0...v14.42.1) (2021-09-04)
+
+
+### Bug Fixes
+
+* extract JsonSchemaBuilder interface ([7525659](https://github.com/NaturalCycles/js-lib/commit/7525659c66d1f2939152adc73f286027c60d50cc))
+
 # [14.42.0](https://github.com/NaturalCycles/js-lib/compare/v14.41.0...v14.42.0) (2021-09-04)
 
 
