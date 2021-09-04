@@ -10,7 +10,6 @@ import {
   _deepCopy,
   _sortObject,
 } from '../index'
-import { StringMap } from '../types'
 import { JSON_SCHEMA_ORDER } from './jsonSchema.cnst'
 import {
   JsonSchema,
@@ -32,96 +31,143 @@ import {
  * Inspired by Joi
  */
 export const jsonSchema = {
-  any: (p?: Partial<JsonSchemaAny>) => new JsonSchemaAnyBuilder(p),
-  const: <T = unknown>(value: T, p?: Partial<JsonSchemaConst>) =>
-    new JsonSchemaConstBuilder<T>(value, p),
-  ref: <T = unknown>($ref: string, p?: Partial<JsonSchemaRef>) =>
-    new JsonSchemaRefBuilder<T>($ref, p),
-  enum: <T = unknown>(enumValues: T[], p?: Partial<JsonSchemaEnum>) =>
-    new JsonSchemaEnumBuilder<T>(enumValues, p),
-  boolean: () => new JsonSchemaBooleanBuilder(),
-  null: () => new JsonSchemaNullBuilder(),
+  any<T = unknown>() {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaAny<T>>({})
+  },
+  const<T = unknown>(value: T) {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaConst<T>>({
+      const: value,
+    })
+  },
+  null() {
+    return new JsonSchemaAnyBuilder<null, JsonSchemaNull>({
+      type: 'null',
+    })
+  },
+  ref<T = unknown>($ref: string) {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaRef<T>>({
+      $ref,
+    })
+  },
+  enum<T = unknown>(enumValues: T[]) {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaEnum<T>>({ enum: enumValues })
+  },
+  boolean() {
+    return new JsonSchemaAnyBuilder<boolean, JsonSchemaBoolean>({
+      type: 'boolean',
+    })
+  },
+
   // number types
-  number: () => new JsonSchemaNumberBuilder(),
-  integer: () => new JsonSchemaNumberBuilder().integer(),
-  unixTimestamp: () => new JsonSchemaNumberBuilder().unixTimestamp(),
+  number() {
+    return new JsonSchemaNumberBuilder()
+  },
+  integer() {
+    return new JsonSchemaNumberBuilder().integer()
+  },
+  unixTimestamp() {
+    return new JsonSchemaNumberBuilder().unixTimestamp()
+  },
   // string types
-  string: () => new JsonSchemaStringBuilder(),
-  dateString: () => new JsonSchemaStringBuilder().date(),
+  string() {
+    return new JsonSchemaStringBuilder()
+  },
+  dateString() {
+    return new JsonSchemaStringBuilder().date()
+  },
   // email: () => new JsonSchemaStringBuilder().email(),
   // complex types
-  rootObject: <T extends Record<any, any>>(
+  object<T extends Record<any, any>>(
     props: {
       [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
     },
-  ) => new JsonSchemaObjectBuilder<T>().addProperties(props).$schemaDraft7(),
-  object: <T extends Record<any, any>>(
+  ) {
+    return new JsonSchemaObjectBuilder<T>().addProperties(props)
+  },
+  rootObject<T extends Record<any, any>>(
     props: {
       [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
     },
-  ) => new JsonSchemaObjectBuilder<T>().addProperties(props),
-  array: <ITEM = unknown>(items: JsonSchema<ITEM>) => new JsonSchemaArrayBuilder<ITEM>(items),
-  tuple: <T extends any[] = unknown[]>(items: JsonSchema[]) => new JsonSchemaTupleBuilder<T>(items),
-  oneOf: (items: JsonSchema[]) => new JsonSchemaOneOfBuilder(items),
-  allOf: (items: JsonSchema[]) => new JsonSchemaAllOfBuilder(items),
+  ) {
+    return new JsonSchemaObjectBuilder<T>().addProperties(props).$schemaDraft7()
+  },
+  array<ITEM = unknown>(itemSchema: JsonSchemaAnyBuilder<ITEM>) {
+    return new JsonSchemaArrayBuilder<ITEM>(itemSchema)
+  },
+  tuple<T extends any[] = unknown[]>(items: JsonSchemaAnyBuilder[]) {
+    return new JsonSchemaTupleBuilder<T>(items)
+  },
+  oneOf<T = unknown>(items: JsonSchemaAnyBuilder[]) {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaOneOf<T>>({
+      oneOf: items.map(b => b.build()),
+    })
+  },
+  allOf<T = unknown>(items: JsonSchemaAnyBuilder[]) {
+    return new JsonSchemaAnyBuilder<T, JsonSchemaAllOf<T>>({
+      allOf: items.map(b => b.build()),
+    })
+  },
 }
 
-export class JsonSchemaAnyBuilder<T = unknown> implements JsonSchemaAny<T> {
-  constructor(p: Partial<JsonSchema> = {}) {
-    Object.assign(this, {
-      ...p,
-    })
-  }
-
-  $schema?: string
-  $id?: string
-  title?: string
-  description?: string
-  // $comment?: string
-  // nullable?: boolean // not sure about that field
-  deprecated?: boolean
-  readOnly?: boolean
-  writeOnly?: boolean
-
-  type?: string
-
-  default?: T
-
-  // union type
-  oneOf?: JsonSchema[]
-  // intersection type
-  allOf?: JsonSchema[]
-  // other types
-  anyOf?: JsonSchema[]
-  not?: JsonSchema
-
-  // https://json-schema.org/understanding-json-schema/reference/conditionals.html#id6
-  if?: JsonSchema
-  then?: JsonSchema
-  else?: JsonSchema
+export class JsonSchemaAnyBuilder<
+  T = unknown,
+  SCHEMA_TYPE extends JsonSchemaAny<T> = JsonSchemaAny<T>,
+> {
+  constructor(protected schema: SCHEMA_TYPE) {}
 
   /**
-   * This is a temporary "intermediate AST" field that is used inside the parser.
-   * In the final schema this field will NOT be present.
+   * Used in ObjectBuilder to access schema.optionalProperty
    */
-  optionalField?: true
+  getSchema(): SCHEMA_TYPE {
+    return this.schema
+  }
 
-  set$schema = ($schema: string): this => Object.assign(this, { $schema })
-  $schemaDraft7 = () => this.set$schema('http://json-schema.org/draft-07/schema#')
-  set$id = ($id: string): this => Object.assign(this, { $id })
-  setTitle = (title: string): this => Object.assign(this, { title })
-  setDescription = (description: string): this => Object.assign(this, { description })
-  setDeprecated = (deprecated = true): this => Object.assign(this, { deprecated })
-  setType = (type: string): this => Object.assign(this, { type })
-  setDefault = (v: any): this => Object.assign(this, { default: v })
-  setOneOf = (schemas: JsonSchema[]): this => Object.assign(this, { oneOf: schemas })
-  setAllOf = (schemas: JsonSchema[]): this => Object.assign(this, { allOf: schemas })
+  $schema($schema: string): this {
+    Object.assign(this.schema, { $schema })
+    return this
+  }
+  $schemaDraft7(): this {
+    this.$schema('http://json-schema.org/draft-07/schema#')
+    return this
+  }
+  $id($id: string): this {
+    Object.assign(this.schema, { $id })
+    return this
+  }
+  title(title: string): this {
+    Object.assign(this.schema, { title })
+    return this
+  }
+  description(description: string): this {
+    Object.assign(this.schema, { description })
+    return this
+  }
+  deprecated(deprecated = true): this {
+    Object.assign(this.schema, { deprecated })
+    return this
+  }
+  type(type: string): this {
+    Object.assign(this.schema, { type })
+    return this
+  }
+  default(v: any): this {
+    Object.assign(this.schema, { default: v })
+    return this
+  }
+  oneOf(schemas: JsonSchema[]): this {
+    Object.assign(this.schema, { oneOf: schemas })
+    return this
+  }
+  allOf(schemas: JsonSchema[]): this {
+    Object.assign(this.schema, { allOf: schemas })
+    return this
+  }
 
-  optional = (optional = true): this => {
+  optional(optional = true): this {
     if (optional) {
-      this.optionalField = true
+      this.schema.optionalField = true
     } else {
-      delete this.optionalField
+      delete this.schema.optionalField
     }
     return this
   }
@@ -130,189 +176,112 @@ export class JsonSchemaAnyBuilder<T = unknown> implements JsonSchemaAny<T> {
    * Produces a "clean schema object" without methods.
    * Same as if it would be JSON.stringified.
    */
-  build(): JsonSchemaAny<T> {
-    return _sortObject(JSON.parse(JSON.stringify(this)), JSON_SCHEMA_ORDER as any)
+  build(): SCHEMA_TYPE {
+    return _sortObject(JSON.parse(JSON.stringify(this.schema)), JSON_SCHEMA_ORDER)
+  }
+
+  clone(): JsonSchemaAnyBuilder<T, SCHEMA_TYPE> {
+    return new JsonSchemaAnyBuilder<T, SCHEMA_TYPE>(_deepCopy(this.schema))
   }
 }
 
-export class JsonSchemaNullBuilder extends JsonSchemaAnyBuilder<null> implements JsonSchemaNull {
-  constructor(p: JsonSchemaAny = {}) {
-    super({
-      type: 'null',
-      ...p,
-    })
-  }
-
-  override type!: 'null'
-
-  override build(): JsonSchemaNull {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaConstBuilder<T>
-  extends JsonSchemaAnyBuilder<T>
-  implements JsonSchemaConst<T>
-{
-  constructor(value: T, p: JsonSchemaAny = {}) {
-    super({
-      const: value,
-      ...p,
-    })
-  }
-
-  const!: T
-
-  override build(): JsonSchemaConst<T> {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaRefBuilder<T> extends JsonSchemaAnyBuilder<T> implements JsonSchemaRef<T> {
-  constructor($ref: string, p: JsonSchemaAny = {}) {
-    super({
-      $ref,
-      ...p,
-    })
-  }
-
-  $ref!: string
-
-  override build(): JsonSchemaRef<T> {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaEnumBuilder<T> extends JsonSchemaAnyBuilder<T> implements JsonSchemaEnum<T> {
-  constructor(enumValues: T[], p: JsonSchemaAny = {}) {
-    super({
-      enum: enumValues,
-      ...p,
-    })
-  }
-
-  enum!: T[]
-
-  override build(): JsonSchemaEnum<T> {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaBooleanBuilder
-  extends JsonSchemaAnyBuilder<boolean>
-  implements JsonSchemaBoolean
-{
-  constructor(p: JsonSchemaAny = {}) {
-    super({
-      type: 'boolean',
-      ...p,
-    })
-  }
-
-  override type!: 'boolean'
-
-  override build(): JsonSchemaBoolean {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaNumberBuilder
-  extends JsonSchemaAnyBuilder<number>
-  implements JsonSchemaNumber
-{
-  constructor(p: JsonSchemaAny = {}) {
+export class JsonSchemaNumberBuilder extends JsonSchemaAnyBuilder<number, JsonSchemaNumber> {
+  constructor() {
     super({
       type: 'number',
-      ...p,
     })
   }
 
-  override type!: 'number' | 'integer'
-
-  format?: string
-  multipleOf?: number
-  minimum?: number
-  exclusiveMinimum?: number
-  maximum?: number
-  exclusiveMaximum?: number
-
-  integer = (): this => Object.assign(this, { type: 'integer' })
-
-  setMultipleOf = (multipleOf: number): this => Object.assign(this, { multipleOf })
-  setMinimum = (minimum: number): this => Object.assign(this, { minimum })
-  min = (minimum: number): this => Object.assign(this, { minimum })
-  setExclusiveMinimum = (exclusiveMinimum: number): this =>
-    Object.assign(this, { exclusiveMinimum })
-  setMaximum = (maximum: number): this => Object.assign(this, { maximum })
-  max = (maximum: number): this => Object.assign(this, { maximum })
-  setExclusiveMaximum = (exclusiveMaximum: number): this =>
-    Object.assign(this, { exclusiveMaximum })
-  range = (minimum: number, maximum: number): this => Object.assign(this, { minimum, maximum })
-
-  setFormat = (format: string): this => Object.assign(this, { format })
-
-  int32 = () => this.setFormat('int32')
-  int64 = () => this.setFormat('int64')
-  float = () => this.setFormat('float')
-  double = () => this.setFormat('double')
-  unixTimestamp = () => this.setFormat('unixTimestamp')
-  unixTimestampMillis = () => this.setFormat('unixTimestampMillis')
-  utcOffset = () => this.setFormat('utcOffset')
-  utcOffsetHours = () => this.setFormat('utcOffsetHours')
-
-  override build(): JsonSchemaNumber {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaStringBuilder
-  extends JsonSchemaAnyBuilder<string>
-  implements JsonSchemaString
-{
-  constructor(p: JsonSchemaAny = {}) {
-    super({
-      type: 'string',
-      ...p,
-    })
+  integer(): this {
+    Object.assign(this.schema, { type: 'integer' })
+    return this
   }
 
-  override type!: 'string'
-
-  pattern?: string
-  minLength?: number
-  maxLength?: number
-  format?: string
-
-  contentMediaType?: string
-  contentEncoding?: string // e.g 'base64'
+  multipleOf(multipleOf: number): this {
+    Object.assign(this.schema, { multipleOf })
+    return this
+  }
+  min(minimum: number): this {
+    Object.assign(this.schema, { minimum })
+    return this
+  }
+  exclusiveMin(exclusiveMinimum: number): this {
+    Object.assign(this.schema, { exclusiveMinimum })
+    return this
+  }
+  max(maximum: number): this {
+    Object.assign(this.schema, { maximum })
+    return this
+  }
+  exclusiveMax(exclusiveMaximum: number): this {
+    Object.assign(this.schema, { exclusiveMaximum })
+    return this
+  }
 
   /**
-   * https://ajv.js.org/packages/ajv-keywords.html#transform
+   * Both ranges are inclusive.
    */
-  transform?: ('trim' | 'toLowerCase' | 'toUpperCase')[]
+  range(minimum: number, maximum: number): this {
+    Object.assign(this.schema, { minimum, maximum })
+    return this
+  }
 
-  setPattern = (pattern: string): this => Object.assign(this, { pattern })
-  setMinLength = (minLength: number): this => Object.assign(this, { minLength })
-  min = (minLength: number): this => Object.assign(this, { minLength })
-  setMaxLength = (maxLength: number): this => Object.assign(this, { maxLength })
-  max = (maxLength: number): this => Object.assign(this, { maxLength })
-  length = (minLength: number, maxLength: number): this =>
-    Object.assign(this, { minLength, maxLength })
+  format(format: string): this {
+    Object.assign(this.schema, { format })
+    return this
+  }
 
-  setFormat = (format: string): this => Object.assign(this, { format })
+  int32 = () => this.format('int32')
+  int64 = () => this.format('int64')
+  float = () => this.format('float')
+  double = () => this.format('double')
+  unixTimestamp = () => this.format('unixTimestamp')
+  unixTimestampMillis = () => this.format('unixTimestampMillis')
+  utcOffset = () => this.format('utcOffset')
+  utcOffsetHours = () => this.format('utcOffsetHours')
+}
 
-  email = () => this.setFormat('email')
-  date = () => this.setFormat('date')
-  url = () => this.setFormat('url')
-  ipv4 = () => this.setFormat('ipv4')
-  ipv6 = () => this.setFormat('ipv6')
-  password = () => this.setFormat('password')
-  id = () => this.setFormat('id')
-  slug = () => this.setFormat('slug')
-  semVer = () => this.setFormat('semVer')
-  languageTag = () => this.setFormat('languageTag')
-  countryCode = () => this.setFormat('countryCode')
-  currency = () => this.setFormat('currency')
+export class JsonSchemaStringBuilder extends JsonSchemaAnyBuilder<string, JsonSchemaString> {
+  constructor() {
+    super({
+      type: 'string',
+    })
+  }
+
+  pattern(pattern: string): this {
+    Object.assign(this.schema, { pattern })
+    return this
+  }
+  min(minLength: number): this {
+    Object.assign(this.schema, { minLength })
+    return this
+  }
+  max(maxLength: number): this {
+    Object.assign(this.schema, { maxLength })
+    return this
+  }
+  length(minLength: number, maxLength: number): this {
+    Object.assign(this.schema, { minLength, maxLength })
+    return this
+  }
+
+  format(format: string): this {
+    Object.assign(this.schema, { format })
+    return this
+  }
+
+  email = () => this.format('email')
+  date = () => this.format('date')
+  url = () => this.format('url')
+  ipv4 = () => this.format('ipv4')
+  ipv6 = () => this.format('ipv6')
+  password = () => this.format('password')
+  id = () => this.format('id')
+  slug = () => this.format('slug')
+  semVer = () => this.format('semVer')
+  languageTag = () => this.format('languageTag')
+  countryCode = () => this.format('countryCode')
+  currency = () => this.format('currency')
 
   trim = (trim = true) => this.transformModify('trim', trim)
   toLowerCase = (toLowerCase = true) => this.transformModify('toLowerCase', toLowerCase)
@@ -320,81 +289,74 @@ export class JsonSchemaStringBuilder
 
   private transformModify(t: 'trim' | 'toLowerCase' | 'toUpperCase', add: boolean): this {
     if (add) {
-      this.transform = _uniq([...(this.transform || []), t])
+      this.schema.transform = _uniq([...(this.schema.transform || []), t])
     } else {
-      this.transform = this.transform?.filter(s => s !== t)
+      this.schema.transform = this.schema.transform?.filter(s => s !== t)
     }
     return this
   }
 
   // contentMediaType?: string
   // contentEncoding?: string
-
-  override build(): JsonSchemaString {
-    return super.build() as any
-  }
 }
 
-export class JsonSchemaObjectBuilder<T extends Record<any, any>>
-  extends JsonSchemaAnyBuilder<T>
-  implements JsonSchemaObject<T>
-{
-  constructor(p: JsonSchemaAny = {}) {
+export class JsonSchemaObjectBuilder<T extends Record<any, any>> extends JsonSchemaAnyBuilder<
+  T,
+  JsonSchemaObject<T>
+> {
+  constructor() {
     super({
       type: 'object',
-      properties: {},
+      properties: {} as T,
       required: [],
       additionalProperties: false,
-      ...p,
     })
   }
 
-  override type!: 'object'
-
-  properties!: { [k in keyof T]: JsonSchema }
-  required!: (keyof T)[]
-  additionalProperties!: boolean
-  minProperties?: number
-  maxProperties?: number
-
-  // StringMap
-  patternProperties?: StringMap<JsonSchema>
-  propertyNames?: JsonSchema
-
-  dependentRequired?: StringMap<string[]>
-  dependentSchemas?: StringMap<JsonSchema>
-  dependencies?: StringMap<string[]>
-
   addProperties(props: { [k in keyof T]: JsonSchemaAnyBuilder<T[k]> }): this {
-    Object.entries(props).forEach(([k, schema]: [keyof T, JsonSchemaAnyBuilder]) => {
+    Object.entries(props).forEach(([k, builder]: [keyof T, JsonSchemaAnyBuilder]) => {
+      const schema = builder.build()
       if (!schema.optionalField) {
-        this.required.push(k)
+        this.schema.required.push(k)
       } else {
         delete schema.optionalField
       }
-      this.properties[k] = _deepCopy(schema)
+      this.schema.properties[k] = schema
     })
 
-    this.required = _uniq(this.required)
+    this.required(this.schema.required) // ensure it's sorted and _uniq
 
     return this
   }
 
-  setRequired = (required: (keyof T)[]): this => Object.assign(this, { required })
-  addRequired = (required: (keyof T)[]): this =>
-    Object.assign(this, { required: _uniq([...this.required, ...required]) })
+  /**
+   * Ensures `required` is always sorted and _uniq
+   */
+  required(required: (keyof T)[]): this {
+    Object.assign(this.schema, { required })
+    this.schema.required = _uniq(required).sort()
+    return this
+  }
 
-  setMinProperties = (minProperties: number): this => Object.assign(this, { minProperties })
-  minProps = (minProperties: number): this => Object.assign(this, { minProperties })
-  setMaxProperties = (maxProperties: number): this => Object.assign(this, { maxProperties })
-  maxProps = (maxProperties: number): this => Object.assign(this, { maxProperties })
-  setAdditionalProperties = (additionalProperties: boolean): this =>
-    Object.assign(this, { additionalProperties })
-  additionalProps = (additionalProperties: boolean): this =>
-    Object.assign(this, { additionalProperties })
+  addRequired(required: (keyof T)[]): this {
+    return this.required([...this.schema.required, ...required])
+  }
+
+  minProps(minProperties: number): this {
+    Object.assign(this.schema, { minProperties })
+    return this
+  }
+  maxProps(maxProperties: number): this {
+    Object.assign(this.schema, { maxProperties })
+    return this
+  }
+  additionalProps(additionalProperties: boolean): this {
+    Object.assign(this.schema, { additionalProperties })
+    return this
+  }
 
   baseDBEntity(): JsonSchemaObjectBuilder<T & BaseDBEntity> {
-    Object.assign(this.properties, {
+    Object.assign(this.schema.properties, {
       id: { type: 'string' },
       created: { type: 'number', format: 'unixTimestamp' },
       updated: { type: 'number', format: 'unixTimestamp' },
@@ -407,95 +369,51 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>>
     return this.baseDBEntity().addRequired(['id', 'created', 'updated']) as any
   }
 
-  override build(): JsonSchemaObject<T> {
-    return super.build() as any
-  }
-
-  clone(): JsonSchemaObjectBuilder<T> {
-    return new JsonSchemaObjectBuilder<T>(_deepCopy(this))
-  }
-
-  extend<T2>(s2: JsonSchemaObject<T2>): JsonSchemaObjectBuilder<T & T2> {
-    return new JsonSchemaObjectBuilder<T & T2>(mergeJsonSchemaObjects(_deepCopy(this), s2))
+  extend<T2 extends Record<any, any>>(
+    s2: JsonSchemaObjectBuilder<T2>,
+  ): JsonSchemaObjectBuilder<T & T2> {
+    const builder = new JsonSchemaObjectBuilder<T & T2>()
+    Object.assign(builder.schema, _deepCopy(this.schema))
+    mergeJsonSchemaObjects(builder.schema, s2.schema)
+    return builder
   }
 }
 
-export class JsonSchemaArrayBuilder<ITEM>
-  extends JsonSchemaAnyBuilder<ITEM[]>
-  implements JsonSchemaArray<ITEM>
-{
-  constructor(items: JsonSchema<ITEM>, p: JsonSchemaAny = {}) {
+export class JsonSchemaArrayBuilder<ITEM> extends JsonSchemaAnyBuilder<
+  ITEM[],
+  JsonSchemaArray<ITEM>
+> {
+  constructor(itemsSchema: JsonSchemaAnyBuilder<ITEM>) {
     super({
       type: 'array',
-      items,
-      ...p,
+      items: itemsSchema.build(),
     })
   }
 
-  override type!: 'array'
-
-  items!: JsonSchema<ITEM>
-  minItems?: number
-  maxItems?: number
-  uniqueItems?: boolean
-
-  setMinItems = (minItems: number): this => Object.assign(this, { minItems })
-  min = (minItems: number): this => Object.assign(this, { minItems })
-  setMaxItems = (maxItems: number): this => Object.assign(this, { maxItems })
-  max = (maxItems: number): this => Object.assign(this, { maxItems })
-  setUniqueItems = (uniqueItems: number): this => Object.assign(this, { uniqueItems })
-  unique = (uniqueItems: number): this => Object.assign(this, { uniqueItems })
-
-  override build(): JsonSchemaArray<ITEM> {
-    return super.build() as any
+  min(minItems: number): this {
+    Object.assign(this.schema, { minItems })
+    return this
+  }
+  max(maxItems: number): this {
+    Object.assign(this.schema, { maxItems })
+    return this
+  }
+  unique(uniqueItems: number): this {
+    Object.assign(this.schema, { uniqueItems })
+    return this
   }
 }
 
-export class JsonSchemaTupleBuilder<T extends any[]>
-  extends JsonSchemaAnyBuilder<T>
-  implements JsonSchemaTuple<T>
-{
-  constructor(items: JsonSchema[], p: JsonSchemaAny = {}) {
+export class JsonSchemaTupleBuilder<T extends any[]> extends JsonSchemaAnyBuilder<
+  T,
+  JsonSchemaTuple<T>
+> {
+  constructor(items: JsonSchemaAnyBuilder[]) {
     super({
       type: 'array',
-      items,
+      items: items.map(b => b.build()),
       minItems: items.length,
       maxItems: items.length,
-      ...p,
     })
-  }
-
-  override type!: 'array'
-
-  items!: JsonSchema[]
-  minItems!: number
-  maxItems!: number
-
-  override build(): JsonSchemaTuple<T> {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaOneOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaOneOf {
-  constructor(public override oneOf: JsonSchema[], p: JsonSchemaAny = {}) {
-    super({
-      ...p,
-    })
-  }
-
-  override build(): JsonSchemaOneOf {
-    return super.build() as any
-  }
-}
-
-export class JsonSchemaAllOfBuilder extends JsonSchemaAnyBuilder implements JsonSchemaAllOf {
-  constructor(public override allOf: JsonSchema[], p: JsonSchemaAny = {}) {
-    super({
-      ...p,
-    })
-  }
-
-  override build(): JsonSchemaAllOf {
-    return super.build() as any
   }
 }

@@ -41,10 +41,10 @@ Object {
     },
   },
   "required": Array [
+    "address1",
+    "city",
     "countryCode",
     "zip",
-    "city",
-    "address1",
   ],
   "type": "object",
 }
@@ -133,10 +133,10 @@ Object {
     },
   },
   "required": Array [
+    "address1",
+    "city",
     "countryCode",
     "zip",
-    "city",
-    "address1",
   ],
   "type": "object",
 }

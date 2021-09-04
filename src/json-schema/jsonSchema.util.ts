@@ -1,9 +1,9 @@
+import { _uniq } from '../index'
 import { _filterNullishValues } from '../object/object.util'
 import { JsonSchemaObject } from './jsonSchema.model'
 
 /**
- * Merges s2 into s1 and returns s1.
- * Mutates s1.
+ * Merges s2 into s1 (mutates s1) and returns s1.
  * Does not mutate s2.
  * API similar to Object.assign(s1, s2)
  */
@@ -27,6 +27,7 @@ export function mergeJsonSchemaObjects<T1, T2>(
 
   // Merge `required`
   s1.required.push(...(s2.required as any))
+  s1.required = _uniq(s1.required).sort()
 
   // `additionalProperties` remains the same
 

@@ -1,5 +1,5 @@
 import { BaseDBEntity } from '../index'
-import { jsonSchema, JsonSchemaAnyBuilder } from './jsonSchemaBuilder'
+import { jsonSchema } from './jsonSchemaBuilder'
 import { baseDBEntityJsonSchema, savedDBEntityJsonSchema } from './jsonSchemas'
 
 interface Address {
@@ -42,17 +42,6 @@ const addressBMJsonSchema3 = addressJsonSchema.extend(
   }),
 )
 
-test('json stringify/parse builder', () => {
-  const s = new JsonSchemaAnyBuilder().$schemaDraft7().set$id('sdf')
-  // console.log(JSON.stringify(s, null, 2))
-  expect(JSON.parse(JSON.stringify(s))).toMatchInlineSnapshot(`
-Object {
-  "$id": "sdf",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-}
-`)
-})
-
 test('simpleStringSchema', () => {
   const s = jsonSchema.string().build()
 
@@ -74,9 +63,6 @@ test('addressBMJsonSchema', () => {
 })
 
 test('addressDBMJsonSchema', () => {
-  addressDBMJsonSchema.required.sort()
-  addressDBMJsonSchema2.required.sort()
-
   expect(addressDBMJsonSchema.build()).toMatchSnapshot()
   expect(addressDBMJsonSchema2.build()).toEqual(addressDBMJsonSchema.build())
 })
@@ -99,7 +85,7 @@ Object {
 })
 
 test('order', () => {
-  const s = addressDBMJsonSchema.$schemaDraft7().set$id('AddressDBM').build()
+  const s = addressDBMJsonSchema.$schemaDraft7().$id('AddressDBM').build()
   expect(Object.keys(s)).toMatchInlineSnapshot(`
 Array [
   "$schema",

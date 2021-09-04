@@ -1,11 +1,11 @@
 import { StringMap } from '../types'
 
 // eslint-disable-next-line unused-imports/no-unused-vars
-export type JsonSchema<T = any> =
+export type JsonSchema<T = unknown> =
   | JsonSchemaAny<T>
-  | JsonSchemaOneOf
-  | JsonSchemaAllOf
-  | JsonSchemaAnyOf
+  | JsonSchemaOneOf<T>
+  | JsonSchemaAllOf<T>
+  | JsonSchemaAnyOf<T>
   | JsonSchemaNot<T>
   | JsonSchemaRef<T>
   | JsonSchemaConst<T>
@@ -48,23 +48,23 @@ export interface JsonSchemaAny<T = unknown> {
 /**
  * Union type
  */
-export interface JsonSchemaOneOf extends JsonSchemaAny {
+export interface JsonSchemaOneOf<T = unknown> extends JsonSchemaAny<T> {
   oneOf: JsonSchema[]
 }
 
 /**
  * Intersection type
  */
-export interface JsonSchemaAllOf extends JsonSchemaAny {
+export interface JsonSchemaAllOf<T = unknown> extends JsonSchemaAny<T> {
   allOf: JsonSchema[]
 }
 
-export interface JsonSchemaAnyOf extends JsonSchemaAny {
+export interface JsonSchemaAnyOf<T = unknown> extends JsonSchemaAny<T> {
   anyOf: JsonSchema[]
 }
 
-export interface JsonSchemaNot<T = unknown> extends JsonSchemaAny {
-  not: JsonSchema<T>
+export interface JsonSchemaNot<T = unknown> extends JsonSchemaAny<T> {
+  not: JsonSchema
 }
 
 // Trying to loosen the type restrictions, to make things simpler. To be monitored!
