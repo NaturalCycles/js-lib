@@ -1,3 +1,4 @@
+import { AjvSchema } from '@naturalcycles/nodejs-lib'
 import { BaseDBEntity } from '../index'
 import { jsonSchema } from './jsonSchemaBuilder'
 import { baseDBEntityJsonSchema, savedDBEntityJsonSchema } from './jsonSchemas'
@@ -96,4 +97,19 @@ Array [
   "additionalProperties",
 ]
 `)
+})
+
+test('buffer', () => {
+  const s = jsonSchema.buffer()
+  expect(s.build()).toMatchInlineSnapshot(`
+Object {
+  "instanceof": "Buffer",
+}
+`)
+
+  // const schema = AjvSchema.create(s) // this fails strangely!
+  const schema = AjvSchema.create(s.build())
+  schema.validate(Buffer.from('abc'))
+
+  expect(schema.isValid('a b c' as any)).toBe(false)
 })

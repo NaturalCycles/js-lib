@@ -61,6 +61,11 @@ export const jsonSchema = {
       type: 'boolean',
     })
   },
+  buffer() {
+    return new JsonSchemaAnyBuilder<Buffer, JsonSchemaAny<Buffer>>({
+      instanceof: 'Buffer',
+    })
+  },
 
   // number types
   number() {
@@ -81,18 +86,14 @@ export const jsonSchema = {
   },
   // email: () => new JsonSchemaStringBuilder().email(),
   // complex types
-  object<T extends Record<any, any>>(
-    props: {
-      [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
-    },
-  ) {
+  object<T extends Record<any, any>>(props: {
+    [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
+  }) {
     return new JsonSchemaObjectBuilder<T>().addProperties(props)
   },
-  rootObject<T extends Record<any, any>>(
-    props: {
-      [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
-    },
-  ) {
+  rootObject<T extends Record<any, any>>(props: {
+    [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
+  }) {
     return new JsonSchemaObjectBuilder<T>().addProperties(props).$schemaDraft7()
   },
   array<ITEM = unknown>(itemSchema: JsonSchemaAnyBuilder<ITEM>) {
@@ -163,6 +164,11 @@ export class JsonSchemaAnyBuilder<T = unknown, SCHEMA_TYPE extends JsonSchema<T>
   }
   allOf(schemas: JsonSchema[]): this {
     Object.assign(this.schema, { allOf: schemas })
+    return this
+  }
+
+  instanceof(of: string): this {
+    this.schema.instanceof = of
     return this
   }
 

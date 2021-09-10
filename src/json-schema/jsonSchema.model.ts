@@ -39,6 +39,14 @@ export interface JsonSchemaAny<T = unknown> {
   else?: JsonSchema
 
   /**
+   * https://ajv.js.org/packages/ajv-keywords.html#instanceof
+   *
+   * Useful for Node.js Buffer, you can use it like:
+   * `instanceof: 'Buffer'`
+   */
+  instanceof?: string | string[]
+
+  /**
    * This is a temporary "intermediate AST" field that is used inside the parser.
    * In the final schema this field will NOT be present.
    */
