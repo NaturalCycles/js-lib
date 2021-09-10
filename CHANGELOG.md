@@ -1,3 +1,10 @@
+# [14.43.0](https://github.com/NaturalCycles/js-lib/compare/v14.42.1...v14.43.0) (2021-09-10)
+
+
+### Features
+
+* jsonSchema.buffer() ([67cd330](https://github.com/NaturalCycles/js-lib/commit/67cd330e805870f65cdc35c3974eb23347ec8692))
+
 ## [14.42.1](https://github.com/NaturalCycles/js-lib/compare/v14.42.0...v14.42.1) (2021-09-04)
 
 

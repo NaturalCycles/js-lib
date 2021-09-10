@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/js-lib",
-  "version": "14.42.1",
+  "version": "14.43.0",
   "scripts": {
     "prepare": "husky install",
     "build-prod": "build-prod-esm-cjs",
