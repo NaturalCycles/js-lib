@@ -1,3 +1,10 @@
+## [12.1.4](https://github.com/NaturalCycles/dev-lib/compare/v12.1.3...v12.1.4) (2021-09-10)
+
+
+### Bug Fixes
+
+* adopt prettier@2.4 ([89fee69](https://github.com/NaturalCycles/dev-lib/commit/89fee69f763ae5e63590541f5e9bdc6bbf8f8c5b))
+
 ## [12.1.3](https://github.com/NaturalCycles/dev-lib/compare/v12.1.2...v12.1.3) (2021-08-30)
 
 
