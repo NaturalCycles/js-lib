@@ -1,6 +1,6 @@
 {
   "name": "@naturalcycles/dev-lib",
-  "version": "12.1.4",
+  "version": "12.1.5",
   "scripts": {
     "prepare": "husky install",
     "tsn-debug": "tsn testScript.ts",
