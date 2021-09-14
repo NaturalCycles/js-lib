@@ -17,9 +17,12 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/src/configs/recommended.ts
     'plugin:@typescript-eslint/recommended',
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/src/configs/recommended-requiring-type-checking.ts
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     // 'plugin:jest/recommended', // add manually if needed!
+    // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
     'plugin:unicorn/recommended',
   ],
   ignorePatterns: ['**/__exclude/**'],
