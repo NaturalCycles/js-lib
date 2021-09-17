@@ -34,8 +34,8 @@ module.exports = {
     ecmaVersion: 2020,
   },
   plugins: [
-    'eslint-plugin-jsdoc',
-    'eslint-plugin-import',
+    'jsdoc',
+    'import',
     '@typescript-eslint',
     'unused-imports',
     // 'jest', // add manually if needed!

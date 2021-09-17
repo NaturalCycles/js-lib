@@ -50,7 +50,7 @@ export async function runESLint(
   const args = [
     `--config`,
     eslintConfigPath,
-    `${dir}/**/*.{ts,tsx}`,
+    `${dir}/**/*.{ts,tsx,vue}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,
     `--fix`,

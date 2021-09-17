@@ -40,12 +40,13 @@ const linters = {
   './src/**/*.{ts,tsx}': match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
+    const filesListNoVue = micromatch.not(filesList, ['**/*.vue']).join(' ')
     return [
-      `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot}`,
-      tslintCmd,
-      `${tslintCmd} -p ${tsconfigPathRoot}`,
-      prettierCmd,
-    ].map(s => `${s} ${filesList}`)
+      `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot} ${filesList}`,
+      `${tslintCmd} ${filesListNoVue}`,
+      `${tslintCmd} -p ${tsconfigPathRoot} ${filesListNoVue}`,
+      `${prettierCmd} ${filesList}`,
+    ]
   },
 
   // For all other files we run only Prettier (because e.g TSLint screws *.scss files)

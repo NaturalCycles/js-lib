@@ -26,6 +26,7 @@
     "lint-all": "tsn ./src/bin/lint-all.ts",
     "lint-circleci": "tsn ./src/bin/lint-circleci.ts",
     "eslint-all": "tsn ./src/bin/eslint-all.ts",
+    "eslint-print-config": "eslint --print-config src/index.ts > tmp/eslint.config.json",
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
@@ -49,6 +50,7 @@
     "eslint-plugin-jsdoc": "^36.0.2",
     "eslint-plugin-unicorn": "^36.0.0",
     "eslint-plugin-unused-imports": "^1.1.1",
+    "eslint-plugin-vue": "^7.18.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "husky": "^7.0.0",
