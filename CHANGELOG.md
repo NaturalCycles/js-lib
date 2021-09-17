@@ -1,3 +1,10 @@
+## [12.3.1](https://github.com/NaturalCycles/dev-lib/compare/v12.3.0...v12.3.1) (2021-09-17)
+
+
+### Bug Fixes
+
+* forgot .vue extension in lint-staged.config.js ([f0e0404](https://github.com/NaturalCycles/dev-lib/commit/f0e04045c41b255f6fa2b053da42bc6cd327cc2c))
+
 # [12.3.0](https://github.com/NaturalCycles/dev-lib/compare/v12.2.0...v12.3.0) (2021-09-17)
 
 
