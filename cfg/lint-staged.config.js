@@ -37,7 +37,7 @@ const styleLintCmd = `stylelint --fix --config ${stylelintConfigPath}`
 const linters = {
   // *.ts files: eslint, tslint, prettier
   // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
-  './src/**/*.{ts,tsx}': match => {
+  './src/**/*.{ts,tsx,vue}': match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
     const filesListNoVue = micromatch.not(filesList, ['**/*.vue']).join(' ')
