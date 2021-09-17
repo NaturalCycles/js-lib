@@ -1,3 +1,10 @@
+# [12.2.0](https://github.com/NaturalCycles/dev-lib/compare/v12.1.5...v12.2.0) (2021-09-17)
+
+
+### Features
+
+* **eslint:** add `eslint-plugin-prettier` ([a21110e](https://github.com/NaturalCycles/dev-lib/commit/a21110e48d4122b1f1926e6f4863b9e33fe4cad9))
+
 ## [12.1.5](https://github.com/NaturalCycles/dev-lib/compare/v12.1.4...v12.1.5) (2021-09-14)
 
 
