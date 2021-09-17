@@ -38,9 +38,10 @@ const linters = {
   // *.ts files: eslint, tslint, prettier
   // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
   './src/**/*.{ts,tsx,vue}': match => {
-    const filesList = micromatch.not(match, lintExclude).join(' ')
-    if (!filesList) return []
-    const filesListNoVue = micromatch.not(filesList, ['**/*.vue']).join(' ')
+    const files = micromatch.not(match, lintExclude)
+    if (!files) return []
+    const filesList = files.join(' ')
+    const filesListNoVue = micromatch.not(files, ['**/*.vue']).join(' ')
     return [
       `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot} ${filesList}`,
       `${tslintCmd} ${filesListNoVue}`,
