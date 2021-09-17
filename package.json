@@ -43,6 +43,7 @@
     "@typescript-eslint/parser": "^4.22.1",
     "command-exists": "^1.2.8",
     "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jsdoc": "^36.0.2",

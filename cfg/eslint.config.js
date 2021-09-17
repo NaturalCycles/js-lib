@@ -24,6 +24,7 @@ module.exports = {
     // 'plugin:jest/recommended', // add manually if needed!
     // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
     'plugin:unicorn/recommended',
+    'prettier', // must be last! it only turns off eslint rules that conflict with prettier
   ],
   ignorePatterns: ['**/__exclude/**'],
   parser: '@typescript-eslint/parser',
