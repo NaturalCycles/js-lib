@@ -1,3 +1,10 @@
+# [12.3.0](https://github.com/NaturalCycles/dev-lib/compare/v12.2.0...v12.3.0) (2021-09-17)
+
+
+### Features
+
+* **eslint:** enable eslint-plugin-vue by default ([f554e3c](https://github.com/NaturalCycles/dev-lib/commit/f554e3c30c5945d943e02d8d03e492c55f2fa270))
+
 # [12.2.0](https://github.com/NaturalCycles/dev-lib/compare/v12.1.5...v12.2.0) (2021-09-17)
 
 
