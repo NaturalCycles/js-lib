@@ -1,3 +1,10 @@
+## [12.3.2](https://github.com/NaturalCycles/dev-lib/compare/v12.3.1...v12.3.2) (2021-09-17)
+
+
+### Bug Fixes
+
+* lint-staged vue files ([6f321e1](https://github.com/NaturalCycles/dev-lib/commit/6f321e1a2047649650114b61a67d5fbc958caf52))
+
 ## [12.3.1](https://github.com/NaturalCycles/dev-lib/compare/v12.3.0...v12.3.1) (2021-09-17)
 
 
