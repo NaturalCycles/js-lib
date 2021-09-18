@@ -1,3 +1,10 @@
+## [12.4.1](https://github.com/NaturalCycles/dev-lib/compare/v12.4.0...v12.4.1) (2021-09-18)
+
+
+### Bug Fixes
+
+* eslint config ([016f26c](https://github.com/NaturalCycles/dev-lib/commit/016f26ca31bc42025395dcfefb16a2e5f05c5122))
+
 # [12.4.0](https://github.com/NaturalCycles/dev-lib/compare/v12.3.2...v12.4.0) (2021-09-18)
 
 
