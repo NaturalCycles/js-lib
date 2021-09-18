@@ -1,3 +1,10 @@
+# [12.4.0](https://github.com/NaturalCycles/dev-lib/compare/v12.3.2...v12.4.0) (2021-09-18)
+
+
+### Features
+
+* refactor eslint.config to use `overrides` ([4aebe20](https://github.com/NaturalCycles/dev-lib/commit/4aebe206bd96c00cc9e017a77b3346c6c7c79312))
+
 ## [12.3.2](https://github.com/NaturalCycles/dev-lib/compare/v12.3.1...v12.3.2) (2021-09-17)
 
 
