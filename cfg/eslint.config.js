@@ -33,10 +33,10 @@ module.exports = {
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
-        // project: ['tsconfig.eslint.json', 'scripts/tsconfig.json', 'e2e/tsconfig.json', 'tsconfig.json'],
         project: ['tsconfig.json'],
         sourceType: 'module',
         ecmaVersion: 2020,
+        extraFileExtensions: ['.vue', '.html'],
       },
       plugins: [
         'jsdoc',
@@ -64,9 +64,11 @@ module.exports = {
       parser: 'vue-eslint-parser',
       parserOptions: {
         parser: '@typescript-eslint/parser',
-        extraFileExtensions: ['.vue'],
         project: ['tsconfig.json'],
-        createDefaultProgram: true,
+        sourceType: 'module',
+        ecmaVersion: 2020,
+        extraFileExtensions: ['.vue'],
+        // createDefaultProgram: true,
       },
     },
   ],
