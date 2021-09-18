@@ -33,7 +33,8 @@ export function getTSLintConfigPath(): string {
 
 export function getTSConfigPath(): string {
   // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
-  return [`./tsconfig.base.json`].find(p => fs.existsSync(p)) || `./tsconfig.json`
+  // return [`./tsconfig.base.json`].find(p => fs.existsSync(p)) || `./tsconfig.json`
+  return './tsconfig.json'
 }
 
 export function getTSConfigPathScripts(): string {
@@ -43,14 +44,15 @@ export function getTSConfigPathScripts(): string {
 export async function runESLint(
   dir: string,
   eslintConfigPath: string,
-  tsconfigPath?: string,
+  tsconfigPath: string | undefined,
+  extensions = ['ts', 'tsx', 'vue'],
 ): Promise<void> {
   if (!fs.existsSync(dir)) return // faster to bail-out like this
 
   const args = [
     `--config`,
     eslintConfigPath,
-    `${dir}/**/*.{ts,tsx,vue}`,
+    `${dir}/**/*.{${extensions.join(',')}}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,
     `--fix`,

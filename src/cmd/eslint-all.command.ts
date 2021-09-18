@@ -1,11 +1,21 @@
 import * as fs from 'fs'
+import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { getTSConfigPath, getTSConfigPathScripts, runESLint } from '../util/tslint.util'
+import { getTSConfigPathScripts, runESLint } from '../util/tslint.util'
 
 /**
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).
  */
 export async function eslintAllCommand(): Promise<void> {
+  const { ext } = yargs.options({
+    ext: {
+      type: 'string',
+      default: 'ts,tsx,vue',
+    },
+  }).argv
+
+  const extensions = ext.split(',')
+
   const eslintConfigPathRoot =
     ['./.eslintrc.js'].find(p => fs.existsSync(p)) || `${cfgDir}/eslint.config.js`
   const eslintConfigPathScripts =
@@ -15,12 +25,13 @@ export async function eslintAllCommand(): Promise<void> {
     ['./e2e/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
     `${cfgDir}/eslint.config.js`
 
-  const tsconfigPath = getTSConfigPath()
+  // const tsconfigPath = getTSConfigPath()
   const tsconfigPathScripts = getTSConfigPathScripts()
   const tsconfigPathE2e = `./e2e/tsconfig.json`
 
   // /src
-  await runESLint(`./src`, eslintConfigPathRoot, tsconfigPath)
+  // await runESLint(`./src`, eslintConfigPathRoot, tsconfigPath, extensions)
+  await runESLint(`./src`, eslintConfigPathRoot, undefined, extensions)
 
   // /scripts
   await runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts)

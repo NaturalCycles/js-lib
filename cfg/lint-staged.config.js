@@ -24,7 +24,8 @@ const stylelintConfigPath =
   [`stylelint.config.js`].find(fs.existsSync) || `${cfgDir}/stylelint.config.js`
 
 // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
-const tsconfigPathRoot = ['tsconfig.base.json'].find(p => fs.existsSync(p)) || 'tsconfig.json'
+// const tsconfigPathRoot = ['tsconfig.base.json'].find(p => fs.existsSync(p)) || 'tsconfig.json'
+const tsconfigPathRoot = 'tsconfig.json'
 
 const eslintConfigPathRoot =
   ['.eslintrc.js'].find(p => fs.existsSync(p)) || `${cfgDir}/eslint.config.js`
@@ -41,13 +42,13 @@ const linters = {
     const files = micromatch.not(match, lintExclude)
     if (!files) return []
     const filesList = files.join(' ')
-    const filesListNoVue = micromatch.not(files, ['**/*.vue']).join(' ')
+    const filesListTSLint = micromatch(files, ['**/*.{ts,tsx}']).join(' ')
     return [
-      `${eslintCmd} --config ${eslintConfigPathRoot} --parser-options=project:./${tsconfigPathRoot} ${filesList}`,
-      `${tslintCmd} ${filesListNoVue}`,
-      `${tslintCmd} -p ${tsconfigPathRoot} ${filesListNoVue}`,
+      `${eslintCmd} --config ${eslintConfigPathRoot} ${filesList}`,
+      filesListTSLint && `${tslintCmd} ${filesListTSLint}`,
+      filesListTSLint && `${tslintCmd} -p ${tsconfigPathRoot} ${filesListTSLint}`,
       `${prettierCmd} ${filesList}`,
-    ]
+    ].filter(Boolean)
   },
 
   // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
