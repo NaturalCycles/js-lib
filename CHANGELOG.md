@@ -1,3 +1,10 @@
+# [12.5.0](https://github.com/NaturalCycles/dev-lib/compare/v12.4.1...v12.5.0) (2021-09-18)
+
+
+### Features
+
+* support `--fix=false` to debug behaving linters ([4fa996b](https://github.com/NaturalCycles/dev-lib/commit/4fa996b9bd40ee1ee7fd793997367167cd365a90))
+
 ## [12.4.1](https://github.com/NaturalCycles/dev-lib/compare/v12.4.0...v12.4.1) (2021-09-18)
 
 
