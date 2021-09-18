@@ -139,6 +139,13 @@ variable to disable it.
 - `lint-circleci`: fails if `.circleci/config.yml` is invalid
   ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
 
+Pass `--no-fix` (or `--fix=false`) to disable the default `--fix` flag on linters. Useful to debug a
+linter, or when linter behaves badly and corrupts your files (just happened to me with
+`eslint-plugin-vue`).
+
+Pass `--ext` (e.g `--ext ts,html`) to override the list of ESLint extensions (default is
+`ts,tsx,vue` right now).
+
 #### Other commands
 
 - `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project

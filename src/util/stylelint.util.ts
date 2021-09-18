@@ -1,5 +1,6 @@
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
+import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
 
 const { prettierDirs, stylelintExtensions, lintExclude } = require('../../cfg/_cnst')
@@ -13,11 +14,24 @@ export const stylelintPaths = [
 ]
 
 export async function stylelintAll(): Promise<void> {
+  const { fix } = yargs.options({
+    fix: {
+      type: 'boolean',
+      default: true,
+    },
+  }).argv
+
   const config = [`./stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(f =>
     fs.existsSync(f),
   )!
 
-  const args = [`--fix`, `--allow-empty-input`, `--config`, config, ...stylelintPaths]
+  const args = [
+    fix ? `--fix` : '',
+    `--allow-empty-input`,
+    `--config`,
+    config,
+    ...stylelintPaths,
+  ].filter(Boolean)
 
   await execWithArgs('stylelint', args)
 }

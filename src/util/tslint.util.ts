@@ -8,6 +8,7 @@ export async function runTSLint(
   excludePaths: string[] = [],
   tslintConfigPath: string,
   tsconfigPath?: string,
+  fix = true,
 ): Promise<void> {
   if (!fs.existsSync(dir)) return // faster like this
 
@@ -19,8 +20,8 @@ export async function runTSLint(
     ...(tsconfigPath ? [`-p`, tsconfigPath] : []),
     `-t`,
     `stylish`,
-    `--fix`,
-  ]
+    fix ? `--fix` : '',
+  ].filter(Boolean)
 
   await execWithArgs('tslint', args)
 }
@@ -46,6 +47,7 @@ export async function runESLint(
   eslintConfigPath: string,
   tsconfigPath: string | undefined,
   extensions = ['ts', 'tsx', 'vue'],
+  fix = true,
 ): Promise<void> {
   if (!fs.existsSync(dir)) return // faster to bail-out like this
 
@@ -55,8 +57,8 @@ export async function runESLint(
     `${dir}/**/*.{${extensions.join(',')}}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,
-    `--fix`,
-  ]
+    fix ? `--fix` : '',
+  ].filter(Boolean)
 
   await execWithArgs('eslint', args)
 }
