@@ -1,3 +1,10 @@
+# [14.44.0](https://github.com/NaturalCycles/js-lib/compare/v14.43.0...v14.44.0) (2021-09-22)
+
+
+### Features
+
+* export `is` (experimental) ([d83861c](https://github.com/NaturalCycles/js-lib/commit/d83861c7f65956eb2b67c5f6a86d1927f1ee7d3b))
+
 # [14.43.0](https://github.com/NaturalCycles/js-lib/compare/v14.42.1...v14.43.0) (2021-09-10)
 
 
