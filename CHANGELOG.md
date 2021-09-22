@@ -1,3 +1,10 @@
+# [12.6.0](https://github.com/NaturalCycles/dev-lib/compare/v12.5.0...v12.6.0) (2021-09-22)
+
+
+### Features
+
+* exclude `src/vendor` from test coverage ([75fe084](https://github.com/NaturalCycles/dev-lib/commit/75fe0849306225915d25faf392f9e516113c6fe9))
+
 # [12.5.0](https://github.com/NaturalCycles/dev-lib/compare/v12.4.1...v12.5.0) (2021-09-18)
 
 
