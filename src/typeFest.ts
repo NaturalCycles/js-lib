@@ -288,3 +288,33 @@ export type ConditionalPick<Base, Condition> = Pick<Base, ConditionalKeys<Base, 
  @category Basic
  */
 export type Class<T = any> = new (...args: any[]) => T
+
+/**
+ Matches any [typed array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray), like `Uint8Array` or `Float64Array`.
+ */
+export type TypedArray =
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array
+  | BigInt64Array
+  | BigUint64Array
+
+declare global {
+  interface SymbolConstructor {
+    readonly observable: symbol
+  }
+}
+
+/**
+ Matches a value that is like an [Observable](https://github.com/tc39/proposal-observable).
+ */
+export interface ObservableLike {
+  subscribe(observer: (value: unknown) => void): void
+  [Symbol.observable](): ObservableLike
+}

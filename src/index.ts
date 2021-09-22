@@ -210,6 +210,7 @@ import {
   _stringMapValues,
 } from './types'
 import { _gb, _hb, _kb, _mb } from './unit/size.util'
+import { is } from './vendor/is'
 
 export type {
   MemoCache,
@@ -275,6 +276,7 @@ export type {
 }
 
 export {
+  is,
   _Memo,
   _memoFn,
   _LogMethod,
