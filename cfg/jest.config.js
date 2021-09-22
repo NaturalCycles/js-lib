@@ -96,6 +96,7 @@ module.exports = {
     '!src/environments/**',
     '!src/env/**',
     '!src/bin/**',
+    '!src/vendor/**',
     '!public/**',
     '!**/*.test.ts',
     '!**/*.script.ts',
