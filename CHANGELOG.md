@@ -1,3 +1,10 @@
+# [14.46.0](https://github.com/NaturalCycles/js-lib/compare/v14.45.0...v14.46.0) (2021-10-01)
+
+
+### Features
+
+* generateJsonSchemaFromData (experimental) ([87a74e9](https://github.com/NaturalCycles/js-lib/commit/87a74e9f033d8bb43d3137855044c09c63751b2c))
+
 # [14.45.0](https://github.com/NaturalCycles/js-lib/compare/v14.44.0...v14.45.0) (2021-10-01)
 
 
