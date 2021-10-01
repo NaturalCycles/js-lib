@@ -20,11 +20,11 @@ type Type = PrimitiveType | 'array' | 'object'
  *
  * `additionalProperties` is set to `true`, cause it's safer.
  */
-export function generateJsonSchemaFromData<T = unknown>(rows: any[]): JsonSchema<T> {
-  return objectToJsonSchema(rows as any) as JsonSchema<T>
+export function generateJsonSchemaFromData<T = unknown>(rows: any[]): JsonSchemaObject<T> {
+  return objectToJsonSchema(rows as any) as JsonSchemaObject<T>
 }
 
-function objectToJsonSchema(rows: Record<string, any>[]): JsonSchema {
+function objectToJsonSchema(rows: Record<string, any>[]): JsonSchemaObject {
   const typesByKey: StringMap<Set<Type>> = {}
 
   rows.forEach(r => {
