@@ -39,7 +39,7 @@ Returns `undefined` (not a string, but actual `undefined`) if `undefined` is pas
 `util.inspect` behavior).
 
 ```ts
-_stringifyAny(undefined) // undefined
+_stringifyAny(undefined) // 'undefined'
 _stringifyAny(null) // 'null'
 _stringifyAny(true) // 'true'
 _stringifyAny(false) // 'false'

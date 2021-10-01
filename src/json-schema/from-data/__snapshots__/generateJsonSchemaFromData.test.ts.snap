@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateJsonSchemaFromData2 1`] = `
+Object {
+  "additionalProperties": true,
+  "properties": Object {
+    "a": Object {
+      "type": "string",
+    },
+    "arr": Object {
+      "items": Object {
+        "type": "number",
+      },
+      "type": "array",
+    },
+    "arr2": Object {
+      "items": Object {
+        "oneOf": Array [
+          Object {
+            "type": "number",
+          },
+          Object {
+            "type": "string",
+          },
+          Object {
+            "type": "boolean",
+          },
+          Object {
+            "additionalProperties": true,
+            "properties": Object {
+              "a": Object {
+                "type": "string",
+              },
+            },
+            "required": Array [],
+            "type": "object",
+          },
+        ],
+      },
+      "type": "array",
+    },
+    "b": Object {
+      "type": "boolean",
+    },
+    "c": Object {
+      "type": "null",
+    },
+    "n": Object {
+      "type": "number",
+    },
+    "sub": Object {
+      "oneOf": Array [
+        Object {
+          "type": "boolean",
+        },
+        Object {
+          "additionalProperties": true,
+          "properties": Object {
+            "aa": Object {
+              "type": "string",
+            },
+            "sub2": Object {
+              "additionalProperties": true,
+              "properties": Object {
+                "b": Object {
+                  "type": "boolean",
+                },
+                "n": Object {
+                  "type": "null",
+                },
+              },
+              "required": Array [],
+              "type": "object",
+            },
+          },
+          "required": Array [],
+          "type": "object",
+        },
+      ],
+    },
+  },
+  "required": Array [],
+  "type": "object",
+}
+`;
