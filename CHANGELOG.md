@@ -1,3 +1,10 @@
+## [14.46.1](https://github.com/NaturalCycles/js-lib/compare/v14.46.0...v14.46.1) (2021-10-01)
+
+
+### Bug Fixes
+
+* small correction to generateJsonSchemaFromData ([fd0c540](https://github.com/NaturalCycles/js-lib/commit/fd0c54033a00f97b524a438bffede9cfc60263fa))
+
 # [14.46.0](https://github.com/NaturalCycles/js-lib/compare/v14.45.0...v14.46.0) (2021-10-01)
 
 
