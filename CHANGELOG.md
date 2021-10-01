@@ -1,3 +1,10 @@
+# [14.45.0](https://github.com/NaturalCycles/js-lib/compare/v14.44.0...v14.45.0) (2021-10-01)
+
+
+### Features
+
+* stringifyAnyOptions.maxLen default to 10_000 (was: 1000) ([1d7750f](https://github.com/NaturalCycles/js-lib/commit/1d7750f21b7cfad40d571f8e564b76398fbe3bcf))
+
 # [14.44.0](https://github.com/NaturalCycles/js-lib/compare/v14.43.0...v14.44.0) (2021-09-22)
 
 
