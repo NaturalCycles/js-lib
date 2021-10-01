@@ -9,7 +9,7 @@ const jsonStringifyFn: JsonStringifyFunction = (obj, reviver, space) =>
 
 export interface StringifyAnyOptions {
   /**
-   * @default 1000
+   * @default 10_000
    * Default limit is less than in Node, cause it's likely to be used e.g in Browser alert()
    */
   maxLen?: number
@@ -128,7 +128,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   if (s === undefined) return 'undefined'
 
   // Handle maxLen
-  const { maxLen = 1000 } = opt
+  const { maxLen = 10_000 } = opt
   if (maxLen && s.length > maxLen) {
     s = s.slice(0, maxLen) + `... ${Math.ceil(s.length / 1024)} KB message truncated`
   }
