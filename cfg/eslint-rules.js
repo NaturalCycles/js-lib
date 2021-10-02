@@ -26,12 +26,67 @@ module.exports = {
     ],
     '@typescript-eslint/consistent-type-assertions': 2,
     '@typescript-eslint/consistent-type-definitions': 2,
+    // Doc: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+    // Loosely based on this: https://github.com/xojs/eslint-config-xo-typescript/blob/main/index.js
     '@typescript-eslint/naming-convention': [
-      0,
+      2,
       {
-        // todo: clarify later, currently disabled
         selector: 'default',
+        format: ['camelCase'],
+      },
+      {
+        selector: ['function', 'parameter', 'property', 'method', 'memberLike'],
+        format: ['camelCase'],
+        leadingUnderscore: 'allowSingleOrDouble',
+        trailingUnderscore: 'forbid',
+        // Ignore `{'Retry-After': retryAfter}` type properties.
+        filter: {
+          regex: '[- ]',
+          match: false,
+        },
+      },
+      {
+        selector: ['variable', 'classProperty'],
         format: ['camelCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allowSingleOrDouble',
+        trailingUnderscore: 'allow',
+      },
+      {
+        selector: ['objectLiteralProperty', 'objectLiteralMethod', 'typeProperty', 'enumMember'],
+        format: [
+          'camelCase',
+          'UPPER_CASE',
+          // only for 3rd-party code/api compatibility! Try to avoid in our code
+          'PascalCase',
+          'snake_case',
+        ],
+        leadingUnderscore: 'allow',
+        trailingUnderscore: 'forbid',
+      },
+      // Allow destructured variables to not follow the rules
+      {
+        selector: ['variable', 'parameter'],
+        modifiers: ['destructured'],
+        format: null,
+      },
+      {
+        selector: 'typeLike',
+        format: ['PascalCase'],
+      },
+      // Allow these in non-camel-case when quoted.
+      {
+        selector: [
+          'classProperty',
+          'objectLiteralProperty',
+          'typeProperty',
+          'classMethod',
+          'objectLiteralMethod',
+          'typeMethod',
+          'accessor',
+          'enumMember',
+        ],
+        format: null,
+        modifiers: ['requiresQuotes'],
       },
     ],
     '@typescript-eslint/no-array-constructor': 2,

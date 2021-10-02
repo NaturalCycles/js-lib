@@ -12,8 +12,8 @@ export function jestOffline(): void {
   }
 
   console.log('jest offline mode')
-  const Mitm = require('mitm')
-  const mitm = Mitm()
+  const createMitm = require('mitm')
+  const mitm = createMitm()
 
   mitm.on('connect', (socket: any, opts: any) => {
     const { host } = opts

@@ -1,6 +1,6 @@
 import { AppError } from '@naturalcycles/js-lib'
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/naming-convention */
 export const mockAllKindsOfThings = () => {
   const errorWithCode = new Error('Error with code')
   Object.assign(errorWithCode, {
