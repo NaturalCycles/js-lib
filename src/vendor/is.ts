@@ -7,8 +7,7 @@ From: https://github.com/sindresorhus/is
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
  */
 
-/* eslint-disable id-blacklist, no-prototype-builtins */
-/* tslint:disable */
+/* eslint-disable */
 
 import { Class, ObservableLike, Primitive, TypedArray } from '../typeFest'
 

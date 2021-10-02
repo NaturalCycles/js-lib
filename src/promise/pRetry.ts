@@ -98,7 +98,6 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
             console.log(`${fname} attempt #${attempt}...`)
           }
 
-          // tslint:disable-next-line:no-invalid-this
           const r = await fn.apply(this, args)
 
           if (logSuccess) {

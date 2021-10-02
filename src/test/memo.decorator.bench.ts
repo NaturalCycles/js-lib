@@ -3,7 +3,6 @@
 yarn tsn ./src/test/memo.decorator.bench.ts
 
  */
-/* tslint:disable:no-unused-variable */
 /* eslint-disable unused-imports/no-unused-vars */
 
 import * as Benchmark from 'benchmark'

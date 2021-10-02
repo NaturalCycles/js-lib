@@ -61,6 +61,7 @@ export interface LogMethodOptions {
  * >> asyncMethod()
  * << asyncMethodThrow() took 10 ms ERROR: MyError
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {

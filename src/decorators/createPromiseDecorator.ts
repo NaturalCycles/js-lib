@@ -52,13 +52,14 @@ export interface PromiseDecoratorResp<PARAMS> {
  *
  * @experimental
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function _createPromiseDecorator<RES = any, PARAMS = any>(
   cfg: PromiseDecoratorCfg<RES, PARAMS>,
   decoratorParams: PARAMS = {} as any,
 ): MethodDecorator {
   const { decoratorName } = cfg
 
-  return function DecoratorFunction(
+  return function decoratorFunction(
     target: any,
     propertyKey: string | symbol,
     pd: PropertyDescriptor,

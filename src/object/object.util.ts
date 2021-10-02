@@ -421,7 +421,7 @@ export function _set<IN extends Record<string, any>, OUT = IN>(
         : // No: create the key. Is the next key a potential array-index?
           (a[c] =
             // eslint-disable-next-line
-            Math.abs(path[i + 1]) >> 0 === +path[i + 1] // tslint:disable-line
+            Math.abs(path[i + 1]) >> 0 === +path[i + 1]
               ? [] // Yes: assign a new array object
               : {}), // No: assign a new plain object
     obj,

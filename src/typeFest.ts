@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* tslint:disable */
 
 /**
  Matches any [primitive value](https://developer.mozilla.org/en-US/docs/Glossary/Primitive).

@@ -48,7 +48,6 @@ export function pTimeout<T extends Function>(fn: T, opt: PTimeoutOptions): T {
 
       // Execute the Function
       try {
-        // tslint:disable-next-line:no-invalid-this
         resolve(await fn.apply(this, args))
       } catch (err) {
         reject(err)

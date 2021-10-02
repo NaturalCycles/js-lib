@@ -2,7 +2,6 @@ const isArray = Array.isArray
 const keyList = Object.keys
 const hasProp = Object.prototype.hasOwnProperty
 
-/* tslint:disable:triple-equals */
 /* eslint-disable eqeqeq */
 
 /**

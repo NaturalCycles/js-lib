@@ -1,4 +1,3 @@
-/* tslint:disable:no-bitwise */
 /* eslint-disable no-bitwise */
 
 /**

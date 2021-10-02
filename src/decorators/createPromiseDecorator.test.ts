@@ -11,11 +11,13 @@ const thenFn = jest.fn(r => r.res)
 const catchFn = jest.fn()
 const finallyFn = jest.fn()
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const DummyDecorator = () =>
   _createPromiseDecorator({
     decoratorName: 'Dummy',
   })
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const Loader = (params: LoaderDecoratorParams) =>
   _createPromiseDecorator(
     {

@@ -52,6 +52,7 @@ export interface MemoOptions {
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
   (opt: MemoOptions = {}): MethodDecorator =>
   (target, key, descriptor) => {
