@@ -38,7 +38,7 @@ module.exports = {
         selector: ['function', 'parameter', 'property', 'method', 'memberLike'],
         format: ['camelCase'],
         leadingUnderscore: 'allowSingleOrDouble',
-        trailingUnderscore: 'forbid',
+        trailingUnderscore: 'allowSingleOrDouble',
         // Ignore `{'Retry-After': retryAfter}` type properties.
         filter: {
           regex: '[- ]',
@@ -49,7 +49,7 @@ module.exports = {
         selector: 'variable',
         format: ['camelCase', 'UPPER_CASE'],
         leadingUnderscore: 'allowSingleOrDouble',
-        trailingUnderscore: 'allow',
+        trailingUnderscore: 'allowSingleOrDouble',
       },
       {
         selector: 'classProperty',
@@ -58,6 +58,8 @@ module.exports = {
           'UPPER_CASE',
           'PascalCase', // Frontend sometimes re-exports enums as class properties
         ],
+        leadingUnderscore: 'allowSingleOrDouble',
+        trailingUnderscore: 'allowSingleOrDouble',
       },
       {
         selector: ['objectLiteralProperty', 'objectLiteralMethod', 'typeProperty', 'enumMember'],
