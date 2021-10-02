@@ -1,3 +1,10 @@
+## [12.7.3](https://github.com/NaturalCycles/dev-lib/compare/v12.7.2...v12.7.3) (2021-10-02)
+
+
+### Bug Fixes
+
+* eslint ([dd2c552](https://github.com/NaturalCycles/dev-lib/commit/dd2c55207605fa4d7946e41deff795309626ae61))
+
 ## [12.7.2](https://github.com/NaturalCycles/dev-lib/compare/v12.7.1...v12.7.2) (2021-10-02)
 
 
