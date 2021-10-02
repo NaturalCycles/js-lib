@@ -148,6 +148,7 @@ module.exports = {
     ],
     'id-match': 2,
     'import/order': 2,
+    'import/namespace': 0, // issues with e.g globby
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     'jsdoc/newline-after-description': 2,
