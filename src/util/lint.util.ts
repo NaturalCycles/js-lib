@@ -1,36 +1,6 @@
-import { _flatten } from '@naturalcycles/js-lib'
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
-import { cfgDir, scriptsDir } from '../cnst/paths.cnst'
-
-export async function runTSLint(
-  dir: string,
-  excludePaths: string[] = [],
-  tslintConfigPath: string,
-  tsconfigPath?: string,
-  fix = true,
-): Promise<void> {
-  if (!fs.existsSync(dir)) return // faster like this
-
-  const args = [
-    `--config`,
-    tslintConfigPath,
-    `${dir}/**/*.{ts,tsx}`,
-    ..._flatten(excludePaths.map(p => [`-e`, p])),
-    ...(tsconfigPath ? [`-p`, tsconfigPath] : []),
-    `-t`,
-    `stylish`,
-    fix ? `--fix` : '',
-  ].filter(Boolean)
-
-  await execWithArgs('tslint', args)
-}
-
-export function getTSLintConfigPath(): string {
-  const localTSLintConfig = `./tslint.json`
-  const sharedTSLintConfig = `${cfgDir}/tslint.config.js`
-  return fs.existsSync(localTSLintConfig) ? localTSLintConfig : sharedTSLintConfig
-}
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
+import { scriptsDir } from '../cnst/paths.cnst'
 
 export function getTSConfigPath(): string {
   // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)

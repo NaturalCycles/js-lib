@@ -22,9 +22,9 @@ This unlocks all commands listed below, e.g:
     yarn test
     yarn lint-all
 
-By default, it uses default configs for Prettier, TSLint (to be replaced by ESLint soon), Stylelint,
-that are included in this package (for convenience). You can override them by putting your own
-`prettier.config.js`, `tslint.json`, `stylelint.config.json` in the root folder of your project.
+By default, it uses default configs for Prettier, ESLint, Stylelint, that are included in this
+package (for convenience). You can override them by putting your own `prettier.config.js`,
+`.eslintrc.js`, `stylelint.config.json` in the root folder of your project.
 
 ## Conventions
 
@@ -127,12 +127,11 @@ variable to disable it.
 
 #### Lint commands
 
-- `lint-all`: runs TSLint, Stylelint, Prettier, in the right order.
+- `lint-all`: runs ESLint, Stylelint, Prettier, in the right order.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
 
-- `tslint-all`: runs `tslint` on needed paths
 - `eslint-all`: runs `eslint` on needed paths
 - `stylelint-all`: runs `stylelint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
@@ -174,7 +173,6 @@ These files are meant to be extended in target project, so act as _recommended d
 - `husky.config.js`
 - `lint-staged.config.js`
 - `prettier.config.js`
-- `tslint.json`
 - `eslint.config.json`
 - `jest.config.js`
 

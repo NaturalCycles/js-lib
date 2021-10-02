@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import * as fs from 'fs'
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { cfgDir } from '../cnst/paths.cnst'
 
 runScript(async () => {

@@ -1,5 +1,5 @@
-import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
+import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 
 // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`
 const TSCONF_CJS_PATH = `./tsconfig.cjs.prod.json`

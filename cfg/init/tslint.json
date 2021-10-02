@@ -1,6 +1,0 @@
-{
-  "extends": ["./node_modules/@naturalcycles/dev-lib/cfg/tslint.config.js"],
-  "linterOptions": {
-    "exclude": ["src/**/__exclude/**/*"]
-  }
-}

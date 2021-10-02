@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { getTSConfigPathScripts, runESLint } from '../util/tslint.util'
+import { getTSConfigPathScripts, runESLint } from '../util/lint.util'
 
 /**
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).

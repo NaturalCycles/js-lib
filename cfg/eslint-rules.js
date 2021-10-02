@@ -143,7 +143,7 @@ module.exports = {
       'undefined',
     ],
     'id-match': 2,
-    // "import/order": "error",
+    'import/order': 2,
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     'jsdoc/newline-after-description': 2,
@@ -231,7 +231,6 @@ module.exports = {
     'no-unsafe-finally': 2,
     'no-unsafe-negation': 2,
     'no-unused-labels': 2,
-    'no-unused-vars': 0, // replaced by `unused-imports/no-unused-vars`
     'no-useless-catch': 2,
     'no-useless-escape': 2,
     'no-unneeded-ternary': 2,
@@ -270,6 +269,7 @@ module.exports = {
         allowDeclarations: true, // allows `namespace NodeJS {}` augmentations
       },
     ],
+    'no-unused-vars': 0, // replaced by `unused-imports/no-unused-vars`
     '@typescript-eslint/no-unused-vars': [
       0, // replaced by `unused-imports/no-unused-vars`
       {

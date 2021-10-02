@@ -28,6 +28,10 @@ module.exports = {
         // 'plugin:jest/recommended', // add manually if needed!
         // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
         'plugin:unicorn/recommended',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
+        'plugin:import/recommended',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/config/typescript.js
+        'plugin:import/typescript',
         './eslint-rules.js',
         'prettier', // must be last! it only turns off eslint rules that conflict with prettier
       ],
@@ -42,6 +46,7 @@ module.exports = {
         'jsdoc',
         'import',
         '@typescript-eslint',
+        // https://github.com/sweepline/eslint-plugin-unused-imports
         'unused-imports',
         // 'jest', // add manually if needed!
         'unicorn',

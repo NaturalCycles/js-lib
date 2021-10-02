@@ -1,5 +1,5 @@
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as fs from 'fs'
+import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { cfgDir } from '../cnst/paths.cnst'
 const { prettierDirs, prettierExtensionsAll, lintExclude } = require('../../cfg/_cnst')
 

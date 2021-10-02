@@ -1,7 +1,7 @@
+import * as fs from 'fs'
 import { _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
 import { nodeModuleExists } from './test.util'
 

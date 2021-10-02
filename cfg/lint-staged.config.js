@@ -1,7 +1,7 @@
 /*
   Default config for `lint-staged`.
   Extendable.
-  Supports default configs for `prettier`, `stylelint`, `tslint`, `eslint`, if they are not found in target project.
+  Supports default configs for `prettier`, `stylelint`, `eslint`, if they are not found in target project.
 */
 
 const micromatch = require('micromatch')
@@ -18,40 +18,31 @@ const cfgDir = __dirname
 const prettierConfigPath =
   [`prettier.config.js`].find(fs.existsSync) || `${cfgDir}/prettier.config.js`
 
-const tslintConfigPath = [`tslint.json`].find(fs.existsSync) || `${cfgDir}/tslint.config.js`
-
 const stylelintConfigPath =
   [`stylelint.config.js`].find(fs.existsSync) || `${cfgDir}/stylelint.config.js`
 
 // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
 // const tsconfigPathRoot = ['tsconfig.base.json'].find(p => fs.existsSync(p)) || 'tsconfig.json'
-const tsconfigPathRoot = 'tsconfig.json'
+// const tsconfigPathRoot = 'tsconfig.json'
 
 const eslintConfigPathRoot =
   ['.eslintrc.js'].find(p => fs.existsSync(p)) || `${cfgDir}/eslint.config.js`
 
 const prettierCmd = `prettier --write --config ${prettierConfigPath}`
-const tslintCmd = `tslint -t stylish --fix --config ${tslintConfigPath}`
 const eslintCmd = `eslint --fix`
 const styleLintCmd = `stylelint --fix --config ${stylelintConfigPath}`
 
 const linters = {
-  // *.ts files: eslint, tslint, prettier
-  // There are 2 tslint tasks, one without `-p` and the second is with `-p` - it is a speed optimization
+  // *.{ts,tsx,vue} files: eslint, prettier
   './src/**/*.{ts,tsx,vue}': match => {
-    const files = micromatch.not(match, lintExclude)
-    if (!files) return []
-    const filesList = files.join(' ')
-    const filesListTSLint = micromatch(files, ['**/*.{ts,tsx}']).join(' ')
-    return [
-      `${eslintCmd} --config ${eslintConfigPathRoot} ${filesList}`,
-      filesListTSLint && `${tslintCmd} ${filesListTSLint}`,
-      filesListTSLint && `${tslintCmd} -p ${tsconfigPathRoot} ${filesListTSLint}`,
-      `${prettierCmd} ${filesList}`,
-    ].filter(Boolean)
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [`${eslintCmd} --config ${eslintConfigPathRoot}`, prettierCmd].map(
+      s => `${s} ${filesList}`,
+    )
   },
 
-  // For all other files we run only Prettier (because e.g TSLint screws *.scss files)
+  // For all other files we run only Prettier (because e.g eslint screws *.scss files)
   [`./{${prettierDirs}}/**/*.{${prettierExtensionsExclusive}}`]: match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
@@ -93,14 +84,12 @@ if (fs.existsSync(`./scripts`)) {
     `${cfgDir}/eslint.config.js`
 
   Object.assign(linters, {
-    // eslint, tslint, Prettier
+    // eslint, Prettier
     './scripts/**/*.{ts,tsx}': match => {
       const filesList = micromatch.not(match, lintExclude).join(' ')
       if (!filesList) return []
       return [
         `${eslintCmd} --config ${eslintConfigPathScripts} --parser-options=project:./scripts/tsconfig.json`,
-        tslintCmd,
-        `${tslintCmd} -p ./scripts/tsconfig.json`,
         prettierCmd,
       ].map(s => `${s} ${filesList}`)
     },
@@ -114,14 +103,12 @@ if (fs.existsSync(`./e2e`)) {
     `${cfgDir}/eslint.config.js`
 
   Object.assign(linters, {
-    // eslint, tslint, Prettier
+    // eslint, Prettier
     './e2e/**/*.{ts,tsx}': match => {
       const filesList = micromatch.not(match, lintExclude).join(' ')
       if (!filesList) return []
       return [
         `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./e2e/tsconfig.json`,
-        tslintCmd,
-        `${tslintCmd} -p ./e2e/tsconfig.json`,
         prettierCmd,
       ].map(s => `${s} ${filesList}`)
     },

@@ -10,14 +10,9 @@ import {
 import { runPrettier } from '../util/prettier.util'
 import { stylelintAll } from '../util/stylelint.util'
 import { eslintAllCommand } from './eslint-all.command'
-import { tslintAllCommand } from './tslint-all.command'
 
 /**
- * Due to "slowness issue" we run TSLint twice - first without project, secondly - with project.
- *
- * We run tslint BEFORE Prettier, because tslint can delete e.g unused imports.
- *
- * We run TSLint separately for /src and /scripts dir, because they might have a different tsconfig.json file.
+ * We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
  */
 export async function lintAllCommand(): Promise<void> {
   const { commitOnChanges, failOnChanges } = yargs.options({
@@ -35,7 +30,6 @@ export async function lintAllCommand(): Promise<void> {
 
   // Currently we position ESLint before TSLint, but let's monitor if it's ok
   await eslintAllCommand()
-  await tslintAllCommand()
   await stylelintAll()
   await runPrettier()
 

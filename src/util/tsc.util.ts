@@ -1,8 +1,8 @@
+import * as fs from 'fs'
 import { _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
-import * as fs from 'fs'
 import { cfgDir } from '../cnst/paths.cnst'
 
 export async function tsc(): Promise<void> {
