@@ -73,6 +73,10 @@ module.exports = {
         selector: 'typeLike',
         format: ['PascalCase'],
       },
+      {
+        selector: 'typeParameter',
+        format: ['PascalCase', 'UPPER_CASE'],
+      },
       // Allow these in non-camel-case when quoted.
       {
         selector: [
