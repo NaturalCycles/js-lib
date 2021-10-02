@@ -29,9 +29,9 @@ module.exports = {
         // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
         'plugin:unicorn/recommended',
         // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
-        'plugin:import/recommended',
+        // 'plugin:import/recommended',
         // https://github.com/import-js/eslint-plugin-import/blob/main/config/typescript.js
-        'plugin:import/typescript',
+        // 'plugin:import/typescript',
         './eslint-rules.js',
         'prettier', // must be last! it only turns off eslint rules that conflict with prettier
       ],

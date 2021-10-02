@@ -52,6 +52,14 @@ module.exports = {
         trailingUnderscore: 'allow',
       },
       {
+        selector: 'classProperty',
+        format: [
+          'camelCase',
+          'UPPER_CASE',
+          'PascalCase', // Frontend sometimes re-exports enums as class properties
+        ],
+      },
+      {
         selector: ['objectLiteralProperty', 'objectLiteralMethod', 'typeProperty', 'enumMember'],
         format: [
           'camelCase',
@@ -60,8 +68,8 @@ module.exports = {
           'PascalCase',
           'snake_case',
         ],
-        leadingUnderscore: 'allow',
-        trailingUnderscore: 'forbid',
+        leadingUnderscore: 'allowSingleOrDouble',
+        trailingUnderscore: 'allowSingleOrDouble',
       },
       // Allow destructured variables to not follow the rules
       {
@@ -148,7 +156,9 @@ module.exports = {
     ],
     'id-match': 2,
     'import/order': 2,
-    'import/namespace': 0, // issues with e.g globby
+    // 'import/namespace': 0, // issues with e.g globby
+    // 'import/no-unresolved': 0, // breaks for type-aliases, e.g '@/store'
+    // 'import/no-duplicates': 0,
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     'jsdoc/newline-after-description': 2,
