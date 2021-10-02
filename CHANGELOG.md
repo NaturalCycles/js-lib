@@ -1,3 +1,11 @@
+# [12.7.0](https://github.com/NaturalCycles/dev-lib/compare/v12.6.0...v12.7.0) (2021-10-02)
+
+
+### Features
+
+* adopt `@typescript-eslint/naming-convention` ([de2d0a6](https://github.com/NaturalCycles/dev-lib/commit/de2d0a6c2b9c2119a909ac4c8f4378289ac16c38))
+* finally remove tslint in favor of eslint ([39451c9](https://github.com/NaturalCycles/dev-lib/commit/39451c96ba4844468d178af680a02a108d148c7f))
+
 # [12.6.0](https://github.com/NaturalCycles/dev-lib/compare/v12.5.0...v12.6.0) (2021-09-22)
 
 
