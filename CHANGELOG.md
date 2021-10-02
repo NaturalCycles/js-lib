@@ -1,3 +1,10 @@
+## [12.7.1](https://github.com/NaturalCycles/dev-lib/compare/v12.7.0...v12.7.1) (2021-10-02)
+
+
+### Bug Fixes
+
+* eslint typeParameter to allow UPPER_CASE ([5972be3](https://github.com/NaturalCycles/dev-lib/commit/5972be3a9d78877d3a52c9087eb87db456b473a5))
+
 # [12.7.0](https://github.com/NaturalCycles/dev-lib/compare/v12.6.0...v12.7.0) (2021-10-02)
 
 
