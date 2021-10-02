@@ -46,7 +46,7 @@ module.exports = {
         },
       },
       {
-        selector: ['variable', 'classProperty'],
+        selector: 'variable',
         format: ['camelCase', 'UPPER_CASE'],
         leadingUnderscore: 'allowSingleOrDouble',
         trailingUnderscore: 'allow',
