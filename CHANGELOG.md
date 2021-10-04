@@ -1,3 +1,10 @@
+# [14.47.0](https://github.com/NaturalCycles/js-lib/compare/v14.46.1...v14.47.0) (2021-10-04)
+
+
+### Features
+
+* JsonSchemaRootObject ([d0b0d77](https://github.com/NaturalCycles/js-lib/commit/d0b0d774cdd3d95eeeaab6296992c7b485cb8d72))
+
 ## [14.46.1](https://github.com/NaturalCycles/js-lib/compare/v14.46.0...v14.46.1) (2021-10-01)
 
 
