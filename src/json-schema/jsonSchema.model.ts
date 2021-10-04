@@ -124,6 +124,11 @@ export interface JsonSchemaRef<T = unknown> extends JsonSchemaAny<T> {
   $ref: string
 }
 
+export interface JsonSchemaRootObject<T extends Record<any, any> = Record<any, unknown>>
+  extends JsonSchemaObject<T> {
+  $id: string
+}
+
 export interface JsonSchemaObject<T extends Record<any, any> = Record<any, unknown>>
   extends JsonSchemaAny<T> {
   type: 'object'
