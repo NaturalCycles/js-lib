@@ -1,3 +1,5 @@
+import { AnyFunction } from '../types'
+
 export interface Cancelable {
   cancel(): void
   flush(): void
@@ -32,7 +34,7 @@ export interface DebounceOptions {
   maxWait?: number
 }
 
-export function _debounce<T extends Function>(
+export function _debounce<T extends AnyFunction>(
   func: T,
   wait: number,
   opt: DebounceOptions = {},
@@ -59,8 +61,8 @@ export function _debounce<T extends Function>(
     return result
   }
 
-  function startTimer(pendingFunc: Function, wait: number) {
-    return setTimeout(pendingFunc, wait)
+  function startTimer(pendingFunc: AnyFunction, wait: number): number {
+    return setTimeout(pendingFunc, wait) as any
   }
 
   function cancelTimer(id: number) {
@@ -165,7 +167,7 @@ export function _debounce<T extends Function>(
   return debounced as any
 }
 
-export function _throttle<T extends Function>(
+export function _throttle<T extends AnyFunction>(
   func: T,
   wait: number,
   opt: ThrottleOptions = {},

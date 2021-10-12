@@ -1,6 +1,7 @@
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
 import { pDelay, _since } from '..'
+import { AnyFunction } from '../types'
 import { _Debounce } from './debounce.decorator'
 
 class C {
@@ -15,7 +16,7 @@ class C {
 const inst = new C()
 const fn = (started: number, n: number) => inst.fn(started, n)
 
-async function startTimer(fn: Function, interval: number, count: number): Promise<void> {
+async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
   const started = Date.now()
 
   await timer(0, interval)

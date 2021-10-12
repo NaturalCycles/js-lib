@@ -5,6 +5,7 @@
 // https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
 
 import { _since } from '../time/time.util'
+import { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
@@ -69,7 +70,7 @@ export const _Memo =
     // External map is Weak to not cause memory leaks, to allow ctx objects to be garbage collected
     // UPD: tests show that normal Map also doesn't leak (to be tested further)
     // Normal Map is needed to allow .dropCache()
-    const cache = new Map<object, MemoCache>()
+    const cache = new Map<AnyObject, MemoCache>()
 
     const {
       logHit,

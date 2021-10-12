@@ -17,6 +17,18 @@ export interface PromiseMap {
 }
 
 /**
+ * Convenience shorthand for `Record<string, any>`.
+ * Because `object` type is not safe/recommended to be used (e.g discouraged by eslint-typescript due to: https://github.com/microsoft/TypeScript/issues/21732)
+ */
+export type AnyObject = Record<string, any>
+
+/**
+ * Convenience type shorthand.
+ * Because `Function` type is discouraged by eslint.
+ */
+export type AnyFunction = (...args: any[]) => any
+
+/**
  * Function which is called for every item in `input`. Expected to return a `Promise` or value.
  */
 export type AsyncMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>

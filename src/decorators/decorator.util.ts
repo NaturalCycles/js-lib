@@ -1,4 +1,4 @@
-import { InstanceId } from '../index'
+import { AnyObject, InstanceId } from '../index'
 
 /**
  * @returns
@@ -13,7 +13,7 @@ export function _getMethodSignature(ctx: any, keyStr: string): string {
 /**
  * @returns `NameOfYourClass.methodName`
  */
-export function _getTargetMethodSignature(target: object, keyStr: string): string {
+export function _getTargetMethodSignature(target: AnyObject, keyStr: string): string {
   return `${target.constructor.name}.${keyStr}`
 }
 

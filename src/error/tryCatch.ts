@@ -1,4 +1,5 @@
 import { _since, _stringifyAny } from '../index'
+import { AnyFunction } from '../types'
 
 export interface TryCatchOptions {
   /**
@@ -26,7 +27,7 @@ export interface TryCatchOptions {
  *
  * @experimental
  */
-export function _tryCatch<T extends Function>(fn: T, opt: TryCatchOptions = {}): T {
+export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {}): T {
   const { onError, logError, logSuccess } = {
     logError: true,
     ...opt,

@@ -1,11 +1,12 @@
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
 import { pDelay, _since } from '..'
+import { AnyFunction } from '../types'
 import { _debounce } from './debounce'
 
 const originalFn = (started: number, n: number) => console.log(`#${n} after ${_since(started)}`)
 
-async function startTimer(fn: Function, interval: number, count: number): Promise<void> {
+async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
   const started = Date.now()
 
   await timer(0, interval)
