@@ -368,5 +368,6 @@ module.exports = {
     '@typescript-eslint/no-unsafe-return': 0,
     '@typescript-eslint/restrict-plus-operands': 0,
     '@typescript-eslint/unbound-method': 0,
+    '@typescript-eslint/no-unsafe-argument': 0, // prevents "legit" use of `any`
   },
 }
