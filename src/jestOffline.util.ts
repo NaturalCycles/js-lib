@@ -18,7 +18,7 @@ export function jestOffline(): void {
   mitm.on('connect', (socket: any, opts: any) => {
     const { host } = opts
 
-    if (!LOCAL_HOSTS.includes(host)) {
+    if (!LOCAL_HOSTS.includes(host as string)) {
       throw new Error(`Network request forbidden by jestOffline(): ${host}`)
     }
 

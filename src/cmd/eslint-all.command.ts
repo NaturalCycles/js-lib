@@ -33,6 +33,7 @@ export async function eslintAllCommand(): Promise<void> {
   const tsconfigPathScripts = getTSConfigPathScripts()
   const tsconfigPathE2e = `./e2e/tsconfig.json`
 
+  // todo: run on other dirs too, e.g pages, components, layouts
   // /src
   // await runESLint(`./src`, eslintConfigPathRoot, tsconfigPath, extensions)
   await runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix)

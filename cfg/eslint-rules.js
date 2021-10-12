@@ -7,7 +7,14 @@ module.exports = {
       {
         types: {
           Object: {
-            message: 'Avoid using the `Object` type. Did you mean `object`?',
+            message:
+              'Avoid using the `Object` type. Did you mean `object`? Consider using Record<string, any> instead',
+          },
+          object: {
+            message: [
+              'The `object` type is currently hard to use ([see this issue](https://github.com/microsoft/TypeScript/issues/21732)).',
+              'Consider using `Record<string, any>` instead, as it allows you to more easily inspect and use the keys.',
+            ].join('\n'),
           },
           Boolean: {
             message: 'Avoid using the `Boolean` type. Did you mean `boolean`?',
