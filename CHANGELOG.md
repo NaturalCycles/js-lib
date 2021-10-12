@@ -1,3 +1,10 @@
+# [14.48.0](https://github.com/NaturalCycles/js-lib/compare/v14.47.0...v14.48.0) (2021-10-12)
+
+
+### Features
+
+* AnyObject, AnyFunction convenience type ([454e5d1](https://github.com/NaturalCycles/js-lib/commit/454e5d1562f25f9af6fce8b44a2fa67d9245963d))
+
 # [14.47.0](https://github.com/NaturalCycles/js-lib/compare/v14.46.1...v14.47.0) (2021-10-04)
 
 
