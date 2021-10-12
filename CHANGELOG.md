@@ -1,3 +1,10 @@
+## [12.8.1](https://github.com/NaturalCycles/dev-lib/compare/v12.8.0...v12.8.1) (2021-10-12)
+
+
+### Bug Fixes
+
+* disable `@typescript-eslint/no-unsafe-argument` ([653bed1](https://github.com/NaturalCycles/dev-lib/commit/653bed12de8de742daa514dc0ebfef8f03d2d240))
+
 # [12.8.0](https://github.com/NaturalCycles/dev-lib/compare/v12.7.5...v12.8.0) (2021-10-12)
 
 
