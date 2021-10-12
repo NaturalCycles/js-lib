@@ -1,3 +1,10 @@
+# [12.8.0](https://github.com/NaturalCycles/dev-lib/compare/v12.7.5...v12.8.0) (2021-10-12)
+
+
+### Features
+
+* upgrade to eslint@8 ([2594d96](https://github.com/NaturalCycles/dev-lib/commit/2594d9659bb700e55b9e6f5815d048c6a4fab6c7))
+
 ## [12.7.5](https://github.com/NaturalCycles/dev-lib/compare/v12.7.4...v12.7.5) (2021-10-02)
 
 
