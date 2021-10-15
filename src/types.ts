@@ -1,3 +1,5 @@
+import { Merge } from './typeFest'
+
 /**
  * Map from String to String (or <T>).
  *
@@ -143,6 +145,9 @@ export interface SavedDBEntity {
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
 export type BaseDBEntity = Partial<SavedDBEntity>
+
+export type Saved<E> = Merge<E, SavedDBEntity>
+export type Unsaved<E> = Merge<E, BaseDBEntity>
 
 /**
  * Named type for JSON.parse second argument
