@@ -1,3 +1,10 @@
+# [14.49.0](https://github.com/NaturalCycles/js-lib/compare/v14.48.0...v14.49.0) (2021-10-15)
+
+
+### Features
+
+* export Saved, Unsaved types ([6ca8194](https://github.com/NaturalCycles/js-lib/commit/6ca81943328d979646f0a566b4e4f77711d7da16))
+
 # [14.48.0](https://github.com/NaturalCycles/js-lib/compare/v14.47.0...v14.48.0) (2021-10-12)
 
 
