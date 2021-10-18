@@ -12,6 +12,19 @@ _randomInt(1, 3)
 // 2
 ```
 
+## \_randomArrayItem
+
+Returns a random item from the given array.
+
+Don't use it on empty array. It'll return `undefined` in that case, but that is not reflected in
+function's output type!
+
+```ts
+const a = [1, 2, 3]
+_randomArrayItem(a)
+// random of 1, 2 or 3
+```
+
 ## \_createDeterministicRandom
 
 Returns a "deterministic Math.random() function".

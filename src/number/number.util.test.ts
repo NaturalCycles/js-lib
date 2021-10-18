@@ -1,5 +1,5 @@
-import { _inRange, _randomInt, _sortNumbers } from '../index'
-import { _clamp, _round, _toFixed, _toPrecision } from './number.util'
+import { _inRange, _randomInt, _range, _sortNumbers } from '../index'
+import { _clamp, _randomArrayItem, _round, _toFixed, _toPrecision } from './number.util'
 
 test('_randomInt', () => {
   const f = _randomInt
@@ -11,6 +11,14 @@ test('_randomInt', () => {
     expect(v).toBeLessThanOrEqual(5)
     expect(Math.round(v) === v).toBe(true)
   }
+})
+
+test('_randomArrayItem', () => {
+  const a = [1, 2, 3]
+  _range(50).forEach(() => {
+    const v = _randomArrayItem(a)
+    expect(a.includes(v)).toBe(true)
+  })
 })
 
 test.each([

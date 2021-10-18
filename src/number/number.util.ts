@@ -2,6 +2,15 @@ export function _randomInt(minIncl: number, maxIncl: number): number {
   return Math.floor(Math.random() * (maxIncl - minIncl + 1) + minIncl)
 }
 
+/**
+ * Returns random item from an array.
+ * Should be used on non-empty arrays! (otherwise will return undefined,
+ * which is not reflected in the output type)
+ */
+export function _randomArrayItem<T>(array: T[]): T {
+  return array[_randomInt(0, array.length - 1)]!
+}
+
 // todo: _.random to support floats
 
 /**
