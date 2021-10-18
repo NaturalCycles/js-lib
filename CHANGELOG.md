@@ -1,3 +1,10 @@
+# [14.50.0](https://github.com/NaturalCycles/js-lib/compare/v14.49.0...v14.50.0) (2021-10-18)
+
+
+### Features
+
+* _filterUndefinedValues ([1bcaa03](https://github.com/NaturalCycles/js-lib/commit/1bcaa03feea4e0dd79d7aa8459747092f85b58ae))
+
 # [14.49.0](https://github.com/NaturalCycles/js-lib/compare/v14.48.0...v14.49.0) (2021-10-15)
 
 
