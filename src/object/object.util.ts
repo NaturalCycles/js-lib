@@ -76,10 +76,11 @@ export function _filterNullishValues<T extends Record<string, any>>(obj: T, muta
 }
 
 /**
- * @deprecated use _filterNullishValues
+ * Removes values from the object that are `undefined`.
+ * Only `undefined` values are removed. `null` values are kept!
  */
 export function _filterUndefinedValues<T extends Record<string, any>>(obj: T, mutate = false): T {
-  return _filterNullishValues(obj, mutate)
+  return _filterObject(obj, (_k, v) => v !== undefined, mutate)
 }
 
 export function _filterEmptyArrays<T extends Record<string, any>>(obj: T, mutate = false): T {

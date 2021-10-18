@@ -96,6 +96,22 @@ _filterNullishValues({
 // { a: 'a', d: '' }
 ```
 
+## \_filterUndefinedValues
+
+Returns an object with all `undefined` values filtered out. `null` values are kept.
+
+Non-mutating by default.
+
+```ts
+_filterUndefinedValues({
+  a: 'a',
+  b: null,
+  c: undefined, // removed
+  d: '',
+})
+// { a: 'a', b: null, d: '' }
+```
+
 ## \_filterEmptyArrays
 
 Returns an object will all empty arrays filtered out. Non-mutating by default.

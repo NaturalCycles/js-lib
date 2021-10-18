@@ -7,6 +7,7 @@ import {
   _filterFalsyValues,
   _filterNullishValues,
   _filterObject,
+  _filterUndefinedValues,
   _findKeyByValue,
   _get,
   _has,
@@ -235,6 +236,26 @@ test('_filterNullishValues', () => {
   })
 
   const _f = _filterNullishValues(o)
+})
+
+test('_filterUndefinedValues', () => {
+  const o = {
+    a: 1,
+    b: 0,
+    c: undefined,
+    d: null,
+    e: '',
+    f: 'wer',
+  }
+  deepFreeze(o)
+
+  expect(_filterUndefinedValues(o)).toEqual({
+    a: 1,
+    b: 0,
+    d: null,
+    e: '',
+    f: 'wer',
+  })
 })
 
 test('_filterEmptyArrays', () => {
