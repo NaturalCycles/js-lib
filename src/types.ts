@@ -24,6 +24,21 @@ export interface PromiseMap {
  */
 export type AnyObject = Record<string, any>
 
+export interface CreatedUpdated {
+  created: number
+  updated: number
+}
+
+export interface CreatedUpdatedId extends CreatedUpdated {
+  id: string
+}
+
+export interface ObjectWithId {
+  id: string
+}
+
+export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
+
 /**
  * Convenience type shorthand.
  * Because `Function` type is discouraged by eslint.
