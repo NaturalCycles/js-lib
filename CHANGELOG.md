@@ -1,3 +1,10 @@
+# [14.52.0](https://github.com/NaturalCycles/js-lib/compare/v14.51.0...v14.52.0) (2021-10-19)
+
+
+### Features
+
+* ObjectWithId, AnyObjectWithId, CreatedUpdated, CreatedUpdatedId ([d7ca213](https://github.com/NaturalCycles/js-lib/commit/d7ca2137d80ea08af55c83b5e7ce02e49e558f2c))
+
 # [14.51.0](https://github.com/NaturalCycles/js-lib/compare/v14.50.0...v14.51.0) (2021-10-18)
 
 
