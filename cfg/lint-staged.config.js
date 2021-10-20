@@ -75,6 +75,12 @@ const linters = {
 
   // CircleCI config (if modified)
   [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
+
+  '**/*.{kt,kts}': match => {
+    const filesList = micromatch.not(match, lintExclude).join(' ')
+    if (!filesList) return []
+    return [`ktlint -F ${filesList}`]
+  },
 }
 
 // /scripts are separate, cause they require separate tsconfig.json

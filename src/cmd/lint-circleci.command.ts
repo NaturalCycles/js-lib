@@ -9,7 +9,7 @@ export async function lintCircleCICommand(): Promise<void> {
     console.log(
       `!!\n!! Please install ${boldGrey('circleci')} CLI to validate ${boldGrey(
         'config.yml',
-      )}\n!!\n!! https://circleci.com/docs/2.0/local-cli\n!!`,
+      )}\n!!\n!! https://circleci.com/docs/2.0/local-cli/\n!!`,
     )
     return
   }

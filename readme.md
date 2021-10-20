@@ -145,6 +145,16 @@ linter, or when linter behaves badly and corrupts your files (just happened to m
 Pass `--ext` (e.g `--ext ts,html`) to override the list of ESLint extensions (default is
 `ts,tsx,vue` right now).
 
+##### ktlint
+
+`ktlint` will be used by lint-staged for all `**/*.{kt,kts}` files.
+
+Please install it with `brew install ktlint`.
+
+Currently `ktlint` has a bug of not supporting absolute paths, to work around it use
+[this instruction](https://github.com/pinterest/ktlint/issues/1131#issuecomment-947570851) to
+install a working version.
+
 #### Other commands
 
 - `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
