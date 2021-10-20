@@ -6,12 +6,13 @@ export async function lintCircleCICommand(): Promise<void> {
 
   if (!commandExistsSync('circleci')) {
     // Cannot validate, cause `circleci` binary is not installed
-    console.log(
+    console.warn(
       `!!\n!! Please install ${boldGrey('circleci')} CLI to validate ${boldGrey(
         'config.yml',
       )}\n!!\n!! https://circleci.com/docs/2.0/local-cli/\n!!`,
     )
-    return
+
+    return process.exit(5)
   }
 
   await execWithArgs('circleci', ['config', 'validate'])
