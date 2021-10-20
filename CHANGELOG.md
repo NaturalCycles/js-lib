@@ -1,3 +1,10 @@
+# [12.9.0](https://github.com/NaturalCycles/dev-lib/compare/v12.8.1...v12.9.0) (2021-10-20)
+
+
+### Features
+
+* ktlint will be used for `*.{kt,kts}` files by lint-staged ([56e2e9a](https://github.com/NaturalCycles/dev-lib/commit/56e2e9a37299524961098979bdedc73d84ffa39a))
+
 ## [12.8.1](https://github.com/NaturalCycles/dev-lib/compare/v12.8.0...v12.8.1) (2021-10-12)
 
 
