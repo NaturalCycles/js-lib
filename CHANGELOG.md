@@ -1,3 +1,10 @@
+# [12.10.0](https://github.com/NaturalCycles/dev-lib/compare/v12.9.0...v12.10.0) (2021-10-20)
+
+
+### Features
+
+* fail on not-existing `circleci` binary ([dec7271](https://github.com/NaturalCycles/dev-lib/commit/dec7271f958b6787a5928f3e65510e196831eb1c))
+
 # [12.9.0](https://github.com/NaturalCycles/dev-lib/compare/v12.8.1...v12.9.0) (2021-10-20)
 
 
