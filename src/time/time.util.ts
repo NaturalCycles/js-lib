@@ -37,6 +37,12 @@ export function _ms(millis: number): string {
     return `${hrs}h${min}m`
   }
 
-  // >= 24h
-  return `${Math.round(hrs + min / 60)}h`
+  if (hrs < 48) {
+    return `${Math.round(hrs + min / 60)}h`
+  }
+
+  // >= 48 hours
+
+  const days = Math.floor(hrs / 24)
+  return `${days} days`
 }

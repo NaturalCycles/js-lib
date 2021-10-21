@@ -30,6 +30,7 @@ test('ms', () => {
   expect(_ms(69642430)).toBe('19h20m')
   expect(_ms(92694074)).toBe('26h')
   expect(_ms(101963481)).toBe('28h')
+  expect(_ms(535963481)).toBe('6 days')
 })
 
 test('log progression', () => {
