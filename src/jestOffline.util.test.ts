@@ -1,4 +1,5 @@
-import got from 'got'
+import { getGot } from '@naturalcycles/nodejs-lib'
+const got = getGot()
 
 const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
 
