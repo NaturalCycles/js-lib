@@ -1,3 +1,10 @@
+# [14.53.0](https://github.com/NaturalCycles/js-lib/compare/v14.52.0...v14.53.0) (2021-10-21)
+
+
+### Features
+
+* _ms to support "days" ([6329afe](https://github.com/NaturalCycles/js-lib/commit/6329afe2a319de68e0d4362d865db88e4b26e388))
+
 # [14.52.0](https://github.com/NaturalCycles/js-lib/compare/v14.51.0...v14.52.0) (2021-10-19)
 
 
