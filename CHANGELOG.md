@@ -1,3 +1,10 @@
+# [12.11.0](https://github.com/NaturalCycles/dev-lib/compare/v12.10.0...v12.11.0) (2021-10-21)
+
+
+### Features
+
+* update stylelint to 14 ([ee2b6d1](https://github.com/NaturalCycles/dev-lib/commit/ee2b6d1ad32bf42b3ff4d0c68716feca3215acd8))
+
 # [12.10.0](https://github.com/NaturalCycles/dev-lib/compare/v12.9.0...v12.10.0) (2021-10-20)
 
 
