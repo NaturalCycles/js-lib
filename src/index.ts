@@ -66,7 +66,7 @@ import {
 } from './error/error.util'
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
-import { _try } from './error/try'
+import { _try, pTry } from './error/try'
 import { TryCatchOptions, _TryCatch, _tryCatch } from './error/tryCatch'
 import { generateJsonSchemaFromData } from './json-schema/from-data/generateJsonSchemaFromData'
 import { JSON_SCHEMA_ORDER } from './json-schema/jsonSchema.cnst'
@@ -426,6 +426,7 @@ export {
   _tryCatch,
   _TryCatch,
   _try,
+  pTry,
   _jsonParseIfPossible,
   _stringifyAny,
   _ms,
