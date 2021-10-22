@@ -1,3 +1,10 @@
+# [14.54.0](https://github.com/NaturalCycles/js-lib/compare/v14.53.0...v14.54.0) (2021-10-22)
+
+
+### Features
+
+* pTry (variation of pTuple), _try with non-optional RESULT type ([2c1dfdb](https://github.com/NaturalCycles/js-lib/commit/2c1dfdb9e1bad19de17280f181b7a75bcd0971bc))
+
 # [14.53.0](https://github.com/NaturalCycles/js-lib/compare/v14.52.0...v14.53.0) (2021-10-21)
 
 
