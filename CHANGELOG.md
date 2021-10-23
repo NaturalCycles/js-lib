@@ -1,3 +1,10 @@
+## [12.11.2](https://github.com/NaturalCycles/dev-lib/compare/v12.11.1...v12.11.2) (2021-10-23)
+
+
+### Bug Fixes
+
+* trying to fix stylelint/postcss error ([7f965d7](https://github.com/NaturalCycles/dev-lib/commit/7f965d7ed382343f0292683aa2f0d6d8f861749d))
+
 ## [12.11.1](https://github.com/NaturalCycles/dev-lib/compare/v12.11.0...v12.11.1) (2021-10-23)
 
 
