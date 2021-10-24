@@ -1,3 +1,10 @@
+## [12.11.3](https://github.com/NaturalCycles/dev-lib/compare/v12.11.2...v12.11.3) (2021-10-24)
+
+
+### Bug Fixes
+
+* extend stylelint-config-prettier ([a1ed1a6](https://github.com/NaturalCycles/dev-lib/commit/a1ed1a6509358c308890f2b2cbeb5d7c46368f80))
+
 ## [12.11.2](https://github.com/NaturalCycles/dev-lib/compare/v12.11.1...v12.11.2) (2021-10-23)
 
 
