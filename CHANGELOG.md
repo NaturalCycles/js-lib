@@ -1,3 +1,10 @@
+# [14.55.0](https://github.com/NaturalCycles/js-lib/compare/v14.54.0...v14.55.0) (2021-10-25)
+
+
+### Features
+
+* _parseQueryString ([ed996de](https://github.com/NaturalCycles/js-lib/commit/ed996de1cfa817071daef9080be6be2c988cab2b))
+
 # [14.54.0](https://github.com/NaturalCycles/js-lib/compare/v14.53.0...v14.54.0) (2021-10-22)
 
 
