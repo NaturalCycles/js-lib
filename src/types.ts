@@ -191,6 +191,6 @@ export function _stringMapEntries<T>(m: StringMap<T>): [k: string, v: T][] {
  *
  * @experimental
  */
-export function _objectKeys<T extends Record<string, any>>(obj: T): (keyof T)[] {
+export function _objectKeys<T extends AnyObject>(obj: T): (keyof T)[] {
   return Object.keys(obj)
 }

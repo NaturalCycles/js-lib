@@ -10,6 +10,7 @@ import {
   StringMap,
   _stringMapEntries,
   _uniq,
+  AnyObject,
 } from '../..'
 
 type PrimitiveType = 'undefined' | 'null' | 'boolean' | 'string' | 'number'
@@ -20,11 +21,11 @@ type Type = PrimitiveType | 'array' | 'object'
  *
  * `additionalProperties` is set to `true`, cause it's safer.
  */
-export function generateJsonSchemaFromData<T = unknown>(rows: any[]): JsonSchemaObject<T> {
+export function generateJsonSchemaFromData<T = unknown>(rows: AnyObject[]): JsonSchemaObject<T> {
   return objectToJsonSchema(rows as any) as JsonSchemaObject<T>
 }
 
-function objectToJsonSchema(rows: Record<string, any>[]): JsonSchemaObject {
+function objectToJsonSchema(rows: AnyObject[]): JsonSchemaObject {
   const typesByKey: StringMap<Set<Type>> = {}
 
   rows.forEach(r => {

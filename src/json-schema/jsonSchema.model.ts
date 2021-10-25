@@ -1,4 +1,4 @@
-import { StringMap } from '../types'
+import { AnyObject, StringMap } from '../types'
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 export type JsonSchema<T = unknown> =
@@ -124,13 +124,11 @@ export interface JsonSchemaRef<T = unknown> extends JsonSchemaAny<T> {
   $ref: string
 }
 
-export interface JsonSchemaRootObject<T extends Record<any, any> = Record<any, unknown>>
-  extends JsonSchemaObject<T> {
+export interface JsonSchemaRootObject<T extends AnyObject = AnyObject> extends JsonSchemaObject<T> {
   $id: string
 }
 
-export interface JsonSchemaObject<T extends Record<any, any> = Record<any, unknown>>
-  extends JsonSchemaAny<T> {
+export interface JsonSchemaObject<T extends AnyObject = AnyObject> extends JsonSchemaAny<T> {
   type: 'object'
   // let's be strict and require all these
   properties: {

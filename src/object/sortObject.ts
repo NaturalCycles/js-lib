@@ -1,11 +1,11 @@
-import { _omit } from '../index'
+import { _omit, AnyObject } from '../index'
 
 /**
  * Returns new object with keys sorder in the given order.
  * All keys that are not listed in `keyOrder` go last.
  * Does not mutate original object.
  */
-export function _sortObject<T extends Record<any, any>>(obj: T, keyOrder: (keyof T)[]): T {
+export function _sortObject<T extends AnyObject>(obj: T, keyOrder: (keyof T)[]): T {
   const r = {} as T
 
   keyOrder.forEach(key => {

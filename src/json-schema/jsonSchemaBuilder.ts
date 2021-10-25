@@ -9,6 +9,7 @@ import {
   SavedDBEntity,
   _deepCopy,
   _sortObject,
+  AnyObject,
 } from '../index'
 import { JSON_SCHEMA_ORDER } from './jsonSchema.cnst'
 import {
@@ -86,12 +87,12 @@ export const jsonSchema = {
   },
   // email: () => new JsonSchemaStringBuilder().email(),
   // complex types
-  object<T extends Record<any, any>>(props: {
+  object<T extends AnyObject>(props: {
     [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
   }) {
     return new JsonSchemaObjectBuilder<T>().addProperties(props)
   },
-  rootObject<T extends Record<any, any>>(props: {
+  rootObject<T extends AnyObject>(props: {
     [k in keyof T]: JsonSchemaAnyBuilder<T[k]>
   }) {
     return new JsonSchemaObjectBuilder<T>().addProperties(props).$schemaDraft7()
@@ -309,7 +310,7 @@ export class JsonSchemaStringBuilder extends JsonSchemaAnyBuilder<string, JsonSc
   // contentEncoding?: string
 }
 
-export class JsonSchemaObjectBuilder<T extends Record<any, any>> extends JsonSchemaAnyBuilder<
+export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyBuilder<
   T,
   JsonSchemaObject<T>
 > {
@@ -378,9 +379,7 @@ export class JsonSchemaObjectBuilder<T extends Record<any, any>> extends JsonSch
     return this.baseDBEntity().addRequired(['id', 'created', 'updated']) as any
   }
 
-  extend<T2 extends Record<any, any>>(
-    s2: JsonSchemaObjectBuilder<T2>,
-  ): JsonSchemaObjectBuilder<T & T2> {
+  extend<T2 extends AnyObject>(s2: JsonSchemaObjectBuilder<T2>): JsonSchemaObjectBuilder<T & T2> {
     const builder = new JsonSchemaObjectBuilder<T & T2>()
     Object.assign(builder.schema, _deepCopy(this.schema))
     mergeJsonSchemaObjects(builder.schema, s2.schema)
