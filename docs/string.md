@@ -146,3 +146,25 @@ Based on regex implementation (slightly faster than "split/join" implementation)
 Converts `\n` (aka new-line) to `<br>`, to be presented in HTML.
 
 Keeps `\n`, so if it's printed in non-HTML environment it still looks ok-ish.
+
+## \_parseQueryString
+
+Parses `location.search` string (e.g `?a=1&b=2`) into a StringMap, e.g: `{ a: '1', b: '2' }`
+
+Pass `location.search` to it in the Frontend, or any other string on the Backend (where
+`location.search` is not available).
+
+Works both with and without leading `?` character.
+
+Yes, there's [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
+existing in the Frontend (not in Node yet), but it's API is not as convenient. And the
+implementation here is super-small.
+
+Goal of this function is to produce exactly same output as `URLSearchParams` would.
+
+```ts
+// Assuming url is http://example.com?a=1&b=2
+
+_parseQueryString(location.search)
+// { a: '1', b: '2' }
+```

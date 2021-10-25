@@ -21,6 +21,7 @@ import {
   _uniq,
   _uniqBy,
 } from './array/array.util'
+import { _parseQueryString } from './string/url.util'
 import { _range } from './array/range'
 import {
   PromiseDecoratorCfg,
@@ -447,4 +448,5 @@ export {
   JsonSchemaAnyBuilder,
   JSON_SCHEMA_ORDER,
   generateJsonSchemaFromData,
+  _parseQueryString,
 }
