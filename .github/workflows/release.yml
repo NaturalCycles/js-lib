@@ -11,7 +11,7 @@ jobs:
     env: { NODE_OPTIONS: '--max-old-space-size=3200' }
     steps:
       - { uses: actions/checkout@v2, with: { persist-credentials: true } }
-      - { uses: actions/setup-node@v2, with: { node-version: 14, cache: 'yarn' } }
+      - { uses: actions/setup-node@v2, with: { node-version: 16, cache: 'yarn' } }
 
       # Cache for npm/npx in ~/.npm
       - uses: actions/cache@v2
