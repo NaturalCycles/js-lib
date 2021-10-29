@@ -49,7 +49,7 @@
     "eslint-plugin-jsdoc": "^37.0.0",
     "eslint-plugin-unicorn": "^37.0.1",
     "eslint-plugin-unused-imports": "^1.1.1",
-    "eslint-plugin-vue": "^7.18.0",
+    "eslint-plugin-vue": "^8.0.1",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "husky": "^7.0.0",
