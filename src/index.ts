@@ -21,6 +21,7 @@ import {
   _uniq,
   _uniqBy,
 } from './array/array.util'
+import { _defineLazyProperty, _lazyValue } from './lazy'
 import { _parseQueryString } from './string/url.util'
 import { _range } from './array/range'
 import {
@@ -449,4 +450,6 @@ export {
   JSON_SCHEMA_ORDER,
   generateJsonSchemaFromData,
   _parseQueryString,
+  _defineLazyProperty,
+  _lazyValue,
 }

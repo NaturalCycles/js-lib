@@ -27,6 +27,7 @@ module.exports = {
             'decorators',
             'error',
             'types',
+            'lazy',
           ],
         },
       ],
