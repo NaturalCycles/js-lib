@@ -22,6 +22,7 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
 
     Object.defineProperty(this, 'data', {
       value: data,
+      writable: true,
       configurable: true,
       enumerable: false,
     })
@@ -31,6 +32,7 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
     } else {
       Object.defineProperty(this, 'stack', {
         value: new Error().stack, // eslint-disable-line unicorn/error-message
+        writable: true,
         configurable: true,
       })
     }

@@ -33,6 +33,7 @@ export class AggregatedError<RESULT = any> extends Error {
     } else {
       Object.defineProperty(this, 'stack', {
         value: new Error().stack, // eslint-disable-line unicorn/error-message
+        writable: true,
         configurable: true,
       })
     }

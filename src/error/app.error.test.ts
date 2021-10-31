@@ -45,6 +45,9 @@ test('AppError log should NOT include constructor and data', () => {
 
   expect(s).not.toContain('constructor')
   expect(s).not.toContain('data')
+
+  // Should allow writing to this property
+  err.data = {}
 })
 
 function filterStackTrace(s: string): string {
