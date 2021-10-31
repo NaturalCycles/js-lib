@@ -123,23 +123,7 @@ export function _assertTypeOf<T>(v: any, expectedType: string, message?: string)
 }
 
 export class AssertionError extends AppError {
-  constructor(message: string, data: ErrorData) {
+  constructor(message: string, data = {} as ErrorData) {
     super(message, data)
-
-    this.constructor = AssertionError
-    ;(this as any).__proto__ = AssertionError.prototype
-    Object.defineProperty(this, 'name', {
-      value: this.constructor.name,
-      configurable: true, // otherwise throws with "TypeError: Cannot redefine property: name"
-    })
-
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor)
-    } else {
-      Object.defineProperty(this, 'stack', {
-        value: new Error().stack, // eslint-disable-line unicorn/error-message
-        configurable: true,
-      })
-    }
   }
 }

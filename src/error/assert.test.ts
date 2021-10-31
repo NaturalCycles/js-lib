@@ -1,3 +1,4 @@
+import { inspect } from 'util'
 import {
   AssertionError,
   _assert,
@@ -98,3 +99,26 @@ test('_assertIsNumber', () => {
     got     : string]
   `)
 })
+
+test('AssertionError printability', () => {
+  const err = new AssertionError('error', { userFriendly: true })
+  // console.log(err)
+
+  expect(err.name).toBe('AssertionError')
+  expect(err.constructor.name).toBe('AssertionError')
+  expect(err.constructor).toBe(AssertionError)
+  const s = filterStackTrace(inspect(err))
+  // console.log(s)
+
+  expect(s).not.toContain('constructor')
+  expect(s).not.toContain('data')
+
+  expect(err.data).toEqual({ userFriendly: true })
+})
+
+function filterStackTrace(s: string): string {
+  return s
+    .split('\n')
+    .filter(line => !line.trimStart().startsWith('at '))
+    .join('\n')
+}

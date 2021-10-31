@@ -10,14 +10,20 @@ import { ErrorData } from './error.model'
  * Based on: https://medium.com/@xpl/javascript-deriving-from-error-properly-8d2f8f315801
  */
 export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
-  constructor(message: string, public data = {} as DATA_TYPE) {
+  data!: DATA_TYPE
+
+  constructor(message: string, data = {} as DATA_TYPE) {
     super(message)
 
-    this.constructor = AppError
-    ;(this as any).__proto__ = AppError.prototype
     Object.defineProperty(this, 'name', {
       value: this.constructor.name,
       configurable: true,
+    })
+
+    Object.defineProperty(this, 'data', {
+      value: data,
+      configurable: true,
+      enumerable: false,
     })
 
     if (Error.captureStackTrace) {

@@ -23,8 +23,6 @@ export class AggregatedError<RESULT = any> extends Error {
     this.errors = mappedErrors
     this.results = results
 
-    this.constructor = AggregatedError
-    ;(this as any).__proto__ = AggregatedError.prototype
     Object.defineProperty(this, 'name', {
       value: this.constructor.name,
       configurable: true,
