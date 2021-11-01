@@ -60,3 +60,14 @@ export function _defineLazyProperty<OBJ extends AnyObject>(
 
   return obj
 }
+
+/**
+ * Like _defineLazyProperty, but allows to define multiple props at once.
+ */
+export function _defineLazyProps<OBJ extends AnyObject>(
+  obj: OBJ,
+  props: Partial<Record<keyof OBJ, AnyFunction>>,
+): OBJ {
+  Object.entries(props).forEach(([k, fn]) => _defineLazyProperty(obj, k, fn!))
+  return obj
+}
