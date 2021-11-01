@@ -22,6 +22,8 @@ export function _chunk<T>(array: readonly T[], size = 1): T[][] {
 /**
  * Polyfill to Array.flat() with depth=1.
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
+ *
+ * @deprecated prefer native Array.flat(), it's supported since iOS 12
  */
 export function _flatten<T>(arrays: T[][]): T[] {
   // to flat single level array
@@ -35,6 +37,8 @@ export function _flatten<T>(arrays: T[][]): T[] {
  * @return Returns the new flattened array.
  *
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_flattendeep
+ *
+ * @deprecated prefer native Array.flat(), it's supported since iOS 12
  */
 export function _flattenDeep<T>(arr: RecursiveArray<T>): T[] {
   return Array.isArray(arr)
