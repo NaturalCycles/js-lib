@@ -25,8 +25,3 @@ jobs:
           ./cc-test-reporter before-build
           yarn test-ci
           ./cc-test-reporter after-build -t lcov
-
-      - uses: actions/upload-artifact@v2
-        with: { name: 'unit.xml', path: 'tmp/jest/unit.xml' }
-      - uses: actions/upload-artifact@v2
-        with: { name: 'coverage-unit', path: 'coverage/lcov-report' }
