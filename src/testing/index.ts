@@ -1,19 +1,8 @@
 import * as timekeeper from 'timekeeper'
-import { jestOffline } from '../jestOffline.util'
-import { expectResults } from './expect.util'
-import { mockAllKindsOfThings } from './mockAllKindsOfThings'
-import { deepFreeze, silentConsole } from './testing.util'
-import { mockTime, mockTimeMillis, MOCK_TS_2018_06_21, resetTime } from './time.util'
-
-export {
-  jestOffline,
-  deepFreeze,
-  silentConsole,
-  mockTime,
-  mockTimeMillis,
-  resetTime,
-  MOCK_TS_2018_06_21,
-  timekeeper,
-  mockAllKindsOfThings,
-  expectResults,
-}
+// eslint-disable-next-line unicorn/prefer-export-from
+export { timekeeper }
+export { jestOffline } from '../jestOffline.util'
+export { expectResults } from './expect.util'
+export { mockAllKindsOfThings } from './mockAllKindsOfThings'
+export { deepFreeze, silentConsole } from './testing.util'
+export { mockTime, mockTimeMillis, MOCK_TS_2018_06_21, resetTime } from './time.util'

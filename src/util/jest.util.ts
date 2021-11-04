@@ -100,13 +100,13 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  if (!integration && !manual && !process.env.APP_ENV) {
+  if (!integration && !manual && !process.env['APP_ENV']) {
     Object.assign(env, {
       APP_ENV: 'test',
     })
   }
 
-  if (!process.env.JEST_NO_ALPHABETIC) {
+  if (!process.env['JEST_NO_ALPHABETIC']) {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
 
