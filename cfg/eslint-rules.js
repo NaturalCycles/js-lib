@@ -369,5 +369,6 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 0,
     '@typescript-eslint/unbound-method': 0,
     '@typescript-eslint/no-unsafe-argument': 0, // prevents "legit" use of `any`
+    'unicorn/prefer-export-from': 0, // breaks auto-imports in IntelliJ Idea
   },
 }
