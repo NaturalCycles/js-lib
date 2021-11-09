@@ -224,6 +224,14 @@ import {
 } from './types'
 import { _gb, _hb, _kb, _mb } from './unit/size.util'
 import { is } from './vendor/is'
+import {
+  CommonLogLevel,
+  CommonLogFunction,
+  CommonLogger,
+  SimpleLogger,
+  createSimpleLogger,
+  noopLogger,
+} from './log/commonLogger'
 
 export type {
   MemoCache,
@@ -295,6 +303,10 @@ export type {
   JsonSchemaArray,
   JsonSchemaTuple,
   JsonSchemaBuilder,
+  CommonLogLevel,
+  CommonLogFunction,
+  CommonLogger,
+  SimpleLogger,
 }
 
 export {
@@ -453,4 +465,6 @@ export {
   _defineLazyProperty,
   _defineLazyProps,
   _lazyValue,
+  createSimpleLogger,
+  noopLogger,
 }
