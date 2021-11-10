@@ -1,11 +1,9 @@
 import { _isErrorObject, _isHttpErrorObject, _isHttpErrorResponse } from '../error/error.util'
 import { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
+import { _safeJsonStringify } from './safeJsonStringify'
 
 export type JsonStringifyFunction = (obj: any, reviver?: Reviver, space?: number) => string
-
-const jsonStringifyFn: JsonStringifyFunction = (obj, reviver, space) =>
-  JSON.stringify(obj, reviver, space)
 
 export interface StringifyAnyOptions {
   /**
@@ -116,7 +114,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // Other
     //
     try {
-      const { stringifyFn = jsonStringifyFn } = opt
+      const { stringifyFn = _safeJsonStringify } = opt
 
       s = stringifyFn(obj, undefined, 2)
     } catch {

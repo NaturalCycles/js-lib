@@ -11,7 +11,13 @@ export function _safeJsonStringify(
   spaces?: number,
   cycleReplacer?: Reviver,
 ): string {
-  return JSON.stringify(obj, serializer(replacer, cycleReplacer), spaces)
+  try {
+    // Try native first (as it's ~3 times faster)
+    return JSON.stringify(obj, replacer, spaces)
+  } catch {
+    // Native failed - resort to the "safe" serializer
+    return JSON.stringify(obj, serializer(replacer, cycleReplacer), spaces)
+  }
 }
 
 /* eslint-disable @typescript-eslint/no-unused-expressions, no-bitwise */
