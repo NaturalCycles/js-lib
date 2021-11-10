@@ -232,6 +232,7 @@ import {
   createSimpleLogger,
   noopLogger,
 } from './log/commonLogger'
+import { _safeJsonStringify } from './string/safeJsonStringify'
 
 export type {
   MemoCache,
@@ -467,4 +468,5 @@ export {
   _lazyValue,
   createSimpleLogger,
   noopLogger,
+  _safeJsonStringify,
 }

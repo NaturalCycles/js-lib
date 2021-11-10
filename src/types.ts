@@ -165,7 +165,7 @@ export type Saved<E> = Merge<E, SavedDBEntity>
 export type Unsaved<E> = Merge<E, BaseDBEntity>
 
 /**
- * Named type for JSON.parse second argument
+ * Named type for JSON.parse / JSON.stringify second argument
  */
 export type Reviver = (this: any, key: string, value: any) => any
 
