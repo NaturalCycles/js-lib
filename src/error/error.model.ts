@@ -44,6 +44,13 @@ export interface HttpErrorData extends ErrorData {
   httpStatusCode: number
 
   /**
+   * @example
+   *
+   * GET /api/some-endpoint
+   */
+  endpoint?: string
+
+  /**
    * Set to true when the error was thrown after response headers were sent.
    */
   headersSent?: boolean
