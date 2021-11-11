@@ -42,6 +42,11 @@ export interface HttpErrorData extends ErrorData {
    * @default 500
    */
   httpStatusCode: number
+
+  /**
+   * Set to true when the error was thrown after response headers were sent.
+   */
+  headersSent?: boolean
 }
 
 export interface Admin401ErrorData extends HttpErrorData {
