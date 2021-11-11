@@ -19,6 +19,12 @@ export interface ErrorData {
   errorId?: string
 
   /**
+   * Set to true to force reporting this error (e.g to Sentry).
+   * Useful to be able to force-report e.g a 4xx error, which by default wouldn't be reported.
+   */
+  report?: boolean
+
+  /**
    * Sometimes error.message gets "decorated" with extra information
    * (e.g frontend-lib adds a method, url, etc for all the errors)
    * `originalMessage` is used to preserve the original `error.message` as it came from the backend.
