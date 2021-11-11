@@ -140,11 +140,17 @@ export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): String
  * Same:
  * _sortBy([{age: 20}, {age: 10}], o => o.age)
  */
-export function _sortBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): T[] {
+export function _sortBy<T>(
+  items: T[],
+  mapper: Mapper<T, any>,
+  mutate = false,
+  descending = false,
+): T[] {
+  const mod = descending ? -1 : 1
   return (mutate ? items : [...items]).sort((_a, _b) => {
     const [a, b] = [_a, _b].map(mapper) // eslint-disable-line unicorn/no-array-callback-reference
-    if (typeof a === 'number' && typeof b === 'number') return a - b
-    return String(a).localeCompare(String(b))
+    if (typeof a === 'number' && typeof b === 'number') return (a - b) * mod
+    return String(a).localeCompare(String(b)) * mod
   })
 }
 

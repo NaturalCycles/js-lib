@@ -37,8 +37,9 @@ export function _clamp(x: number, minIncl: number, maxIncl: number): number {
  * _sortNumbers([1, 3, 2])
  * // [1, 2, 3]
  */
-export function _sortNumbers(numbers: number[], mutate = false): number[] {
-  return (mutate ? numbers : [...numbers]).sort((a, b) => a - b)
+export function _sortNumbers(numbers: number[], mutate = false, descending = false): number[] {
+  const mod = descending ? -1 : 1
+  return (mutate ? numbers : [...numbers]).sort((a, b) => (a - b) * mod)
 }
 
 /**

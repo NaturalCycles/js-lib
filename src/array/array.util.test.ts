@@ -101,6 +101,7 @@ test('_sortBy', () => {
   deepFreeze(a)
   expect(_sortBy(a, r => r.age)).toEqual([{ age: 10 }, { age: 20 }])
   expect(_sortBy(a, o => o.age)).toEqual([{ age: 10 }, { age: 20 }])
+  expect(_sortBy(a, o => o.age, false, true)).toEqual([{ age: 20 }, { age: 10 }])
 })
 
 test('_sortBy with mutation', () => {
