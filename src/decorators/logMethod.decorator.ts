@@ -1,4 +1,4 @@
-import { SimpleMovingAverage, _stringifyAny } from '..'
+import { SimpleMovingAverage, _stringifyAny, CommonLogger } from '..'
 import { _ms } from '../time/time.util'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
@@ -46,6 +46,11 @@ export interface LogMethodOptions {
    * Overrides `logResult`.
    */
   logResultFn?: LogResultFn
+
+  /**
+   * Defaults to `console`
+   */
+  logger?: CommonLogger
 }
 
 /**
@@ -65,13 +70,13 @@ export interface LogMethodOptions {
 export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
-      throw new TypeError('@LogMillis can be applied only to methods')
+      throw new TypeError('@_LogMethod can be applied only to methods')
     }
 
     const originalFn = descriptor.value
     const keyStr = String(key)
 
-    const { avg, noLogArgs, logStart, logResult, noLogResultLength } = opt
+    const { avg, noLogArgs, logStart, logResult, noLogResultLength, logger = console } = opt
     let { logResultFn } = opt
     if (!logResultFn) {
       if (logResult) {
@@ -93,7 +98,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
       const methodSignature = _getMethodSignature(ctx, keyStr)
       const argsStr = _getArgsSignature(args, noLogArgs)
       const callSignature = `${methodSignature}(${argsStr}) #${++count}`
-      if (logStart) console.log(`>> ${callSignature}`)
+      if (logStart) logger.log(`>> ${callSignature}`)
 
       try {
         const res = originalFn.apply(ctx, args)
@@ -102,20 +107,20 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
           // Result is a Promise, will wait for resolution or rejection
           return res
             .then((r: any) => {
-              logFinished(callSignature, started, sma, logResultFn, r)
+              logFinished(logger, callSignature, started, sma, logResultFn, r)
               return r
             })
             .catch((err: any) => {
-              logFinished(callSignature, started, sma, logResultFn, undefined, err)
+              logFinished(logger, callSignature, started, sma, logResultFn, undefined, err)
               return Promise.reject(err)
             })
         } else {
           // not a Promise
-          logFinished(callSignature, started, sma, logResultFn, res)
+          logFinished(logger, callSignature, started, sma, logResultFn, res)
           return res
         }
       } catch (err) {
-        logFinished(callSignature, started, sma, logResultFn, undefined, err)
+        logFinished(logger, callSignature, started, sma, logResultFn, undefined, err)
         throw err // rethrow
       }
     } as any
@@ -125,6 +130,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
 }
 
 function logFinished(
+  logger: CommonLogger,
   callSignature: string,
   started: number,
   sma?: SimpleMovingAverage,
@@ -146,5 +152,5 @@ function logFinished(
     t.push(...logResultFn(res))
   }
 
-  console.log(t.filter(Boolean).join(' '))
+  logger.log(t.filter(Boolean).join(' '))
 }

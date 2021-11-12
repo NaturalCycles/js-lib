@@ -4,19 +4,31 @@
 // http://inlehmansterms.net/2015/03/01/javascript-memoization/
 // https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
 
+import { CommonLogger } from '../log/commonLogger'
 import { _since } from '../time/time.util'
 import { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 export interface MemoOptions {
+  /**
+   * Default to false
+   */
   logHit?: boolean
+  /**
+   * Default to false
+   */
   logMiss?: boolean
 
   /**
    * Skip logging method arguments.
    */
   noLogArgs?: boolean
+
+  /**
+   * Default to `console`
+   */
+  logger?: CommonLogger
 
   /**
    * Provide a custom implementation of MemoCache.
@@ -73,13 +85,14 @@ export const _Memo =
     const cache = new Map<AnyObject, MemoCache>()
 
     const {
-      logHit,
-      logMiss,
-      noLogArgs,
+      logHit = false,
+      logMiss = false,
+      noLogArgs = false,
+      logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      noCacheRejected,
-      noCacheResolved,
+      noCacheRejected = false,
+      noCacheResolved = false,
     } = opt
 
     const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
@@ -95,11 +108,8 @@ export const _Memo =
         cache.set(ctx, cacheFactory())
       } else if (cache.get(ctx)!.has(cacheKey)) {
         if (logHit) {
-          console.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-              args,
-              noLogArgs,
-            )}) @memoInstance hit`,
+          logger.log(
+            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(args, noLogArgs)}) @_Memo hit`,
           )
         }
 
@@ -121,11 +131,11 @@ export const _Memo =
           .then(res => {
             // console.log('RESOLVED', res)
             if (logMiss) {
-              console.log(
+              logger.log(
                 `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
                   args,
                   noLogArgs,
-                )}) @memo miss resolved (${_since(started)})`,
+                )}) @_Memo miss resolved (${_since(started)})`,
               )
             }
 
@@ -138,11 +148,11 @@ export const _Memo =
           .catch(err => {
             // console.log('REJECTED', err)
             if (logMiss) {
-              console.log(
+              logger.log(
                 `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
                   args,
                   noLogArgs,
-                )}) @memo miss rejected (${_since(started)})`,
+                )}) @_Memo miss rejected (${_since(started)})`,
               )
             }
 
@@ -157,11 +167,11 @@ export const _Memo =
           })
       } else {
         if (logMiss) {
-          console.log(
+          logger.log(
             `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
               args,
               noLogArgs,
-            )}) @memo miss (${_since(started)})`,
+            )}) @_Memo miss (${_since(started)})`,
           )
         }
 
@@ -170,7 +180,7 @@ export const _Memo =
       }
     } as any
     ;(descriptor.value as any).dropCache = () => {
-      console.log(`${methodSignature} @memo.dropCache()`)
+      logger.log(`${methodSignature} @_Memo.dropCache()`)
       cache.forEach(memoCache => memoCache.clear())
       cache.clear()
     }

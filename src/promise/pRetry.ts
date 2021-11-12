@@ -1,4 +1,4 @@
-import { _since, _stringifyAny } from '..'
+import { _since, _stringifyAny, CommonLogger } from '..'
 
 export interface PRetryOptions {
   /**
@@ -63,6 +63,11 @@ export interface PRetryOptions {
    * @default false
    */
   logNone?: boolean
+
+  /**
+   * Default to `console`
+   */
+  logger?: CommonLogger
 }
 
 /**
@@ -71,7 +76,13 @@ export interface PRetryOptions {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
-  const { maxAttempts = 4, delay: initialDelay = 1000, delayMultiplier = 2, predicate } = opt
+  const {
+    maxAttempts = 4,
+    delay: initialDelay = 1000,
+    delayMultiplier = 2,
+    predicate,
+    logger = console,
+  } = opt
 
   let { logFirstAttempt = false, logRetries = true, logFailures = false, logSuccess = false } = opt
 
@@ -95,18 +106,18 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
         try {
           attempt++
           if ((attempt === 1 && logFirstAttempt) || (attempt > 1 && logRetries)) {
-            console.log(`${fname} attempt #${attempt}...`)
+            logger.log(`${fname} attempt #${attempt}...`)
           }
 
           const r = await fn.apply(this, args)
 
           if (logSuccess) {
-            console.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
+            logger.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
           }
           resolve(r)
         } catch (err) {
           if (logFailures) {
-            console.warn(
+            logger.warn(
               `${fname} attempt #${attempt} error in ${_since(started)}:\n${_stringifyAny(err, {
                 includeErrorData: true,
               })}`,

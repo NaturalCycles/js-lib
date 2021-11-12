@@ -11,6 +11,7 @@ Otherwise resorts to JSON.stringify.
 Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
+import { CommonLogger } from '../log/commonLogger'
 import { _getArgsSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
@@ -18,6 +19,7 @@ export interface MemoOpts {
   logHit?: boolean
   logMiss?: boolean
   noLogArgs?: boolean
+  logger?: CommonLogger
 }
 
 // memoSimple decorator is NOT exported. Only used in benchmarks currently
@@ -55,7 +57,7 @@ export const memoSimple =
    */
     const cache: MemoCache = new MapMemoCache()
 
-    const { logHit, logMiss, noLogArgs } = opt
+    const { logHit, logMiss, noLogArgs, logger = console } = opt
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
@@ -65,7 +67,7 @@ export const memoSimple =
 
       if (cache.has(cacheKey)) {
         if (logHit) {
-          console.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
+          logger.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
         }
         return cache.get(cacheKey)
       }
@@ -75,7 +77,7 @@ export const memoSimple =
       const res: any = originalFn.apply(ctx, args)
 
       if (logMiss) {
-        console.log(
+        logger.log(
           `${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${
             Date.now() - d
           } ms)`,
@@ -87,7 +89,7 @@ export const memoSimple =
       return res
     } as any
     ;(descriptor.value as any).dropCache = () => {
-      console.log(`${methodSignature} @memo.dropCache()`)
+      logger.log(`${methodSignature} @memo.dropCache()`)
       cache.clear()
     }
 

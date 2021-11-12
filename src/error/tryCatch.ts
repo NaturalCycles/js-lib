@@ -1,4 +1,4 @@
-import { _since, _stringifyAny } from '../index'
+import { _since, _stringifyAny, CommonLogger } from '../index'
 import { AnyFunction } from '../types'
 
 export interface TryCatchOptions {
@@ -17,6 +17,11 @@ export interface TryCatchOptions {
    * @default true
    */
   logError?: boolean
+
+  /**
+   * Default to `console`
+   */
+  logger?: CommonLogger
 }
 
 /**
@@ -28,10 +33,7 @@ export interface TryCatchOptions {
  * @experimental
  */
 export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {}): T {
-  const { onError, logError, logSuccess } = {
-    logError: true,
-    ...opt,
-  }
+  const { onError, logError = true, logSuccess = false, logger = console } = opt
 
   const fname = fn.name || 'anonymous'
 
@@ -42,13 +44,13 @@ export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {
       const r = await fn.apply(this, args)
 
       if (logSuccess) {
-        console.log(`tryCatch.${fname} succeeded in ${_since(started)}`)
+        logger.log(`tryCatch.${fname} succeeded in ${_since(started)}`)
       }
 
       return r
     } catch (err) {
       if (logError) {
-        console.warn(
+        logger.warn(
           `tryCatch.${fname} error in ${_since(started)}:\n${_stringifyAny(err, {
             includeErrorData: true,
           })}`,

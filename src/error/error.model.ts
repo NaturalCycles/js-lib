@@ -48,7 +48,7 @@ export interface HttpErrorData extends ErrorData {
    *
    * GET /api/some-endpoint
    */
-  endpoint?: string
+  // endpoint?: string
 
   /**
    * Set to true when the error was thrown after response headers were sent.

@@ -12,11 +12,12 @@ export function _memoFn<T extends (...args: any[]) => any>(
   opt: MemoOptions = {},
 ): T & MemoizedFunction {
   const {
-    logHit,
-    logMiss,
-    noLogArgs,
-    noCacheRejected,
-    noCacheResolved,
+    logHit = false,
+    logMiss = false,
+    noLogArgs = false,
+    logger = console,
+    noCacheRejected = false,
+    noCacheResolved = false,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
@@ -31,7 +32,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
 
     if (cache.has(cacheKey)) {
       if (logHit) {
-        console.log(`${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn hit`)
+        logger.log(`${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn hit`)
       }
 
       const res = cache.get(cacheKey)
@@ -52,7 +53,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
         .then(res => {
           // console.log('RESOLVED', res)
           if (logMiss) {
-            console.log(
+            logger.log(
               `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss resolved (${_since(
                 started,
               )})`,
@@ -68,7 +69,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
         .catch(err => {
           // console.log('REJECTED', err)
           if (logMiss) {
-            console.log(
+            logger.log(
               `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss rejected (${_since(
                 started,
               )})`,
@@ -86,8 +87,8 @@ export function _memoFn<T extends (...args: any[]) => any>(
         }) as any
     } else {
       if (logMiss) {
-        console.log(
-          `${fnName}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${_since(started)})`,
+        logger.log(
+          `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss (${_since(started)})`,
         )
       }
 
