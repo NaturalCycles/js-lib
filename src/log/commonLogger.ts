@@ -43,7 +43,7 @@ export interface CommonLogger {
  *
  * @experimental
  */
-export const noopLogger: CommonLogger = {
+export const commonLoggerNoop: CommonLogger = {
   log: _noop,
   warn: _noop,
   error: _noop,
@@ -78,7 +78,7 @@ export function commonLoggerMinLevel(
 
   if (level > commonLogLevelNumber['error']) {
     // "Log nothing" logger
-    return noopLogger
+    return commonLoggerNoop
   }
 
   return {
@@ -96,5 +96,16 @@ export function commonLoggerPipe(loggers: CommonLogger[]): CommonLogger {
     log: (...args) => loggers.forEach(logger => logger.log(...args)),
     warn: (...args) => loggers.forEach(logger => logger.warn(...args)),
     error: (...args) => loggers.forEach(logger => logger.error(...args)),
+  }
+}
+
+/**
+ * Creates a "child" CommonLogger with prefix (one or multiple).
+ */
+export function commonLoggerPrefix(logger: CommonLogger, ...prefixes: any[]): CommonLogger {
+  return {
+    log: (...args) => logger.log(...prefixes, ...args),
+    warn: (...args) => logger.warn(...prefixes, ...args),
+    error: (...args) => logger.error(...prefixes, ...args),
   }
 }
