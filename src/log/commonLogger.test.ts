@@ -1,4 +1,4 @@
-import { CommonLogger, commonLoggerMinLevel, noopLogger } from './commonLogger'
+import { CommonLogger, commonLoggerMinLevel, commonLoggerPipe, noopLogger } from './commonLogger'
 
 // This "tests" that `console` is a valid CommonLogger by itself
 const consoleLogger: CommonLogger = console
@@ -21,4 +21,9 @@ test('commonLoggerMinLevel', () => {
   logger.log('hey') // should be silent
   logger.warn('hey') // verbose
   logger.error('hey') // verbose
+})
+
+test('commonLoggerPipe', () => {
+  const logger = commonLoggerPipe([console, console])
+  logger.log('hey') // should be said twice
 })

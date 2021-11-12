@@ -71,9 +71,30 @@ export function commonLoggerMinLevel(
     return logger
   }
 
+  if (level <= commonLogLevelNumber['log']) {
+    // All levels are kept
+    return logger
+  }
+
+  if (level > commonLogLevelNumber['error']) {
+    // "Log nothing" logger
+    return noopLogger
+  }
+
   return {
-    log: level <= commonLogLevelNumber['log'] ? (...args) => logger.log(...args) : _noop,
-    warn: level <= commonLogLevelNumber['warn'] ? (...args) => logger.warn(...args) : _noop,
-    error: level <= commonLogLevelNumber['error'] ? (...args) => logger.error(...args) : _noop,
+    log: _noop, // otherwise it is "log everything" logger (same logger as input)
+    warn: level <= commonLogLevelNumber['warn'] ? logger.warn.bind(logger) : _noop,
+    error: logger.error.bind(logger), // otherwise it's "log nothing" logger (same as noopLogger)
+  }
+}
+
+/**
+ * Creates a "proxy" CommonLogger that pipes log messages to all provided sub-loggers.
+ */
+export function commonLoggerPipe(loggers: CommonLogger[]): CommonLogger {
+  return {
+    log: (...args) => loggers.forEach(logger => logger.log(...args)),
+    warn: (...args) => loggers.forEach(logger => logger.warn(...args)),
+    error: (...args) => loggers.forEach(logger => logger.error(...args)),
   }
 }

@@ -231,6 +231,7 @@ import {
   commonLoggerMinLevel,
   noopLogger,
   commonLogLevelNumber,
+  commonLoggerPipe,
 } from './log/commonLogger'
 import { _safeJsonStringify } from './string/safeJsonStringify'
 
@@ -468,5 +469,6 @@ export {
   commonLoggerMinLevel,
   noopLogger,
   commonLogLevelNumber,
+  commonLoggerPipe,
   _safeJsonStringify,
 }
