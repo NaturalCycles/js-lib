@@ -228,9 +228,9 @@ import {
   CommonLogLevel,
   CommonLogFunction,
   CommonLogger,
-  SimpleLogger,
-  createSimpleLogger,
+  commonLoggerMinLevel,
   noopLogger,
+  commonLogLevelNumber,
 } from './log/commonLogger'
 import { _safeJsonStringify } from './string/safeJsonStringify'
 
@@ -307,7 +307,6 @@ export type {
   CommonLogLevel,
   CommonLogFunction,
   CommonLogger,
-  SimpleLogger,
 }
 
 export {
@@ -466,7 +465,8 @@ export {
   _defineLazyProperty,
   _defineLazyProps,
   _lazyValue,
-  createSimpleLogger,
+  commonLoggerMinLevel,
   noopLogger,
+  commonLogLevelNumber,
   _safeJsonStringify,
 }

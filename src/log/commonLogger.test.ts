@@ -1,4 +1,4 @@
-import { CommonLogger, createSimpleLogger, noopLogger } from './commonLogger'
+import { CommonLogger, commonLoggerMinLevel, noopLogger } from './commonLogger'
 
 // This "tests" that `console` is a valid CommonLogger by itself
 const consoleLogger: CommonLogger = console
@@ -9,18 +9,16 @@ test('commonLogger', () => {
   consoleLogger.error('hello')
 })
 
-test('createSimpleLogger', () => {
-  const logger = createSimpleLogger(console)
-  logger('hey')
+test('noopLogger', () => {
+  const logger = noopLogger
   logger.log('hey')
   logger.warn('hey')
   logger.error('hey')
 })
 
-test('noopLogger', () => {
-  const logger = noopLogger
-  logger('hey')
-  logger.log('hey')
-  logger.warn('hey')
-  logger.error('hey')
+test('commonLoggerMinLevel', () => {
+  const logger = commonLoggerMinLevel(console, 'warn')
+  logger.log('hey') // should be silent
+  logger.warn('hey') // verbose
+  logger.error('hey') // verbose
 })

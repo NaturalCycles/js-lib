@@ -1,3 +1,5 @@
+import { _noop } from '../index'
+
 /**
  * These levels follow console.* naming,
  * so you can use console[level] safely.
@@ -9,6 +11,12 @@
  * @experimental
  */
 export type CommonLogLevel = 'log' | 'warn' | 'error'
+
+export const commonLogLevelNumber: Record<CommonLogLevel, number> = {
+  log: 10,
+  warn: 20,
+  error: 30,
+}
 
 /**
  * Function that takes any number of arguments and logs them all.
@@ -31,35 +39,41 @@ export interface CommonLogger {
 }
 
 /**
- * Same as CommonLogger, but also is a "convenience function" itself.
- * So you can do `logger('hey')` which is the same as `logger.log('hey')`
- *
- * @experimental
- */
-export interface SimpleLogger extends CommonLogFunction, CommonLogger {}
-
-/**
- * Creates a SimpleLogger from CommonLogger.
- *
- * @experimental
- */
-export function createSimpleLogger(logger: CommonLogger): SimpleLogger {
-  return Object.assign(((...args: any[]) => logger.log(...args)) as any, {
-    log: (...args: any[]) => logger.log(...args),
-    warn: (...args: any[]) => logger.warn(...args),
-    error: (...args: any[]) => logger.error(...args),
-  })
-}
-
-const noop = () => {}
-
-/**
  * SimpleLogger that does nothing (noop).
  *
  * @experimental
  */
-export const noopLogger: SimpleLogger = createSimpleLogger({
-  log: noop,
-  warn: noop,
-  error: noop,
-})
+export const noopLogger: CommonLogger = {
+  log: _noop,
+  warn: _noop,
+  error: _noop,
+}
+
+/**
+ * Creates a "child" logger that is "limited" to the specified CommonLogLevel.
+ */
+export function commonLoggerMinLevel(
+  logger: CommonLogger,
+  minLevel: CommonLogLevel,
+  mutate = false,
+): CommonLogger {
+  const level = commonLogLevelNumber[minLevel]
+  if (mutate) {
+    if (level > commonLogLevelNumber['log']) {
+      logger.log = _noop
+      if (level > commonLogLevelNumber['warn']) {
+        logger.warn = _noop
+        if (level > commonLogLevelNumber['error']) {
+          logger.error = _noop
+        }
+      }
+    }
+    return logger
+  }
+
+  return {
+    log: level <= commonLogLevelNumber['log'] ? (...args) => logger.log(...args) : _noop,
+    warn: level <= commonLogLevelNumber['warn'] ? (...args) => logger.warn(...args) : _noop,
+    error: level <= commonLogLevelNumber['error'] ? (...args) => logger.error(...args) : _noop,
+  }
+}
