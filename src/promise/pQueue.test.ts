@@ -1,5 +1,5 @@
 import { _range } from '../array/range'
-import { pDelay } from '../index'
+import { pDelay, pMap } from '../index'
 import { PQueue } from './pQueue'
 
 test('PQueue', async () => {
@@ -14,13 +14,17 @@ test('PQueue', async () => {
   await q.onIdle() // should resolve immediately, cause the queue is empty
 
   // 5 jobs with delay of 10ms each
-  _range(5).forEach(() => {
-    q.push(() => pDelay(10))
+  const results = await pMap(_range(1, 6), i => {
+    return q.push(() => pDelay(10, i))
   })
 
-  q.push(async () => {
-    throw new Error('error123')
-  })
+  expect(results).toEqual(_range(1, 6))
+
+  await expect(
+    q.push(async () => {
+      throw new Error('error123')
+    }),
+  ).rejects.toThrow('error123')
 
   await q.onIdle()
 })

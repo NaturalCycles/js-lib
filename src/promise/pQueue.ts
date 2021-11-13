@@ -1,3 +1,4 @@
+import { ErrorMode } from '../error/errorMode'
 import { CommonLogger } from '../log/commonLogger'
 import { DeferredPromise, pDefer } from './pDefer'
 
@@ -6,8 +7,12 @@ export interface PQueueCfg {
 
   /**
    * Default: THROW_IMMEDIATELY
+   *
+   * THROW_AGGREGATED is not supported.
+   *
+   * SUPPRESS_ERRORS will still log errors via logger. It will resolve the `.push` promise with void.
    */
-  // errorMode?: ErrorMode
+  errorMode?: ErrorMode
 
   /**
    * @default true
@@ -30,7 +35,11 @@ export interface PQueueCfg {
   // timeout
 }
 
-export type PromiseReturningFunction = () => Promise<any>
+export type PromiseReturningFunction<R> = () => Promise<R>
+
+interface PromiseReturningFunctionWithDefer<R> extends PromiseReturningFunction<R> {
+  defer: DeferredPromise<R>
+}
 
 /**
  * Inspired by: https://github.com/sindresorhus/p-queue
@@ -44,6 +53,7 @@ export class PQueue {
   constructor(cfg: PQueueCfg) {
     this.cfg = {
       // concurrency: Number.MAX_SAFE_INTEGER,
+      errorMode: ErrorMode.THROW_IMMEDIATELY,
       logger: console,
       debug: false,
       ...cfg,
@@ -61,7 +71,7 @@ export class PQueue {
   }
 
   inFlight = 0
-  private queue: PromiseReturningFunction[] = []
+  private queue: PromiseReturningFunction<any>[] = []
   private onIdleListeners: DeferredPromise[] = []
 
   get queueSize(): number {
@@ -81,8 +91,15 @@ export class PQueue {
     return listener
   }
 
-  push(fn: PromiseReturningFunction): void {
+  /**
+   * Push PromiseReturningFunction to the Queue.
+   * Returns a Promise that resolves (or rejects) with the return value from the Promise.
+   */
+  push<R>(fn_: PromiseReturningFunction<R>): Promise<R> {
     const { concurrency } = this.cfg
+
+    const fn = fn_ as PromiseReturningFunctionWithDefer<R>
+    fn.defer ||= pDefer<R>()
 
     if (this.inFlight < concurrency) {
       // There is room for more jobs. Can start immediately
@@ -90,8 +107,15 @@ export class PQueue {
       this.debug(`inFlight++ ${this.inFlight}/${concurrency}, queue ${this.queue.length}`)
 
       fn()
+        .then(result => fn.defer.resolve(result))
         .catch(err => {
           this.cfg.logger.error(err)
+          if (this.cfg.errorMode === ErrorMode.SUPPRESS) {
+            fn.defer.resolve() // resolve with `void`
+          } else {
+            // Should be handled on the outside, otherwise it'll cause UnhandledRejection
+            fn.defer.reject(err)
+          }
         })
         .finally(() => {
           this.inFlight--
@@ -100,7 +124,7 @@ export class PQueue {
           // check if there's room to start next job
           if (this.queue.length && this.inFlight <= concurrency) {
             const nextFn = this.queue.shift()!
-            this.push(nextFn)
+            void this.push(nextFn)
           } else {
             if (this.inFlight === 0) {
               this.debug('onIdle')
@@ -113,5 +137,7 @@ export class PQueue {
       this.queue.push(fn)
       this.debug(`inFlight ${this.inFlight}/${concurrency}, queue++ ${this.queue.length}`)
     }
+
+    return fn.defer
   }
 }
