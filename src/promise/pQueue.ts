@@ -95,7 +95,7 @@ export class PQueue {
    * Idle means 0 queue and 0 inFlight.
    */
   onIdle(): Promise<void> {
-    if (this.queue.length === 0) return Promise.resolve()
+    if (this.queue.length === 0 && this.inFlight === 0) return Promise.resolve()
 
     const listener = pDefer()
     this.onIdleListeners.push(listener)
