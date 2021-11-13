@@ -4,6 +4,8 @@ import {
   commonLoggerPipe,
   commonLoggerNoop,
   commonLoggerPrefix,
+  CommonLogWithLevelFunction,
+  commonLoggerCreate,
 } from './commonLogger'
 
 // This "tests" that `console` is a valid CommonLogger by itself
@@ -37,4 +39,13 @@ test('commonLoggerPipe', () => {
 test('commonLoggerPrefix', () => {
   const logger = commonLoggerPrefix(console, '[mongo]')
   logger.log('hey')
+})
+
+test('commonLoggerCreate', () => {
+  const fn: CommonLogWithLevelFunction = (level, args) => console[level](...args)
+
+  const logger = commonLoggerCreate(fn)
+  logger.log('hey')
+  logger.warn('hey')
+  logger.error('hey')
 })

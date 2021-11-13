@@ -25,6 +25,7 @@ export const commonLogLevelNumber: Record<CommonLogLevel, number> = {
  * @experimental
  */
 export type CommonLogFunction = (...args: any[]) => void
+export type CommonLogWithLevelFunction = (level: CommonLogLevel, args: any[]) => void
 
 /**
  * Interface is inspired/compatible with `console.*`
@@ -107,5 +108,16 @@ export function commonLoggerPrefix(logger: CommonLogger, ...prefixes: any[]): Co
     log: (...args) => logger.log(...prefixes, ...args),
     warn: (...args) => logger.warn(...prefixes, ...args),
     error: (...args) => logger.error(...prefixes, ...args),
+  }
+}
+
+/**
+ * Creates a CommonLogger from a single function that takes `level` and `args`.
+ */
+export function commonLoggerCreate(fn: CommonLogWithLevelFunction): CommonLogger {
+  return {
+    log: (...args) => fn('log', args),
+    warn: (...args) => fn('warn', args),
+    error: (...args) => fn('error', args),
   }
 }

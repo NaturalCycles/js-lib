@@ -233,6 +233,8 @@ import {
   commonLogLevelNumber,
   commonLoggerPipe,
   commonLoggerPrefix,
+  CommonLogWithLevelFunction,
+  commonLoggerCreate,
 } from './log/commonLogger'
 import { _safeJsonStringify } from './string/safeJsonStringify'
 import { PQueue, PQueueCfg } from './promise/pQueue'
@@ -309,6 +311,7 @@ export type {
   JsonSchemaTuple,
   JsonSchemaBuilder,
   CommonLogLevel,
+  CommonLogWithLevelFunction,
   CommonLogFunction,
   CommonLogger,
 }
@@ -474,6 +477,7 @@ export {
   commonLogLevelNumber,
   commonLoggerPipe,
   commonLoggerPrefix,
+  commonLoggerCreate,
   _safeJsonStringify,
   PQueue,
 }
