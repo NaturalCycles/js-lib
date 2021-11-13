@@ -33,6 +33,16 @@ export interface PQueueCfg {
   // logSizeChange?: boolean
 
   // timeout
+
+  /**
+   * By default .push method resolves when the Promise is done (finished).
+   *
+   * If you set resolveOn = 'start' - .push method will resolve the Promise (with void) upon
+   * the START of the processing.
+   *
+   * @default finish
+   */
+  resolveOn?: 'finish' | 'start'
 }
 
 export type PromiseReturningFunction<R> = () => Promise<R>
@@ -56,6 +66,7 @@ export class PQueue {
       errorMode: ErrorMode.THROW_IMMEDIATELY,
       logger: console,
       debug: false,
+      resolveOn: 'finish',
       ...cfg,
     }
 
@@ -97,6 +108,7 @@ export class PQueue {
    */
   push<R>(fn_: PromiseReturningFunction<R>): Promise<R> {
     const { concurrency } = this.cfg
+    const resolveOnStart = this.cfg.resolveOn === 'start'
 
     const fn = fn_ as PromiseReturningFunctionWithDefer<R>
     fn.defer ||= pDefer<R>()
@@ -105,11 +117,16 @@ export class PQueue {
       // There is room for more jobs. Can start immediately
       this.inFlight++
       this.debug(`inFlight++ ${this.inFlight}/${concurrency}, queue ${this.queue.length}`)
+      if (resolveOnStart) fn.defer.resolve()
 
       fn()
-        .then(result => fn.defer.resolve(result))
+        .then(result => {
+          if (!resolveOnStart) fn.defer.resolve(result)
+        })
         .catch(err => {
           this.cfg.logger.error(err)
+          if (resolveOnStart) return
+
           if (this.cfg.errorMode === ErrorMode.SUPPRESS) {
             fn.defer.resolve() // resolve with `void`
           } else {
