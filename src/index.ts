@@ -235,8 +235,10 @@ import {
   commonLoggerPrefix,
 } from './log/commonLogger'
 import { _safeJsonStringify } from './string/safeJsonStringify'
+import { PQueue, PQueueCfg } from './promise/pQueue'
 
 export type {
+  PQueueCfg,
   MemoCache,
   PromiseDecoratorCfg,
   PromiseDecoratorResp,
@@ -473,4 +475,5 @@ export {
   commonLoggerPipe,
   commonLoggerPrefix,
   _safeJsonStringify,
+  PQueue,
 }

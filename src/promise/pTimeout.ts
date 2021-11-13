@@ -1,3 +1,5 @@
+import { AnyFunction } from '../types'
+
 export interface PTimeoutOptions {
   /**
    * Timeout in milliseconds.
@@ -22,8 +24,7 @@ export interface PTimeoutOptions {
  * Throws an Error if the Function is not resolved in a certain time.
  * If the Function rejects - passes this rejection further.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function pTimeout<T extends Function>(fn: T, opt: PTimeoutOptions): T {
+export function pTimeout<T extends AnyFunction>(fn: T, opt: PTimeoutOptions): T {
   // const fname = fn.name || 'function'
   const { timeout, name, onTimeout } = opt
 
