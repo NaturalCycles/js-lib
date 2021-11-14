@@ -57,14 +57,14 @@ Map {
     "data": Object {},
     "message": "yada",
     "name": "Error",
-  } => [Error: Error: yada],
+  } => [Error: yada],
   Object {
     "data": Object {
       "httpStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
-  } => [Error: Error: yada],
+  } => [Error: yada],
   [AppError: err msg] => [AppError: err msg],
   [HttpError: http err msg] => [HttpError: http err msg],
   Object {
@@ -77,7 +77,7 @@ c",
       "message": "err msg",
       "name": "HttpError",
     },
-  } => [Error: HttpError(400): err msg],
+  } => [HttpError: err msg],
 }
 `;
 

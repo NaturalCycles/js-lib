@@ -57,15 +57,7 @@ import {
   HttpErrorData,
   HttpErrorResponse,
 } from './error/error.model'
-import {
-  _anyToError,
-  _anyToErrorObject,
-  _errorObjectToAppError,
-  _errorToErrorObject,
-  _isErrorObject,
-  _isHttpErrorObject,
-  _isHttpErrorResponse,
-} from './error/error.util'
+export * from './error/error.util'
 import { ErrorMode } from './error/errorMode'
 import { HttpError } from './error/http.error'
 import { _try, pTry } from './error/try'
@@ -326,9 +318,6 @@ export {
   AppError,
   HttpError,
   AssertionError,
-  _isErrorObject,
-  _isHttpErrorObject,
-  _isHttpErrorResponse,
   _assert,
   _assertEquals,
   _assertDeepEquals,
@@ -405,10 +394,6 @@ export {
   _shuffle,
   _mapToObject,
   _findKeyByValue,
-  _anyToError,
-  _anyToErrorObject,
-  _errorToErrorObject,
-  _errorObjectToAppError,
   _range,
   _uniq,
   _uniqBy,

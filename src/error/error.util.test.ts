@@ -1,5 +1,5 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import { AppError, ErrorObject, HttpError, HttpErrorResponse, _errorToErrorObject } from '..'
+import { AppError, ErrorObject, HttpError, HttpErrorResponse, _errorToErrorObject, _omit } from '..'
 import {
   _anyToError,
   _anyToErrorObject,
@@ -49,11 +49,57 @@ const anyItems = [
 ]
 
 test('anyToErrorObject', () => {
-  expectResults(v => _anyToErrorObject(v), anyItems).toMatchSnapshot()
+  expectResults(
+    v =>
+      _anyToErrorObject(v, {
+        includeErrorStack: false, // only for snapshot determinism
+      }),
+    anyItems,
+  ).toMatchSnapshot()
 })
 
 test('anyToError', () => {
   expectResults(v => _anyToError(v), anyItems).toMatchSnapshot()
+
+  const httpError = new HttpError('la la', {
+    httpStatusCode: 400,
+    userFriendly: true,
+  })
+
+  // Because httpError is instance of Error - it should return exactly same object
+  const httpError2 = _anyToError(httpError)
+  expect(httpError2).toBe(httpError)
+
+  const httpErrorObject = _anyToErrorObject(httpError)
+  expect(httpErrorObject).not.toBeInstanceOf(Error)
+  expect(_omit(httpErrorObject, ['stack'])).toMatchInlineSnapshot(`
+    Object {
+      "data": Object {
+        "httpStatusCode": 400,
+        "userFriendly": true,
+      },
+      "message": "la la",
+      "name": "HttpError",
+    }
+  `)
+
+  // This is an "httpError", but packed in Error
+  // With e.g name == 'HttpError'
+  const httpError3 = _anyToError(httpErrorObject)
+  expect(httpError3).toMatchInlineSnapshot(`[HttpError: la la]`)
+  expect(httpError3).toBeInstanceOf(Error)
+  expect(httpError3).not.toBeInstanceOf(HttpError)
+  expect(httpError3.name).toBe(httpError.name)
+  expect((httpError3 as HttpError).data).toEqual(httpError.data)
+  expect(httpError3.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
+
+  // This is a "proper" HttpError
+  const httpError4 = _anyToError(httpErrorObject, HttpError)
+  expect(httpError4).toMatchInlineSnapshot(`[HttpError: la la]`)
+  expect(httpError4).toBeInstanceOf(HttpError)
+  expect(httpError4.name).toBe(httpError.name)
+  expect(httpError4.data).toEqual(httpError.data)
+  expect(httpError4.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
