@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as fs from 'fs'
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 import { tscScriptsCommand } from '../cmd/tsc-scripts.command'
 import { runJest } from '../util/jest.util'
 import { tsc } from '../util/tsc.util'
