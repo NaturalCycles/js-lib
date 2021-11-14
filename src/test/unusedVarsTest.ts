@@ -1,4 +1,4 @@
-import { runScript } from '@naturalcycles/nodejs-lib'
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 
 runScript(async () => {
   const usedLater = 1

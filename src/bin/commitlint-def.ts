@@ -2,7 +2,7 @@
 
 import * as fs from 'fs'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
-import { runScript } from '@naturalcycles/nodejs-lib'
+import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { cfgDir } from '../cnst/paths.cnst'
 import { gitCurrentBranchName } from '../util/git.util'
 
