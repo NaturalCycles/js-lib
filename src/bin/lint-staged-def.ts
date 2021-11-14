@@ -11,7 +11,11 @@ runScript(async () => {
   const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
 
   // await execWithArgs(`lint-staged`, [`--config`, config])
-  const lintStaged = require('lint-staged')
+  // const lintStaged = require('lint-staged')
+  // lint-staged is ESM since 12.0
+  // const lintStaged = await import('lint-staged')
+  // eslint-disable-next-line no-eval
+  const lintStaged = (await eval(`import('lint-staged')`)).default
   const success = await lintStaged({
     configPath: config,
   })
