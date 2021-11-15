@@ -97,6 +97,8 @@ export function _errorObjectToError<DATA_TYPE, ERROR_TYPE extends Error>(
   o: ErrorObject<DATA_TYPE>,
   errorClass: Class<ERROR_TYPE> = Error as any,
 ): ERROR_TYPE {
+  if (o instanceof errorClass) return o
+
   const err = new errorClass(o.message)
   // name: err.name, // cannot be assigned to a readonly property like this
   // stack: o.stack, // also readonly e.g in Firefox

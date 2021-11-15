@@ -1,5 +1,14 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import { AppError, ErrorObject, HttpError, HttpErrorResponse, _errorToErrorObject, _omit } from '..'
+import {
+  AppError,
+  ErrorObject,
+  HttpError,
+  HttpErrorResponse,
+  _errorToErrorObject,
+  _omit,
+  _errorObjectToError,
+  AssertionError,
+} from '..'
 import {
   _anyToError,
   _anyToErrorObject,
@@ -131,4 +140,25 @@ test('isHttpErrorObject', () => {
 
 test('isHttpErrorResponse', () => {
   expectResults(v => _isHttpErrorResponse(v), anyItems).toMatchSnapshot()
+})
+
+test('_errorObjectToError should not repack if already same error', () => {
+  const e = new HttpError('yo', { httpStatusCode: 400 })
+  expect(_isErrorObject(e)).toBe(true)
+  const e2 = _errorObjectToError(e, HttpError)
+  expect(e2).toBe(e)
+  const e3 = _anyToError(e)
+  expect(e3).toBe(e)
+
+  // errorClass is Error - still should NOT re-pack
+  expect(_errorObjectToError(e)).toBe(e)
+  expect(_anyToError(e)).toBe(e)
+
+  // But if errorClass is different - it SHOULD re-pack
+  const e4 = _errorObjectToError(e, AssertionError)
+  expect(e4).not.toBe(e)
+  expect(e4).toBeInstanceOf(AssertionError)
+  expect(e4.name).toBe(e.name) // non-trivial, but name is kept as HttpError
+  expect(e4.data).toBe(e.data)
+  expect(e4.stack).toBe(e.stack) // important to preserve the stack!
 })
