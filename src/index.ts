@@ -205,6 +205,8 @@ import {
   ValueOf,
   ValuesOf,
   AbortableMapper,
+  AbortableAsyncPredicate,
+  AbortableAsyncMapper,
   AbortablePredicate,
   END,
   SKIP,
@@ -238,6 +240,8 @@ export * from './seq/seq'
 export type {
   AbortableMapper,
   AbortablePredicate,
+  AbortableAsyncPredicate,
+  AbortableAsyncMapper,
   PQueueCfg,
   MemoCache,
   PromiseDecoratorCfg,

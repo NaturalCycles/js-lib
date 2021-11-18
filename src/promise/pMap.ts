@@ -7,8 +7,7 @@ Improvements:
 - Compatible with pProps (that had typings issues)
  */
 
-import { ErrorMode } from '..'
-import { AsyncMapper } from '../types'
+import { AbortableAsyncMapper, END, ErrorMode, SKIP } from '..'
 import { AggregatedError } from './AggregatedError'
 
 export interface PMapOptions {
@@ -57,37 +56,38 @@ export interface PMapOptions {
  */
 export async function pMap<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
-  mapper: AsyncMapper<IN, OUT>,
+  mapper: AbortableAsyncMapper<IN, OUT>,
   opt: PMapOptions = {},
 ): Promise<OUT[]> {
   return new Promise<OUT[]>((resolve, reject) => {
     const { concurrency = Number.POSITIVE_INFINITY, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
 
-    const ret: OUT[] = []
+    const ret: (OUT | typeof SKIP)[] = []
     const iterator = iterable[Symbol.iterator]()
     const errors: Error[] = []
-    let isRejected = false
+    let isSettled = false
     let isIterableDone = false
     let resolvingCount = 0
     let currentIndex = 0
 
-    const next = () => {
-      if (isRejected) {
+    const next = (skipped = false) => {
+      if (isSettled) {
         return
       }
 
       const nextItem = iterator.next()
       const i = currentIndex
-      currentIndex++
+      if (!skipped) currentIndex++
 
       if (nextItem.done) {
         isIterableDone = true
 
         if (resolvingCount === 0) {
+          const r = ret.filter(r => r !== SKIP) as OUT[]
           if (errors.length && errorMode === ErrorMode.THROW_AGGREGATED) {
-            reject(new AggregatedError(errors, ret))
+            reject(new AggregatedError(errors, r))
           } else {
-            resolve(ret)
+            resolve(r)
           }
         }
 
@@ -100,13 +100,18 @@ export async function pMap<IN, OUT>(
         .then(async element => await mapper(element, i))
         .then(
           value => {
+            if (value === END) {
+              isSettled = true
+              return resolve(ret.filter(r => r !== SKIP) as OUT[])
+            }
+
             ret[i] = value
             resolvingCount--
             next()
           },
           err => {
             if (errorMode === ErrorMode.THROW_IMMEDIATELY) {
-              isRejected = true
+              isSettled = true
               reject(err)
             } else {
               errors.push(err)

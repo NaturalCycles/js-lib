@@ -1,5 +1,4 @@
-import { BatchResult, ErrorMode } from '..'
-import { AsyncMapper } from '../types'
+import { AbortableAsyncMapper, BatchResult, ErrorMode } from '..'
 import { AggregatedError } from './AggregatedError'
 import { pMap } from './pMap'
 
@@ -8,7 +7,7 @@ import { pMap } from './pMap'
  */
 export async function pBatch<IN, OUT>(
   iterable: Iterable<IN | PromiseLike<IN>>,
-  mapper: AsyncMapper<IN, OUT>,
+  mapper: AbortableAsyncMapper<IN, OUT>,
   opt?: { concurrency?: number },
 ): Promise<BatchResult<OUT>> {
   try {

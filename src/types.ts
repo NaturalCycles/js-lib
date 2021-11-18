@@ -1,4 +1,4 @@
-import { Merge } from './typeFest'
+import { Merge, Promisable } from './typeFest'
 
 /**
  * Map from String to String (or <T>).
@@ -73,10 +73,15 @@ export type Predicate<T> = (item: T, index: number) => boolean
 export type AsyncPredicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
 
 export type AbortablePredicate<T> = (item: T, i: number) => boolean | typeof END
+export type AbortableAsyncPredicate<T> = (item: T, i: number) => Promisable<boolean | typeof END>
 export type AbortableMapper<IN = any, OUT = any> = (
   input: IN,
   i: number,
 ) => OUT | typeof SKIP | typeof END
+export type AbortableAsyncMapper<IN = any, OUT = any> = (
+  input: IN,
+  i: number,
+) => Promisable<OUT | typeof SKIP | typeof END>
 
 export const _passthroughPredicate: Predicate<any> = () => true
 export const _passNothingPredicate: Predicate<any> = () => false

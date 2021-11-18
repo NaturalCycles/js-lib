@@ -1,4 +1,4 @@
-import { AsyncMapper, ErrorMode, _inRange, _randomInt } from '..'
+import { _inRange, _randomInt, _range, AsyncMapper, END, ErrorMode, SKIP } from '..'
 import { timeSpan } from '../test/test.util'
 import { AggregatedError } from './AggregatedError'
 import { pBatch } from './pBatch'
@@ -147,4 +147,16 @@ test('pBatch', async () => {
     results: [],
     errors: [new Error('one'), new Error('two')],
   })
+})
+
+test('SKIP', async () => {
+  const values = _range(1, 4)
+  const r = await pMap(values, v => (v % 2 === 0 ? SKIP : v), { concurrency: 1 })
+  expect(r).toEqual([1, 3])
+})
+
+test('END', async () => {
+  const values = _range(1, 10)
+  const r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 1 })
+  expect(r).toEqual([1, 2])
 })
