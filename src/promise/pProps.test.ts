@@ -10,6 +10,7 @@ test('main', async () => {
     bar: Promise.resolve(2),
     bar2: defer,
     faz: 3,
+    inception: Promise.resolve(Promise.resolve(4)),
   }
 
   setTimeout(() => defer.resolve(123), 0)
@@ -20,6 +21,7 @@ test('main', async () => {
     bar: 2,
     bar2: 123,
     faz: 3,
+    inception: 4,
   })
 })
 

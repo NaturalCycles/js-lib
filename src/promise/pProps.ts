@@ -10,6 +10,9 @@ Improvements:
 
 import { pMap, PMapOptions } from './pMap'
 
+// todo: remove when eslint starts to know about Awaited
+/* eslint-disable no-undef */
+
 /**
  * Promise.all for Object instead of Array.
  * Supports concurrency.
@@ -17,13 +20,9 @@ import { pMap, PMapOptions } from './pMap'
 export async function pProps<T>(
   input: { [K in keyof T]: T[K] | Promise<T[K]> },
   opt?: PMapOptions,
-): Promise<T> {
+): Promise<{ [K in keyof T]: Awaited<T[K]> }> {
+  const r = {} as { [K in keyof T]: Awaited<T[K]> }
   const keys = Object.keys(input) as (keyof T)[]
-  const values = await pMap(Object.values(input), r => r, opt)
-
-  const r = {} as T
-  values.forEach((v, i) => {
-    r[keys[i]!] = v
-  })
+  await pMap(Object.values(input), (v, i) => (r[keys[i]!] = v), opt)
   return r
 }

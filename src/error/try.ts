@@ -24,6 +24,9 @@ export function _try<ERR = unknown, RETURN = void>(
   }
 }
 
+// todo: remove when eslint starts to know about Awaited
+/* eslint-disable no-undef */
+
 /**
  * Like _try, but for Promises.
  *
@@ -32,7 +35,7 @@ export function _try<ERR = unknown, RETURN = void>(
  */
 export async function pTry<ERR = unknown, RETURN = void>(
   promise: Promise<RETURN>,
-): Promise<[err: ERR | null, value: RETURN]> {
+): Promise<[err: ERR | null, value: Awaited<RETURN>]> {
   try {
     return [null, await promise]
   } catch (err) {

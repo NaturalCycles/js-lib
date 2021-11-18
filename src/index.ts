@@ -173,7 +173,6 @@ import {
   ConditionalPick,
   Merge,
   Promisable,
-  PromiseValue,
   ReadonlyDeep,
   Simplify,
 } from './typeFest'
@@ -270,7 +269,6 @@ export type {
   Merge,
   ReadonlyDeep,
   Promisable,
-  PromiseValue,
   Simplify,
   ConditionalPick,
   ConditionalExcept,
