@@ -46,6 +46,16 @@ export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
 export type AnyFunction = (...args: any[]) => any
 
 /**
+ * Symbol to indicate END of Sequence.
+ */
+export const END = Symbol('END')
+
+/**
+ * Symbol to indicate SKIP of item (e.g in AbortableMapper)
+ */
+export const SKIP = Symbol('SKIP')
+
+/**
  * Function which is called for every item in `input`. Expected to return a `Promise` or value.
  */
 export type AsyncMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>
@@ -61,6 +71,12 @@ export const _noop = (..._args: any[]): undefined => undefined
 
 export type Predicate<T> = (item: T, index: number) => boolean
 export type AsyncPredicate<T> = (item: T, index: number) => boolean | PromiseLike<boolean>
+
+export type AbortablePredicate<T> = (item: T, i: number) => boolean | typeof END
+export type AbortableMapper<IN = any, OUT = any> = (
+  input: IN,
+  i: number,
+) => OUT | typeof SKIP | typeof END
 
 export const _passthroughPredicate: Predicate<any> = () => true
 export const _passNothingPredicate: Predicate<any> = () => false

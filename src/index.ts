@@ -204,6 +204,10 @@ import {
   UnixTimestamp,
   ValueOf,
   ValuesOf,
+  AbortableMapper,
+  AbortablePredicate,
+  END,
+  SKIP,
   _noop,
   _objectKeys,
   _passNothingPredicate,
@@ -229,8 +233,11 @@ import {
 } from './log/commonLogger'
 import { _safeJsonStringify } from './string/safeJsonStringify'
 import { PQueue, PQueueCfg } from './promise/pQueue'
+export * from './seq/seq'
 
 export type {
+  AbortableMapper,
+  AbortablePredicate,
   PQueueCfg,
   MemoCache,
   PromiseDecoratorCfg,
@@ -463,4 +470,6 @@ export {
   commonLoggerCreate,
   _safeJsonStringify,
   PQueue,
+  END,
+  SKIP,
 }
