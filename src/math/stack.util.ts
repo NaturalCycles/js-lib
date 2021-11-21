@@ -1,4 +1,4 @@
-import { _average, _percentile } from '../index'
+import { _average, _percentile, _range } from '../index'
 
 /**
  * Implements a "round-robin" Stack ("first-in last-out" aka FILO) with a limited size.
@@ -18,9 +18,18 @@ export class Stack<T> {
 
   readonly items: T[] = []
 
-  push(item: T): void {
+  push(item: T): this {
     this.items[this.nextIndex] = item
     this.nextIndex = this.nextIndex === this.size - 1 ? 0 : this.nextIndex + 1
+    return this
+  }
+
+  /**
+   * Fill (overwrite) the whole Stack (all its items) with the passed `item`.
+   */
+  fill(item: T): this {
+    _range(this.size).forEach(i => (this.items[i] = item))
+    return this
   }
 
   /**

@@ -1,5 +1,5 @@
 import { _range } from '../array/range'
-import { NumberStack } from './stack.util'
+import { NumberStack, Stack } from './stack.util'
 
 test('Stack', () => {
   const stack = new NumberStack(10)
@@ -29,4 +29,13 @@ test('Stack', () => {
   expect(stack.avg()).toBe(7.5)
   expect(stack.median()).toBe(7.5)
   expect(stack.percentile(25)).toBe(5.25)
+
+  // fill with ones
+  stack.fill(1)
+  expect(stack.items).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+})
+
+test('Stack fill with zeros', () => {
+  const stack = new Stack(5).fill(0)
+  expect(stack.items).toEqual([0, 0, 0, 0, 0])
 })

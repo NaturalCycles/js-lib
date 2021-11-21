@@ -65,7 +65,7 @@ export function _toFixed(n: number, fractionDigits: number): number {
  * _toPrecision(1634.56, 1)
  * // 2000
  *
- * _toPrecision(1234.56, 2)
+ * _toPrecision(1634.56, 2)
  * // 1600
  */
 export function _toPrecision(n: number, precision: number): number {
