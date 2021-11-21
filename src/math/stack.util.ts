@@ -1,9 +1,13 @@
+import { _average, _percentile } from '../index'
+
 /**
- * Implements a "round-robin" Stack with a limited size.
+ * Implements a "round-robin" Stack ("first-in last-out" aka FILO) with a limited size.
  * Like an array of a fixed size. When it runs out of space - it starts writing on top of itself
  * from index 0.
+ *
+ *
  */
-export class SizeLimitedStack<T> {
+export class Stack<T> {
   constructor(public readonly size: number) {}
 
   /**
@@ -31,5 +35,47 @@ export class SizeLimitedStack<T> {
 
     // Buffer was filled and started to "overwrite itself", will need to return 2 slices
     return [...this.items.slice(this.nextIndex), ...this.items.slice(0, this.nextIndex)]
+  }
+}
+
+/**
+ * Fixed-size FILO stack of Numbers.
+ * Has convenience stat methods, e.g percentile, avg, etc.
+ */
+export class NumberStack extends Stack<number> {
+  avg(): number {
+    // _assert(this.items.length, 'NumberStack.avg cannot be called on empty stack')
+    return _average(this.items)
+  }
+
+  /**
+   * Returns null if Stack is empty.
+   */
+  avgOrNull(): number | null {
+    return this.items.length === 0 ? null : _average(this.items)
+  }
+
+  /**
+   * `pc` is a number from 0 to 100 inclusive.
+   */
+  percentile(pc: number): number {
+    // _assert(this.items.length, 'NumberStack.percentile cannot be called on empty stack')
+    return _percentile(this.items, pc)
+  }
+
+  /**
+   * `pc` is a number from 0 to 100 inclusive.
+   * Returns null if Stack is empty.
+   */
+  percentileOrNull(pc: number): number | null {
+    return this.items.length === 0 ? null : _percentile(this.items, pc)
+  }
+
+  median(): number {
+    return _percentile(this.items, 50)
+  }
+
+  medianOrNull(): number | null {
+    return this.items.length === 0 ? null : _percentile(this.items, 50)
   }
 }
