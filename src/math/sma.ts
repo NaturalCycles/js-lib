@@ -2,7 +2,7 @@
  * Implements a Simple Moving Average algorithm.
  */
 export class SimpleMovingAverage {
-  constructor(public size: number, public data: number[] = []) {}
+  constructor(public readonly size: number, public readonly data: number[] = []) {}
 
   /**
    * Next index of array to push to

@@ -236,6 +236,7 @@ import {
 import { _safeJsonStringify } from './string/safeJsonStringify'
 import { PQueue, PQueueCfg } from './promise/pQueue'
 export * from './seq/seq'
+export * from './math/stack.util'
 
 export type {
   AbortableMapper,
