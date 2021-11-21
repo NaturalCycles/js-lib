@@ -15,7 +15,7 @@ runScript(async () => {
   // lint-staged is ESM since 12.0
   // const lintStaged = await import('lint-staged')
   // eslint-disable-next-line no-eval
-  const lintStaged = (await eval(`import('lint-staged')`)).default
+  const { default: lintStaged } = await eval(`import('lint-staged')`)
   const success = await lintStaged({
     configPath: config,
   })
