@@ -1,4 +1,4 @@
-import { _average, _percentile, _range } from '../index'
+import { _average, _percentile, _percentiles, _range } from '../index'
 
 /**
  * Implements a "round-robin" Stack ("first-in last-out" aka FILO) with a limited size.
@@ -64,6 +64,14 @@ export class NumberStack extends Stack<number> {
     return this.items.length === 0 ? null : _average(this.items)
   }
 
+  median(): number {
+    return _percentile(this.items, 50)
+  }
+
+  medianOrNull(): number | null {
+    return this.items.length === 0 ? null : _percentile(this.items, 50)
+  }
+
   /**
    * `pc` is a number from 0 to 100 inclusive.
    */
@@ -80,11 +88,7 @@ export class NumberStack extends Stack<number> {
     return this.items.length === 0 ? null : _percentile(this.items, pc)
   }
 
-  median(): number {
-    return _percentile(this.items, 50)
-  }
-
-  medianOrNull(): number | null {
-    return this.items.length === 0 ? null : _percentile(this.items, 50)
+  percentiles(pcs: number[]): Record<number, number> {
+    return _percentiles(this.items, pcs)
   }
 }

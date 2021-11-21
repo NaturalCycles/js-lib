@@ -48,6 +48,27 @@ export function _percentile(values: number[], pc: number): number {
 }
 
 /**
+ * A tiny bit more efficient function than calling _percentile individually.
+ */
+export function _percentiles(values: number[], pcs: number[]): Record<number, number> {
+  const r = {} as Record<number, number>
+
+  const sorted = _sortNumbers(values)
+
+  pcs.forEach(pc => {
+    // Floating pos in the range of [0; length - 1]
+    const pos = ((values.length - 1) * pc) / 100
+    const dec = pos % 1
+    const floorPos = Math.floor(pos)
+    const ceilPos = Math.ceil(pos)
+
+    r[pc] = _averageWeighted([sorted[floorPos]!, sorted[ceilPos]!], [1 - dec, dec])
+  })
+
+  return r
+}
+
+/**
  * @example
  *
  * _median([1, 2, 3])

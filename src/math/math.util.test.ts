@@ -1,4 +1,4 @@
-import { _range } from '..'
+import { _percentiles, _range } from '..'
 import { _mapToObject } from '../array/array.util'
 import { _average, _averageWeighted, _median, _percentile } from './math.util'
 
@@ -79,6 +79,19 @@ test('_percentile', () => {
       "70": 1340,
       "80": 1360,
       "90": 1380,
+    }
+  `)
+})
+
+test('_percentiles', () => {
+  const numbers = [1200, 1400]
+
+  const pcs = _percentiles(numbers, [50, 90, 99])
+  expect(pcs).toMatchInlineSnapshot(`
+    Object {
+      "50": 1300,
+      "90": 1380,
+      "99": 1398,
     }
   `)
 })
