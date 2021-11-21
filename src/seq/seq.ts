@@ -1,4 +1,11 @@
-import { AbortableMapper, AbortablePredicate, END, SKIP } from '../types'
+import {
+  AbortableAsyncMapper,
+  AbortableAsyncPredicate,
+  AbortableMapper,
+  AbortablePredicate,
+  END,
+  SKIP,
+} from '../types'
 
 /**
  * Inspired by Kotlin Sequences.
@@ -8,7 +15,7 @@ import { AbortableMapper, AbortablePredicate, END, SKIP } from '../types'
  *
  * @experimental
  */
-export class Seq<T> implements Iterable<T> {
+export class Sequence<T> implements Iterable<T> {
   private constructor(initialValue: T | typeof END, private nextFn: AbortableMapper<T, T>) {
     this.currentValue = initialValue
   }
@@ -22,29 +29,29 @@ export class Seq<T> implements Iterable<T> {
     }
   }
 
-  static create<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T, T>): Seq<T> {
-    return new Seq(initialValue, nextFn)
+  static create<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T, T>): Sequence<T> {
+    return new Sequence(initialValue, nextFn)
   }
 
-  static range(minIncl: number, maxExcl: number, step = 1): Seq<number> {
+  static range(minIncl: number, maxExcl: number, step = 1): Sequence<number> {
     const max = maxExcl - step
-    return new Seq(minIncl, n => (n < max ? n + step : END))
+    return new Sequence(minIncl, n => (n < max ? n + step : END))
   }
 
-  static from<T>(a: Iterable<T>): Seq<T> {
+  static from<T>(a: Iterable<T>): Sequence<T> {
     const it = a[Symbol.iterator]()
     const v = it.next()
-    if (v.done) return new Seq<any>(END, () => {})
+    if (v.done) return new Sequence<any>(END, () => {})
 
-    return new Seq(v.value, () => {
+    return new Sequence(v.value, () => {
       const v = it.next()
       if (v.done) return END
       return v.value
     })
   }
 
-  static empty<T = any>(): Seq<T> {
-    return new Seq(END as any, () => {})
+  static empty<T = any>(): Sequence<T> {
+    return new Sequence(END as any, () => {})
   }
 
   private currentValue: T | typeof END
@@ -138,6 +145,120 @@ export class Seq<T> implements Iterable<T> {
 /**
  * Convenience function to create a Sequence.
  */
-export function _seq<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T, T>): Seq<T> {
-  return Seq.create(initialValue, nextFn)
+export function _seq<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T, T>): Sequence<T> {
+  return Sequence.create(initialValue, nextFn)
+}
+
+/* eslint-disable no-await-in-loop */
+
+/**
+ * Experimental.
+ * Feasibility to be proven.
+ *
+ * @experimental
+ */
+export class AsyncSequence<T> implements AsyncIterable<T> {
+  private constructor(initialValue: T | typeof END, private nextFn: AbortableAsyncMapper<T, T>) {
+    this.currentValue = initialValue
+  }
+
+  [Symbol.asyncIterator](): AsyncIterator<T> {
+    return {
+      next: async () => {
+        const value = await this.next()
+        return value === END ? { done: true, value: undefined } : { value }
+      },
+    }
+  }
+
+  static create<T>(
+    initialValue: T | typeof END,
+    nextFn: AbortableAsyncMapper<T, T>,
+  ): AsyncSequence<T> {
+    return new AsyncSequence(initialValue, nextFn)
+  }
+
+  static async from<T>(a: AsyncIterable<T>): Promise<AsyncSequence<T>> {
+    const it = a[Symbol.asyncIterator]()
+    const v = await it.next()
+    if (v.done) return new AsyncSequence<any>(END, () => {})
+
+    return new AsyncSequence(v.value, async () => {
+      const v = await it.next()
+      if (v.done) return END
+      return v.value
+    })
+  }
+
+  static empty<T = any>(): AsyncSequence<T> {
+    return new AsyncSequence(END as any, () => {})
+  }
+
+  private currentValue: T | typeof END
+  private sentInitialValue = false
+  private i = -1
+
+  async next(): Promise<T | typeof END> {
+    if (this.currentValue === END) return END
+
+    this.i++
+
+    let v: T | typeof SKIP | typeof END
+
+    if (!this.sentInitialValue) {
+      this.sentInitialValue = true
+      v = this.currentValue
+    } else {
+      v = await this.nextFn(this.currentValue, this.i)
+    }
+
+    // console.log(`_seq`, v)
+
+    if (v === SKIP) return await this.next()
+
+    return (this.currentValue = v)
+  }
+
+  // Final functions - return final value, not a chained sequence
+  async find(predicate: AbortableAsyncPredicate<T>): Promise<T | undefined> {
+    do {
+      const v = await this.next()
+      if (v === END) return // not found, end of sequence
+      const r = await predicate(v, this.i)
+      if (r === END) return
+      if (r) return v
+      // otherwise proceed
+    } while (true) // eslint-disable-line no-constant-condition
+  }
+
+  async some(predicate: AbortableAsyncPredicate<T>): Promise<boolean> {
+    do {
+      const v = await this.next()
+      if (v === END) return false
+      const r = await predicate(v, this.i)
+      if (r === END) return false
+      if (r) return true
+    } while (true) // eslint-disable-line no-constant-condition
+  }
+
+  async every(predicate: AbortableAsyncPredicate<T>): Promise<boolean> {
+    do {
+      const v = await this.next()
+      if (v === END) return true
+      const r = await predicate(v, this.i)
+      if (r === END) return true
+      if (!r) return false
+    } while (true) // eslint-disable-line no-constant-condition
+  }
+
+  async toArray(): Promise<T[]> {
+    const a: T[] = []
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const v = await this.next()
+      if (v === END) return a
+      a.push(v)
+    }
+  }
 }
