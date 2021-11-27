@@ -140,6 +140,16 @@ export class Sequence<T> implements Iterable<T> {
       a.push(v)
     }
   }
+
+  forEach(fn: (v: T, i: number) => void): void {
+    let i = -1
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const v = this.next()
+      if (v === END) return
+      fn(v, ++i)
+    }
+  }
 }
 
 /**

@@ -1,5 +1,5 @@
 import { AppError } from './app.error'
-import { _try, pTry } from './try'
+import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
 
 const okFunction = (v = 1) => ({ result: v })
 const errFunction = () => {
@@ -41,4 +41,24 @@ test('pTry', async () => {
   // console.log(err2!.stack)
   // Test that "async-stacktraces" are preserved and it shows the originating function name
   expect(err2?.stack?.includes('at createErrorPromise')).toBe(true)
+})
+
+test('_expectedError', () => {
+  const err = _expectedError<AppError>(errFunction)
+  expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
+  expect(err).toBeInstanceOf(AppError)
+
+  const [err2] = _try<UnexpectedPassError>(() => _expectedError(() => okFunction()))
+  expect(err2).toBeInstanceOf(UnexpectedPassError)
+  expect(err2!.message).toBe('_expectedError passed unexpectedly')
+})
+
+test('pExpectedError', async () => {
+  const err = await pExpectedError<AppError>(createErrorPromise())
+  expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
+  expect(err).toBeInstanceOf(AppError)
+
+  const [err2] = await pTry<UnexpectedPassError>(pExpectedError(createOkPromise()))
+  expect(err2).toBeInstanceOf(UnexpectedPassError)
+  expect(err2!.message).toBe('_expectedError passed unexpectedly')
 })
