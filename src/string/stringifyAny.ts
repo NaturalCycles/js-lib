@@ -76,16 +76,20 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // Error or ErrorObject
     //
 
+    // Omit "default" error name as non-informative
+    // UPD: no, it's still important to understand that we're dealing with Error and not just some string
+    // if (obj?.name === 'Error') {
+    //   s = obj.message
+    // }
+    s = [obj.name, obj.message].join(': ')
+
     if (opt.includeErrorStack && obj.stack) {
-      // Stack includes message
-      s = obj.stack
-    } else {
-      // Omit "default" error name as non-informative
-      // UPD: no, it's still important to understand that we're dealing with Error and not just some string
-      // if (obj?.name === 'Error') {
-      //   s = obj.message
-      // }
-      s = [obj.name, obj.message].join(': ')
+      // Here we're using the previously-generated "title line" (e.g "Error: some_message"),
+      // concatenating it with the Stack (but without the title line of the Stack)
+      // This is to fix the rare error (happened with Got) where `err.message` was changed,
+      // but err.stack had "old" err.message
+      // This should "fix" that
+      s = [s, ...obj.stack.split('\n').slice(1)].join('\n')
     }
 
     if (_isErrorObject(obj)) {

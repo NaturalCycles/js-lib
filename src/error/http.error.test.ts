@@ -1,5 +1,5 @@
 import { inspect } from 'util'
-import { _errorToErrorObject } from '../index'
+import { _errorToErrorObject, _stringifyAny } from '../index'
 import { HttpError } from './http.error'
 
 const throwHttpError = () => {
@@ -34,6 +34,15 @@ test('httpError printability', () => {
   expect(s).not.toContain('data')
 
   expect(err.data).toEqual({ httpStatusCode: 500 })
+})
+
+test('error message should be correct even if overridden when printing stack', () => {
+  const err = new Error('some_error')
+  err.message = 'changed_message'
+  const s = _stringifyAny(err, { includeErrorStack: true })
+  const lines = s.split('\n')
+  expect(lines[0]).toBe('Error: changed_message')
+  // console.log(s)
 })
 
 function filterStackTrace(s: string): string {
