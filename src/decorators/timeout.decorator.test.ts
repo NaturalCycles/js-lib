@@ -1,4 +1,6 @@
+import { pExpectedError } from '../error/try'
 import { pDelay } from '../promise/pDelay'
+import { TimeoutError } from '../promise/pTimeout'
 import { _Timeout } from './timeout.decorator'
 
 class C {
@@ -17,7 +19,7 @@ test('@_Timeout', async () => {
 
   expect(await c.fn(10, 'hej')).toBe('hej')
 
-  await expect(c.fn(200)).rejects.toThrowErrorMatchingInlineSnapshot(
-    `"\\"fn\\" timed out after 50 ms"`,
-  )
+  const err = await pExpectedError(c.fn(200))
+  expect(err).toMatchInlineSnapshot(`[TimeoutError: "C.fn" timed out after 50 ms]`)
+  expect(err).toBeInstanceOf(TimeoutError)
 })

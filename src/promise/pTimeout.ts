@@ -1,4 +1,7 @@
+import { AppError } from '../error/app.error'
 import { AnyFunction } from '../types'
+
+export class TimeoutError extends AppError {}
 
 export interface PTimeoutOptions {
   /**
@@ -24,37 +27,46 @@ export interface PTimeoutOptions {
  * Throws an Error if the Function is not resolved in a certain time.
  * If the Function rejects - passes this rejection further.
  */
-export function pTimeout<T extends AnyFunction>(fn: T, opt: PTimeoutOptions): T {
-  // const fname = fn.name || 'function'
+export function pTimeoutFn<T extends AnyFunction>(fn: T, opt: PTimeoutOptions): T {
+  opt.name ||= fn.name
+
+  return async function pTimeoutInternalFn(this: any, ...args: any[]) {
+    return await pTimeout(fn.apply(this, args), opt)
+  } as any
+}
+
+/**
+ * Decorates a Function with a timeout and immediately calls it.
+ * Throws an Error if the Function is not resolved in a certain time.
+ * If the Function rejects - passes this rejection further.
+ */
+export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Promise<T> {
+  // todo: check how we can automatically infer function name (only applicable to named functions)
   const { timeout, name, onTimeout } = opt
 
-  return async function (this: any, ...args: any[]) {
-    // eslint-disable-next-line no-async-promise-executor
-    return await new Promise(async (resolve, reject) => {
-      // Prepare the timeout timer
-      const timer = setTimeout(() => {
-        if (onTimeout) {
-          try {
-            resolve(onTimeout())
-          } catch (err) {
-            reject(err)
-          }
-          return
+  // eslint-disable-next-line no-async-promise-executor
+  return await new Promise(async (resolve, reject) => {
+    // Prepare the timeout timer
+    const timer = setTimeout(() => {
+      if (onTimeout) {
+        try {
+          resolve(onTimeout())
+        } catch (err) {
+          reject(err)
         }
-
-        reject(
-          new Error(`"${name || fn.name || 'pTimeout function'}" timed out after ${timeout} ms`),
-        )
-      }, timeout)
-
-      // Execute the Function
-      try {
-        resolve(await fn.apply(this, args))
-      } catch (err) {
-        reject(err)
-      } finally {
-        clearTimeout(timer)
+        return
       }
-    })
-  } as any
+
+      reject(new TimeoutError(`"${name || 'pTimeout function'}" timed out after ${timeout} ms`))
+    }, timeout)
+
+    // Execute the Function
+    try {
+      resolve(await promise)
+    } catch (err) {
+      reject(err)
+    } finally {
+      clearTimeout(timer)
+    }
+  })
 }

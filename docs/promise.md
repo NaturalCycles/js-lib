@@ -159,7 +159,7 @@ await save()
 // will try up to 5 times, but only if err.message contains GOAWAY
 ```
 
-## pTimeout
+## pTimeoutFn
 
 Based on [p-timeout](https://github.com/sindresorhus/p-timeout)
 

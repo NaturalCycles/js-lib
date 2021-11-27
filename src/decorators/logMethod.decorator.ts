@@ -1,4 +1,4 @@
-import { SimpleMovingAverage, _stringifyAny, CommonLogger } from '..'
+import { SimpleMovingAverage, _stringifyAny, CommonLogger, _assert } from '..'
 import { _ms } from '../time/time.util'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
@@ -69,9 +69,7 @@ export interface LogMethodOptions {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   return (target, key, descriptor) => {
-    if (typeof descriptor.value !== 'function') {
-      throw new TypeError('@_LogMethod can be applied only to methods')
-    }
+    _assert(typeof descriptor.value === 'function', '@_LogMethod can be applied only to methods')
 
     const originalFn = descriptor.value
     const keyStr = String(key)

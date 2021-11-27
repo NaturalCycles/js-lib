@@ -76,7 +76,7 @@ import { pMap, PMapOptions } from './promise/pMap'
 export * from './promise/pProps'
 import { pRetry, PRetryOptions } from './promise/pRetry'
 export * from './promise/pState'
-import { pTimeout, PTimeoutOptions } from './promise/pTimeout'
+import { pTimeout, pTimeoutFn, PTimeoutOptions } from './promise/pTimeout'
 export * from './promise/pTuple'
 export * from './string/case'
 export * from './string/json.util'
@@ -251,6 +251,7 @@ export {
   AggregatedError,
   pRetry,
   pTimeout,
+  pTimeoutFn,
   _tryCatch,
   _TryCatch,
   _stringifyAny,
