@@ -31,9 +31,17 @@ export function silentConsole(): void {
   console.table = () => {}
 }
 
-export const jestLogger = commonLoggerCreate((_level, args) => {
+export const jestLogger = commonLoggerCreate((level, args) => {
   if (process.env['JEST_SILENT']) return // no-op
-  process.stdout.write(args.map(a => inspectAny(a)).join(' ') + '\n')
+  process.stdout.write(
+    args
+      .map(a =>
+        inspectAny(a, {
+          includeErrorStack: level === 'error',
+        }),
+      )
+      .join(' ') + '\n',
+  )
 })
 
 export const jestLog = jestLogger.log.bind(jestLogger)
