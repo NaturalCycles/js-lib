@@ -4,5 +4,8 @@ import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { runJest } from '../util/jest.util'
 
 runScript(async () => {
-  await runJest({ integration: true, ci: true })
+  console.log(
+    '! "yarn test-integration-ci" is deprecated, use plain `yarn test-integration` instead !',
+  )
+  await runJest({ integration: true })
 })

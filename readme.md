@@ -67,6 +67,7 @@ These commands are available to be called as `yarn <command>`, because they are 
 - `build`: "Development build". Checks that "everything compiles". Does
   `del ./dist && tsc && tsc-scripts`
 - `bt`: "Build & Test". Does `del ./dist && tsc && tsc-scripts && test`
+- `btl`: "Build, Test & Lint". Does `lint-all && tsc && test`
 
 - `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
 - `build-prod`: "Production build". Does `del ./dist && build-copy && tsc-prod`
@@ -96,11 +97,10 @@ All test commands set `TZ=UTC`. You can override it by providing `TZ` env variab
 running a test command. Adds `APP_ENV=test` env var (for all runs except integration). Automatically
 adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
 
-- `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`)
-- `test-ci`: runs test in CI environment, with coverage. Includes fix for "CircleCI out of memory
-  issue"
+- `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`).
+  Detects `CI` env variable, adds `--coverage` if in CI. Uses `default` reporter in `!CI`, otherwise
+  `jest-junit` reporter. Includes fix for "CircleCI out of memory issue"
 - `test-integration`: runs `*.integration.test.ts` with `jest.integration-test.config.js` config.
-- `test-integration-ci`
 - `test-manual`: runs `*.manual.test.ts` with `jest.manual-test.config.js`.
 - `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak`
   module to be installed in target project).

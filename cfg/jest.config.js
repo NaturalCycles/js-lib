@@ -3,11 +3,12 @@
  * Extendable.
  */
 
+const fs = require('fs')
+
 const runInIDE = process.argv.includes('--runTestsByPath')
 const ideIntegrationTest = runInIDE && process.argv.some(a => a.endsWith('.integration.test.ts'))
 const ideManualTest = runInIDE && process.argv.some(a => a.endsWith('.manual.test.ts'))
-
-const fs = require('fs')
+const { CI } = process.env
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
@@ -106,9 +107,11 @@ module.exports = {
     '!**/*.component.ts',
     '!**/*.modal.ts',
   ],
+  // CI: only jest-junit reporter (no default)
+  // not-CI: only default reporter, but not jest-junit
   reporters: [
-    'default',
-    [
+    !CI && 'default',
+    CI && [
       'jest-junit',
       {
         suiteName: 'jest tests',
@@ -120,5 +123,5 @@ module.exports = {
         ancestorSeparator: ' ',
       },
     ],
-  ],
+  ].filter(Boolean),
 }

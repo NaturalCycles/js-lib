@@ -5,6 +5,7 @@
     "prepare": "husky install",
     "tsn-debug": "tsn testScript.ts",
     "bt": "tsn ./src/bin/bt.ts",
+    "btl": "tsn ./src/bin/btl.ts",
     "build": "tsn ./src/bin/build.ts",
     "tsc-prod": "tsn ./src/bin/tsc-prod.ts",
     "tsc-scripts": "tsn ./src/bin/tsc-scripts.ts",
@@ -77,6 +78,7 @@
   "types": "dist/index.d.ts",
   "bin": {
     "bt": "dist/bin/bt.js",
+    "btl": "dist/bin/btl.js",
     "build": "dist/bin/build.js",
     "build-copy": "dist/bin/build-copy.js",
     "build-prod": "dist/bin/build-prod.js",

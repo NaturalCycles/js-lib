@@ -5,17 +5,17 @@ import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { cfgDir } from '../cnst/paths.cnst'
 import { nodeModuleExists } from './test.util'
 
-export function getJestConfigPath(): string | undefined {
-  return fs.existsSync(`./jest.config.js`) ? undefined : `${cfgDir}/jest.config.js`
+export function getJestConfigPath(): string {
+  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : `${cfgDir}/jest.config.js`
 }
 
-export function getJestIntegrationConfigPath(): string | undefined {
+export function getJestIntegrationConfigPath(): string {
   return fs.existsSync(`./jest.integration-test.config.js`)
     ? `./jest.integration-test.config.js`
     : `${cfgDir}/jest.integration-test.config.js`
 }
 
-export function getJestManualConfigPath(): string | undefined {
+export function getJestManualConfigPath(): string {
   return fs.existsSync(`./jest.manual-test.config.js`)
     ? `./jest.manual-test.config.js`
     : `${cfgDir}/jest.manual-test.config.js`
@@ -34,7 +34,6 @@ export function isRunningAllTests(): boolean {
 }
 
 interface RunJestOpt {
-  ci?: boolean
   integration?: boolean
   manual?: boolean
   leaks?: boolean
@@ -49,21 +48,11 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     return
   }
 
-  const { ci, integration, manual, leaks } = opt
+  const { CI, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, NODE_OPTIONS } = process.env
+  const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(2)
 
-  // console.log(processArgs) // todo: solve to run it in dev-lib
-
-  // Allow to override --maxWorkers
-  let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
-
-  const args: string[] = ['--logHeapUsage', '--passWithNoTests', ...processArgs]
-  const env = {
-    TZ: process.env.TZ || 'UTC',
-    DEBUG_COLORS: '1',
-  }
-
-  let jestConfig: string | undefined
+  let jestConfig: string
 
   if (manual) {
     jestConfig = getJestManualConfigPath()
@@ -73,23 +62,34 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     jestConfig = getJestConfigPath()
   }
 
-  if (jestConfig) {
-    args.push(`--config=${jestConfig}`)
+  // Allow to override --maxWorkers
+  let maxWorkers = processArgs.find(a => a.startsWith('--maxWorkers'))
+
+  const args: string[] = [
+    `--config=${jestConfig}`,
+    '--logHeapUsage',
+    '--passWithNoTests',
+    ...processArgs,
+  ]
+
+  const env = {
+    TZ,
+    DEBUG_COLORS: '1',
   }
 
-  if (ci) {
+  if (CI) {
     args.push('--ci', '--coverage')
-    maxWorkers = maxWorkers || '--maxWorkers=2'
+    maxWorkers ||= '--maxWorkers=2'
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
-  if (ci || isRunningAllTests()) {
+  if (CI || isRunningAllTests()) {
     args.push('--silent')
   }
 
   if (leaks) {
     args.push('--detectOpenHandles', '--detectLeaks')
-    maxWorkers = maxWorkers || '--maxWorkers=1'
+    maxWorkers ||= '--maxWorkers=1'
   }
 
   if (maxWorkers) args.push(maxWorkers)
@@ -100,17 +100,15 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     })
   }
 
-  if (!integration && !manual && !process.env['APP_ENV']) {
+  if (!integration && !manual && !APP_ENV) {
     Object.assign(env, {
       APP_ENV: 'test',
     })
   }
 
-  if (!process.env['JEST_NO_ALPHABETIC']) {
+  if (!JEST_NO_ALPHABETIC) {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
-
-  const { NODE_OPTIONS } = process.env
 
   if (NODE_OPTIONS) {
     console.log(`${dimGrey('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
