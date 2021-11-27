@@ -31,13 +31,13 @@ export function silentConsole(): void {
   console.table = () => {}
 }
 
-export const jestLogger = commonLoggerCreate((level, args) => {
+export const jestLogger = commonLoggerCreate((_level, args) => {
   if (process.env['JEST_SILENT']) return // no-op
   process.stdout.write(
     args
       .map(a =>
         inspectAny(a, {
-          includeErrorStack: level === 'error',
+          includeErrorStack: true,
         }),
       )
       .join(' ') + '\n',
