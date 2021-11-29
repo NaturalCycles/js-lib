@@ -78,8 +78,16 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   }
 
   if (CI) {
-    args.push('--ci', '--coverage')
-    maxWorkers ||= '--maxWorkers=2'
+    args.push('--ci')
+
+    if (!integration && !manual) {
+      // Coverage only makes sense for unit tests, not for integration/manual
+      args.push('--coverage')
+    }
+
+    // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
+    // as it's the most memory-efficient way
+    maxWorkers ||= '--maxWorkers=1'
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1

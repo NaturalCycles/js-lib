@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs')
+const { CI } = process.env
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
@@ -21,20 +22,6 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/*.integration.test.ts'],
   testPathIgnorePatterns: ['<rootDir>/.*/__exclude/'],
   setupFilesAfterEnv,
-  coverageDirectory: 'tmp/coverage-integration',
-  reporters: [
-    'default',
-    [
-      'jest-junit',
-      {
-        suiteName: 'jest tests',
-        outputDirectory: './tmp/jest',
-        outputName: 'integration.xml',
-        suiteNameTemplate: '{filepath}',
-        classNameTemplate: '{classname}',
-        titleTemplate: '{title}',
-        ancestorSeparator: ' ',
-      },
-    ],
-  ],
+  // integration tests don't do coverage
+  reporters: [],
 }
