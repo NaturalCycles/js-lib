@@ -107,10 +107,12 @@ module.exports = {
     '!**/*.component.ts',
     '!**/*.modal.ts',
   ],
+  // default: ["clover", "json", "lcov", "text"]
+  coverageReporters: ['clover', 'json', 'lcov', !CI && 'text'].filter(Boolean),
   // CI: only jest-junit reporter (no default)
   // not-CI: only default reporter, but not jest-junit
   reporters: [
-    !CI && 'default',
+    'default',
     CI && [
       'jest-junit',
       {

@@ -21,6 +21,5 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/*.manual.test.ts'],
   testPathIgnorePatterns: ['<rootDir>/.*/__exclude/'],
   setupFilesAfterEnv,
-  // Manual tests don't do coverage
-  reporters: [],
+  reporters: ['default'],
 }

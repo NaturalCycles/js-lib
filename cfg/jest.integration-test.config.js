@@ -22,6 +22,19 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/*.integration.test.ts'],
   testPathIgnorePatterns: ['<rootDir>/.*/__exclude/'],
   setupFilesAfterEnv,
-  // integration tests don't do coverage
-  reporters: [],
+  reporters: [
+    'default',
+    CI && [
+      'jest-junit',
+      {
+        suiteName: 'jest tests',
+        outputDirectory: './tmp/jest',
+        outputName: 'integration.xml',
+        suiteNameTemplate: '{filepath}',
+        classNameTemplate: '{classname}',
+        titleTemplate: '{title}',
+        ancestorSeparator: ' ',
+      },
+    ],
+  ].filter(Boolean),
 }
