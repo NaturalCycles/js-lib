@@ -1,6 +1,12 @@
-import { _since, _stringifyAny, CommonLogger } from '..'
+import { _since, _stringifyAny, AnyFunction, CommonLogger } from '..'
 
 export interface PRetryOptions {
+  /**
+   * If set - will be included in the error message.
+   * Can be used to identify the place in the code that failed.
+   */
+  name?: string
+
   /**
    * How many attempts to try.
    * First attempt is not a retry, but "initial try". It still counts.
@@ -75,13 +81,14 @@ export interface PRetryOptions {
  * Implements "Exponential back-off strategy" by multiplying the delay by `delayMultiplier` with each try.
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
+export function pRetry<T extends AnyFunction>(fn: T, opt: PRetryOptions = {}): T {
   const {
     maxAttempts = 4,
     delay: initialDelay = 1000,
     delayMultiplier = 2,
     predicate,
     logger = console,
+    name = fn.name,
   } = opt
 
   let { logFirstAttempt = false, logRetries = true, logFailures = false, logSuccess = false } = opt
@@ -93,7 +100,7 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
     logSuccess = logFirstAttempt = logRetries = logFailures = false
   }
 
-  const fname = ['pRetry', fn.name].filter(Boolean).join('.')
+  const fname = ['pRetry', name].filter(Boolean).join('.')
 
   return async function (this: any, ...args: any[]) {
     let delay = initialDelay
@@ -118,9 +125,10 @@ export function pRetry<T extends Function>(fn: T, opt: PRetryOptions = {}): T {
         } catch (err) {
           if (logFailures) {
             logger.warn(
-              `${fname} attempt #${attempt} error in ${_since(started)}:\n${_stringifyAny(err, {
+              `${fname} attempt #${attempt} error in ${_since(started)}:`,
+              _stringifyAny(err, {
                 includeErrorData: true,
-              })}`,
+              }),
             )
           }
 
