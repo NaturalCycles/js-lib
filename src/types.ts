@@ -122,9 +122,18 @@ export type ValueOf<T> = T[keyof T]
 
 export type KeyValueTuple<K, V> = [key: K, value: V]
 
-export type ObjectMapper<OBJ, OUT> = (key: string, value: OBJ[keyof OBJ], obj: OBJ) => OUT
+// Exclude<something, undefined> is used here to support StringMap<OBJ> (because values of StringMap add `undefined`)
+export type ObjectMapper<OBJ, OUT> = (
+  key: string,
+  value: Exclude<OBJ[keyof OBJ], undefined>,
+  obj: OBJ,
+) => OUT
 
-export type ObjectPredicate<OBJ> = (key: keyof OBJ, value: OBJ[keyof OBJ], obj: OBJ) => boolean
+export type ObjectPredicate<OBJ> = (
+  key: keyof OBJ,
+  value: Exclude<OBJ[keyof OBJ], undefined>,
+  obj: OBJ,
+) => boolean
 
 /**
  * Allows to identify instance of Class by `instanceId`.

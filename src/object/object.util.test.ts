@@ -1,4 +1,5 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
+import { StringMap } from '../types'
 import {
   _deepCopy,
   _deepTrim,
@@ -543,6 +544,21 @@ test('_mapValues', () => {
   deepFreeze(users)
   expect(_mapValues(users, (_k, v) => v)).toEqual(users)
   expect(_mapValues(users, (_k, v) => v.age)).toEqual({ fred: 40, pebbles: 1 })
+})
+
+test('_mapValues StringMap', () => {
+  const map: StringMap<number> = {
+    a: 1,
+    b: 2,
+  }
+
+  const _a = map['a'] // number | undefined
+
+  const map2 = _mapValues(map, (_, v) => v * v)
+  expect(map2).toEqual({
+    a: 1,
+    b: 4,
+  })
 })
 
 test('_mapObject', () => {
