@@ -14,35 +14,39 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[**.md]
+[*.md]
 trim_trailing_whitespace = false
 indent_size = 4
 
-[**.html]
+[*.html]
 indent_size = 2
 
-[**.{css,scss}]
+[*.{css,scss}]
 indent_size = 2
 
-[**.{js,ts}]
+[*.{js,ts}]
 indent_size = 2
 
-[**.json]
+[*.json]
 indent_size = 2
 
-[**.xml]
-indent_size = 2
-
-[**.java]
+[*.java]
 indent_size = 4
 
-[**.sql]
+[*.{kt,kts}]
+disabled_rules=no-wildcard-imports
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
+
+[*.xml]
+indent_size = 2
+
+[*.sql]
 indent_size = 2
 
 [.eslintrc]
 indent_size = 2
 
-[**.min.*]
+[*.min.*]
 indent_style = ignore
 trim_trailing_whitespace = false
 insert_final_newline = ignore

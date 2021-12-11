@@ -149,11 +149,10 @@ Pass `--ext` (e.g `--ext ts,html`) to override the list of ESLint extensions (de
 
 `ktlint` will be used by lint-staged for all `**/*.{kt,kts}` files.
 
-Please install it with `brew install ktlint`.
+~~Please install it with `brew install ktlint`.~~
 
-Currently `ktlint` has a bug of not supporting absolute paths, to work around it use
-[this instruction](https://github.com/pinterest/ktlint/issues/1131#issuecomment-947570851) to
-install a working version.
+Install it **locally** in you project by adding
+[`@naturalcycles/ktlint`](https://github.com/NaturalCycles/ktlint) to your **dev**Dependencies.
 
 #### Other commands
 

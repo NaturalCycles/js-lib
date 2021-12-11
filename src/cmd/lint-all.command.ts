@@ -1,3 +1,4 @@
+import * as fs from 'fs'
 import * as yargs from 'yargs'
 import {
   commitMessageToTitleMessage,
@@ -28,10 +29,17 @@ export async function lintAllCommand(): Promise<void> {
 
   const hadChangesBefore = await gitHasUncommittedChanges()
 
-  // Currently we position ESLint before TSLint, but let's monitor if it's ok
   await eslintAllCommand()
+
   await stylelintAll()
+
   await runPrettier()
+
+  // Running ktlintAll (experimental!)
+  if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
+    const ktlintLib = require('@naturalcycles/ktlint')
+    await ktlintLib.ktlintAll()
+  }
 
   if (commitOnChanges || failOnChanges) {
     // detect changes
@@ -41,9 +49,7 @@ export async function lintAllCommand(): Promise<void> {
         console.log(`lint-all: there are changes before running lint-all, will not commit`)
       } else {
         const msg =
-          'style(lint-all): ' +
-          commitMessageToTitleMessage(await getLastGitCommitMsg()) +
-          '\n\n[skip ci]'
+          'style(ci): ' + commitMessageToTitleMessage(await getLastGitCommitMsg()) + '\n\n[skip ci]'
 
         // pull, commit, push changes
         await gitPull()

@@ -79,7 +79,14 @@ const linters = {
   '**/*.{kt,kts}': match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
-    return [`ktlint -F ${filesList}`]
+    const dir = './node_modules/@naturalcycles/ktlint'
+
+    if (!fs.existsSync(dir)) {
+      console.log(`!!\n!! Please install @naturalcycles/ktlint to lint *.kt files\n!!\n`, filesList)
+      return []
+    }
+
+    return [`${dir}/resources/ktlint -F ${filesList}`]
   },
 }
 
