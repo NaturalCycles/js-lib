@@ -17,22 +17,22 @@ test('pTimeoutFn default error', async () => {
 })
 
 test('pTimeoutFn options', async () => {
-  const fn = () => pDelay(1000)
-  const decoratedFn = pTimeoutFn(fn, { timeout: 100, name: 'custom name' })
+  const fn = () => pDelay(100)
+  const decoratedFn = pTimeoutFn(fn, { timeout: 10, name: 'custom name' })
   const err = await pExpectedError(decoratedFn())
-  expect(err).toMatchInlineSnapshot(`[TimeoutError: "custom name" timed out after 100 ms]`)
+  expect(err).toMatchInlineSnapshot(`[TimeoutError: "custom name" timed out after 10 ms]`)
   expect(err).toBeInstanceOf(TimeoutError)
 
   await expect(
     pTimeoutFn(fn, {
-      timeout: 100,
+      timeout: 10,
       onTimeout: () => {
         throw new Error('custom error')
       },
     })(),
   ).rejects.toThrowErrorMatchingInlineSnapshot(`"custom error"`)
 
-  expect(await pTimeoutFn(fn, { timeout: 100, onTimeout: () => 'all good' })()).toBe('all good')
+  expect(await pTimeoutFn(fn, { timeout: 10, onTimeout: () => 'all good' })()).toBe('all good')
 })
 
 test('pTimeout happy case', async () => {

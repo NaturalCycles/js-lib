@@ -19,7 +19,7 @@ test('@_Timeout', async () => {
 
   expect(await c.fn(10, 'hej')).toBe('hej')
 
-  const err = await pExpectedError(c.fn(200))
+  const err = await pExpectedError(c.fn(100))
   expect(err).toMatchInlineSnapshot(`[TimeoutError: "C.fn" timed out after 50 ms]`)
   expect(err).toBeInstanceOf(TimeoutError)
 })
