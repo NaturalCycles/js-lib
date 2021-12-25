@@ -20,6 +20,15 @@ export interface PTimeoutOptions {
    * Can be used to thrown a custom error OR resolve a promise without throwing.
    */
   onTimeout?: () => any
+
+  /**
+   * Defaults to true.
+   * If true - preserves the stack trace in case of a Timeout (usually - very useful!).
+   * It has a certain perf cost.
+   *
+   * @experimental
+   */
+  keepStackTrace?: boolean
 }
 
 /**
@@ -42,7 +51,8 @@ export function pTimeoutFn<T extends AnyFunction>(fn: T, opt: PTimeoutOptions): 
  */
 export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Promise<T> {
   // todo: check how we can automatically infer function name (only applicable to named functions)
-  const { timeout, name, onTimeout } = opt
+  const { timeout, name, onTimeout, keepStackTrace = true } = opt
+  const fakeError = keepStackTrace ? new Error('TimeoutError') : undefined
 
   // eslint-disable-next-line no-async-promise-executor
   return await new Promise(async (resolve, reject) => {
@@ -51,13 +61,16 @@ export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Pr
       if (onTimeout) {
         try {
           resolve(onTimeout())
-        } catch (err) {
+        } catch (err: any) {
+          if (fakeError) err.stack = fakeError.stack // keep original stack
           reject(err)
         }
         return
       }
 
-      reject(new TimeoutError(`"${name || 'pTimeout function'}" timed out after ${timeout} ms`))
+      const err = new TimeoutError(`"${name || 'pTimeout function'}" timed out after ${timeout} ms`)
+      if (fakeError) err.stack = fakeError.stack // keep original stack
+      reject(err)
     }, timeout)
 
     // Execute the Function
