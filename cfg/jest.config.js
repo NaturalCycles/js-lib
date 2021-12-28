@@ -83,6 +83,11 @@ module.exports = {
   },
   testEnvironment: 'node',
   errorOnDeprecated: true,
+  // this config would have the snapshot formatter not print a prefix for "Object" and "Array"
+  // snapshotFormat: {
+  //   printBasicPrototype: false,
+  // },
+  restoreMocks: true,
   unmockedModulePathPatterns: [],
   setupFilesAfterEnv,
   collectCoverageFrom: [
