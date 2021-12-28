@@ -33,10 +33,6 @@ class A {
   }
 }
 
-beforeEach(() => {
-  jest.restoreAllMocks()
-})
-
 test('memo a', async () => {
   const a = new A()
   a.func = jest.fn()

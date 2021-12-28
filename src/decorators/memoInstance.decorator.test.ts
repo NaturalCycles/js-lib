@@ -1,9 +1,5 @@
 import { _Memo, _range } from '..'
 
-beforeEach(() => {
-  jest.restoreAllMocks()
-})
-
 class C {
   fn() {}
 

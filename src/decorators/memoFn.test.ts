@@ -11,7 +11,6 @@ function fnOrig(n = 1): number {
 const fn = _memoFn(fnOrig)
 
 beforeEach(() => {
-  jest.restoreAllMocks()
   calledTimes = 0
 })
 
