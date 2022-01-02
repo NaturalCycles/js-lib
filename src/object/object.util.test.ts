@@ -429,15 +429,15 @@ test('_merge', () => {
 
   expect(_merge({ a: 'a1', o: { oo: 'oo1' } }, { b: 'b1' }, { o: { z: 'z1' } }, { a: 'a2' }))
     .toMatchInlineSnapshot(`
-    Object {
-      "a": "a2",
-      "b": "b1",
-      "o": Object {
-        "oo": "oo1",
-        "z": "z1",
-      },
-    }
-  `)
+      Object {
+        "a": "a2",
+        "b": "b1",
+        "o": Object {
+          "oo": "oo1",
+          "z": "z1",
+        },
+      }
+    `)
 })
 
 test('_invert', () => {

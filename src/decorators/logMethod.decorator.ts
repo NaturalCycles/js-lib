@@ -110,7 +110,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
             })
             .catch((err: any) => {
               logFinished(logger, callSignature, started, sma, logResultFn, undefined, err)
-              return Promise.reject(err)
+              throw err
             })
         } else {
           // not a Promise

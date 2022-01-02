@@ -163,7 +163,7 @@ export const _Memo =
               cache.get(ctx)!.set(cacheKey, err instanceof Error ? err : new Error(err))
             }
 
-            return Promise.reject(err)
+            throw err
           })
       } else {
         if (logMiss) {

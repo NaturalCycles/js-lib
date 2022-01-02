@@ -83,7 +83,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
             cache.set(cacheKey, err instanceof Error ? err : new Error(err))
           }
 
-          return Promise.reject(err)
+          throw err
         }) as any
     } else {
       if (logMiss) {

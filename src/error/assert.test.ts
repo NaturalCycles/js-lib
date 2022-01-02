@@ -33,17 +33,17 @@ test('_assertEquals', () => {
   const [err] = _try(() => _assertEquals(1, 2))
   expect(err).toBeInstanceOf(AssertionError)
   expect(err).toMatchInlineSnapshot(`
-[AssertionError: not equal
-expected: 2
-got     : 1]
-`)
+    [AssertionError: not equal
+    expected: 2
+    got     : 1]
+  `)
 
   const err2 = _try(() => _assertEquals(1, 2, 'Should match'))[0]
   expect(err2).toMatchInlineSnapshot(`
-[AssertionError: Should match
-expected: 2
-got     : 1]
-`)
+    [AssertionError: Should match
+    expected: 2
+    got     : 1]
+  `)
 })
 
 test('_assertDeepEquals', () => {
@@ -54,15 +54,15 @@ test('_assertDeepEquals', () => {
 
   const [err] = _try(() => _assertDeepEquals({ a: 'a' }, { a: 'a', b: 'b' }))
   expect(err).toMatchInlineSnapshot(`
-[AssertionError: not deeply equal
-expected: {
-  "a": "a",
-  "b": "b"
-}
-got     : {
-  "a": "a"
-}]
-`)
+    [AssertionError: not deeply equal
+    expected: {
+      "a": "a",
+      "b": "b"
+    }
+    got     : {
+      "a": "a"
+    }]
+  `)
 })
 
 test('_assertIsError', () => {

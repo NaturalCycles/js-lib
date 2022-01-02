@@ -59,11 +59,11 @@ test('httpErrorResponse', () => {
   expect(_stringifyAny(resp)).toMatchInlineSnapshot(`"HttpError(409): la la"`)
 
   expect(_stringifyAny(resp, { includeErrorData: true })).toMatchInlineSnapshot(`
-"HttpError(409): la la
-{
-  \\"httpStatusCode\\": 409,
-  \\"userFriendly\\": true,
-  \\"other\\": \\"otherValue\\"
-}"
-`)
+    "HttpError(409): la la
+    {
+      \\"httpStatusCode\\": 409,
+      \\"userFriendly\\": true,
+      \\"other\\": \\"otherValue\\"
+    }"
+  `)
 })
