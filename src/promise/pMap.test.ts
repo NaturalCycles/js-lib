@@ -1,4 +1,14 @@
-import { _inRange, _randomInt, _range, AsyncMapper, END, ErrorMode, SKIP } from '..'
+import {
+  _inRange,
+  _randomInt,
+  _range,
+  AppError,
+  AsyncMapper,
+  END,
+  ErrorMode,
+  pExpectedError,
+  SKIP,
+} from '..'
 import { timeSpan } from '../test/test.util'
 import { AggregatedError } from './AggregatedError'
 import { pBatch } from './pBatch'
@@ -160,3 +170,33 @@ test('END', async () => {
   const r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 1 })
   expect(r).toEqual([1, 2])
 })
+
+test('should preserve stack', async () => {
+  const err = await pExpectedError(wrappingFn())
+
+  // ok, it's tricky to make pMap to preserve the stack
+  // currently it doesn't work :(
+  console.log(err)
+  // console.log(err.stack)
+  // expect(err.stack).toContain('at failingFn')
+  // expect(err.stack).toContain('at wrappingFn')
+  // expect(err.stack).toContain('at pExpectedError')
+})
+
+async function wrappingFn(): Promise<void> {
+  await pMap([1, 2, 3], async n => await fn(n))
+  // await Promise.all([1, 2, 3].map(n => fn(n)))
+  // return await new Promise((resolve, reject) => {
+  //   reject(new AppError('fn error'))
+  // })
+}
+
+// Fails on 3
+async function fn(n: number): Promise<number> {
+  if (n === 3) {
+    await pDelay(1)
+    throw new AppError('fn error')
+  }
+
+  return n * 2
+}

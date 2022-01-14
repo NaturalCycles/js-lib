@@ -27,9 +27,6 @@ export function _try<ERR = unknown, RETURN = void>(
   }
 }
 
-// todo: remove when eslint starts to know about Awaited
-/* eslint-disable no-undef */
-
 /**
  * Like _try, but for Promises.
  *

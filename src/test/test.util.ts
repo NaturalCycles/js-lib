@@ -22,3 +22,12 @@ export function timeSpan(): () => number {
 
   return ret
 }
+
+/**
+ * Strips away the Path from all files, keeping the filename.
+ * Strips away line/column too, as it changes often.
+ * To support deterministic tests.
+ */
+export function normalizeStack(s: string): string {
+  return s.replace(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
+}

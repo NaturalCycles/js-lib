@@ -1,3 +1,6 @@
+import { AppError } from '../error/app.error'
+import { pExpectedError } from '../error/try'
+import { normalizeStack } from '../test/test.util'
 import { pDefer } from './pDefer'
 import { pDelay } from './pDelay'
 import { pProps } from './pProps'
@@ -37,3 +40,49 @@ test('rejects if any of the input promises reject', async () => {
 test('handles empty object', async () => {
   expect(await pProps({})).toEqual({})
 })
+
+// Good stack should look like this:
+// AppError: failing msg
+//     at failingFn (pProps.test.ts:62:9)
+//     at wrappingFn (pProps.test.ts:52:3)
+//     at pExpectedError (try.ts:81:5)
+//     at Object.<anonymous> (pProps.test.ts:44:15)
+test('should preserve stack', async () => {
+  const err = await pExpectedError(wrappingFn())
+
+  // console.log(err)
+  // console.log(normalizeStack(err.stack!))
+  // console.log(err.stack)
+  // expect(err.stack).toContain('at failingFn')
+  // expect(err.stack).toContain('at wrappingFn')
+  // expect(err.stack).toContain('at pExpectedError')
+
+  expect(normalizeStack(err.stack!)).toMatchInlineSnapshot(`
+    "AppError: failing msg
+        at failingFn pProps.test.ts
+        at async Promise.all (index 1)
+        at pProps pProps.ts
+        at wrappingFn pProps.test.ts
+        at pExpectedError try.ts
+        at Object.<anonymous> pProps.test.ts"
+  `)
+})
+
+async function wrappingFn(): Promise<{ n1: number; n2: number }> {
+  // await failingFn()
+
+  return await pProps({
+    n1: successFn(),
+    n2: failingFn(),
+  })
+}
+
+async function failingFn(): Promise<number> {
+  await pDelay(10)
+  throw new AppError('failing msg')
+}
+
+async function successFn(): Promise<number> {
+  await pDelay(1)
+  return 15
+}
