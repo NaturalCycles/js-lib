@@ -9,7 +9,21 @@ import {
   _passUndefinedMapper,
   _stringMapEntries,
   _stringMapValues,
+  BaseDBEntity,
+  Saved,
 } from './types'
+
+interface Item extends BaseDBEntity {
+  a?: number
+}
+
+interface ItemDBM extends Saved<Item> {}
+
+const _item: ItemDBM = {
+  id: 'abc',
+  created: 1,
+  updated: 1,
+}
 
 test('types', () => {
   const _reviver: Reviver = (_k, _v) => {}

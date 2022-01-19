@@ -169,8 +169,8 @@ export type UnixTimestamp = number
 /**
  * Base interface for any Entity that was saved to DB.
  */
-export interface SavedDBEntity {
-  id: string
+export interface SavedDBEntity<ID = string> {
+  id: ID
 
   /**
    * unixTimestamp of when the entity was first created (in the DB).
@@ -189,10 +189,10 @@ export interface SavedDBEntity {
  * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
-export type BaseDBEntity = Partial<SavedDBEntity>
+export type BaseDBEntity<ID = string> = Partial<SavedDBEntity<ID>>
 
-export type Saved<E> = Merge<E, SavedDBEntity>
-export type Unsaved<E> = Merge<E, BaseDBEntity>
+export type Saved<E, ID = string> = Merge<E, SavedDBEntity<ID>>
+export type Unsaved<E, ID = string> = Merge<E, BaseDBEntity<ID>>
 
 /**
  * Named type for JSON.parse / JSON.stringify second argument
