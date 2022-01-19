@@ -74,7 +74,7 @@ export * from './promise/pFilter'
 export * from './promise/pHang'
 import { pMap, PMapOptions } from './promise/pMap'
 export * from './promise/pProps'
-import { pRetry, PRetryOptions } from './promise/pRetry'
+import { pRetry, pRetryFn, PRetryOptions } from './promise/pRetry'
 export * from './promise/pState'
 import { pTimeout, pTimeoutFn, PTimeoutOptions } from './promise/pTimeout'
 export * from './promise/pTuple'
@@ -250,6 +250,7 @@ export {
   pDefer,
   AggregatedError,
   pRetry,
+  pRetryFn,
   pTimeout,
   pTimeoutFn,
   _tryCatch,

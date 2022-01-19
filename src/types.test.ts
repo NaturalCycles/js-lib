@@ -13,7 +13,7 @@ import {
   Saved,
 } from './types'
 
-interface Item extends BaseDBEntity {
+interface Item extends BaseDBEntity<number> {
   a?: number
 }
 

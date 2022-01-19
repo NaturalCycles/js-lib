@@ -1,4 +1,8 @@
-import { pRetry } from './pRetry'
+import { pExpectedError } from '../error/try'
+import { normalizeStack } from '../test/test.util'
+import { pDelay } from './pDelay'
+import { pRetry, pRetryFn } from './pRetry'
+import { TimeoutError } from './pTimeout'
 
 function createFn(succeedOnAttempt: number) {
   let attempt = 0
@@ -13,8 +17,8 @@ function createFn(succeedOnAttempt: number) {
   }
 }
 
-test('pRetry', async () => {
-  const fn = pRetry(createFn(3), {
+test('pRetryFn', async () => {
+  const fn = pRetryFn(createFn(3), {
     maxAttempts: 3,
     delay: 10,
     delayMultiplier: 1,
@@ -27,12 +31,112 @@ test('pRetry', async () => {
   expect(r).toEqual([1, 2, 3])
 })
 
-test('pRetry should throw on fail', async () => {
-  const fn = pRetry(createFn(3), {
+test('pRetryFn should throw on fail', async () => {
+  const fn = pRetryFn(createFn(3), {
     maxAttempts: 2, // so, it'll never succeed
     delay: 10,
     delayMultiplier: 1,
     logAll: true,
   })
   await expect(fn(1, 2, 3)).rejects.toThrowErrorMatchingInlineSnapshot(`"fail"`)
+})
+
+test('pRetry', async () => {
+  const r = await pRetry(
+    async attempt => {
+      if (attempt >= 3) return attempt
+      throw new Error(`fail`)
+    },
+    {
+      maxAttempts: 3,
+      delay: 10,
+      delayMultiplier: 1,
+      logAll: true,
+    },
+  )
+  expect(r).toBe(3)
+})
+
+test('pRetry should throw on fail and keep stack', async () => {
+  async function myFunction(): Promise<void> {
+    await pRetry(
+      async attempt => {
+        if (attempt >= 3) return attempt
+        throw new Error(`fail`)
+      },
+      {
+        maxAttempts: 2, // so, it'll never succeed
+        delay: 10,
+        delayMultiplier: 1,
+        logAll: true,
+      },
+    )
+  }
+
+  const err = await pExpectedError(myFunction())
+  // console.log(err)
+
+  expect(err).toMatchInlineSnapshot(`[Error: fail]`)
+  expect(err.stack).not.toContain('TimeoutError')
+  expect(err.stack).toContain('at myFunction')
+})
+
+test('pRetry timeout should not happen', async () => {
+  await pRetry(async () => pDelay(1), {
+    timeout: 1000,
+    logAll: true,
+  })
+})
+
+async function myFunction(): Promise<void> {
+  await pRetry(async () => await pDelay(1000), {
+    timeout: 10,
+    logAll: true,
+  })
+}
+
+test('pRetry should time out and keep stack', async () => {
+  const err = await pExpectedError(myFunction())
+  // console.log(err.stack)
+
+  expect(err).toMatchInlineSnapshot(`[TimeoutError: "pRetry function" timed out after 10 ms]`)
+  expect(err).toBeInstanceOf(TimeoutError)
+
+  expect(err.stack).toContain('TimeoutError')
+  expect(err.stack).toContain('at myFunction')
+  expect(normalizeStack(err.stack!)).toMatchInlineSnapshot(`
+    "TimeoutError
+        at pRetry pRetry.ts
+        at myFunction pRetry.test.ts
+        at Object.<anonymous> pRetry.test.ts
+        at Promise.then.completed utils.js
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn utils.js
+        at _callCircusTest run.js
+        at _runTest run.js
+        at _runTestsForDescribeBlock run.js
+        at run run.js"
+  `)
+})
+
+test('should preserve this', async () => {
+  class C {
+    async helloWithRetry(): Promise<number> {
+      return await pRetry(async () => {
+        return this.hello()
+      })
+    }
+
+    hello(): number {
+      return this.getNumber() * 2
+    }
+
+    getNumber(): number {
+      return 5
+    }
+  }
+
+  const c = new C()
+  const r = await c.helloWithRetry()
+  expect(r).toBe(10)
 })
