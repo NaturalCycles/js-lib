@@ -29,15 +29,15 @@ export interface CreatedUpdated {
   updated: number
 }
 
-export interface CreatedUpdatedId extends CreatedUpdated {
-  id: string
+export interface CreatedUpdatedId<ID = string> extends CreatedUpdated {
+  id: ID
 }
 
-export interface ObjectWithId {
-  id: string
+export interface ObjectWithId<ID = string> {
+  id: ID
 }
 
-export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
+export interface AnyObjectWithId<ID = string> extends AnyObject, ObjectWithId<ID> {}
 
 /**
  * Convenience type shorthand.
