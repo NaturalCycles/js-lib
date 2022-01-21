@@ -11,7 +11,7 @@ export interface PRetryOptions {
   /**
    * Timeout for each Try, in milliseconds.
    *
-   * Defaults to 60_000
+   * Defaults to no timeout.
    */
   timeout?: number
 

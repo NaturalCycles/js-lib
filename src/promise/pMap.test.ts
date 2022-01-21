@@ -11,34 +11,37 @@ import {
 } from '..'
 import { timeSpan } from '../test/test.util'
 import { AggregatedError } from './AggregatedError'
-import { pBatch } from './pBatch'
 import { pDelay } from './pDelay'
 import { pMap } from './pMap'
 
-const input = [Promise.resolve([10, 300]), [20, 200], [30, 100]]
-
-const errorInput1 = [
+const input = [
+  [10, 300],
   [20, 200],
   [30, 100],
+]
+const fastInput = [
+  [10, 30],
+  [20, 20],
+  [30, 10],
+]
+
+const errorInput1 = [
+  [20, 20],
+  [30, 10],
   [() => Promise.reject(new Error('foo'))],
   [() => Promise.reject(new Error('bar'))],
 ]
 
 const errorInput2 = [
-  [20, 200],
+  [20, 20],
   [() => Promise.reject(new Error('bar'))],
-  [30, 100],
+  [30, 10],
   [() => Promise.reject(new Error('foo'))],
 ]
 
-const errorInput3 = [
-  [() => Promise.reject(new Error('one'))],
-  [() => Promise.reject(new Error('two'))],
-]
-
-const mapper: AsyncMapper = ([val, ms]) => {
+const mapper: AsyncMapper = async ([val, ms]) => {
   if (typeof val === 'function') return val()
-  return pDelay(ms, val)
+  return await pDelay(ms, val)
 }
 
 test('main', async () => {
@@ -58,11 +61,11 @@ test('concurrency: 4', async () => {
   let running = 0
 
   await pMap(
-    Array.from({ length: 100 }).fill(0),
+    _range(100).map(() => 0),
     async () => {
       running++
       expect(running <= concurrency).toBe(true)
-      await pDelay(_randomInt(30, 200))
+      await pDelay(_randomInt(3, 20))
       running--
     },
     { concurrency },
@@ -74,23 +77,20 @@ test('handles empty iterable', async () => {
 })
 
 test('async with concurrency: 2 (random time sequence)', async () => {
-  const input = Array.from({ length: 10 }).map(() => _randomInt(0, 100))
-  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
-  const result = await pMap(input, mapper, { concurrency: 2 })
+  const input = _range(10).map(() => _randomInt(0, 100))
+  const result = await pMap(input, v => pDelay(v, v), { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (problematic time sequence)', async () => {
-  const input = [100, 200, 10, 36, 13, 45]
-  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
-  const result = await pMap(input, mapper, { concurrency: 2 })
+  const input = [10, 20, 10, 36, 13, 45]
+  const result = await pMap(input, v => pDelay(v, v), { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
 test('async with concurrency: 2 (out of order time sequence)', async () => {
-  const input = [200, 100, 50]
-  const mapper: AsyncMapper = value => pDelay(value).then(() => value)
-  const result = await pMap(input, mapper, { concurrency: 2 })
+  const input = [20, 10, 50]
+  const result = await pMap(input, v => pDelay(v, v), { concurrency: 2 })
   expect(result).toEqual(input)
 })
 
@@ -104,59 +104,88 @@ test('reject', async () => {
   await expect(pMap(input, mapper, { concurrency: 1 })).rejects.toThrow('Err')
 })
 
-test('immediately rejects when stopOnError is true', async () => {
-  await expect(pMap(errorInput1, mapper, { concurrency: 1 })).rejects.toThrow('foo')
-  await expect(pMap(errorInput2, mapper, { concurrency: 1 })).rejects.toThrow('bar')
+test('immediately rejects when errorMode=THROW_IMMEDIATELY', async () => {
+  await expect(
+    pMap(errorInput1, mapper, { concurrency: 1 }),
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+
+  await expect(
+    pMap(errorInput2, mapper, { concurrency: 1 }),
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`"bar"`)
+
+  // infinite
+  await expect(pMap(errorInput1, mapper)).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+
+  // limited
+  await expect(
+    pMap(errorInput1, mapper, { concurrency: 3 }),
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+
+  // high
+  await expect(
+    pMap(errorInput1, mapper, { concurrency: 5 }),
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
 })
 
 test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
   const errorMode = ErrorMode.THROW_AGGREGATED
 
   // should not throw
-  await pMap(input, mapper, { concurrency: 1, errorMode })
+  await pMap(fastInput, mapper, { concurrency: 1, errorMode })
+  await pMap(fastInput, mapper, { errorMode })
 
-  await expect(pMap(errorInput1, mapper, { concurrency: 1, errorMode })).rejects.toThrow(
-    new AggregatedError(['foo', 'bar']),
-  )
-  await expect(pMap(errorInput2, mapper, { concurrency: 1, errorMode })).rejects.toThrow(
-    new AggregatedError(['bar', 'foo']),
-  )
+  await expect(pMap(errorInput1, mapper, { concurrency: 1, errorMode })).rejects
+    .toThrowErrorMatchingInlineSnapshot(`
+          "2 errors:
+          1. foo
+          2. bar"
+        `)
 
-  let err: AggregatedError
-  await pMap(errorInput1, mapper, { concurrency: 1, errorMode }).catch(_err => (err = _err))
-  expect(err!.results).toEqual([20, 30])
-  expect(err!.errors).toEqual([new Error('foo'), new Error('bar')])
+  await expect(pMap(errorInput2, mapper, { concurrency: 1, errorMode })).rejects
+    .toThrowErrorMatchingInlineSnapshot(`
+          "2 errors:
+          1. bar
+          2. foo"
+        `)
+
+  let err = await pExpectedError<AggregatedError>(
+    pMap(errorInput1, mapper, { concurrency: 1, errorMode }),
+  )
+  expect(err.results).toEqual([20, 30])
+  expect(err).toMatchInlineSnapshot(`
+    [AggregatedError: 2 errors:
+    1. foo
+    2. bar]
+  `)
+
+  // infinite concurrency
+  err = await pExpectedError<AggregatedError>(pMap(errorInput1, mapper, { errorMode }))
+  expect(err.results).toEqual([20, 30])
+  expect(err).toMatchInlineSnapshot(`
+    [AggregatedError: 2 errors:
+    1. foo
+    2. bar]
+  `)
+
+  // limited concurrency
+  err = await pExpectedError<AggregatedError>(
+    pMap(errorInput1, mapper, { concurrency: 3, errorMode }),
+  )
+  expect(err.results).toEqual([20, 30])
+  expect(err).toMatchInlineSnapshot(`
+    [AggregatedError: 2 errors:
+    1. foo
+    2. bar]
+  `)
 })
 
 test('suppress errors when errorMode=SUPPRESS', async () => {
   const errorMode = ErrorMode.SUPPRESS
 
-  await pMap(input, mapper, { concurrency: 1, errorMode })
+  await pMap(fastInput, mapper, { concurrency: 1, errorMode })
 
   await pMap(errorInput1, mapper, { concurrency: 1, errorMode })
   await pMap(errorInput2, mapper, { concurrency: 1, errorMode })
-})
-
-test('pBatch', async () => {
-  expect(await pBatch([], mapper, { concurrency: 1 })).toEqual({
-    results: [],
-    errors: [],
-  })
-
-  expect(await pBatch(input, mapper, { concurrency: 1 })).toEqual({
-    results: [10, 20, 30],
-    errors: [],
-  })
-
-  expect(await pBatch(errorInput1, mapper, { concurrency: 1 })).toEqual({
-    results: [20, 30],
-    errors: [new Error('foo'), new Error('bar')],
-  })
-
-  expect(await pBatch(errorInput3, mapper, { concurrency: 1 })).toEqual({
-    results: [],
-    errors: [new Error('one'), new Error('two')],
-  })
 })
 
 test('SKIP', async () => {
@@ -167,8 +196,16 @@ test('SKIP', async () => {
 
 test('END', async () => {
   const values = _range(1, 10)
-  const r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 1 })
+  let r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 1 })
   expect(r).toEqual([1, 2])
+
+  r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 5 })
+  expect(r).toEqual([1, 2])
+
+  r = await pMap(values, v => (v === 3 ? END : v), { concurrency: 11 })
+  // Because concurrency is 11, END cannot really stop the other values from being returned
+  // (they're "in-flight")
+  expect(r).toEqual([1, 2, 4, 5, 6, 7, 8, 9])
 })
 
 test('should preserve stack', async () => {
@@ -176,11 +213,12 @@ test('should preserve stack', async () => {
 
   // ok, it's tricky to make pMap to preserve the stack
   // currently it doesn't work :(
-  console.log(err)
+  // UPD: works for selected cases: infinite/limited/no concurrency
+  // console.log(err)
   // console.log(err.stack)
-  // expect(err.stack).toContain('at failingFn')
-  // expect(err.stack).toContain('at wrappingFn')
-  // expect(err.stack).toContain('at pExpectedError')
+  expect(err.stack).toContain('at pMap')
+  expect(err.stack).toContain('at wrappingFn')
+  expect(err.stack).toContain('at pExpectedError')
 })
 
 async function wrappingFn(): Promise<void> {

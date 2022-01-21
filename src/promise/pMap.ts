@@ -55,36 +55,85 @@ export interface PMapOptions {
  * })();
  */
 export async function pMap<IN, OUT>(
-  iterable: Iterable<IN | PromiseLike<IN>>,
+  iterable: Iterable<IN>,
   mapper: AbortableAsyncMapper<IN, OUT>,
   opt: PMapOptions = {},
 ): Promise<OUT[]> {
+  const ret: (OUT | typeof SKIP)[] = []
+  // const iterator = iterable[Symbol.iterator]()
+  const items = [...iterable]
+  const itemsLength = items.length
+  if (itemsLength === 0) return [] // short circuit
+
+  const { concurrency = itemsLength, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
+
+  const errors: Error[] = []
+  let isSettled = false
+  let resolvingCount = 0
+  let currentIndex = 0
+
+  // Special cases that are able to preserve async stack traces
+
+  if (concurrency === 1) {
+    // Special case for concurrency == 1
+
+    for await (const item of items) {
+      try {
+        const r = await mapper(item, currentIndex++)
+        if (r === END) break
+        if (r !== SKIP) ret.push(r)
+      } catch (err) {
+        if (errorMode === ErrorMode.THROW_IMMEDIATELY) throw err
+        if (errorMode === ErrorMode.THROW_AGGREGATED) {
+          errors.push(err as Error)
+        }
+        // otherwise, suppress completely
+      }
+    }
+
+    if (errors.length) {
+      throw new AggregatedError(errors, ret)
+    }
+
+    return ret as OUT[]
+  } else if (!opt.concurrency || items.length <= opt.concurrency) {
+    // Special case for concurrency == infinity or iterable.length < concurrency
+
+    if (errorMode === ErrorMode.THROW_IMMEDIATELY) {
+      return (await Promise.all(items.map((item, i) => mapper(item, i)))).filter(
+        r => r !== SKIP && r !== END,
+      ) as OUT[]
+    }
+
+    ;(await Promise.allSettled(items.map((item, i) => mapper(item, i)))).forEach(r => {
+      if (r.status === 'fulfilled') {
+        if (r.value !== SKIP && r.value !== END) ret.push(r.value)
+      } else if (errorMode === ErrorMode.THROW_AGGREGATED) {
+        errors.push(r.reason)
+      }
+    })
+
+    if (errors.length) {
+      throw new AggregatedError(errors, ret)
+    }
+
+    return ret as OUT[]
+  }
+
   return new Promise<OUT[]>((resolve, reject) => {
-    const { concurrency = Number.POSITIVE_INFINITY, errorMode = ErrorMode.THROW_IMMEDIATELY } = opt
-
-    const ret: (OUT | typeof SKIP)[] = []
-    const iterator = iterable[Symbol.iterator]()
-    const errors: Error[] = []
-    let isSettled = false
-    let isIterableDone = false
-    let resolvingCount = 0
-    let currentIndex = 0
-
-    const next = (skipped = false) => {
+    const next = () => {
       if (isSettled) {
         return
       }
 
-      const nextItem = iterator.next()
-      const i = currentIndex
-      if (!skipped) currentIndex++
+      const nextItem = items[currentIndex]!
+      const i = currentIndex++
 
-      if (nextItem.done) {
-        isIterableDone = true
-
+      if (currentIndex > itemsLength) {
         if (resolvingCount === 0) {
+          isSettled = true
           const r = ret.filter(r => r !== SKIP) as OUT[]
-          if (errors.length && errorMode === ErrorMode.THROW_AGGREGATED) {
+          if (errors.length) {
             reject(new AggregatedError(errors, r))
           } else {
             resolve(r)
@@ -96,7 +145,7 @@ export async function pMap<IN, OUT>(
 
       resolvingCount++
 
-      Promise.resolve(nextItem.value)
+      Promise.resolve(nextItem)
         .then(async element => await mapper(element, i))
         .then(
           value => {
@@ -114,7 +163,9 @@ export async function pMap<IN, OUT>(
               isSettled = true
               reject(err)
             } else {
-              errors.push(err)
+              if (errorMode === ErrorMode.THROW_AGGREGATED) {
+                errors.push(err)
+              }
               resolvingCount--
               next()
             }
@@ -125,7 +176,7 @@ export async function pMap<IN, OUT>(
     for (let i = 0; i < concurrency; i++) {
       next()
 
-      if (isIterableDone) {
+      if (isSettled) {
         break
       }
     }

@@ -247,11 +247,3 @@ const p = new Promise.resolve()
 await pState(p)
 // 'resolved'
 ```
-
-## pBatch
-
-Like `pMap`, but doesn't fail on errors, instead returns both successful results and errors.
-
-```ts
-const { results, errors } = await pBatch(promises, async r => ...)
-```

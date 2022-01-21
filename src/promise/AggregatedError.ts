@@ -7,20 +7,15 @@ export class AggregatedError<RESULT = any> extends Error {
   errors!: Error[]
   results!: RESULT[]
 
-  constructor(errors: (Error | string)[], results: RESULT[] = []) {
-    const mappedErrors = errors.map(e => {
-      if (typeof e === 'string') return new Error(e)
-      return e
-    })
-
+  constructor(errors: Error[], results: RESULT[] = []) {
     const message = [
       `${errors.length} errors:`,
-      ...mappedErrors.map((e, i) => `${i + 1}. ${e.message}`),
+      ...errors.map((e, i) => `${i + 1}. ${e.message}`),
     ].join('\n')
 
     super(message)
 
-    this.errors = mappedErrors
+    this.errors = errors
     this.results = results
 
     Object.defineProperty(this, 'name', {
