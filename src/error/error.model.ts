@@ -38,6 +38,8 @@ export interface ErrorData {
    */
   fingerprint?: string[]
 
+  httpStatusCode?: number
+
   /**
    * Open-ended.
    */

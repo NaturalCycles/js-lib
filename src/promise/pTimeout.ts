@@ -1,5 +1,6 @@
 import { AppError } from '../error/app.error'
-import { AnyFunction, AnyObject } from '../types'
+import { ErrorData } from '../error/error.model'
+import { AnyFunction } from '../types'
 
 export class TimeoutError extends AppError {}
 
@@ -33,7 +34,7 @@ export interface PTimeoutOptions {
   /**
    * Will be merged with `err.data` object.
    */
-  errorData?: AnyObject
+  errorData?: ErrorData
 }
 
 /**

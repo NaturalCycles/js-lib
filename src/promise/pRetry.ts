@@ -1,4 +1,4 @@
-import { _since, _stringifyAny, AnyFunction, AnyObject, AppError, CommonLogger } from '..'
+import { _since, _stringifyAny, AnyFunction, AppError, CommonLogger, ErrorData } from '..'
 import { TimeoutError } from './pTimeout'
 
 export interface PRetryOptions {
@@ -95,7 +95,7 @@ export interface PRetryOptions {
   /**
    * Will be merged with `err.data` object.
    */
-  errorData?: AnyObject
+  errorData?: ErrorData
 }
 
 /**
