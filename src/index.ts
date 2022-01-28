@@ -12,7 +12,8 @@ export * from './decorators/debounce.decorator'
 export * from './decorators/decorator.util'
 export * from './decorators/logMethod.decorator'
 export * from './decorators/memo.decorator'
-import { MemoCache } from './decorators/memo.util'
+export * from './decorators/asyncMemo.decorator'
+import { MemoCache, AsyncMemoCache } from './decorators/memo.util'
 export * from './decorators/memoFn'
 export * from './decorators/retry.decorator'
 export * from './decorators/timeout.decorator'
@@ -160,6 +161,7 @@ export type {
   AbortableAsyncMapper,
   PQueueCfg,
   MemoCache,
+  AsyncMemoCache,
   PromiseDecoratorCfg,
   PromiseDecoratorResp,
   ErrorData,

@@ -1,4 +1,4 @@
-import { _Memo } from './memo.decorator'
+import { _Memo, CACHE_DROP } from './memo.decorator'
 
 class A {
   func(n: number): void {
@@ -33,7 +33,7 @@ test('memo a', () => {
   expect(a.func).toMatchSnapshot()
 
   // cleanup for the next tests
-  ;(a.a as any).dropCache()
+  ;(a.a as any)(CACHE_DROP)
 })
 
 test('MEMO_DROP_CACHE', () => {
@@ -44,7 +44,7 @@ test('MEMO_DROP_CACHE', () => {
   a.a(2, 3)
 
   // drop cache
-  ;(a.a as any).dropCache()
+  ;(a.a as any)(CACHE_DROP)
 
   // second call
   a.a(2, 3)
