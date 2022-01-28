@@ -1,4 +1,4 @@
-import { _since, _stringifyAny, AnyFunction, CommonLogger } from '..'
+import { _since, _stringifyAny, AnyFunction, AnyObject, AppError, CommonLogger } from '..'
 import { TimeoutError } from './pTimeout'
 
 export interface PRetryOptions {
@@ -91,6 +91,11 @@ export interface PRetryOptions {
    * @experimental
    */
   keepStackTrace?: boolean
+
+  /**
+   * Will be merged with `err.data` object.
+   */
+  errorData?: AnyObject
 }
 
 /**
@@ -139,7 +144,7 @@ export async function pRetry<T>(
   return await new Promise((resolve, reject) => {
     const rejectWithTimeout = () => {
       timedOut = true // to prevent more tries
-      const err = new TimeoutError(`"${fname}" timed out after ${timeout} ms`)
+      const err = new TimeoutError(`"${fname}" timed out after ${timeout} ms`, opt.errorData)
       if (fakeError) {
         // keep original stack
         err.stack = fakeError.stack!.replace('Error: RetryError', 'TimeoutError')
@@ -197,6 +202,11 @@ export async function pRetry<T>(
                 '\n    --' +
                 fakeError.stack!.replace('Error: RetryError', ''),
             })
+          }
+
+          ;(err as AppError).data = {
+            ...(err as AppError).data,
+            ...opt.errorData,
           }
 
           reject(err)

@@ -1,5 +1,5 @@
 import { AppError } from '../error/app.error'
-import { AnyFunction } from '../types'
+import { AnyFunction, AnyObject } from '../types'
 
 export class TimeoutError extends AppError {}
 
@@ -29,6 +29,11 @@ export interface PTimeoutOptions {
    * @experimental
    */
   keepStackTrace?: boolean
+
+  /**
+   * Will be merged with `err.data` object.
+   */
+  errorData?: AnyObject
 }
 
 /**
@@ -63,12 +68,19 @@ export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Pr
           resolve(onTimeout())
         } catch (err: any) {
           if (fakeError) err.stack = fakeError.stack // keep original stack
+          err.data = {
+            ...err.data,
+            ...opt.errorData,
+          }
           reject(err)
         }
         return
       }
 
-      const err = new TimeoutError(`"${name || 'pTimeout function'}" timed out after ${timeout} ms`)
+      const err = new TimeoutError(
+        `"${name || 'pTimeout function'}" timed out after ${timeout} ms`,
+        opt.errorData,
+      )
       if (fakeError) err.stack = fakeError.stack // keep original stack
       reject(err)
     }, timeout)
