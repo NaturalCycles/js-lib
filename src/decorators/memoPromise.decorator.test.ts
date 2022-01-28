@@ -1,4 +1,4 @@
-import { _Memo, CACHE_DROP } from './memo.decorator'
+import { _Memo } from './memo.decorator'
 
 class A {
   counter = 0
@@ -53,7 +53,7 @@ test('memo a', async () => {
   expect(a.func).toMatchSnapshot()
 
   // cleanup for the next tests
-  ;(a.a as any)(CACHE_DROP)
+  ;(a.a as any).dropCache()
 })
 
 test('MEMO_DROP_CACHE', async () => {
@@ -64,7 +64,7 @@ test('MEMO_DROP_CACHE', async () => {
   await a.a(2, 3)
 
   // drop cache
-  ;(a.a as any)(CACHE_DROP)
+  ;(a.a as any).dropCache()
 
   // second call
   await a.a(2, 3)
@@ -92,5 +92,5 @@ test('memo b', async () => {
   expect(a.func).toHaveBeenCalledTimes(1)
 
   // cleanup for the next tests
-  ;(a.b as any)(CACHE_DROP)
+  ;(a.b as any).dropCache()
 })

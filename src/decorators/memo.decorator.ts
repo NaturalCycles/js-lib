@@ -10,11 +10,6 @@ import { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
-/**
- * Symbol to indicate that the Cache should be dropped.
- */
-export const CACHE_DROP = Symbol('CACHE_DROP')
-
 export interface MemoOptions {
   /**
    * Default to false
@@ -111,13 +106,6 @@ export const _Memo =
     descriptor.value = function (this: typeof target, ...args: any[]): any {
       const ctx = this
 
-      if (args.length === 1 && args[0] === CACHE_DROP) {
-        // Special event - CACHE_DROP
-        // Function will return undefined
-        logger.log(`${methodSignature} @_Memo.CACHE_DROP`)
-        return cache.get(ctx)?.clear()
-      }
-
       const cacheKey = cacheKeyFn(args)
 
       if (!cache.has(ctx)) {
@@ -195,6 +183,11 @@ export const _Memo =
         return res
       }
     } as any
+    ;(descriptor.value as any).dropCache = () => {
+      logger.log(`${methodSignature} @_Memo.dropCache()`)
+      cache.forEach(memoCache => memoCache.clear())
+      cache.clear()
+    }
 
     return descriptor
   }

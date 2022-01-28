@@ -2,7 +2,7 @@ import { _since } from '../time/time.util'
 import { Merge } from '../typeFest'
 import { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
-import { CACHE_DROP, MemoOptions } from './memo.decorator'
+import { MemoOptions } from './memo.decorator'
 import { AsyncMemoCache, jsonMemoSerializer } from './memo.util'
 
 export type AsyncMemoOptions = Merge<
@@ -63,19 +63,6 @@ export const _AsyncMemo =
         cache.set(ctx, cacheFactory())
         // here, no need to check the cache. It's definitely a miss, because the cacheLayers is just created
         // UPD: no! AsyncMemo supports "persistent caches" (e.g Database-backed cache)
-      }
-
-      if (args.length === 1 && args[0] === CACHE_DROP) {
-        // Special event - CACHE_DROP
-        // Function will return undefined
-        logger.log(`${methodSignature} @_AsyncMemo.dropCache()`)
-        try {
-          await Promise.all(cache.get(ctx)!.map(c => c.clear()))
-        } catch (err) {
-          logger.error(err)
-        }
-
-        return
       }
 
       let value: any
@@ -146,6 +133,15 @@ export const _AsyncMemo =
         }
       }
     } as any
+    ;(descriptor.value as any).dropCache = async () => {
+      logger.log(`${methodSignature} @_AsyncMemo.dropCache()`)
+      try {
+        await Promise.all([...cache.values()].flatMap(c => c.map(c => c.clear())))
+        cache.clear()
+      } catch (err) {
+        logger.error(err)
+      }
+    }
 
     return descriptor
   }

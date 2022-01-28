@@ -1,5 +1,4 @@
 import { _AsyncMemo } from './asyncMemo.decorator'
-import { CACHE_DROP } from './memo.decorator'
 import { MapMemoCache } from './memo.util'
 
 class A {
@@ -37,7 +36,7 @@ test('memo a', async () => {
   expect(a.func).toMatchSnapshot()
 
   // cleanup for the next tests
-  await (a.a as any)(CACHE_DROP)
+  await (a.a as any).dropCache()
 })
 
 test('MEMO_DROP_CACHE', async () => {
@@ -48,7 +47,7 @@ test('MEMO_DROP_CACHE', async () => {
   await a.a(2, 3)
 
   // drop cache
-  await (a.a as any)(CACHE_DROP)
+  await (a.a as any).dropCache()
 
   // second call
   await a.a(2, 3)
