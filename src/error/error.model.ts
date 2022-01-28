@@ -32,6 +32,13 @@ export interface ErrorData {
   originalMessage?: string
 
   /**
+   * Can be used by error-reporting tools (e.g Sentry).
+   * If fingerprint is defined - it'll be used INSTEAD of default fingerprint of a tool.
+   * Can be used to force-group errors that are NOT needed to be split by endpoint or calling function.
+   */
+  fingerprint?: string[]
+
+  /**
    * Open-ended.
    */
   [k: string]: any
