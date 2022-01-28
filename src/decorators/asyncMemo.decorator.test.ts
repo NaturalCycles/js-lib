@@ -1,6 +1,6 @@
 import { _AsyncMemo } from './asyncMemo.decorator'
 import { CACHE_DROP } from './memo.decorator'
-import { MapAsyncMemoCache } from './memo.util'
+import { MapMemoCache } from './memo.util'
 
 class A {
   func(n: number): void {
@@ -8,7 +8,7 @@ class A {
   }
 
   @_AsyncMemo({
-    cacheFactory: () => [new MapAsyncMemoCache()],
+    cacheFactory: () => [new MapMemoCache()],
   })
   async a(a1: number, a2: number): Promise<number> {
     const n = a1 * a2
@@ -61,7 +61,7 @@ class B {
 
   @_AsyncMemo({
     // testing 2 cache layers, but should be no difference in this test
-    cacheFactory: () => [new MapAsyncMemoCache(), new MapAsyncMemoCache()],
+    cacheFactory: () => [new MapMemoCache(), new MapMemoCache()],
   })
   async a(a1 = 'def'): Promise<number> {
     console.log(`a called with a1=${a1}`)

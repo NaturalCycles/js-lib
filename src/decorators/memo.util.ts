@@ -1,4 +1,5 @@
 import { _isPrimitive } from '../object/object.util'
+import { Promisable } from '../typeFest'
 
 export type MemoSerializer = (args: any[]) => any
 
@@ -28,14 +29,14 @@ export interface AsyncMemoCache<KEY = any, VALUE = any> {
    * This also means that you CANNOT store `undefined` value in the Cache, as it'll be treated as a MISS.
    * You CAN store `null` value instead, it will be treated as a HIT.
    */
-  get(k: KEY): Promise<VALUE | undefined>
-  set(k: KEY, v: VALUE): Promise<void>
+  get(k: KEY): Promisable<VALUE | undefined>
+  set(k: KEY, v: VALUE): Promisable<void>
 
   /**
    * Clear is only called when `.dropCache()` is called.
    * Otherwise the Cache is "persistent" (never cleared).
    */
-  clear(): Promise<void>
+  clear(): Promisable<void>
 }
 
 // SingleValueMemoCache and ObjectMemoCache are example-only, not used in production code
@@ -84,7 +85,9 @@ export class ObjectMemoCache implements MemoCache {
 }
  */
 
-export class MapMemoCache<KEY = any, VALUE = any> implements MemoCache<KEY, VALUE> {
+export class MapMemoCache<KEY = any, VALUE = any>
+  implements MemoCache<KEY, VALUE>, AsyncMemoCache<KEY, VALUE>
+{
   private m = new Map<KEY, VALUE>()
 
   has(k: KEY): boolean {
@@ -100,22 +103,6 @@ export class MapMemoCache<KEY = any, VALUE = any> implements MemoCache<KEY, VALU
   }
 
   clear(): void {
-    this.m.clear()
-  }
-}
-
-export class MapAsyncMemoCache<KEY = any, VALUE = any> implements AsyncMemoCache<KEY, VALUE> {
-  private m = new Map<KEY, VALUE>()
-
-  async get(k: KEY): Promise<VALUE | undefined> {
-    return this.m.get(k)
-  }
-
-  async set(k: KEY, v: VALUE): Promise<void> {
-    this.m.set(k, v)
-  }
-
-  async clear(): Promise<void> {
     this.m.clear()
   }
 }
