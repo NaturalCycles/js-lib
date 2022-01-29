@@ -21,7 +21,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
     logMiss = false,
     logArgs = true,
     logger = console,
-    cacheErrors = false,
+    cacheErrors = true,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
@@ -32,28 +32,41 @@ export function _memoFn<T extends (...args: any[]) => any>(
   const memoizedFn = function (this: any, ...args: any[]): T {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
+    let value: any
 
     if (cache.has(cacheKey)) {
       if (logHit) {
         logger.log(`${fnName}(${_getArgsSignature(args, logArgs)}) memoFn hit`)
       }
 
-      return cache.get(cacheKey)
+      value = cache.get(cacheKey)
+
+      if (value instanceof Error) {
+        throw value
+      }
+
+      return value
     }
 
     const started = Date.now()
 
-    let value: any
-
     try {
       value = fn.apply(ctx, args)
 
-      cache.set(cacheKey, value)
+      try {
+        cache.set(cacheKey, value)
+      } catch (err) {
+        logger.error(err)
+      }
 
       return value
     } catch (err) {
       if (cacheErrors) {
-        cache.set(cacheKey, err)
+        try {
+          cache.set(cacheKey, err)
+        } catch (err) {
+          logger.error(err)
+        }
       }
 
       throw err

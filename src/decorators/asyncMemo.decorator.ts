@@ -18,9 +18,12 @@ export interface AsyncMemoOptions {
   cacheKeyFn?: (args: any[]) => any
 
   /**
-   * Set to `true` to cache rejected promises (errors).
+   * Default true.
    *
-   * Default false.
+   * Set to `false` to skip caching rejected promises (errors).
+   *
+   * True will ensure "max 1 execution", but will "remember" rejection.
+   * False will allow >1 execution in case of errors.
    */
   cacheRejections?: boolean
 
@@ -73,7 +76,7 @@ export const _AsyncMemo =
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      cacheRejections = false,
+      cacheRejections = true,
     } = opt
 
     const keyStr = String(key)
@@ -110,7 +113,11 @@ export const _AsyncMemo =
           )
         }
 
-        return value instanceof Error ? Promise.reject(value) : Promise.resolve(value)
+        if (value instanceof Error) {
+          throw value
+        }
+
+        return value
       }
 
       // Here we know it's a MISS, let's execute the real method

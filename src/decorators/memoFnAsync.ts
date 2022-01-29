@@ -20,7 +20,7 @@ export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
     logMiss = false,
     logArgs = true,
     logger = console,
-    cacheRejections = false,
+    cacheRejections = true,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
@@ -42,6 +42,10 @@ export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
     if (value !== undefined) {
       if (logHit) {
         logger.log(`${fnName}(${_getArgsSignature(args, logArgs)}) memoFnAsync hit`)
+      }
+
+      if (value instanceof Error) {
+        throw value
       }
 
       return value

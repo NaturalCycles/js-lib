@@ -18,8 +18,11 @@ export interface MemoOptions {
   cacheKeyFn?: (args: any[]) => any
 
   /**
-   * Defaults to false.
-   * Set to true to cache thrown errors.
+   * Defaults to true.
+   * Set to false to skip caching errors.
+   *
+   * True will ensure "max 1 execution", but will "remember" errors.
+   * False will allow >1 execution in case of errors.
    */
   cacheErrors?: boolean
 
@@ -89,7 +92,7 @@ export const _Memo =
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      cacheErrors = false,
+      cacheErrors = true,
     } = opt
 
     const keyStr = String(key)
@@ -97,8 +100,8 @@ export const _Memo =
 
     descriptor.value = function (this: typeof target, ...args: any[]): any {
       const ctx = this
-
       const cacheKey = cacheKeyFn(args)
+      let value: any
 
       if (!cache.has(ctx)) {
         cache.set(ctx, cacheFactory())
@@ -109,21 +112,34 @@ export const _Memo =
           )
         }
 
-        return cache.get(ctx)!.get(cacheKey)
+        value = cache.get(ctx)!.get(cacheKey)
+
+        if (value instanceof Error) {
+          throw value
+        }
+
+        return value
       }
 
       const started = Date.now()
-      let value: any
 
       try {
         value = originalFn.apply(ctx, args)
 
-        cache.get(ctx)!.set(cacheKey, value)
+        try {
+          cache.get(ctx)!.set(cacheKey, value)
+        } catch (err) {
+          logger.error(err)
+        }
 
         return value
       } catch (err) {
         if (cacheErrors) {
-          cache.get(ctx)!.set(cacheKey, err)
+          try {
+            cache.get(ctx)!.set(cacheKey, err)
+          } catch (err) {
+            logger.error(err)
+          }
         }
 
         throw err
