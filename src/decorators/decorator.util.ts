@@ -23,8 +23,8 @@ export function _getTargetMethodSignature(target: AnyObject, keyStr: string): st
  * returns:
  * a, b, c
  */
-export function _getArgsSignature(args: any[] = [], noLogArgs = false): string {
-  if (noLogArgs) return ''
+export function _getArgsSignature(args: any[] = [], logArgs = true): string {
+  if (!logArgs) return ''
 
   return args
     .map(arg => {

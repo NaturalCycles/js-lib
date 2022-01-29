@@ -18,7 +18,7 @@ import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 export interface MemoOpts {
   logHit?: boolean
   logMiss?: boolean
-  noLogArgs?: boolean
+  logArgs?: boolean
   logger?: CommonLogger
 }
 
@@ -57,7 +57,7 @@ export const memoSimple =
    */
     const cache: MemoCache = new MapMemoCache()
 
-    const { logHit, logMiss, noLogArgs, logger = console } = opt
+    const { logHit, logMiss, logArgs = true, logger = console } = opt
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
@@ -67,7 +67,7 @@ export const memoSimple =
 
       if (cache.has(cacheKey)) {
         if (logHit) {
-          logger.log(`${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo hit`)
+          logger.log(`${methodSignature}(${_getArgsSignature(args, logArgs)}) @memo hit`)
         }
         return cache.get(cacheKey)
       }
@@ -78,7 +78,7 @@ export const memoSimple =
 
       if (logMiss) {
         logger.log(
-          `${methodSignature}(${_getArgsSignature(args, noLogArgs)}) @memo miss (${
+          `${methodSignature}(${_getArgsSignature(args, logArgs)}) @memo miss (${
             Date.now() - d
           } ms)`,
         )

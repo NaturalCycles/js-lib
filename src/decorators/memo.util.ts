@@ -11,8 +11,8 @@ export const jsonMemoSerializer: MemoSerializer = args => {
 
 export interface MemoCache<KEY = any, VALUE = any> {
   has(k: KEY): boolean
-  get(k: KEY): VALUE | undefined
-  set(k: KEY, v: VALUE): void
+  get(k: KEY): VALUE | Error | undefined
+  set(k: KEY, v: VALUE | Error): void
 
   /**
    * Clear is only called when `.dropCache()` is called.
@@ -29,8 +29,8 @@ export interface AsyncMemoCache<KEY = any, VALUE = any> {
    * This also means that you CANNOT store `undefined` value in the Cache, as it'll be treated as a MISS.
    * You CAN store `null` value instead, it will be treated as a HIT.
    */
-  get(k: KEY): Promisable<VALUE | undefined>
-  set(k: KEY, v: VALUE): Promisable<void>
+  get(k: KEY): Promisable<VALUE | Error | undefined>
+  set(k: KEY, v: VALUE | Error): Promisable<void>
 
   /**
    * Clear is only called when `.dropCache()` is called.
@@ -88,17 +88,17 @@ export class ObjectMemoCache implements MemoCache {
 export class MapMemoCache<KEY = any, VALUE = any>
   implements MemoCache<KEY, VALUE>, AsyncMemoCache<KEY, VALUE>
 {
-  private m = new Map<KEY, VALUE>()
+  private m = new Map<KEY, VALUE | Error>()
 
   has(k: KEY): boolean {
     return this.m.has(k)
   }
 
-  get(k: KEY): VALUE | undefined {
+  get(k: KEY): VALUE | Error | undefined {
     return this.m.get(k)
   }
 
-  set(k: KEY, v: VALUE): void {
+  set(k: KEY, v: VALUE | Error): void {
     this.m.set(k, v)
   }
 

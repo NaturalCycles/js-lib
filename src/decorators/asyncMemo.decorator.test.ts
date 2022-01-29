@@ -6,9 +6,7 @@ class A {
     console.log(`func ${n}`)
   }
 
-  @_AsyncMemo({
-    cacheFactory: () => [new MapMemoCache()],
-  })
+  @_AsyncMemo()
   async a(a1: number, a2: number): Promise<number> {
     const n = a1 * a2
     this.func(n)
@@ -58,9 +56,10 @@ test('MEMO_DROP_CACHE', async () => {
 class B {
   cacheMisses = 0
 
+  @_AsyncMemo() // testing 2 layers of AsyncMemo!
   @_AsyncMemo({
-    // testing 2 cache layers, but should be no difference in this test
-    cacheFactory: () => [new MapMemoCache(), new MapMemoCache()],
+    // testing to provide specific cacheFactory, should be no difference in this test
+    cacheFactory: () => new MapMemoCache(),
   })
   async a(a1 = 'def'): Promise<number> {
     console.log(`a called with a1=${a1}`)

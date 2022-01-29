@@ -1,25 +1,51 @@
+import { CommonLogger } from '../log/commonLogger'
 import { _since } from '../time/time.util'
-import { Merge } from '../typeFest'
 import { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
-import { MemoOptions } from './memo.decorator'
-import { AsyncMemoCache, jsonMemoSerializer } from './memo.util'
+import { AsyncMemoCache, jsonMemoSerializer, MapMemoCache } from './memo.util'
 
-export type AsyncMemoOptions = Merge<
-  MemoOptions,
-  {
-    /**
-     * Provide a custom implementation of MemoCache.
-     * Function that creates an instance of `MemoCache`.
-     * e.g LRUMemoCache from `@naturalcycles/nodejs-lib`.
-     *
-     * It's an ARRAY of Caches, to allow multiple layers of Cache.
-     * It will check it one by one, starting from the first.
-     * HIT will be returned immediately, MISS will go one level deeper, or returned (if the end of the Cache stack is reached).
-     */
-    cacheFactory: () => AsyncMemoCache[]
-  }
->
+export interface AsyncMemoOptions {
+  /**
+   * Provide a custom implementation of MemoCache.
+   * Function that creates an instance of `MemoCache`.
+   * e.g LRUMemoCache from `@naturalcycles/nodejs-lib`.
+   */
+  cacheFactory?: () => AsyncMemoCache
+
+  /**
+   * Provide a custom implementation of CacheKey function.
+   */
+  cacheKeyFn?: (args: any[]) => any
+
+  /**
+   * Set to `true` to cache rejected promises (errors).
+   *
+   * Default false.
+   */
+  cacheRejections?: boolean
+
+  /**
+   * Default to false
+   */
+  logHit?: boolean
+
+  /**
+   * Default to false
+   */
+  logMiss?: boolean
+
+  /**
+   * Set to `false` to skip logging method arguments.
+   *
+   * Defaults to true.
+   */
+  logArgs?: boolean
+
+  /**
+   * Default to `console`
+   */
+  logger?: CommonLogger
+}
 
 /**
  * Like @_Memo, but allowing async MemoCache implementation.
@@ -29,7 +55,7 @@ export type AsyncMemoOptions = Merge<
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _AsyncMemo =
-  (opt: AsyncMemoOptions): MethodDecorator =>
+  (opt: AsyncMemoOptions = {}): MethodDecorator =>
   (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new TypeError('Memoization can be applied only to methods')
@@ -38,17 +64,16 @@ export const _AsyncMemo =
     const originalFn = descriptor.value
 
     // Map from "instance" of the Class where @_AsyncMemo is applied to AsyncMemoCache instance.
-    const cache = new Map<AnyObject, AsyncMemoCache[]>()
+    const cache = new Map<AnyObject, AsyncMemoCache>()
 
     const {
       logHit = false,
       logMiss = false,
-      noLogArgs = false,
+      logArgs = true,
       logger = console,
-      cacheFactory,
+      cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      noCacheRejected = false,
-      noCacheResolved = false,
+      cacheRejections = false,
     } = opt
 
     const keyStr = String(key)
@@ -68,13 +93,7 @@ export const _AsyncMemo =
       let value: any
 
       try {
-        for await (const cacheLayer of cache.get(ctx)!) {
-          value = await cacheLayer.get(cacheKey)
-          if (value !== undefined) {
-            // it's a hit!
-            break
-          }
-        }
+        value = await cache.get(ctx)!.get(cacheKey)
       } catch (err) {
         // log error, but don't throw, treat it as a "miss"
         logger.error(err)
@@ -86,7 +105,7 @@ export const _AsyncMemo =
           logger.log(
             `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
               args,
-              noLogArgs,
+              logArgs,
             )}) @_AsyncMemo hit`,
           )
         }
@@ -100,25 +119,30 @@ export const _AsyncMemo =
       try {
         value = await originalFn.apply(ctx, args)
 
-        if (!noCacheResolved) {
-          Promise.all(cache.get(ctx)!.map(cacheLayer => cacheLayer.set(cacheKey, value))).catch(
-            err => {
-              // log and ignore the error
-              logger.error(err)
-            },
-          )
-        }
+        // Save the value in the Cache, without awaiting it
+        // This is to support both sync and async functions
+        void (async () => {
+          try {
+            await cache.get(ctx)!.set(cacheKey, value)
+          } catch (err) {
+            // log and ignore the error
+            logger.error(err)
+          }
+        })()
 
         return value
       } catch (err) {
-        if (!noCacheRejected) {
+        if (cacheRejections) {
           // We put it to cache as raw Error, not Promise.reject(err)
-          Promise.all(cache.get(ctx)!.map(cacheLayer => cacheLayer.set(cacheKey, err))).catch(
-            err => {
+          // This is to support both sync and async functions
+          void (async () => {
+            try {
+              await cache.get(ctx)!.set(cacheKey, err)
+            } catch (err) {
               // log and ignore the error
               logger.error(err)
-            },
-          )
+            }
+          })()
         }
 
         throw err
@@ -127,7 +151,7 @@ export const _AsyncMemo =
           logger.log(
             `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
               args,
-              noLogArgs,
+              logArgs,
             )}) @_AsyncMemo miss (${_since(started)})`,
           )
         }
@@ -136,7 +160,7 @@ export const _AsyncMemo =
     ;(descriptor.value as any).dropCache = async () => {
       logger.log(`${methodSignature} @_AsyncMemo.dropCache()`)
       try {
-        await Promise.all([...cache.values()].flatMap(c => c.map(c => c.clear())))
+        await Promise.all([...cache.values()].map(c => c.clear()))
         cache.clear()
       } catch (err) {
         logger.error(err)

@@ -7,6 +7,11 @@ export interface MemoizedFunction {
   cache: MemoCache
 }
 
+/**
+ * Only supports Sync functions.
+ * To support Async functions - use _memoFnAsync.
+ * Technically, you can use it with Async functions, but it'll return the Promise without awaiting it.
+ */
 export function _memoFn<T extends (...args: any[]) => any>(
   fn: T,
   opt: MemoOptions = {},
@@ -14,16 +19,14 @@ export function _memoFn<T extends (...args: any[]) => any>(
   const {
     logHit = false,
     logMiss = false,
-    noLogArgs = false,
+    logArgs = true,
     logger = console,
-    noCacheRejected = false,
-    noCacheResolved = false,
+    cacheErrors = false,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
 
   const cache = cacheFactory()
-  const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
   const fnName = fn.name
 
   const memoizedFn = function (this: any, ...args: any[]): T {
@@ -32,68 +35,34 @@ export function _memoFn<T extends (...args: any[]) => any>(
 
     if (cache.has(cacheKey)) {
       if (logHit) {
-        logger.log(`${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn hit`)
+        logger.log(`${fnName}(${_getArgsSignature(args, logArgs)}) memoFn hit`)
       }
 
-      const res = cache.get(cacheKey)
-
-      if (awaitPromise) {
-        return res instanceof Error ? (Promise.reject(res) as any) : Promise.resolve(res)
-      } else {
-        return res
-      }
+      return cache.get(cacheKey)
     }
 
     const started = Date.now()
 
-    const res: any = fn.apply(ctx, args)
+    let value: any
 
-    if (awaitPromise) {
-      return (res as Promise<any>)
-        .then(res => {
-          // console.log('RESOLVED', res)
-          if (logMiss) {
-            logger.log(
-              `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss resolved (${_since(
-                started,
-              )})`,
-            )
-          }
+    try {
+      value = fn.apply(ctx, args)
 
-          if (!noCacheResolved) {
-            cache.set(cacheKey, res)
-          }
+      cache.set(cacheKey, value)
 
-          return res
-        })
-        .catch(err => {
-          // console.log('REJECTED', err)
-          if (logMiss) {
-            logger.log(
-              `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss rejected (${_since(
-                started,
-              )})`,
-            )
-          }
-
-          if (!noCacheRejected) {
-            // We put it to cache as raw Error, not Promise.reject(err)
-            // So, we'll need to check if it's instanceof Error to reject it or resolve
-            // Wrap as Error if it's not Error
-            cache.set(cacheKey, err instanceof Error ? err : new Error(err))
-          }
-
-          throw err
-        }) as any
-    } else {
-      if (logMiss) {
-        logger.log(
-          `${fnName}(${_getArgsSignature(args, noLogArgs)}) memoFn miss (${_since(started)})`,
-        )
+      return value
+    } catch (err) {
+      if (cacheErrors) {
+        cache.set(cacheKey, err)
       }
 
-      cache.set(cacheKey, res)
-      return res
+      throw err
+    } finally {
+      if (logMiss) {
+        logger.log(
+          `${fnName}(${_getArgsSignature(args, logArgs)}) memoFn miss (${_since(started)})`,
+        )
+      }
     }
   }
 

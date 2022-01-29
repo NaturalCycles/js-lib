@@ -16,14 +16,16 @@ export interface LogMethodOptions {
   avg?: number
 
   /**
-   * Skip logging method arguments
+   * Defaults to true.
+   * Set to false to skip logging method arguments
    */
-  noLogArgs?: boolean
+  logArgs?: boolean
 
   /**
-   * Skip logging result length when result is an array.
+   * Defaults to true.
+   * Set to false to skip logging result length when result is an array.
    */
-  noLogResultLength?: boolean
+  logResultLength?: boolean
 
   /**
    * Also log on method start.
@@ -74,12 +76,19 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
     const originalFn = descriptor.value
     const keyStr = String(key)
 
-    const { avg, noLogArgs, logStart, logResult, noLogResultLength, logger = console } = opt
+    const {
+      avg,
+      logArgs = true,
+      logStart,
+      logResult,
+      logResultLength = true,
+      logger = console,
+    } = opt
     let { logResultFn } = opt
     if (!logResultFn) {
       if (logResult) {
         logResultFn = r => ['result:', _stringifyAny(r)]
-      } else if (!noLogResultLength) {
+      } else if (logResultLength) {
         logResultFn = r => (Array.isArray(r) ? [`result: ${r.length} items`] : [])
       }
     }
@@ -94,7 +103,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
       // e.g `NameOfYourClass.methodName`
       // or `NameOfYourClass(instanceId).methodName`
       const methodSignature = _getMethodSignature(ctx, keyStr)
-      const argsStr = _getArgsSignature(args, noLogArgs)
+      const argsStr = _getArgsSignature(args, logArgs)
       const callSignature = `${methodSignature}(${argsStr}) #${++count}`
       if (logStart) logger.log(`>> ${callSignature}`)
 

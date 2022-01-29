@@ -1,9 +1,3 @@
-// Based on:
-// https://github.com/mgechev/memo-decorator/blob/master/index.ts
-// http://decodize.com/blog/2012/08/27/javascript-memoization-caching-results-for-better-performance/
-// http://inlehmansterms.net/2015/03/01/javascript-memoization/
-// https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
-
 import { CommonLogger } from '../log/commonLogger'
 import { _since } from '../time/time.util'
 import { AnyObject } from '../types'
@@ -11,25 +5,6 @@ import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } fro
 import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
 
 export interface MemoOptions {
-  /**
-   * Default to false
-   */
-  logHit?: boolean
-  /**
-   * Default to false
-   */
-  logMiss?: boolean
-
-  /**
-   * Skip logging method arguments.
-   */
-  noLogArgs?: boolean
-
-  /**
-   * Default to `console`
-   */
-  logger?: CommonLogger
-
   /**
    * Provide a custom implementation of MemoCache.
    * Function that creates an instance of `MemoCache`.
@@ -43,20 +18,30 @@ export interface MemoOptions {
   cacheKeyFn?: (args: any[]) => any
 
   /**
-   * Don't cache resolved promises.
-   * Setting this to `true` will make the decorator to await the result.
-   *
-   * Default false.
+   * Defaults to false.
+   * Set to true to cache thrown errors.
    */
-  noCacheResolved?: boolean
+  cacheErrors?: boolean
 
   /**
-   * Don't cache rejected promises.
-   * Setting this to `true` will make the decorator to await the result.
-   *
-   * Default false.
+   * Default to false
    */
-  noCacheRejected?: boolean
+  logHit?: boolean
+  /**
+   * Default to false
+   */
+  logMiss?: boolean
+
+  /**
+   * Defaults to true.
+   * Set to false to skip logging method arguments.
+   */
+  logArgs?: boolean
+
+  /**
+   * Default to `console`
+   */
+  logger?: CommonLogger
 }
 
 /**
@@ -68,6 +53,15 @@ export interface MemoOptions {
  * If you don't want it that way - you can use a static method, then there will be only one "instance".
  *
  * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
+ *
+ * Doesn't support Async functions, use @_AsyncMemo instead!
+ * (or, it will simply return the [unresolved] Promise further, without awaiting it)
+ *
+ * Based on:
+ * https://github.com/mgechev/memo-decorator/blob/master/index.ts
+ * http://decodize.com/blog/2012/08/27/javascript-memoization-caching-results-for-better-performance/
+ * http://inlehmansterms.net/2015/03/01/javascript-memoization/
+ * https://community.risingstack.com/the-worlds-fastest-javascript-memoization-library/
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
@@ -91,15 +85,13 @@ export const _Memo =
     const {
       logHit = false,
       logMiss = false,
-      noLogArgs = false,
+      logArgs = true,
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      noCacheRejected = false,
-      noCacheResolved = false,
+      cacheErrors = false,
     } = opt
 
-    const awaitPromise = Boolean(noCacheRejected || noCacheResolved)
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
@@ -113,74 +105,37 @@ export const _Memo =
       } else if (cache.get(ctx)!.has(cacheKey)) {
         if (logHit) {
           logger.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(args, noLogArgs)}) @_Memo hit`,
+            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(args, logArgs)}) @_Memo hit`,
           )
         }
 
-        const res = cache.get(ctx)!.get(cacheKey)
-
-        if (awaitPromise) {
-          return res instanceof Error ? Promise.reject(res) : Promise.resolve(res)
-        } else {
-          return res
-        }
+        return cache.get(ctx)!.get(cacheKey)
       }
 
       const started = Date.now()
+      let value: any
 
-      const res: any = originalFn.apply(ctx, args)
+      try {
+        value = originalFn.apply(ctx, args)
 
-      if (awaitPromise) {
-        return (res as Promise<any>)
-          .then(res => {
-            // console.log('RESOLVED', res)
-            if (logMiss) {
-              logger.log(
-                `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-                  args,
-                  noLogArgs,
-                )}) @_Memo miss resolved (${_since(started)})`,
-              )
-            }
+        cache.get(ctx)!.set(cacheKey, value)
 
-            if (!noCacheResolved) {
-              cache.get(ctx)!.set(cacheKey, res)
-            }
+        return value
+      } catch (err) {
+        if (cacheErrors) {
+          cache.get(ctx)!.set(cacheKey, err)
+        }
 
-            return res
-          })
-          .catch(err => {
-            // console.log('REJECTED', err)
-            if (logMiss) {
-              logger.log(
-                `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-                  args,
-                  noLogArgs,
-                )}) @_Memo miss rejected (${_since(started)})`,
-              )
-            }
-
-            if (!noCacheRejected) {
-              // We put it to cache as raw Error, not Promise.reject(err)
-              // So, we'll need to check if it's instanceof Error to reject it or resolve
-              // Wrap as Error if it's not Error
-              cache.get(ctx)!.set(cacheKey, err instanceof Error ? err : new Error(err))
-            }
-
-            throw err
-          })
-      } else {
+        throw err
+      } finally {
         if (logMiss) {
           logger.log(
             `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
               args,
-              noLogArgs,
+              logArgs,
             )}) @_Memo miss (${_since(started)})`,
           )
         }
-
-        cache.get(ctx)!.set(cacheKey, res)
-        return res
       }
     } as any
     ;(descriptor.value as any).dropCache = () => {
