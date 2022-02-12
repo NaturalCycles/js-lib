@@ -167,6 +167,11 @@ export type IsoDateTime = string
 export type UnixTimestamp = number
 
 /**
+ * Same as `number`, but with semantic meaning that it's an Integer.
+ */
+export type Integer = number
+
+/**
  * Base interface for any Entity that was saved to DB.
  */
 export interface SavedDBEntity<ID = string> {
