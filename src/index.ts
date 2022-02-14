@@ -155,6 +155,7 @@ export * from './string/safeJsonStringify'
 import { PQueue, PQueueCfg } from './promise/pQueue'
 export * from './seq/seq'
 export * from './math/stack.util'
+export * from './string/leven'
 
 export type {
   AbortableMapper,
