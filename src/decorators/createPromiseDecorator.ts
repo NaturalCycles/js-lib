@@ -5,9 +5,9 @@ export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
 
   /**
    * Called BEFORE the original function.
-   * Returns void.
+   * If Promise is returned - it will be awaited.
    */
-  beforeFn?: (r: PromiseDecoratorResp<PARAMS>) => void
+  beforeFn?: (r: PromiseDecoratorResp<PARAMS>) => void | Promise<void>
 
   /**
    * Called just AFTER the original function.
@@ -73,77 +73,71 @@ export function _createPromiseDecorator<RES = any, PARAMS = any>(
       // console.log(`@${cfg.decoratorName} called inside function`)
       const started = Date.now()
 
-      return (
-        Promise.resolve()
-          // Before function
-          .then(() => {
-            // console.log(`@${cfg.decoratorName} Before`)
-            if (cfg.beforeFn) {
-              return cfg.beforeFn({
-                decoratorParams,
-                args,
-                key,
-                target,
-                decoratorName,
-                started,
-              })
-            }
+      try {
+        // Before function
+        // console.log(`@${cfg.decoratorName} Before`)
+        if (cfg.beforeFn) {
+          await cfg.beforeFn({
+            decoratorParams,
+            args,
+            key,
+            target,
+            decoratorName,
+            started,
           })
-          // Original function
-          .then(() => originalMethod.apply(this, args))
-          .then(res => {
-            // console.log(`${cfg.decoratorName} After`)
-            const resp: PromiseDecoratorResp<PARAMS> = {
-              decoratorParams,
-              args,
-              key,
-              target,
-              decoratorName,
-              started,
-            }
+        }
 
-            if (cfg.thenFn) {
-              res = cfg.thenFn({
-                ...resp,
-                res,
-              })
-            }
+        // Original function
+        let res = await originalMethod.apply(this, args)
 
-            cfg.finallyFn?.(resp)
+        // console.log(`${cfg.decoratorName} After`)
+        const resp: PromiseDecoratorResp<PARAMS> = {
+          decoratorParams,
+          args,
+          key,
+          target,
+          decoratorName,
+          started,
+        }
 
-            return res
+        if (cfg.thenFn) {
+          res = cfg.thenFn({
+            ...resp,
+            res,
           })
-          .catch(err => {
-            console.error(`@${decoratorName} ${methodSignature} catch:`, err)
+        }
 
-            const resp: PromiseDecoratorResp<PARAMS> = {
-              decoratorParams,
-              args,
-              key,
-              target,
-              decoratorName,
-              started,
-            }
+        cfg.finallyFn?.(resp)
 
-            let handled = false
+        return res
+      } catch (err) {
+        console.error(`@${decoratorName} ${methodSignature} catch:`, err)
 
-            if (cfg.catchFn) {
-              cfg.catchFn({
-                ...resp,
-                err,
-              })
-              handled = true
-            }
+        const resp: PromiseDecoratorResp<PARAMS> = {
+          decoratorParams,
+          args,
+          key,
+          target,
+          decoratorName,
+          started,
+        }
 
-            cfg.finallyFn?.(resp)
+        let handled = false
 
-            if (!handled) {
-              throw err // rethrow
-            }
+        if (cfg.catchFn) {
+          cfg.catchFn({
+            ...resp,
+            err,
           })
-        // es2018 only
-        // .finally(() => {})
-      )
+          handled = true
+        }
+
+        cfg.finallyFn?.(resp)
+
+        if (!handled) {
+          throw err // rethrow
+        }
+      }
     }
 
     return pd
