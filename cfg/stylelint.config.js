@@ -2,8 +2,12 @@ module.exports = {
   extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier'],
   rules: {
     'no-empty-source': null,
-    'length-zero-no-unit': true,
     'color-hex-length': 'short',
+    'length-zero-no-unit': [
+      true,
+      // keep units in css variables because their absence breaks css calculations
+      { ignore: ['custom-properties'] },
+    ],
     // Prettier covers these rules already:
     // 'color-hex-case': 'lower',
     // 'number-leading-zero': 'always',
