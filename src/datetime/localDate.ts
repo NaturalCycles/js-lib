@@ -1,6 +1,7 @@
 import { _assert } from '../error/assert'
 import { Sequence } from '../seq/seq'
 import { END, IsoDate } from '../types'
+import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
 
@@ -354,6 +355,10 @@ export class LocalDate {
    */
   toDate(): Date {
     return new Date(this.year, this.month - 1, this.day)
+  }
+
+  toLocalTime(): LocalTime {
+    return LocalTime.of(this.toDate())
   }
 
   toString(): IsoDate {

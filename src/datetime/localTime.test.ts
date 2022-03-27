@@ -10,7 +10,7 @@ test('basic', () => {
   expect(lt.year()).toBe(2022)
   expect(lt.month()).toBe(1)
   expect(lt.date()).toBe(1)
-  expect(lt.toISO8601()).toBe('2022-01-01T00:00:00')
+  expect(lt.toISODateTime()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
   expect(lt.toPretty(false)).toBe('2022-01-01 00:00')
   expect(lt.unix()).toBe(1640995200)
@@ -30,8 +30,11 @@ test('basic', () => {
   expect(lt.year(2023).year()).toBe(2023)
   expect(lt.year()).toBe(2022) // not changed
 
+  expect(lt.toISODate()).toBe('2022-01-01')
   expect(lt.toStringCompact()).toBe('20220101_0000')
   expect(lt.toStringCompact(true)).toBe('20220101_000000')
+
+  expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 })
 
 test('validation', () => {
@@ -53,7 +56,7 @@ test('add', () => {
   units.forEach(unit => {
     _range(1000).forEach(i => {
       expect(lt.add(i, unit).unix()).toBe(d.add(i, unit).unix())
-      expect(lt.add(i, unit).toISO8601() + '+00:00').toBe(d.add(i, unit).format())
+      expect(lt.add(i, unit).toISODateTime() + '+00:00').toBe(d.add(i, unit).format())
     })
   })
 })

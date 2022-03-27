@@ -11,6 +11,9 @@ test('basic', () => {
   expect(JSON.parse(JSON.stringify(ld))).toBe(str)
   expect(ld.absDiff(str, 'day')).toBe(0)
   expect(ld.clone().isSame(ld)).toBe(true)
+
+  expect(ld.toLocalTime().toISODateTime()).toBe('1984-06-21T00:00:00')
+  expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
 })
 
 test('sort', () => {

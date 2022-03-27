@@ -1,5 +1,6 @@
 import { _assert } from '../error/assert'
-import { IsoDateTime, UnixTimestamp } from '../types'
+import { IsoDate, IsoDateTime, UnixTimestamp } from '../types'
+import { LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
 
@@ -355,8 +356,12 @@ export class LocalTime {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
-  toISO8601(): IsoDateTime {
-    return this.$date.toISOString().slice(0, 19)
+  toLocalDate(): LocalDate {
+    return LocalDate.create(
+      this.$date.getFullYear(),
+      this.$date.getMonth() + 1,
+      this.$date.getDate(),
+    )
   }
 
   toPretty(seconds = true): IsoDateTime {
@@ -365,6 +370,20 @@ export class LocalTime {
       .slice(0, seconds ? 19 : 16)
       .split('T')
       .join(' ')
+  }
+
+  /**
+   * Returns e.g: `1984-06-21T17:56:21`, only the date part of DateTime
+   */
+  toISODateTime(): IsoDateTime {
+    return this.$date.toISOString().slice(0, 19)
+  }
+
+  /**
+   * Returns e.g: `1984-06-21`, only the date part of DateTime
+   */
+  toISODate(): IsoDate {
+    return this.$date.toISOString().slice(0, 10)
   }
 
   /**
