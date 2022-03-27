@@ -352,6 +352,10 @@ export class LocalTime {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
+  unixMillis(): number {
+    return this.$date.valueOf()
+  }
+
   valueOf(): UnixTimestamp {
     return Math.floor(this.$date.valueOf() / 1000)
   }

@@ -1,6 +1,6 @@
 import { _assert } from '../error/assert'
 import { Sequence } from '../seq/seq'
-import { END, IsoDate } from '../types'
+import { END, IsoDate, UnixTimestamp } from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
@@ -361,6 +361,10 @@ export class LocalDate {
     return LocalTime.of(this.toDate())
   }
 
+  toISODate(): IsoDate {
+    return this.toString()
+  }
+
   toString(): IsoDate {
     return [
       String(this.year).padStart(4, '0'),
@@ -375,6 +379,15 @@ export class LocalDate {
       String(this.month).padStart(2, '0'),
       String(this.day).padStart(2, '0'),
     ].join('')
+  }
+
+  // May be not optimal, as LocalTime better suits it
+  unix(): UnixTimestamp {
+    return Math.floor(this.toDate().valueOf() / 1000)
+  }
+
+  unixMillis(): number {
+    return this.toDate().valueOf()
   }
 
   toJSON(): IsoDate {
