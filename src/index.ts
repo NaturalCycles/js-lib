@@ -156,8 +156,17 @@ import { PQueue, PQueueCfg } from './promise/pQueue'
 export * from './seq/seq'
 export * from './math/stack.util'
 export * from './string/leven'
+export * from './datetime/localDate'
+export * from './datetime/localTime'
+import { LocalDateConfig, LocalDateUnit } from './datetime/localDate'
+import { LocalTimeConfig, LocalTimeUnit, LocalTimeComponents } from './datetime/localTime'
 
 export type {
+  LocalDateConfig,
+  LocalDateUnit,
+  LocalTimeConfig,
+  LocalTimeUnit,
+  LocalTimeComponents,
   AbortableMapper,
   AbortablePredicate,
   AbortableAsyncPredicate,
