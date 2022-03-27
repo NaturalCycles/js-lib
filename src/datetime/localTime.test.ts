@@ -28,6 +28,9 @@ test('basic', () => {
 
   expect(lt.year(2023).year()).toBe(2023)
   expect(lt.year()).toBe(2022) // not changed
+
+  expect(lt.toStringCompact()).toBe('20220101_0000')
+  expect(lt.toStringCompact(true)).toBe('20220101_000000')
 })
 
 test('validation', () => {

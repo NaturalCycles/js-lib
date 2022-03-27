@@ -343,6 +343,21 @@ export class LocalTime {
     return this.$date.toISOString().slice(0, 19).split('T').join(' ')
   }
 
+  /**
+   * Returns e.g: `19840621_1705`
+   */
+  toStringCompact(seconds = false): string {
+    return [
+      String(this.$date.getFullYear()).padStart(4, '0'),
+      String(this.$date.getMonth() + 1).padStart(2, '0'),
+      String(this.$date.getDate()).padStart(2, '0'),
+      '_',
+      String(this.$date.getHours()).padStart(2, '0'),
+      String(this.$date.getMinutes()).padStart(2, '0'),
+      seconds ? String(this.$date.getSeconds()).padStart(2, '0') : '',
+    ].join('')
+  }
+
   toString(): string {
     return String(this.unix())
   }
