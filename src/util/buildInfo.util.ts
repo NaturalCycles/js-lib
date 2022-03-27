@@ -1,4 +1,4 @@
-import { dayjs } from '@naturalcycles/time-lib'
+import { localTime } from '@naturalcycles/js-lib'
 import { BuildInfo } from './buildInfo.model'
 import {
   gitCurrentBranchName,
@@ -8,7 +8,7 @@ import {
 } from './git.util'
 
 export async function generateBuildInfo(dev = false): Promise<BuildInfo> {
-  const now = dayjs()
+  const now = localTime()
 
   const [rev, branchName, repoName, tsCommit] = dev
     ? ['devRev', 'devBranch', 'devRepo', now.unix()]
@@ -23,7 +23,7 @@ export async function generateBuildInfo(dev = false): Promise<BuildInfo> {
 
   const tsStr = now.toPretty()
 
-  const ver = [now.toCompactTime(), repoName, branchName, rev].join('_')
+  const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
 
   return {
     ts,
