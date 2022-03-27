@@ -36,22 +36,42 @@ export class LocalTime {
    * Input can already be a LocalDate - it is returned as-is in that case.
    */
   static of(d: LocalTimeConfig): LocalTime {
-    if (d instanceof LocalTime) return d
-    if (d instanceof Date) return new LocalTime(d)
+    const t = this.parseOrNull(d)
 
-    if (typeof d === 'number') {
-      // unix timestamp
-      return new LocalTime(new Date(d * 1000))
-    }
-
-    const date = new Date(d)
-
-    // validation
-    if (isNaN(date.getDate())) {
+    if (t === null) {
       throw new TypeError(`Cannot parse "${d}" into LocalTime`)
     }
 
+    return t
+  }
+
+  /**
+   * Returns null if invalid
+   */
+  static parseOrNull(d: LocalTimeConfig): LocalTime | null {
+    if (d instanceof LocalTime) return d
+
+    let date
+
+    if (d instanceof Date) {
+      date = d
+    } else if (typeof d === 'number') {
+      date = new Date(d * 1000)
+    } else {
+      date = new Date(d)
+    }
+
+    // validation
+    if (isNaN(date.getDate())) {
+      // throw new TypeError(`Cannot parse "${d}" into LocalTime`)
+      return null
+    }
+
     return new LocalTime(date)
+  }
+
+  static isValid(d: LocalTimeConfig): boolean {
+    return this.parseOrNull(d) !== null
   }
 
   static unix(ts: UnixTimestamp): LocalTime {
@@ -339,8 +359,12 @@ export class LocalTime {
     return this.$date.toISOString().slice(0, 19)
   }
 
-  toPretty(): IsoDateTime {
-    return this.$date.toISOString().slice(0, 19).split('T').join(' ')
+  toPretty(seconds = true): IsoDateTime {
+    return this.$date
+      .toISOString()
+      .slice(0, seconds ? 19 : 16)
+      .split('T')
+      .join(' ')
   }
 
   /**

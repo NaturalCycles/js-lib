@@ -23,21 +23,19 @@ export class LocalDate {
    * Input can already be a LocalDate - it is returned as-is in that case.
    */
   static of(d: LocalDateConfig): LocalDate {
-    if (d instanceof LocalDate) return d
+    const t = this.parseOrNull(d)
 
-    const [year, month, day] = d.slice(0, 10).split('-').map(Number)
-
-    if (!day || !month || (!year && year !== 0)) {
+    if (t === null) {
       throw new Error(`Cannot parse "${d}" into LocalDate`)
     }
 
-    return new LocalDate(year, month, day)
+    return t
   }
 
   static parseCompact(d: string): LocalDate {
     const [year, month, day] = [d.slice(0, 4), d.slice(4, 2), d.slice(6, 2)].map(Number)
 
-    if (!day || !month || (!year && year !== 0)) {
+    if (!day || !month || !year) {
       throw new Error(`Cannot parse "${d}" into LocalDate`)
     }
 
@@ -46,6 +44,34 @@ export class LocalDate {
 
   static fromDate(d: Date): LocalDate {
     return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
+  }
+
+  /**
+   * Returns null if invalid.
+   */
+  static parseOrNull(d: LocalDateConfig): LocalDate | null {
+    if (d instanceof LocalDate) return d
+
+    // todo: explore more performant options
+    const [year, month, day] = d.slice(0, 10).split('-').map(Number)
+
+    if (
+      !year ||
+      !month ||
+      month < 1 ||
+      month > 12 ||
+      !day ||
+      day < 1 ||
+      day > this.getMonthLength(year, month)
+    ) {
+      return null
+    }
+
+    return new LocalDate(year, month, day)
+  }
+
+  static isValid(iso: string): boolean {
+    return this.parseOrNull(iso) !== null
   }
 
   static today(): LocalDate {
@@ -203,21 +229,21 @@ export class LocalDate {
 
     if (d.year < this.year) {
       for (let year = d.year; year < this.year; year++) {
-        days += this.getYearDays(year)
+        days += LocalDate.getYearLength(year)
       }
     } else if (this.year < d.year) {
       for (let year = this.year; year < d.year; year++) {
-        days -= this.getYearDays(year)
+        days -= LocalDate.getYearLength(year)
       }
     }
 
     if (d.month < this.month) {
       for (let month = d.month; month < this.month; month++) {
-        days += this.getMonthLen(this.year, month)
+        days += LocalDate.getMonthLength(this.year, month)
       }
     } else if (this.month < d.month) {
       for (let month = this.month; month < d.month; month++) {
-        days -= this.getMonthLen(d.year, month)
+        days -= LocalDate.getMonthLength(d.year, month)
       }
     }
 
@@ -236,7 +262,7 @@ export class LocalDate {
     }
 
     // check day overflow
-    let monLen = this.getMonthLen(year, month)
+    let monLen = LocalDate.getMonthLength(year, month)
     while (day > monLen) {
       day -= monLen
       month += 1
@@ -245,7 +271,7 @@ export class LocalDate {
         month -= 12
       }
 
-      monLen = this.getMonthLen(year, month)
+      monLen = LocalDate.getMonthLength(year, month)
     }
     while (day < 1) {
       day += monLen
@@ -255,7 +281,7 @@ export class LocalDate {
         month += 12
       }
 
-      monLen = this.getMonthLen(year, month)
+      monLen = LocalDate.getMonthLength(year, month)
     }
 
     // check month overflow
@@ -292,21 +318,25 @@ export class LocalDate {
   endOf(unit: LocalDateUnit): LocalDate {
     if (unit === 'day') return this
     if (unit === 'month')
-      return LocalDate.create(this.year, this.month, this.getMonthLen(this.year, this.month))
+      return LocalDate.create(
+        this.year,
+        this.month,
+        LocalDate.getMonthLength(this.year, this.month),
+      )
     // year
     return LocalDate.create(this.year, 12, 31)
   }
 
-  private getYearDays(year: number): number {
+  static getYearLength(year: number): number {
     return this.isLeapYear(year) ? 366 : 365
   }
 
-  private getMonthLen(year: number, month: number): number {
+  static getMonthLength(year: number, month: number): number {
     if (month === 2) return this.isLeapYear(year) ? 29 : 28
     return m31.has(month) ? 31 : 30
   }
 
-  private isLeapYear(year: number): boolean {
+  static isLeapYear(year: number): boolean {
     if (year % 4 !== 0) return false
     if (year % 100 !== 0) return true
     return year % 400 === 0

@@ -12,6 +12,7 @@ test('basic', () => {
   expect(lt.date()).toBe(1)
   expect(lt.toISO8601()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
+  expect(lt.toPretty(false)).toBe('2022-01-01 00:00')
   expect(lt.unix()).toBe(1640995200)
   expect(lt.valueOf()).toBe(1640995200)
   expect(lt.toJSON()).toBe(1640995200)
@@ -37,6 +38,11 @@ test('validation', () => {
   expect(() => localTime('abcd')).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse \\"abcd\\" into LocalTime"`,
   )
+
+  expect(LocalTime.isValid('2022-01-01')).toBe(true)
+  expect(LocalTime.isValid('abcd')).toBe(false)
+  expect(LocalTime.isValid('2022-01-32')).toBe(false)
+  expect(LocalTime.isValid('2022-01-31')).toBe(true)
 })
 
 test('add', () => {

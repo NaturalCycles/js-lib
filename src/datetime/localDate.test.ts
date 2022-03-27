@@ -88,6 +88,10 @@ test('validate', () => {
   expect(() => LocalDate.of('2022-01-x1')).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse \\"2022-01-x1\\" into LocalDate"`,
   )
+
+  expect(LocalDate.isValid('2022-01-01')).toBe(true)
+  expect(LocalDate.isValid('2022-01-32')).toBe(false)
+  expect(LocalDate.isValid('abcd')).toBe(false)
 })
 
 test('toDate', () => {

@@ -7,7 +7,7 @@ yarn tsn localDateBench
 /* eslint-disable unused-imports/no-unused-vars */
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
-import { LocalDate } from '../src/datetime/localDate'
+import { LocalDate } from '../src'
 
 const str = '1984-06-21'
 
