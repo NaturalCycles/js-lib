@@ -47,6 +47,10 @@ export class LocalDate {
     return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
   }
 
+  static fromDateUTC(d: Date): LocalDate {
+    return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
+  }
+
   /**
    * Returns null if invalid.
    */
@@ -77,6 +81,10 @@ export class LocalDate {
 
   static today(): LocalDate {
     return this.fromDate(new Date())
+  }
+
+  static todayUTC(): LocalDate {
+    return this.fromDateUTC(new Date())
   }
 
   static sort(items: LocalDate[], mutate = false, descending = false): LocalDate[] {

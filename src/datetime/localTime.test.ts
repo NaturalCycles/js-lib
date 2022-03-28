@@ -31,10 +31,22 @@ test('basic', () => {
   expect(lt.year()).toBe(2022) // not changed
 
   expect(lt.toISODate()).toBe('2022-01-01')
+  expect(lt.toISOTime()).toBe('00:00:00')
+  expect(lt.toISOTime(false)).toBe('00:00')
   expect(lt.toStringCompact()).toBe('20220101_0000')
   expect(lt.toStringCompact(true)).toBe('20220101_000000')
 
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
+})
+
+test('fromNow', () => {
+  const past = localTime('2022-02-24')
+  const now = localTime('2022-03-28')
+  const future = localTime('2022-04-01')
+
+  expect(past.fromNow(now)).toBe('32 days ago')
+  expect(now.fromNow(now)).toBe('now')
+  expect(future.fromNow(now)).toBe('in 4 days')
 })
 
 test('validation', () => {

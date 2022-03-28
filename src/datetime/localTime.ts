@@ -1,4 +1,5 @@
 import { _assert } from '../error/assert'
+import { _ms } from '../time/time.util'
 import { IsoDate, IsoDateTime, UnixTimestamp } from '../types'
 import { LocalDate } from './localDate'
 
@@ -30,7 +31,7 @@ export interface LocalTimeComponents {
  * @experimental
  */
 export class LocalTime {
-  private constructor(private $date: Date) {}
+  private constructor(private $date: Date, public utcMode: boolean) {}
 
   /**
    * Parses input String into LocalDate.
@@ -44,6 +45,16 @@ export class LocalTime {
     }
 
     return t
+  }
+
+  utc(): this {
+    this.utcMode = true
+    return this
+  }
+
+  local(): this {
+    this.utcMode = false
+    return this
   }
 
   /**
@@ -68,63 +79,65 @@ export class LocalTime {
       return null
     }
 
-    return new LocalTime(date)
+    // if (utc) {
+    //   date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    // }
+
+    return new LocalTime(date, false)
   }
 
   static isValid(d: LocalTimeConfig): boolean {
     return this.parseOrNull(d) !== null
   }
 
-  static unix(ts: UnixTimestamp): LocalTime {
-    return new LocalTime(new Date(ts * 1000))
-  }
-
   static now(): LocalTime {
-    return this.of(new Date())
+    return new LocalTime(new Date(), false)
   }
 
   static fromComponents(
     c: { year: number; month: number } & Partial<LocalTimeComponents>,
   ): LocalTime {
-    return new LocalTime(new Date(c.year, c.month - 1, c.day, c.hour, c.minute, c.second))
+    return new LocalTime(new Date(c.year, c.month - 1, c.day, c.hour, c.minute, c.second), false)
   }
 
   get(unit: LocalTimeUnit): number {
     if (unit === 'year') {
-      return this.$date.getFullYear()
+      return this.utcMode ? this.$date.getUTCFullYear() : this.$date.getFullYear()
     }
     if (unit === 'month') {
-      return this.$date.getMonth() + 1
+      return (this.utcMode ? this.$date.getUTCMonth() : this.$date.getMonth()) + 1
     }
     if (unit === 'day') {
-      return this.$date.getDate()
+      return this.utcMode ? this.$date.getUTCDate() : this.$date.getDate()
     }
     if (unit === 'hour') {
-      return this.$date.getHours()
+      return this.utcMode ? this.$date.getUTCHours() : this.$date.getHours()
     }
     if (unit === 'minute') {
-      return this.$date.getMinutes()
+      return this.utcMode ? this.$date.getUTCMinutes() : this.$date.getMinutes()
     }
     // second
-    return this.$date.getSeconds()
+    return this.utcMode ? this.$date.getUTCSeconds() : this.$date.getSeconds()
   }
 
   set(unit: LocalTimeUnit, v: number, mutate = false): LocalTime {
     const t = mutate ? this : this.clone()
 
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     if (unit === 'year') {
-      t.$date.setFullYear(v)
+      this.utcMode ? t.$date.setUTCFullYear(v) : t.$date.setFullYear(v)
     } else if (unit === 'month') {
-      t.$date.setMonth(v - 1)
+      this.utcMode ? t.$date.setUTCMonth(v - 1) : t.$date.setMonth(v - 1)
     } else if (unit === 'day') {
-      t.$date.setDate(v)
+      this.utcMode ? t.$date.setUTCDate(v) : t.$date.setDate(v)
     } else if (unit === 'hour') {
-      t.$date.setHours(v)
+      this.utcMode ? t.$date.setUTCHours(v) : t.$date.setHours(v)
     } else if (unit === 'minute') {
-      t.$date.setMinutes(v)
+      this.utcMode ? t.$date.setUTCMinutes(v) : t.$date.setMinutes(v)
     } else if (unit === 'second') {
-      t.$date.setSeconds(v)
+      this.utcMode ? t.$date.setUTCSeconds(v) : t.$date.setSeconds(v)
     }
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
 
     return t
   }
@@ -132,57 +145,59 @@ export class LocalTime {
   year(): number
   year(v: number): LocalTime
   year(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getFullYear() : this.set('year', v)
+    return v === undefined ? this.get('year') : this.set('year', v)
   }
   month(): number
   month(v: number): LocalTime
   month(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getMonth() + 1 : this.set('month', v)
+    return v === undefined ? this.get('month') : this.set('month', v)
   }
   date(): number
   date(v: number): LocalTime
   date(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getDate() : this.set('day', v)
+    return v === undefined ? this.get('day') : this.set('day', v)
   }
   hour(): number
   hour(v: number): LocalTime
   hour(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getHours() : this.set('hour', v)
+    return v === undefined ? this.get('hour') : this.set('hour', v)
   }
   minute(): number
   minute(v: number): LocalTime
   minute(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getMinutes() : this.set('minute', v)
+    return v === undefined ? this.get('minute') : this.set('minute', v)
   }
   second(): number
   second(v: number): LocalTime
   second(v?: number): number | LocalTime {
-    return v === undefined ? this.$date.getSeconds() : this.set('second', v)
+    return v === undefined ? this.get('second') : this.set('second', v)
   }
 
   setComponents(c: Partial<LocalTimeComponents>, mutate = false): LocalTime {
     const d = mutate ? this.$date : new Date(this.$date)
 
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     if (c.year) {
-      d.setFullYear(c.year)
+      this.utcMode ? d.setUTCFullYear(c.year) : d.setFullYear(c.year)
     }
     if (c.month) {
-      d.setMonth(c.month - 1)
+      this.utcMode ? d.setUTCMonth(c.month - 1) : d.setMonth(c.month - 1)
     }
     if (c.day) {
-      d.setDate(c.day)
+      this.utcMode ? d.setUTCDate(c.day) : d.setDate(c.day)
     }
     if (c.hour !== undefined) {
-      d.setHours(c.hour)
+      this.utcMode ? d.setUTCHours(c.hour) : d.setHours(c.hour)
     }
     if (c.minute !== undefined) {
-      d.setMinutes(c.minute)
+      this.utcMode ? d.setUTCMinutes(c.minute) : d.setMinutes(c.minute)
     }
     if (c.second !== undefined) {
-      d.setSeconds(c.second)
+      this.utcMode ? d.setUTCSeconds(c.second) : d.setSeconds(c.second)
     }
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
 
-    return mutate ? this : new LocalTime(d)
+    return mutate ? this : new LocalTime(d, this.utcMode)
   }
 
   add(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
@@ -190,7 +205,7 @@ export class LocalTime {
   }
 
   subtract(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.add(-num, unit, mutate)
+    return this.add(num * -1, unit, mutate)
   }
 
   absDiff(other: LocalTimeConfig, unit: LocalTimeUnit): number {
@@ -233,36 +248,25 @@ export class LocalTime {
   startOf(unit: LocalTimeUnit, mutate = false): LocalTime {
     if (unit === 'second') return this
 
-    if (mutate) {
-      const d = this.$date
-      d.setSeconds(0)
-      if (unit === 'minute') return this
-      d.setMinutes(0)
-      if (unit === 'hour') return this
-      d.setHours(0)
-      if (unit === 'day') return this
-      d.setDate(0)
-      if (unit === 'month') return this
-      d.setMonth(0)
-      return this
+    const d = mutate ? this.$date : new Date(this.$date)
+
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
+    this.utcMode ? d.setUTCSeconds(0) : d.setSeconds(0)
+    if (unit !== 'minute') {
+      this.utcMode ? d.setUTCMinutes(0) : d.setMinutes(0)
+      if (unit !== 'hour') {
+        this.utcMode ? d.setUTCHours(0) : d.setHours(0)
+        if (unit !== 'day') {
+          this.utcMode ? d.setUTCDate(0) : d.setDate(0)
+          if (unit !== 'month') {
+            this.utcMode ? d.setUTCMonth(0) : d.setMonth(0)
+          }
+        }
+      }
     }
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
 
-    const c = this.components()
-
-    c.second = 0
-    if (unit === 'year') {
-      c.month = c.day = 1
-      c.hour = c.minute = 0
-    } else if (unit === 'month') {
-      c.day = 1
-      c.hour = c.minute = 0
-    } else if (unit === 'day') {
-      c.hour = c.minute = 0
-    } else if (unit === 'hour') {
-      c.minute = 0
-    }
-
-    return LocalTime.fromComponents(c)
+    return mutate ? this : new LocalTime(d, this.utcMode)
   }
 
   static sort(items: LocalTime[], mutate = false, descending = false): LocalTime[] {
@@ -330,6 +334,17 @@ export class LocalTime {
   // todo: endOf
 
   components(): LocalTimeComponents {
+    if (this.utcMode) {
+      return {
+        year: this.$date.getUTCFullYear(),
+        month: this.$date.getUTCMonth() + 1,
+        day: this.$date.getUTCDate(),
+        hour: this.$date.getUTCHours(),
+        minute: this.$date.getUTCMinutes(),
+        second: this.$date.getSeconds(),
+      }
+    }
+
     return {
       year: this.$date.getFullYear(),
       month: this.$date.getMonth() + 1,
@@ -340,12 +355,24 @@ export class LocalTime {
     }
   }
 
+  fromNow(now: LocalTimeConfig = LocalTime.now()): string {
+    const msDiff = LocalTime.of(now).unixMillis() - this.unixMillis()
+
+    if (msDiff === 0) return 'now'
+
+    if (msDiff >= 0) {
+      return `${_ms(msDiff)} ago`
+    }
+
+    return `in ${_ms(msDiff * -1)}`
+  }
+
   getDate(): Date {
     return this.$date
   }
 
   clone(): LocalTime {
-    return new LocalTime(new Date(this.$date))
+    return new LocalTime(new Date(this.$date), this.utcMode)
   }
 
   unix(): UnixTimestamp {
@@ -361,6 +388,14 @@ export class LocalTime {
   }
 
   toLocalDate(): LocalDate {
+    if (this.utcMode) {
+      return LocalDate.create(
+        this.$date.getUTCFullYear(),
+        this.$date.getUTCMonth() + 1,
+        this.$date.getUTCDate(),
+      )
+    }
+
     return LocalDate.create(
       this.$date.getFullYear(),
       this.$date.getMonth() + 1,
@@ -369,11 +404,29 @@ export class LocalTime {
   }
 
   toPretty(seconds = true): IsoDateTime {
-    return this.$date
-      .toISOString()
-      .slice(0, seconds ? 19 : 16)
-      .split('T')
-      .join(' ')
+    const { year, month, day, hour, minute, second } = this.components()
+
+    return (
+      [
+        String(year).padStart(4, '0'),
+        String(month).padStart(2, '0'),
+        String(day).padStart(2, '0'),
+      ].join('-') +
+      ' ' +
+      [
+        String(hour).padStart(2, '0'),
+        String(minute).padStart(2, '0'),
+        seconds && String(second).padStart(2, '0'),
+      ]
+        .filter(Boolean)
+        .join(':')
+    )
+
+    // return this.$date
+    //   .toISOString()
+    //   .slice(0, seconds ? 19 : 16)
+    //   .split('T')
+    //   .join(' ')
   }
 
   /**
@@ -387,21 +440,47 @@ export class LocalTime {
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
   toISODate(): IsoDate {
-    return this.$date.toISOString().slice(0, 10)
+    const { year, month, day } = this.components()
+
+    return [
+      String(year).padStart(4, '0'),
+      String(month).padStart(2, '0'),
+      String(day).padStart(2, '0'),
+    ].join('-')
+
+    // return this.$date.toISOString().slice(0, 10)
+  }
+
+  /**
+   * Returns e.g: `17:03:15` (or `17:03` with seconds=false)
+   */
+  toISOTime(seconds = true): string {
+    // return this.$date.toISOString().slice(11, seconds ? 19 : 16)
+    const { hour, minute, second } = this.components()
+
+    return [
+      String(hour).padStart(2, '0'),
+      String(minute).padStart(2, '0'),
+      seconds && String(second).padStart(2, '0'),
+    ]
+      .filter(Boolean)
+      .join(':')
   }
 
   /**
    * Returns e.g: `19840621_1705`
    */
   toStringCompact(seconds = false): string {
+    const { year, month, day, hour, minute, second } = this.components()
+
     return [
-      String(this.$date.getFullYear()).padStart(4, '0'),
-      String(this.$date.getMonth() + 1).padStart(2, '0'),
-      String(this.$date.getDate()).padStart(2, '0'),
+      String(year).padStart(4, '0'),
+      String(month).padStart(2, '0'),
+      String(day).padStart(2, '0'),
       '_',
-      String(this.$date.getHours()).padStart(2, '0'),
-      String(this.$date.getMinutes()).padStart(2, '0'),
-      seconds ? String(this.$date.getSeconds()).padStart(2, '0') : '',
+      String(hour).padStart(2, '0'),
+      String(minute).padStart(2, '0'),
+      seconds ? String(second).padStart(2, '0') : '',
     ].join('')
   }
 
