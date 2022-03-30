@@ -27,6 +27,9 @@ export interface LocalTimeComponents {
 // .valueOf returns unix timestamp (no millis)
 // Prevents dayjs(undefined) being dayjs.now()
 // Validates on parse, throws if invalid. Doesn't allow invalid objects
+// No arbitrary .format('') (which is slow to parse) vs well-defined (opinionated) formats
+// Separate LocalTime, powered by native js Date, and LocalDate - a smaller functionality class when
+// you only need "whole dates", no time, no timezone worry
 /**
  * @experimental
  */

@@ -158,10 +158,13 @@ export * from './math/stack.util'
 export * from './string/leven'
 export * from './datetime/localDate'
 export * from './datetime/localTime'
+export * from './datetime/dateInterval'
 import { LocalDateConfig, LocalDateUnit } from './datetime/localDate'
 import { LocalTimeConfig, LocalTimeUnit, LocalTimeComponents } from './datetime/localTime'
+import { DateIntervalConfig } from './datetime/dateInterval'
 
 export type {
+  DateIntervalConfig,
   LocalDateConfig,
   LocalDateUnit,
   LocalTimeConfig,
