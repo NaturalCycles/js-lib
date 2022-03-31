@@ -16,6 +16,26 @@ test('basic', () => {
   expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
 })
 
+test('isBetween', () => {
+  const ld = LocalDate.of('1984-06-21')
+  expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '[]')).toBe(true)
+
+  expect(ld.isBetween('1984-06-21', '1984-06-22')).toBe(true)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '[)')).toBe(true)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '[]')).toBe(true)
+
+  expect(ld.isBetween('1984-06-20', '1984-06-22')).toBe(true)
+
+  // invalid, max < min
+  expect(ld.isBetween('1984-06-22', '1984-06-20')).toBe(false)
+})
+
 test('sort', () => {
   const items = ['2022-01-03', '2022-01-01', '2022-01-02'].map(s => LocalDate.of(s))
 

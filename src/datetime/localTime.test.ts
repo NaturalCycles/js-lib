@@ -39,6 +39,26 @@ test('basic', () => {
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 })
 
+test('isBetween', () => {
+  const ld = LocalTime.of('1984-06-21')
+  expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-21', '[]')).toBe(true)
+
+  expect(ld.isBetween('1984-06-21', '1984-06-22')).toBe(true)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '[)')).toBe(true)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21', '1984-06-22', '[]')).toBe(true)
+
+  expect(ld.isBetween('1984-06-20', '1984-06-22')).toBe(true)
+
+  // invalid, max < min
+  expect(ld.isBetween('1984-06-22', '1984-06-20')).toBe(false)
+})
+
 test('fromNow', () => {
   const past = localTime('2022-02-24')
   const now = localTime('2022-03-28')

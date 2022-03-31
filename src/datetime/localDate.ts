@@ -4,6 +4,7 @@ import { END, IsoDate, UnixTimestamp } from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
+export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 
 const m31 = new Set<number>([1, 3, 5, 7, 8, 10, 12])
 
@@ -192,6 +193,14 @@ export class LocalDate {
 
   isSameOrAfter(d: LocalDateConfig): boolean {
     return this.cmp(d) >= 0
+  }
+
+  isBetween(min: LocalDateConfig, max: LocalDateConfig, incl: Inclusiveness = '[)'): boolean {
+    let r = this.cmp(min)
+    if (r < 0 || (r === 0 && incl[0] === '(')) return false
+    r = this.cmp(max)
+    if (r > 0 || (r === 0 && incl[1] === ')')) return false
+    return true
   }
 
   /**

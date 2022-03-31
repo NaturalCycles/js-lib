@@ -1,7 +1,7 @@
 import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
 import { IsoDate, IsoDateTime, UnixTimestamp } from '../types'
-import { LocalDate } from './localDate'
+import { Inclusiveness, LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
 
@@ -320,6 +320,14 @@ export class LocalTime {
 
   isSameOrAfter(d: LocalTimeConfig): boolean {
     return this.cmp(d) >= 0
+  }
+
+  isBetween(min: LocalTimeConfig, max: LocalTimeConfig, incl: Inclusiveness = '[)'): boolean {
+    let r = this.cmp(min)
+    if (r < 0 || (r === 0 && incl[0] === '(')) return false
+    r = this.cmp(max)
+    if (r > 0 || (r === 0 && incl[1] === ')')) return false
+    return true
   }
 
   /**

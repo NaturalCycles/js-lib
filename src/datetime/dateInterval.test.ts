@@ -33,3 +33,31 @@ test('basic', () => {
     `"Cannot parse \\"abcd\\" into LocalDate"`,
   )
 })
+
+test('includes', () => {
+  const int = DateInterval.parse('2022-02-24/2022-03-30')
+  expect(int.includes('2022-02-23')).toBe(false)
+  expect(int.includes('2022-02-24')).toBe(true)
+  expect(int.includes('2022-02-25')).toBe(true)
+  expect(int.includes('2022-02-28')).toBe(true)
+  expect(int.includes('2022-03-01')).toBe(true)
+  expect(int.includes('2022-03-11')).toBe(true)
+  expect(int.includes('2022-03-29')).toBe(true)
+  expect(int.includes('2022-03-30')).toBe(true)
+  expect(int.includes('2022-03-31')).toBe(false)
+  expect(int.includes('2022-04-01')).toBe(false)
+})
+
+test('getDays', () => {
+  const int = DateInterval.parse('2022-02-24/2022-03-01')
+  expect(int.getDays()).toMatchInlineSnapshot(`
+    Array [
+      "2022-02-24",
+      "2022-02-25",
+      "2022-02-26",
+      "2022-02-27",
+      "2022-02-28",
+      "2022-03-01",
+    ]
+  `)
+})
