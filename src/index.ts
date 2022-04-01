@@ -161,10 +161,11 @@ export * from './datetime/localTime'
 export * from './datetime/dateInterval'
 import { LocalDateConfig, LocalDateUnit, Inclusiveness } from './datetime/localDate'
 import { LocalTimeConfig, LocalTimeUnit, LocalTimeComponents } from './datetime/localTime'
-import { DateIntervalConfig } from './datetime/dateInterval'
+import { DateIntervalConfig, DateIntervalString } from './datetime/dateInterval'
 
 export type {
   DateIntervalConfig,
+  DateIntervalString,
   LocalDateConfig,
   LocalDateUnit,
   Inclusiveness,

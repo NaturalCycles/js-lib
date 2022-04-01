@@ -1,6 +1,7 @@
 import { LocalDate, LocalDateConfig } from './localDate'
 
 export type DateIntervalConfig = DateInterval | string
+export type DateIntervalString = string
 
 /**
  * Class that supports ISO8601 "Time interval" standard that looks like `2022-02-24/2022-03-30`.
@@ -81,11 +82,11 @@ export class DateInterval {
     return days
   }
 
-  toString(): string {
+  toString(): DateIntervalString {
     return [this.start, this.end].join('/')
   }
 
-  toJSON(): string {
+  toJSON(): DateIntervalString {
     return this.toString()
   }
 }
