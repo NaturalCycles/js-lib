@@ -197,6 +197,12 @@ module.exports = {
     'no-ex-assign': 2,
     'no-extra-boolean-cast': 2,
     'no-extra-semi': 'off',
+    'no-implicit-coercion': [
+      2,
+      {
+        allow: ['!!'],
+      },
+    ],
     'no-fallthrough': 2,
     'no-func-assign': 2,
     'no-global-assign': 2,
