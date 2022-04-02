@@ -49,7 +49,7 @@ export function _debounce<T extends AnyFunction>(
   const maxing = 'maxWait' in opt
 
   const { leading = false, trailing = true } = opt
-  const maxWait = maxing ? Math.max(+opt.maxWait! || 0, wait) : opt.maxWait
+  const maxWait = maxing ? Math.max(Number(opt.maxWait) || 0, wait) : opt.maxWait
 
   function invokeFunc(time: number) {
     const args = lastArgs

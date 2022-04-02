@@ -20,7 +20,7 @@ export function _safeJsonStringify(
   }
 }
 
-/* eslint-disable @typescript-eslint/no-unused-expressions, no-bitwise */
+/* eslint-disable @typescript-eslint/no-unused-expressions, no-bitwise, no-implicit-coercion */
 
 function serializer(replacer?: Reviver, cycleReplacer?: Reviver): Reviver {
   const stack: any[] = []
