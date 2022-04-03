@@ -55,7 +55,8 @@ export class LocalDate {
   /**
    * Returns null if invalid.
    */
-  static parseOrNull(d: LocalDateConfig): LocalDate | null {
+  static parseOrNull(d: LocalDateConfig | undefined | null): LocalDate | null {
+    if (!d) return null
     if (d instanceof LocalDate) return d
 
     // todo: explore more performant options
@@ -76,7 +77,7 @@ export class LocalDate {
     return new LocalDate(year, month, day)
   }
 
-  static isValid(iso: string): boolean {
+  static isValid(iso: string | undefined | null): boolean {
     return this.parseOrNull(iso) !== null
   }
 

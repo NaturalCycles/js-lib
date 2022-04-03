@@ -63,7 +63,8 @@ export class LocalTime {
   /**
    * Returns null if invalid
    */
-  static parseOrNull(d: LocalTimeConfig): LocalTime | null {
+  static parseOrNull(d: LocalTimeConfig | undefined | null): LocalTime | null {
+    if (!d) return null
     if (d instanceof LocalTime) return d
 
     let date
@@ -89,7 +90,7 @@ export class LocalTime {
     return new LocalTime(date, false)
   }
 
-  static isValid(d: LocalTimeConfig): boolean {
+  static isValid(d: LocalTimeConfig | undefined | null): boolean {
     return this.parseOrNull(d) !== null
   }
 
