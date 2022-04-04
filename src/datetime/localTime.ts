@@ -18,18 +18,6 @@ export interface LocalTimeComponents {
 
 /* eslint-disable no-dupe-class-members */
 
-// Design choices:
-// No milliseconds
-// No timezone support, ISO8601 is parsed as LocalDateTime, discarding Timezone information
-// Formats as unix timestamp, ISO8601 or "pretty string"
-// toString and .toJSON formats as unix timestamp
-// No "unixMillis", just pure unixtimestamp
-// .valueOf returns unix timestamp (no millis)
-// Prevents dayjs(undefined) being dayjs.now()
-// Validates on parse, throws if invalid. Doesn't allow invalid objects
-// No arbitrary .format('') (which is slow to parse) vs well-defined (opinionated) formats
-// Separate LocalTime, powered by native js Date, and LocalDate - a smaller functionality class when
-// you only need "whole dates", no time, no timezone worry
 /**
  * @experimental
  */

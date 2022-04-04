@@ -22,6 +22,7 @@ module.exports = {
             'number',
             'math',
             'json',
+            'date',
             'time',
             'units',
             'decorators',
