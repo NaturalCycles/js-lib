@@ -1,4 +1,4 @@
-import { _since, _stringifyAny, CommonLogger } from '../index'
+import { _anyToError, _since, _stringifyAny, CommonLogger } from '../index'
 import { AnyFunction } from '../types'
 
 export interface TryCatchOptions {
@@ -6,7 +6,7 @@ export interface TryCatchOptions {
    * The value returned from the function will be returned from the wrapped method (!).
    * onError function may be asynchronous.
    */
-  onError?: (err: unknown) => any
+  onError?: (err: Error) => any
 
   /**
    * @default false
@@ -59,7 +59,7 @@ export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {
 
       if (onError) {
         try {
-          return await onError(err) // eslint-disable-line @typescript-eslint/return-await
+          return await onError(_anyToError(err)) // eslint-disable-line @typescript-eslint/return-await
         } catch {}
       }
       // returns undefined, but doesn't rethrow

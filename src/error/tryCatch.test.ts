@@ -15,7 +15,7 @@ test('_tryCatch', async () => {
 
   const fnError = _tryCatch(_fnError, {
     onError: err => {
-      console.log('onError fired with:', (err as Error).message)
+      console.log('onError fired with:', err.message)
     },
     logSuccess: true,
     logError: true,
@@ -33,7 +33,7 @@ class C {
 
   @_TryCatch({
     onError: err => {
-      console.log('onError fired with:', (err as Error).message)
+      console.log('onError fired with:', err.message)
     },
     logSuccess: true,
     logError: true,

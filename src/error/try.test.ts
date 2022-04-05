@@ -17,7 +17,7 @@ test('_try', () => {
   expect(_try(okFunction)).toEqual([null, { result: 1 }])
   expect(_try(() => okFunction(3))).toEqual([null, { result: 3 }])
 
-  const [err2, v] = _try<AppError>(errFunction)
+  const [err2, v] = _try(errFunction)
   expect(err2).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(v).toBeUndefined()
 })
@@ -35,7 +35,7 @@ test('pTry', async () => {
   // On this line we're testing that `res` type is non-optional (by design)
   expect(res.result).toBe(1)
 
-  const [err2, res2] = await pTry<AppError>(createErrorPromise())
+  const [err2, res2] = await pTry(createErrorPromise())
   expect(err2).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(res2).toBeUndefined()
   // console.log(err2!.stack)
@@ -48,9 +48,9 @@ test('_expectedError', () => {
   expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(err).toBeInstanceOf(AppError)
 
-  const [err2] = _try<UnexpectedPassError>(() => _expectedError(() => okFunction()))
+  const [err2] = _try(() => _expectedError(() => okFunction()))
   expect(err2).toBeInstanceOf(UnexpectedPassError)
-  expect(err2!.message).toBe('_expectedError passed unexpectedly')
+  expect(err2!.message).toMatchInlineSnapshot(`"expected error was not thrown"`)
 })
 
 test('pExpectedError', async () => {
@@ -58,7 +58,7 @@ test('pExpectedError', async () => {
   expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(err).toBeInstanceOf(AppError)
 
-  const [err2] = await pTry<UnexpectedPassError>(pExpectedError(createOkPromise()))
+  const [err2] = await pTry(pExpectedError(createOkPromise()))
   expect(err2).toBeInstanceOf(UnexpectedPassError)
-  expect(err2!.message).toBe('_expectedError passed unexpectedly')
+  expect(err2!.message).toMatchInlineSnapshot(`"expected error was not thrown"`)
 })

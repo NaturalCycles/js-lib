@@ -11,13 +11,19 @@ import { AppError } from './app.error'
  * For convenience, second argument type is non-optional,
  * so you can use it without `!`. But you SHOULD always check `if (err)` first!
  *
+ * ERR is typed as Error, not `unknown`. While unknown would be more correct,
+ * according to recent TypeScript, Error gives more developer convenience.
+ * In our code we NEVER throw non-errors.
+ * Only possibility of non-error is in the 3rd-party library code, in these cases it
+ * can be manually cast to `unknown` for extra safety.
+ *
  * @example
  *
  * const [err, v] = _try(() => someFunction())
  * if (err) ...do something...
  * v // go ahead and use v
  */
-export function _try<ERR = unknown, RETURN = void>(
+export function _try<ERR = Error, RETURN = void>(
   fn: () => RETURN,
 ): [err: ERR | null, value: RETURN] {
   try {
@@ -33,7 +39,7 @@ export function _try<ERR = unknown, RETURN = void>(
  * Also, intentionally types second return item as non-optional,
  * but you should check for `err` presense first!
  */
-export async function pTry<ERR = unknown, RETURN = void>(
+export async function pTry<ERR = Error, RETURN = void>(
   promise: Promise<RETURN>,
 ): Promise<[err: ERR | null, value: Awaited<RETURN>]> {
   try {
@@ -50,7 +56,7 @@ export async function pTry<ERR = unknown, RETURN = void>(
  */
 export class UnexpectedPassError extends AppError {
   constructor() {
-    super('_expectedError passed unexpectedly')
+    super('expected error was not thrown')
   }
 }
 
