@@ -1,11 +1,11 @@
 import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
-import { IsoDate, IsoDateTime, UnixTimestamp } from '../types'
+import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
 import { Inclusiveness, LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
 
-export type LocalTimeConfig = LocalTime | Date | IsoDateTime | UnixTimestamp
+export type LocalTimeConfig = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
 
 export interface LocalTimeComponents {
   year: number
@@ -375,7 +375,7 @@ export class LocalTime {
     return new LocalTime(new Date(this.$date), this.utcMode)
   }
 
-  unix(): UnixTimestamp {
+  unix(): UnixTimestampNumber {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
@@ -383,7 +383,7 @@ export class LocalTime {
     return this.$date.valueOf()
   }
 
-  valueOf(): UnixTimestamp {
+  valueOf(): UnixTimestampNumber {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
@@ -403,7 +403,7 @@ export class LocalTime {
     )
   }
 
-  toPretty(seconds = true): IsoDateTime {
+  toPretty(seconds = true): IsoDateTimeString {
     const { year, month, day, hour, minute, second } = this.components()
 
     return (
@@ -432,14 +432,14 @@ export class LocalTime {
   /**
    * Returns e.g: `1984-06-21T17:56:21`, only the date part of DateTime
    */
-  toISODateTime(): IsoDateTime {
+  toISODateTime(): IsoDateTimeString {
     return this.$date.toISOString().slice(0, 19)
   }
 
   /**
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
-  toISODate(): IsoDate {
+  toISODate(): IsoDateString {
     const { year, month, day } = this.components()
 
     return [
@@ -488,7 +488,7 @@ export class LocalTime {
     return String(this.unix())
   }
 
-  toJSON(): UnixTimestamp {
+  toJSON(): UnixTimestampNumber {
     return this.unix()
   }
 }

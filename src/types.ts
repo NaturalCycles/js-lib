@@ -150,6 +150,11 @@ export interface InstanceId {
  *
  * @example '2019-06-21'
  */
+export type IsoDateString = string
+
+/**
+ * @deprecated use IsoDateString
+ */
 export type IsoDate = string
 
 /**
@@ -157,12 +162,17 @@ export type IsoDate = string
  *
  * @example '2019-06-21T05:21:73Z'
  */
-export type IsoDateTime = string
+export type IsoDateTimeString = string
 
 /**
  * Interface explicitly states that the value is a Unix timestamp (in seconds).
  *
  * @example 1628945450
+ */
+export type UnixTimestampNumber = number
+
+/**
+ * @deprecated use UnixTimestampNumber
  */
 export type UnixTimestamp = number
 
@@ -180,12 +190,12 @@ export interface SavedDBEntity<ID = string> {
   /**
    * unixTimestamp of when the entity was first created (in the DB).
    */
-  created: UnixTimestamp
+  created: UnixTimestampNumber
 
   /**
    * unixTimestamp of when the entity was last updated (in the DB).
    */
-  updated: UnixTimestamp
+  updated: UnixTimestampNumber
 }
 
 /**

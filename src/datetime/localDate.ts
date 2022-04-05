@@ -1,6 +1,6 @@
 import { _assert } from '../error/assert'
 import { Sequence } from '../seq/seq'
-import { END, IsoDate, UnixTimestamp } from '../types'
+import { END, IsoDateString, UnixTimestampNumber } from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
@@ -153,7 +153,7 @@ export class LocalDate {
     maxExcl: LocalDateConfig,
     step = 1,
     stepUnit: LocalDateUnit = 'day',
-  ): IsoDate[] {
+  ): IsoDateString[] {
     return LocalDate.range(minIncl, maxExcl, step, stepUnit).map(ld => ld.toString())
   }
 
@@ -171,7 +171,7 @@ export class LocalDate {
     maxIncl: LocalDateConfig,
     step = 1,
     stepUnit: LocalDateUnit = 'day',
-  ): IsoDate[] {
+  ): IsoDateString[] {
     return LocalDate.range(minIncl, LocalDate.of(maxIncl).add(1, stepUnit), step, stepUnit).map(
       ld => ld.toString(),
     )
@@ -415,11 +415,11 @@ export class LocalDate {
     return LocalTime.of(this.toDate())
   }
 
-  toISODate(): IsoDate {
+  toISODate(): IsoDateString {
     return this.toString()
   }
 
-  toString(): IsoDate {
+  toString(): IsoDateString {
     return [
       String(this.$year).padStart(4, '0'),
       String(this.$month).padStart(2, '0'),
@@ -436,7 +436,7 @@ export class LocalDate {
   }
 
   // May be not optimal, as LocalTime better suits it
-  unix(): UnixTimestamp {
+  unix(): UnixTimestampNumber {
     return Math.floor(this.toDate().valueOf() / 1000)
   }
 
@@ -444,7 +444,7 @@ export class LocalDate {
     return this.toDate().valueOf()
   }
 
-  toJSON(): IsoDate {
+  toJSON(): IsoDateString {
     return this.toString()
   }
 }
