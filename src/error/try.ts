@@ -6,7 +6,7 @@ import { AppError } from './app.error'
  * Allows to write shorter code that avoids `try/catch`.
  * Useful e.g. in unit tests.
  *
- * Similar to pTuple, but for sync functions.
+ * Similar to pTry, but for sync functions.
  *
  * For convenience, second argument type is non-optional,
  * so you can use it without `!`. But you SHOULD always check `if (err)` first!

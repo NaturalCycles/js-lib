@@ -160,8 +160,35 @@ May also contain `.results: RESULT[]` - results from some batch operation (if ne
 Calls a function, returns a Tuple of `[error, value]`. Allows to write shorter code that avoids
 try/catch. Useful e.g. in unit tests.
 
-Similar to [pTuple](./promise.md/#ptuple), but for sync functions.
+Similar to [pTry](#ptry), but for sync functions.
 
 ```ts
 const [err, v] = _try(() => someFunction())
+```
+
+## pTry
+
+Loosely inspired by [await-to-js](https://github.com/scopsy/await-to-js).
+
+Similar to [\_try](#_try), but for promises.
+
+Async/await wrapper for easy error handling. Wraps async/await calls in try catch blocks and returns
+a tuple containing the error or the results of the promise
+
+```ts
+interface ServerResponse {
+  test: number
+}
+
+interface CustomError {
+  code: number
+  data: {
+    title: string
+    body: string
+  }
+}
+
+const p = Promise.resolve({ test: 123 })
+
+const [err, result] = await pTuple<ServerResponse, CustomError>(p)
 ```
