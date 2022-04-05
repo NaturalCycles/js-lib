@@ -9,7 +9,7 @@ test('basic', () => {
   const lt = LocalTime.of(start)
   expect(lt.year()).toBe(2022)
   expect(lt.month()).toBe(1)
-  expect(lt.date()).toBe(1)
+  expect(lt.day()).toBe(1)
   expect(lt.toISODateTime()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
   expect(lt.toPretty(false)).toBe('2022-01-01 00:00')

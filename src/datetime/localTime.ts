@@ -144,9 +144,9 @@ export class LocalTime {
   month(v?: number): number | LocalTime {
     return v === undefined ? this.get('month') : this.set('month', v)
   }
-  date(): number
-  date(v: number): LocalTime
-  date(v?: number): number | LocalTime {
+  day(): number
+  day(v: number): LocalTime
+  day(v?: number): number | LocalTime {
     return v === undefined ? this.get('day') : this.set('day', v)
   }
   hour(): number

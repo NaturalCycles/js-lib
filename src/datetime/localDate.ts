@@ -10,11 +10,13 @@ const m31 = new Set<number>([1, 3, 5, 7, 8, 10, 12])
 
 export type LocalDateConfig = LocalDate | string
 
+/* eslint-disable no-dupe-class-members */
+
 /**
  * @experimental
  */
 export class LocalDate {
-  private constructor(public year: number, public month: number, public day: number) {}
+  private constructor(private $year: number, private $month: number, private $day: number) {}
 
   static create(year: number, month: number, day: number): LocalDate {
     return new LocalDate(year, month, day)
@@ -175,9 +177,43 @@ export class LocalDate {
     )
   }
 
+  get(unit: LocalDateUnit): number {
+    return unit === 'year' ? this.$year : unit === 'month' ? this.$month : this.$day
+  }
+
+  set(unit: LocalDateUnit, v: number, mutate = false): LocalDate {
+    const t = mutate ? this : this.clone()
+
+    if (unit === 'year') {
+      t.$year = v
+    } else if (unit === 'month') {
+      t.$month = v
+    } else {
+      t.$day = v
+    }
+
+    return t
+  }
+
+  year(): number
+  year(v: number): LocalDate
+  year(v?: number): number | LocalDate {
+    return v === undefined ? this.$year : this.set('year', v)
+  }
+  month(): number
+  month(v: number): LocalDate
+  month(v?: number): number | LocalDate {
+    return v === undefined ? this.$month : this.set('month', v)
+  }
+  day(): number
+  day(v: number): LocalDate
+  day(v?: number): number | LocalDate {
+    return v === undefined ? this.$day : this.set('day', v)
+  }
+
   isSame(d: LocalDateConfig): boolean {
     d = LocalDate.of(d)
-    return this.day === d.day && this.month === d.month && this.year === d.year
+    return this.$day === d.$day && this.$month === d.$month && this.$year === d.$year
   }
 
   isBefore(d: LocalDateConfig): boolean {
@@ -211,12 +247,12 @@ export class LocalDate {
    */
   cmp(d: LocalDateConfig): -1 | 0 | 1 {
     d = LocalDate.of(d)
-    if (this.year < d.year) return -1
-    if (this.year > d.year) return 1
-    if (this.month < d.month) return -1
-    if (this.month > d.month) return 1
-    if (this.day < d.day) return -1
-    if (this.day > d.day) return 1
+    if (this.$year < d.$year) return -1
+    if (this.$year > d.$year) return 1
+    if (this.$month < d.$month) return -1
+    if (this.$month > d.$month) return 1
+    if (this.$day < d.$day) return -1
+    if (this.$day > d.$day) return 1
     return 0
   }
 
@@ -236,33 +272,33 @@ export class LocalDate {
     d = LocalDate.of(d)
 
     if (unit === 'year') {
-      return this.year - d.year
+      return this.$year - d.$year
     }
 
     if (unit === 'month') {
-      return (this.year - d.year) * 12 + (this.month - d.month)
+      return (this.$year - d.$year) * 12 + (this.$month - d.$month)
     }
 
     // unit is 'day'
-    let days = this.day - d.day
+    let days = this.$day - d.$day
 
-    if (d.year < this.year) {
-      for (let year = d.year; year < this.year; year++) {
+    if (d.$year < this.$year) {
+      for (let year = d.$year; year < this.$year; year++) {
         days += LocalDate.getYearLength(year)
       }
-    } else if (this.year < d.year) {
-      for (let year = this.year; year < d.year; year++) {
+    } else if (this.$year < d.$year) {
+      for (let year = this.$year; year < d.$year; year++) {
         days -= LocalDate.getYearLength(year)
       }
     }
 
-    if (d.month < this.month) {
-      for (let month = d.month; month < this.month; month++) {
-        days += LocalDate.getMonthLength(this.year, month)
+    if (d.$month < this.$month) {
+      for (let month = d.$month; month < this.$month; month++) {
+        days += LocalDate.getMonthLength(this.$year, month)
       }
-    } else if (this.month < d.month) {
-      for (let month = this.month; month < d.month; month++) {
-        days -= LocalDate.getMonthLength(d.year, month)
+    } else if (this.$month < d.$month) {
+      for (let month = this.$month; month < d.$month; month++) {
+        days -= LocalDate.getMonthLength(d.$year, month)
       }
     }
 
@@ -270,57 +306,57 @@ export class LocalDate {
   }
 
   add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    let { day, month, year } = this
+    let { $day, $month, $year } = this
 
     if (unit === 'day') {
-      day += num
+      $day += num
     } else if (unit === 'month') {
-      month += num
+      $month += num
     } else if (unit === 'year') {
-      year += num
+      $year += num
     }
 
     // check day overflow
-    let monLen = LocalDate.getMonthLength(year, month)
-    while (day > monLen) {
-      day -= monLen
-      month += 1
-      if (month > 12) {
-        year += 1
-        month -= 12
+    let monLen = LocalDate.getMonthLength($year, $month)
+    while ($day > monLen) {
+      $day -= monLen
+      $month += 1
+      if ($month > 12) {
+        $year += 1
+        $month -= 12
       }
 
-      monLen = LocalDate.getMonthLength(year, month)
+      monLen = LocalDate.getMonthLength($year, $month)
     }
-    while (day < 1) {
-      day += monLen
-      month -= 1
-      if (month < 1) {
-        year -= 1
-        month += 12
+    while ($day < 1) {
+      $day += monLen
+      $month -= 1
+      if ($month < 1) {
+        $year -= 1
+        $month += 12
       }
 
-      monLen = LocalDate.getMonthLength(year, month)
+      monLen = LocalDate.getMonthLength($year, $month)
     }
 
     // check month overflow
-    while (month > 12) {
-      year += 1
-      month -= 12
+    while ($month > 12) {
+      $year += 1
+      $month -= 12
     }
-    while (month < 1) {
-      year -= 1
-      month += 12
+    while ($month < 1) {
+      $year -= 1
+      $month += 12
     }
 
     if (mutate) {
-      this.year = year
-      this.month = month
-      this.day = day
+      this.$year = $year
+      this.$month = $month
+      this.$day = $day
       return this
     }
 
-    return new LocalDate(year, month, day)
+    return new LocalDate($year, $month, $day)
   }
 
   subtract(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
@@ -329,21 +365,21 @@ export class LocalDate {
 
   startOf(unit: LocalDateUnit): LocalDate {
     if (unit === 'day') return this
-    if (unit === 'month') return LocalDate.create(this.year, this.month, 1)
+    if (unit === 'month') return LocalDate.create(this.$year, this.$month, 1)
     // year
-    return LocalDate.create(this.year, 1, 1)
+    return LocalDate.create(this.$year, 1, 1)
   }
 
   endOf(unit: LocalDateUnit): LocalDate {
     if (unit === 'day') return this
     if (unit === 'month')
       return LocalDate.create(
-        this.year,
-        this.month,
-        LocalDate.getMonthLength(this.year, this.month),
+        this.$year,
+        this.$month,
+        LocalDate.getMonthLength(this.$year, this.$month),
       )
     // year
-    return LocalDate.create(this.year, 12, 31)
+    return LocalDate.create(this.$year, 12, 31)
   }
 
   static getYearLength(year: number): number {
@@ -362,7 +398,7 @@ export class LocalDate {
   }
 
   clone(): LocalDate {
-    return new LocalDate(this.year, this.month, this.day)
+    return new LocalDate(this.$year, this.$month, this.$day)
   }
 
   /**
@@ -372,7 +408,7 @@ export class LocalDate {
    * Timezone will match local timezone.
    */
   toDate(): Date {
-    return new Date(this.year, this.month - 1, this.day)
+    return new Date(this.$year, this.$month - 1, this.$day)
   }
 
   toLocalTime(): LocalTime {
@@ -385,17 +421,17 @@ export class LocalDate {
 
   toString(): IsoDate {
     return [
-      String(this.year).padStart(4, '0'),
-      String(this.month).padStart(2, '0'),
-      String(this.day).padStart(2, '0'),
+      String(this.$year).padStart(4, '0'),
+      String(this.$month).padStart(2, '0'),
+      String(this.$day).padStart(2, '0'),
     ].join('-')
   }
 
   toStringCompact(): string {
     return [
-      String(this.year).padStart(4, '0'),
-      String(this.month).padStart(2, '0'),
-      String(this.day).padStart(2, '0'),
+      String(this.$year).padStart(4, '0'),
+      String(this.$month).padStart(2, '0'),
+      String(this.$day).padStart(2, '0'),
     ].join('')
   }
 
