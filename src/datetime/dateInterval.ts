@@ -1,6 +1,6 @@
-import { LocalDate, LocalDateConfig } from './localDate'
+import { Inclusiveness, LocalDate, LocalDateConfig, LocalDateUnit } from './localDate'
 
-export type DateIntervalConfig = DateInterval | string
+export type DateIntervalConfig = DateInterval | DateIntervalString
 export type DateIntervalString = string
 
 /**
@@ -34,16 +34,18 @@ export class DateInterval {
     return this.cmp(d) === 0
   }
 
-  isBefore(d: DateIntervalConfig): boolean {
-    return this.cmp(d) === -1
+  isBefore(d: DateIntervalConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === -1 || (r === 0 && inclusive)
   }
 
   isSameOrBefore(d: DateIntervalConfig): boolean {
     return this.cmp(d) <= 0
   }
 
-  isAfter(d: DateIntervalConfig): boolean {
-    return this.cmp(d) === 1
+  isAfter(d: DateIntervalConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === 1 || (r === 0 && inclusive)
   }
 
   isSameOrAfter(d: DateIntervalConfig): boolean {
@@ -53,9 +55,15 @@ export class DateInterval {
   /**
    * Ranges of DateInterval (start, end) are INCLUSIVE.
    */
-  includes(d: LocalDateConfig): boolean {
+  includes(d: LocalDateConfig, incl: Inclusiveness = '[]'): boolean {
     d = LocalDate.of(d)
-    return d.isSameOrAfter(this.start) && d.isSameOrBefore(this.end)
+    return d.isAfter(this.start, incl[0] === '[') && d.isBefore(this.end, incl[1] === ']')
+  }
+
+  intersects(int: DateIntervalConfig, inclusive = true): boolean {
+    const $int = DateInterval.parse(int)
+    const incl = inclusive ? '[]' : '()'
+    return this.includes($int.start, incl) || this.includes($int.end, incl)
   }
 
   /**
@@ -67,19 +75,15 @@ export class DateInterval {
     return this.start.cmp(d.start) || this.end.cmp(d.end)
   }
 
+  getDays(incl: Inclusiveness = '[]'): LocalDate[] {
+    return LocalDate.range(this.start, this.end, incl, 1, 'day')
+  }
+
   /**
    * Returns an array of LocalDates that are included in the interval.
-   * Ranges are INCLUSIVE.
    */
-  getDays(): LocalDate[] {
-    const days: LocalDate[] = []
-    let current = this.start
-    do {
-      days.push(current)
-      current = current.add(1, 'day')
-    } while (current.isSameOrBefore(this.end))
-
-    return days
+  range(incl: Inclusiveness = '[]', step = 1, stepUnit: LocalDateUnit = 'day'): LocalDate[] {
+    return LocalDate.range(this.start, this.end, incl, step, stepUnit)
   }
 
   toString(): DateIntervalString {

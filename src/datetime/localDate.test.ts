@@ -62,18 +62,20 @@ test('add', () => {
   expect(ld.subtract(1, 'day').toString()).toBe('2021-12-31')
   expect(ld.add(-1, 'month').toString()).toBe('2021-12-01')
 
-  // units.forEach(unit => {
-  //   _range(1000).forEach(i => {
-  //     expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
-  //   })
-  // })
+  _range(10_000).forEach(i => {
+    // console.log(i, ld.add(i, 'day').toISODate(), d.add(i, 'day').toISODate())
+    expect(ld.add(i, 'day').toString()).toBe(d.add(i, 'day').toISODate())
+    expect(ld.subtract(i, 'day').toString()).toBe(d.subtract(i, 'day').toISODate())
+  })
 
   _range(1000).forEach(i => {
     expect(ld.add(i, 'month').toString()).toBe(d.add(i, 'month').toISODate())
+    expect(ld.subtract(i, 'month').toString()).toBe(d.subtract(i, 'month').toISODate())
   })
 
   _range(1000).forEach(i => {
     expect(ld.add(i, 'year').toString()).toBe(d.add(i, 'y').toISODate())
+    expect(ld.subtract(i, 'year').toString()).toBe(d.subtract(i, 'y').toISODate())
   })
 })
 
@@ -101,7 +103,7 @@ test('validate', () => {
   expect(LocalDate.of('2022-01-01T22:01:01Z').toString()).toBe('2022-01-01')
   expect(LocalDate.of('2022-01-01T22:01:01+2').toString()).toBe('2022-01-01')
   expect(LocalDate.of('2022-01-01nahuy').toString()).toBe('2022-01-01')
-  expect(LocalDate.of('2022-1-1').toString()).toBe('2022-01-01')
+  // expect(LocalDate.of('2022-1-1').toString()).toBe('2022-01-01') // it's strict now!
 
   expect(() => LocalDate.of(undefined as any)).toThrow()
   expect(() => LocalDate.of(5 as any)).toThrow()
@@ -142,7 +144,7 @@ test('range', () => {
     ]
   `)
 
-  expect(LocalDate.rangeInclString('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
+  expect(LocalDate.range('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
     Array [
       "2021-12-24",
       "2021-12-25",
@@ -150,7 +152,7 @@ test('range', () => {
     ]
   `)
 
-  expect(LocalDate.rangeString('2021-12-24', '2021-12-30', 2)).toMatchInlineSnapshot(`
+  expect(LocalDate.range('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
     Array [
       "2021-12-24",
       "2021-12-26",
@@ -158,7 +160,7 @@ test('range', () => {
     ]
   `)
 
-  expect(LocalDate.rangeInclString('2021-12-24', '2021-12-30', 2)).toMatchInlineSnapshot(`
+  expect(LocalDate.range('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
     Array [
       "2021-12-24",
       "2021-12-26",

@@ -61,3 +61,16 @@ test('getDays', () => {
     ]
   `)
 })
+
+test('intersects', () => {
+  const int = DateInterval.parse('2022-03-01/2022-03-31')
+  expect(int.intersects('2022-03-01/2022-03-31')).toBe(true)
+  expect(int.intersects('2022-03-02/2022-03-31')).toBe(true)
+  expect(int.intersects('2022-03-02/2022-03-30')).toBe(true)
+  expect(int.intersects('2022-03-02/2022-04-30')).toBe(true)
+  expect(int.intersects('2022-03-02/2022-03-02')).toBe(true)
+  expect(int.intersects('2022-02-02/2022-03-01')).toBe(true)
+  expect(int.intersects('2022-02-02/2022-02-03')).toBe(false)
+  expect(int.intersects('2022-02-02/2022-02-28')).toBe(false)
+  expect(int.intersects('2022-04-01/2022-04-02')).toBe(false)
+})

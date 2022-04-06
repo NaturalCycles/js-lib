@@ -62,7 +62,7 @@ export class LocalTime {
     } else if (typeof d === 'number') {
       date = new Date(d * 1000)
     } else {
-      date = new Date(d)
+      date = new Date(d.slice(0, 19))
     }
 
     // validation
@@ -76,6 +76,32 @@ export class LocalTime {
     // }
 
     return new LocalTime(date, false)
+  }
+
+  static parseToDate(d: LocalTimeConfig): Date {
+    if (d instanceof LocalTime) return d.$date
+    if (d instanceof Date) return d
+
+    const date = typeof d === 'number' ? new Date(d * 1000) : new Date(d)
+
+    if (isNaN(date.getDate())) {
+      throw new TypeError(`Cannot parse "${d}" to Date`)
+    }
+
+    return date
+  }
+
+  static parseToUnixTimestamp(d: LocalTimeConfig): UnixTimestampNumber {
+    if (typeof d === 'number') return d
+    if (d instanceof LocalTime) return d.unix()
+
+    const date = d instanceof Date ? d : new Date(d)
+
+    if (isNaN(date.getDate())) {
+      throw new TypeError(`Cannot parse "${d}" to UnixTimestamp`)
+    }
+
+    return date.valueOf() / 1000
   }
 
   static isValid(d: LocalTimeConfig | undefined | null): boolean {
@@ -205,7 +231,7 @@ export class LocalTime {
   }
 
   diff(other: LocalTimeConfig, unit: LocalTimeUnit): number {
-    const date2 = LocalTime.of(other).$date
+    const date2 = LocalTime.parseToDate(other)
 
     if (unit === 'year') {
       return this.$date.getFullYear() - date2.getFullYear()
@@ -295,16 +321,18 @@ export class LocalTime {
     return this.cmp(d) === 0
   }
 
-  isBefore(d: LocalTimeConfig): boolean {
-    return this.cmp(d) === -1
+  isBefore(d: LocalTimeConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === -1 || (r === 0 && inclusive)
   }
 
   isSameOrBefore(d: LocalTimeConfig): boolean {
     return this.cmp(d) <= 0
   }
 
-  isAfter(d: LocalTimeConfig): boolean {
-    return this.cmp(d) === 1
+  isAfter(d: LocalTimeConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === 1 || (r === 0 && inclusive)
   }
 
   isSameOrAfter(d: LocalTimeConfig): boolean {
@@ -326,7 +354,7 @@ export class LocalTime {
    */
   cmp(d: LocalTimeConfig): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
-    const t2 = LocalTime.of(d).$date.valueOf()
+    const t2 = LocalTime.parseToDate(d).valueOf()
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
@@ -355,8 +383,8 @@ export class LocalTime {
     }
   }
 
-  fromNow(now: LocalTimeConfig = LocalTime.now()): string {
-    const msDiff = LocalTime.of(now).unixMillis() - this.unixMillis()
+  fromNow(now: LocalTimeConfig = new Date()): string {
+    const msDiff = LocalTime.parseToDate(now).valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
 
@@ -499,5 +527,3 @@ export class LocalTime {
 export function localTime(d?: LocalTimeConfig): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
-
-// todo: range

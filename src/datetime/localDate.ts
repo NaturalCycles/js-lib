@@ -1,14 +1,14 @@
 import { _assert } from '../error/assert'
-import { Sequence } from '../seq/seq'
-import { END, IsoDateString, UnixTimestampNumber } from '../types'
+import { IsoDateString, UnixTimestampNumber } from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
 export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 
-const m31 = new Set<number>([1, 3, 5, 7, 8, 10, 12])
+const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
-export type LocalDateConfig = LocalDate | string
+export type LocalDateConfig = LocalDate | IsoDateString
 
 /* eslint-disable no-dupe-class-members */
 
@@ -61,8 +61,13 @@ export class LocalDate {
     if (!d) return null
     if (d instanceof LocalDate) return d
 
-    // todo: explore more performant options
-    const [year, month, day] = d.slice(0, 10).split('-').map(Number)
+    // const [year, month, day] = d.slice(0, 10).split('-').map(Number)
+    const matches = DATE_REGEX.exec(d.slice(0, 10))
+    if (!matches) return null
+
+    const year = Number(matches[1])
+    const month = Number(matches[2])
+    const day = Number(matches[3])
 
     if (
       !year ||
@@ -78,6 +83,11 @@ export class LocalDate {
 
     return new LocalDate(year, month, day)
   }
+
+  // Can use just .toString()
+  // static parseToString(d: LocalDateConfig): IsoDateString {
+  //   return typeof d === 'string' ? d : d.toString()
+  // }
 
   static isValid(iso: string | undefined | null): boolean {
     return this.parseOrNull(iso) !== null
@@ -117,64 +127,30 @@ export class LocalDate {
   }
 
   static range(
-    minIncl: LocalDateConfig,
-    maxExcl: LocalDateConfig,
+    min: LocalDateConfig,
+    max: LocalDateConfig,
+    incl: Inclusiveness = '[)',
     step = 1,
     stepUnit: LocalDateUnit = 'day',
   ): LocalDate[] {
-    const days: LocalDate[] = []
-    let current = LocalDate.of(minIncl).startOf(stepUnit)
-    const max = LocalDate.of(maxExcl).startOf(stepUnit)
+    const dates: LocalDate[] = []
+    const $min = LocalDate.of(min)
+    const $max = LocalDate.of(max).startOf(stepUnit)
 
-    do {
-      days.push(current)
+    let current = $min.startOf(stepUnit)
+    if (current.isAfter($min, incl[0] === '[')) {
+      // ok
+    } else {
+      current.add(1, stepUnit, true)
+    }
+
+    const incl2 = incl[1] === ']'
+    while (current.isBefore($max, incl2)) {
+      dates.push(current)
       current = current.add(step, stepUnit)
-    } while (current.isBefore(max))
+    }
 
-    return days
-  }
-
-  static rangeSeq(
-    minIncl: LocalDateConfig,
-    maxExcl: LocalDateConfig,
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): Sequence<LocalDate> {
-    const min = LocalDate.of(minIncl).startOf(stepUnit)
-    const max = LocalDate.of(maxExcl).startOf(stepUnit)
-    return Sequence.create(min, d => {
-      const next = d.add(step, stepUnit)
-      return next.isAfter(max) ? END : next
-    })
-  }
-
-  static rangeString(
-    minIncl: LocalDateConfig,
-    maxExcl: LocalDateConfig,
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): IsoDateString[] {
-    return LocalDate.range(minIncl, maxExcl, step, stepUnit).map(ld => ld.toString())
-  }
-
-  static rangeIncl(
-    minIncl: LocalDateConfig,
-    maxIncl: LocalDateConfig,
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): LocalDate[] {
-    return LocalDate.range(minIncl, LocalDate.of(maxIncl).add(1, stepUnit), step, stepUnit)
-  }
-
-  static rangeInclString(
-    minIncl: LocalDateConfig,
-    maxIncl: LocalDateConfig,
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): IsoDateString[] {
-    return LocalDate.range(minIncl, LocalDate.of(maxIncl).add(1, stepUnit), step, stepUnit).map(
-      ld => ld.toString(),
-    )
+    return dates
   }
 
   get(unit: LocalDateUnit): number {
@@ -216,16 +192,18 @@ export class LocalDate {
     return this.$day === d.$day && this.$month === d.$month && this.$year === d.$year
   }
 
-  isBefore(d: LocalDateConfig): boolean {
-    return this.cmp(d) === -1
+  isBefore(d: LocalDateConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === -1 || (r === 0 && inclusive)
   }
 
   isSameOrBefore(d: LocalDateConfig): boolean {
     return this.cmp(d) <= 0
   }
 
-  isAfter(d: LocalDateConfig): boolean {
-    return this.cmp(d) === 1
+  isAfter(d: LocalDateConfig, inclusive = false): boolean {
+    const r = this.cmp(d)
+    return r === 1 || (r === 0 && inclusive)
   }
 
   isSameOrAfter(d: LocalDateConfig): boolean {
@@ -317,26 +295,31 @@ export class LocalDate {
     }
 
     // check day overflow
-    let monLen = LocalDate.getMonthLength($year, $month)
-    while ($day > monLen) {
-      $day -= monLen
-      $month += 1
-      if ($month > 12) {
-        $year += 1
-        $month -= 12
-      }
+    if (unit === 'day') {
+      if ($day < 1) {
+        while ($day < 1) {
+          $month -= 1
+          if ($month < 1) {
+            $year -= 1
+            $month += 12
+          }
 
-      monLen = LocalDate.getMonthLength($year, $month)
-    }
-    while ($day < 1) {
-      $day += monLen
-      $month -= 1
-      if ($month < 1) {
-        $year -= 1
-        $month += 12
-      }
+          $day += LocalDate.getMonthLength($year, $month)
+        }
+      } else {
+        let monLen = LocalDate.getMonthLength($year, $month)
 
-      monLen = LocalDate.getMonthLength($year, $month)
+        while ($day > monLen) {
+          $day -= monLen
+          $month += 1
+          if ($month > 12) {
+            $year += 1
+            $month -= 12
+          }
+
+          monLen = LocalDate.getMonthLength($year, $month)
+        }
+      }
     }
 
     // check month overflow
@@ -388,13 +371,11 @@ export class LocalDate {
 
   static getMonthLength(year: number, month: number): number {
     if (month === 2) return this.isLeapYear(year) ? 29 : 28
-    return m31.has(month) ? 31 : 30
+    return MDAYS[month]!
   }
 
   static isLeapYear(year: number): boolean {
-    if (year % 4 !== 0) return false
-    if (year % 100 !== 0) return true
-    return year % 400 === 0
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
   }
 
   clone(): LocalDate {

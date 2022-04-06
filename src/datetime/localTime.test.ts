@@ -88,6 +88,7 @@ test('add', () => {
   units.forEach(unit => {
     _range(1000).forEach(i => {
       expect(lt.add(i, unit).unix()).toBe(d.add(i, unit).unix())
+      expect(lt.subtract(i, unit).unix()).toBe(d.subtract(i, unit).unix())
       expect(lt.add(i, unit).toISODateTime() + '+00:00').toBe(d.add(i, unit).format())
     })
   })
@@ -111,4 +112,9 @@ test('diff', () => {
       })
     })
   })
+})
+
+test('timezone-full string', () => {
+  const lt = LocalTime.of('2022-04-06T23:15:00+09:00')
+  expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
