@@ -80,7 +80,8 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   if (CI) {
     args.push('--ci')
 
-    if (!integration && !manual && !processArgs.some(a => a.includes('coverage'))) {
+    // Works with both --coverage=false and --no-coverage syntaxes
+    if (!integration && !manual && !processArgs.some(a => a.includes('-coverage'))) {
       // Coverage only makes sense for unit tests, not for integration/manual
       args.push('--coverage')
     }
