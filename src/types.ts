@@ -1,4 +1,4 @@
-import { Merge, Promisable } from './typeFest'
+import { Except, Merge, Promisable } from './typeFest'
 
 /**
  * Map from String to String (or <T>).
@@ -72,7 +72,14 @@ export type Saved<T extends Partial<ObjectWithId>> = Merge<
   SavedDBEntity<Exclude<T['id'], undefined>>
 >
 
-export type Unsaved<T extends ObjectWithId> = Merge<T, BaseDBEntity<T['id']>>
+export type Unsaved<T extends Partial<ObjectWithId>> = Merge<
+  T,
+  BaseDBEntity<Exclude<T['id'], undefined>>
+>
+
+export type UnsavedId<T extends Partial<ObjectWithId>> = Except<T, 'id'> & {
+  id: Exclude<T['id'], undefined>
+}
 
 /**
  * Convenience type shorthand.

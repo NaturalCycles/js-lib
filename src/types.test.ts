@@ -11,6 +11,8 @@ import {
   _stringMapValues,
   BaseDBEntity,
   Saved,
+  Unsaved,
+  UnsavedId,
 } from './types'
 
 interface Item extends BaseDBEntity<number> {
@@ -24,6 +26,19 @@ const _item: ItemDBM = {
   created: 1,
   updated: 1,
 }
+
+const _unsavedItem: Unsaved<Item> = {}
+const _unsavedItemDBM: Unsaved<ItemDBM> = {}
+// deletions test that these props exist and are optional
+delete _unsavedItem.id
+delete _unsavedItem.created
+delete _unsavedItem.updated
+delete _unsavedItemDBM.id
+delete _unsavedItemDBM.created
+delete _unsavedItemDBM.updated
+
+const _unsavedItemId: UnsavedId<ItemDBM> = { ..._item }
+delete _unsavedItemDBM.id
 
 test('types', () => {
   const _reviver: Reviver = (_k, _v) => {}
