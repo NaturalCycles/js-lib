@@ -1,4 +1,4 @@
-import { _percentiles, _range } from '..'
+import { _averageOrNull, _percentiles, _range } from '..'
 import { _mapToObject } from '../array/array.util'
 import { _average, _averageWeighted, _median, _percentile } from './math.util'
 
@@ -27,8 +27,11 @@ test.each([
   expect(_average(numbers)).toBe(result)
 })
 
-test('_average', () => {
+test('_averageOrNull', () => {
   expect(() => _average([])).toThrow()
+  expect(_averageOrNull(undefined)).toBeNull()
+  expect(_averageOrNull(null)).toBeNull()
+  expect(_averageOrNull([1])).toBe(1)
 })
 
 test('_averageWeighted', () => {

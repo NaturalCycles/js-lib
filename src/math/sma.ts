@@ -15,6 +15,10 @@ export class SimpleMovingAverage {
    */
   avg = 0
 
+  /**
+   * Push new value.
+   * Returns newly calculated average (using newly pushed value).
+   */
   push(n: number): number {
     this.data[this.nextIndex] = n
     this.nextIndex =

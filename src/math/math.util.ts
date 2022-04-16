@@ -13,6 +13,13 @@ export function _average(values: number[]): number {
 }
 
 /**
+ * Same as _average, but safely returns null if input array is empty or nullish.
+ */
+export function _averageOrNull(values: number[] | undefined | null): number | null {
+  return values?.length ? values.reduce((a, b) => a + b) / values.length : null
+}
+
+/**
  * valuesArray and weightsArray length is expected to be the same.
  */
 export function _averageWeighted(values: number[], weights: number[]): number {
