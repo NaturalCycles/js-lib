@@ -6,7 +6,7 @@ import { Merge, Promisable } from './typeFest'
  * Alternative: Record<string, T | undefined>
  */
 export interface StringMap<T = string> {
-  [k: string]: T | undefined
+  [k: string | number]: T | undefined
 }
 
 /**
@@ -29,15 +29,17 @@ export interface CreatedUpdated {
   updated: number
 }
 
-export interface CreatedUpdatedId<ID = string> extends CreatedUpdated {
+export interface CreatedUpdatedId<ID extends string | number = string> extends CreatedUpdated {
   id: ID
 }
 
-export interface ObjectWithId<ID = string> {
+export interface ObjectWithId<ID extends string | number = string> {
   id: ID
 }
 
-export interface AnyObjectWithId<ID = string> extends AnyObject, ObjectWithId<ID> {}
+export interface AnyObjectWithId<ID extends string | number = string>
+  extends AnyObject,
+    ObjectWithId<ID> {}
 
 /**
  * Convenience type shorthand.
@@ -184,7 +186,7 @@ export type Integer = number
 /**
  * Base interface for any Entity that was saved to DB.
  */
-export interface SavedDBEntity<ID = string> {
+export interface SavedDBEntity<ID extends string | number = string> {
   id: ID
 
   /**
@@ -204,10 +206,10 @@ export interface SavedDBEntity<ID = string> {
  * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
-export type BaseDBEntity<ID = string> = Partial<SavedDBEntity<ID>>
+export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
 
-export type Saved<E, ID = string> = Merge<E, SavedDBEntity<ID>>
-export type Unsaved<E, ID = string> = Merge<E, BaseDBEntity<ID>>
+export type Saved<E, ID extends string | number = string> = Merge<E, SavedDBEntity<ID>>
+export type Unsaved<E, ID extends string | number = string> = Merge<E, BaseDBEntity<ID>>
 
 /**
  * Named type for JSON.parse / JSON.stringify second argument

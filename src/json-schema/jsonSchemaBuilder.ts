@@ -365,7 +365,9 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
     return this
   }
 
-  baseDBEntity<ID = string>(idType = 'string'): JsonSchemaObjectBuilder<T & BaseDBEntity<ID>> {
+  baseDBEntity<ID extends string | number = string>(
+    idType = 'string',
+  ): JsonSchemaObjectBuilder<T & BaseDBEntity<ID>> {
     Object.assign(this.schema.properties, {
       id: { type: idType },
       created: { type: 'number', format: 'unixTimestamp' },
@@ -375,7 +377,9 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
     return this
   }
 
-  savedDBEntity<ID = string>(idType = 'string'): JsonSchemaObjectBuilder<T & SavedDBEntity<ID>> {
+  savedDBEntity<ID extends string | number = string>(
+    idType = 'string',
+  ): JsonSchemaObjectBuilder<T & SavedDBEntity<ID>> {
     return this.baseDBEntity(idType).addRequired(['id', 'created', 'updated']) as any
   }
 
