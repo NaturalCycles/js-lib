@@ -20,7 +20,7 @@ interface Item extends BaseDBEntity<number> {
 interface ItemDBM extends Saved<Item> {}
 
 const _item: ItemDBM = {
-  id: 'abc',
+  id: 5, // should only allow number, but not string
   created: 1,
   updated: 1,
 }

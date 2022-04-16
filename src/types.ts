@@ -29,17 +29,50 @@ export interface CreatedUpdated {
   updated: number
 }
 
-export interface CreatedUpdatedId<ID extends string | number = string> extends CreatedUpdated {
+export interface CreatedUpdatedId<ID extends string | number = string | number>
+  extends CreatedUpdated {
   id: ID
 }
 
-export interface ObjectWithId<ID extends string | number = string> {
+export interface ObjectWithId<ID extends string | number = string | number> {
   id: ID
 }
 
-export interface AnyObjectWithId<ID extends string | number = string>
+export interface AnyObjectWithId<ID extends string | number = string | number>
   extends AnyObject,
     ObjectWithId<ID> {}
+
+/**
+ * Base interface for any Entity that was saved to DB.
+ */
+export interface SavedDBEntity<ID extends string | number = string> {
+  id: ID
+
+  /**
+   * unixTimestamp of when the entity was first created (in the DB).
+   */
+  created: UnixTimestampNumber
+
+  /**
+   * unixTimestamp of when the entity was last updated (in the DB).
+   */
+  updated: UnixTimestampNumber
+}
+
+/**
+ * Base interface for any Entity that can be saved to DB.
+ * This interface fits when entity was NOT YET saved to DB,
+ * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
+ * When it's known to be saved - `SavedDBEntity` interface can be used instead.
+ */
+export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
+
+export type Saved<T extends Partial<ObjectWithId>> = Merge<
+  T,
+  SavedDBEntity<Exclude<T['id'], undefined>>
+>
+
+export type Unsaved<T extends ObjectWithId> = Merge<T, BaseDBEntity<T['id']>>
 
 /**
  * Convenience type shorthand.
@@ -182,34 +215,6 @@ export type UnixTimestamp = number
  * Same as `number`, but with semantic meaning that it's an Integer.
  */
 export type Integer = number
-
-/**
- * Base interface for any Entity that was saved to DB.
- */
-export interface SavedDBEntity<ID extends string | number = string> {
-  id: ID
-
-  /**
-   * unixTimestamp of when the entity was first created (in the DB).
-   */
-  created: UnixTimestampNumber
-
-  /**
-   * unixTimestamp of when the entity was last updated (in the DB).
-   */
-  updated: UnixTimestampNumber
-}
-
-/**
- * Base interface for any Entity that can be saved to DB.
- * This interface fits when entity was NOT YET saved to DB,
- * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
- * When it's known to be saved - `SavedDBEntity` interface can be used instead.
- */
-export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
-
-export type Saved<E, ID extends string | number = string> = Merge<E, SavedDBEntity<ID>>
-export type Unsaved<E, ID extends string | number = string> = Merge<E, BaseDBEntity<ID>>
 
 /**
  * Named type for JSON.parse / JSON.stringify second argument
