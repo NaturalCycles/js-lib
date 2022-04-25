@@ -14,7 +14,7 @@ test('_safeJsonStringify', () => {
   circular.meta = circular
 
   expect(_safeJsonStringify(circular)).toMatchInlineSnapshot(
-    `"{\\"obj\\":{\\"a\\":\\"a\\"},\\"meta\\":\\"[Circular ~]\\"}"`,
+    `"{"obj":{"a":"a"},"meta":"[Circular ~]"}"`,
   )
 
   const c2 = JSON.parse(_safeJsonStringify(circular))

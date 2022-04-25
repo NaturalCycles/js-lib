@@ -82,8 +82,8 @@ test('anyToError', () => {
   const httpErrorObject = _anyToErrorObject(httpError)
   expect(httpErrorObject).not.toBeInstanceOf(Error)
   expect(_omit(httpErrorObject, ['stack'])).toMatchInlineSnapshot(`
-    Object {
-      "data": Object {
+    {
+      "data": {
         "httpStatusCode": 400,
         "userFriendly": true,
       },

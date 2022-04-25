@@ -108,13 +108,13 @@ test('validate', () => {
   expect(() => LocalDate.of(undefined as any)).toThrow()
   expect(() => LocalDate.of(5 as any)).toThrow()
   expect(() => LocalDate.of('')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"\\" into LocalDate"`,
+    `"Cannot parse "" into LocalDate"`,
   )
   expect(() => LocalDate.of('2022-01-')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"2022-01-\\" into LocalDate"`,
+    `"Cannot parse "2022-01-" into LocalDate"`,
   )
   expect(() => LocalDate.of('2022-01-x1')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"2022-01-x1\\" into LocalDate"`,
+    `"Cannot parse "2022-01-x1" into LocalDate"`,
   )
 
   expect(LocalDate.isValid('2022-01-01')).toBe(true)
@@ -138,14 +138,14 @@ test('toDate', () => {
 
 test('range', () => {
   expect(LocalDate.range('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
-    Array [
+    [
       "2021-12-24",
       "2021-12-25",
     ]
   `)
 
   expect(LocalDate.range('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
-    Array [
+    [
       "2021-12-24",
       "2021-12-25",
       "2021-12-26",
@@ -153,7 +153,7 @@ test('range', () => {
   `)
 
   expect(LocalDate.range('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
-    Array [
+    [
       "2021-12-24",
       "2021-12-26",
       "2021-12-28",
@@ -161,7 +161,7 @@ test('range', () => {
   `)
 
   expect(LocalDate.range('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
-    Array [
+    [
       "2021-12-24",
       "2021-12-26",
       "2021-12-28",

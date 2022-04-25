@@ -206,7 +206,7 @@ test('_shuffle', () => {
 
   const b = _shuffle(a)
   expect(b).toMatchInlineSnapshot(`
-    Array [
+    [
       1,
       3,
       4,
@@ -218,7 +218,7 @@ test('_shuffle', () => {
   _shuffle(b, true)
   // should be mutated
   expect(b).toMatchInlineSnapshot(`
-    Array [
+    [
       2,
       3,
       4,

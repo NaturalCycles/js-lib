@@ -10,33 +10,33 @@ Map {
   1 => [Error: 1],
   -5 => [Error: -5],
   [Function] => [Error: function],
-  Object {} => [Error: {}],
-  Array [] => [Error: []],
-  Array [
+  {} => [Error: {}],
+  [] => [Error: []],
+  [
     "a",
   ] => [Error: [
   "a"
 ]],
-  Object {
+  {
     "a": "aa",
   } => [Error: {
   "a": "aa"
 }],
   [Error: err msg] => [Error: err msg],
-  Object {
+  {
     "message": "yada",
   } => [Error: {
   "message": "yada"
 }],
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
   } => [Error: {
   "message": "yada",
   "data": {}
 }],
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
@@ -46,20 +46,20 @@ Map {
     "httpStatusCode": 404
   }
 }],
-  Object {
+  {
     "message": "yada",
     "name": "Error",
   } => [Error: {
   "name": "Error",
   "message": "yada"
 }],
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
     "name": "Error",
   } => [Error: yada],
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
@@ -67,9 +67,9 @@ Map {
   } => [Error: yada],
   [AppError: err msg] => [AppError: err msg],
   [HttpError: http err msg] => [HttpError: http err msg],
-  Object {
-    "error": Object {
-      "data": Object {
+  {
+    "error": {
+      "data": {
         "a": "b
 c",
         "httpStatusCode": 400,
@@ -83,162 +83,162 @@ c",
 
 exports[`anyToErrorObject 1`] = `
 Map {
-  undefined => Object {
-    "data": Object {},
+  undefined => {
+    "data": {},
     "message": "undefined",
     "name": "Error",
   },
-  null => Object {
-    "data": Object {},
+  null => {
+    "data": {},
     "message": "null",
     "name": "Error",
   },
-  "" => Object {
-    "data": Object {},
+  "" => {
+    "data": {},
     "message": "empty_string",
     "name": "Error",
   },
-  "hello a" => Object {
-    "data": Object {},
+  "hello a" => {
+    "data": {},
     "message": "hello a",
     "name": "Error",
   },
-  0 => Object {
-    "data": Object {},
+  0 => {
+    "data": {},
     "message": "0",
     "name": "Error",
   },
-  1 => Object {
-    "data": Object {},
+  1 => {
+    "data": {},
     "message": "1",
     "name": "Error",
   },
-  -5 => Object {
-    "data": Object {},
+  -5 => {
+    "data": {},
     "message": "-5",
     "name": "Error",
   },
-  [Function] => Object {
-    "data": Object {},
+  [Function] => {
+    "data": {},
     "message": "function",
     "name": "Error",
   },
-  Object {} => Object {
-    "data": Object {},
+  {} => {
+    "data": {},
     "message": "{}",
     "name": "Error",
   },
-  Array [] => Object {
-    "data": Object {},
+  [] => {
+    "data": {},
     "message": "[]",
     "name": "Error",
   },
-  Array [
+  [
     "a",
-  ] => Object {
-    "data": Object {},
+  ] => {
+    "data": {},
     "message": "[
-  \\"a\\"
+  "a"
 ]",
     "name": "Error",
   },
-  Object {
+  {
     "a": "aa",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "{
-  \\"a\\": \\"aa\\"
+  "a": "aa"
 }",
     "name": "Error",
   },
-  [Error: err msg] => Object {
-    "data": Object {},
+  [Error: err msg] => {
+    "data": {},
     "message": "err msg",
     "name": "Error",
   },
-  Object {
+  {
     "message": "yada",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "{
-  \\"message\\": \\"yada\\"
+  "message": "yada"
 }",
     "name": "Error",
   },
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "{
-  \\"message\\": \\"yada\\",
-  \\"data\\": {}
+  "message": "yada",
+  "data": {}
 }",
     "name": "Error",
   },
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "{
-  \\"message\\": \\"yada\\",
-  \\"data\\": {
-    \\"httpStatusCode\\": 404
+  "message": "yada",
+  "data": {
+    "httpStatusCode": 404
   }
 }",
     "name": "Error",
   },
-  Object {
+  {
     "message": "yada",
     "name": "Error",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "{
-  \\"name\\": \\"Error\\",
-  \\"message\\": \\"yada\\"
+  "name": "Error",
+  "message": "yada"
 }",
     "name": "Error",
   },
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
     "name": "Error",
-  } => Object {
-    "data": Object {},
+  } => {
+    "data": {},
     "message": "yada",
     "name": "Error",
   },
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
-  } => Object {
-    "data": Object {
+  } => {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
   },
-  [AppError: err msg] => Object {
-    "data": Object {},
+  [AppError: err msg] => {
+    "data": {},
     "message": "err msg",
     "name": "AppError",
   },
-  [HttpError: http err msg] => Object {
-    "data": Object {
+  [HttpError: http err msg] => {
+    "data": {
       "httpStatusCode": 400,
     },
     "message": "http err msg",
     "name": "HttpError",
   },
-  Object {
-    "error": Object {
-      "data": Object {
+  {
+    "error": {
+      "data": {
         "a": "b
 c",
         "httpStatusCode": 400,
@@ -246,8 +246,8 @@ c",
       "message": "err msg",
       "name": "HttpError",
     },
-  } => Object {
-    "data": Object {
+  } => {
+    "data": {
       "a": "b
 c",
       "httpStatusCode": 400,
@@ -259,8 +259,8 @@ c",
 `;
 
 exports[`appErrorToErrorObject / errorObjectToAppError snapshot 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "a": "b",
   },
   "message": "hello",
@@ -279,39 +279,39 @@ Map {
   1 => false,
   -5 => false,
   [Function] => false,
-  Object {} => false,
-  Array [] => false,
-  Array [
+  {} => false,
+  [] => false,
+  [
     "a",
   ] => false,
-  Object {
+  {
     "a": "aa",
   } => false,
   [Error: err msg] => false,
-  Object {
+  {
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
   } => false,
-  Object {
+  {
     "message": "yada",
     "name": "Error",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
     "name": "Error",
   } => true,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
@@ -319,9 +319,9 @@ Map {
   } => true,
   [AppError: err msg] => true,
   [HttpError: http err msg] => true,
-  Object {
-    "error": Object {
-      "data": Object {
+  {
+    "error": {
+      "data": {
         "a": "b
 c",
         "httpStatusCode": 400,
@@ -343,39 +343,39 @@ Map {
   1 => false,
   -5 => false,
   [Function] => false,
-  Object {} => false,
-  Array [] => false,
-  Array [
+  {} => false,
+  [] => false,
+  [
     "a",
   ] => false,
-  Object {
+  {
     "a": "aa",
   } => false,
   [Error: err msg] => false,
-  Object {
+  {
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
   } => false,
-  Object {
+  {
     "message": "yada",
     "name": "Error",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
     "name": "Error",
   } => false,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
@@ -383,9 +383,9 @@ Map {
   } => true,
   [AppError: err msg] => false,
   [HttpError: http err msg] => true,
-  Object {
-    "error": Object {
-      "data": Object {
+  {
+    "error": {
+      "data": {
         "a": "b
 c",
         "httpStatusCode": 400,
@@ -407,39 +407,39 @@ Map {
   1 => false,
   -5 => false,
   [Function] => false,
-  Object {} => false,
-  Array [] => false,
-  Array [
+  {} => false,
+  [] => false,
+  [
     "a",
   ] => false,
-  Object {
+  {
     "a": "aa",
   } => false,
   [Error: err msg] => false,
-  Object {
+  {
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
   } => false,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
   } => false,
-  Object {
+  {
     "message": "yada",
     "name": "Error",
   } => false,
-  Object {
-    "data": Object {},
+  {
+    "data": {},
     "message": "yada",
     "name": "Error",
   } => false,
-  Object {
-    "data": Object {
+  {
+    "data": {
       "httpStatusCode": 404,
     },
     "message": "yada",
@@ -447,9 +447,9 @@ Map {
   } => false,
   [AppError: err msg] => false,
   [HttpError: http err msg] => false,
-  Object {
-    "error": Object {
-      "data": Object {
+  {
+    "error": {
+      "data": {
         "a": "b
 c",
         "httpStatusCode": 400,

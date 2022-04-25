@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default error to match snapshot 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "httpStatusCode": 500,
   },
   "message": "error",

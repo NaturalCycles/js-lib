@@ -70,7 +70,7 @@ test('_percentile', () => {
 
   // console.log(pcs)
   expect(pcs).toMatchInlineSnapshot(`
-    Object {
+    {
       "0": 1200,
       "10": 1220,
       "100": 1400,
@@ -91,7 +91,7 @@ test('_percentiles', () => {
 
   const pcs = _percentiles(numbers, [50, 90, 99])
   expect(pcs).toMatchInlineSnapshot(`
-    Object {
+    {
       "50": 1300,
       "90": 1380,
       "99": 1398,

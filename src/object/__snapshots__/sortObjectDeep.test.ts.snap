@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sortObjectDeep 1`] = `
-Object {
+{
   "a": 1,
   "aa": 6,
   "b": 2,
-  "c": Object {
-    "d": Object {
+  "c": {
+    "d": {
       "aa": 1,
       "j": 5,
       "m": 4,
     },
-    "dd": Array [
+    "dd": [
       3,
       2,
       1,
       0,
       55,
     ],
-    "ddd": Array [
+    "ddd": [
       "b",
       "c",
       "a",

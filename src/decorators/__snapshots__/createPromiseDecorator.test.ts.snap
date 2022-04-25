@@ -2,14 +2,14 @@
 
 exports[`_createPromiseDecorator 1`] = `
 [MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "args": Array [
+  "calls": [
+    [
+      {
+        "args": [
           2,
         ],
         "decoratorName": "Loader",
-        "decoratorParams": Object {
+        "decoratorParams": {
           "type": "MY_TYPE",
         },
         "key": "run",
@@ -19,8 +19,8 @@ exports[`_createPromiseDecorator 1`] = `
       },
     ],
   ],
-  "results": Array [
-    Object {
+  "results": [
+    {
       "type": "return",
       "value": 4,
     },

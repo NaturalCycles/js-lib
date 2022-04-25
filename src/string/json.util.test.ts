@@ -37,9 +37,9 @@ test('httpError', () => {
   expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
     "HttpError(409): la la
     {
-      \\"httpStatusCode\\": 409,
-      \\"userFriendly\\": true,
-      \\"other\\": \\"otherValue\\"
+      "httpStatusCode": 409,
+      "userFriendly": true,
+      "other": "otherValue"
     }"
   `)
 })
@@ -61,9 +61,9 @@ test('httpErrorResponse', () => {
   expect(_stringifyAny(resp, { includeErrorData: true })).toMatchInlineSnapshot(`
     "HttpError(409): la la
     {
-      \\"httpStatusCode\\": 409,
-      \\"userFriendly\\": true,
-      \\"other\\": \\"otherValue\\"
+      "httpStatusCode": 409,
+      "userFriendly": true,
+      "other": "otherValue"
     }"
   `)
 })

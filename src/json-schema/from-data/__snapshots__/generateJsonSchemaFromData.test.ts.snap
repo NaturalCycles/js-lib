@@ -1,85 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateJsonSchemaFromData2 1`] = `
-Object {
+{
   "additionalProperties": true,
-  "properties": Object {
-    "a": Object {
+  "properties": {
+    "a": {
       "type": "string",
     },
-    "arr": Object {
-      "items": Object {
+    "arr": {
+      "items": {
         "type": "number",
       },
       "type": "array",
     },
-    "arr2": Object {
-      "items": Object {
-        "oneOf": Array [
-          Object {
+    "arr2": {
+      "items": {
+        "oneOf": [
+          {
             "type": "number",
           },
-          Object {
+          {
             "type": "string",
           },
-          Object {
+          {
             "type": "boolean",
           },
-          Object {
+          {
             "additionalProperties": true,
-            "properties": Object {
-              "a": Object {
+            "properties": {
+              "a": {
                 "type": "string",
               },
             },
-            "required": Array [],
+            "required": [],
             "type": "object",
           },
         ],
       },
       "type": "array",
     },
-    "b": Object {
+    "b": {
       "type": "boolean",
     },
-    "c": Object {
+    "c": {
       "type": "null",
     },
-    "n": Object {
+    "n": {
       "type": "number",
     },
-    "sub": Object {
-      "oneOf": Array [
-        Object {
+    "sub": {
+      "oneOf": [
+        {
           "type": "boolean",
         },
-        Object {
+        {
           "additionalProperties": true,
-          "properties": Object {
-            "aa": Object {
+          "properties": {
+            "aa": {
               "type": "string",
             },
-            "sub2": Object {
+            "sub2": {
               "additionalProperties": true,
-              "properties": Object {
-                "b": Object {
+              "properties": {
+                "b": {
                   "type": "boolean",
                 },
-                "n": Object {
+                "n": {
                   "type": "null",
                 },
               },
-              "required": Array [],
+              "required": [],
               "type": "object",
             },
           },
-          "required": Array [],
+          "required": [],
           "type": "object",
         },
       ],
     },
   },
-  "required": Array [],
+  "required": [],
   "type": "object",
 }
 `;

@@ -1,46 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`addressBMJsonSchema 1`] = `
-Object {
+{
   "additionalProperties": false,
-  "properties": Object {
-    "address1": Object {
+  "properties": {
+    "address1": {
       "type": "string",
     },
-    "address2": Object {
+    "address2": {
       "type": "string",
     },
-    "city": Object {
+    "city": {
       "type": "string",
     },
-    "countryCode": Object {
+    "countryCode": {
       "format": "countryCode",
       "type": "string",
     },
-    "created": Object {
+    "created": {
       "format": "unixTimestamp",
       "type": "number",
     },
-    "id": Object {
+    "id": {
       "type": "string",
     },
-    "phone": Object {
+    "phone": {
       "type": "string",
     },
-    "region": Object {
+    "region": {
       "type": "string",
     },
-    "updated": Object {
+    "updated": {
       "format": "unixTimestamp",
       "type": "number",
     },
-    "zip": Object {
+    "zip": {
       "maxLength": 40,
       "minLength": 1,
       "type": "string",
     },
   },
-  "required": Array [
+  "required": [
     "address1",
     "city",
     "countryCode",
@@ -51,46 +51,46 @@ Object {
 `;
 
 exports[`addressDBMJsonSchema 1`] = `
-Object {
+{
   "additionalProperties": false,
-  "properties": Object {
-    "address1": Object {
+  "properties": {
+    "address1": {
       "type": "string",
     },
-    "address2": Object {
+    "address2": {
       "type": "string",
     },
-    "city": Object {
+    "city": {
       "type": "string",
     },
-    "countryCode": Object {
+    "countryCode": {
       "format": "countryCode",
       "type": "string",
     },
-    "created": Object {
+    "created": {
       "format": "unixTimestamp",
       "type": "number",
     },
-    "id": Object {
+    "id": {
       "type": "string",
     },
-    "phone": Object {
+    "phone": {
       "type": "string",
     },
-    "region": Object {
+    "region": {
       "type": "string",
     },
-    "updated": Object {
+    "updated": {
       "format": "unixTimestamp",
       "type": "number",
     },
-    "zip": Object {
+    "zip": {
       "maxLength": 40,
       "minLength": 1,
       "type": "string",
     },
   },
-  "required": Array [
+  "required": [
     "address1",
     "city",
     "countryCode",
@@ -104,35 +104,35 @@ Object {
 `;
 
 exports[`addressSchema 1`] = `
-Object {
+{
   "additionalProperties": false,
-  "properties": Object {
-    "address1": Object {
+  "properties": {
+    "address1": {
       "type": "string",
     },
-    "address2": Object {
+    "address2": {
       "type": "string",
     },
-    "city": Object {
+    "city": {
       "type": "string",
     },
-    "countryCode": Object {
+    "countryCode": {
       "format": "countryCode",
       "type": "string",
     },
-    "phone": Object {
+    "phone": {
       "type": "string",
     },
-    "region": Object {
+    "region": {
       "type": "string",
     },
-    "zip": Object {
+    "zip": {
       "maxLength": 40,
       "minLength": 1,
       "type": "string",
     },
   },
-  "required": Array [
+  "required": [
     "address1",
     "city",
     "countryCode",

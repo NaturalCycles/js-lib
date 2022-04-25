@@ -21,16 +21,16 @@ test('basic', () => {
   expect(int1.isSame(int3)).toBe(true)
 
   expect(() => DateInterval.parse('')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"\\" into DateInterval"`,
+    `"Cannot parse "" into DateInterval"`,
   )
   expect(() => DateInterval.parse('abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"abcd\\" into DateInterval"`,
+    `"Cannot parse "abcd" into DateInterval"`,
   )
   expect(() => DateInterval.parse('2022-02-24')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"2022-02-24\\" into DateInterval"`,
+    `"Cannot parse "2022-02-24" into DateInterval"`,
   )
   expect(() => DateInterval.parse('2022-02-24/abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"abcd\\" into LocalDate"`,
+    `"Cannot parse "abcd" into LocalDate"`,
   )
 })
 
@@ -51,7 +51,7 @@ test('includes', () => {
 test('getDays', () => {
   const int = DateInterval.parse('2022-02-24/2022-03-01')
   expect(int.getDays()).toMatchInlineSnapshot(`
-    Array [
+    [
       "2022-02-24",
       "2022-02-25",
       "2022-02-26",

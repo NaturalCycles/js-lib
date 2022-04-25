@@ -10,23 +10,23 @@ test('generateJsonSchemaFromData1', () => {
   const s = generateJsonSchemaFromData(data1)
   // console.log(s)
   expect(s).toMatchInlineSnapshot(`
-    Object {
+    {
       "additionalProperties": true,
-      "properties": Object {
-        "a": Object {
+      "properties": {
+        "a": {
           "type": "string",
         },
-        "b": Object {
+        "b": {
           "type": "boolean",
         },
-        "c": Object {
+        "c": {
           "type": "null",
         },
-        "n": Object {
+        "n": {
           "type": "number",
         },
       },
-      "required": Array [],
+      "required": [],
       "type": "object",
     }
   `)

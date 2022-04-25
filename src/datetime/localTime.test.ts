@@ -71,7 +71,7 @@ test('fromNow', () => {
 
 test('validation', () => {
   expect(() => localTime('abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse \\"abcd\\" into LocalTime"`,
+    `"Cannot parse "abcd" into LocalTime"`,
   )
 
   expect(LocalTime.isValid('2022-01-01')).toBe(true)

@@ -47,7 +47,7 @@ test('simpleStringSchema', () => {
   const s = jsonSchema.string().build()
 
   expect(s).toMatchInlineSnapshot(`
-    Object {
+    {
       "type": "string",
     }
   `)
@@ -71,12 +71,12 @@ test('addressDBMJsonSchema', () => {
 test('oneOf', () => {
   const s = jsonSchema.allOf([jsonSchema.string(), jsonSchema.string().countryCode()])
   expect(s.build()).toMatchInlineSnapshot(`
-    Object {
-      "allOf": Array [
-        Object {
+    {
+      "allOf": [
+        {
           "type": "string",
         },
-        Object {
+        {
           "format": "countryCode",
           "type": "string",
         },
@@ -88,7 +88,7 @@ test('oneOf', () => {
 test('order', () => {
   const s = addressDBMJsonSchema.$schemaDraft7().$id('AddressDBM').build()
   expect(Object.keys(s)).toMatchInlineSnapshot(`
-    Array [
+    [
       "$schema",
       "$id",
       "type",
@@ -102,7 +102,7 @@ test('order', () => {
 test('buffer', () => {
   const s = jsonSchema.buffer()
   expect(s.build()).toMatchInlineSnapshot(`
-    Object {
+    {
       "instanceof": "Buffer",
     }
   `)

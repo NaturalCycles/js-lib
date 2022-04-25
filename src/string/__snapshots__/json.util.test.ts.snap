@@ -12,52 +12,52 @@ Map {
   " " => " ",
   "ho ho ho" => "ho ho ho",
   "{" => "{",
-  "{\\"a\\": \\"a1\\"}" => Object {
+  "{"a": "a1"}" => {
     "a": "a1",
   },
-  "[5, null, \\"s\\"]" => Array [
+  "[5, null, "s"]" => [
     5,
     null,
     "s",
   ],
-  Array [
+  [
     5,
     null,
     "s",
-  ] => Array [
+  ] => [
     5,
     null,
     "s",
   ],
   15 => 15,
-  Array [
+  [
     1,
     2,
     3,
-  ] => Array [
+  ] => [
     1,
     2,
     3,
   ],
-  Object {
+  {
     "a": "a1",
     "b": "b1",
-    "c": Object {
+    "c": {
       "d": 25,
       "e": undefined,
     },
-  } => Object {
+  } => {
     "a": "a1",
     "b": "b1",
-    "c": Object {
+    "c": {
       "d": 25,
       "e": undefined,
     },
   },
-  Object {
+  {
     "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
     "message": "Reference already exists",
-  } => Object {
+  } => {
     "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
     "message": "Reference already exists",
   },
@@ -97,25 +97,25 @@ Map {
   " " => "empty_string",
   "ho ho ho" => "ho ho ho",
   "{" => "{",
-  "{\\"a\\": \\"a1\\"}" => "{
-  \\"a\\": \\"a1\\"
+  "{"a": "a1"}" => "{
+  "a": "a1"
 }",
-  "[5, null, \\"s\\"]" => "[
+  "[5, null, "s"]" => "[
   5,
   null,
-  \\"s\\"
+  "s"
 ]",
-  Array [
+  [
     5,
     null,
     "s",
   ] => "[
   5,
   null,
-  \\"s\\"
+  "s"
 ]",
   15 => "15",
-  Array [
+  [
     1,
     2,
     3,
@@ -124,26 +124,26 @@ Map {
   2,
   3
 ]",
-  Object {
+  {
     "a": "a1",
     "b": "b1",
-    "c": Object {
+    "c": {
       "d": 25,
       "e": undefined,
     },
   } => "{
-  \\"a\\": \\"a1\\",
-  \\"b\\": \\"b1\\",
-  \\"c\\": {
-    \\"d\\": 25
+  "a": "a1",
+  "b": "b1",
+  "c": {
+    "d": 25
   }
 }",
-  Object {
+  {
     "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
     "message": "Reference already exists",
   } => "{
-  \\"message\\": \\"Reference already exists\\",
-  \\"documentation_url\\": \\"https://developer.github.com/v3/git/refs/#create-a-reference\\"
+  "message": "Reference already exists",
+  "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference"
 }",
   [Function] => "function",
   /i am regex, who are you\\?/ => "{}",
@@ -160,7 +160,7 @@ Map {
 code: auth/forbidden",
   [AppError: app error] => "AppError: app error",
   Symbol(a_am_symbol) => "Symbol(a_am_symbol)",
-  1984-06-21T00:00:00.000Z => "\\"1984-06-21T00:00:00.000Z\\"",
+  1984-06-21T00:00:00.000Z => ""1984-06-21T00:00:00.000Z"",
 }
 `;
 
@@ -176,25 +176,25 @@ Map {
   " " => "empty_string",
   "ho ho ho" => "ho ho ho",
   "{" => "{",
-  "{\\"a\\": \\"a1\\"}" => "{
-  \\"a\\": \\"a1\\"
+  "{"a": "a1"}" => "{
+  "a": "a1"
 }",
-  "[5, null, \\"s\\"]" => "[
+  "[5, null, "s"]" => "[
   5,
   null,
-  \\"s\\"
+  "s"
 ]",
-  Array [
+  [
     5,
     null,
     "s",
   ] => "[
   5,
   null,
-  \\"s\\"
+  "s"
 ]",
   15 => "15",
-  Array [
+  [
     1,
     2,
     3,
@@ -203,26 +203,26 @@ Map {
   2,
   3
 ]",
-  Object {
+  {
     "a": "a1",
     "b": "b1",
-    "c": Object {
+    "c": {
       "d": 25,
       "e": undefined,
     },
   } => "{
-  \\"a\\": \\"a1\\",
-  \\"b\\": \\"b1\\",
-  \\"c\\": {
-    \\"d\\": 25
+  "a": "a1",
+  "b": "b1",
+  "c": {
+    "d": 25
   }
 }",
-  Object {
+  {
     "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
     "message": "Reference already exists",
   } => "{
-  \\"message\\": \\"Reference already exists\\",
-  \\"documentation_url\\": \\"https://developer.github.com/v3/git/refs/#create-a-reference\\"
+  "message": "Reference already exists",
+  "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference"
 }",
   [Function] => "function",
   /i am regex, who are you\\?/ => "{}",
@@ -239,9 +239,9 @@ Map {
 code: auth/forbidden",
   [AppError: app error] => "AppError: app error
 {
-  \\"k1\\": \\"v1\\"
+  "k1": "v1"
 }",
   Symbol(a_am_symbol) => "Symbol(a_am_symbol)",
-  1984-06-21T00:00:00.000Z => "\\"1984-06-21T00:00:00.000Z\\"",
+  1984-06-21T00:00:00.000Z => ""1984-06-21T00:00:00.000Z"",
 }
 `;
