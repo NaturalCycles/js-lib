@@ -16,7 +16,7 @@
     "@naturalcycles/nodejs-lib": "^12.33.4",
     "@naturalcycles/time-lib": "^3.5.1",
     "@types/node": "^17.0.4",
-    "jest": "^27.0.1",
+    "jest": "^28.0.3",
     "patch-package": "^6.2.1",
     "prettier": "^2.1.2",
     "rxjs": "^7.0.1",
