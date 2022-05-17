@@ -314,7 +314,7 @@ module.exports = {
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
     '@typescript-eslint/no-duplicate-enum-values': 2,
-    '@typescript-eslint/no-redundant-type-constituents': 2,
+    '@typescript-eslint/no-redundant-type-constituents': 0, // `'a' | string` is still useful for DX
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-explicit-any': 0,
