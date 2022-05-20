@@ -267,9 +267,10 @@ export class LocalTime {
     if (unit === 'second') return this
 
     const d = mutate ? this.$date : new Date(this.$date)
+    d.setMilliseconds(0)
+    d.setSeconds(0)
 
     /* eslint-disable @typescript-eslint/no-unused-expressions */
-    this.utcMode ? d.setUTCSeconds(0) : d.setSeconds(0)
     if (unit !== 'minute') {
       this.utcMode ? d.setUTCMinutes(0) : d.setMinutes(0)
       if (unit !== 'hour') {
@@ -458,7 +459,7 @@ export class LocalTime {
   }
 
   /**
-   * Returns e.g: `1984-06-21T17:56:21`, only the date part of DateTime
+   * Returns e.g: `1984-06-21T17:56:21`
    */
   toISODateTime(): IsoDateTimeString {
     return this.$date.toISOString().slice(0, 19)

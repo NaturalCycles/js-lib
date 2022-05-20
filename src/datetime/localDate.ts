@@ -1,5 +1,5 @@
 import { _assert } from '../error/assert'
-import { IsoDateString, UnixTimestampNumber } from '../types'
+import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = 'year' | 'month' | 'day'
@@ -398,6 +398,13 @@ export class LocalDate {
 
   toISODate(): IsoDateString {
     return this.toString()
+  }
+
+  /**
+   * Returns e.g: `1984-06-21T17:56:21`
+   */
+  toISODateTime(): IsoDateTimeString {
+    return this.toString() + 'T00:00:00'
   }
 
   toString(): IsoDateString {

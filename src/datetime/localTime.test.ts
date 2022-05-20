@@ -118,3 +118,11 @@ test('timezone-full string', () => {
   const lt = LocalTime.of('2022-04-06T23:15:00+09:00')
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
+
+test('startOf should have 0 millis', () => {
+  const t = localTime().startOf('day')
+  expect(t.getDate().getMilliseconds()).toBe(0)
+  expect(t.getDate().getSeconds()).toBe(0)
+  expect(t.getDate().getMinutes()).toBe(0)
+  expect(t.getDate().getHours()).toBe(0)
+})

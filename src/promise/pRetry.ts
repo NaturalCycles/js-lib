@@ -169,7 +169,7 @@ export async function pRetry<T>(
 
         const r = await fn(attempt)
 
-        clearTimeout(timer!)
+        clearTimeout(timer)
 
         if (logSuccess) {
           logger.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
@@ -177,7 +177,7 @@ export async function pRetry<T>(
 
         resolve(r)
       } catch (err) {
-        clearTimeout(timer!)
+        clearTimeout(timer)
 
         if (logFailures) {
           logger.warn(
