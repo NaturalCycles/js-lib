@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { _uniq } from '@naturalcycles/js-lib'
+import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { cfgDir } from '../cnst/paths.cnst'
@@ -48,7 +48,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     return
   }
 
-  const { CI, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, NODE_OPTIONS } = process.env
+  const { CI, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, JEST_SHARDS, NODE_OPTIONS } = process.env
   const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(2)
 
@@ -125,7 +125,18 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     console.log(`${dimGrey('NODE_OPTIONS are not defined')}`)
   }
 
-  await execWithArgs('jest', _uniq(args), {
-    env,
-  })
+  if (JEST_SHARDS) {
+    const totalShards = Number(JEST_SHARDS)
+    const shards = _range(1, totalShards + 1)
+
+    for await (const shard of shards) {
+      await execWithArgs('jest', _uniq([...args, `--shard=${shard}/${totalShards}`]), {
+        env,
+      })
+    }
+  } else {
+    await execWithArgs('jest', _uniq(args), {
+      env,
+    })
+  }
 }

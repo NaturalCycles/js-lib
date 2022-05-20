@@ -125,6 +125,17 @@ For manual tests:
 pre-defined sequencer file that sorts all filenames alphabetically). Set `JEST_NO_ALPHABETIC` env
 variable to disable it.
 
+##### Shard support (experimental)
+
+Jest 28 introduced [--shard](https://jestjs.io/docs/cli#--shard) feature.
+
+Set `JEST_SHARDS` environment variable (e.g `export JEST_SHARDS=3`), so that your `yarn test*`
+commands will automatically split your tests by N number of shards and execute them **one after
+another** (serially, **not** in parallel). Might be helpful to avoid Jest's notorious memory leaks.
+
+If you need to execute shards **in parallel**, you can follow e.g
+[this instruction](https://medium.com/@mfreundlich1/speed-up-your-jest-tests-with-shards-776e9f02f637).
+
 #### Lint commands
 
 - `lint-all`: runs ESLint, Stylelint, Prettier, in the right order.
