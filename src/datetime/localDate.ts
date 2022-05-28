@@ -10,6 +10,7 @@ const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
 export type LocalDateConfig = LocalDate | IsoDateString
+export type LocalDateFormatter = (ld: LocalDate) => string
 
 /* eslint-disable no-dupe-class-members */
 
@@ -453,6 +454,10 @@ export class LocalDate {
 
   toJSON(): IsoDateString {
     return this.toString()
+  }
+
+  format(fmt: LocalDateFormatter): string {
+    return fmt(this)
   }
 }
 

@@ -5,7 +5,18 @@ import { Inclusiveness, LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
 
+export enum ISODayOfWeek {
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+  SATURDAY = 6,
+  SUNDAY = 7,
+}
+
 export type LocalTimeConfig = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
+export type LocalTimeFormatter = (ld: LocalTime) => string
 
 export interface LocalTimeComponents {
   year: number
@@ -20,6 +31,7 @@ const weekStartsOn = 1 // mon, as per ISO
 const MILLISECONDS_IN_WEEK = 604800000
 // const MILLISECONDS_IN_DAY = 86400000
 // const MILLISECONDS_IN_MINUTE = 60000
+const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
 
 /* eslint-disable no-dupe-class-members */
 
@@ -189,6 +201,23 @@ export class LocalTime {
   day(v: number): LocalTime
   day(v?: number): number | LocalTime {
     return v === undefined ? this.get('day') : this.set('day', v)
+  }
+
+  /**
+   * Based on ISO: 1-7 is Mon-Sun.
+   */
+  dayOfWeek(): ISODayOfWeek
+  dayOfWeek(v: ISODayOfWeek): LocalTime
+  dayOfWeek(v?: ISODayOfWeek): ISODayOfWeek | LocalTime {
+    const dow = (this.$date.getDay() || 7) as ISODayOfWeek
+
+    if (v === undefined) {
+      return dow
+    }
+
+    if (!VALID_DAYS_OF_WEEK.has(v)) throw new Error(`Invalid dayOfWeek: ${v}`)
+
+    return this.add(v - dow, 'day')
   }
   hour(): number
   hour(v: number): LocalTime
@@ -579,6 +608,10 @@ export class LocalTime {
 
   toJSON(): UnixTimestampNumber {
     return this.unix()
+  }
+
+  format(fmt: LocalTimeFormatter): string {
+    return fmt(this)
   }
 }
 

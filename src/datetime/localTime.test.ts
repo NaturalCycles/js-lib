@@ -1,6 +1,6 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
-import { localTime, LocalTime, LocalTimeUnit } from './localTime'
+import { ISODayOfWeek, localTime, LocalTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
@@ -178,4 +178,25 @@ test('startOf should have 0 millis', () => {
   expect(t.getDate().getSeconds()).toBe(0)
   expect(t.getDate().getMinutes()).toBe(0)
   expect(t.getDate().getHours()).toBe(0)
+})
+
+test('format', () => {
+  const fmt: LocalTimeFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
+  expect(localTime('1984-06-21').format(fmt)).toBe('1984-06')
+})
+
+test('dayOfWeek', () => {
+  const t = localTime('1984-06-21')
+  expect(t.dayOfWeek()).toBe(ISODayOfWeek.THURSDAY)
+
+  expect(() => t.dayOfWeek(-1)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: -1"`)
+  expect(() => t.dayOfWeek(0)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 0"`)
+  expect(() => t.dayOfWeek(8)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 8"`)
+  expect(t.dayOfWeek(1).toISODate()).toBe('1984-06-18')
+  expect(t.dayOfWeek(2).toISODate()).toBe('1984-06-19')
+  expect(t.dayOfWeek(3).toISODate()).toBe('1984-06-20')
+  expect(t.dayOfWeek(4).toISODate()).toBe('1984-06-21')
+  expect(t.dayOfWeek(5).toISODate()).toBe('1984-06-22')
+  expect(t.dayOfWeek(6).toISODate()).toBe('1984-06-23')
+  expect(t.dayOfWeek(7).toISODate()).toBe('1984-06-24')
 })

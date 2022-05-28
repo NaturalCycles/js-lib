@@ -1,6 +1,6 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
-import { localDate, LocalDate } from './localDate'
+import { localDate, LocalDate, LocalDateFormatter } from './localDate'
 
 test('basic', () => {
   const str = '1984-06-21'
@@ -184,4 +184,12 @@ test('range', () => {
       "2021-12-30",
     ]
   `)
+})
+
+test('format', () => {
+  const fmt: LocalDateFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
+  expect(localDate('1984-06-21').format(fmt)).toBe('1984-06')
+
+  const fmt2: LocalDateFormatter = ld => `${String(ld.month()).padStart(2, '0')}/${ld.year()}`
+  expect(localDate('1984-06-21').format(fmt2)).toBe('06/1984')
 })

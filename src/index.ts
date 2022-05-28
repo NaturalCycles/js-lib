@@ -164,11 +164,18 @@ export * from './datetime/dateInterval'
 export * from './datetime/timeInterval'
 import {
   LocalDateConfig,
+  LocalDateFormatter,
   LocalDateUnit,
   LocalDateUnitStrict,
   Inclusiveness,
 } from './datetime/localDate'
-import { LocalTimeConfig, LocalTimeUnit, LocalTimeComponents } from './datetime/localTime'
+import {
+  LocalTimeConfig,
+  LocalTimeFormatter,
+  LocalTimeUnit,
+  LocalTimeComponents,
+  ISODayOfWeek,
+} from './datetime/localTime'
 import { DateIntervalConfig, DateIntervalString } from './datetime/dateInterval'
 import { TimeIntervalConfig, TimeIntervalString } from './datetime/timeInterval'
 
@@ -178,11 +185,14 @@ export type {
   TimeIntervalConfig,
   TimeIntervalString,
   LocalDateConfig,
+  LocalDateFormatter,
   LocalDateUnit,
   LocalDateUnitStrict,
   Inclusiveness,
   LocalTimeConfig,
+  LocalTimeFormatter,
   LocalTimeUnit,
+  ISODayOfWeek,
   LocalTimeComponents,
   AbortableMapper,
   AbortablePredicate,
