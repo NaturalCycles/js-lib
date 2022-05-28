@@ -123,7 +123,9 @@ export class LocalTime {
   static fromComponents(
     c: { year: number; month: number } & Partial<LocalTimeComponents>,
   ): LocalTime {
-    return new LocalTime(new Date(c.year, c.month - 1, c.day, c.hour, c.minute, c.second))
+    return new LocalTime(
+      new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
+    )
   }
 
   get(unit: LocalTimeUnit): number {

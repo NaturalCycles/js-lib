@@ -220,3 +220,8 @@ test('diff2', () => {
   expect(localTime('2020-12-01').diff(ld, 'day')).toBe(-396)
   expect(ld.diff('2020-12-01', 'day')).toBe(396)
 })
+
+test('fromComponents', () => {
+  const lt = LocalTime.fromComponents({ year: 1984, month: 6 })
+  expect(lt.toISODate()).toBe('1984-06-01')
+})
