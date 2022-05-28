@@ -13,7 +13,12 @@ import {
   _groupBy,
   _intersection,
   _last,
+  _lastOrUndefined,
   _mapToObject,
+  _max,
+  _maxOrUndefined,
+  _min,
+  _minOrUndefined,
   _shuffle,
   _sortBy,
   _sum,
@@ -247,9 +252,47 @@ test('_sumBy', () => {
 })
 
 test('_last', () => {
-  expect(_last([])).toBeUndefined()
+  expect(_lastOrUndefined([])).toBeUndefined()
+  expect(_lastOrUndefined([undefined])).toBeUndefined()
+  expect(_lastOrUndefined([1, undefined])).toBeUndefined()
+  expect(_lastOrUndefined([1, 2])).toBe(2)
+  expect(_lastOrUndefined([1])).toBe(1)
+
+  expect(() => _last([])).toThrowErrorMatchingInlineSnapshot(`"_last called on empty array"`)
   expect(_last([undefined])).toBeUndefined()
   expect(_last([1, undefined])).toBeUndefined()
   expect(_last([1, 2])).toBe(2)
   expect(_last([1])).toBe(1)
+})
+
+test('_min', () => {
+  expect(_minOrUndefined([])).toBeUndefined()
+  expect(_minOrUndefined([3])).toBe(3)
+  expect(_minOrUndefined([3, 2])).toBe(2)
+  expect(_minOrUndefined([1, 3, 2])).toBe(1)
+
+  expect(() => _min([])).toThrowErrorMatchingInlineSnapshot(`"_min called on empty array"`)
+  expect(_min([3])).toBe(3)
+  expect(_min([3, 2])).toBe(2)
+  expect(_min([1, 3, 2])).toBe(1)
+  expect(_min(['3'])).toBe('3')
+  expect(_min(['3', '2'])).toBe('2')
+  expect(_min(['1', '3', '2'])).toBe('1')
+})
+
+test('_max', () => {
+  expect(_maxOrUndefined([])).toBeUndefined()
+  expect(_maxOrUndefined([3])).toBe(3)
+  expect(_maxOrUndefined([3, 2])).toBe(3)
+  expect(_maxOrUndefined([1, 3, 2])).toBe(3)
+
+  expect(() => _max([])).toThrowErrorMatchingInlineSnapshot(`"_max called on empty array"`)
+  expect(_max([3])).toBe(3)
+  expect(_max([3, 2])).toBe(3)
+  expect(_max([1, 3, 2])).toBe(3)
+  expect(_max([1, 3, 2, 4])).toBe(4)
+  expect(_max(['3'])).toBe('3')
+  expect(_max(['3', '2'])).toBe('3')
+  expect(_max(['1', '3', '2'])).toBe('3')
+  expect(_max(['1', '3', '2', '4'])).toBe('4')
 })

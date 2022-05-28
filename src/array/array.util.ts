@@ -273,8 +273,37 @@ export function _shuffle<T>(array: T[], mutate = false): T[] {
 }
 
 /**
+ * Returns last item of non-empty array.
+ * Throws if array is empty.
+ */
+export function _last<T>(array: T[]): T {
+  if (!array.length) throw new Error('_last called on empty array')
+  return array[array.length - 1]!
+}
+
+/**
  * Returns last item of the array (or undefined if array is empty).
  */
-export function _last<T>(array: T[]): T | undefined {
+export function _lastOrUndefined<T>(array: T[]): T | undefined {
   return array[array.length - 1]
+}
+
+export function _minOrUndefined<T>(array: T[]): T | undefined {
+  if (!array.length) return
+  return _min(array)
+}
+
+export function _min<T>(array: T[]): T {
+  if (!array.length) throw new Error('_min called on empty array')
+  return array.reduce((min, item) => (min <= item ? min : item))
+}
+
+export function _maxOrUndefined<T>(array: T[]): T | undefined {
+  if (!array.length) return
+  return _max(array)
+}
+
+export function _max<T>(array: T[]): T {
+  if (!array.length) throw new Error('_max called on empty array')
+  return array.reduce((max, item) => (max >= item ? max : item))
 }
