@@ -2,7 +2,8 @@ import { _assert } from '../error/assert'
 import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
 import { LocalTime } from './localTime'
 
-export type LocalDateUnit = 'year' | 'month' | 'day'
+export type LocalDateUnit = LocalDateUnitStrict | 'week'
+export type LocalDateUnitStrict = 'year' | 'month' | 'day'
 export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -106,24 +107,28 @@ export class LocalDate {
     return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
   }
 
-  static earliestOrUndefined(items: LocalDate[]): LocalDate | undefined {
+  static earliestOrUndefined(items: LocalDateConfig[]): LocalDate | undefined {
     return items.length ? LocalDate.earliest(items) : undefined
   }
 
-  static earliest(items: LocalDate[]): LocalDate {
+  static earliest(items: LocalDateConfig[]): LocalDate {
     _assert(items.length, 'LocalDate.earliest called on empty array')
 
-    return items.reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+    return items
+      .map(i => LocalDate.of(i))
+      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
-  static latestOrUndefined(items: LocalDate[]): LocalDate | undefined {
+  static latestOrUndefined(items: LocalDateConfig[]): LocalDate | undefined {
     return items.length ? LocalDate.latest(items) : undefined
   }
 
-  static latest(items: LocalDate[]): LocalDate {
+  static latest(items: LocalDateConfig[]): LocalDate {
     _assert(items.length, 'LocalDate.latest called on empty array')
 
-    return items.reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    return items
+      .map(i => LocalDate.of(i))
+      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
   static range(
@@ -133,6 +138,11 @@ export class LocalDate {
     step = 1,
     stepUnit: LocalDateUnit = 'day',
   ): LocalDate[] {
+    if (stepUnit === 'week') {
+      step *= 7
+      stepUnit = 'day'
+    }
+
     const dates: LocalDate[] = []
     const $min = LocalDate.of(min)
     const $max = LocalDate.of(max).startOf(stepUnit)
@@ -153,11 +163,11 @@ export class LocalDate {
     return dates
   }
 
-  get(unit: LocalDateUnit): number {
+  get(unit: LocalDateUnitStrict): number {
     return unit === 'year' ? this.$year : unit === 'month' ? this.$month : this.$day
   }
 
-  set(unit: LocalDateUnit, v: number, mutate = false): LocalDate {
+  set(unit: LocalDateUnitStrict, v: number, mutate = false): LocalDate {
     const t = mutate ? this : this.clone()
 
     if (unit === 'year') {
@@ -257,7 +267,7 @@ export class LocalDate {
       return (this.$year - d.$year) * 12 + (this.$month - d.$month)
     }
 
-    // unit is 'day'
+    // unit is 'day' or 'week'
     let days = this.$day - d.$day
 
     if (d.$year < this.$year) {
@@ -280,11 +290,20 @@ export class LocalDate {
       }
     }
 
+    if (unit === 'week') {
+      return Math.floor(days / 7)
+    }
+
     return days
   }
 
   add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
     let { $day, $month, $year } = this
+
+    if (unit === 'week') {
+      num *= 7
+      unit = 'day'
+    }
 
     if (unit === 'day') {
       $day += num
@@ -346,14 +365,14 @@ export class LocalDate {
     return this.add(-num, unit, mutate)
   }
 
-  startOf(unit: LocalDateUnit): LocalDate {
+  startOf(unit: LocalDateUnitStrict): LocalDate {
     if (unit === 'day') return this
     if (unit === 'month') return LocalDate.create(this.$year, this.$month, 1)
     // year
     return LocalDate.create(this.$year, 1, 1)
   }
 
-  endOf(unit: LocalDateUnit): LocalDate {
+  endOf(unit: LocalDateUnitStrict): LocalDate {
     if (unit === 'day') return this
     if (unit === 'month')
       return LocalDate.create(

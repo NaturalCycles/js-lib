@@ -3,7 +3,7 @@ import { _ms } from '../time/time.util'
 import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
 import { Inclusiveness, LocalDate } from './localDate'
 
-export type LocalTimeUnit = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
+export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
 
 export type LocalTimeConfig = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
 
@@ -15,6 +15,11 @@ export interface LocalTimeComponents {
   minute: number
   second: number
 }
+
+const weekStartsOn = 1 // mon, as per ISO
+const MILLISECONDS_IN_WEEK = 604800000
+// const MILLISECONDS_IN_DAY = 86400000
+// const MILLISECONDS_IN_MINUTE = 60000
 
 /* eslint-disable no-dupe-class-members */
 
@@ -134,6 +139,9 @@ export class LocalTime {
     if (unit === 'minute') {
       return this.utcMode ? this.$date.getUTCMinutes() : this.$date.getMinutes()
     }
+    if (unit === 'week') {
+      return getWeek(this.$date)
+    }
     // second
     return this.utcMode ? this.$date.getUTCSeconds() : this.$date.getSeconds()
   }
@@ -154,6 +162,8 @@ export class LocalTime {
       this.utcMode ? t.$date.setUTCMinutes(v) : t.$date.setMinutes(v)
     } else if (unit === 'second') {
       this.utcMode ? t.$date.setUTCSeconds(v) : t.$date.setSeconds(v)
+    } else if (unit === 'week') {
+      setWeek(t.$date, v, true)
     }
     /* eslint-enable @typescript-eslint/no-unused-expressions */
 
@@ -169,6 +179,11 @@ export class LocalTime {
   month(v: number): LocalTime
   month(v?: number): number | LocalTime {
     return v === undefined ? this.get('month') : this.set('month', v)
+  }
+  week(): number
+  week(v: number): LocalTime
+  week(v?: number): number | LocalTime {
+    return v === undefined ? getWeek(this.$date) : this.set('week', v)
   }
   day(): number
   day(v: number): LocalTime
@@ -219,6 +234,10 @@ export class LocalTime {
   }
 
   add(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
+    if (unit === 'week') {
+      num *= 7
+      unit = 'day'
+    }
     return this.set(unit, this.get(unit) + num, mutate)
   }
 
@@ -249,6 +268,8 @@ export class LocalTime {
 
     if (unit === 'day') {
       r = secDiff / (24 * 60 * 60)
+    } else if (unit === 'week') {
+      r = secDiff / (7 * 24 * 60 * 60)
     } else if (unit === 'hour') {
       r = secDiff / (60 * 60)
     } else if (unit === 'minute') {
@@ -258,17 +279,15 @@ export class LocalTime {
       r = secDiff
     }
 
-    r = r < 0 ? -Math.floor(-r) : Math.floor(r)
+    r = Math.trunc(r)
     if (Object.is(r, -0)) return 0
     return r
   }
 
   startOf(unit: LocalTimeUnit, mutate = false): LocalTime {
     if (unit === 'second') return this
-
     const d = mutate ? this.$date : new Date(this.$date)
-    d.setMilliseconds(0)
-    d.setSeconds(0)
+    d.setSeconds(0, 0)
 
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     if (unit !== 'minute') {
@@ -276,9 +295,48 @@ export class LocalTime {
       if (unit !== 'hour') {
         this.utcMode ? d.setUTCHours(0) : d.setHours(0)
         if (unit !== 'day') {
-          this.utcMode ? d.setUTCDate(0) : d.setDate(0)
-          if (unit !== 'month') {
+          // year, month or week
+
+          if (unit === 'year') {
             this.utcMode ? d.setUTCMonth(0) : d.setMonth(0)
+            this.utcMode ? d.setUTCDate(1) : d.setDate(1)
+          } else if (unit === 'month') {
+            this.utcMode ? d.setUTCDate(1) : d.setDate(1)
+          } else {
+            // week
+            startOfWeek(d, true)
+          }
+        }
+      }
+    }
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
+
+    return mutate ? this : new LocalTime(d, this.utcMode)
+  }
+
+  endOf(unit: LocalTimeUnit, mutate = false): LocalTime {
+    if (unit === 'second') return this
+    const d = mutate ? this.$date : new Date(this.$date)
+    d.setSeconds(59, 0)
+
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
+    if (unit !== 'minute') {
+      this.utcMode ? d.setUTCMinutes(59) : d.setMinutes(59)
+      if (unit !== 'hour') {
+        this.utcMode ? d.setUTCHours(23) : d.setHours(23)
+        if (unit !== 'day') {
+          // year, month or week
+
+          if (unit === 'year') {
+            this.utcMode ? d.setUTCMonth(11) : d.setMonth(11)
+          }
+
+          if (unit === 'week') {
+            endOfWeek(d, true)
+          } else {
+            // year or month
+            const lastDay = LocalDate.getMonthLength(d.getFullYear(), d.getMonth() + 1)
+            this.utcMode ? d.setUTCDate(lastDay) : d.setDate(lastDay)
           }
         }
       }
@@ -298,24 +356,28 @@ export class LocalTime {
     })
   }
 
-  static earliestOrUndefined(items: LocalTime[]): LocalTime | undefined {
+  static earliestOrUndefined(items: LocalTimeConfig[]): LocalTime | undefined {
     return items.length ? LocalTime.earliest(items) : undefined
   }
 
-  static earliest(items: LocalTime[]): LocalTime {
+  static earliest(items: LocalTimeConfig[]): LocalTime {
     _assert(items.length, 'LocalTime.earliest called on empty array')
 
-    return items.reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+    return items
+      .map(i => LocalTime.of(i))
+      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
-  static latestOrUndefined(items: LocalTime[]): LocalTime | undefined {
+  static latestOrUndefined(items: LocalTimeConfig[]): LocalTime | undefined {
     return items.length ? LocalTime.latest(items) : undefined
   }
 
-  static latest(items: LocalTime[]): LocalTime {
+  static latest(items: LocalTimeConfig[]): LocalTime {
     _assert(items.length, 'LocalTime.latest called on empty array')
 
-    return items.reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    return items
+      .map(i => LocalTime.of(i))
+      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
   isSame(d: LocalTimeConfig): boolean {
@@ -359,8 +421,6 @@ export class LocalTime {
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
-
-  // todo: endOf
 
   components(): LocalTimeComponents {
     if (this.utcMode) {
@@ -527,4 +587,98 @@ export class LocalTime {
  */
 export function localTime(d?: LocalTimeConfig): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
+}
+
+// based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts
+function getWeek(date: Date): number {
+  const diff = startOfWeek(date).getTime() - startOfWeekYear(date).getTime()
+  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1
+}
+
+function setWeek(date: Date, week: number, mutate = false): Date {
+  const d = mutate ? date : new Date(date)
+  const diff = getWeek(d) - week
+  d.setDate(d.getDate() - diff * 7)
+  return d
+}
+
+// based on: https://github.com/date-fns/date-fns/blob/master/src/startOfISOWeekYear/index.ts
+function startOfWeekYear(date: Date): Date {
+  const year = getWeekYear(date)
+  const fourthOfJanuary = new Date(0)
+  fourthOfJanuary.setFullYear(year, 0, 4)
+  fourthOfJanuary.setHours(0, 0, 0, 0)
+  return startOfWeek(fourthOfJanuary, true)
+}
+
+// based on: https://github.com/date-fns/date-fns/blob/fd6bb1a0bab143f2da068c05a9c562b9bee1357d/src/getISOWeekYear/index.ts
+function getWeekYear(date: Date): number {
+  const year = date.getFullYear()
+
+  const fourthOfJanuaryOfNextYear = new Date(0)
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4)
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0)
+  const startOfNextYear = startOfWeek(fourthOfJanuaryOfNextYear, true)
+
+  const fourthOfJanuaryOfThisYear = new Date(0)
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4)
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0)
+  const startOfThisYear = startOfWeek(fourthOfJanuaryOfThisYear, true)
+
+  if (date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1
+  } else if (date.getTime() >= startOfThisYear.getTime()) {
+    return year
+  } else {
+    return year - 1
+  }
+}
+
+// function setWeekYear(
+//   date: Date,
+//   year: number,
+// ): Date {
+//   const diff = differenceInCalendarDays(date, startOfWeekYear(date))
+//   const fourthOfJanuary = new Date(0)
+//   fourthOfJanuary.setFullYear(year, 0, 4)
+//   fourthOfJanuary.setHours(0, 0, 0, 0)
+//   date = startOfWeekYear(fourthOfJanuary)
+//   date.setDate(date.getDate() + diff)
+//   return date
+// }
+
+// function differenceInCalendarDays(
+//   dateLeft: Date,
+//   dateRight: Date,
+// ): number {
+//   return Math.round((startOfDay(dateLeft).getTime() - startOfDay(dateRight).getTime()) / MILLISECONDS_IN_DAY)
+// }
+
+// function startOfDay(date: Date, mutate = false): Date {
+//   const d = mutate ? date : new Date(date)
+//   d.setHours(0, 0, 0, 0)
+//   return d
+// }
+
+// based on: https://github.com/date-fns/date-fns/blob/fd6bb1a0bab143f2da068c05a9c562b9bee1357d/src/startOfWeek/index.ts
+function startOfWeek(date: Date, mutate = false): Date {
+  const d = mutate ? date : new Date(date)
+
+  const day = d.getDay()
+  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn
+
+  d.setDate(d.getDate() - diff)
+  d.setHours(0, 0, 0, 0)
+  return d
+}
+
+// based on: https://github.com/date-fns/date-fns/blob/master/src/endOfWeek/index.ts
+function endOfWeek(date: Date, mutate = false): Date {
+  const d = mutate ? date : new Date(date)
+
+  const day = d.getDay()
+  const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn)
+
+  d.setDate(d.getDate() + diff)
+  return d
 }

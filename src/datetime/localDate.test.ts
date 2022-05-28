@@ -17,6 +17,13 @@ test('basic', () => {
 
   expect(ld.toLocalTime().toISODateTime()).toBe('1984-06-21T00:00:00')
   expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
+
+  expect(ld.startOf('year').toString()).toBe('1984-01-01')
+  expect(ld.startOf('month').toString()).toBe('1984-06-01')
+  expect(ld.startOf('day').toString()).toBe('1984-06-21')
+  expect(ld.endOf('year').toString()).toBe('1984-12-31')
+  expect(ld.endOf('month').toString()).toBe('1984-06-30')
+  expect(ld.endOf('day').toString()).toBe('1984-06-21')
 })
 
 test('isBetween', () => {
@@ -40,7 +47,7 @@ test('isBetween', () => {
 })
 
 test('sort', () => {
-  const items = ['2022-01-03', '2022-01-01', '2022-01-02'].map(s => LocalDate.of(s))
+  const items = ['2022-01-03', '2022-01-01', '2022-01-02'].map(i => localDate(i))
 
   expect(LocalDate.sort(items).map(s => s.toString())).toEqual([
     '2022-01-01',
@@ -65,7 +72,14 @@ test('add', () => {
   _range(10_000).forEach(i => {
     // console.log(i, ld.add(i, 'day').toISODate(), d.add(i, 'day').toISODate())
     expect(ld.add(i, 'day').toString()).toBe(d.add(i, 'day').toISODate())
+    expect(ld.add(-i, 'day').toString()).toBe(d.add(-i, 'day').toISODate())
     expect(ld.subtract(i, 'day').toString()).toBe(d.subtract(i, 'day').toISODate())
+    expect(ld.subtract(-i, 'day').toString()).toBe(d.subtract(-i, 'day').toISODate())
+
+    expect(ld.add(i, 'week').toString()).toBe(d.add(i, 'week').toISODate())
+    expect(ld.add(-i, 'week').toString()).toBe(d.add(-i, 'week').toISODate())
+    expect(ld.subtract(i, 'week').toString()).toBe(d.subtract(i, 'week').toISODate())
+    expect(ld.subtract(-i, 'week').toString()).toBe(d.subtract(-i, 'week').toISODate())
   })
 
   _range(1000).forEach(i => {
@@ -93,6 +107,8 @@ test('diff', () => {
 
     expect(ld.add(i, 'day').diff(ld, 'day')).toBe(d.add(i, 'd').diff(d, 'd'))
     expect(ld.diff(ld.add(i, 'day'), 'day')).toBe(d.diff(d.add(i, 'd'), 'd'))
+
+    expect(ld.add(i * 10, 'day').diff(ld, 'week')).toBe(d.add(i * 10, 'day').diff(d, 'week'))
   })
 })
 
