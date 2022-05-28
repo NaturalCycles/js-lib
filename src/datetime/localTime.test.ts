@@ -154,14 +154,21 @@ test('diff', () => {
 
   units.forEach(unit => {
     units.forEach(unit2 => {
-      _range(3000).forEach(i => {
-        let diff = d.add(i, unit2).diff(d, unit)
-        // console.log(`${start} plus ${i} ${unit2} - ${start} === ${diff} ${unit}`)
-        expect(lt.add(i, unit2).diff(lt, unit)).toBe(diff)
+      _range(unit === 'year' ? 1000 : 5000).forEach(i => {
+        let diff = lt.add(i, unit2).diff(lt, unit)
+        let expected = d.add(i, unit2).diff(d, unit)
+        // console.log(`${start} + ${i} ${unit2} == ${lt.add(i, unit2).toPretty()} should diff ${expected} ${unit}`)
+        expect(diff).toBe(expected)
 
-        diff = d.diff(d.add(i, unit2), unit)
+        diff = lt.diff(lt.add(i, unit2), unit)
+        expected = d.diff(d.add(i, unit2), unit)
         // console.log(`${start} - ${start} plus ${i} ${unit2} === ${diff} ${unit}`)
-        expect(lt.diff(lt.add(i, unit2), unit)).toBe(diff)
+        expect(diff).toBe(expected)
+
+        diff = lt.diff(lt.add(-i, unit2), unit)
+        expected = d.diff(d.add(-i, unit2), unit)
+        // console.log(`${start} - ${i} ${unit2} == ${lt.add(-i, unit2).toPretty()} should diff ${expected} ${unit}`)
+        expect(diff).toBe(expected)
       })
     })
   })
@@ -199,4 +206,17 @@ test('dayOfWeek', () => {
   expect(t.dayOfWeek(5).toISODate()).toBe('1984-06-22')
   expect(t.dayOfWeek(6).toISODate()).toBe('1984-06-23')
   expect(t.dayOfWeek(7).toISODate()).toBe('1984-06-24')
+})
+
+test('diff2', () => {
+  expect(localTime('2020-03-03').diff('1991-06-21', 'year')).toBe(28)
+
+  const ld = localTime('2022-01-01')
+  expect(ld.diff('2020-12-31', 'year')).toBe(1)
+  expect(ld.diff('2021-01-01', 'year')).toBe(1)
+  expect(ld.diff('2021-01-02', 'year')).toBe(0)
+
+  // day 2022-01-01 2020-12-01
+  expect(localTime('2020-12-01').diff(ld, 'day')).toBe(-396)
+  expect(ld.diff('2020-12-01', 'day')).toBe(396)
 })

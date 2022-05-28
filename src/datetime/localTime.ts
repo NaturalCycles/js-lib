@@ -29,6 +29,7 @@ export interface LocalTimeComponents {
 
 const weekStartsOn = 1 // mon, as per ISO
 const MILLISECONDS_IN_WEEK = 604800000
+const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_DAY = 86400000
 // const MILLISECONDS_IN_MINUTE = 60000
 const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
@@ -281,26 +282,45 @@ export class LocalTime {
   diff(other: LocalTimeConfig, unit: LocalTimeUnit): number {
     const date2 = LocalTime.parseToDate(other)
 
-    if (unit === 'year') {
-      return this.$date.getFullYear() - date2.getFullYear()
-    }
-    if (unit === 'month') {
-      return (
-        (this.$date.getFullYear() - date2.getFullYear()) * 12 +
-        this.$date.getMonth() -
-        date2.getMonth()
-      )
+    const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
+    if (!secDiff) return 0
+
+    if (unit === 'year' || unit === 'month') {
+      const sign = secDiff > 0 ? 1 : -1
+
+      // Put items in descending order: "big minus small"
+      const [big, small] = sign === 1 ? [this.$date, date2] : [date2, this.$date]
+
+      if (unit === 'year') {
+        let years = big.getFullYear() - small.getFullYear()
+        const big2 = new Date(big)
+        const small2 = new Date(small)
+        big2.setFullYear(1584)
+        small2.setFullYear(1584)
+        if (big2 < small2) years--
+        return years * sign || 0
+      }
+
+      if (unit === 'month') {
+        let months =
+          (big.getFullYear() - small.getFullYear()) * 12 + big.getMonth() - small.getMonth()
+        const big2 = new Date(big)
+        const small2 = new Date(small)
+        big2.setFullYear(1584, 0)
+        small2.setFullYear(1584, 0)
+        if (big2 < small2) months--
+        return months * sign || 0
+      }
     }
 
-    const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     let r
 
     if (unit === 'day') {
-      r = secDiff / (24 * 60 * 60)
+      r = secDiff / SECONDS_IN_DAY
     } else if (unit === 'week') {
       r = secDiff / (7 * 24 * 60 * 60)
     } else if (unit === 'hour') {
-      r = secDiff / (60 * 60)
+      r = secDiff / 3600
     } else if (unit === 'minute') {
       r = secDiff / 60
     } else {
@@ -308,9 +328,8 @@ export class LocalTime {
       r = secDiff
     }
 
-    r = Math.trunc(r)
-    if (Object.is(r, -0)) return 0
-    return r
+    // `|| 0` is to avoid returning -0
+    return Math.trunc(r) || 0
   }
 
   startOf(unit: LocalTimeUnit, mutate = false): LocalTime {

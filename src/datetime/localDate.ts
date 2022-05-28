@@ -253,49 +253,59 @@ export class LocalDate {
   }
 
   /**
-   * Returns the number of **full** units difference (aka `Math.ceil`).
+   * Returns the number of **full** units difference (aka `Math.floor`).
    *
    * a.diff(b) means "a minus b"
    */
   diff(d: LocalDateConfig, unit: LocalDateUnit): number {
     d = LocalDate.of(d)
 
+    const sign = this.cmp(d)
+    if (!sign) return 0
+
+    // Put items in descending order: "big minus small"
+    const [big, small] = sign === 1 ? [this, d] : [d, this]
+
     if (unit === 'year') {
-      return this.$year - d.$year
+      let years = big.$year - small.$year
+
+      if (big.$month < small.$month || (big.$month === small.$month && big.$day < small.$day)) {
+        years--
+      }
+
+      return years * sign || 0
     }
 
     if (unit === 'month') {
-      return (this.$year - d.$year) * 12 + (this.$month - d.$month)
+      let months = (big.$year - small.$year) * 12 + (big.$month - small.$month)
+      if (big.$day < small.$day) months--
+      return months * sign || 0
     }
 
     // unit is 'day' or 'week'
-    let days = this.$day - d.$day
+    let days = big.$day - small.$day
 
-    if (d.$year < this.$year) {
-      for (let year = d.$year; year < this.$year; year++) {
-        days += LocalDate.getYearLength(year)
-      }
-    } else if (this.$year < d.$year) {
-      for (let year = this.$year; year < d.$year; year++) {
-        days -= LocalDate.getYearLength(year)
-      }
+    // If small date is after 1st of March - next year's "leapness" should be used
+    const offsetYear = small.$month >= 3 ? 1 : 0
+    for (let year = small.$year; year < big.$year; year++) {
+      days += LocalDate.getYearLength(year + offsetYear)
     }
 
-    if (d.$month < this.$month) {
-      for (let month = d.$month; month < this.$month; month++) {
-        days += LocalDate.getMonthLength(this.$year, month)
+    if (small.$month < big.$month) {
+      for (let month = small.$month; month < big.$month; month++) {
+        days += LocalDate.getMonthLength(big.$year, month)
       }
-    } else if (this.$month < d.$month) {
-      for (let month = this.$month; month < d.$month; month++) {
-        days -= LocalDate.getMonthLength(d.$year, month)
+    } else if (big.$month < small.$month) {
+      for (let month = big.$month; month < small.$month; month++) {
+        days -= LocalDate.getMonthLength(big.$year, month)
       }
     }
 
     if (unit === 'week') {
-      return Math.floor(days / 7)
+      return Math.trunc(days / 7) * sign || 0
     }
 
-    return days
+    return days * sign || 0
   }
 
   add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {

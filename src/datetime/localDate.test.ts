@@ -1,6 +1,8 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
-import { localDate, LocalDate, LocalDateFormatter } from './localDate'
+import { localDate, LocalDate, LocalDateFormatter, LocalDateUnit } from './localDate'
+
+const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 
 test('basic', () => {
   const str = '1984-06-21'
@@ -69,27 +71,13 @@ test('add', () => {
   expect(ld.subtract(1, 'day').toString()).toBe('2021-12-31')
   expect(ld.add(-1, 'month').toString()).toBe('2021-12-01')
 
-  _range(10_000).forEach(i => {
-    // console.log(i, ld.add(i, 'day').toISODate(), d.add(i, 'day').toISODate())
-    expect(ld.add(i, 'day').toString()).toBe(d.add(i, 'day').toISODate())
-    expect(ld.add(-i, 'day').toString()).toBe(d.add(-i, 'day').toISODate())
-    expect(ld.subtract(i, 'day').toString()).toBe(d.subtract(i, 'day').toISODate())
-    expect(ld.subtract(-i, 'day').toString()).toBe(d.subtract(-i, 'day').toISODate())
-
-    expect(ld.add(i, 'week').toString()).toBe(d.add(i, 'week').toISODate())
-    expect(ld.add(-i, 'week').toString()).toBe(d.add(-i, 'week').toISODate())
-    expect(ld.subtract(i, 'week').toString()).toBe(d.subtract(i, 'week').toISODate())
-    expect(ld.subtract(-i, 'week').toString()).toBe(d.subtract(-i, 'week').toISODate())
-  })
-
-  _range(1000).forEach(i => {
-    expect(ld.add(i, 'month').toString()).toBe(d.add(i, 'month').toISODate())
-    expect(ld.subtract(i, 'month').toString()).toBe(d.subtract(i, 'month').toISODate())
-  })
-
-  _range(1000).forEach(i => {
-    expect(ld.add(i, 'year').toString()).toBe(d.add(i, 'y').toISODate())
-    expect(ld.subtract(i, 'year').toString()).toBe(d.subtract(i, 'y').toISODate())
+  units.forEach(unit => {
+    _range(unit === 'year' ? 1000 : 3000).forEach(i => {
+      // console.log(i, ld.add(i, 'day').toISODate(), d.add(i, 'day').toISODate())
+      expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
+      expect(ld.add(-i, unit).toString()).toBe(d.add(-i, unit).toISODate())
+      expect(ld.subtract(i, unit).toString()).toBe(d.subtract(i, unit).toISODate())
+    })
   })
 })
 
@@ -98,17 +86,21 @@ test('diff', () => {
   const ld = LocalDate.of(start)
   const d = dayjs(start)
 
-  _range(10_000).forEach(i => {
-    expect(ld.add(i, 'day').diff(ld, 'year')).toBe(d.add(i, 'd').diff(d, 'y'))
-    expect(ld.diff(ld.add(i, 'day'), 'year')).toBe(d.diff(d.add(i, 'd'), 'y'))
+  units.forEach(unit => {
+    _range(unit === 'year' ? 1000 : 5000).forEach(i => {
+      units.forEach(unit2 => {
+        // console.log(unit2, ld.toString(), ld.add(i, unit).toString(), ld.diff(ld.add(i, unit), unit2), d.diff(d.add(i, unit), unit2))
+        expect(ld.add(i, unit).diff(ld, unit2)).toBe(d.add(i, unit).diff(d, unit2))
+        expect(ld.diff(ld.add(i, unit), unit2)).toBe(d.diff(d.add(i, unit), unit2))
 
-    expect(ld.add(i, 'day').diff(ld, 'month')).toBe(d.add(i, 'd').diff(d, 'month'))
-    expect(ld.diff(ld.add(i, 'day'), 'month')).toBe(d.diff(d.add(i, 'd'), 'month'))
+        // console.log(unit2, ld.toString(), ld.add(-i, unit).toString(), ld.add(-i, unit).diff(ld, unit2), d.add(-i, unit).diff(d, unit2))
+        expect(ld.add(-i, unit).diff(ld, unit2)).toBe(d.add(-i, unit).diff(d, unit2))
 
-    expect(ld.add(i, 'day').diff(ld, 'day')).toBe(d.add(i, 'd').diff(d, 'd'))
-    expect(ld.diff(ld.add(i, 'day'), 'day')).toBe(d.diff(d.add(i, 'd'), 'd'))
-
-    expect(ld.add(i * 10, 'day').diff(ld, 'week')).toBe(d.add(i * 10, 'day').diff(d, 'week'))
+        expect(ld.add(i, unit).add(40, 'day').diff(ld, unit2)).toBe(
+          d.add(i, unit).add(40, 'day').diff(d, unit2),
+        )
+      })
+    })
   })
 })
 
@@ -192,4 +184,17 @@ test('format', () => {
 
   const fmt2: LocalDateFormatter = ld => `${String(ld.month()).padStart(2, '0')}/${ld.year()}`
   expect(localDate('1984-06-21').format(fmt2)).toBe('06/1984')
+})
+
+test('diff2', () => {
+  expect(localDate('2020-03-03').diff('1991-06-21', 'year')).toBe(28)
+
+  const ld = localDate('2022-01-01')
+  expect(ld.diff('2020-12-31', 'year')).toBe(1)
+  expect(ld.diff('2021-01-01', 'year')).toBe(1)
+  expect(ld.diff('2021-01-02', 'year')).toBe(0)
+
+  // day 2022-01-01 2020-12-01
+  expect(localDate('2020-12-01').diff(ld, 'day')).toBe(-396)
+  expect(ld.diff('2020-12-01', 'day')).toBe(396)
 })
