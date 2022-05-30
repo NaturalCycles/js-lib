@@ -61,20 +61,45 @@ test('sort', () => {
   expect(LocalDate.latest(items).toString()).toBe('2022-01-03')
 })
 
-test('add', () => {
-  const start = '2022-01-01'
-  const ld = localDate(start)
-  const d = dayjs(start)
+test('add basic', () => {
+  const ld = localDate('2022-01-01')
 
   expect(ld.clone().add(1, 'day', true).toString()).toBe('2022-01-02')
   expect(ld.add(-1, 'day').toString()).toBe('2021-12-31')
   expect(ld.subtract(1, 'day').toString()).toBe('2021-12-31')
   expect(ld.add(-1, 'month').toString()).toBe('2021-12-01')
 
+  const d = localDate('2022-05-31')
+  expect(d.add(1, 'month').toISODate()).toBe('2022-06-30')
+  expect(d.add(-1, 'month').toISODate()).toBe('2022-04-30')
+})
+
+test('add', () => {
+  const start = '2022-05-31'
+  const ld = localDate(start)
+  const d = dayjs(start)
+
   units.forEach(unit => {
     _range(unit === 'year' ? 1000 : 3000).forEach(i => {
-      // console.log(i, ld.add(i, 'day').toISODate(), d.add(i, 'day').toISODate())
+      // console.log(ld.toISODate(), '+', i, unit, '==', d.add(i, unit).toISODate())
       expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
+      // console.log(ld.toISODate(), '-', i, unit, '==', d.add(-i, unit).toISODate())
+      expect(ld.add(-i, unit).toString()).toBe(d.add(-i, unit).toISODate())
+      expect(ld.subtract(i, unit).toString()).toBe(d.subtract(i, unit).toISODate())
+    })
+  })
+})
+
+test('add leap', () => {
+  const start = '2020-02-29'
+  const ld = localDate(start)
+  const d = dayjs(start)
+
+  units.forEach(unit => {
+    _range(unit === 'year' ? 1000 : 3000).forEach(i => {
+      // console.log(ld.toISODate(), '+', i, unit, '==', d.add(i, unit).toISODate())
+      expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
+      // console.log(ld.toISODate(), '-', i, unit, '==', d.add(-i, unit).toISODate())
       expect(ld.add(-i, unit).toString()).toBe(d.add(-i, unit).toISODate())
       expect(ld.subtract(i, unit).toString()).toBe(d.subtract(i, unit).toISODate())
     })
@@ -82,23 +107,39 @@ test('add', () => {
 })
 
 test('diff', () => {
-  const start = '2022-01-01'
+  const start = '2020-02-29'
   const ld = LocalDate.of(start)
   const d = dayjs(start)
 
   units.forEach(unit => {
     _range(unit === 'year' ? 1000 : 5000).forEach(i => {
       units.forEach(unit2 => {
-        // console.log(unit2, ld.toString(), ld.add(i, unit).toString(), ld.diff(ld.add(i, unit), unit2), d.diff(d.add(i, unit), unit2))
-        expect(ld.add(i, unit).diff(ld, unit2)).toBe(d.add(i, unit).diff(d, unit2))
-        expect(ld.diff(ld.add(i, unit), unit2)).toBe(d.diff(d.add(i, unit), unit2))
+        let left = ld.add(i, unit)
+        let right = ld
+        let diff = left.diff(right, unit2)
+        let expected = d.add(i, unit).diff(d, unit2)
+        // console.log(i, unit, left.toString(), '-', right.toString(), '==', diff, unit2)
+        expect(diff).toBe(expected)
 
-        // console.log(unit2, ld.toString(), ld.add(-i, unit).toString(), ld.add(-i, unit).diff(ld, unit2), d.add(-i, unit).diff(d, unit2))
-        expect(ld.add(-i, unit).diff(ld, unit2)).toBe(d.add(-i, unit).diff(d, unit2))
+        left = ld
+        right = ld.add(i, unit)
+        diff = left.diff(right, unit2)
+        expected = d.diff(d.add(i, unit), unit2)
+        expect(diff).toBe(expected)
 
-        expect(ld.add(i, unit).add(40, 'day').diff(ld, unit2)).toBe(
-          d.add(i, unit).add(40, 'day').diff(d, unit2),
-        )
+        left = ld.add(-i, unit)
+        right = ld
+        diff = left.diff(right, unit2)
+        expected = d.add(-i, unit).diff(d, unit2)
+        // console.log(i, unit, left.toString(), '-', right.toString(), '==', diff, unit2)
+        expect(diff).toBe(expected)
+
+        left = ld.add(i, unit).add(40, 'day')
+        right = ld
+        diff = left.diff(right, unit2)
+        expected = d.add(i, unit).add(40, 'day').diff(d, unit2)
+        // console.log(ld.add(i, unit).add(40, 'day').toString(), '-', ld.toString(), '==', diff, unit2)
+        expect(diff).toBe(expected)
       })
     })
   })
@@ -197,4 +238,12 @@ test('diff2', () => {
   // day 2022-01-01 2020-12-01
   expect(localDate('2020-12-01').diff(ld, 'day')).toBe(-396)
   expect(ld.diff('2020-12-01', 'day')).toBe(396)
+
+  expect(localDate('2020-02-29').diff('2020-01-30', 'month')).toBe(
+    dayjs('2020-02-29').diff('2020-01-30', 'month'),
+  )
+
+  expect(localDate('2020-01-30').diff('2020-02-29', 'month')).toBe(
+    dayjs('2020-01-30').diff('2020-02-29', 'month'),
+  )
 })

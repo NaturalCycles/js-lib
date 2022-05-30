@@ -269,7 +269,15 @@ export class LocalDate {
     if (unit === 'year') {
       let years = big.$year - small.$year
 
-      if (big.$month < small.$month || (big.$month === small.$month && big.$day < small.$day)) {
+      if (
+        big.$month < small.$month ||
+        (big.$month === small.$month &&
+          big.$day < small.$day &&
+          !(
+            big.$day === LocalDate.getMonthLength(big.$year, big.$month) &&
+            small.$day === LocalDate.getMonthLength(small.$year, small.$month)
+          ))
+      ) {
         years--
       }
 
@@ -278,7 +286,12 @@ export class LocalDate {
 
     if (unit === 'month') {
       let months = (big.$year - small.$year) * 12 + (big.$month - small.$month)
-      if (big.$day < small.$day) months--
+      if (big.$day < small.$day) {
+        const bigMonthLen = LocalDate.getMonthLength(big.$year, big.$month)
+        if (big.$day !== bigMonthLen || small.$day < bigMonthLen) {
+          months--
+        }
+      }
       return months * sign || 0
     }
 
@@ -324,21 +337,37 @@ export class LocalDate {
       $year += num
     }
 
-    // check day overflow
-    if (unit === 'day') {
-      if ($day < 1) {
-        while ($day < 1) {
-          $month -= 1
-          if ($month < 1) {
-            $year -= 1
-            $month += 12
-          }
+    // check month overflow
+    while ($month > 12) {
+      $year += 1
+      $month -= 12
+    }
+    while ($month < 1) {
+      $year -= 1
+      $month += 12
+    }
 
-          $day += LocalDate.getMonthLength($year, $month)
+    // check day overflow
+    // Applies not only for 'day' unit, but also e.g 2022-05-31 plus 1 month should be 2022-06-30 (not 31!)
+    if ($day < 1) {
+      while ($day < 1) {
+        $month -= 1
+        if ($month < 1) {
+          $year -= 1
+          $month += 12
+        }
+
+        $day += LocalDate.getMonthLength($year, $month)
+      }
+    } else {
+      let monLen = LocalDate.getMonthLength($year, $month)
+
+      if (unit !== 'day') {
+        if ($day > monLen) {
+          // Case of 2022-05-31 plus 1 month should be 2022-06-30, not 31
+          $day = monLen
         }
       } else {
-        let monLen = LocalDate.getMonthLength($year, $month)
-
         while ($day > monLen) {
           $day -= monLen
           $month += 1
@@ -350,16 +379,6 @@ export class LocalDate {
           monLen = LocalDate.getMonthLength($year, $month)
         }
       }
-    }
-
-    // check month overflow
-    while ($month > 12) {
-      $year += 1
-      $month -= 12
-    }
-    while ($month < 1) {
-      $year -= 1
-      $month += 12
     }
 
     if (mutate) {

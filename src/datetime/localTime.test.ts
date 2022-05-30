@@ -12,12 +12,12 @@ test('basic', () => {
   expect(lt.day()).toBe(1)
   expect(lt.week()).toBe(52)
   expect(lt.toISODateTime()).toBe('2022-01-01T00:00:00')
+  expect(lt.toString()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
   expect(lt.toPretty(false)).toBe('2022-01-01 00:00')
   expect(lt.unix()).toBe(1640995200)
   expect(lt.valueOf()).toBe(1640995200)
   expect(lt.toJSON()).toBe(1640995200)
-  expect(lt.toString()).toBe('1640995200')
   const lt2 = lt.clone()
   expect(lt2).not.toBe(lt)
   expect(lt2 === lt).toBe(false)
@@ -121,13 +121,15 @@ test('validation', () => {
 })
 
 test('add', () => {
-  const start = '2022-01-01'
+  const start = '2020-02-29'
   const lt = LocalTime.of(start)
   const d = dayjs(start)
 
   units.forEach(unit => {
-    _range(3000).forEach(i => {
+    _range(unit === 'year' ? 2000 : 3000).forEach(i => {
+      // console.log(`${start} + ${i} ${unit} == ${lt.add(i, unit).toPretty()}`)
       expect(lt.add(i, unit).unix()).toBe(d.add(i, unit).unix())
+      // console.log(`${start} - ${i} ${unit} == ${lt.subtract(i, unit).toPretty()}`)
       expect(lt.subtract(i, unit).unix()).toBe(d.subtract(i, unit).unix())
       expect(lt.add(i, unit).toISODateTime() + '+00:00').toBe(d.add(i, unit).format())
 
@@ -146,29 +148,31 @@ test('add', () => {
 })
 
 test('diff', () => {
-  const start = '2022-01-01'
-  const lt = LocalTime.of(start)
-  const d = dayjs(start)
+  const starts = ['2022-05-31', '2020-02-29']
+  // const starts = ['2020-02-29']
 
-  // const units: LocalTimeUnit[] = ['week']
+  starts.forEach(start => {
+    const lt = LocalTime.of(start)
+    const d = dayjs(start)
 
-  units.forEach(unit => {
-    units.forEach(unit2 => {
-      _range(unit === 'year' ? 1000 : 5000).forEach(i => {
-        let diff = lt.add(i, unit2).diff(lt, unit)
-        let expected = d.add(i, unit2).diff(d, unit)
-        // console.log(`${start} + ${i} ${unit2} == ${lt.add(i, unit2).toPretty()} should diff ${expected} ${unit}`)
-        expect(diff).toBe(expected)
+    units.forEach(unit => {
+      units.forEach(unit2 => {
+        _range(unit2 === 'year' ? 1000 : 3000).forEach(i => {
+          let diff = lt.add(i, unit2).diff(lt, unit)
+          let expected = d.add(i, unit2).diff(d, unit)
+          // console.log(`${start} + ${i} ${unit2} == ${lt.add(i, unit2).toPretty()} should diff ${expected} ${unit}`)
+          expect(diff).toBe(expected)
 
-        diff = lt.diff(lt.add(i, unit2), unit)
-        expected = d.diff(d.add(i, unit2), unit)
-        // console.log(`${start} - ${start} plus ${i} ${unit2} === ${diff} ${unit}`)
-        expect(diff).toBe(expected)
+          diff = lt.diff(lt.add(i, unit2), unit)
+          expected = d.diff(d.add(i, unit2), unit)
+          // console.log(`${start} - ${start} plus ${i} ${unit2} === ${diff} ${unit}`)
+          expect(diff).toBe(expected)
 
-        diff = lt.diff(lt.add(-i, unit2), unit)
-        expected = d.diff(d.add(-i, unit2), unit)
-        // console.log(`${start} - ${i} ${unit2} == ${lt.add(-i, unit2).toPretty()} should diff ${expected} ${unit}`)
-        expect(diff).toBe(expected)
+          diff = lt.diff(lt.add(-i, unit2), unit)
+          expected = d.diff(d.add(-i, unit2), unit)
+          // console.log(`${start} - ${i} ${unit2} == ${lt.add(-i, unit2).toPretty()} should diff ${expected} ${unit}`)
+          expect(diff).toBe(expected)
+        })
       })
     })
   })
@@ -224,4 +228,50 @@ test('diff2', () => {
 test('fromComponents', () => {
   const lt = LocalTime.fromComponents({ year: 1984, month: 6 })
   expect(lt.toISODate()).toBe('1984-06-01')
+})
+
+test('add edge', () => {
+  // 2020-02-29 - 2020 year == 0000-02-29 00:00:00
+  // expect(localTime('2020-02-29').add(-2020, 'year').toPretty()).toBe(dayjs('2020-02-29').add(-2020, 'year').toPretty())
+
+  expect(localTime('2022-05-31').add(21, 'month').toPretty()).toBe('2024-02-29 00:00:00')
+
+  expect(localTime('2022-05-31').add(1, 'month').toPretty()).toBe('2022-06-30 00:00:00')
+  expect(localTime('2022-05-31').add(-1, 'month').toPretty()).toBe('2022-04-30 00:00:00')
+
+  expect(localTime('2020-02-29').add(1, 'month').toPretty()).toBe('2020-03-29 00:00:00')
+  expect(localTime('2020-03-29').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-03-30').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-03-31').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-01-31').add(1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-01-31').add(2, 'month').toPretty()).toBe('2020-03-31 00:00:00')
+  expect(localTime('2020-01-31').add(3, 'month').toPretty()).toBe('2020-04-30 00:00:00')
+  expect(localTime('2020-02-29').add(1, 'year').toPretty()).toBe('2021-02-28 00:00:00')
+  expect(localTime('2021-02-28').add(-1, 'year').toPretty()).toBe('2020-02-28 00:00:00')
+})
+
+test('diff edge', () => {
+  // 2022-05-31 + 1 month == 2022-06-30 00:00:00 should diff 1 month
+  // console.log(differenceInMonths(new Date('2022-06-30'), new Date('2022-05-31')))
+  // console.log(differenceInMonths(new Date('2022-05-31'), new Date('2022-04-30')))
+  // console.log(differenceInMonths(new Date('2022-05-31'), new Date('2022-04-30T23:00:00')))
+  //
+  // console.log(moment('2022-05-31').diff('2022-04-30', 'month'))
+  // console.log(moment('2022-05-31').diff('2022-04-30T23:00:00', 'month'))
+
+  expect(localTime('2022-06-30').diff('2022-05-31', 'month')).toBe(
+    dayjs('2022-06-30').diff('2022-05-31', 'month'),
+  )
+  expect(localTime('2022-06-30').diff('2022-05-31', 'month')).toBe(1)
+
+  // 2022-05-31 - 721 hour == 2022-04-30 23:00:00 should diff 0 month
+  expect(localTime('2022-05-31').diff('2022-04-30', 'month')).toBe(
+    dayjs('2022-05-31').diff('2022-04-30', 'month'),
+  )
+  expect(localTime('2022-05-31').diff('2022-04-30T23:00:00', 'month')).toBe(
+    dayjs('2022-05-31').diff('2022-04-30T23:00:00', 'month'),
+  )
+
+  // 2022-05-31 + 1 day == 2022-06-01 00:00:00 should diff 0 month
+  expect(localTime('2022-06-01').diff('2022-05-31', 'month')).toBe(0)
 })

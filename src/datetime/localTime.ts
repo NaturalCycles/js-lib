@@ -229,15 +229,15 @@ export class LocalTime {
   setComponents(c: Partial<LocalTimeComponents>, mutate = false): LocalTime {
     const d = mutate ? this.$date : new Date(this.$date)
 
-    if (c.year) {
-      d.setFullYear(c.year)
+    // Year, month and day set all-at-once, to avoid 30/31 (and 28/29) mishap
+    if (c.day || c.month !== undefined || c.year !== undefined) {
+      d.setFullYear(
+        c.year ?? d.getFullYear(),
+        c.month ? c.month - 1 : d.getMonth(),
+        c.day || d.getDate(),
+      )
     }
-    if (c.month) {
-      d.setMonth(c.month - 1)
-    }
-    if (c.day) {
-      d.setDate(c.day)
-    }
+
     if (c.hour !== undefined) {
       d.setHours(c.hour)
     }
@@ -256,6 +256,12 @@ export class LocalTime {
       num *= 7
       unit = 'day'
     }
+
+    if (unit === 'year' || unit === 'month') {
+      const d = addMonths(this.$date, unit === 'month' ? num : num * 12, mutate)
+      return mutate ? this : LocalTime.of(d)
+    }
+
     return this.set(unit, this.get(unit) + num, mutate)
   }
 
@@ -273,37 +279,13 @@ export class LocalTime {
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
 
-    if (unit === 'year' || unit === 'month') {
-      const sign = secDiff > 0 ? 1 : -1
-
-      // Put items in descending order: "big minus small"
-      const [big, small] = sign === 1 ? [this.$date, date2] : [date2, this.$date]
-
-      if (unit === 'year') {
-        let years = big.getFullYear() - small.getFullYear()
-        const big2 = new Date(big)
-        const small2 = new Date(small)
-        big2.setFullYear(1584)
-        small2.setFullYear(1584)
-        if (big2 < small2) years--
-        return years * sign || 0
-      }
-
-      if (unit === 'month') {
-        let months =
-          (big.getFullYear() - small.getFullYear()) * 12 + big.getMonth() - small.getMonth()
-        const big2 = new Date(big)
-        const small2 = new Date(small)
-        big2.setFullYear(1584, 0)
-        small2.setFullYear(1584, 0)
-        if (big2 < small2) months--
-        return months * sign || 0
-      }
-    }
-
     let r
 
-    if (unit === 'day') {
+    if (unit === 'year') {
+      r = differenceInMonths(this.getDate(), date2) / 12
+    } else if (unit === 'month') {
+      r = differenceInMonths(this.getDate(), date2)
+    } else if (unit === 'day') {
       r = secDiff / SECONDS_IN_DAY
     } else if (unit === 'week') {
       r = secDiff / (7 * 24 * 60 * 60)
@@ -587,7 +569,7 @@ export class LocalTime {
   }
 
   toString(): string {
-    return String(this.unix())
+    return this.toISODateTime()
   }
 
   toJSON(): UnixTimestampNumber {
@@ -651,32 +633,6 @@ function getWeekYear(date: Date): number {
   }
 }
 
-// function setWeekYear(
-//   date: Date,
-//   year: number,
-// ): Date {
-//   const diff = differenceInCalendarDays(date, startOfWeekYear(date))
-//   const fourthOfJanuary = new Date(0)
-//   fourthOfJanuary.setFullYear(year, 0, 4)
-//   fourthOfJanuary.setHours(0, 0, 0, 0)
-//   date = startOfWeekYear(fourthOfJanuary)
-//   date.setDate(date.getDate() + diff)
-//   return date
-// }
-
-// function differenceInCalendarDays(
-//   dateLeft: Date,
-//   dateRight: Date,
-// ): number {
-//   return Math.round((startOfDay(dateLeft).getTime() - startOfDay(dateRight).getTime()) / MILLISECONDS_IN_DAY)
-// }
-
-// function startOfDay(date: Date, mutate = false): Date {
-//   const d = mutate ? date : new Date(date)
-//   d.setHours(0, 0, 0, 0)
-//   return d
-// }
-
 // based on: https://github.com/date-fns/date-fns/blob/fd6bb1a0bab143f2da068c05a9c562b9bee1357d/src/startOfWeek/index.ts
 function startOfWeek(date: Date, mutate = false): Date {
   const d = mutate ? date : new Date(date)
@@ -698,4 +654,42 @@ function endOfWeek(date: Date, mutate = false): Date {
 
   d.setDate(d.getDate() + diff)
   return d
+}
+
+function addMonths(d: Date, num: number, mutate = false): Date {
+  if (!mutate) d = new Date(d)
+
+  let day = d.getDate()
+  let month = d.getMonth() + 1 + num
+
+  if (day < 29) {
+    d.setMonth(month - 1)
+    return d
+  }
+
+  let year = d.getFullYear()
+
+  while (month > 12) {
+    year++
+    month -= 12
+  }
+  while (month < 1) {
+    year--
+    month += 12
+  }
+
+  const monthLen = LocalDate.getMonthLength(year, month)
+  if (day > monthLen) day = monthLen
+
+  d.setFullYear(year, month - 1, day)
+  return d
+}
+
+function differenceInMonths(a: Date, b: Date): number {
+  if (a.getDate() < b.getDate()) return -differenceInMonths(b, a)
+  const wholeMonthDiff = (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth())
+  const anchor = addMonths(a, wholeMonthDiff).getTime()
+  const sign = b.getTime() - anchor >= 0 ? 1 : -1
+  const anchor2 = addMonths(a, wholeMonthDiff + sign).getTime()
+  return -(wholeMonthDiff + ((b.getTime() - anchor) / (anchor2 - anchor)) * sign)
 }
