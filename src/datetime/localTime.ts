@@ -57,6 +57,13 @@ export class LocalTime {
   }
 
   /**
+   * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
+   */
+  static ofMillis(millis: number): LocalTime {
+    return LocalTime.of(new Date(millis))
+  }
+
+  /**
    * Returns null if invalid
    */
   static parseOrNull(d: LocalTimeConfig | undefined | null): LocalTime | null {
