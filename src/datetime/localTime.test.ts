@@ -1,8 +1,19 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
+import { expectWithMessage } from '../test/test.util'
 import { ISODayOfWeek, localTime, LocalTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
+
+const UNIT_RANGE: Record<LocalTimeUnit, number> = {
+  year: 1000,
+  month: 100,
+  week: 1000,
+  day: 5000,
+  hour: 10000,
+  minute: 10000,
+  second: 10000,
+}
 
 test('basic', () => {
   const start = '2022-01-01'
@@ -38,6 +49,9 @@ test('basic', () => {
   expect(lt.toStringCompact(true)).toBe('20220101_000000')
 
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
+
+  expect(LocalTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
+  expect(LocalTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
 
   expect(lt.year(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
   expect(lt.month(12).toISODateTime()).toBe('2022-12-01T00:00:00')
@@ -121,34 +135,87 @@ test('validation', () => {
 })
 
 test('add', () => {
-  const start = '2020-02-29'
-  const lt = LocalTime.of(start)
-  const d = dayjs(start)
+  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
-  units.forEach(unit => {
-    _range(unit === 'year' ? 2000 : 3000).forEach(i => {
-      // console.log(`${start} + ${i} ${unit} == ${lt.add(i, unit).toPretty()}`)
-      expect(lt.add(i, unit).unix()).toBe(d.add(i, unit).unix())
-      // console.log(`${start} - ${i} ${unit} == ${lt.subtract(i, unit).toPretty()}`)
-      expect(lt.subtract(i, unit).unix()).toBe(d.subtract(i, unit).unix())
-      expect(lt.add(i, unit).toISODateTime() + '+00:00').toBe(d.add(i, unit).format())
+  starts.forEach(start => {
+    const lt = LocalTime.of(start)
+    const d = dayjs(start)
 
-      units.forEach(unit2 => {
-        // console.log(unit2, lt.add(i, unit).startOf(unit2).toPretty(), d.add(i, unit).startOf(unit2).toPretty())
-        // expect(lt.add(i, unit).startOf(unit2).unix()).toBe(d.add(i, unit).startOf(unit2).unix())
-        expect(lt.add(i, unit).startOf(unit2).unix()).toBe(d.add(i, unit).startOf(unit2).unix())
-        expect(lt.add(i, unit).endOf(unit2).unix()).toBe(d.add(i, unit).endOf(unit2).unix())
+    units.forEach(unit => {
+      _range(UNIT_RANGE[unit]).forEach(i => {
+        let expected = d.add(i, unit)
+        let actual = lt.add(i, unit)
 
-        expect(lt.add(i, unit).add(40, 'day').startOf(unit2).unix()).toBe(
-          d.add(i, unit).add(40, 'day').startOf(unit2).unix(),
+        expectWithMessage(`${lt} + ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
+        expectWithMessage(
+          `${lt} + ${i} ${unit}`,
+          expected.unixMillis(),
+          actual.unixMillis(),
+          expected,
+          actual,
         )
+        expectWithMessage(
+          `${lt} + ${i} ${unit}`,
+          expected.toISODate(),
+          actual.toISODate(),
+          expected,
+          actual,
+        )
+        expectWithMessage(
+          `${lt} + ${i} ${unit}`,
+          expected.format(),
+          actual.toISODateTime() + '+00:00',
+          expected,
+          actual,
+        )
+
+        expected = d.subtract(i, unit)
+        actual = lt.subtract(i, unit)
+        expectWithMessage(`${lt} - ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
+
+        units.forEach(roundUnit => {
+          // console.log(unit2, lt.add(i, unit).startOf(unit2).toPretty(), d.add(i, unit).startOf(unit2).toPretty())
+          // expect(lt.add(i, unit).startOf(unit2).unix()).toBe(d.add(i, unit).startOf(unit2).unix())
+          expected = d.add(i, unit).startOf(roundUnit)
+          actual = lt.add(i, unit).startOf(roundUnit)
+
+          expectWithMessage(
+            `${lt} + ${i} ${unit} startOf(${roundUnit})`,
+            expected.unix(),
+            actual.unix(),
+            expected,
+            actual,
+          )
+
+          expected = d.add(i, unit).endOf(roundUnit)
+          actual = lt.add(i, unit).endOf(roundUnit)
+
+          expectWithMessage(
+            `${lt} + ${i} ${unit} endOf(${roundUnit})`,
+            expected.unix(),
+            actual.unix(),
+            expected,
+            actual,
+          )
+
+          expected = d.add(i, unit).add(40, 'day').startOf(roundUnit)
+          actual = lt.add(i, unit).add(40, 'day').startOf(roundUnit)
+
+          expectWithMessage(
+            `${lt} + ${i} ${unit} + 40 days startOf(${roundUnit})`,
+            expected.unix(),
+            actual.unix(),
+            expected,
+            actual,
+          )
+        })
       })
     })
   })
 })
 
 test('diff', () => {
-  const starts = ['2022-05-31', '2020-02-29']
+  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
   // const starts = ['2020-02-29']
 
   starts.forEach(start => {
@@ -156,22 +223,25 @@ test('diff', () => {
     const d = dayjs(start)
 
     units.forEach(unit => {
-      units.forEach(unit2 => {
-        _range(unit2 === 'year' ? 1000 : 3000).forEach(i => {
-          let diff = lt.add(i, unit2).diff(lt, unit)
-          let expected = d.add(i, unit2).diff(d, unit)
-          // console.log(`${start} + ${i} ${unit2} == ${lt.add(i, unit2).toPretty()} should diff ${expected} ${unit}`)
-          expect(diff).toBe(expected)
+      units.forEach(unitAdd => {
+        _range(UNIT_RANGE[unitAdd]).forEach(i => {
+          let left = lt.add(i, unitAdd)
+          let right = lt
+          let actual = left.diff(right, unit)
+          let expected = d.add(i, unitAdd).diff(d, unit)
 
-          diff = lt.diff(lt.add(i, unit2), unit)
-          expected = d.diff(d.add(i, unit2), unit)
-          // console.log(`${start} - ${start} plus ${i} ${unit2} === ${diff} ${unit}`)
-          expect(diff).toBe(expected)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
-          diff = lt.diff(lt.add(-i, unit2), unit)
-          expected = d.diff(d.add(-i, unit2), unit)
-          // console.log(`${start} - ${i} ${unit2} == ${lt.add(-i, unit2).toPretty()} should diff ${expected} ${unit}`)
-          expect(diff).toBe(expected)
+          actual = right.diff(left, unit)
+          expected = d.diff(d.add(i, unitAdd), unit)
+
+          expectWithMessage(`${right} diff ${left} in ${unit}`, expected, actual)
+
+          left = lt
+          right = lt.add(-i, unitAdd)
+          actual = left.diff(right, unit)
+          expected = d.diff(d.add(-i, unitAdd), unit)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
         })
       })
     })

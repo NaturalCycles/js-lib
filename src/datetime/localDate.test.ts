@@ -1,8 +1,16 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
+import { expectWithMessage } from '../test/test.util'
 import { localDate, LocalDate, LocalDateFormatter, LocalDateUnit } from './localDate'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
+
+const UNIT_RANGE: Record<LocalDateUnit, number> = {
+  year: 1000,
+  month: 100,
+  week: 1000,
+  day: 5000,
+}
 
 test('basic', () => {
   const str = '1984-06-21'
@@ -75,71 +83,62 @@ test('add basic', () => {
 })
 
 test('add', () => {
-  const start = '2022-05-31'
-  const ld = localDate(start)
-  const d = dayjs(start)
+  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
-  units.forEach(unit => {
-    _range(unit === 'year' ? 1000 : 3000).forEach(i => {
-      // console.log(ld.toISODate(), '+', i, unit, '==', d.add(i, unit).toISODate())
-      expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
-      // console.log(ld.toISODate(), '-', i, unit, '==', d.add(-i, unit).toISODate())
-      expect(ld.add(-i, unit).toString()).toBe(d.add(-i, unit).toISODate())
-      expect(ld.subtract(i, unit).toString()).toBe(d.subtract(i, unit).toISODate())
-    })
-  })
-})
+  starts.forEach(start => {
+    const ld = localDate(start)
+    const d = dayjs(start)
 
-test('add leap', () => {
-  const start = '2020-02-29'
-  const ld = localDate(start)
-  const d = dayjs(start)
+    units.forEach(unit =>
+      _range(UNIT_RANGE[unit]).forEach(i => {
+        let expected = d.add(i, unit).toISODate()
+        let actual = ld.add(i, unit).toString()
 
-  units.forEach(unit => {
-    _range(unit === 'year' ? 1000 : 3000).forEach(i => {
-      // console.log(ld.toISODate(), '+', i, unit, '==', d.add(i, unit).toISODate())
-      expect(ld.add(i, unit).toString()).toBe(d.add(i, unit).toISODate())
-      // console.log(ld.toISODate(), '-', i, unit, '==', d.add(-i, unit).toISODate())
-      expect(ld.add(-i, unit).toString()).toBe(d.add(-i, unit).toISODate())
-      expect(ld.subtract(i, unit).toString()).toBe(d.subtract(i, unit).toISODate())
-    })
+        expectWithMessage(`${ld} + ${i} ${unit}`, expected, actual)
+
+        actual = ld.add(-i, unit).toString()
+        expected = d.add(-i, unit).toISODate()
+
+        expectWithMessage(`${ld} - ${i} ${unit}`, expected, actual)
+      }),
+    )
   })
 })
 
 test('diff', () => {
-  const start = '2020-02-29'
-  const ld = LocalDate.of(start)
-  const d = dayjs(start)
+  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
-  units.forEach(unit => {
-    _range(unit === 'year' ? 1000 : 5000).forEach(i => {
-      units.forEach(unit2 => {
-        let left = ld.add(i, unit)
-        let right = ld
-        let diff = left.diff(right, unit2)
-        let expected = d.add(i, unit).diff(d, unit2)
-        // console.log(i, unit, left.toString(), '-', right.toString(), '==', diff, unit2)
-        expect(diff).toBe(expected)
+  starts.forEach(start => {
+    const ld = LocalDate.of(start)
+    const d = dayjs(start)
 
-        left = ld
-        right = ld.add(i, unit)
-        diff = left.diff(right, unit2)
-        expected = d.diff(d.add(i, unit), unit2)
-        expect(diff).toBe(expected)
+    units.forEach(unitAdd => {
+      _range(UNIT_RANGE[unitAdd]).forEach(i => {
+        units.forEach(unit => {
+          let left = ld.add(i, unitAdd)
+          let right = ld
+          let actual = left.diff(right, unit)
+          let expected = d.add(i, unitAdd).diff(d, unit)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
-        left = ld.add(-i, unit)
-        right = ld
-        diff = left.diff(right, unit2)
-        expected = d.add(-i, unit).diff(d, unit2)
-        // console.log(i, unit, left.toString(), '-', right.toString(), '==', diff, unit2)
-        expect(diff).toBe(expected)
+          left = ld
+          right = ld.add(i, unitAdd)
+          actual = left.diff(right, unit)
+          expected = d.diff(d.add(i, unitAdd), unit)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
-        left = ld.add(i, unit).add(40, 'day')
-        right = ld
-        diff = left.diff(right, unit2)
-        expected = d.add(i, unit).add(40, 'day').diff(d, unit2)
-        // console.log(ld.add(i, unit).add(40, 'day').toString(), '-', ld.toString(), '==', diff, unit2)
-        expect(diff).toBe(expected)
+          left = ld.add(-i, unitAdd)
+          right = ld
+          actual = left.diff(right, unit)
+          expected = d.add(-i, unitAdd).diff(d, unit)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
+
+          left = ld.add(i, unitAdd).add(40, 'day')
+          right = ld
+          actual = left.diff(right, unit)
+          expected = d.add(i, unitAdd).add(40, 'day').diff(d, unit)
+          expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
+        })
       })
     })
   })

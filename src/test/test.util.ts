@@ -31,3 +31,25 @@ export function timeSpan(): () => number {
 export function normalizeStack(s: string): string {
   return s.replace(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
 }
+
+export function expectWithMessage(
+  msg: string,
+  expected: any,
+  actual: any,
+  expectedStr?: any,
+  actualStr?: any,
+): void {
+  if (expected !== actual) {
+    throw new Error(
+      [
+        msg,
+        `Expected   : ${expected}`,
+        `Actual     : ${actual}`,
+        expectedStr && `ExpectedStr: ${expectedStr}`,
+        actualStr && `ActualStr  : ${actualStr}`,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    )
+  }
+}
