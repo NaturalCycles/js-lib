@@ -18,7 +18,7 @@ exports[`addressBMJsonSchema 1`] = `
       "type": "string",
     },
     "created": {
-      "format": "unixTimestamp",
+      "format": "unixTimestamp2000",
       "type": "number",
     },
     "id": {
@@ -31,7 +31,7 @@ exports[`addressBMJsonSchema 1`] = `
       "type": "string",
     },
     "updated": {
-      "format": "unixTimestamp",
+      "format": "unixTimestamp2000",
       "type": "number",
     },
     "zip": {
@@ -68,7 +68,7 @@ exports[`addressDBMJsonSchema 1`] = `
       "type": "string",
     },
     "created": {
-      "format": "unixTimestamp",
+      "format": "unixTimestamp2000",
       "type": "number",
     },
     "id": {
@@ -81,7 +81,7 @@ exports[`addressDBMJsonSchema 1`] = `
       "type": "string",
     },
     "updated": {
-      "format": "unixTimestamp",
+      "format": "unixTimestamp2000",
       "type": "number",
     },
     "zip": {

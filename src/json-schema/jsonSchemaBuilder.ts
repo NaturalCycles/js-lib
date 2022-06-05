@@ -78,6 +78,9 @@ export const jsonSchema = {
   unixTimestamp() {
     return new JsonSchemaNumberBuilder().unixTimestamp()
   },
+  unixTimestamp2000() {
+    return new JsonSchemaNumberBuilder().unixTimestamp2000()
+  },
   // string types
   string() {
     return new JsonSchemaStringBuilder()
@@ -246,7 +249,9 @@ export class JsonSchemaNumberBuilder extends JsonSchemaAnyBuilder<number, JsonSc
   float = () => this.format('float')
   double = () => this.format('double')
   unixTimestamp = () => this.format('unixTimestamp')
+  unixTimestamp2000 = () => this.format('unixTimestamp2000')
   unixTimestampMillis = () => this.format('unixTimestampMillis')
+  unixTimestampMillis2000 = () => this.format('unixTimestampMillis2000')
   utcOffset = () => this.format('utcOffset')
   utcOffsetHours = () => this.format('utcOffsetHours')
 }
@@ -370,8 +375,8 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
   ): JsonSchemaObjectBuilder<T & BaseDBEntity<ID>> {
     Object.assign(this.schema.properties, {
       id: { type: idType },
-      created: { type: 'number', format: 'unixTimestamp' },
-      updated: { type: 'number', format: 'unixTimestamp' },
+      created: { type: 'number', format: 'unixTimestamp2000' },
+      updated: { type: 'number', format: 'unixTimestamp2000' },
     })
 
     return this
