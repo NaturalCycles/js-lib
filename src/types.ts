@@ -214,6 +214,13 @@ export type IsoDateTimeString = string
 export type UnixTimestampNumber = number
 
 /**
+ * Interface explicitly states that the value is a "Unix timestamp in **milleseconds**" (not seconds)
+ *
+ * @example 1628945450000
+ */
+export type UnixTimestampMillisNumber = number
+
+/**
  * @deprecated use UnixTimestampNumber
  */
 export type UnixTimestamp = number

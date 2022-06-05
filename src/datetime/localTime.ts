@@ -1,6 +1,11 @@
 import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
-import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
+import {
+  IsoDateString,
+  IsoDateTimeString,
+  UnixTimestampMillisNumber,
+  UnixTimestampNumber,
+} from '../types'
 import { Inclusiveness, LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
@@ -59,7 +64,7 @@ export class LocalTime {
   /**
    * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
    */
-  static ofMillis(millis: number): LocalTime {
+  static ofMillis(millis: UnixTimestampMillisNumber): LocalTime {
     return LocalTime.of(new Date(millis))
   }
 
@@ -478,7 +483,7 @@ export class LocalTime {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
-  unixMillis(): number {
+  unixMillis(): UnixTimestampMillisNumber {
     return this.$date.valueOf()
   }
 

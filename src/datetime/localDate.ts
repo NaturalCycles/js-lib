@@ -1,5 +1,10 @@
 import { _assert } from '../error/assert'
-import { IsoDateString, IsoDateTimeString, UnixTimestampNumber } from '../types'
+import {
+  IsoDateString,
+  IsoDateTimeString,
+  UnixTimestampMillisNumber,
+  UnixTimestampNumber,
+} from '../types'
 import { LocalTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
@@ -477,7 +482,7 @@ export class LocalDate {
     return Math.floor(this.toDate().valueOf() / 1000)
   }
 
-  unixMillis(): number {
+  unixMillis(): UnixTimestampMillisNumber {
     return this.toDate().valueOf()
   }
 
