@@ -48,7 +48,15 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     return
   }
 
-  const { CI, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, JEST_SHARDS, NODE_OPTIONS } = process.env
+  const {
+    CI,
+    TZ = 'UTC',
+    APP_ENV,
+    JEST_NO_ALPHABETIC,
+    JEST_SHARDS,
+    NODE_OPTIONS = 'not defined',
+  } = process.env
+  const { node } = process.versions
   const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(2)
 
@@ -119,11 +127,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
 
-  if (NODE_OPTIONS) {
-    console.log(`${dimGrey('NODE_OPTIONS: ' + NODE_OPTIONS)}`)
-  } else {
-    console.log(`${dimGrey('NODE_OPTIONS are not defined')}`)
-  }
+  console.log(`${dimGrey(`node ${node}, NODE_OPTIONS: ${NODE_OPTIONS}`)}`)
 
   if (JEST_SHARDS) {
     const totalShards = Number(JEST_SHARDS)
