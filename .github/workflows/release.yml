@@ -20,7 +20,7 @@ jobs:
           key: npm-v1-${{ runner.os }}
 
       - name: yarn
-        run: yarn --frozen-lockfile
+        run: yarn --frozen-lockfile --prefer-offline
 
       - name: build
         run: yarn build-prod

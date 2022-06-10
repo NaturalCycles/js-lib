@@ -14,7 +14,7 @@ jobs:
       - { uses: actions/setup-node@v3, with: { node-version: 16, cache: 'yarn' } }
 
       - name: deps
-        run: yarn --frozen-lockfile
+        run: yarn --frozen-lockfile --prefer-offline
 
       - name: build
         run: yarn build
