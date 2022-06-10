@@ -1,4 +1,4 @@
-import { _isObject } from './object.util'
+import { _isObject } from '..'
 
 /**
  * based on: https://github.com/IndigoUnited/js-deep-sort-object

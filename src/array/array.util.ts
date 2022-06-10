@@ -1,5 +1,6 @@
+import { _isNotNullish } from '../is.util'
 import { RecursiveArray } from '../lodash.types'
-import { Mapper, Predicate, StringMap } from '../types'
+import { FalsyValue, Mapper, Predicate, StringMap } from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -216,6 +217,9 @@ export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
   return diffs.reduce((a, b) => a.filter(c => !b.includes(c)), source)
 }
 
+/**
+ * Returns the sum of items, or 0 for empty array.
+ */
 export function _sum(items: number[]): number {
   return items.reduce((sum, n) => sum + n, 0)
 }
@@ -242,7 +246,7 @@ export function _sumBy<T>(items: T[], mapper: Mapper<T, number | undefined>): nu
  */
 export function _mapToObject<T, V>(
   array: T[],
-  mapper: (item: T) => [key: any, value: V] | undefined | null | false | 0 | void,
+  mapper: (item: T) => [key: any, value: V] | FalsyValue,
 ): StringMap<V> {
   const m: StringMap<V> = {}
 
@@ -288,22 +292,32 @@ export function _lastOrUndefined<T>(array: T[]): T | undefined {
   return array[array.length - 1]
 }
 
-export function _minOrUndefined<T>(array: T[]): T | undefined {
-  if (!array.length) return
-  return _min(array)
+export function _minOrUndefined<T>(array: T[]): NonNullable<T> | undefined {
+  const a = array.filter(_isNotNullish)
+  if (!a.length) return
+  return _min(a)
 }
 
-export function _min<T>(array: T[]): T {
-  if (!array.length) throw new Error('_min called on empty array')
-  return array.reduce((min, item) => (min <= item ? min : item))
+/**
+ * Filters out nullish values (undefined and null).
+ */
+export function _min<T>(array: T[]): NonNullable<T> {
+  const a = array.filter(_isNotNullish)
+  if (!a.length) throw new Error('_min called on empty array')
+  return a.reduce((min, item) => (min <= item ? min : item))
 }
 
-export function _maxOrUndefined<T>(array: T[]): T | undefined {
-  if (!array.length) return
-  return _max(array)
+export function _maxOrUndefined<T>(array: T[]): NonNullable<T> | undefined {
+  const a = array.filter(_isNotNullish)
+  if (!a.length) return
+  return _max(a)
 }
 
-export function _max<T>(array: T[]): T {
-  if (!array.length) throw new Error('_max called on empty array')
-  return array.reduce((max, item) => (max >= item ? max : item))
+/**
+ * Filters out nullish values (undefined and null).
+ */
+export function _max<T>(array: T[]): NonNullable<T> {
+  const a = array.filter(_isNotNullish)
+  if (!a.length) throw new Error('_max called on empty array')
+  return a.reduce((max, item) => (max >= item ? max : item))
 }

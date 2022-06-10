@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_isNull 1`] = `
+Map {
+  undefined => false,
+  null => true,
+  true => false,
+  false => false,
+  NaN => false,
+  Infinity => false,
+  "" => false,
+  " " => false,
+  "ho ho ho" => false,
+  "{" => false,
+  "{"a": "a1"}" => false,
+  "[5, null, "s"]" => false,
+  [
+    5,
+    null,
+    "s",
+  ] => false,
+  15 => false,
+  [
+    1,
+    2,
+    3,
+  ] => false,
+  {
+    "a": "a1",
+    "b": "b1",
+    "c": {
+      "d": 25,
+      "e": undefined,
+    },
+  } => false,
+  {
+    "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
+    "message": "Reference already exists",
+  } => false,
+  [Function] => false,
+  /i am regex, who are you\\?/ => false,
+  Map {
+    "a" => "b",
+  } => false,
+  Set {
+    "a",
+    "b",
+    "c",
+  } => false,
+  [Error: some err msg] => false,
+  [Error: Error with code] => false,
+  [AppError: app error] => false,
+  Symbol(a_am_symbol) => false,
+  1984-06-21T00:00:00.000Z => false,
+}
+`;

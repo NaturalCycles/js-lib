@@ -278,6 +278,14 @@ test('_min', () => {
   expect(_min(['3'])).toBe('3')
   expect(_min(['3', '2'])).toBe('2')
   expect(_min(['1', '3', '2'])).toBe('1')
+
+  const v = _min([1, undefined])
+  const _r = v + 1 // tests that v is not undefined
+
+  expect(_min([1, undefined])).toBe(1)
+  expect(_min([undefined, 1])).toBe(1)
+  expect(_min([undefined, 2, 1])).toBe(1)
+  expect(_min([undefined, 1, 2])).toBe(1)
 })
 
 test('_max', () => {

@@ -14,10 +14,6 @@ import {
   _has,
   _invert,
   _invertMap,
-  _isEmpty,
-  _isEmptyObject,
-  _isObject,
-  _isPrimitive,
   _mapKeys,
   _mapObject,
   _mapValues,
@@ -27,7 +23,6 @@ import {
   _omit,
   _pick,
   _set,
-  _undefinedIfEmpty,
   _unset,
 } from './object.util'
 
@@ -265,30 +260,6 @@ test('_filterEmptyArrays', () => {
   expect(_filterEmptyArrays({ a: 'a', b: [], c: 'c' })).toEqual({ a: 'a', c: 'c' })
 })
 
-test.each([
-  [undefined, true],
-  [null, true],
-  ['', true],
-  [{}, true],
-  [[], true],
-  [new Map(), true],
-  [new Set(), true],
-  [0, false],
-  [1, false],
-  ['a', false],
-  [{ a: 'a' }, false],
-  [['a'], false],
-  [[undefined], false],
-  [[{}], false],
-  [new Map([['a', 'b']]), false],
-  [new Set(['']), false],
-  [false, false],
-  [true, false],
-])('_isEmpty %s == %s', (v, empty) => {
-  expect(_isEmpty(v)).toBe(empty)
-  expect(_undefinedIfEmpty(v)).toBe(empty ? undefined : v)
-})
-
 test('_filterEmptyValues', () => {
   expect(
     _filterEmptyValues({
@@ -378,17 +349,6 @@ test('_deepCopy', () => {
   expect(_deepCopy(o)).toEqual(o)
 })
 
-test('_isObject', () => {
-  expect(_isObject(undefined)).toBe(false)
-})
-
-test('_isEmptyObject', () => {
-  const a = [1, 0, -1, undefined, null, 'wer', 'a', '', {}, { a: 'b' }]
-
-  const empty = a.filter(i => _isEmptyObject(i))
-  expect(empty).toEqual([{}])
-})
-
 test('_merge', () => {
   expect(_merge(1 as any, 2)).toBe(1)
   expect(_merge({}, 2)).toEqual({})
@@ -465,14 +425,6 @@ test('_invertMap', () => {
   ])
 
   expect(_invertMap(o)).toEqual(inv)
-})
-
-test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
-  expect(_isPrimitive(v)).toBe(true)
-})
-
-test.each([[[]], [{}], [() => {}]] as any[])('!isPrimitive "%s"', v => {
-  expect(_isPrimitive(v)).toBe(false)
 })
 
 test('_get, _has', () => {

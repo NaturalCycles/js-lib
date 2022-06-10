@@ -1,3 +1,4 @@
+import { _isEmpty, _isObject } from '../is.util'
 import { PropertyPath } from '../lodash.types'
 import { AnyObject, ObjectMapper, ObjectPredicate, StringMap, ValueOf } from '../types'
 
@@ -188,55 +189,6 @@ export function _objectNullValuesToUndefined<T extends AnyObject>(obj: T, mutate
  */
 export function _deepCopy<T>(o: T): T {
   return JSON.parse(JSON.stringify(o))
-}
-
-/**
- * Returns true if item is Object, not null and not Array.
- */
-export function _isObject(item: any): item is AnyObject {
-  return (typeof item === 'object' && item !== null && !Array.isArray(item)) || false
-}
-
-export function _isPrimitive(v: any): v is null | undefined | number | boolean | string {
-  return (
-    v === null ||
-    v === undefined ||
-    typeof v === 'number' ||
-    typeof v === 'boolean' ||
-    typeof v === 'string'
-  )
-}
-
-export function _isEmptyObject(obj: any): boolean {
-  return obj && obj.constructor === Object && Object.keys(obj).length === 0
-}
-
-/**
- * Object is considered empty if it's one of:
- * undefined
- * null
- * '' (empty string)
- * [] (empty array)
- * {} (empty object)
- * new Map() (empty Map)
- * new Set() (empty Set)
- */
-export function _isEmpty(obj: any): boolean {
-  if (obj === undefined || obj === null) return true
-
-  if (typeof obj === 'string' || Array.isArray(obj)) {
-    return obj.length === 0
-  }
-
-  if (obj instanceof Map || obj instanceof Set) {
-    return obj.size === 0
-  }
-
-  if (typeof obj === 'object') {
-    return Object.keys(obj).length === 0
-  }
-
-  return false
 }
 
 /**

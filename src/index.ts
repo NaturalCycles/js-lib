@@ -83,6 +83,8 @@ export * from './string/json.util'
 export * from './string/string.util'
 import { JsonStringifyFunction, StringifyAnyOptions, _stringifyAny } from './string/stringifyAny'
 export * from './time/time.util'
+export * from './is.util'
+
 import {
   Class,
   ConditionalExcept,
@@ -129,6 +131,8 @@ import {
   AbortableAsyncPredicate,
   AbortableAsyncMapper,
   AbortablePredicate,
+  NullishValue,
+  FalsyValue,
   END,
   SKIP,
   _noop,
@@ -224,6 +228,8 @@ export type {
   IsoDateString,
   IsoDateTimeString,
   Reviver,
+  FalsyValue,
+  NullishValue,
   PMapOptions,
   Mapper,
   AsyncMapper,
