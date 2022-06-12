@@ -36,10 +36,6 @@
   "module": "dist-esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "exports": {
-    "import": "./dist-esm/index.js",
-    "require": "./dist/index.js"
-  },
   "engines": {
     "node": ">=14.15.0"
   },

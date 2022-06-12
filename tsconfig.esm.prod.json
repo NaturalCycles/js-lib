@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "sourceMap": false,
-    "target": "es2020" // targets es2020+ browsers: https://caniuse.com/sr_es11
+    "target": "es2017" // targets es2017+ browsers: https://caniuse.com/sr_es11
   },
   "exclude": ["**/__exclude", "src/test", "src/**/*.test.*"]
 }
