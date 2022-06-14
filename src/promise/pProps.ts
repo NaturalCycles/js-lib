@@ -15,6 +15,10 @@
 export async function pProps<T>(input: { [K in keyof T]: T[K] | Promise<T[K]> }): Promise<{
   [K in keyof T]: Awaited<T[K]>
 }> {
-  const keys = Object.keys(input)
-  return Object.fromEntries((await Promise.all(Object.values(input))).map((v, i) => [keys[i], v]))
+  const keys = Object.keys(input);
+  return Object.fromEntries(
+    (await Promise.all(Object.values(input))).map((v, i) => [keys[i], v]),
+  ) as {
+    [K in keyof T]: Awaited<T[K]>;
+  }
 }
