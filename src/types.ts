@@ -24,6 +24,10 @@ export interface PromiseMap {
  */
 export type AnyObject = Record<string, any>
 
+export type AnyEnum = NumberEnum
+export type NumberEnum = Record<string, number | string>
+export type StringEnum = Record<string, string>
+
 export interface CreatedUpdated {
   created: number
   updated: number

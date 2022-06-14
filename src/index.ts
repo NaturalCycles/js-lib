@@ -20,6 +20,7 @@ export * from './decorators/retry.decorator'
 export * from './decorators/timeout.decorator'
 export * from './error/app.error'
 export * from './error/assert'
+export * from './enum.util'
 import {
   Admin401ErrorData,
   Admin403ErrorData,
@@ -117,6 +118,9 @@ import {
   Predicate,
   PromiseMap,
   AnyObject,
+  AnyEnum,
+  NumberEnum,
+  StringEnum,
   AnyFunction,
   Reviver,
   SavedDBEntity,
@@ -217,6 +221,9 @@ export type {
   StringMap,
   PromiseMap,
   AnyObject,
+  AnyEnum,
+  NumberEnum,
+  StringEnum,
   AnyFunction,
   ValuesOf,
   ValueOf,
