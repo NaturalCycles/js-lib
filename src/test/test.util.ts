@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function convertHrtime(hrtime: [number, number]) {
+export function convertHrtime(hrtime: [number, number]): Record<string, number> {
   const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
   const milliseconds = nanoseconds / 1e6
   const seconds = nanoseconds / 1e9
@@ -13,7 +12,7 @@ export function convertHrtime(hrtime: [number, number]) {
 
 export function timeSpan(): () => number {
   const start = process.hrtime()
-  const end = (type: string) => convertHrtime(process.hrtime(start))[type]
+  const end = (type: string) => convertHrtime(process.hrtime(start))[type]!
 
   const ret: any = () => end('milliseconds')
   ret.rounded = () => Math.round(end('milliseconds'))

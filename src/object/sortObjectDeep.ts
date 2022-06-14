@@ -16,7 +16,7 @@ export function _sortObjectDeep<T>(o: T): T {
     Object.keys(o)
       .sort((a, b) => a.localeCompare(b))
       .forEach(k => {
-        out[k] = _sortObjectDeep(o[k])
+        out[k as keyof T] = _sortObjectDeep(o[k as keyof T])
       })
 
     return out

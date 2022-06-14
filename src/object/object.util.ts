@@ -125,7 +125,7 @@ export function _mapValues<T extends AnyObject, OUT = T>(
   mutate = false,
 ): OUT {
   return Object.entries(obj).reduce((map, [k, v]) => {
-    map[k] = mapper(k, v, obj)
+    map[k as keyof OUT] = mapper(k, v, obj)
     return map
   }, (mutate ? obj : {}) as OUT)
 }
@@ -142,9 +142,9 @@ export function _mapKeys<T extends AnyObject>(
 ): StringMap<T[keyof T]> {
   // eslint-disable-next-line unicorn/prefer-object-from-entries
   return Object.entries(obj).reduce((map, [k, v]) => {
-    map[mapper(k, v, obj)] = v
+    map[mapper(k, v, obj) as keyof T] = v
     return map
-  }, {})
+  }, {} as T)
 }
 
 /**
@@ -299,7 +299,7 @@ export function _unset<T extends AnyObject>(obj: T, prop: string): void {
 export function _invert<T extends AnyObject>(o: T): { [k in ValueOf<T>]: keyof T | undefined } {
   const inv = {} as { [k in ValueOf<T>]: keyof T }
   Object.keys(o).forEach(k => {
-    inv[o[k]] = k
+    inv[o[k] as ValueOf<T>] = k
   })
   return inv
 }
@@ -365,6 +365,7 @@ export function _set<IN extends AnyObject, OUT = IN>(
           a[c]
         : // No: create the key. Is the next key a potential array-index?
           (a[c] =
+            // @ts-ignore
             // eslint-disable-next-line
             Math.abs(path[i + 1]) >> 0 === +path[i + 1]
               ? [] // Yes: assign a new array object

@@ -14,9 +14,9 @@ import { StringMap } from '../types'
  * Goal of this function is to produce exactly same output as URLSearchParams would.
  */
 export function _parseQueryString(search: string): StringMap {
-  const qs = {}
+  const qs: StringMap = {}
   search
-    .substr(search[0] === '?' ? 1 : 0)
+    .slice(search[0] === '?' ? 1 : 0)
     .split('&')
     .forEach(p => {
       const [k, v] = p.split('=')
