@@ -94,19 +94,19 @@ export class PQueue {
    * Resolves immediately in case the queue is Idle.
    * Idle means 0 queue and 0 inFlight.
    */
-  onIdle(): Promise<void> {
-    if (this.queue.length === 0 && this.inFlight === 0) return Promise.resolve()
+  async onIdle(): Promise<void> {
+    if (this.queue.length === 0 && this.inFlight === 0) return
 
     const listener = pDefer()
     this.onIdleListeners.push(listener)
-    return listener
+    return await listener
   }
 
   /**
    * Push PromiseReturningFunction to the Queue.
    * Returns a Promise that resolves (or rejects) with the return value from the Promise.
    */
-  push<R>(fn_: PromiseReturningFunction<R>): Promise<R> {
+  async push<R>(fn_: PromiseReturningFunction<R>): Promise<R> {
     const { concurrency } = this.cfg
     const resolveOnStart = this.cfg.resolveOn === 'start'
 
@@ -155,6 +155,6 @@ export class PQueue {
       this.debug(`inFlight ${this.inFlight}/${concurrency}, queue++ ${this.queue.length}`)
     }
 
-    return fn.defer
+    return await fn.defer
   }
 }

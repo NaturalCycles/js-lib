@@ -120,7 +120,7 @@ export async function pMap<IN, OUT>(
     return ret as OUT[]
   }
 
-  return new Promise<OUT[]>((resolve, reject) => {
+  return await new Promise<OUT[]>((resolve, reject) => {
     const next = () => {
       if (isSettled) {
         return

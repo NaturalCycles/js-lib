@@ -6,6 +6,8 @@ export interface DeferredPromise<T = void> extends Promise<T> {
   reject(e?: Error): void
 }
 
+/* eslint-disable @typescript-eslint/promise-function-async */
+
 /**
  * Returns DeferredPromise - a Promise that has .resolve() and .reject() methods.
  */

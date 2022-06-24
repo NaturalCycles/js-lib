@@ -82,7 +82,7 @@ test('pRetry should throw on fail and keep stack', async () => {
 })
 
 test('pRetry timeout should not happen', async () => {
-  await pRetry(async () => pDelay(1), {
+  await pRetry(async () => await pDelay(1), {
     timeout: 1000,
     logAll: true,
   })
