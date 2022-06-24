@@ -1,4 +1,5 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
+import { expectTypeOf } from 'expect-type'
 import { _sum } from './array/array.util'
 import { _isEmpty, _isEmptyObject, _isNull, _isObject, _isPrimitive, _isTruthy } from './is.util'
 import { _undefinedIfEmpty } from './object/object.util'
@@ -54,4 +55,6 @@ test('_isTruthy', () => {
   const a = [1, 2, undefined, null, 3].filter(_isTruthy)
   // This tests that type of a is number[] (no "undefined/null")
   expect(_sum(a)).toBe(6)
+
+  expectTypeOf(a).toEqualTypeOf<number[]>()
 })

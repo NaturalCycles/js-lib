@@ -1,3 +1,4 @@
+import { expectTypeOf } from 'expect-type'
 import { AppError } from '../error/app.error'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
@@ -66,6 +67,22 @@ test('should preserve stack', async () => {
         at pExpectedError try.ts
         at Object.<anonymous> pProps.test.ts"
   `)
+})
+
+test('expectType', async () => {
+  const r = await pProps({
+    a: pDelay(0, 'a'),
+    b: pDelay(0, 42),
+    c: 'cc',
+    d: pDelay(0, pDelay(0, { obj: { a: 'aa' } })),
+  })
+
+  expectTypeOf(r).toEqualTypeOf({
+    a: 'a',
+    b: 42,
+    c: 'cc',
+    d: { obj: { a: 'aa' } },
+  })
 })
 
 async function wrappingFn(): Promise<{ n1: number; n2: number }> {
