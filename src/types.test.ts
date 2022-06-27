@@ -1,3 +1,6 @@
+import { expectTypeOf } from 'expect-type'
+import { AppError } from './error/app.error'
+import { _expectedError } from './error/try'
 import {
   Reviver,
   StringMap,
@@ -13,6 +16,7 @@ import {
   Saved,
   Unsaved,
   UnsavedId,
+  _typeCast,
 } from './types'
 
 interface Item extends BaseDBEntity<number> {
@@ -57,8 +61,33 @@ test('types', () => {
 
 test('_stringMapValues, _stringMapEntries', () => {
   const o = { b: 2, c: 3, d: 4 }
-  const _b = o['b'] // number | undefined
-  const _values = _stringMapValues(o) // number[]
-  const _entries = _stringMapEntries(o) // [string, number][]
-  const _keys = _objectKeys(o)
+  const b = o['b'] // number
+  expectTypeOf(b).toEqualTypeOf<number>()
+
+  const values = _stringMapValues(o) // number[]
+  expectTypeOf(values).toEqualTypeOf<number[]>()
+
+  const entries = _stringMapEntries(o) // [string, number][]
+  expectTypeOf(entries).toEqualTypeOf<[string, number][]>()
+
+  const keys = _objectKeys(o)
+  expectTypeOf(keys).toMatchTypeOf<string[]>()
+})
+
+test('_typeCast', () => {
+  const err = _expectedError(() => {
+    throw new Error('yo')
+  })
+  expectTypeOf(err).toEqualTypeOf<Error>()
+
+  _typeCast<AppError>(err)
+  expectTypeOf(err).toEqualTypeOf<AppError>()
+
+  err.data = { httpStatusCode: 401 }
+  expect(err).toMatchInlineSnapshot(`[Error: yo]`)
+  expect(err.data).toMatchInlineSnapshot(`
+    {
+      "httpStatusCode": 401,
+    }
+  `)
 })

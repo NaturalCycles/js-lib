@@ -1,3 +1,4 @@
+import { expectTypeOf } from 'expect-type'
 import { AppError } from './app.error'
 import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
 
@@ -8,6 +9,8 @@ const errFunction = () => {
 
 test('_try', () => {
   const [err, res] = _try(() => okFunction())
+  expectTypeOf(err).toEqualTypeOf<Error | null>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
   expect(err).toBeNull()
   expect(res).toEqual({ result: 1 })
 
@@ -29,6 +32,9 @@ const createErrorPromise = async () => {
 
 test('pTry', async () => {
   const [err, res] = await pTry(createOkPromise())
+  expectTypeOf(err).toEqualTypeOf<Error | null>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
+
   expect(err).toBeNull()
   expect(res).toEqual({ result: 1 })
 
@@ -45,6 +51,7 @@ test('pTry', async () => {
 
 test('_expectedError', () => {
   const err = _expectedError<AppError>(errFunction)
+  expectTypeOf(err).toEqualTypeOf<AppError>()
   expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(err).toBeInstanceOf(AppError)
 

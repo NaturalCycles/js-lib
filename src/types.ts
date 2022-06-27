@@ -267,3 +267,16 @@ export function _objectKeys<T extends AnyObject>(obj: T): (keyof T)[] {
 
 export type NullishValue = null | undefined
 export type FalsyValue = false | '' | 0 | null | undefined
+
+/**
+ * Utility function that helps to cast *existing variable* to needed type T.
+ *
+ * @example
+ * try {} catch (err) {
+ *   // err is unknown here
+ *   _typeCast<AppError>(err)
+ *   // now err is of type AppError
+ *   err.data = {} // can be done, because it was casted
+ * }
+ */
+export function _typeCast<T>(v: any): asserts v is T {}
