@@ -8,6 +8,7 @@ import {
   _omit,
   _errorObjectToError,
   AssertionError,
+  _errorDataAppend,
 } from '..'
 import {
   _anyToError,
@@ -161,4 +162,34 @@ test('_errorObjectToError should not repack if already same error', () => {
   expect(e4.name).toBe(e.name) // non-trivial, but name is kept as HttpError
   expect(e4.data).toBe(e.data)
   expect(e4.stack).toBe(e.stack) // important to preserve the stack!
+})
+
+test('_errorDataAppend', () => {
+  const err = new Error('yo')
+  _errorDataAppend(err, { httpStatusCode: 401 })
+  expect(err).toMatchInlineSnapshot(`[Error: yo]`)
+  expect((err as any).data).toMatchInlineSnapshot(`
+    {
+      "httpStatusCode": 401,
+    }
+  `)
+
+  const err2 = new AppError('yo', {
+    code: 'A',
+  })
+  _errorDataAppend(err2, { httpStatusCode: 401 })
+  expect((err2 as any).data).toMatchInlineSnapshot(`
+    {
+      "code": "A",
+      "httpStatusCode": 401,
+    }
+  `)
+
+  _errorDataAppend(err2, { code: 'B' })
+  expect((err2 as any).data).toMatchInlineSnapshot(`
+    {
+      "code": "B",
+      "httpStatusCode": 401,
+    }
+  `)
 })

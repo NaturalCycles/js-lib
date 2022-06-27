@@ -145,3 +145,22 @@ export function _isErrorObject(o: any): o is ErrorObject {
     !!o && typeof o.name === 'string' && typeof o.message === 'string' && typeof o.data === 'object'
   )
 }
+
+/**
+ * Convenience function to safely add properties to Error's `data` object
+ * (even if it wasn't previously existing)
+ *
+ * @example
+ *
+ * try {} catch (err) {
+ *   _errorDataAppend(err, {
+ *     httpStatusCode: 401,
+ *   })
+ * }
+ */
+export function _errorDataAppend(err: Error, data: ErrorData): void {
+  ;(err as any).data = {
+    ...(err as any).data,
+    ...data,
+  }
+}
