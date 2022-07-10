@@ -9,14 +9,26 @@ Reasons:
 
  */
 
+import type { Integer } from '../types'
+
 export interface ReadingTimeOptions {
+  /**
+   * A function that returns a boolean value depending on if a character is considered as a word bound.
+   * Default: spaces, new lines and tabs
+   */
   wordBound?: (char: string) => boolean
+  /**
+   * Default 200
+   */
   wordsPerMinute?: number
 }
 
 export interface ReadingTimeStats {
-  time: number
-  minutes: number
+  /**
+   * Number of milliseconds.
+   */
+  time: Integer
+  minutes: Integer
 }
 
 export interface WordCountStats {
