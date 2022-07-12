@@ -71,6 +71,7 @@
   "files": [
     "dist",
     "scripts/tsconfig.json",
+    "cfg/overwrite/.gitignore",
     "cfg"
   ],
   "main": "dist/index.js",

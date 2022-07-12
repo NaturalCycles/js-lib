@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
+import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
-import { updateFromDevLibCommand } from '../cmd/update-from-dev-lib.command'
+import { cfgOverwriteDir } from '../cnst/paths.cnst'
 
-runScript(updateFromDevLibCommand)
+runScript(() => {
+  kpySync({
+    baseDir: cfgOverwriteDir,
+    outputDir: './',
+    dotfiles: true,
+    verbose: true,
+  })
+})
