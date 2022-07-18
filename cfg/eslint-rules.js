@@ -32,7 +32,8 @@ module.exports = {
       },
     ],
     '@typescript-eslint/consistent-type-assertions': 2,
-    '@typescript-eslint/consistent-type-definitions': 2,
+    '@typescript-eslint/consistent-type-definitions': [2, 'interface'],
+    '@typescript-eslint/consistent-generic-constructors': [2, 'constructor'],
     // Doc: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
     // Loosely based on this: https://github.com/xojs/eslint-config-xo-typescript/blob/main/index.js
     '@typescript-eslint/naming-convention': [
