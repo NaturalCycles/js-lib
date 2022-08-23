@@ -18,12 +18,10 @@
     "@types/node": "^18.0.0",
     "expect-type": "^0.13.0",
     "jest": "^28.0.3",
-    "patch-package": "^6.2.1",
     "prettier": "^2.1.2",
     "rxjs": "^7.0.1",
     "vuepress": "^1.7.1",
-    "vuepress-plugin-typescript": "^0.3.1",
-    "weak-napi": "^2.0.2"
+    "vuepress-plugin-typescript": "^0.3.1"
   },
   "files": [
     "dist",

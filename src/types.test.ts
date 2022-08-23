@@ -66,12 +66,19 @@ test('_stringMapValues, _stringMapEntries', () => {
 
   const values = _stringMapValues(o) // number[]
   expectTypeOf(values).toEqualTypeOf<number[]>()
+  expect(values).toEqual([2, 3, 4])
 
   const entries = _stringMapEntries(o) // [string, number][]
   expectTypeOf(entries).toEqualTypeOf<[string, number][]>()
+  expect(entries).toEqual([
+    ['b', 2],
+    ['c', 3],
+    ['d', 4],
+  ])
 
   const keys = _objectKeys(o)
   expectTypeOf(keys).toMatchTypeOf<string[]>()
+  expect(keys).toEqual(['b', 'c', 'd'])
 })
 
 test('_typeCast', () => {

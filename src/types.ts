@@ -243,27 +243,19 @@ export type Reviver = (this: any, key: string, value: any) => any
  * Needed due to https://github.com/microsoft/TypeScript/issues/13778
  * Only affects typings, no runtime effect.
  */
-export function _stringMapValues<T>(m: StringMap<T>): T[] {
-  return Object.values(m) as T[]
-}
+export const _stringMapValues = Object.values as <T>(m: StringMap<T>) => T[]
 
 /**
  * Needed due to https://github.com/microsoft/TypeScript/issues/13778
  * Only affects typings, no runtime effect.
  */
-export function _stringMapEntries<T>(m: StringMap<T>): [k: string, v: T][] {
-  return Object.entries(m) as [string, T][]
-}
+export const _stringMapEntries = Object.entries as <T>(m: StringMap<T>) => [k: string, v: T][]
 
 /**
  * Like `Object.keys`, but returns keys typed as `keyof T`, not as just `string`.
  * This is how TypeScript should work, actually.
- *
- * @experimental
  */
-export function _objectKeys<T extends AnyObject>(obj: T): (keyof T)[] {
-  return Object.keys(obj)
-}
+export const _objectKeys = Object.keys as <T extends AnyObject>(obj: T) => (keyof T)[]
 
 export type NullishValue = null | undefined
 export type FalsyValue = false | '' | 0 | null | undefined
