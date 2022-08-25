@@ -1,6 +1,6 @@
 import { _isEmpty, _isObject } from '../is.util'
-import { PropertyPath } from '../lodash.types'
-import { AnyObject, ObjectMapper, ObjectPredicate, StringMap, ValueOf } from '../types'
+import type { PropertyPath } from '../lodash.types'
+import type { AnyObject, ObjectMapper, ObjectPredicate, StringMap, ValueOf } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.

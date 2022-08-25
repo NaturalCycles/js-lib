@@ -1,10 +1,9 @@
+import type { CommonLogger, CommonLogWithLevelFunction } from './commonLogger'
 import {
-  CommonLogger,
   commonLoggerMinLevel,
   commonLoggerPipe,
   commonLoggerNoop,
   commonLoggerPrefix,
-  CommonLogWithLevelFunction,
   commonLoggerCreate,
 } from './commonLogger'
 

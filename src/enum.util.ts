@@ -1,4 +1,4 @@
-import { NumberEnum, StringEnum } from './types'
+import type { NumberEnum, StringEnum } from './types'
 
 /**
  * Returns all number keys of a number-enum.

@@ -1,4 +1,4 @@
-import { AnyFunction, AnyObject } from './types'
+import type { AnyFunction, AnyObject } from './types'
 
 /**
  * const value = lazyValue(() => expensiveComputation())

@@ -1,5 +1,5 @@
 import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
-import { StringMap } from '../types'
+import type { StringMap } from '../types'
 import {
   _deepCopy,
   _deepTrim,

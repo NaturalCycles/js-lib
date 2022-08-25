@@ -1,4 +1,4 @@
-import {
+import type {
   JsonSchema,
   JsonSchemaArray,
   JsonSchemaBoolean,
@@ -8,10 +8,9 @@ import {
   JsonSchemaOneOf,
   JsonSchemaString,
   StringMap,
-  _stringMapEntries,
-  _uniq,
   AnyObject,
 } from '../..'
+import { _stringMapEntries, _uniq } from '../..'
 
 type PrimitiveType = 'undefined' | 'null' | 'boolean' | 'string' | 'number'
 type Type = PrimitiveType | 'array' | 'object'

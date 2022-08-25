@@ -1,4 +1,4 @@
-import { AnyObject, StringMap } from '../types'
+import type { AnyObject, StringMap } from '../types'
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 export type JsonSchema<T = unknown> =

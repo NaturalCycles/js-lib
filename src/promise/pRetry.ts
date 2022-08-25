@@ -1,4 +1,5 @@
-import { _since, _stringifyAny, AnyFunction, AppError, CommonLogger, ErrorData } from '..'
+import type { AnyFunction, AppError, CommonLogger, ErrorData } from '..'
+import { _since, _stringifyAny } from '..'
 import { TimeoutError } from './pTimeout'
 
 export interface PRetryOptions {

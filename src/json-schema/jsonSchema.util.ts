@@ -1,6 +1,6 @@
 import { _uniq } from '../index'
 import { _filterNullishValues } from '../object/object.util'
-import { JsonSchemaObject } from './jsonSchema.model'
+import type { JsonSchemaObject } from './jsonSchema.model'
 
 /**
  * Merges s2 into s1 (mutates s1) and returns s1.

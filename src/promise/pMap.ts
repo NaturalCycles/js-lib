@@ -7,7 +7,8 @@ Improvements:
 - Compatible with pProps (that had typings issues)
  */
 
-import { AbortableAsyncMapper, END, ErrorMode, SKIP } from '..'
+import type { AbortableAsyncMapper } from '..'
+import { END, ErrorMode, SKIP } from '..'
 import { AggregatedError } from './AggregatedError'
 
 export interface PMapOptions {

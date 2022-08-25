@@ -1,7 +1,8 @@
 import { _since } from '../time/time.util'
-import { AsyncMemoOptions } from './asyncMemo.decorator'
+import type { AsyncMemoOptions } from './asyncMemo.decorator'
 import { _getArgsSignature } from './decorator.util'
-import { AsyncMemoCache, jsonMemoSerializer, MapMemoCache } from './memo.util'
+import type { AsyncMemoCache } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
 export interface MemoizedAsyncFunction {
   cache: AsyncMemoCache

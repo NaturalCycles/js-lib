@@ -1,6 +1,6 @@
 import { AppError } from '../error/app.error'
-import { ErrorData } from '../error/error.model'
-import { AnyFunction } from '../types'
+import type { ErrorData } from '../error/error.model'
+import type { AnyFunction } from '../types'
 
 export class TimeoutError extends AppError {}
 

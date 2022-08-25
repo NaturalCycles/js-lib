@@ -1,5 +1,5 @@
 import { _isErrorObject, _isHttpErrorObject, _isHttpErrorResponse } from '../error/error.util'
-import { Reviver } from '../types'
+import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
 

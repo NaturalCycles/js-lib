@@ -1,14 +1,12 @@
-import {
-  AppError,
+import type {
   ErrorData,
   ErrorObject,
   HttpErrorData,
   HttpErrorResponse,
   StringifyAnyOptions,
-  _jsonParseIfPossible,
-  _stringifyAny,
   Class,
 } from '..'
+import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`

@@ -1,4 +1,4 @@
-import { BaseDBEntity, SavedDBEntity } from '../types'
+import type { BaseDBEntity, SavedDBEntity } from '../types'
 import { jsonSchema } from './jsonSchemaBuilder'
 
 export const baseDBEntityJsonSchema = jsonSchema.object<BaseDBEntity>({

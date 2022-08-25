@@ -1,12 +1,13 @@
 import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
-import {
+import type {
   IsoDateString,
   IsoDateTimeString,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { Inclusiveness, LocalDate } from './localDate'
+import type { Inclusiveness } from './localDate'
+import { LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
 

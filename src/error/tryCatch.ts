@@ -1,5 +1,6 @@
-import { _anyToError, _since, _stringifyAny, CommonLogger } from '../index'
-import { AnyFunction } from '../types'
+import type { CommonLogger } from '../index'
+import { _anyToError, _since, _stringifyAny } from '../index'
+import type { AnyFunction } from '../types'
 
 export interface TryCatchOptions {
   /**

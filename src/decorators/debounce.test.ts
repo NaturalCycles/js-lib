@@ -1,7 +1,7 @@
 import { timer } from 'rxjs'
 import { take, tap } from 'rxjs/operators'
 import { pDelay, _since } from '..'
-import { AnyFunction } from '../types'
+import type { AnyFunction } from '../types'
 import { _debounce } from './debounce'
 
 const originalFn = (started: number, n: number) => console.log(`#${n} after ${_since(started)}`)

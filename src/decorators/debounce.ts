@@ -1,4 +1,4 @@
-import { AnyFunction } from '../types'
+import type { AnyFunction } from '../types'
 
 export interface Cancelable {
   cancel(): void

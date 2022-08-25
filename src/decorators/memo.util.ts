@@ -1,5 +1,5 @@
 import { _isPrimitive } from '..'
-import { Promisable } from '../typeFest'
+import type { Promisable } from '../typeFest'
 
 export type MemoSerializer = (args: any[]) => any
 

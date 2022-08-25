@@ -1,5 +1,5 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
-import { HttpErrorResponse } from '../error/error.model'
+import type { HttpErrorResponse } from '../error/error.model'
 import { HttpError } from '../error/http.error'
 import { _errorToErrorObject, _stringifyAny } from '../index'
 import { _jsonParseIfPossible } from './json.util'

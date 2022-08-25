@@ -1,9 +1,8 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
+import type { ErrorObject, HttpErrorResponse } from '..'
 import {
   AppError,
-  ErrorObject,
   HttpError,
-  HttpErrorResponse,
   _errorToErrorObject,
   _omit,
   _errorObjectToError,

@@ -1,4 +1,5 @@
-import { ErrorData, _deepEquals, _stringifyAny } from '..'
+import type { ErrorData } from '..'
+import { _deepEquals, _stringifyAny } from '..'
 import { AppError } from './app.error'
 
 /**

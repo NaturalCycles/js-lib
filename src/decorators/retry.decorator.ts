@@ -1,4 +1,5 @@
-import { pRetryFn, PRetryOptions } from '..'
+import type { PRetryOptions } from '..'
+import { pRetryFn } from '..'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function _Retry(opt: PRetryOptions = {}): MethodDecorator {

@@ -1,5 +1,5 @@
-import { Primitive } from './typeFest'
-import { AnyObject, FalsyValue, NullishValue } from './types'
+import type { Primitive } from './typeFest'
+import type { AnyObject, FalsyValue, NullishValue } from './types'
 
 type Nullish<T> = T extends NullishValue ? T : never
 type Truthy<T> = T extends FalsyValue ? never : T

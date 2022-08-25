@@ -7,7 +7,8 @@ yarn tsn filterBench
 /* eslint-disable unused-imports/no-unused-vars */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { _filterNullishValues, _range, AnyObject } from '../src'
+import type { AnyObject } from '../src'
+import { _filterNullishValues, _range } from '../src'
 
 const objects = _range(1000).map(n => ({
   id: `id_${n}`,

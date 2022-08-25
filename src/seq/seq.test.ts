@@ -1,4 +1,5 @@
-import { AbortableAsyncMapper, END } from '../index'
+import type { AbortableAsyncMapper } from '../index'
+import { END } from '../index'
 import { pDelay } from '../promise/pDelay'
 import { _seq, AsyncSequence, Sequence } from './seq'
 

@@ -1,16 +1,7 @@
-import {
-  _inRange,
-  _randomInt,
-  _range,
-  AppError,
-  AsyncMapper,
-  END,
-  ErrorMode,
-  pExpectedError,
-  SKIP,
-} from '..'
+import type { AsyncMapper } from '..'
+import { _inRange, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
 import { timeSpan } from '../test/test.util'
-import { AggregatedError } from './AggregatedError'
+import type { AggregatedError } from './AggregatedError'
 import { pDelay } from './pDelay'
 import { pMap } from './pMap'
 

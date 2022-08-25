@@ -1,4 +1,5 @@
-import { _omit, AnyObject } from '../index'
+import type { AnyObject } from '../index'
+import { _omit } from '../index'
 
 /**
  * Returns new object with keys sorder in the given order.

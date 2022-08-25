@@ -1,4 +1,4 @@
-import { AsyncPredicate } from '../types'
+import type { AsyncPredicate } from '../types'
 import { pDelay } from './pDelay'
 import { pFilter } from './pFilter'
 

@@ -1,4 +1,5 @@
-import { pupa, PupaOptions } from './pupa'
+import type { PupaOptions } from './pupa'
+import { pupa } from './pupa'
 
 test('main', () => {
   // Normal placeholder

@@ -1,5 +1,5 @@
 import { AppError } from './app.error'
-import { HttpErrorData } from './error.model'
+import type { HttpErrorData } from './error.model'
 
 /**
  * Base class for HTTP errors - errors that define HTTP error code.

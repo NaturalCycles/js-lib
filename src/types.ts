@@ -1,4 +1,4 @@
-import { Except, Merge, Promisable } from './typeFest'
+import type { Except, Merge, Promisable } from './typeFest'
 
 /**
  * Map from String to String (or <T>).

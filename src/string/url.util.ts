@@ -1,4 +1,4 @@
-import { StringMap } from '../types'
+import type { StringMap } from '../types'
 
 /**
  * Parses `location.search` string (e.g `?a=1&b=2`) into a StringMap, e.g:

@@ -1,4 +1,4 @@
-import { InstanceId } from '../types'
+import type { InstanceId } from '../types'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
 class C implements InstanceId {

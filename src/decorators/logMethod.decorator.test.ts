@@ -1,4 +1,5 @@
-import { InstanceId, pDelay } from '../index'
+import type { InstanceId } from '../index'
+import { pDelay } from '../index'
 import { _LogMethod } from './logMethod.decorator'
 
 class C {

@@ -1,6 +1,6 @@
 import { _isNotNullish } from '../is.util'
-import { RecursiveArray } from '../lodash.types'
-import { FalsyValue, Mapper, Predicate, StringMap } from '../types'
+import type { RecursiveArray } from '../lodash.types'
+import type { FalsyValue, Mapper, Predicate, StringMap } from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the

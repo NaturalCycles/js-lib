@@ -1,7 +1,8 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
-import { ISODayOfWeek, localTime, LocalTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
+import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
+import { ISODayOfWeek, localTime, LocalTime } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 

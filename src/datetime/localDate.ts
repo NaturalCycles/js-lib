@@ -1,5 +1,5 @@
 import { _assert } from '../error/assert'
-import {
+import type {
   IsoDateString,
   IsoDateTimeString,
   UnixTimestampMillisNumber,

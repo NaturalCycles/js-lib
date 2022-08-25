@@ -1,4 +1,4 @@
-import { ErrorData } from './error.model'
+import type { ErrorData } from './error.model'
 
 /**
  * Base class for all our (not system) errors.

@@ -1,11 +1,10 @@
-import {
+import type {
   AbortableAsyncMapper,
   AbortableAsyncPredicate,
   AbortableMapper,
   AbortablePredicate,
-  END,
-  SKIP,
 } from '../types'
+import { END, SKIP } from '../types'
 
 /**
  * Inspired by Kotlin Sequences.

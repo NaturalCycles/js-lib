@@ -1,5 +1,6 @@
-import { AnyFunction } from '../types'
-import { readingTime, ReadingTimeOptions, ReadingTimeResult } from './readingTime'
+import type { AnyFunction } from '../types'
+import type { ReadingTimeOptions, ReadingTimeResult } from './readingTime'
+import { readingTime } from './readingTime'
 
 function runTest(
   words: number | string,

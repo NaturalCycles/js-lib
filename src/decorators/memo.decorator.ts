@@ -1,8 +1,9 @@
-import { CommonLogger } from '../log/commonLogger'
+import type { CommonLogger } from '../log/commonLogger'
 import { _since } from '../time/time.util'
-import { AnyObject } from '../types'
+import type { AnyObject } from '../types'
 import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
-import { jsonMemoSerializer, MapMemoCache, MemoCache } from './memo.util'
+import type { MemoCache } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
 export interface MemoOptions {
   /**

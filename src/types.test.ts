@@ -1,9 +1,8 @@
 import { expectTypeOf } from 'expect-type'
-import { AppError } from './error/app.error'
+import type { AppError } from './error/app.error'
 import { _expectedError } from './error/try'
+import type { Reviver, StringMap, BaseDBEntity, Saved, Unsaved, UnsavedId } from './types'
 import {
-  Reviver,
-  StringMap,
   _noop,
   _objectKeys,
   _passNothingPredicate,
@@ -12,10 +11,6 @@ import {
   _passUndefinedMapper,
   _stringMapEntries,
   _stringMapValues,
-  BaseDBEntity,
-  Saved,
-  Unsaved,
-  UnsavedId,
   _typeCast,
 } from './types'
 

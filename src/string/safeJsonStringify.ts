@@ -1,4 +1,4 @@
-import { Reviver } from '../types'
+import type { Reviver } from '../types'
 
 /**
  * JSON.stringify that avoids circular references, prints them as [Circular ~]
