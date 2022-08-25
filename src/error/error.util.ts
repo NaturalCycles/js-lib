@@ -87,11 +87,13 @@ export function _errorToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   return obj
 }
 
-export function _errorObjectToAppError<DATA_TYPE>(o: ErrorObject<DATA_TYPE>): AppError<DATA_TYPE> {
+export function _errorObjectToAppError<DATA_TYPE extends ErrorData>(
+  o: ErrorObject<DATA_TYPE>,
+): AppError<DATA_TYPE> {
   return _errorObjectToError(o, AppError)
 }
 
-export function _errorObjectToError<DATA_TYPE, ERROR_TYPE extends Error>(
+export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE extends Error>(
   o: ErrorObject<DATA_TYPE>,
   errorClass: Class<ERROR_TYPE> = Error as any,
 ): ERROR_TYPE {

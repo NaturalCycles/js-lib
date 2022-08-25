@@ -20,7 +20,9 @@ type Type = PrimitiveType | 'array' | 'object'
  *
  * `additionalProperties` is set to `true`, cause it's safer.
  */
-export function generateJsonSchemaFromData<T = unknown>(rows: AnyObject[]): JsonSchemaObject<T> {
+export function generateJsonSchemaFromData<T extends AnyObject = AnyObject>(
+  rows: AnyObject[],
+): JsonSchemaObject<T> {
   return objectToJsonSchema(rows as any) as JsonSchemaObject<T>
 }
 

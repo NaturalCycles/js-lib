@@ -1,4 +1,4 @@
-import { _uniq } from '../index'
+import { _uniq, AnyObject } from '../index'
 import { _filterNullishValues } from '../object/object.util'
 import type { JsonSchemaObject } from './jsonSchema.model'
 
@@ -7,7 +7,7 @@ import type { JsonSchemaObject } from './jsonSchema.model'
  * Does not mutate s2.
  * API similar to Object.assign(s1, s2)
  */
-export function mergeJsonSchemaObjects<T1, T2>(
+export function mergeJsonSchemaObjects<T1 extends AnyObject, T2 extends AnyObject>(
   s1: JsonSchemaObject<T1>,
   s2: JsonSchemaObject<T2>,
 ): JsonSchemaObject<T1 & T2> {

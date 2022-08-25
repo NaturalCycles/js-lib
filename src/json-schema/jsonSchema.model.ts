@@ -14,7 +14,7 @@ export type JsonSchema<T = unknown> =
   | JsonSchemaNumber
   | JsonSchemaBoolean
   | JsonSchemaNull
-  | JsonSchemaObject<T>
+  | JsonSchemaObject
   | JsonSchemaArray<T>
   | JsonSchemaTuple<T>
 

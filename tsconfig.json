@@ -1,7 +1,6 @@
 {
   "extends": "@naturalcycles/dev-lib/cfg/tsconfig.json",
   "compilerOptions": {
-    "suppressImplicitAnyIndexErrors": false,
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src"
