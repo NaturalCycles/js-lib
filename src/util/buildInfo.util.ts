@@ -1,5 +1,5 @@
 import { localTime } from '@naturalcycles/js-lib'
-import { BuildInfo } from './buildInfo.model'
+import type { BuildInfo } from './buildInfo.model'
 import {
   gitCurrentBranchName,
   gitCurrentCommitSha,

@@ -31,6 +31,8 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/consistent-type-imports': 2,
+    '@typescript-eslint/consistent-type-exports': 2,
     '@typescript-eslint/consistent-type-assertions': 2,
     '@typescript-eslint/consistent-type-definitions': [2, 'interface'],
     '@typescript-eslint/consistent-generic-constructors': [2, 'constructor'],
