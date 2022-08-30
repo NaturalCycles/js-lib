@@ -9,7 +9,7 @@ test('_randomInt', () => {
     const v = f(0, 5)
     expect(v).toBeGreaterThanOrEqual(0)
     expect(v).toBeLessThanOrEqual(5)
-    expect(Math.round(v) === v).toBe(true)
+    expect(Math.round(v)).toStrictEqual(v)
   }
 })
 
@@ -17,7 +17,7 @@ test('_randomArrayItem', () => {
   const a = [1, 2, 3]
   _range(50).forEach(() => {
     const v = _randomArrayItem(a)
-    expect(a.includes(v)).toBe(true)
+    expect(a).toContain(v)
   })
 })
 

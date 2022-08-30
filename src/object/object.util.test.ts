@@ -210,7 +210,7 @@ test('_filterFalsyValues', () => {
   // should mutate if needed
   const o2 = { ...o }
   f(o2, true)
-  expect(o2.b).toBe(undefined)
+  expect(o2.b).toBeUndefined()
 })
 
 test('_filterNullishValues', () => {
@@ -447,8 +447,8 @@ test('_get, _has', () => {
   expect(_get(o, 'c.d')).toBe('11')
   expect(_get(o, 'c.e')).toBe(3)
   expect(_get(o, 'c.f')).toEqual(o.c.f)
-  expect(_get(o, 'c.f[0]')).toBe(null)
-  expect(_get(o, 'c.f.0')).toBe(null)
+  expect(_get(o, 'c.f[0]')).toBeNull()
+  expect(_get(o, 'c.f.0')).toBeNull()
   expect(_get(o, 'c.f[1]')).toBeUndefined()
   expect(_get(o, 'c.f[1]', 'def')).toBe('def')
   expect(_get(o, 'c.f[2]')).toBe(1)

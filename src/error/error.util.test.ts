@@ -126,7 +126,7 @@ test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   const err3 = _errorObjectToAppError(err2)
   expect(err3.message).toBe('hello')
   expect(err3.name).toBe('AppError')
-  expect(err3.stack).not.toBeUndefined()
+  expect(err3.stack).toBeDefined()
   expect(err3.data).toEqual(data)
 })
 

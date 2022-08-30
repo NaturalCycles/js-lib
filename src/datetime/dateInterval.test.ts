@@ -1,6 +1,8 @@
 import { DateInterval } from './dateInterval'
 import { LocalDate } from './localDate'
 
+/* eslint-disable jest/prefer-to-contain */
+
 test('basic', () => {
   const str1 = '2022-02-24/2022-03-30'
   const int1 = DateInterval.parse(str1)

@@ -14,7 +14,7 @@ test('appError properties should be present', async () => {
   // console.log(r.message, r.name, r.stack)
   expect(r.message).toBe('hello')
   expect(r.name).toBe('AppError')
-  expect(r.stack).not.toBeUndefined()
+  expect(r.stack).toBeDefined()
 
   const data = { a: 'b' }
   const r2 = new AppError('hello', data)
@@ -30,7 +30,7 @@ test('appError should work when Error.captureStacktrace is n/a', () => {
   // console.log(r.message, r.name, r.stack)
   expect(r.message).toBe('hello')
   expect(r.name).toBe('AppError')
-  expect(r.stack).not.toBeUndefined()
+  expect(r.stack).toBeDefined()
 })
 
 test('AppError log should NOT include constructor and data', () => {

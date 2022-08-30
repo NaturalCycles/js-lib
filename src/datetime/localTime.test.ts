@@ -32,6 +32,7 @@ test('basic', () => {
   expect(lt.toJSON()).toBe(1640995200)
   const lt2 = lt.clone()
   expect(lt2).not.toBe(lt)
+  // eslint-disable-next-line jest/prefer-equality-matcher
   expect(lt2 === lt).toBe(false)
   expect(lt.isSame(lt2)).toBe(true)
   expect(lt.isAfter(lt2)).toBe(false)

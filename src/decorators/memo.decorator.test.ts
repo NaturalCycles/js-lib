@@ -15,7 +15,7 @@ class A {
 
 test('memo a', () => {
   const a = new A()
-  a.func = jest.fn()
+  jest.spyOn(a, 'func').mockImplementation()
 
   // first call
   let r = a.a(2, 3)
@@ -38,7 +38,7 @@ test('memo a', () => {
 
 test('MEMO_DROP_CACHE', () => {
   const a = new A()
-  a.func = jest.fn()
+  jest.spyOn(a, 'func').mockImplementation()
 
   // first call
   a.a(2, 3)
