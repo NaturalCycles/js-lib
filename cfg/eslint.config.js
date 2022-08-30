@@ -3,6 +3,11 @@
  *
  * Shared eslint config.
  */
+
+// detect if jest is installed
+const hasJest = require('fs').existsSync('./node_modules/jest')
+// console.log({hasJest})
+
 module.exports = {
   env: {
     es2020: true,
@@ -33,8 +38,9 @@ module.exports = {
         // https://github.com/import-js/eslint-plugin-import/blob/main/config/typescript.js
         // 'plugin:import/typescript',
         './eslint-rules.js',
+        hasJest && './eslint-jest-rules.js',
         'prettier', // must be last! it only turns off eslint rules that conflict with prettier
-      ],
+      ].filter(Boolean),
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: ['tsconfig.json'],
@@ -48,9 +54,9 @@ module.exports = {
         '@typescript-eslint',
         // https://github.com/sweepline/eslint-plugin-unused-imports
         'unused-imports',
-        // 'jest', // add manually if needed!
+        hasJest && 'jest',
         'unicorn',
-      ],
+      ].filter(Boolean),
     },
     {
       files: ['*.vue'],
