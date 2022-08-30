@@ -10,11 +10,11 @@ import {
 test('getLastGitCommitMsg', async () => {
   const msg = await getLastGitCommitMsg()
   console.log({ msg })
-  expect(msg).not.toBeUndefined()
+  expect(msg).toBeDefined()
 
   const title = commitMessageToTitleMessage(msg)
   console.log({ title })
-  expect(title).not.toBeUndefined()
+  expect(title).toBeDefined()
 })
 
 test('gitHasUncommittedChanges', async () => {

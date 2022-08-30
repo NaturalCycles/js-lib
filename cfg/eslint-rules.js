@@ -297,6 +297,11 @@ module.exports = {
     'jest/no-export': 0, // conflicts with typescript isolatedModules
     'jest/no-conditional-expect': 0,
     'jest/no-disabled-tests': 0,
+    'jest/prefer-equality-matcher': 2,
+    'jest/prefer-spy-on': 2,
+    'jest/prefer-to-be': 2,
+    'jest/prefer-to-contain': 2,
+    'jest/consistent-test-it': [2, { fn: 'test', withinDescribe: 'test' }],
     '@typescript-eslint/no-namespace': [
       2,
       {
