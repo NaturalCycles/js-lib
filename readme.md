@@ -102,8 +102,7 @@ adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
   `jest-junit` reporter. Includes fix for "CircleCI out of memory issue"
 - `test-integration`: runs `*.integration.test.ts` with `jest.integration-test.config.js` config.
 - `test-manual`: runs `*.manual.test.ts` with `jest.manual-test.config.js`.
-- `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks` (requires `weak`
-  module to be installed in target project).
+- `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks`.
 
 For unit tests (`yarn test`) these `setupFilesAfterEnv` will be used (if found) in that order:
 
@@ -196,14 +195,9 @@ These files are meant to be extended in target project, so act as _recommended d
 - `eslint.config.json`
 - `jest.config.js`
 
-## Extending eslint config
+## eslint
 
-### Jest
+Presence of `jest` is detected by checking if `node_modules/jest` exists.
 
-```js
-// .eslintrc.js
-module.exports = {
-  extends: ['plugin:jest/recommended'],
-  plugins: ['jest'],
-}
-```
+If exists - `eslint-plugin-jest` recommended config (plus opinionated `dev-lib`'s rules) are
+enabled. Otherwise disabled ( to not cause "jest not found" errors)

@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ['plugin:jest/recommended', './cfg/eslint.config.js'],
+  extends: './cfg/eslint.config.js',
   rules: {},
 }
