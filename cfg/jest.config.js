@@ -79,6 +79,10 @@ module.exports = {
       // incremental: true,
       isolatedModules: true, // faster when run without cache (e.g in CI), 50s vs 83s for NCBackend3 right now
       babelConfig: false, // https://kulshekhar.github.io/ts-jest/user/config/babelConfig
+      tsconfig: {
+        sourceMap: true,
+        allowJs: true,
+      },
     },
   },
   testEnvironment: 'node',
