@@ -20,24 +20,85 @@ interface Item extends BaseDBEntity<number> {
 
 interface ItemDBM extends Saved<Item> {}
 
-const _item: ItemDBM = {
-  id: 5, // should only allow number, but not string
-  created: 1,
-  updated: 1,
-}
+test('saved/unsaved', () => {
+  const a = 1
+  expectTypeOf(a).toEqualTypeOf<number>()
 
-const _unsavedItem: Unsaved<Item> = {}
-const _unsavedItemDBM: Unsaved<ItemDBM> = {}
-// deletions test that these props exist and are optional
-delete _unsavedItem.id
-delete _unsavedItem.created
-delete _unsavedItem.updated
-delete _unsavedItemDBM.id
-delete _unsavedItemDBM.created
-delete _unsavedItemDBM.updated
+  const o = {
+    a: 1,
+  }
+  expectTypeOf(o).toEqualTypeOf<{
+    a: number
+  }>()
 
-const _unsavedItemId: UnsavedId<ItemDBM> = { ..._item }
-delete _unsavedItemDBM.id
+  const item: Item = {}
+  delete item.a
+  delete item.id
+  delete item.created
+  delete item.updated
+
+  expectTypeOf(item).toEqualTypeOf<{
+    a?: number
+    id?: number
+    created?: number
+    updated?: number
+  }>()
+
+  const itemDBM: ItemDBM = {
+    id: 5, // should only allow number, but not string
+    created: 1,
+    updated: 1,
+    a: 5,
+  }
+
+  delete itemDBM.a
+
+  expectTypeOf(itemDBM).toEqualTypeOf<{
+    id: number
+    created: number
+    updated: number
+    a?: number
+  }>()
+
+  const unsavedItem: Unsaved<Item> = {}
+  delete unsavedItem.id
+  delete unsavedItem.created
+  delete unsavedItem.updated
+  delete unsavedItem.a
+
+  expectTypeOf(unsavedItem).toEqualTypeOf<{
+    a?: number
+    id?: number
+    created?: number
+    updated?: number
+  }>()
+
+  const unsavedItemDBM: Unsaved<ItemDBM> = {
+    a: 5,
+  }
+  // deletions test that these props exist and are optional
+  delete unsavedItemDBM.id
+  delete unsavedItemDBM.created
+  delete unsavedItemDBM.updated
+  delete unsavedItemDBM.a
+
+  expectTypeOf(unsavedItemDBM).toEqualTypeOf<{
+    a?: number
+    id?: number
+    created?: number
+    updated?: number
+  }>()
+
+  const unsavedItemId: UnsavedId<ItemDBM> = itemDBM
+  delete unsavedItemId.id
+
+  expectTypeOf(unsavedItemId).toEqualTypeOf<{
+    id?: number
+    created: number
+    updated: number
+    a?: number
+  }>()
+})
 
 test('types', () => {
   const _reviver: Reviver = (_k, _v) => {}
@@ -50,8 +111,12 @@ test('types', () => {
   expect(_noop()).toBeUndefined()
   expect(_noop('hey', 'jude')).toBeUndefined()
 
-  const map: StringMap = { a: 'a', b: 'b' }
-  const _a = map['a']
+  const map: StringMap = { a: 'a', b: 'b', c: undefined }
+  const a = map['a']
+  expectTypeOf(a).toEqualTypeOf<string | undefined>()
+  expectTypeOf(map['b']).toEqualTypeOf<string | undefined>()
+  expectTypeOf(map['c']).toEqualTypeOf<string | undefined>()
+  expectTypeOf(map['d']).toEqualTypeOf<string | undefined>()
 })
 
 test('_stringMapValues, _stringMapEntries', () => {

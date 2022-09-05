@@ -13,6 +13,27 @@ export type Primitive = null | undefined | string | number | boolean | symbol | 
 export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
 /**
+ Returns a boolean for whether the two given types are equal.
+ @link https://github.com/microsoft/TypeScript/issues/27024#issuecomment-421529650
+ @link https://stackoverflow.com/questions/68961864/how-does-the-equals-work-in-typescript/68963796#68963796
+ */
+export type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
+  ? true
+  : false
+
+/**
+ * Filter out keys from an object.
+ * Returns `never` if `Exclude` is strictly equal to `Key`.
+ * Returns `never` if `Key` extends `Exclude`.
+ * Returns `Key` otherwise.
+ */
+type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
+  ? never
+  : KeyType extends ExcludeType
+  ? never
+  : KeyType
+
+/**
  Create a type from an object type without certain keys.
 
  This type is a stricter version of [`Omit`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-5.html#the-omit-helper-type). The `Omit` type does not restrict the omitted keys to be keys present on the given type, while `Except` does. The benefits of a stricter type are avoiding typos and allowing the compiler to pick up on rename refactors automatically.
@@ -35,10 +56,9 @@ export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
  @category Utilities
  */
-export type Except<ObjectType, KeysType extends keyof ObjectType> = Pick<
-  ObjectType,
-  Exclude<keyof ObjectType, KeysType>
->
+export type Except<ObjectType, KeysType extends keyof ObjectType> = {
+  [KeyType in keyof ObjectType as Filter<KeyType, KeysType>]: ObjectType[KeyType]
+}
 
 /**
  Convert `object`s, `Map`s, `Set`s, and `Array`s and all of their keys/elements into immutable structures recursively.
@@ -99,8 +119,32 @@ type ReadonlyObjectDeep<ObjectType extends object> = {
   readonly [KeyType in keyof ObjectType]: ReadonlyDeep<ObjectType[KeyType]>
 }
 
-type Merge_<FirstType, SecondType> = Except<FirstType, Extract<keyof FirstType, keyof SecondType>> &
-  SecondType
+/**
+ * Pick only index signatures from the given object type, leaving out all explicitly defined properties.
+ * This is the counterpart of `OmitIndexSignature`.
+ * When you use a type that will iterate through an object that has indexed keys and explicitly defined keys you end up with a type where only the indexed keys are kept. This is because `keyof` of an indexed type always returns `string | number | symbol`, because every key is possible in that object. With this type, you can save the indexed keys and reinject them later, like in the second example below.
+ */
+export type PickIndexSignature<ObjectType> = {
+  [KeyType in keyof ObjectType as {} extends Record<KeyType, unknown>
+    ? KeyType
+    : never]: ObjectType[KeyType]
+}
+
+/**
+ * Omit any index signatures from the given object type, leaving only explicitly defined properties.
+ * This is the counterpart of `PickIndexSignature`.
+ * Use-cases:
+ * - Remove overly permissive signatures from third-party types.
+ *
+ * This type was taken from this [StackOverflow answer](https://stackoverflow.com/a/68261113/420747).
+ * It relies on the fact that an empty object (`{}`) is assignable to an object with just an index signature, like `Record<string, unknown>`, but not to an object with explicitly defined keys, like `Record<'foo' | 'bar', unknown>`.
+ * (The actual value type, `unknown`, is irrelevant and could be any type. Only the key type matters.)
+ */
+export type OmitIndexSignature<ObjectType> = {
+  [KeyType in keyof ObjectType as {} extends Record<KeyType, unknown>
+    ? never
+    : KeyType]: ObjectType[KeyType]
+}
 
 /**
  Merge two types into a new type. Keys of the second type overrides keys of the first type.
@@ -123,7 +167,13 @@ type Merge_<FirstType, SecondType> = Except<FirstType, Extract<keyof FirstType, 
 
  @category Utilities
  */
-export type Merge<FirstType, SecondType> = Simplify<Merge_<FirstType, SecondType>>
+export type Merge<Destination, Source> = {
+  [Key in keyof OmitIndexSignature<Destination & Source>]: Key extends keyof Source
+    ? Source[Key]
+    : Key extends keyof Destination
+    ? Destination[Key]
+    : never
+} & PickIndexSignature<Destination & Source>
 
 /**
  Create a type that represents either the value or the value wrapped in `PromiseLike`.

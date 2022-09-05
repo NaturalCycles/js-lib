@@ -1,4 +1,4 @@
-import type { Except, Merge, Promisable } from './typeFest'
+import type { Promisable } from './typeFest'
 
 /**
  * Map from String to String (or <T>).
@@ -7,15 +7,6 @@ import type { Except, Merge, Promisable } from './typeFest'
  */
 export interface StringMap<T = string> {
   [k: string | number]: T | undefined
-}
-
-/**
- * Object to be passed to pProps to resolve all promises into properties.
- *
- * Alternative: Record<String, Promise<any>>
- */
-export interface PromiseMap {
-  [prop: string]: Promise<any> | undefined
 }
 
 /**
@@ -71,18 +62,15 @@ export interface SavedDBEntity<ID extends string | number = string> {
  */
 export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
 
-export type Saved<T extends Partial<ObjectWithId>> = Merge<
-  T,
-  SavedDBEntity<Exclude<T['id'], undefined>>
->
+// export type Saved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity<NonNullable<T['id']>>
+export type Saved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> &
+  SavedDBEntity<NonNullable<T['id']>>
 
-export type Unsaved<T extends Partial<ObjectWithId>> = Merge<
-  T,
-  BaseDBEntity<Exclude<T['id'], undefined>>
->
+export type Unsaved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> &
+  BaseDBEntity<NonNullable<T['id']>>
 
-export type UnsavedId<T extends Partial<ObjectWithId>> = Except<T, 'id'> & {
-  id: Exclude<T['id'], undefined>
+export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
+  id?: T['id']
 }
 
 /**
