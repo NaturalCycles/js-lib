@@ -311,27 +311,25 @@ export function _invertMap<K, V>(m: ReadonlyMap<K, V>): Map<V, K> {
 }
 
 /**
- * Gets the property value at path of object. If the resolved value is undefined the defaultValue is used
- * in its place.
+ * Gets the property value at path of object.
  *
- * @param obj The object to query.
- * @param path The path of the property to get.
- * @param def The value returned if the resolved value is undefined.
- * @return Returns the resolved value.
+ * @example
+ * const obj = {a: 'a', b: 'b', c: { cc: 'cc' }}
+ * _get(obj, 'a') // 'a'
+ * _get(obj, 'c.cc') // 'cc'
+ * _get(obj, 'c[cc]') // 'cc'
+ * _get(obj, 'unknown.path') // undefined
  */
-export function _get<T extends AnyObject>(obj = {} as T, path = '', def?: any): any {
-  const res = path
+export function _get<T extends AnyObject>(obj = {} as T, path = ''): unknown {
+  return path
     .replace(/\[([^\]]+)]/g, '.$1')
     .split('.')
-    .reduce((o, p) => o[p], obj)
-
-  return res === undefined ? def : res
+    .reduce((o, p) => o?.[p], obj)
 }
 
 /**
  * Sets the value at path of object. If a portion of path doesn’t exist it’s created. Arrays are created for
- * missing index properties while objects are created for all other missing properties. Use _.setWith to
- * customize path creation.
+ * missing index properties while objects are created for all other missing properties.
  *
  * @param obj The object to modify.
  * @param path The path of the property to set.
@@ -340,11 +338,7 @@ export function _get<T extends AnyObject>(obj = {} as T, path = '', def?: any): 
  *
  * Based on: https://stackoverflow.com/a/54733755/4919972
  */
-export function _set<IN extends AnyObject, OUT = IN>(
-  obj: IN,
-  path: PropertyPath,
-  value?: any,
-): OUT {
+export function _set<T extends AnyObject>(obj: T, path: PropertyPath, value: any): T {
   if (!obj || Object(obj) !== obj || !path) return obj as any // When obj is not an object
 
   // If not yet an array, get the keys from the string-path
@@ -373,7 +367,7 @@ export function _set<IN extends AnyObject, OUT = IN>(
     obj,
   )[path[path.length - 1]!] = value // Finally assign the value to the last key
 
-  return obj as any // Return the top-level object to allow chaining
+  return obj // allow chaining
 }
 
 /**
@@ -400,7 +394,7 @@ export function _set<IN extends AnyObject, OUT = IN>(
  * _.has(other, 'a');
  * // => false
  */
-export function _has<T extends AnyObject>(obj: T, path?: string): boolean {
+export function _has<T extends AnyObject>(obj: T, path: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
 }

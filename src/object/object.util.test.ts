@@ -450,13 +450,14 @@ test('_get, _has', () => {
   expect(_get(o, 'c.f[0]')).toBeNull()
   expect(_get(o, 'c.f.0')).toBeNull()
   expect(_get(o, 'c.f[1]')).toBeUndefined()
-  expect(_get(o, 'c.f[1]', 'def')).toBe('def')
   expect(_get(o, 'c.f[2]')).toBe(1)
   expect(_get(o, 'c.f[3]')).toBe('5')
   expect(_get(o, 'c.f[4]')).toBe('d')
+  expect(_get(o, 'not.existing.path')).toBeUndefined()
+  expect(_get(o, 'not')).toBeUndefined()
 
   // expect(_has(undefined)).toBe(false)
-  expect(_has(o)).toBe(false)
+  expect(_has(o, undefined as any)).toBe(false)
   expect(_has(o, 'a')).toBe(true)
   expect(_has(o, 'a.b')).toBe(false)
   expect(_has(o, 'c.d')).toBe(true)
@@ -465,21 +466,24 @@ test('_get, _has', () => {
   expect(_has(o, 'c.f[1]')).toBe(false)
   expect(_has(o, 'c.f[2]')).toBe(true)
   expect(_has(o, 'c.f[6]')).toBe(false)
+  expect(_has(o, 'not.existing.path')).toBe(false)
+  expect(_has(o, 'not')).toBe(false)
 })
 
-test('_set', () => {
-  expect(_set(undefined as any, undefined as any)).toBeUndefined()
-  expect(_set({}, undefined as any)).toEqual({})
-  expect(_set({}, '')).toEqual({})
-  expect(_set({}, '', 'a')).toEqual({})
-  expect(_set({}, 'a', 'a1')).toEqual({ a: 'a1' })
-  expect(_set({}, 'a.b', 'a1')).toEqual({ a: { b: 'a1' } })
-  expect(_set({}, 'a.b[0]', 'a1')).toEqual({ a: { b: ['a1'] } })
-  expect(_set({}, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
-  expect(_set({ a: {} }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
-  expect(_set({ a: { b: ['b1'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1'] } })
-  expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.0', 'a1')).toEqual({ a: { b: ['a1', 'b2'] } })
-  expect(_set({ a: { b: ['b1', 'b2'] } }, 'a.b.1', 'a1')).toEqual({ a: { b: ['b1', 'a1'] } })
+test.each([
+  [undefined as any, undefined as any, undefined, undefined],
+  [{}, '', 'a', {}],
+  [{}, 'a', 'a1', { a: 'a1' }],
+  [{}, 'a.b', 'a1', { a: { b: 'a1' } }],
+  [{}, 'a.b[0]', 'a1', { a: { b: ['a1'] } }],
+  [{}, 'a.b.0', 'a1', { a: { b: ['a1'] } }],
+  [{ a: {} }, 'a.b.0', 'a1', { a: { b: ['a1'] } }],
+  [{ a: { b: ['b1'] } }, 'a.b.0', 'a1', { a: { b: ['a1'] } }],
+  [{ a: { b: ['b1', 'b2'] } }, 'a.b.0', 'a1', { a: { b: ['a1', 'b2'] } }],
+  [{ a: { b: ['b1', 'b2'] } }, 'a.b.1', 'a2', { a: { b: ['b1', 'a2'] } }],
+])('_set %s %s %s to be %s', (obj, path, value, expected) => {
+  expect(_set(obj, path, value)).toEqual(expected)
+  expect(obj).toEqual(expected)
 })
 
 test('_mapKeys', () => {
