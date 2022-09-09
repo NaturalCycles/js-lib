@@ -56,7 +56,20 @@ if (runInIDE) {
 module.exports = {
   transform: {
     // '^.+\\.js$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        diagnostics: false,
+        // compilerHost: true, // disabled, cause its effects are not detected/understood yet
+        // incremental: true,
+        isolatedModules: true, // faster when run without cache (e.g in CI), 50s vs 83s for NCBackend3 right now
+        babelConfig: false, // https://kulshekhar.github.io/ts-jest/user/config/babelConfig
+        tsconfig: {
+          sourceMap: true,
+          allowJs: true,
+        },
+      },
+    ],
     // example (experimental):
     // '^.+\\.ts$': '@naturalcycles/dev-lib/cfg/jest.esbuild.transformer.js',
   },
@@ -72,19 +85,6 @@ module.exports = {
     '@src/(.*)$': '<rootDir>/src/$1',
   },
   skipNodeResolution: true,
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-      // compilerHost: true, // disabled, cause its effects are not detected/understood yet
-      // incremental: true,
-      isolatedModules: true, // faster when run without cache (e.g in CI), 50s vs 83s for NCBackend3 right now
-      babelConfig: false, // https://kulshekhar.github.io/ts-jest/user/config/babelConfig
-      tsconfig: {
-        sourceMap: true,
-        allowJs: true,
-      },
-    },
-  },
   testEnvironment: 'node',
   errorOnDeprecated: true,
   snapshotFormat: {
