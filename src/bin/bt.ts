@@ -9,7 +9,7 @@ import { tsc } from '../util/tsc.util'
 runScript(async () => {
   fs.emptyDirSync('./dist') // it doesn't delete the dir itself, to prevent IDE jumping
   // fs.rmSync('./dist', { recursive: true, force: true })
-  await tsc()
+  await tsc(true)
   await tscScriptsCommand()
   await runJest()
 })

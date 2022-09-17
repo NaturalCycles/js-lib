@@ -5,9 +5,10 @@ import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import { cfgDir } from '../cnst/paths.cnst'
 
-export async function tsc(): Promise<void> {
+export async function tsc(noEmit = false): Promise<void> {
   const started = Date.now()
-  await execCommand('tsc')
+  const cmd = ['tsc', noEmit && '--noEmit'].filter(Boolean).join(' ')
+  await execCommand(cmd)
   console.log(`${boldGrey('tsc')} ${dimGrey(`took ` + _since(started))}`)
 }
 
