@@ -104,7 +104,11 @@ test('pRetry should time out and keep stack', async () => {
 
   expect(err.stack).toContain('TimeoutError')
   expect(err.stack).toContain('at myFunction')
-  expect(normalizeStack(err.stack!)).toMatchInlineSnapshot(`
+  const stackLines = normalizeStack(err.stack!)
+    .split('\n')
+    .filter(line => !line.includes('processTicks') && !line.includes('Object.worker'))
+
+  expect(stackLines.join('\n')).toMatchInlineSnapshot(`
     "TimeoutError
         at pRetry pRetry.ts
         at myFunction pRetry.test.ts
@@ -115,7 +119,11 @@ test('pRetry should time out and keep stack', async () => {
         at _callCircusTest run.js
         at _runTest run.js
         at _runTestsForDescribeBlock run.js
-        at run run.js"
+        at run run.js
+        at runAndTransformResultsToJestFormat jestAdapterInit.js
+        at jestAdapter jestAdapter.js
+        at runTestInternal runTest.js
+        at runTest runTest.js"
   `)
 })
 
