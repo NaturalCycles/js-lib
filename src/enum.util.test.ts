@@ -2,6 +2,8 @@ import {
   _numberEnumEntries,
   _numberEnumInverse,
   _numberEnumInverseNullable,
+  _numberEnumKey,
+  _numberEnumKeyNullable,
   _numberEnumKeys,
   _numberEnumNormalize,
   _numberEnumNormalizeNullable,
@@ -118,7 +120,7 @@ test('_stringEnumEntries', () => {
 test('_numberEnumInverse', () => {
   expect(_numberEnumInverse(MyNumberEnum, 'K2')).toBe(2)
   expect(() => _numberEnumInverse(MyNumberEnum, 'K4')).toThrowErrorMatchingInlineSnapshot(
-    `"enumInverse value not found for: K4"`,
+    `"_numberEnumInverse value not found for: K4"`,
   )
 
   expect(_numberEnumInverseNullable(MyNumberEnum, 'K2')).toBe(2)
@@ -134,10 +136,10 @@ test('_numberEnumNormalize', () => {
   expect(_numberEnumNormalize(MyNumberEnum, MyNumberEnum.K2)).toBe(2)
 
   expect(() => _numberEnumNormalize(MyNumberEnum, 4)).toThrowErrorMatchingInlineSnapshot(
-    `"enumNormalize value not found for: 4"`,
+    `"_numberEnumNormalize value not found for: 4"`,
   )
   expect(() => _numberEnumNormalize(MyNumberEnum, 'K4')).toThrowErrorMatchingInlineSnapshot(
-    `"enumNormalize value not found for: K4"`,
+    `"_numberEnumNormalize value not found for: K4"`,
   )
 
   expect(_numberEnumNormalizeNullable(MyNumberEnum, 'K2')).toBe(2)
@@ -148,4 +150,21 @@ test('_numberEnumNormalize', () => {
 
   // String types are attempted to be converted and return undefined
   expect(_numberEnumNormalizeNullable(MyNumberEnum, 'K4')).toBeUndefined()
+})
+
+test('_numberEnumKey, _numberEnumKeyNullable', () => {
+  expect(_numberEnumKeyNullable(MyNumberEnum, 'non-existing' as any)).toBeUndefined()
+  expect(_numberEnumKeyNullable(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
+  expect(_numberEnumKeyNullable(MyNumberEnum, 1)).toBe('K1')
+  expect(_numberEnumKeyNullable(MyNumberEnum, 'K1' as any)).toBeUndefined()
+
+  expect(() =>
+    _numberEnumKey(MyNumberEnum, 'non-existing' as any),
+  ).toThrowErrorMatchingInlineSnapshot(`"_enumKey value not found for: non-existing"`)
+  expect(() => _numberEnumKey(MyNumberEnum, 'K1' as any)).toThrowErrorMatchingInlineSnapshot(
+    `"_enumKey value not found for: K1"`,
+  )
+
+  expect(_numberEnumKey(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
+  expect(_numberEnumKey(MyNumberEnum, 1)).toBe('K1')
 })

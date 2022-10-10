@@ -61,12 +61,12 @@ export function _stringEnumEntries<T extends StringEnum>(en: T): [k: string, v: 
  */
 export function _numberEnumInverse<T extends NumberEnum>(en: T, v: string): T[keyof T] {
   const r = en[v as keyof T] as any
-  if (!r) throw new Error(`enumInverse value not found for: ${v}`)
+  if (!r) throw new Error(`_numberEnumInverse value not found for: ${v}`)
   return r
 }
 
 /**
- * _enumInverse, but allows to get/return undefined output.
+ * _numberEnumInverse, but allows to get/return undefined output.
  */
 export function _numberEnumInverseNullable<T extends NumberEnum>(
   en: T,
@@ -83,16 +83,41 @@ export function _numberEnumInverseNullable<T extends NumberEnum>(
  */
 export function _numberEnumNormalize<T extends NumberEnum>(en: T, v: string | number): T[keyof T] {
   const r = _numberEnumNormalizeNullable(en, v)
-  if (!r || !en[r as keyof T]) throw new Error(`enumNormalize value not found for: ${v}`)
+  if (!r || !en[r as keyof T]) throw new Error(`_numberEnumNormalize value not found for: ${v}`)
   return r
 }
 
 /**
- * Same as _enumNormalize, but allows to return undefined values.
+ * Same as _numberEnumNormalize, but allows to return undefined values.
  */
 export function _numberEnumNormalizeNullable<T extends NumberEnum>(
   en: T,
   v: string | number | undefined,
 ): T[keyof T] | undefined {
   return typeof v === 'string' ? en[v as keyof T] : (v as any)
+}
+
+/**
+ * Returns a String key for given NumberEnum value, or undefined if not found.
+ */
+export function _numberEnumKeyNullable<T extends NumberEnum>(
+  en: T,
+  v: T[keyof T] | undefined | null,
+): keyof T | undefined {
+  const key = (en as any)[v]
+  // This prevents passing a Key (not a Value) of enum here, which returns unexpected result (number, not string)
+  return typeof key === 'string' ? key : undefined
+}
+
+/**
+ * Returns a String key for given NumberEnum value, throws if not found.
+ */
+export function _numberEnumKey<T extends NumberEnum>(
+  en: T,
+  v: T[keyof T] | undefined | null,
+): keyof T {
+  const key = (en as any)[v]
+  // This prevents passing a Key (not a Value) of enum here, which returns unexpected result (number, not string)
+  if (typeof key !== 'string') throw new Error(`_enumKey value not found for: ${v}`)
+  return key
 }
