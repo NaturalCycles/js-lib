@@ -1,3 +1,5 @@
+import { CommonLogger } from '@naturalcycles/js-lib'
+import { expectTypeOf } from 'expect-type'
 import { deepFreeze, jestLog, jestLogger, silentConsole } from './testing.util'
 
 test('deepFreeze', () => {
@@ -17,6 +19,8 @@ test('jestLogger', () => {
   jestLogger.log('hej')
   jestLogger.warn('hej warn')
   jestLogger.error('hej error')
+
+  expectTypeOf(jestLogger).toEqualTypeOf<CommonLogger>()
 })
 
 test('silentConsole', () => {
