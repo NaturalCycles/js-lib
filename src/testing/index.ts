@@ -4,6 +4,6 @@ export * from './expect.util'
 export * from './mockAllKindsOfThings'
 export * from './testing.util'
 export * from './time.util'
-export * from 'expect-type'
+import { expectTypeOf } from 'expect-type'
 
-export { timekeeper }
+export { timekeeper, expectTypeOf }
