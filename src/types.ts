@@ -260,3 +260,11 @@ export type FalsyValue = false | '' | 0 | null | undefined
  * }
  */
 export function _typeCast<T>(v: any): asserts v is T {}
+
+/**
+ * Type-safe Object.assign that checks that part is indeed a Partial<T>
+ */
+export const _objectAssign = Object.assign as <T extends AnyObject>(
+  target: T,
+  part: Partial<T>,
+) => T

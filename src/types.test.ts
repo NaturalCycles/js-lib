@@ -4,6 +4,7 @@ import { _expectedError } from './error/try'
 import type { Reviver, StringMap, BaseDBEntity, Saved, Unsaved, UnsavedId } from './types'
 import {
   _noop,
+  _objectAssign,
   _objectKeys,
   _passNothingPredicate,
   _passthroughMapper,
@@ -155,6 +156,28 @@ test('_typeCast', () => {
   expect(err.data).toMatchInlineSnapshot(`
     {
       "httpStatusCode": 401,
+    }
+  `)
+})
+
+test('_objectAssign', () => {
+  const item: Item = {}
+
+  // No TypeScript error here
+  Object.assign(item, {
+    whatever: 5,
+  })
+
+  _objectAssign(item, {
+    // @ts-expect-error 'whatever' does not belong to Partial<Item>
+    whatever: 5,
+    a: 5,
+  })
+
+  expect(item).toMatchInlineSnapshot(`
+    {
+      "a": 5,
+      "whatever": 5,
     }
   `)
 })
