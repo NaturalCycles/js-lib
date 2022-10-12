@@ -1,7 +1,15 @@
 import { expectTypeOf } from 'expect-type'
 import type { AppError } from './error/app.error'
 import { _expectedError } from './error/try'
-import type { Reviver, StringMap, BaseDBEntity, Saved, Unsaved, UnsavedId } from './types'
+import type {
+  Reviver,
+  StringMap,
+  BaseDBEntity,
+  Saved,
+  Unsaved,
+  UnsavedId,
+  AnyObject,
+} from './types'
 import {
   _noop,
   _objectAssign,
@@ -180,4 +188,10 @@ test('_objectAssign', () => {
       "whatever": 5,
     }
   `)
+})
+
+test('Unsaved type', () => {
+  expectTypeOf<Unsaved<any>>().toEqualTypeOf<any>()
+
+  function _fn<BM extends AnyObject>(_a: Unsaved<BM>): void {}
 })

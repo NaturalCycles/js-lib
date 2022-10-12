@@ -62,12 +62,13 @@ export interface SavedDBEntity<ID extends string | number = string> {
  */
 export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
 
-// export type Saved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity<NonNullable<T['id']>>
-export type Saved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> &
-  SavedDBEntity<NonNullable<T['id']>>
+export type Saved<T extends Partial<ObjectWithId>> = T extends AnyObject
+  ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity<NonNullable<T['id']>>
+  : T
 
-export type Unsaved<T extends Partial<ObjectWithId>> = Omit<T, 'id' | 'created' | 'updated'> &
-  BaseDBEntity<NonNullable<T['id']>>
+export type Unsaved<T extends Partial<ObjectWithId>> = T extends AnyObject
+  ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity<NonNullable<T['id']>>
+  : T
 
 export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
   id?: T['id']
