@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getTSConfigPathScripts, runESLint } from '../util/lint.util'

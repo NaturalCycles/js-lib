@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'

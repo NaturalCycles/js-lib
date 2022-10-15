@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { cfgDir } from '../cnst/paths.cnst'

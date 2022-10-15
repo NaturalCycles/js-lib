@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 import { logExec } from '@naturalcycles/nodejs-lib/dist/exec/exec.util'
 import execa = require('execa')
 
