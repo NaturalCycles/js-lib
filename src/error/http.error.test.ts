@@ -1,4 +1,4 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 import { _errorToErrorObject, _stringifyAny } from '../index'
 import { HttpError } from './http.error'
 
