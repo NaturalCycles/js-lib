@@ -341,7 +341,7 @@ module.exports = {
     'unicorn/prefer-module': 0,
     'unicorn/no-null': 0,
     'unicorn/filename-case': 0,
-    'unicorn/prefer-node-protocol': 0,
+    'unicorn/prefer-node-protocol': 2, // 14.18+, 16.0+
     'unicorn/prefer-set-has': 0,
     'unicorn/explicit-length-check': 0,
     'unicorn/no-array-for-each': 0,
