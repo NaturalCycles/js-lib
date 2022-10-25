@@ -225,6 +225,7 @@ export type Integer = number
 
 export type Base64String = string
 export type Base64UrlString = string
+export type JWTString = string
 
 /**
  * Named type for JSON.parse / JSON.stringify second argument
