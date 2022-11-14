@@ -96,7 +96,8 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
 
     // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
     // as it's the most memory-efficient way
-    maxWorkers ||= '--maxWorkers=1'
+    // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
+    maxWorkers ||= '--maxWorkers=2'
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
