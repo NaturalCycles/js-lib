@@ -95,6 +95,7 @@ module.exports = {
   restoreMocks: true,
   unmockedModulePathPatterns: [],
   setupFilesAfterEnv,
+  workerIdleMemoryLimit: '800MB', // workaround for this: https://github.com/facebook/jest/issues/11956
   collectCoverageFrom: [
     'src/**/*.ts',
     '!**/__exclude/**',
