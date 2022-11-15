@@ -22,6 +22,7 @@ export function _lowerFirst(s: string): string {
  */
 export function _split(str: string, separator: string, limit: number): string[] {
   const parts = str.split(separator)
+  if (parts.length <= limit) return parts
   return [...parts.slice(0, limit - 1), parts.slice(limit - 1).join(separator)]
 }
 

@@ -32,6 +32,7 @@ test('_split', () => {
   expect(_split('a b c', ' ', 1)).toEqual(['a b c'])
   expect(_split('a b c', ' ', 2)).toEqual(['a', 'b c'])
   expect(_split('a b c', ' ', 3)).toEqual(['a', 'b', 'c'])
+  expect(_split('abc', '|', 3)).toEqual(['abc'])
 })
 
 test('substringBefore, substringAfter', () => {
