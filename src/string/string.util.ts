@@ -36,8 +36,8 @@ export function _removeWhitespace(s: string): string {
  */
 export function _truncate(s: string, maxLen: number, omission = '...'): string {
   if (!s || s.length <= maxLen) return s
-
-  return s.substr(0, maxLen - omission.length) + omission
+  if (maxLen <= omission.length) return omission
+  return s.slice(0, maxLen - omission.length) + omission
 }
 
 /**
@@ -46,32 +46,33 @@ export function _truncate(s: string, maxLen: number, omission = '...'): string {
  */
 export function _truncateMiddle(s: string, maxLen: number, omission = '...'): string {
   if (!s || s.length <= maxLen) return s
+  if (maxLen <= omission.length) return omission
 
   const mark1 = Math.round((maxLen - omission.length) / 2)
   const mark2 = s.length - Math.floor((maxLen - omission.length) / 2)
-  return s.substr(0, mark1) + omission + s.substr(mark2)
+  return s.slice(0, mark1) + omission + s.slice(mark2)
 }
 
 // These functions are modeled after Kotlin's String API
 
 export function _substringBefore(s: string, delimiter: string): string {
   const pos = s.indexOf(delimiter)
-  return s.substr(0, pos !== -1 ? pos : undefined)
+  return s.slice(0, pos !== -1 ? pos : undefined)
 }
 
 export function _substringBeforeLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
-  return s.substr(0, pos !== -1 ? pos : undefined)
+  return s.slice(0, pos !== -1 ? pos : undefined)
 }
 
 export function _substringAfter(s: string, delimiter: string): string {
   const pos = s.indexOf(delimiter)
-  return pos !== -1 ? s.substr(pos + 1) : s
+  return pos !== -1 ? s.slice(pos + 1) : s
 }
 
 export function _substringAfterLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
-  return pos !== -1 ? s.substr(pos + 1) : s
+  return pos !== -1 ? s.slice(pos + 1) : s
 }
 
 /**
