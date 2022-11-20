@@ -336,6 +336,7 @@ module.exports = {
     'unicorn/no-process-exit': 0,
     'unicorn/no-array-push-push': 0,
     'unicorn/no-abusive-eslint-disable': 0,
+    'unicorn/no-negated-condition': 0,
     'unicorn/number-literal-case': 0, // conflicts with prettier
     'unicorn/prevent-abbreviations': 0,
     'unicorn/prefer-module': 0,
