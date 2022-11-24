@@ -1,4 +1,5 @@
 import * as fs from 'node:fs'
+import { _truncate } from '@naturalcycles/js-lib'
 import * as yargs from 'yargs'
 import {
   commitMessageToTitleMessage,
@@ -49,7 +50,9 @@ export async function lintAllCommand(): Promise<void> {
         console.log(`lint-all: there are changes before running lint-all, will not commit`)
       } else {
         const msg =
-          'style(ci): ' + commitMessageToTitleMessage(await getLastGitCommitMsg()) + '\n\n[skip ci]'
+          'style(ci): ' +
+          _truncate(commitMessageToTitleMessage(await getLastGitCommitMsg()), 60) +
+          '\n\n[skip ci]'
 
         // pull, commit, push changes
         await gitPull()
