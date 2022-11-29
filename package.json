@@ -104,7 +104,7 @@
     "update-from-dev-lib": "dist/bin/update-from-dev-lib.js"
   },
   "engines": {
-    "node": ">=14.15.0"
+    "node": ">=16.10.0"
   },
   "publishConfig": {
     "access": "public"
