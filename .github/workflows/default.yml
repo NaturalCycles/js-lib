@@ -11,7 +11,7 @@ jobs:
       CC_TEST_REPORTER_ID: 8263f3329c9a25abc9ad21473a65deabd4c8f0cd54db6e7fbba1a85fb6e5b829
     steps:
       - { uses: actions/checkout@v3, with: { persist-credentials: false } }
-      - { uses: actions/setup-node@v3, with: { node-version: 16, cache: 'yarn' } }
+      - { uses: actions/setup-node@v3, with: { node-version: 18, cache: 'yarn' } }
 
       - name: deps
         run: yarn --frozen-lockfile --prefer-offline
