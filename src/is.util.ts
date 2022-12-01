@@ -6,9 +6,8 @@ type Truthy<T> = T extends FalsyValue ? never : T
 type Falsy<T> = T extends FalsyValue ? T : never
 
 export const _isNull = <T>(v: T): v is T extends null ? T : never => v === null
-export const _isUndefined = <T>(v: T): v is T extends undefined ? T : never =>
-  typeof v === 'undefined'
-export const _isNullish = <T>(v: T): v is Nullish<T> => typeof v === 'undefined' || v === null
+export const _isUndefined = <T>(v: T): v is T extends undefined ? T : never => v === undefined
+export const _isNullish = <T>(v: T): v is Nullish<T> => v === undefined || v === null
 export const _isNotNullish = <T>(v: T): v is NonNullable<T> => v !== undefined && v !== null
 
 /**

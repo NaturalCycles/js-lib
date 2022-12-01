@@ -154,7 +154,7 @@ function logFinished(
     t.push(`(avg ${_ms(sma.push(millis))})`)
   }
 
-  if (typeof err !== 'undefined') {
+  if (err !== undefined) {
     t.push('ERROR:', _stringifyAny(err, { includeErrorData: true }))
   } else if (logResultFn) {
     t.push(...logResultFn(res))
