@@ -25,7 +25,8 @@ test('pTimeoutFn options', async () => {
   await expect(
     pTimeoutFn(fn, {
       timeout: 10,
-      onTimeout: () => {
+      onTimeout: timeoutErr => {
+        expect(timeoutErr).toMatchInlineSnapshot(`[TimeoutError: "fn" timed out after 10 ms]`)
         throw new Error('custom error')
       },
     })(),

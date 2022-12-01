@@ -19,8 +19,11 @@ export interface PTimeoutOptions {
   /**
    * If provided - will be called INSTEAD of throwing an error.
    * Can be used to thrown a custom error OR resolve a promise without throwing.
+   *
+   * err (which is TimeoutError) is passed as an argument for convenience, so it can
+   * be logged or such. You don't have to consume it in any way though.
    */
-  onTimeout?: () => any
+  onTimeout?: (err: TimeoutError) => any
 
   /**
    * Defaults to true.
@@ -59,17 +62,19 @@ export function pTimeoutFn<T extends AnyAsyncFunction>(fn: T, opt: PTimeoutOptio
  * If the Function rejects - passes this rejection further.
  */
 export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions): Promise<T> {
-  // todo: check how we can automatically infer function name (only applicable to named functions)
-  const { timeout, name, onTimeout, keepStackTrace = true } = opt
+  const { timeout, name = fn.name || 'pTimeout function', onTimeout, keepStackTrace = true } = opt
   const fakeError = keepStackTrace ? new Error('TimeoutError') : undefined
 
   // eslint-disable-next-line no-async-promise-executor
   return await new Promise(async (resolve, reject) => {
     // Prepare the timeout timer
     const timer = setTimeout(() => {
+      const err = new TimeoutError(`"${name}" timed out after ${timeout} ms`, opt.errorData)
+      if (fakeError) err.stack = fakeError.stack // keep original stack
+
       if (onTimeout) {
         try {
-          resolve(onTimeout())
+          resolve(onTimeout(err))
         } catch (err: any) {
           if (fakeError) err.stack = fakeError.stack // keep original stack
           err.data = {
@@ -81,11 +86,6 @@ export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions)
         return
       }
 
-      const err = new TimeoutError(
-        `"${name || 'pTimeout function'}" timed out after ${timeout} ms`,
-        opt.errorData,
-      )
-      if (fakeError) err.stack = fakeError.stack // keep original stack
       reject(err)
     }, timeout)
 
