@@ -1,3 +1,4 @@
+import type { Class } from '../typeFest'
 import type { AnyFunction } from '../types'
 import { AppError } from './app.error'
 
@@ -63,14 +64,24 @@ export class UnexpectedPassError extends AppError {
 /**
  * Calls `fn`, expects is to throw, catches the expected error and returns.
  * If error was NOT thrown - throws UnexpectedPassError instead.
+ *
+ * If `errorClass` is passed:
+ * 1. It automatically infers it's type
+ * 2. It does `instanceof` check and throws if wrong Error instance was thrown.
  */
-export function _expectedError<ERR = Error>(fn: AnyFunction): ERR {
+export function _expectedError<ERR = Error>(fn: AnyFunction, errorClass?: Class<ERR>): ERR {
   try {
     fn()
     // Unexpected!
     throw new UnexpectedPassError()
   } catch (err) {
     if (err instanceof UnexpectedPassError) throw err // re-throw
+    if (errorClass && !(err instanceof errorClass)) {
+      console.warn(
+        `_expectedError expected ${errorClass.constructor.name} but got different error class`,
+      )
+      throw err
+    }
     return err as ERR // this is expected!
   }
 }
@@ -78,14 +89,27 @@ export function _expectedError<ERR = Error>(fn: AnyFunction): ERR {
 /**
  * Awaits passed `promise`, expects is to throw (reject), catches the expected error and returns.
  * If error was NOT thrown - throws UnexpectedPassError instead.
+ *
+ * If `errorClass` is passed:
+ * 1. It automatically infers it's type
+ * 2. It does `instanceof` check and throws if wrong Error instance was thrown.
  */
-export async function pExpectedError<ERR = Error>(promise: Promise<any>): Promise<ERR> {
+export async function pExpectedError<ERR = Error>(
+  promise: Promise<any>,
+  errorClass?: Class<ERR>,
+): Promise<ERR> {
   try {
     await promise
     // Unexpected!
     throw new UnexpectedPassError()
   } catch (err) {
     if (err instanceof UnexpectedPassError) throw err // re-throw
+    if (errorClass && !(err instanceof errorClass)) {
+      console.warn(
+        `pExpectedError expected ${errorClass.constructor.name} but got different error class`,
+      )
+      throw err
+    }
     return err as ERR // this is expected!
   }
 }

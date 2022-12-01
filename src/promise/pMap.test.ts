@@ -1,7 +1,7 @@
 import type { AsyncMapper } from '..'
 import { _inRange, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
 import { timeSpan } from '../test/test.util'
-import type { AggregatedError } from './AggregatedError'
+import { AggregatedError } from './AggregatedError'
 import { pDelay } from './pDelay'
 import { pMap } from './pMap'
 
@@ -139,8 +139,9 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
           2. foo"
         `)
 
-  let err = await pExpectedError<AggregatedError>(
+  let err = await pExpectedError(
     pMap(errorInput1, mapper, { concurrency: 1, errorMode }),
+    AggregatedError,
   )
   expect(err.results).toEqual([20, 30])
   expect(err).toMatchInlineSnapshot(`
@@ -150,7 +151,7 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
   `)
 
   // infinite concurrency
-  err = await pExpectedError<AggregatedError>(pMap(errorInput1, mapper, { errorMode }))
+  err = await pExpectedError(pMap(errorInput1, mapper, { errorMode }), AggregatedError)
   expect(err.results).toEqual([20, 30])
   expect(err).toMatchInlineSnapshot(`
     [AggregatedError: 2 errors:
@@ -159,8 +160,9 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
   `)
 
   // limited concurrency
-  err = await pExpectedError<AggregatedError>(
+  err = await pExpectedError(
     pMap(errorInput1, mapper, { concurrency: 3, errorMode }),
+    AggregatedError,
   )
   expect(err.results).toEqual([20, 30])
   expect(err).toMatchInlineSnapshot(`

@@ -1,5 +1,6 @@
 import { expectTypeOf } from 'expect-type'
 import { AppError } from './app.error'
+import { HttpError } from './http.error'
 import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
 
 const okFunction = (v = 1) => ({ result: v })
@@ -50,8 +51,8 @@ test('pTry', async () => {
 })
 
 test('_expectedError', () => {
-  const err = _expectedError<AppError>(errFunction)
-  expectTypeOf(err).toEqualTypeOf<AppError>()
+  const err = _expectedError(errFunction, AppError)
+  expectTypeOf(err).toEqualTypeOf<AppError<any>>()
   expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(err).toBeInstanceOf(AppError)
 
@@ -65,7 +66,13 @@ test('pExpectedError', async () => {
   expect(err).toMatchInlineSnapshot(`[AppError: oj]`)
   expect(err).toBeInstanceOf(AppError)
 
+  const err1 = await pExpectedError(createErrorPromise(), AppError)
+  expectTypeOf(err1).toEqualTypeOf<AppError<any>>()
+
   const [err2] = await pTry(pExpectedError(createOkPromise()))
   expect(err2).toBeInstanceOf(UnexpectedPassError)
   expect(err2!.message).toMatchInlineSnapshot(`"expected error was not thrown"`)
+
+  const [err3] = await pTry(pExpectedError(createErrorPromise(), HttpError))
+  expect(err3!.message).toMatchInlineSnapshot(`"oj"`)
 })

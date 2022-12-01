@@ -19,9 +19,8 @@ test('pTimeoutFn default error', async () => {
 test('pTimeoutFn options', async () => {
   const fn = () => pDelay(100)
   const decoratedFn = pTimeoutFn(fn, { timeout: 10, name: 'custom name' })
-  const err = await pExpectedError(decoratedFn())
+  const err = await pExpectedError(decoratedFn(), TimeoutError)
   expect(err).toMatchInlineSnapshot(`[TimeoutError: "custom name" timed out after 10 ms]`)
-  expect(err).toBeInstanceOf(TimeoutError)
 
   await expect(
     pTimeoutFn(fn, {
@@ -41,7 +40,7 @@ test('pTimeout happy case', async () => {
 })
 
 test('pTimeout stack', async () => {
-  const err = await pExpectedError(timeoutFail())
+  const err = await pExpectedError(timeoutFail(), TimeoutError)
 
   console.log(err)
   // console.log(err.stack)
