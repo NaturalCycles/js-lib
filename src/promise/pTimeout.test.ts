@@ -36,7 +36,7 @@ test('pTimeoutFn options', async () => {
 })
 
 test('pTimeout happy case', async () => {
-  const r = await pTimeout(pDelay(10, `hello world`), { timeout: 100 })
+  const r = await pTimeout(() => pDelay(10, `hello world`), { timeout: 100 })
   expect(r).toBe('hello world')
 })
 
@@ -49,5 +49,5 @@ test('pTimeout stack', async () => {
 })
 
 async function timeoutFail(): Promise<void> {
-  await pTimeout(pDelay(100, `hello world`), { timeout: 10, keepStackTrace: true })
+  await pTimeout(() => pDelay(100, `hello world`), { timeout: 10, keepStackTrace: true })
 }

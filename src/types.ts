@@ -78,7 +78,8 @@ export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
  * Convenience type shorthand.
  * Because `Function` type is discouraged by eslint.
  */
-export type AnyFunction = (...args: any[]) => any
+export type AnyFunction<T = any> = (...args: any[]) => T
+export type AnyAsyncFunction<T = any> = (...args: any[]) => Promise<T>
 
 /**
  * Symbol to indicate END of Sequence.

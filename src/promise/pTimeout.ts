@@ -1,6 +1,6 @@
 import { AppError } from '../error/app.error'
 import type { ErrorData } from '../error/error.model'
-import type { AnyFunction } from '../types'
+import type { AnyAsyncFunction } from '../types'
 
 export class TimeoutError extends AppError {}
 
@@ -39,23 +39,26 @@ export interface PTimeoutOptions {
 
 /**
  * Decorates a Function with a timeout.
+ * Returns a decorated Function.
+ *
  * Throws an Error if the Function is not resolved in a certain time.
  * If the Function rejects - passes this rejection further.
  */
-export function pTimeoutFn<T extends AnyFunction>(fn: T, opt: PTimeoutOptions): T {
+export function pTimeoutFn<T extends AnyAsyncFunction>(fn: T, opt: PTimeoutOptions): T {
   opt.name ||= fn.name
 
   return async function pTimeoutInternalFn(this: any, ...args: any[]) {
-    return await pTimeout(fn.apply(this, args), opt)
-  } as any
+    return await pTimeout(() => fn.apply(this, args), opt)
+  } as T
 }
 
 /**
  * Decorates a Function with a timeout and immediately calls it.
+ *
  * Throws an Error if the Function is not resolved in a certain time.
  * If the Function rejects - passes this rejection further.
  */
-export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Promise<T> {
+export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions): Promise<T> {
   // todo: check how we can automatically infer function name (only applicable to named functions)
   const { timeout, name, onTimeout, keepStackTrace = true } = opt
   const fakeError = keepStackTrace ? new Error('TimeoutError') : undefined
@@ -88,7 +91,7 @@ export async function pTimeout<T>(promise: Promise<T>, opt: PTimeoutOptions): Pr
 
     // Execute the Function
     try {
-      resolve(await promise)
+      resolve(await fn())
     } catch (err) {
       reject(err)
     } finally {

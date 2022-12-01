@@ -13,14 +13,14 @@ runBenchScript({
   fns: {
     noStack: async done => {
       const err = await pExpectedError(
-        pTimeout(pDelay(10, 'v'), { timeout: 1, keepStackTrace: false }),
+        pTimeout(() => pDelay(10, 'v'), { timeout: 1, keepStackTrace: false }),
       )
       const v2 = err.stack
       done.resolve()
     },
     keepStack: async done => {
       const err = await pExpectedError(
-        pTimeout(pDelay(10, 'v'), { timeout: 1, keepStackTrace: true }),
+        pTimeout(() => pDelay(10, 'v'), { timeout: 1, keepStackTrace: true }),
       )
       const v2 = err.stack
       done.resolve()
