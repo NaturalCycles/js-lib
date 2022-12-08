@@ -384,5 +384,35 @@ module.exports = {
     'unicorn/prefer-export-from': 0, // breaks auto-imports in IntelliJ Idea
     'unicorn/no-await-expression-member': 0, // some cases are better as-is
     'unicorn/prefer-json-parse-buffer': 0, // typescript doesn't allow it
+    'no-constructor-return': 2,
+    // 'no-promise-executor-return': 2,
+    'no-self-compare': 2,
+    'no-unreachable-loop': 2,
+    // 'func-style': [2, 'declaration'],
+    'logical-assignment-operators': [
+      2,
+      'always',
+      {
+        enforceForIfStatements: true,
+      },
+    ],
+    'max-params': [2, { max: 4 }],
+    'no-else-return': 2,
+    'no-sequences': 2,
+    'no-useless-concat': 2,
+    '@typescript-eslint/ban-tslint-comment': 2,
+    // '@typescript-eslint/explicit-function-return-type': [2, {
+    //   allowTypedFunctionExpressions: true,
+    //   allowHigherOrderFunctions: true,
+    // }],
+    '@typescript-eslint/method-signature-style': [2, 'method'],
+    '@typescript-eslint/no-unnecessary-boolean-literal-compare': 2,
+    // '@typescript-eslint/no-unnecessary-condition': [2, {
+    //   allowConstantLoopConditions: true,
+    // }],
+    '@typescript-eslint/prefer-includes': 2,
+    '@typescript-eslint/prefer-optional-chain': 2,
+    '@typescript-eslint/prefer-string-starts-ends-with': 2,
+    '@typescript-eslint/prefer-ts-expect-error': 2,
   },
 }

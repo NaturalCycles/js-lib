@@ -12,6 +12,7 @@ export function getTSConfigPathScripts(): string {
   return [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
 }
 
+// eslint-disable-next-line max-params
 export async function runESLint(
   dir: string,
   eslintConfigPath: string,
