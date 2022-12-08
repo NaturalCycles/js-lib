@@ -17,13 +17,12 @@ export function _pick<T extends AnyObject, K extends keyof T>(
       if (!props.includes(prop as K)) delete r[prop]
       return r
     }, obj)
-  } else {
-    // Start as empty object, pick/add needed properties
-    return props.reduce((r, prop) => {
-      if (prop in obj) r[prop] = obj[prop]
-      return r
-    }, {} as T)
   }
+  // Start as empty object, pick/add needed properties
+  return props.reduce((r, prop) => {
+    if (prop in obj) r[prop] = obj[prop]
+    return r
+  }, {} as T)
 }
 
 /**
@@ -285,7 +284,7 @@ export function _unset<T extends AnyObject>(obj: T, prop: string): void {
 
   const segs = prop.split('.')
   let last = segs.pop()
-  while (segs.length && segs[segs.length - 1]!.slice(-1) === '\\') {
+  while (segs.length && segs[segs.length - 1]!.endsWith('\\')) {
     last = segs.pop()!.slice(0, -1) + '.' + last
   }
   while (segs.length && _isObject(obj)) {
@@ -359,7 +358,7 @@ export function _set<T extends AnyObject>(obj: T, path: PropertyPath, value: any
           a[c]
         : // No: create the key. Is the next key a potential array-index?
           (a[c] =
-            // @ts-ignore
+            // @ts-expect-error
             // eslint-disable-next-line
             Math.abs(path[i + 1]) >> 0 === +path[i + 1]
               ? [] // Yes: assign a new array object

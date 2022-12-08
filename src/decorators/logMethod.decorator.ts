@@ -122,11 +122,10 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
               logFinished(logger, callSignature, started, sma, logResultFn, undefined, err)
               throw err
             })
-        } else {
-          // not a Promise
-          logFinished(logger, callSignature, started, sma, logResultFn, res)
-          return res
         }
+        // not a Promise
+        logFinished(logger, callSignature, started, sma, logResultFn, res)
+        return res
       } catch (err) {
         logFinished(logger, callSignature, started, sma, logResultFn, undefined, err)
         throw err // rethrow
@@ -137,6 +136,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
   }
 }
 
+// eslint-disable-next-line max-params
 function logFinished(
   logger: CommonLogger,
   callSignature: string,

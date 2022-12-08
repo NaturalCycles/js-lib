@@ -77,6 +77,7 @@ export class TimeInterval {
 
   includes(d: LocalTimeConfig, incl: Inclusiveness = '[)'): boolean {
     d = LocalTime.parseToUnixTimestamp(d)
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (d < this.$start || (d === this.$start && incl[0] === '(')) return false
     if (d > this.$end || (d === this.$end && incl[1] === ')')) return false
     return true

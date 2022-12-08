@@ -431,6 +431,7 @@ export class LocalTime {
 
   isBetween(min: LocalTimeConfig, max: LocalTimeConfig, incl: Inclusiveness = '[)'): boolean {
     let r = this.cmp(min)
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (r < 0 || (r === 0 && incl[0] === '(')) return false
     r = this.cmp(max)
     if (r > 0 || (r === 0 && incl[1] === ')')) return false
@@ -641,9 +642,8 @@ function getWeekYear(date: Date): number {
     return year + 1
   } else if (date.getTime() >= startOfThisYear.getTime()) {
     return year
-  } else {
-    return year - 1
   }
+  return year - 1
 }
 
 // based on: https://github.com/date-fns/date-fns/blob/fd6bb1a0bab143f2da068c05a9c562b9bee1357d/src/startOfWeek/index.ts

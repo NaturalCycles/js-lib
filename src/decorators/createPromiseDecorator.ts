@@ -7,14 +7,14 @@ export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
    * Called BEFORE the original function.
    * If Promise is returned - it will be awaited.
    */
-  beforeFn?: (r: PromiseDecoratorResp<PARAMS>) => void | Promise<void>
+  beforeFn?(r: PromiseDecoratorResp<PARAMS>): void | Promise<void>
 
   /**
    * Called just AFTER the original function.
    * The output of this hook will be passed further,
    * so, pay attention to pass through (or modify) the result.
    */
-  thenFn?: (r: PromiseDecoratorResp<PARAMS> & { res: RES }) => RES
+  thenFn?(r: PromiseDecoratorResp<PARAMS> & { res: RES }): RES
 
   /**
    * Called on Promise.reject.
@@ -23,13 +23,13 @@ export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
    * If `catchFn` is present - it's responsible for handling or re-throwing the error.
    * Whatever `catchFn` returns - passed to the original output.
    */
-  catchFn?: (r: PromiseDecoratorResp<PARAMS> & { err: any }) => RES
+  catchFn?(r: PromiseDecoratorResp<PARAMS> & { err: any }): RES
 
   /**
    * Fires AFTER thenFn / catchFn, like a usual Promise.finally().
    * Doesn't have access to neither res nor err (same as Promise.finally).
    */
-  finallyFn?: (r: PromiseDecoratorResp<PARAMS>) => any
+  finallyFn?(r: PromiseDecoratorResp<PARAMS>): any
 }
 
 export interface PromiseDecoratorResp<PARAMS> {

@@ -10,6 +10,8 @@ import {
 } from './assert'
 import { _try } from './try'
 
+/* eslint-disable no-self-compare */
+
 test('_assert', () => {
   _assert(1 === 1) // should not throw
 

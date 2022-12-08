@@ -23,7 +23,7 @@ export interface PTimeoutOptions {
    * err (which is TimeoutError) is passed as an argument for convenience, so it can
    * be logged or such. You don't have to consume it in any way though.
    */
-  onTimeout?: (err: TimeoutError) => any
+  onTimeout?(err: TimeoutError): any
 
   /**
    * Defaults to true.

@@ -43,7 +43,7 @@ export interface PRetryOptions {
    *
    * @default () => true
    */
-  predicate?: (err: Error, attempt: number, maxAttempts: number) => boolean
+  predicate?(err: Error, attempt: number, maxAttempts: number): boolean
 
   /**
    * Log the first attempt (which is not a "retry" yet).

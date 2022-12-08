@@ -154,6 +154,7 @@ export class LocalDate {
     const $max = LocalDate.of(max).startOf(stepUnit)
 
     let current = $min.startOf(stepUnit)
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (current.isAfter($min, incl[0] === '[')) {
       // ok
     } else {
@@ -228,6 +229,7 @@ export class LocalDate {
 
   isBetween(min: LocalDateConfig, max: LocalDateConfig, incl: Inclusiveness = '[)'): boolean {
     let r = this.cmp(min)
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (r < 0 || (r === 0 && incl[0] === '(')) return false
     r = this.cmp(max)
     if (r > 0 || (r === 0 && incl[1] === ')')) return false

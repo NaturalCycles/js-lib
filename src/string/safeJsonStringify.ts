@@ -26,11 +26,9 @@ function serializer(replacer?: Reviver, cycleReplacer?: Reviver): Reviver {
   const stack: any[] = []
   const keys: string[] = []
 
-  if (cycleReplacer == null) {
-    cycleReplacer = function (key, value) {
-      if (stack[0] === value) return '[Circular ~]'
-      return '[Circular ~.' + keys.slice(0, stack.indexOf(value)).join('.') + ']'
-    }
+  cycleReplacer ??= function (key, value) {
+    if (stack[0] === value) return '[Circular ~]'
+    return '[Circular ~.' + keys.slice(0, stack.indexOf(value)).join('.') + ']'
   }
 
   return function (key, value) {

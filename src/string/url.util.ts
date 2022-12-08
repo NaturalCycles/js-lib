@@ -16,7 +16,7 @@ import type { StringMap } from '../types'
 export function _parseQueryString(search: string): StringMap {
   const qs: StringMap = {}
   search
-    .slice(search[0] === '?' ? 1 : 0)
+    .slice(search.startsWith('?') ? 1 : 0)
     .split('&')
     .forEach(p => {
       const [k, v] = p.split('=')

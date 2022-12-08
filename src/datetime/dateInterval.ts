@@ -58,6 +58,7 @@ export class DateInterval {
    */
   includes(d: LocalDateConfig, incl: Inclusiveness = '[]'): boolean {
     d = LocalDate.of(d)
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     return d.isAfter(this.start, incl[0] === '[') && d.isBefore(this.end, incl[1] === ']')
   }
 

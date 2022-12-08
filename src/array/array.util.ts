@@ -164,24 +164,24 @@ export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined
 
 export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {
   let proceed = true
-  return items.filter((v, index) => (proceed = proceed && predicate(v, index)))
+  return items.filter((v, index) => (proceed &&= predicate(v, index)))
 }
 
 export function _takeRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
   let proceed = true
-  return [...items].reverse().filter((v, index) => (proceed = proceed && predicate(v, index)))
+  return [...items].reverse().filter((v, index) => (proceed &&= predicate(v, index)))
 }
 
 export function _dropWhile<T>(items: T[], predicate: Predicate<T>): T[] {
   let proceed = false
-  return items.filter((v, index) => (proceed = proceed || !predicate(v, index)))
+  return items.filter((v, index) => (proceed ||= !predicate(v, index)))
 }
 
 export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
   let proceed = false
   return [...items]
     .reverse()
-    .filter((v, index) => (proceed = proceed || !predicate(v, index)))
+    .filter((v, index) => (proceed ||= !predicate(v, index)))
     .reverse()
 }
 

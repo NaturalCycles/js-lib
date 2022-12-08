@@ -51,5 +51,6 @@ export function _deepEquals(a: any, b: any): boolean {
     return true
   }
 
+  // eslint-disable-next-line no-self-compare
   return a !== a && b !== b
 }

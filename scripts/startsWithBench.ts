@@ -4,7 +4,7 @@ yarn tsn startsWithBench
 
  */
 
-/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { _range } from '../src'
