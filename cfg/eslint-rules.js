@@ -396,7 +396,7 @@ module.exports = {
         enforceForIfStatements: true,
       },
     ],
-    'max-params': [2, { max: 4 }],
+    'max-params': [2, { max: 5 }],
     'no-else-return': 2,
     'no-sequences': 2,
     'no-useless-concat': 2,
