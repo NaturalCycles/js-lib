@@ -89,7 +89,9 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
       // This is to fix the rare error (happened with Got) where `err.message` was changed,
       // but err.stack had "old" err.message
       // This should "fix" that
-      s = [s, ...obj.stack.split('\n').slice(1)].join('\n')
+      const sLines = s.split('\n').length
+
+      s = [s, ...obj.stack.split('\n').slice(sLines)].join('\n')
     }
 
     if (_isErrorObject(obj)) {

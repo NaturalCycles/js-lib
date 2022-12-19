@@ -45,7 +45,7 @@ test('httpError', () => {
 })
 
 test('httpErrorResponse', () => {
-  const err = new HttpError('la la', {
+  const err = new HttpError('la la\nsecond line', {
     httpStatusCode: 409,
     userFriendly: true,
     other: 'otherValue',
@@ -56,14 +56,21 @@ test('httpErrorResponse', () => {
   }
   expect(resp.error.name).toBe('HttpError')
 
-  expect(_stringifyAny(resp)).toMatchInlineSnapshot(`"HttpError(409): la la"`)
+  expect(_stringifyAny(resp)).toMatchInlineSnapshot(`
+    "HttpError(409): la la
+    second line"
+  `)
 
   expect(_stringifyAny(resp, { includeErrorData: true })).toMatchInlineSnapshot(`
     "HttpError(409): la la
+    second line
     {
       "httpStatusCode": 409,
       "userFriendly": true,
       "other": "otherValue"
     }"
   `)
+
+  // this tests "duplicated line" bug
+  // expect(_stringifyAny(resp, { includeErrorStack: true })).toMatchInlineSnapshot()
 })
