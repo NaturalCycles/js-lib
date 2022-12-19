@@ -405,7 +405,7 @@ module.exports = {
     //   allowTypedFunctionExpressions: true,
     //   allowHigherOrderFunctions: true,
     // }],
-    '@typescript-eslint/method-signature-style': [2, 'method'],
+    '@typescript-eslint/method-signature-style': 2,
     '@typescript-eslint/no-unnecessary-boolean-literal-compare': 2,
     // '@typescript-eslint/no-unnecessary-condition': [2, {
     //   allowConstantLoopConditions: true,
