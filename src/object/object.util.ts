@@ -213,6 +213,8 @@ export function _filterEmptyValues<T extends AnyObject>(obj: T, mutate = false):
  * are applied from left to right. Subsequent sources overwrite property
  * assignments of previous sources.
  *
+ * Works as "recursive Object.assign".
+ *
  * **Note:** This method mutates `object`.
  *
  * @category Object
@@ -236,16 +238,16 @@ export function _filterEmptyValues<T extends AnyObject>(obj: T, mutate = false):
  */
 export function _merge<T extends AnyObject>(target: T, ...sources: any[]): T {
   sources.forEach(source => {
-    if (_isObject(source)) {
-      Object.keys(source).forEach(key => {
-        if (_isObject(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: {} })
-          _merge(target[key], source[key])
-        } else {
-          Object.assign(target, { [key]: source[key] })
-        }
-      })
-    }
+    if (!_isObject(source)) return
+
+    Object.keys(source).forEach(key => {
+      if (_isObject(source[key])) {
+        ;(target as any)[key] ||= {}
+        _merge(target[key], source[key])
+      } else {
+        ;(target as any)[key] = source[key]
+      }
+    })
   })
 
   return target
