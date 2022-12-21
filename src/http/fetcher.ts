@@ -19,6 +19,7 @@ import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg extends FetcherCfg, FetcherRequest {
   logger: CommonLogger
+  searchParams: Record<string, any>
 }
 
 export interface FetcherCfg {
@@ -92,6 +93,8 @@ export interface FetcherOptions {
   init?: Partial<RequestInitNormalized>
   headers?: Record<string, any>
   mode?: FetcherMode // default to undefined (void response)
+
+  searchParams?: Record<string, any>
 
   /**
    * Default is 2 retries (3 tries in total).
@@ -215,9 +218,6 @@ export class Fetcher {
       mode,
       init: { method },
     } = req
-
-    // todo: json content-type on request
-    // todo: searchParams
 
     // setup timeout
     let timeout: number | undefined
@@ -414,6 +414,7 @@ export class Fetcher {
     const norm: FetcherNormalizedCfg = _merge(
       {
         url: '',
+        searchParams: {},
         timeoutSeconds: 30,
         throwHttpErrors: true,
         retryPost: false,
@@ -471,6 +472,16 @@ export class Fetcher {
         url = url.slice(1)
       }
       req.url = `${baseUrl}/${url}`
+    }
+
+    const searchParams = {
+      ...this.cfg.searchParams,
+      ...opt.searchParams,
+    }
+
+    if (Object.keys(searchParams).length) {
+      const qs = new URLSearchParams(searchParams).toString()
+      req.url += req.url.includes('?') ? '&' : '?' + qs
     }
 
     // setup request body

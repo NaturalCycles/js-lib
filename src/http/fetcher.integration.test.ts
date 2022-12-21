@@ -4,7 +4,11 @@ test('basic get', async () => {
   const fetcher = getFetcher({
     debug: true,
   })
-  const r = await fetcher.getJson(`https://kg-backend3.appspot.com`)
+  const r = await fetcher.getJson(`https://kg-backend3.appspot.com`, {
+    searchParams: {
+      a: 'b',
+    },
+  })
   // console.log(r)
   expect(r).toEqual({ ok: 1 })
 })
