@@ -4,16 +4,20 @@ import { _anyToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
 import { CommonLogger } from '../log/commonLogger'
 import { _clamp } from '../number/number.util'
-import { _filterNullishValues, _filterUndefinedValues } from '../object/object.util'
+import {
+  _filterNullishValues,
+  _filterUndefinedValues,
+  _mapKeys,
+  _merge,
+  _omit,
+} from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
 import { _jsonParseIfPossible } from '../string/json.util'
-import { _stringifyAny } from '../string/stringifyAny'
 import { _since } from '../time/time.util'
 import type { Promisable } from '../typeFest'
-import { _objectAssign } from '../types'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
-export interface FetcherNormalizedCfg extends FetcherCfg, FetcherNormalizedOptions {
+export interface FetcherNormalizedCfg extends FetcherCfg, FetcherRequest {
   logger: CommonLogger
 }
 
@@ -62,8 +66,9 @@ export interface FetcherRetryOptions {
   timeoutMultiplier: number
 }
 
-export interface FetcherNormalizedOptions extends FetcherOptions {
-  method: HttpMethod
+export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers'> {
+  url: string
+  init: RequestInitNormalized
   throwHttpErrors: boolean
   timeoutSeconds: number
   retry: FetcherRetryOptions
@@ -84,7 +89,8 @@ export interface FetcherOptions {
   timeoutSeconds?: number
   json?: any
   text?: string
-  requestInit?: RequestInit & { method?: HttpMethod }
+  init?: Partial<RequestInitNormalized>
+  headers?: Record<string, any>
   mode?: FetcherMode // default to undefined (void response)
 
   /**
@@ -108,10 +114,9 @@ export interface FetcherOptions {
   retry5xx?: boolean
 }
 
-export interface FetcherRequest {
-  url: string
-  init: RequestInit & { method: HttpMethod }
-  opt: FetcherNormalizedOptions
+export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
+  method: HttpMethod
+  headers: Record<string, any>
 }
 
 export interface FetcherSuccessResponse<BODY = unknown> extends FetcherResponse<BODY> {
@@ -192,7 +197,7 @@ export class Fetcher {
   async fetch<T = unknown>(url: string, opt: FetcherOptions = {}): Promise<T> {
     const res = await this.rawFetch<T>(url, opt)
     if (res.err) {
-      if (res.req.opt.throwHttpErrors) throw res.err
+      if (res.req.throwHttpErrors) throw res.err
       return res as any
     }
     return res.body!
@@ -202,35 +207,17 @@ export class Fetcher {
     url: string,
     rawOpt: FetcherOptions = {},
   ): Promise<FetcherResponse<T>> {
-    const { baseUrl, logger } = this.cfg
+    const { logger } = this.cfg
 
-    const opt = this.normalizeOptions(rawOpt)
-    const { method, timeoutSeconds, mode } = opt
+    const req = this.normalizeOptions(url, rawOpt)
+    const {
+      timeoutSeconds,
+      mode,
+      init: { method },
+    } = req
 
-    const req: FetcherRequest = {
-      url,
-      init: {
-        ...this.cfg.requestInit,
-        method,
-      },
-      opt,
-    }
-
-    // setup url
-    if (baseUrl) {
-      if (url.startsWith('/')) {
-        console.warn(`Fetcher: url should not start with / when baseUrl is specified`)
-        url = url.slice(1)
-      }
-      req.url = `${baseUrl}/${url}`
-    }
-
-    // setup request body
-    if (opt.json !== undefined) {
-      req.init.body = JSON.stringify(opt.json)
-    } else if (opt.text !== undefined) {
-      req.init.body = opt.text
-    }
+    // todo: json content-type on request
+    // todo: searchParams
 
     // setup timeout
     let timeout: number | undefined
@@ -242,10 +229,6 @@ export class Fetcher {
       }, timeoutSeconds * 1000) as any as number
     }
 
-    if (opt.requestInit) {
-      _objectAssign(req.init, opt.requestInit)
-    }
-
     await this.cfg.hooks?.beforeRequest?.(req)
 
     const res: FetcherResponse<any> = {
@@ -253,7 +236,7 @@ export class Fetcher {
       retryStatus: {
         retryAttempt: 0,
         retryStopped: false,
-        retryTimeout: opt.retry.timeout,
+        retryTimeout: req.retry.timeout,
       },
     }
 
@@ -267,7 +250,7 @@ export class Fetcher {
       if (this.cfg.logRequest) {
         const { retryAttempt } = res.retryStatus
         logger.log(
-          [' >>', signature, retryAttempt && `try#${retryAttempt + 1}/${opt.retry.count}`]
+          [' >>', signature, retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`]
             .filter(Boolean)
             .join(' '),
         )
@@ -298,7 +281,7 @@ export class Fetcher {
               ' <<',
               res.fetchResponse.status,
               signature,
-              retryAttempt && `try#${retryAttempt + 1}/${opt.retry.count}`,
+              retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`,
               _since(started),
             ]
               .filter(Boolean)
@@ -335,23 +318,25 @@ export class Fetcher {
           }),
         )
 
-        if (this.cfg.logResponse) {
-          const { retryAttempt } = res.retryStatus
-          logger.error(
-            [
-              [
-                ' <<',
-                res.fetchResponse.status,
-                signature,
-                retryAttempt && `try#${retryAttempt + 1}/${opt.retry.count}`,
-                _since(started),
-              ]
-                .filter(Boolean)
-                .join(' '),
-              _stringifyAny(body),
-            ].join('\n'),
-          )
-        }
+        // We don't log errors when they are also thrown,
+        // otherwise it gets logged twice: here, and upstream
+        // if (this.cfg.logResponse) {
+        //   const { retryAttempt } = res.retryStatus
+        //   logger.error(
+        //     [
+        //       [
+        //         ' <<',
+        //         res.fetchResponse.status,
+        //         signature,
+        //         retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`,
+        //         _since(started),
+        //       ]
+        //         .filter(Boolean)
+        //         .join(' '),
+        //       _stringifyAny(body),
+        //     ].join('\n'),
+        //   )
+        // }
 
         await this.processRetry(res)
       }
@@ -371,7 +356,7 @@ export class Fetcher {
 
     await this.cfg.hooks?.beforeRetry?.(res)
 
-    const { count, timeoutMultiplier, timeoutMax } = res.req.opt.retry
+    const { count, timeoutMultiplier, timeoutMax } = res.req.retry
 
     if (retryStatus.retryAttempt >= count) {
       retryStatus.retryStopped = true
@@ -379,6 +364,7 @@ export class Fetcher {
 
     if (retryStatus.retryStopped) return
 
+    retryStatus.retryAttempt++
     retryStatus.retryTimeout = _clamp(retryStatus.retryTimeout * timeoutMultiplier, 0, timeoutMax)
 
     await pDelay(retryStatus.retryTimeout)
@@ -389,7 +375,7 @@ export class Fetcher {
    * unless there's reason not to (e.g method is POST).
    */
   private shouldRetry(res: FetcherResponse): boolean {
-    const { retryPost, retry4xx, retry5xx } = res.req.opt
+    const { retryPost, retry4xx, retry5xx } = res.req
     const { method } = res.req.init
     if (method === 'post' && !retryPost) return false
     const { statusFamily } = res
@@ -425,42 +411,78 @@ export class Fetcher {
     }
     const { debug } = cfg
 
-    return {
-      timeoutSeconds: 30,
-      method: 'get',
-      throwHttpErrors: true,
-      retryPost: false,
-      retry4xx: false,
-      retry5xx: true,
-      logger: console,
-      logRequest: debug,
-      logRequestBody: debug,
-      logResponse: debug,
-      logResponseBody: debug,
-      ...cfg,
-      retry: {
-        ...defRetryOptions,
-        ...cfg.retry,
+    const norm: FetcherNormalizedCfg = _merge(
+      {
+        url: '',
+        timeoutSeconds: 30,
+        throwHttpErrors: true,
+        retryPost: false,
+        retry4xx: false,
+        retry5xx: true,
+        logger: console,
+        logRequest: debug,
+        logRequestBody: debug,
+        logResponse: debug,
+        logResponseBody: debug,
+        retry: { ...defRetryOptions },
+        init: {
+          method: 'get',
+          headers: {},
+        },
       },
-    }
+      cfg,
+    )
+
+    norm.init.headers = _mapKeys(norm.init.headers, k => k.toLowerCase())
+
+    return norm
   }
 
-  private normalizeOptions(opt: FetcherOptions): FetcherNormalizedOptions {
-    const { timeoutSeconds, throwHttpErrors, method, retryPost, retry4xx, retry5xx, retry } =
+  private normalizeOptions(url: string, opt: FetcherOptions): FetcherRequest {
+    const { baseUrl, timeoutSeconds, throwHttpErrors, retryPost, retry4xx, retry5xx, retry } =
       this.cfg
-    return {
+
+    const req: FetcherRequest = {
+      url,
       timeoutSeconds,
       throwHttpErrors,
-      method,
       retryPost,
       retry4xx,
       retry5xx,
-      ...opt,
+      ..._omit(opt, ['method', 'headers']),
       retry: {
         ...retry,
         ..._filterUndefinedValues(opt.retry || {}),
       },
+      init: _merge(
+        { ...this.cfg.init },
+        opt.init,
+        _filterUndefinedValues({
+          method: opt.method,
+          headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),
+        }),
+      ),
     }
+
+    // setup url
+    if (baseUrl) {
+      if (url.startsWith('/')) {
+        console.warn(`Fetcher: url should not start with / when baseUrl is specified`)
+        url = url.slice(1)
+      }
+      req.url = `${baseUrl}/${url}`
+    }
+
+    // setup request body
+    if (opt.json !== undefined) {
+      req.init.body = JSON.stringify(opt.json)
+      req.init.headers['content-type'] = 'application/json'
+    } else if (opt.text !== undefined) {
+      req.init.body = opt.text
+      req.init.headers['content-type'] = 'text/plain'
+    }
+
+    return req
   }
 }
 
