@@ -167,37 +167,49 @@ export class Fetcher {
     return new Fetcher(cfg)
   }
 
-  async getJson<T = unknown>(url: string, opt: FetcherOptions = {}): Promise<T> {
+  async getJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     return await this.fetch<T>(url, {
       ...opt,
       mode: 'json',
     })
   }
-
-  async postJson<T = unknown>(url: string, opt: FetcherOptions = {}): Promise<T> {
+  async postJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     return await this.fetch<T>(url, {
       ...opt,
       method: 'post',
       mode: 'json',
     })
   }
+  async putJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
+    return await this.fetch<T>(url, {
+      ...opt,
+      method: 'put',
+      mode: 'json',
+    })
+  }
+  async patchJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
+    return await this.fetch<T>(url, {
+      ...opt,
+      method: 'patch',
+      mode: 'json',
+    })
+  }
+  async deleteJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
+    return await this.fetch<T>(url, {
+      ...opt,
+      method: 'delete',
+      mode: 'json',
+    })
+  }
 
-  async getText(url: string, opt: FetcherOptions = {}): Promise<string> {
+  async getText(url: string, opt?: FetcherOptions): Promise<string> {
     return await this.fetch<string>(url, {
       ...opt,
       mode: 'text',
     })
   }
 
-  async postText(url: string, opt: FetcherOptions = {}): Promise<string> {
-    return await this.fetch<string>(url, {
-      ...opt,
-      method: 'post',
-      mode: 'text',
-    })
-  }
-
-  async fetch<T = unknown>(url: string, opt: FetcherOptions = {}): Promise<T> {
+  async fetch<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     const res = await this.rawFetch<T>(url, opt)
     if (res.err) {
       if (res.req.throwHttpErrors) throw res.err
