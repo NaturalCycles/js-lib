@@ -4,6 +4,12 @@ test('basic get', async () => {
   const fetcher = getFetcher({
     debug: true,
   })
+    .onBeforeRequest(() => {
+      console.log('before')
+    })
+    .onAfterResponse(() => {
+      console.log('after')
+    })
   const r = await fetcher.getJson(`https://kg-backend3.appspot.com`, {
     searchParams: {
       a: 'b',

@@ -17,12 +17,19 @@ import { _since } from '../time/time.util'
 import type { Promisable } from '../typeFest'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
-export interface FetcherNormalizedCfg extends FetcherCfg, FetcherRequest {
+export interface FetcherNormalizedCfg extends Required<FetcherCfg>, FetcherRequest {
   logger: CommonLogger
   searchParams: Record<string, any>
 }
 
+export type FetcherBeforeRequestHook = (req: FetcherRequest) => Promisable<void>
+export type FetcherAfterResponseHook = (res: FetcherResponse) => Promisable<void>
+export type FetcherBeforeRetryHook = (res: FetcherResponse) => Promisable<void>
+
 export interface FetcherCfg {
+  /**
+   * Should **not** contain trailing slash.
+   */
   baseUrl?: string
 
   /**
@@ -34,23 +41,30 @@ export interface FetcherCfg {
     /**
      * Allows to mutate req.
      */
-    beforeRequest?(req: FetcherRequest): Promisable<void>
+    beforeRequest?: FetcherBeforeRequestHook[]
     /**
      * Allows to mutate res.
      * If you set `res.err` - it will be thrown.
      */
-    beforeResponse?(res: FetcherResponse): Promisable<void>
+    afterResponse?: FetcherAfterResponseHook[]
     /**
      * Allows to mutate res.retryStatus to override retry behavior.
      */
-    beforeRetry?(res: FetcherResponse): Promisable<void>
+    beforeRetry?: FetcherBeforeRetryHook[]
   }
 
+  /**
+   * If true - enables all possible logging.
+   */
   debug?: boolean
   logRequest?: boolean
   logRequestBody?: boolean
   logResponse?: boolean
   logResponseBody?: boolean
+
+  /**
+   * Defaults to `console`.
+   */
   logger?: CommonLogger
 }
 
@@ -90,7 +104,13 @@ export interface FetcherOptions {
   timeoutSeconds?: number
   json?: any
   text?: string
-  init?: Partial<RequestInitNormalized>
+
+  credentials?: RequestCredentials
+
+  // Removing RequestInit from options to simplify FetcherOptions interface.
+  // Will instead only add hand-picked useful options, such as `credentials`.
+  // init?: Partial<RequestInitNormalized>
+
   headers?: Record<string, any>
   mode?: FetcherMode // default to undefined (void response)
 
@@ -159,6 +179,24 @@ const defRetryOptions: FetcherRetryOptions = {
 export class Fetcher {
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
     this.cfg = this.normalizeCfg(cfg)
+  }
+
+  /**
+   * Add BeforeRequest hook at the end of the hooks list.
+   */
+  onBeforeRequest(hook: FetcherBeforeRequestHook): this {
+    ;(this.cfg.hooks.beforeRequest ||= []).push(hook)
+    return this
+  }
+
+  onAfterResponse(hook: FetcherAfterResponseHook): this {
+    ;(this.cfg.hooks.afterResponse ||= []).push(hook)
+    return this
+  }
+
+  onBeforeRetry(hook: FetcherBeforeRetryHook): this {
+    ;(this.cfg.hooks.beforeRetry ||= []).push(hook)
+    return this
   }
 
   public cfg: FetcherNormalizedCfg
@@ -241,7 +279,9 @@ export class Fetcher {
       }, timeoutSeconds * 1000) as any as number
     }
 
-    await this.cfg.hooks?.beforeRequest?.(req)
+    for await (const hook of this.cfg.hooks.beforeRequest || []) {
+      await hook(req)
+    }
 
     const res: FetcherResponse<any> = {
       req,
@@ -330,31 +370,13 @@ export class Fetcher {
           }),
         )
 
-        // We don't log errors when they are also thrown,
-        // otherwise it gets logged twice: here, and upstream
-        // if (this.cfg.logResponse) {
-        //   const { retryAttempt } = res.retryStatus
-        //   logger.error(
-        //     [
-        //       [
-        //         ' <<',
-        //         res.fetchResponse.status,
-        //         signature,
-        //         retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`,
-        //         _since(started),
-        //       ]
-        //         .filter(Boolean)
-        //         .join(' '),
-        //       _stringifyAny(body),
-        //     ].join('\n'),
-        //   )
-        // }
-
         await this.processRetry(res)
       }
     }
 
-    await this.cfg.hooks?.beforeResponse?.(res)
+    for await (const hook of this.cfg.hooks.afterResponse || []) {
+      await hook(res)
+    }
 
     return res
   }
@@ -366,7 +388,9 @@ export class Fetcher {
       retryStatus.retryStopped = true
     }
 
-    await this.cfg.hooks?.beforeRetry?.(res)
+    for await (const hook of this.cfg.hooks.beforeRetry || []) {
+      await hook(res)
+    }
 
     const { count, timeoutMultiplier, timeoutMax } = res.req.retry
 
@@ -421,10 +445,11 @@ export class Fetcher {
       console.warn(`Fetcher: baseUrl should not end with /`)
       cfg.baseUrl = cfg.baseUrl.slice(0, cfg.baseUrl.length - 1)
     }
-    const { debug } = cfg
+    const { debug = false } = cfg
 
     const norm: FetcherNormalizedCfg = _merge(
       {
+        baseUrl: '',
         url: '',
         searchParams: {},
         timeoutSeconds: 30,
@@ -433,6 +458,7 @@ export class Fetcher {
         retry4xx: false,
         retry5xx: true,
         logger: console,
+        debug,
         logRequest: debug,
         logRequestBody: debug,
         logResponse: debug,
@@ -442,6 +468,7 @@ export class Fetcher {
           method: 'get',
           headers: {},
         },
+        hooks: {},
       },
       cfg,
     )
@@ -469,11 +496,12 @@ export class Fetcher {
       },
       init: _merge(
         { ...this.cfg.init },
-        opt.init,
+        // opt.init,
         _filterUndefinedValues({
           method: opt.method,
+          credentials: opt.credentials,
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),
-        }),
+        } as RequestInit),
       ),
     }
 
