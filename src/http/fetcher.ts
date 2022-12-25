@@ -430,19 +430,19 @@ export class Fetcher {
     const { method } = res.req.init
     if (method === 'post' && !retryPost) return false
     const { statusFamily } = res
-    if (statusFamily === '5xx' && !retry5xx) return false
-    if (statusFamily === '4xx' && !retry4xx) return false
+    if (statusFamily === 5 && !retry5xx) return false
+    if (statusFamily === 4 && !retry4xx) return false
     return true // default is true
   }
 
   private getStatusFamily(res: FetcherResponse): HttpStatusFamily | undefined {
     const status = res.fetchResponse?.status
     if (!status) return
-    if (status >= 500) return '5xx'
-    if (status >= 400) return '4xx'
-    if (status >= 300) return '3xx'
-    if (status >= 200) return '2xx'
-    if (status >= 100) return '1xx'
+    if (status >= 500) return 5
+    if (status >= 400) return 4
+    if (status >= 300) return 3
+    if (status >= 200) return 2
+    if (status >= 100) return 1
   }
 
   /**
