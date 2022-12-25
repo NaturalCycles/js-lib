@@ -15,6 +15,7 @@ import { pDelay } from '../promise/pDelay'
 import { _jsonParseIfPossible } from '../string/json.util'
 import { _since } from '../time/time.util'
 import type { Promisable } from '../typeFest'
+import { HTTP_METHODS } from './http.model'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg extends Required<FetcherCfg>, FetcherRequest {
@@ -179,6 +180,41 @@ const defRetryOptions: FetcherRetryOptions = {
 export class Fetcher {
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
     this.cfg = this.normalizeCfg(cfg)
+
+    // Dynamically create all helper methods
+    HTTP_METHODS.forEach(method => {
+      // mode=void
+      this[method] = async (url: string, opt?: FetcherOptions): Promise<void> => {
+        return await this.fetch<void>(url, {
+          ...opt,
+          method,
+        })
+      }
+
+      // mode=text
+      ;(this as any)[`${method}Text`] = async (
+        url: string,
+        opt?: FetcherOptions,
+      ): Promise<string> => {
+        return await this.fetch<string>(url, {
+          ...opt,
+          method,
+          mode: 'text',
+        })
+      }
+
+      // mode=json
+      ;(this as any)[`${method}Json`] = async <T = unknown>(
+        url: string,
+        opt?: FetcherOptions,
+      ): Promise<T> => {
+        return await this.fetch<T>(url, {
+          ...opt,
+          method,
+          mode: 'json',
+        })
+      }
+    })
   }
 
   /**
@@ -205,47 +241,26 @@ export class Fetcher {
     return new Fetcher(cfg)
   }
 
-  async getJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    return await this.fetch<T>(url, {
-      ...opt,
-      mode: 'json',
-    })
-  }
-  async postJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    return await this.fetch<T>(url, {
-      ...opt,
-      method: 'post',
-      mode: 'json',
-    })
-  }
-  async putJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    return await this.fetch<T>(url, {
-      ...opt,
-      method: 'put',
-      mode: 'json',
-    })
-  }
-  async patchJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    return await this.fetch<T>(url, {
-      ...opt,
-      method: 'patch',
-      mode: 'json',
-    })
-  }
-  async deleteJson<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    return await this.fetch<T>(url, {
-      ...opt,
-      method: 'delete',
-      mode: 'json',
-    })
-  }
+  // These methods are generated dynamically in the constructor
+  get!: (url: string, opt?: FetcherOptions) => Promise<void>
+  post!: (url: string, opt?: FetcherOptions) => Promise<void>
+  put!: (url: string, opt?: FetcherOptions) => Promise<void>
+  patch!: (url: string, opt?: FetcherOptions) => Promise<void>
+  delete!: (url: string, opt?: FetcherOptions) => Promise<void>
+  head!: (url: string, opt?: FetcherOptions) => Promise<void>
 
-  async getText(url: string, opt?: FetcherOptions): Promise<string> {
-    return await this.fetch<string>(url, {
-      ...opt,
-      mode: 'text',
-    })
-  }
+  getText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  postText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  putText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  patchText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  deleteText!: (url: string, opt?: FetcherOptions) => Promise<string>
+
+  getJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  postJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  putJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  patchJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  deleteJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  // headJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
 
   async fetch<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     const res = await this.rawFetch<T>(url, opt)
