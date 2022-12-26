@@ -590,7 +590,11 @@ export class LocalTime {
     return this.unix()
   }
 
-  format(fmt: LocalTimeFormatter): string {
+  format(fmt: Intl.DateTimeFormat | LocalTimeFormatter): string {
+    if (fmt instanceof Intl.DateTimeFormat) {
+      return fmt.format(this.$date)
+    }
+
     return fmt(this)
   }
 }

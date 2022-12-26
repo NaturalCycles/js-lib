@@ -492,7 +492,11 @@ export class LocalDate {
     return this.toString()
   }
 
-  format(fmt: LocalDateFormatter): string {
+  format(fmt: Intl.DateTimeFormat | LocalDateFormatter): string {
+    if (fmt instanceof Intl.DateTimeFormat) {
+      return fmt.format(this.toDate())
+    }
+
     return fmt(this)
   }
 }

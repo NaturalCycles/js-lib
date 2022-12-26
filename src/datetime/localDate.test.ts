@@ -225,6 +225,12 @@ test('format', () => {
 
   const fmt2: LocalDateFormatter = ld => `${String(ld.month()).padStart(2, '0')}/${ld.year()}`
   expect(localDate('1984-06-21').format(fmt2)).toBe('06/1984')
+
+  const fmt3 = new Intl.DateTimeFormat('ru', {
+    month: 'long',
+    day: 'numeric',
+  })
+  expect(localDate('1984-06-21').format(fmt3)).toBe('21 июня')
 })
 
 test('diff2', () => {

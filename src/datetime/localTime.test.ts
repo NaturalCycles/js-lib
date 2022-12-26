@@ -266,6 +266,14 @@ test('startOf should have 0 millis', () => {
 test('format', () => {
   const fmt: LocalTimeFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
   expect(localTime('1984-06-21').format(fmt)).toBe('1984-06')
+
+  const fmt2 = new Intl.DateTimeFormat('ru', {
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+  expect(localTime('1984-06-21T05:23:13').format(fmt2)).toBe('21 июня, 05:23')
 })
 
 test('dayOfWeek', () => {
