@@ -1,6 +1,7 @@
 /// <reference lib="dom"/>
 
-import { _anyToErrorObject } from '../error/error.util'
+import { ErrorObject } from '../error/error.model'
+import { _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
 import { CommonLogger } from '../log/commonLogger'
 import { _clamp } from '../number/number.util'
@@ -333,10 +334,15 @@ export class Fetcher {
         }
       }
 
-      res.fetchResponse = await globalThis.fetch(req.url, req.init)
+      try {
+        res.fetchResponse = await globalThis.fetch(req.url, req.init)
+      } catch (err) {
+        // For example, CORS error would result in "TypeError: failed to fetch" here
+        res.err = err as Error
+      }
       res.statusFamily = this.getStatusFamily(res)
 
-      if (res.fetchResponse.ok) {
+      if (res.fetchResponse?.ok) {
         if (mode === 'json') {
           // if no body: set responseBody as {}
           // do not throw a "cannot parse null as Json" error
@@ -369,12 +375,24 @@ export class Fetcher {
       } else {
         clearTimeout(timeout)
 
-        const body = _jsonParseIfPossible(await res.fetchResponse.text())
-        const errObj = _anyToErrorObject(body)
+        let errObj: ErrorObject
+
+        if (res.fetchResponse) {
+          const body = _jsonParseIfPossible(await res.fetchResponse.text())
+          errObj = _anyToErrorObject(body)
+        } else if (res.err) {
+          errObj = _errorToErrorObject(res.err)
+        } else {
+          errObj = {} as ErrorObject
+        }
+
         const originalMessage = errObj.message
-        errObj.message = [[res.fetchResponse.status, signature].join(' '), originalMessage].join(
-          '\n',
-        )
+        errObj.message = [
+          [res.fetchResponse?.status, signature].filter(Boolean).join(' '),
+          originalMessage,
+        ]
+          .filter(Boolean)
+          .join('\n')
 
         res.err = new HttpError(
           errObj.message,
@@ -382,7 +400,7 @@ export class Fetcher {
           _filterNullishValues({
             ...errObj.data,
             originalMessage,
-            httpStatusCode: res.fetchResponse.status,
+            httpStatusCode: res.fetchResponse?.status || 0,
             // These properties are provided to be used in e.g custom Sentry error grouping
             // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
             // Enabled, cause `data` is not printed by default when error is HttpError
@@ -437,7 +455,12 @@ export class Fetcher {
     const { method } = res.req.init
     if (method === 'post' && !retryPost) return false
     const { statusFamily } = res
+    const statusCode = res.fetchResponse?.status || 0
     if (statusFamily === 5 && !retry5xx) return false
+    if ([408, 429].includes(statusCode)) {
+      // these codes are always retried
+      return true
+    }
     if (statusFamily === 4 && !retry4xx) return false
     return true // default is true
   }
@@ -487,12 +510,13 @@ export class Fetcher {
         logResponseBody: debug,
         retry: { ...defRetryOptions },
         init: {
-          method: 'get',
-          headers: {},
+          method: cfg.method || 'get',
+          headers: cfg.headers || {},
+          credentials: cfg.credentials,
         },
         hooks: {},
       },
-      cfg,
+      _omit(cfg, ['method', 'credentials', 'headers']),
     )
 
     norm.init.headers = _mapKeys(norm.init.headers, k => k.toLowerCase())
@@ -511,19 +535,20 @@ export class Fetcher {
       retryPost,
       retry4xx,
       retry5xx,
-      ..._omit(opt, ['method', 'headers']),
+      ..._omit(opt, ['method', 'headers', 'credentials']),
       retry: {
         ...retry,
         ..._filterUndefinedValues(opt.retry || {}),
       },
       init: _merge(
-        { ...this.cfg.init },
-        // opt.init,
-        _filterUndefinedValues({
-          method: opt.method,
-          credentials: opt.credentials,
+        {
+          ...this.cfg.init,
+          method: opt.method || this.cfg.init.method,
+          credentials: opt.credentials || this.cfg.init.credentials,
+        },
+        {
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),
-        } as RequestInit),
+        } as RequestInit,
       ),
     }
 
