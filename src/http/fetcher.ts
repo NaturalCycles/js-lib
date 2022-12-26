@@ -103,8 +103,15 @@ export interface FetcherOptions {
    * so both should finish within this single timeout (not each).
    */
   timeoutSeconds?: number
+
   json?: any
   text?: string
+  /**
+   * Supports all the types that RequestInit.body supports.
+   *
+   * Useful when you want to e.g pass FormData.
+   */
+  body?: Blob | BufferSource | FormData | URLSearchParams | string
 
   credentials?: RequestCredentials
 
@@ -546,6 +553,8 @@ export class Fetcher {
     } else if (opt.text !== undefined) {
       req.init.body = opt.text
       req.init.headers['content-type'] = 'text/plain'
+    } else if (opt.body !== undefined) {
+      req.init.body = opt.body
     }
 
     return req
