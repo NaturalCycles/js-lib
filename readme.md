@@ -15,7 +15,7 @@
 # Packaging
 
 - `engines.node >= Node.js LTS`
-- `main: dist/index.js`: commonjs, es2020 - targeting Node.js
+- `main: dist/index.js`: commonjs, es2021 - targeting Node.js
 - `module: dist-esm/index.js`: esm, es2017 - targeting Browsers
 - `types: dist/index.d.ts`: typescript types
 - `/src` folder with source `*.ts` files included

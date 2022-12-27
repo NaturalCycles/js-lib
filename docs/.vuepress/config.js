@@ -29,6 +29,7 @@ module.exports = {
             'error',
             'types',
             'lazy',
+            'fetcher',
           ],
         },
       ],

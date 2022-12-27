@@ -4,8 +4,8 @@
   "scripts": {
     "prepare": "husky install",
     "build-prod": "build-prod-esm-cjs",
-    "docs-serve": "vuepress dev docs",
-    "docs-build": "vuepress build docs"
+    "docs-serve": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
+    "docs-build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build docs"
   },
   "dependencies": {
     "tslib": "^2.0.0"
