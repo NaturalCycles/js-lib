@@ -187,6 +187,10 @@ const defRetryOptions: FetcherRetryOptions = {
  */
 export class Fetcher {
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
+    if (typeof globalThis.fetch !== 'function') {
+      throw new TypeError(`globalThis.fetch is not available`)
+    }
+
     this.cfg = this.normalizeCfg(cfg)
 
     // Dynamically create all helper methods
