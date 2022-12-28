@@ -60,9 +60,13 @@ const anyItems = [
 test('anyToErrorObject', () => {
   expectResults(
     v =>
-      _anyToErrorObject(v, {
-        includeErrorStack: false, // only for snapshot determinism
-      }),
+      _anyToErrorObject(
+        v,
+        {},
+        {
+          includeErrorStack: false, // only for snapshot determinism
+        },
+      ),
     anyItems,
   ).toMatchSnapshot()
 })

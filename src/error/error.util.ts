@@ -19,13 +19,15 @@ import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
 export function _anyToError<ERROR_TYPE extends Error = Error>(
   o: any,
   errorClass: Class<ERROR_TYPE> = Error as any,
+  errorData?: ErrorData,
   opt?: StringifyAnyOptions,
 ): ERROR_TYPE {
   if (o instanceof errorClass) return o
 
   // If it's an instance of Error, but ErrorClass is something else (e.g AppError) - it'll be "repacked" into AppError
 
-  const errorObject = _isErrorObject(o) ? o : _anyToErrorObject(o, opt)
+  const errorObject = _isErrorObject(o) ? o : _anyToErrorObject(o, {}, opt)
+  Object.assign(errorObject.data, errorData)
   return _errorObjectToError(errorObject, errorClass)
 }
 
@@ -37,37 +39,40 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
  */
 export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   o: any,
+  errorData?: Partial<DATA_TYPE>,
   opt?: StringifyAnyOptions,
 ): ErrorObject<DATA_TYPE> {
+  let eo: ErrorObject<DATA_TYPE>
+
   if (o instanceof Error) {
-    return _errorToErrorObject<DATA_TYPE>(o, opt?.includeErrorStack ?? true)
+    eo = _errorToErrorObject<DATA_TYPE>(o, opt?.includeErrorStack ?? true)
+  } else {
+    o = _jsonParseIfPossible(o)
+
+    if (_isHttpErrorResponse(o)) {
+      eo = o.error as any
+    } else if (_isErrorObject(o)) {
+      eo = o as ErrorObject<DATA_TYPE>
+    } else {
+      // Here we are sure it has no `data` property,
+      // so, fair to return `data: {}` in the end
+      // Also we're sure it includes no "error name", e.g no `Error: ...`,
+      // so, fair to include `name: 'Error'`
+      const message = _stringifyAny(o, {
+        includeErrorData: true, // cause we're returning an ErrorObject, not a stringified error (yet)
+        ...opt,
+      })
+
+      eo = {
+        name: 'Error',
+        message,
+        data: {} as DATA_TYPE, // empty
+      }
+    }
   }
 
-  o = _jsonParseIfPossible(o)
-
-  if (_isHttpErrorResponse(o)) {
-    return o.error as any
-  }
-
-  if (_isErrorObject(o)) {
-    return o as ErrorObject<DATA_TYPE>
-  }
-
-  // Here we are sure it has no `data` property,
-  // so, fair to return `data: {}` in the end
-  // Also we're sure it includes no "error name", e.g no `Error: ...`,
-  // so, fair to include `name: 'Error'`
-
-  const message = _stringifyAny(o, {
-    includeErrorData: true, // cause we're returning an ErrorObject, not a stringified error (yet)
-    ...opt,
-  })
-
-  return {
-    name: 'Error',
-    message,
-    data: {} as DATA_TYPE, // empty
-  }
+  Object.assign(eo.data, errorData)
+  return eo
 }
 
 export function _errorToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
