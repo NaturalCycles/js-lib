@@ -561,10 +561,10 @@ export class Fetcher {
       req.url = `${baseUrl}/${url}`
     }
 
-    const searchParams = {
+    const searchParams = _filterUndefinedValues({
       ...this.cfg.searchParams,
       ...opt.searchParams,
-    }
+    })
 
     if (Object.keys(searchParams).length) {
       const qs = new URLSearchParams(searchParams).toString()
