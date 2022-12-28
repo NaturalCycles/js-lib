@@ -22,13 +22,25 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
   errorData?: ErrorData,
   opt?: StringifyAnyOptions,
 ): ERROR_TYPE {
-  if (o instanceof errorClass) return o
+  let e: ERROR_TYPE
 
-  // If it's an instance of Error, but ErrorClass is something else (e.g AppError) - it'll be "repacked" into AppError
+  if (o instanceof errorClass) {
+    e = o
+  } else {
+    // If it's an instance of Error, but ErrorClass is something else (e.g AppError) - it'll be "repacked" into AppError
 
-  const errorObject = _isErrorObject(o) ? o : _anyToErrorObject(o, {}, opt)
-  Object.assign(errorObject.data, errorData)
-  return _errorObjectToError(errorObject, errorClass)
+    const errorObject = _isErrorObject(o) ? o : _anyToErrorObject(o, {}, opt)
+    e = _errorObjectToError(errorObject, errorClass) as any
+  }
+
+  if (errorData) {
+    ;(e as any).data = {
+      ...(e as any).data,
+      ...errorData,
+    }
+  }
+
+  return e
 }
 
 /**
