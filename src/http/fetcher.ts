@@ -66,6 +66,18 @@ export interface FetcherCfg {
   logResponseBody?: boolean
 
   /**
+   * Default to true.
+   * Set to false to exclude `prefixUrl` from logs (both success and error)
+   */
+  logWithPrefixUrl?: boolean
+
+  /**
+   * Default to true.
+   * Set to false to strip searchParams from url when logging (both success and error)
+   */
+  logWithSearchParams?: boolean
+
+  /**
    * Defaults to `console`.
    */
   logger?: CommonLogger
@@ -331,7 +343,8 @@ export class Fetcher {
       },
     }
 
-    const shortUrl = this.getShortUrl(req.url)
+    const fullUrl = new URL(req.url)
+    const shortUrl = this.getShortUrl(fullUrl)
     const signature = [method.toUpperCase(), shortUrl].join(' ')
 
     /* eslint-disable no-await-in-loop */
@@ -514,11 +527,25 @@ export class Fetcher {
   /**
    * Returns url without baseUrl and before ?queryString
    */
-  private getShortUrl(url: string): string {
+  private getShortUrl(url: URL): string {
     const { baseUrl } = this.cfg
-    if (!baseUrl) return url
 
-    return url.split('?')[0]!.slice(baseUrl.length)
+    if (url.password) {
+      url = new URL(url.toString()) // prevent original url mutation
+      url.password = '[redacted]'
+    }
+
+    let shortUrl = url.toString()
+
+    if (!this.cfg.logWithSearchParams) {
+      shortUrl = shortUrl.split('?')[0]!
+    }
+
+    if (!this.cfg.logWithPrefixUrl && baseUrl && shortUrl.startsWith(baseUrl)) {
+      shortUrl = shortUrl.slice(baseUrl.length)
+    }
+
+    return shortUrl
   }
 
   private normalizeCfg(cfg: FetcherCfg & FetcherOptions): FetcherNormalizedCfg {
@@ -545,6 +572,8 @@ export class Fetcher {
         logRequestBody: debug,
         logResponse: debug,
         logResponseBody: debug,
+        logWithPrefixUrl: true,
+        logWithSearchParams: true,
         retry: { ...defRetryOptions },
         init: {
           method: cfg.method || 'get',
