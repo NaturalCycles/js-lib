@@ -1,7 +1,7 @@
 /// <reference lib="dom"/>
 
 import { ErrorObject } from '../error/error.model'
-import { _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
+import { _anyToError, _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
 import { CommonLogger } from '../log/commonLogger'
 import { _clamp } from '../number/number.util'
@@ -16,6 +16,7 @@ import { pDelay } from '../promise/pDelay'
 import { _jsonParseIfPossible } from '../string/json.util'
 import { _since } from '../time/time.util'
 import type { Promisable } from '../typeFest'
+import { Reviver } from '../types'
 import { HTTP_METHODS } from './http.model'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
@@ -86,6 +87,7 @@ export interface FetcherRetryOptions {
 export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers'> {
   url: string
   init: RequestInitNormalized
+  mode: FetcherMode
   throwHttpErrors: boolean
   timeoutSeconds: number
   retry: FetcherRetryOptions
@@ -121,7 +123,7 @@ export interface FetcherOptions {
   // init?: Partial<RequestInitNormalized>
 
   headers?: Record<string, any>
-  mode?: FetcherMode // default to undefined (void response)
+  mode?: FetcherMode // default to 'void'
 
   searchParams?: Record<string, any>
 
@@ -144,6 +146,8 @@ export interface FetcherOptions {
    * Defaults to true.
    */
   retry5xx?: boolean
+
+  jsonReviver?: Reviver
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
@@ -170,7 +174,7 @@ export interface FetcherResponse<BODY = unknown> {
   retryStatus: FetcherRetryStatus
 }
 
-export type FetcherMode = 'json' | 'text'
+export type FetcherMode = 'json' | 'text' | 'void'
 
 const defRetryOptions: FetcherRetryOptions = {
   count: 2,
@@ -196,14 +200,15 @@ export class Fetcher {
     // Dynamically create all helper methods
     HTTP_METHODS.forEach(method => {
       // mode=void
-      this[method] = async (url: string, opt?: FetcherOptions): Promise<void> => {
+      this[`${method}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
         return await this.fetch<void>(url, {
           ...opt,
           method,
+          mode: 'void',
         })
       }
 
-      // mode=text
+      if (method === 'head') return // mode=text
       ;(this as any)[`${method}Text`] = async (
         url: string,
         opt?: FetcherOptions,
@@ -216,10 +221,7 @@ export class Fetcher {
       }
 
       // mode=json
-      ;(this as any)[`${method}Json`] = async <T = unknown>(
-        url: string,
-        opt?: FetcherOptions,
-      ): Promise<T> => {
+      this[method] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
         return await this.fetch<T>(url, {
           ...opt,
           method,
@@ -254,25 +256,27 @@ export class Fetcher {
   }
 
   // These methods are generated dynamically in the constructor
-  get!: (url: string, opt?: FetcherOptions) => Promise<void>
-  post!: (url: string, opt?: FetcherOptions) => Promise<void>
-  put!: (url: string, opt?: FetcherOptions) => Promise<void>
-  patch!: (url: string, opt?: FetcherOptions) => Promise<void>
-  delete!: (url: string, opt?: FetcherOptions) => Promise<void>
-  head!: (url: string, opt?: FetcherOptions) => Promise<void>
+  // These default methods use mode=json
+  get!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  post!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  put!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  patch!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  delete!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
 
+  // mode=text
   getText!: (url: string, opt?: FetcherOptions) => Promise<string>
   postText!: (url: string, opt?: FetcherOptions) => Promise<string>
   putText!: (url: string, opt?: FetcherOptions) => Promise<string>
   patchText!: (url: string, opt?: FetcherOptions) => Promise<string>
   deleteText!: (url: string, opt?: FetcherOptions) => Promise<string>
 
-  getJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
-  postJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
-  putJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
-  patchJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
-  deleteJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
-  // headJson!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  // mode=void (no body fetching/parsing)
+  getVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  postVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  putVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  patchVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  deleteVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
 
   async fetch<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     const res = await this.rawFetch<T>(url, opt)
@@ -348,9 +352,27 @@ export class Fetcher {
 
       if (res.fetchResponse?.ok) {
         if (mode === 'json') {
-          // if no body: set responseBody as {}
-          // do not throw a "cannot parse null as Json" error
-          res.body = res.fetchResponse.body ? await res.fetchResponse.json() : {}
+          if (res.fetchResponse.body) {
+            const text = await res.fetchResponse.text()
+            res.body = text
+
+            try {
+              res.body = JSON.parse(text, req.jsonReviver)
+            } catch (err) {
+              res.err = _anyToError(
+                err,
+                HttpError,
+                _filterNullishValues({
+                  httpStatusCode: 0,
+                  url: req.url,
+                }),
+              )
+            }
+          } else {
+            // if no body: set responseBody as {}
+            // do not throw a "cannot parse null as Json" error
+            res.body = {}
+          }
         } else if (mode === 'text') {
           res.body = res.fetchResponse.body ? await res.fetchResponse.text() : ''
         }
@@ -358,7 +380,8 @@ export class Fetcher {
         clearTimeout(timeout)
         res.retryStatus.retryStopped = true
 
-        if (this.cfg.logResponse) {
+        // res.err can happen on JSON.parse error
+        if (!res.err && this.cfg.logResponse) {
           const { retryAttempt } = res.retryStatus
           logger.log(
             [
@@ -377,6 +400,7 @@ export class Fetcher {
           }
         }
       } else {
+        // !res.ok
         clearTimeout(timeout)
 
         let errObj: ErrorObject
@@ -500,6 +524,7 @@ export class Fetcher {
       {
         baseUrl: '',
         url: '',
+        mode: 'void',
         searchParams: {},
         timeoutSeconds: 30,
         throwHttpErrors: true,
@@ -529,10 +554,11 @@ export class Fetcher {
   }
 
   private normalizeOptions(url: string, opt: FetcherOptions): FetcherRequest {
-    const { baseUrl, timeoutSeconds, throwHttpErrors, retryPost, retry4xx, retry5xx, retry } =
+    const { baseUrl, timeoutSeconds, throwHttpErrors, retryPost, retry4xx, retry5xx, retry, mode } =
       this.cfg
 
     const req: FetcherRequest = {
+      mode,
       url,
       timeoutSeconds,
       throwHttpErrors,

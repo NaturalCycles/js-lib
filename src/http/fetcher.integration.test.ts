@@ -10,7 +10,7 @@ test('basic get', async () => {
     .onAfterResponse(() => {
       console.log('after')
     })
-  const r = await fetcher.getJson(`https://kg-backend3.appspot.com`, {
+  const r = await fetcher.get(`https://kg-backend3.appspot.com`, {
     searchParams: {
       a: 'b',
     },
@@ -23,7 +23,7 @@ test('post with error', async () => {
   const fetcher = getFetcher({
     debug: true,
   })
-  const r = await fetcher.postJson<FetcherResponse>(`https://kg-backend3.appspot.com`, {
+  const r = await fetcher.post<FetcherResponse>(`https://kg-backend3.appspot.com`, {
     throwHttpErrors: false,
   })
   expect(r.err!.message).toMatchInlineSnapshot(`

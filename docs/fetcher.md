@@ -5,7 +5,7 @@ Convenient wrapper around [fetch](https://developer.mozilla.org/en-US/docs/Web/A
 ## Features
 
 - Works in the Browser and on the Server (Node.js)
-- Convenient API, e.g `getJson`
+- Convenient API, e.g `fetcher.get()`, `fetcher.post()`, etc.
 - Throws HttpError automatically, no need to check `if (res.ok)`
 - Allows to set `timeout`
 - Conveniently retries on retry-able errors
@@ -20,7 +20,7 @@ Fetcher:
 ```tsx
 const fetcher = getFetcher()
 
-const result = await fetcher.postJson('https://example.com', {
+const result = await fetcher.post('https://example.com', {
   json: { foo: true },
 })
 ```
