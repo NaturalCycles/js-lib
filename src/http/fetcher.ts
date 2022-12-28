@@ -329,7 +329,7 @@ export class Fetcher {
       if (this.cfg.logRequest) {
         const { retryAttempt } = res.retryStatus
         logger.log(
-          [' >>', signature, retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`]
+          [' >>', signature, retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`]
             .filter(Boolean)
             .join(' '),
         )
@@ -365,7 +365,7 @@ export class Fetcher {
               ' <<',
               res.fetchResponse.status,
               signature,
-              retryAttempt && `try#${retryAttempt + 1}/${req.retry.count}`,
+              retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`,
               _since(started),
             ]
               .filter(Boolean)
