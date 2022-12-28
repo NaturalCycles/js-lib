@@ -117,6 +117,10 @@ export interface FetcherOptions {
   body?: Blob | BufferSource | FormData | URLSearchParams | string
 
   credentials?: RequestCredentials
+  /**
+   * Default to true.
+   */
+  followRedirects?: boolean
 
   // Removing RequestInit from options to simplify FetcherOptions interface.
   // Will instead only add hand-picked useful options, such as `credentials`.
@@ -287,6 +291,10 @@ export class Fetcher {
     return res.body!
   }
 
+  /**
+   * Returns FetcherResponse.
+   * Never throws, returns `err` property in the response instead.
+   */
   async rawFetch<T = unknown>(
     url: string,
     rawOpt: FetcherOptions = {},
@@ -575,6 +583,7 @@ export class Fetcher {
           ...this.cfg.init,
           method: opt.method || this.cfg.init.method,
           credentials: opt.credentials || this.cfg.init.credentials,
+          redirect: opt.followRedirects ?? this.cfg.followRedirects ?? true ? 'follow' : 'error',
         },
         {
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),
