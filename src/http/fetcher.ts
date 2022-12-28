@@ -3,7 +3,6 @@
 import { ErrorObject } from '../error/error.model'
 import { _anyToError, _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
-import { CommonLogger } from '../log/commonLogger'
 import { _clamp } from '../number/number.util'
 import {
   _filterNullishValues,
@@ -15,182 +14,19 @@ import {
 import { pDelay } from '../promise/pDelay'
 import { _jsonParseIfPossible } from '../string/json.util'
 import { _since } from '../time/time.util'
-import type { Promisable } from '../typeFest'
-import { Reviver } from '../types'
+import type {
+  FetcherAfterResponseHook,
+  FetcherBeforeRequestHook,
+  FetcherBeforeRetryHook,
+  FetcherCfg,
+  FetcherNormalizedCfg,
+  FetcherOptions,
+  FetcherRequest,
+  FetcherResponse,
+  FetcherRetryOptions,
+} from './fetcher.model'
 import { HTTP_METHODS } from './http.model'
-import type { HttpMethod, HttpStatusFamily } from './http.model'
-
-export interface FetcherNormalizedCfg extends Required<FetcherCfg>, FetcherRequest {
-  logger: CommonLogger
-  searchParams: Record<string, any>
-}
-
-export type FetcherBeforeRequestHook = (req: FetcherRequest) => Promisable<void>
-export type FetcherAfterResponseHook = (res: FetcherResponse) => Promisable<void>
-export type FetcherBeforeRetryHook = (res: FetcherResponse) => Promisable<void>
-
-export interface FetcherCfg {
-  /**
-   * Should **not** contain trailing slash.
-   */
-  baseUrl?: string
-
-  /**
-   * Default rule is that you **are allowed** to mutate req, res, res.retryStatus
-   * properties of hook function arguments.
-   * If you throw an error from the hook - it will be re-thrown as-is.
-   */
-  hooks?: {
-    /**
-     * Allows to mutate req.
-     */
-    beforeRequest?: FetcherBeforeRequestHook[]
-    /**
-     * Allows to mutate res.
-     * If you set `res.err` - it will be thrown.
-     */
-    afterResponse?: FetcherAfterResponseHook[]
-    /**
-     * Allows to mutate res.retryStatus to override retry behavior.
-     */
-    beforeRetry?: FetcherBeforeRetryHook[]
-  }
-
-  /**
-   * If true - enables all possible logging.
-   */
-  debug?: boolean
-  logRequest?: boolean
-  logRequestBody?: boolean
-  logResponse?: boolean
-  logResponseBody?: boolean
-
-  /**
-   * Default to true.
-   * Set to false to exclude `prefixUrl` from logs (both success and error)
-   */
-  logWithPrefixUrl?: boolean
-
-  /**
-   * Default to true.
-   * Set to false to strip searchParams from url when logging (both success and error)
-   */
-  logWithSearchParams?: boolean
-
-  /**
-   * Defaults to `console`.
-   */
-  logger?: CommonLogger
-}
-
-export interface FetcherRetryStatus {
-  retryAttempt: number
-  retryTimeout: number
-  retryStopped: boolean
-}
-
-export interface FetcherRetryOptions {
-  count: number
-  timeout: number
-  timeoutMax: number
-  timeoutMultiplier: number
-}
-
-export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers'> {
-  url: string
-  init: RequestInitNormalized
-  mode: FetcherMode
-  throwHttpErrors: boolean
-  timeoutSeconds: number
-  retry: FetcherRetryOptions
-  retryPost: boolean
-  retry4xx: boolean
-  retry5xx: boolean
-}
-
-export interface FetcherOptions {
-  method?: HttpMethod
-  throwHttpErrors?: boolean
-  /**
-   * Default: 30.
-   *
-   * Timeout applies to both get the response and retrieve the body (e.g `await res.json()`),
-   * so both should finish within this single timeout (not each).
-   */
-  timeoutSeconds?: number
-
-  json?: any
-  text?: string
-  /**
-   * Supports all the types that RequestInit.body supports.
-   *
-   * Useful when you want to e.g pass FormData.
-   */
-  body?: Blob | BufferSource | FormData | URLSearchParams | string
-
-  credentials?: RequestCredentials
-  /**
-   * Default to true.
-   */
-  followRedirects?: boolean
-
-  // Removing RequestInit from options to simplify FetcherOptions interface.
-  // Will instead only add hand-picked useful options, such as `credentials`.
-  // init?: Partial<RequestInitNormalized>
-
-  headers?: Record<string, any>
-  mode?: FetcherMode // default to 'void'
-
-  searchParams?: Record<string, any>
-
-  /**
-   * Default is 2 retries (3 tries in total).
-   * Pass `retry: { count: 0 }` to disable retries.
-   */
-  retry?: Partial<FetcherRetryOptions>
-
-  /**
-   * Defaults to false.
-   * Set to true to allow retrying `post` requests.
-   */
-  retryPost?: boolean
-  /**
-   * Defaults to false.
-   */
-  retry4xx?: boolean
-  /**
-   * Defaults to true.
-   */
-  retry5xx?: boolean
-
-  jsonReviver?: Reviver
-}
-
-export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
-  method: HttpMethod
-  headers: Record<string, any>
-}
-
-export interface FetcherSuccessResponse<BODY = unknown> extends FetcherResponse<BODY> {
-  err?: undefined
-  fetchResponse: Response
-  body: BODY
-}
-
-export interface FetcherErrorResponse<BODY = unknown> extends FetcherResponse<BODY> {
-  err: Error
-}
-
-export interface FetcherResponse<BODY = unknown> {
-  err?: Error
-  req: FetcherRequest
-  fetchResponse?: Response
-  statusFamily?: HttpStatusFamily
-  body?: BODY
-  retryStatus: FetcherRetryStatus
-}
-
-export type FetcherMode = 'json' | 'text' | 'void'
+import type { HttpStatusFamily } from './http.model'
 
 const defRetryOptions: FetcherRetryOptions = {
   count: 2,
@@ -300,7 +136,7 @@ export class Fetcher {
       if (res.req.throwHttpErrors) throw res.err
       return res as any
     }
-    return res.body!
+    return res.body
   }
 
   /**
@@ -334,14 +170,14 @@ export class Fetcher {
       await hook(req)
     }
 
-    const res: FetcherResponse<any> = {
+    const res = {
       req,
       retryStatus: {
         retryAttempt: 0,
         retryStopped: false,
         retryTimeout: req.retry.timeout,
       },
-    }
+    } as FetcherResponse<any>
 
     const fullUrl = new URL(req.url)
     const shortUrl = this.getShortUrl(fullUrl)
@@ -365,9 +201,11 @@ export class Fetcher {
 
       try {
         res.fetchResponse = await globalThis.fetch(req.url, req.init)
+        res.ok = res.fetchResponse.ok
       } catch (err) {
         // For example, CORS error would result in "TypeError: failed to fetch" here
         res.err = err as Error
+        res.ok = false
       }
       res.statusFamily = this.getStatusFamily(res)
 
@@ -380,6 +218,7 @@ export class Fetcher {
             try {
               res.body = JSON.parse(text, req.jsonReviver)
             } catch (err) {
+              res.ok = false
               res.err = _anyToError(
                 err,
                 HttpError,

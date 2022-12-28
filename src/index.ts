@@ -76,5 +76,6 @@ export * from './datetime/dateInterval'
 export * from './datetime/timeInterval'
 export * from './http/http.model'
 export * from './http/fetcher'
+export * from './http/fetcher.model'
 
 export { is }
