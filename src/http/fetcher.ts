@@ -213,20 +213,25 @@ export class Fetcher {
         if (mode === 'json') {
           if (res.fetchResponse.body) {
             const text = await res.fetchResponse.text()
-            res.body = text
 
-            try {
-              res.body = JSON.parse(text, req.jsonReviver)
-            } catch (err) {
-              res.ok = false
-              res.err = _anyToError(
-                err,
-                HttpError,
-                _filterNullishValues({
-                  httpStatusCode: 0,
-                  url: req.url,
-                }),
-              )
+            if (text) {
+              try {
+                res.body = text
+                res.body = JSON.parse(text, req.jsonReviver)
+              } catch (err) {
+                res.ok = false
+                res.err = _anyToError(
+                  err,
+                  HttpError,
+                  _filterNullishValues({
+                    httpStatusCode: 0,
+                    url: req.url,
+                  }),
+                )
+              }
+            } else {
+              // Body had a '' (empty string)
+              res.body = {}
             }
           } else {
             // if no body: set responseBody as {}
