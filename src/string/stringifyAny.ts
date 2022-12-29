@@ -3,6 +3,25 @@ import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
 
+let globalStringifyFunction: JsonStringifyFunction = _safeJsonStringify
+
+/**
+ * Allows to set Global "stringifyFunction" that will be used to "pretty-print" objects
+ * in various cases.
+ *
+ * Used, for example, by _stringifyAny() to pretty-print objects/arrays.
+ *
+ * Defaults to _safeJsonStringify.
+ *
+ * Node.js project can set it to _inspectAny, which allows to use `util.inspect`
+ * as pretty-printing function.
+ *
+ * It's recommended that this function is circular-reference-safe.
+ */
+export function setGlobalStringifyFunction(fn: JsonStringifyFunction): void {
+  globalStringifyFunction = fn
+}
+
 export type JsonStringifyFunction = (obj: any, reviver?: Reviver, space?: number) => string
 
 export interface StringifyAnyOptions {
@@ -30,7 +49,7 @@ export interface StringifyAnyOptions {
    * Allows to pass custom "stringify function".
    * E.g in Node.js you can pass `util.inspect` instead.
    *
-   * @default JSON.stringify
+   * Defaults to `globalStringifyFunction`, which defaults to `_safeJsonStringify`
    */
   stringifyFn?: JsonStringifyFunction
 }
@@ -120,7 +139,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // Other
     //
     try {
-      const { stringifyFn = _safeJsonStringify } = opt
+      const { stringifyFn = globalStringifyFunction } = opt
 
       s = stringifyFn(obj, undefined, 2)
     } catch {
