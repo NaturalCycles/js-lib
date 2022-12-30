@@ -65,18 +65,6 @@ Cast `any` to `Error`.
 
 Cast `Error` to `ErrorObject`.
 
-## \_errorObjectToAppError
-
-Cast `ErrorObject` to `AppError`.
-
-## \_appErrorToErrorObject
-
-Cast `AppError` to `ErrorObject`.
-
-## \_appErrorToHttpError
-
-Cast `AppError` to `HttpError`.
-
 ## \_isHttpErrorResponse
 
 Assert if provided `value: any` is a [HttpErrorResponse](#httperrorresponse).

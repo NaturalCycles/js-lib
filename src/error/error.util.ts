@@ -53,7 +53,7 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
     o = _jsonParseIfPossible(o)
 
     if (_isHttpErrorResponse(o)) {
-      eo = o.error as any
+      eo = o.error as ErrorObject<DATA_TYPE>
     } else if (_isErrorObject(o)) {
       eo = o as ErrorObject<DATA_TYPE>
     } else {
@@ -90,12 +90,6 @@ export function _errorToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   }
 
   return obj
-}
-
-export function _errorObjectToAppError<DATA_TYPE extends ErrorData>(
-  o: ErrorObject<DATA_TYPE>,
-): AppError<DATA_TYPE> {
-  return _errorObjectToError(o, AppError)
 }
 
 export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE extends Error>(

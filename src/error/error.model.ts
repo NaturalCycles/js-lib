@@ -123,7 +123,7 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
    */
   data: DATA_TYPE
 
-  cause?: any
+  cause?: ErrorObject
 }
 
 /**

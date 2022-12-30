@@ -12,7 +12,6 @@ import {
 import {
   _anyToError,
   _anyToErrorObject,
-  _errorObjectToAppError,
   _isErrorObject,
   _isHttpErrorObject,
   _isHttpErrorResponse,
@@ -117,12 +116,6 @@ test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   expect(err2).toMatchSnapshot({
     stack: expect.stringContaining('AppError'),
   })
-
-  const err3 = _errorObjectToAppError(err2)
-  expect(err3.message).toBe('hello')
-  expect(err3.name).toBe('AppError')
-  expect(err3.stack).toBeDefined()
-  expect(err3.data).toEqual(data)
 })
 
 test('isErrorObject', () => {
@@ -140,17 +133,18 @@ test('isHttpErrorResponse', () => {
 test('_errorObjectToError should not repack if already same error', () => {
   const e = new HttpError('yo', { httpStatusCode: 400 })
   expect(_isErrorObject(e)).toBe(true)
-  const e2 = _errorObjectToError(e, HttpError)
+  // HttpError not an ErrorObject, actually
+  const e2 = _errorObjectToError(e as ErrorObject, HttpError)
   expect(e2).toBe(e)
   const e3 = _anyToError(e)
   expect(e3).toBe(e)
 
   // errorClass is Error - still should NOT re-pack
-  expect(_errorObjectToError(e)).toBe(e)
+  expect(_errorObjectToError(e as ErrorObject)).toBe(e)
   expect(_anyToError(e)).toBe(e)
 
   // But if errorClass is different - it SHOULD re-pack
-  const e4 = _errorObjectToError(e, AssertionError)
+  const e4 = _errorObjectToError(e as ErrorObject, AssertionError)
   expect(e4).not.toBe(e)
   expect(e4).toBeInstanceOf(AssertionError)
   expect(e4.name).toBe(e.name) // non-trivial, but name is kept as HttpError
