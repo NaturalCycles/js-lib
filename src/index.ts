@@ -59,7 +59,6 @@ export * from './is.util'
 export * from './typeFest'
 export * from './types'
 export * from './unit/size.util'
-import { is } from './vendor/is'
 export * from './log/commonLogger'
 export * from './string/safeJsonStringify'
 export * from './promise/pQueue'
@@ -77,5 +76,10 @@ export * from './datetime/timeInterval'
 export * from './http/http.model'
 export * from './http/fetcher'
 export * from './http/fetcher.model'
+export * from './zod/zod.util'
+export * from './zod/zod.shared.schemas'
+import { z, ZodSchema, ZodError, ZodIssue } from 'zod'
+import { is } from './vendor/is'
 
-export { is }
+export { is, z, ZodSchema, ZodError }
+export type { ZodIssue }
