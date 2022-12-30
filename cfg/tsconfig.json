@@ -11,7 +11,7 @@
 
     // Target/module
     "target": "es2021",
-    "lib": ["es2021"], // add "dom" if needed
+    "lib": ["esnext"], // add "dom" if needed
     "module": "commonjs",
     "moduleResolution": "node",
 
