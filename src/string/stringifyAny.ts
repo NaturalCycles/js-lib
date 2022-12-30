@@ -46,6 +46,13 @@ export interface StringifyAnyOptions {
   includeErrorStack?: boolean
 
   /**
+   * Set to false to skip including Error.cause.
+   *
+   * @default true
+   */
+  includeErrorCause?: boolean
+
+  /**
    * Allows to pass custom "stringify function".
    * E.g in Node.js you can pass `util.inspect` instead.
    *
@@ -91,6 +98,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   }
 
   if (obj instanceof Error || _isErrorObject(obj)) {
+    const { includeErrorCause = true } = opt
     //
     // Error or ErrorObject
     //
@@ -127,6 +135,10 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     } else if (typeof (obj as any).code === 'string') {
       // Error that has no `data`, but has `code` property
       s = [s, `code: ${(obj as any).code}`].join('\n')
+    }
+
+    if (obj.cause && includeErrorCause) {
+      s = s + '\ncaused by: ' + _stringifyAny(obj.cause, opt)
     }
   } else if (typeof obj === 'string') {
     //

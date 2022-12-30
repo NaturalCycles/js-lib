@@ -45,6 +45,12 @@ test('error message should be correct even if overridden when printing stack', (
   // console.log(s)
 })
 
+test('HttpError with cause', () => {
+  const err1 = new Error('cozz')
+  const err = new HttpError('hello', { httpStatusCode: 400 }, { cause: err1 })
+  expect(err.cause).toBe(err1)
+})
+
 function filterStackTrace(s: string): string {
   return s
     .split('\n')

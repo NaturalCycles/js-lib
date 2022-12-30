@@ -66,6 +66,24 @@ test('httpErrorResponse', () => {
   // expect(_stringifyAny(resp, { includeErrorStack: true })).toMatchInlineSnapshot()
 })
 
+test('error with cause', () => {
+  const err = new Error('err1', {
+    cause: new HttpError(
+      'http_error1',
+      { httpStatusCode: 400 },
+      {
+        cause: new Error('sub-cause'),
+      },
+    ),
+  })
+
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+    "Error: err1
+    caused by: HttpError(400): http_error1
+    caused by: Error: sub-cause"
+  `)
+})
+
 const obj = {
   a: 'a',
   b: { c: 'c' },

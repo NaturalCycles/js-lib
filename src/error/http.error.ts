@@ -7,7 +7,7 @@ import type { HttpErrorData } from './error.model'
 export class HttpError<
   DATA_TYPE extends HttpErrorData = HttpErrorData,
 > extends AppError<DATA_TYPE> {
-  constructor(message: string, data: DATA_TYPE) {
-    super(message, data)
+  constructor(message: string, data: DATA_TYPE, opt?: ErrorOptions) {
+    super(message, data, opt)
   }
 }

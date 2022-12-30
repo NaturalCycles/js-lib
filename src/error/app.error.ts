@@ -12,8 +12,8 @@ import type { ErrorData } from './error.model'
 export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
   data!: DATA_TYPE
 
-  constructor(message: string, data = {} as DATA_TYPE) {
-    super(message)
+  constructor(message: string, data = {} as DATA_TYPE, opt?: ErrorOptions) {
+    super(message, opt)
 
     Object.defineProperty(this, 'name', {
       value: this.constructor.name,

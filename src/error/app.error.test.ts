@@ -50,6 +50,12 @@ test('AppError log should NOT include constructor and data', () => {
   err.data = {}
 })
 
+test('AppError with cause', () => {
+  const err1 = new Error('cozz')
+  const err = new AppError('hello', {}, { cause: err1 })
+  expect(err.cause).toBe(err1)
+})
+
 function filterStackTrace(s: string): string {
   return s
     .split('\n')
