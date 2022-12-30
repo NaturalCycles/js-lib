@@ -11,12 +11,12 @@ export interface MemoOptions {
    * Function that creates an instance of `MemoCache`.
    * e.g LRUMemoCache from `@naturalcycles/nodejs-lib`
    */
-  cacheFactory?(): MemoCache
+  cacheFactory?: () => MemoCache
 
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?(args: any[]): any
+  cacheKeyFn?: (args: any[]) => any
 
   /**
    * Defaults to true.

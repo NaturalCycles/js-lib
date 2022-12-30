@@ -16,7 +16,7 @@ export interface ReadingTimeOptions {
    * A function that returns a boolean value depending on if a character is considered as a word bound.
    * Default: spaces, new lines and tabs
    */
-  wordBound?(char: string): boolean
+  wordBound?: (char: string) => boolean
   /**
    * Default 200
    */

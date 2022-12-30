@@ -12,7 +12,7 @@ const throwHttpErrorAsync = async () => {
 test('default error to match snapshot', async () => {
   const err = new HttpError('error', { httpStatusCode: 500 })
   // console.log(err)
-  expect(_errorToErrorObject(err, true)).toMatchSnapshot({
+  expect(_errorToErrorObject(err)).toMatchSnapshot({
     stack: expect.stringContaining('HttpError'),
   })
 

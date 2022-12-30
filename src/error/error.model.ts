@@ -76,6 +76,14 @@ export interface Admin403ErrorData extends HttpErrorData {
   adminPermissionsRequired: string[]
 }
 
+// export interface ErrorLike {
+//   name: string
+//   message: string
+//   stack?: string
+//   data?: any
+//   cause?: any
+// }
+
 /**
  * Portable object that represents Error.
  * Has extendable generic `data` property.
@@ -114,6 +122,8 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
    * It's non-optional, to save some null-checks.
    */
   data: DATA_TYPE
+
+  cause?: any
 }
 
 /**

@@ -1,8 +1,8 @@
 import type { AnyFunction } from '../types'
 
 export interface Cancelable {
-  cancel(): void
-  flush(): void
+  cancel: () => void
+  flush: () => void
 }
 
 export interface ThrottleOptions {

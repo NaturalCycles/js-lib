@@ -1,11 +1,4 @@
-import type {
-  ErrorData,
-  ErrorObject,
-  HttpErrorData,
-  HttpErrorResponse,
-  StringifyAnyOptions,
-  Class,
-} from '..'
+import type { ErrorData, ErrorObject, HttpErrorData, HttpErrorResponse, Class } from '..'
 import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
 
 /**
@@ -20,7 +13,6 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
   o: any,
   errorClass: Class<ERROR_TYPE> = Error as any,
   errorData?: ErrorData,
-  opt?: StringifyAnyOptions,
 ): ERROR_TYPE {
   let e: ERROR_TYPE
 
@@ -29,8 +21,8 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
   } else {
     // If it's an instance of Error, but ErrorClass is something else (e.g AppError) - it'll be "repacked" into AppError
 
-    const errorObject = _isErrorObject(o) ? o : _anyToErrorObject(o, {}, opt)
-    e = _errorObjectToError(errorObject, errorClass) as any
+    const errorObject = _anyToErrorObject(o)
+    e = _errorObjectToError(errorObject, errorClass)
   }
 
   if (errorData) {
@@ -52,12 +44,11 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
 export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   o: any,
   errorData?: Partial<DATA_TYPE>,
-  opt?: StringifyAnyOptions,
 ): ErrorObject<DATA_TYPE> {
   let eo: ErrorObject<DATA_TYPE>
 
   if (o instanceof Error) {
-    eo = _errorToErrorObject<DATA_TYPE>(o, opt?.includeErrorStack ?? true)
+    eo = _errorToErrorObject<DATA_TYPE>(o)
   } else {
     o = _jsonParseIfPossible(o)
 
@@ -70,10 +61,7 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
       // so, fair to return `data: {}` in the end
       // Also we're sure it includes no "error name", e.g no `Error: ...`,
       // so, fair to include `name: 'Error'`
-      const message = _stringifyAny(o, {
-        includeErrorData: true, // cause we're returning an ErrorObject, not a stringified error (yet)
-        ...opt,
-      })
+      const message = _stringifyAny(o)
 
       eo = {
         name: 'Error',
@@ -89,16 +77,16 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
 
 export function _errorToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   e: AppError<DATA_TYPE> | Error,
-  includeErrorStack = true,
 ): ErrorObject<DATA_TYPE> {
   const obj: ErrorObject<DATA_TYPE> = {
     name: e.name,
     message: e.message,
     data: { ...(e as any).data }, // empty by default
+    stack: e.stack,
   }
 
-  if (includeErrorStack) {
-    obj.stack = e.stack
+  if (e.cause) {
+    obj.cause = _anyToErrorObject(e.cause)
   }
 
   return obj
@@ -138,6 +126,15 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
     })
   }
 
+  if (o.cause) {
+    Object.defineProperty(err, 'cause', {
+      value: o.cause,
+      writable: true,
+      configurable: true,
+      enumerable: false,
+    })
+  }
+
   return err
 }
 
@@ -159,9 +156,17 @@ export function _isHttpErrorObject(o: any): o is ErrorObject<HttpErrorData> {
  */
 export function _isErrorObject(o: any): o is ErrorObject {
   return (
-    !!o && typeof o.name === 'string' && typeof o.message === 'string' && typeof o.data === 'object'
+    !!o &&
+    typeof o === 'object' &&
+    typeof o.name === 'string' &&
+    typeof o.message === 'string' &&
+    typeof o.data === 'object'
   )
 }
+
+// export function _isErrorLike(o: any): o is ErrorLike {
+//   return !!o && typeof o === 'object' && typeof o.name === 'string' && typeof o.message === 'string'
+// }
 
 /**
  * Convenience function to safely add properties to Error's `data` object

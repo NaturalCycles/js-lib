@@ -26,7 +26,7 @@ import type {
 /* eslint-disable id-blacklist, @typescript-eslint/explicit-module-boundary-types */
 
 export interface JsonSchemaBuilder<T = unknown> {
-  build(): JsonSchema<T>
+  build: () => JsonSchema<T>
 }
 
 /**

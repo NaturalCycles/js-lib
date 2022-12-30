@@ -58,17 +58,8 @@ const anyItems = [
 ]
 
 test('anyToErrorObject', () => {
-  expectResults(
-    v =>
-      _anyToErrorObject(
-        v,
-        {},
-        {
-          includeErrorStack: false, // only for snapshot determinism
-        },
-      ),
-    anyItems,
-  ).toMatchSnapshot()
+  // omitting stack only for snapshot determinism
+  expectResults(v => _omit(_anyToErrorObject(v), ['stack']), anyItems).toMatchSnapshot()
 })
 
 test('anyToError', () => {
@@ -118,7 +109,7 @@ test('anyToError', () => {
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   const data = { a: 'b' }
   const err1 = new AppError('hello', data)
-  const err2 = _errorToErrorObject(err1, true)
+  const err2 = _errorToErrorObject(err1)
   // console.log(err2)
 
   expect(err2.name).toBe('AppError')

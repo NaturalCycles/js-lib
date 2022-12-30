@@ -31,7 +31,7 @@ export interface PupaOptions {
   /**
    * Performs arbitrary operation for each interpolation. If the returned value was `undefined`, it behaves differently depending on the `ignoreMissing` option. Otherwise, the returned value will be interpolated into a string (and escaped when double-braced) and embedded into the template.
    */
-  transform?(data: { value: any; key: string }): unknown
+  transform?: (data: { value: any; key: string }) => unknown
 }
 
 /**
