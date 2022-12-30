@@ -219,15 +219,12 @@ export class Fetcher {
                 res.body = text
                 res.body = JSON.parse(text, req.jsonReviver)
               } catch (err) {
+                const { message } = _anyToError(err)
+                res.err = new HttpError([signature, message].join('\n'), {
+                  httpStatusCode: 0,
+                  url: req.url,
+                })
                 res.ok = false
-                res.err = _anyToError(
-                  err,
-                  HttpError,
-                  _filterNullishValues({
-                    httpStatusCode: 0,
-                    url: req.url,
-                  }),
-                )
               }
             } else {
               // Body had a '' (empty string)
