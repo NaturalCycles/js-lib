@@ -26,8 +26,7 @@ Allows to asynchronously map an array of Promises, with options to:
 - control `concurrency` (default: `Infinity`)
 - control error behavior (`ErrorMode`):
   - `THROW_IMMEDIATELY` (default)
-  - `THROW_AGGREGATED`: throw `AggregatedError` in the end of execution, if at least 1 error
-    happened
+  - `THROW_AGGREGATED`: throw `AggregateError` in the end of execution, if at least 1 error happened
   - `SUPPRESS`: completely suppress (ignore) errors
 
 ```ts

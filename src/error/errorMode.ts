@@ -10,7 +10,7 @@ export enum ErrorMode {
   THROW_IMMEDIATELY = 'THROW_IMMEDIATELY',
 
   /**
-   * Don't throw on errors, but collect them and throw as AggregatedError in the end.
+   * Don't throw on errors, but collect them and throw as AggregateError in the end.
    */
   THROW_AGGREGATED = 'THROW_AGGREGATED',
 

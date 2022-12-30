@@ -3,6 +3,8 @@ import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
 
+const supportsAggregateError = typeof globalThis.AggregateError === 'function'
+
 let globalStringifyFunction: JsonStringifyFunction = _safeJsonStringify
 
 /**
@@ -108,7 +110,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // if (obj?.name === 'Error') {
     //   s = obj.message
     // }
-    s = [obj.name, obj.message].join(': ')
+    s = [obj.name, obj.message].filter(Boolean).join(': ')
 
     if (opt.includeErrorStack && obj.stack) {
       // Here we're using the previously-generated "title line" (e.g "Error: some_message"),
@@ -135,6 +137,14 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     } else if (typeof (obj as any).code === 'string') {
       // Error that has no `data`, but has `code` property
       s = [s, `code: ${(obj as any).code}`].join('\n')
+    }
+
+    if (supportsAggregateError && obj instanceof AggregateError && obj.errors.length) {
+      s = [
+        s,
+        `${obj.errors.length} error(s):`,
+        ...obj.errors.map((err, i) => `${i + 1}. ${_stringifyAny(err, opt)}`),
+      ].join('\n')
     }
 
     if (obj.cause && includeErrorCause) {

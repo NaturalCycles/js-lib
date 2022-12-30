@@ -149,12 +149,6 @@ Asserts that `typeof value === 'string`
 
 Asserts that `typeof value === 'number`
 
-## AggregatedError
-
-Subclass of `Error` that contains `.errors: Error[]` - array of errors from some batch operation.
-
-May also contain `.results: RESULT[]` - results from some batch operation (if needed).
-
 ## \_try
 
 Calls a function, returns a Tuple of `[error, value]`. Allows to write shorter code that avoids

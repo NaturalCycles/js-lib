@@ -3,6 +3,7 @@ import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
 import { HttpErrorResponse } from '../error/error.model'
 import { _errorToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
+import { pExpectedError } from '../error/try'
 import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
 
 test('stringifyAny default', () => {
@@ -81,6 +82,23 @@ test('error with cause', () => {
     "Error: err1
     caused by: HttpError(400): http_error1
     caused by: Error: sub-cause"
+  `)
+})
+
+test('AggregateError', async () => {
+  const err = await pExpectedError(
+    Promise.any([
+      new Promise((_, reject) => reject(new Error('err1'))),
+      new Promise((_, reject) => reject(new Error('err2'))),
+    ]),
+    AggregateError,
+  )
+
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+    "AggregateError: All promises were rejected
+    2 error(s):
+    1. Error: err1
+    2. Error: err2"
   `)
 })
 

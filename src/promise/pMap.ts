@@ -9,7 +9,6 @@ Improvements:
 
 import type { AbortableAsyncMapper } from '..'
 import { END, ErrorMode, SKIP } from '..'
-import { AggregatedError } from './AggregatedError'
 
 export interface PMapOptions {
   /**
@@ -93,7 +92,7 @@ export async function pMap<IN, OUT>(
     }
 
     if (errors.length) {
-      throw new AggregatedError(errors, ret)
+      throw new AggregateError(errors, `pMap resulted in ${errors.length} error(s)`)
     }
 
     return ret as OUT[]
@@ -115,7 +114,7 @@ export async function pMap<IN, OUT>(
     })
 
     if (errors.length) {
-      throw new AggregatedError(errors, ret)
+      throw new AggregateError(errors, `pMap resulted in ${errors.length} error(s)`)
     }
 
     return ret as OUT[]
@@ -135,7 +134,7 @@ export async function pMap<IN, OUT>(
           isSettled = true
           const r = ret.filter(r => r !== SKIP) as OUT[]
           if (errors.length) {
-            reject(new AggregatedError(errors, r))
+            reject(new AggregateError(errors, `pMap resulted in ${errors.length} error(s)`))
           } else {
             resolve(r)
           }
