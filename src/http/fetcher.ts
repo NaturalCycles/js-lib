@@ -436,8 +436,17 @@ export class Fetcher {
   }
 
   private normalizeOptions(url: string, opt: FetcherOptions): FetcherRequest {
-    const { baseUrl, timeoutSeconds, throwHttpErrors, retryPost, retry4xx, retry5xx, retry, mode } =
-      this.cfg
+    const {
+      baseUrl,
+      timeoutSeconds,
+      throwHttpErrors,
+      retryPost,
+      retry4xx,
+      retry5xx,
+      retry,
+      mode,
+      jsonReviver,
+    } = this.cfg
 
     const req: FetcherRequest = {
       mode,
@@ -447,6 +456,7 @@ export class Fetcher {
       retryPost,
       retry4xx,
       retry5xx,
+      jsonReviver,
       ..._omit(opt, ['method', 'headers', 'credentials']),
       retry: {
         ...retry,
