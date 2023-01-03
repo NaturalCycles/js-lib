@@ -51,8 +51,10 @@ export class Fetcher {
 
     // Dynamically create all helper methods
     HTTP_METHODS.forEach(method => {
+      const m = method.toLowerCase()
+
       // mode=void
-      this[`${method}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
+      ;(this as any)[`${m}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
         return await this.fetch<void>(url, {
           method,
           mode: 'void',
@@ -60,11 +62,8 @@ export class Fetcher {
         })
       }
 
-      if (method === 'head') return // mode=text
-      ;(this as any)[`${method}Text`] = async (
-        url: string,
-        opt?: FetcherOptions,
-      ): Promise<string> => {
+      if (method === 'HEAD') return // mode=text
+      ;(this as any)[`${m}Text`] = async (url: string, opt?: FetcherOptions): Promise<string> => {
         return await this.fetch<string>(url, {
           method,
           mode: 'text',
@@ -73,7 +72,7 @@ export class Fetcher {
       }
 
       // Default mode=json, but overridable
-      this[method] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
+      ;(this as any)[m] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
         return await this.fetch<T>(url, {
           method,
           mode: 'json',
@@ -181,7 +180,7 @@ export class Fetcher {
 
     const fullUrl = new URL(req.url)
     const shortUrl = this.getShortUrl(fullUrl)
-    const signature = [method.toUpperCase(), shortUrl].join(' ')
+    const signature = [method, shortUrl].join(' ')
 
     /* eslint-disable no-await-in-loop */
     while (!res.retryStatus.retryStopped) {
@@ -347,7 +346,7 @@ export class Fetcher {
   private shouldRetry(res: FetcherResponse): boolean {
     const { retryPost, retry4xx, retry5xx } = res.req
     const { method } = res.req.init
-    if (method === 'post' && !retryPost) return false
+    if (method === 'POST' && !retryPost) return false
     const { statusFamily } = res
     const statusCode = res.fetchResponse?.status || 0
     if (statusFamily === 5 && !retry5xx) return false
@@ -421,7 +420,7 @@ export class Fetcher {
         logWithSearchParams: true,
         retry: { ...defRetryOptions },
         init: {
-          method: cfg.method || 'get',
+          method: cfg.method || 'GET',
           headers: cfg.headers || {},
           credentials: cfg.credentials,
         },
