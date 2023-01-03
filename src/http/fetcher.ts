@@ -54,9 +54,9 @@ export class Fetcher {
       // mode=void
       this[`${method}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
         return await this.fetch<void>(url, {
-          ...opt,
           method,
           mode: 'void',
+          ...opt,
         })
       }
 
@@ -66,18 +66,18 @@ export class Fetcher {
         opt?: FetcherOptions,
       ): Promise<string> => {
         return await this.fetch<string>(url, {
-          ...opt,
           method,
           mode: 'text',
+          ...opt,
         })
       }
 
-      // mode=json
+      // Default mode=json, but overridable
       this[method] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
         return await this.fetch<T>(url, {
-          ...opt,
           method,
           mode: 'json',
+          ...opt,
         })
       }
     })
