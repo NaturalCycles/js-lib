@@ -237,6 +237,10 @@ export class Fetcher {
           }
         } else if (mode === 'text') {
           res.body = res.fetchResponse.body ? await res.fetchResponse.text() : ''
+        } else if (mode === 'arrayBuffer') {
+          res.body = res.fetchResponse.body ? await res.fetchResponse.arrayBuffer() : {}
+        } else if (mode === 'blob') {
+          res.body = res.fetchResponse.body ? await res.fetchResponse.blob() : {}
         }
 
         clearTimeout(timeout)
