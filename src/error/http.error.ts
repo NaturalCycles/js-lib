@@ -8,6 +8,6 @@ export class HttpError<
   DATA_TYPE extends HttpErrorData = HttpErrorData,
 > extends AppError<DATA_TYPE> {
   constructor(message: string, data: DATA_TYPE, opt?: ErrorOptions) {
-    super(message, data, opt)
+    super(message, data, opt, 'HttpError')
   }
 }

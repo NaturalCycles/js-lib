@@ -17,12 +17,20 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
    */
   override cause?: Error
 
-  constructor(message: string, data = {} as DATA_TYPE, opt?: ErrorOptions) {
+  constructor(message: string, data = {} as DATA_TYPE, opt?: ErrorOptions, name?: string) {
     super(message)
 
     Object.defineProperty(this, 'name', {
-      value: this.constructor.name,
+      value: name || this.constructor.name,
       configurable: true,
+      writable: true,
+    })
+
+    // this is to allow changing this.constuctor.name to a non-minified version
+    Object.defineProperty(this.constructor, 'name', {
+      value: name || this.constructor.name,
+      configurable: true,
+      writable: true,
     })
 
     Object.defineProperty(this, 'data', {

@@ -105,6 +105,13 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
   Object.defineProperty(err, 'name', {
     value: o.name,
     configurable: true,
+    writable: true,
+  })
+
+  Object.defineProperty(err.constructor, 'name', {
+    value: o.name,
+    configurable: true,
+    writable: true,
   })
 
   Object.defineProperty(err, 'data', {

@@ -14,6 +14,7 @@ test('appError properties should be present', async () => {
   // console.log(r.message, r.name, r.stack)
   expect(r.message).toBe('hello')
   expect(r.name).toBe('AppError')
+  expect(r.constructor.name).toBe('AppError')
   expect(r.stack).toBeDefined()
 
   const data = { a: 'b' }
@@ -62,3 +63,22 @@ function filterStackTrace(s: string): string {
     .filter(line => !line.trimStart().startsWith('at '))
     .join('\n')
 }
+
+class MinifiedError extends AppError {
+  constructor() {
+    super('yo', {}, undefined, 'ProperError')
+  }
+}
+
+Object.defineProperty(MinifiedError.constructor, 'name', {
+  writable: true,
+})
+;(MinifiedError.constructor as any).name = 'Weird'
+
+test('minified error name', () => {
+  expect(MinifiedError.constructor.name).toBe('Weird')
+
+  const err = new MinifiedError()
+  expect(err.name).toBe('ProperError')
+  expect(err.constructor.name).toBe('ProperError')
+})
