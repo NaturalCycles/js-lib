@@ -79,7 +79,7 @@ export interface FetcherRetryOptions {
   timeoutMultiplier: number
 }
 
-export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers'> {
+export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers' | 'baseUrl'> {
   url: string
   init: RequestInitNormalized
   mode: FetcherMode
@@ -93,6 +93,9 @@ export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers
 
 export interface FetcherOptions {
   method?: HttpMethod
+
+  baseUrl?: string
+
   throwHttpErrors?: boolean
   /**
    * Default: 30.

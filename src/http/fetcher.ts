@@ -436,7 +436,6 @@ export class Fetcher {
 
   private normalizeOptions(url: string, opt: FetcherOptions): FetcherRequest {
     const {
-      baseUrl,
       timeoutSeconds,
       throwHttpErrors,
       retryPost,
@@ -475,6 +474,7 @@ export class Fetcher {
     }
 
     // setup url
+    const baseUrl = opt.baseUrl || this.cfg.baseUrl
     if (baseUrl) {
       if (url.startsWith('/')) {
         console.warn(`Fetcher: url should not start with / when baseUrl is specified`)
