@@ -165,6 +165,7 @@ export interface FetcherSuccessResponse<BODY = unknown> {
   req: FetcherRequest
   statusFamily?: HttpStatusFamily
   retryStatus: FetcherRetryStatus
+  signature: string
 }
 
 export interface FetcherErrorResponse<BODY = unknown> {
@@ -175,6 +176,7 @@ export interface FetcherErrorResponse<BODY = unknown> {
   req: FetcherRequest
   statusFamily?: HttpStatusFamily
   retryStatus: FetcherRetryStatus
+  signature: string
 }
 
 export type FetcherResponse<BODY = unknown> =

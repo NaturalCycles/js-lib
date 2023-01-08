@@ -151,7 +151,6 @@ export class Fetcher {
     const req = this.normalizeOptions(url, rawOpt)
     const {
       timeoutSeconds,
-      mode,
       init: { method },
     } = req
 
@@ -169,6 +168,11 @@ export class Fetcher {
       await hook(req)
     }
 
+    const isFullUrl = req.url.includes('://')
+    const fullUrl = isFullUrl ? new URL(req.url) : undefined
+    const shortUrl = fullUrl ? this.getShortUrl(fullUrl) : req.url
+    const signature = [method, shortUrl].join(' ')
+
     const res = {
       req,
       retryStatus: {
@@ -176,12 +180,8 @@ export class Fetcher {
         retryStopped: false,
         retryTimeout: req.retry.timeout,
       },
+      signature,
     } as FetcherResponse<any>
-
-    const isFullUrl = req.url.includes('://')
-    const fullUrl = isFullUrl ? new URL(req.url) : undefined
-    const shortUrl = fullUrl ? this.getShortUrl(fullUrl) : req.url
-    const signature = [method, shortUrl].join(' ')
 
     /* eslint-disable no-await-in-loop */
     while (!res.retryStatus.retryStopped) {
@@ -210,101 +210,14 @@ export class Fetcher {
       res.statusFamily = this.getStatusFamily(res)
 
       if (res.fetchResponse?.ok) {
-        if (mode === 'json') {
-          if (res.fetchResponse.body) {
-            const text = await res.fetchResponse.text()
-
-            if (text) {
-              try {
-                res.body = text
-                res.body = JSON.parse(text, req.jsonReviver)
-              } catch (err) {
-                const { message } = _anyToError(err)
-                res.err = new HttpError([signature, message].join('\n'), {
-                  httpStatusCode: 0,
-                  url: req.url,
-                })
-                res.ok = false
-              }
-            } else {
-              // Body had a '' (empty string)
-              res.body = {}
-            }
-          } else {
-            // if no body: set responseBody as {}
-            // do not throw a "cannot parse null as Json" error
-            res.body = {}
-          }
-        } else if (mode === 'text') {
-          res.body = res.fetchResponse.body ? await res.fetchResponse.text() : ''
-        } else if (mode === 'arrayBuffer') {
-          res.body = res.fetchResponse.body ? await res.fetchResponse.arrayBuffer() : {}
-        } else if (mode === 'blob') {
-          res.body = res.fetchResponse.body ? await res.fetchResponse.blob() : {}
-        }
-
-        clearTimeout(timeout)
-        res.retryStatus.retryStopped = true
-
-        // res.err can happen on JSON.parse error
-        if (!res.err && this.cfg.logResponse) {
-          const { retryAttempt } = res.retryStatus
-          logger.log(
-            [
-              ' <<',
-              res.fetchResponse.status,
-              signature,
-              retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`,
-              _since(started),
-            ]
-              .filter(Boolean)
-              .join(' '),
-          )
-
-          if (this.cfg.logResponseBody) {
-            logger.log(res.body)
-          }
-        }
+        await this.onOkResponse(
+          res as FetcherResponse<T> & { fetchResponse: Response },
+          started,
+          timeout,
+        )
       } else {
         // !res.ok
-        clearTimeout(timeout)
-
-        let errObj: ErrorObject
-
-        if (res.fetchResponse) {
-          const body = _jsonParseIfPossible(await res.fetchResponse.text())
-          errObj = _anyToErrorObject(body)
-        } else if (res.err) {
-          errObj = _errorToErrorObject(res.err)
-        } else {
-          errObj = {} as ErrorObject
-        }
-
-        const originalMessage = errObj.message
-        errObj.message = [
-          [res.fetchResponse?.status, signature].filter(Boolean).join(' '),
-          originalMessage,
-        ]
-          .filter(Boolean)
-          .join('\n')
-
-        res.err = new HttpError(
-          errObj.message,
-
-          _filterNullishValues({
-            ...errObj.data,
-            originalMessage,
-            httpStatusCode: res.fetchResponse?.status || 0,
-            // These properties are provided to be used in e.g custom Sentry error grouping
-            // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
-            // Enabled, cause `data` is not printed by default when error is HttpError
-            // method: req.method,
-            url: req.url,
-            // tryCount: req.tryCount,
-          }),
-        )
-
-        await this.processRetry(res)
+        await this.onNotOkResponse(res, timeout)
       }
     }
 
@@ -313,6 +226,113 @@ export class Fetcher {
     }
 
     return res
+  }
+
+  private async onOkResponse(
+    res: FetcherResponse<any> & { fetchResponse: Response },
+    started: number,
+    timeout?: number,
+  ): Promise<void> {
+    const { req } = res
+    const { mode } = res.req
+
+    if (mode === 'json') {
+      if (res.fetchResponse.body) {
+        const text = await res.fetchResponse.text()
+
+        if (text) {
+          try {
+            res.body = text
+            res.body = JSON.parse(text, req.jsonReviver)
+          } catch (err) {
+            const { message } = _anyToError(err)
+            res.err = new HttpError([res.signature, message].join('\n'), {
+              httpStatusCode: 0,
+              url: req.url,
+            })
+            res.ok = false
+          }
+        } else {
+          // Body had a '' (empty string)
+          res.body = {}
+        }
+      } else {
+        // if no body: set responseBody as {}
+        // do not throw a "cannot parse null as Json" error
+        res.body = {}
+      }
+    } else if (mode === 'text') {
+      res.body = res.fetchResponse.body ? await res.fetchResponse.text() : ''
+    } else if (mode === 'arrayBuffer') {
+      res.body = res.fetchResponse.body ? await res.fetchResponse.arrayBuffer() : {}
+    } else if (mode === 'blob') {
+      res.body = res.fetchResponse.body ? await res.fetchResponse.blob() : {}
+    }
+
+    clearTimeout(timeout)
+    res.retryStatus.retryStopped = true
+
+    // res.err can happen on JSON.parse error
+    if (!res.err && this.cfg.logResponse) {
+      const { retryAttempt } = res.retryStatus
+      const { logger } = this.cfg
+      logger.log(
+        [
+          ' <<',
+          res.fetchResponse.status,
+          res.signature,
+          retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`,
+          _since(started),
+        ]
+          .filter(Boolean)
+          .join(' '),
+      )
+
+      if (this.cfg.logResponseBody) {
+        logger.log(res.body)
+      }
+    }
+  }
+
+  private async onNotOkResponse(res: FetcherResponse, timeout?: number): Promise<void> {
+    clearTimeout(timeout)
+
+    let errObj: ErrorObject
+
+    if (res.fetchResponse) {
+      const body = _jsonParseIfPossible(await res.fetchResponse.text())
+      errObj = _anyToErrorObject(body)
+    } else if (res.err) {
+      errObj = _errorToErrorObject(res.err)
+    } else {
+      errObj = {} as ErrorObject
+    }
+
+    const originalMessage = errObj.message
+    errObj.message = [
+      [res.fetchResponse?.status, res.signature].filter(Boolean).join(' '),
+      originalMessage,
+    ]
+      .filter(Boolean)
+      .join('\n')
+
+    res.err = new HttpError(
+      errObj.message,
+
+      _filterNullishValues({
+        ...errObj.data,
+        originalMessage,
+        httpStatusCode: res.fetchResponse?.status || 0,
+        // These properties are provided to be used in e.g custom Sentry error grouping
+        // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
+        // Enabled, cause `data` is not printed by default when error is HttpError
+        // method: req.method,
+        url: res.req.url,
+        // tryCount: req.tryCount,
+      }),
+    )
+
+    await this.processRetry(res)
   }
 
   private async processRetry(res: FetcherResponse): Promise<void> {
