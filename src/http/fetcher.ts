@@ -1,5 +1,6 @@
 /// <reference lib="dom"/>
 
+import { isServerSide } from '../env'
 import { ErrorObject } from '../error/error.model'
 import { _anyToError, _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
 import { HttpError } from '../error/http.error'
@@ -409,7 +410,7 @@ export class Fetcher {
       shortUrl = shortUrl.split('?')[0]!
     }
 
-    if (!this.cfg.logWithPrefixUrl && baseUrl && shortUrl.startsWith(baseUrl)) {
+    if (!this.cfg.logWithBaseUrl && baseUrl && shortUrl.startsWith(baseUrl)) {
       shortUrl = shortUrl.slice(baseUrl.length)
     }
 
@@ -440,7 +441,7 @@ export class Fetcher {
         logRequestBody: debug,
         logResponse: debug,
         logResponseBody: debug,
-        logWithPrefixUrl: true,
+        logWithBaseUrl: isServerSide(),
         logWithSearchParams: true,
         retry: { ...defRetryOptions },
         init: {

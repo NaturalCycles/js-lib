@@ -49,10 +49,19 @@ export interface FetcherCfg {
   logResponseBody?: boolean
 
   /**
-   * Default to true.
-   * Set to false to exclude `prefixUrl` from logs (both success and error)
+   * Controls if `baseUrl` should be included in logs (both success and error).
+   *
+   * Defaults to `true` on ServerSide and `false` on ClientSide.
+   *
+   * Reasoning.
+   *
+   * ClientSide often uses one main "backend host".
+   * Not including baseUrl improves Sentry error grouping.
+   *
+   * ServerSide often uses one Fetcher instance per 3rd-party API.
+   * Not including baseUrl can introduce confusion of "which API is it?".
    */
-  logWithPrefixUrl?: boolean
+  logWithBaseUrl?: boolean
 
   /**
    * Default to true.
