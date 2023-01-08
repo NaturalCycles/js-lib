@@ -25,7 +25,7 @@ const typedArrayTypeNames = [
   'BigUint64Array',
 ] as const
 
-type TypedArrayTypeName = typeof typedArrayTypeNames[number]
+type TypedArrayTypeName = (typeof typedArrayTypeNames)[number]
 
 function isTypedArrayName(name: unknown): name is TypedArrayTypeName {
   return typedArrayTypeNames.includes(name as TypedArrayTypeName)
@@ -60,7 +60,7 @@ const objectTypeNames = [
   ...typedArrayTypeNames,
 ] as const
 
-type ObjectTypeName = typeof objectTypeNames[number]
+type ObjectTypeName = (typeof objectTypeNames)[number]
 
 function isObjectTypeName(name: unknown): name is ObjectTypeName {
   return objectTypeNames.includes(name as ObjectTypeName)
@@ -76,7 +76,7 @@ const primitiveTypeNames = [
   'symbol',
 ] as const
 
-type PrimitiveTypeName = typeof primitiveTypeNames[number]
+type PrimitiveTypeName = (typeof primitiveTypeNames)[number]
 
 function isPrimitiveTypeName(name: unknown): name is PrimitiveTypeName {
   return primitiveTypeNames.includes(name as PrimitiveTypeName)
