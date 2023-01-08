@@ -178,8 +178,9 @@ export class Fetcher {
       },
     } as FetcherResponse<any>
 
-    const fullUrl = new URL(req.url)
-    const shortUrl = this.getShortUrl(fullUrl)
+    const isFullUrl = req.url.includes('://')
+    const fullUrl = isFullUrl ? new URL(req.url) : undefined
+    const shortUrl = fullUrl ? this.getShortUrl(fullUrl) : req.url
     const signature = [method, shortUrl].join(' ')
 
     /* eslint-disable no-await-in-loop */
