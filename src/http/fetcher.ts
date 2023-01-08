@@ -30,7 +30,7 @@ import type { HttpStatusFamily } from './http.model'
 
 const defRetryOptions: FetcherRetryOptions = {
   count: 2,
-  timeout: 500,
+  timeout: 1000,
   timeoutMax: 30_000,
   timeoutMultiplier: 2,
 }
@@ -336,12 +336,15 @@ export class Fetcher {
     retryStatus.retryAttempt++
     retryStatus.retryTimeout = _clamp(retryStatus.retryTimeout * timeoutMultiplier, 0, timeoutMax)
 
-    await pDelay(retryStatus.retryTimeout)
+    const noise = Math.random() * 500
+    await pDelay(retryStatus.retryTimeout + noise)
   }
 
   /**
    * Default is yes,
    * unless there's reason not to (e.g method is POST).
+   *
+   * statusCode of 0 (or absense of it) will BE retried.
    */
   private shouldRetry(res: FetcherResponse): boolean {
     const { retryPost, retry4xx, retry5xx } = res.req
