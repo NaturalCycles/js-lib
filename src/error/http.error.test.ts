@@ -51,6 +51,11 @@ test('HttpError with cause', () => {
   expect(err.cause).toBe(err1)
 })
 
+test('HttpError with 0 statusCode', () => {
+  const err = new HttpError('oops', { httpStatusCode: 0 })
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(0): oops"`)
+})
+
 function filterStackTrace(s: string): string {
   return s
     .split('\n')

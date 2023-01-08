@@ -125,6 +125,8 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
 
     if (_isErrorObject(obj)) {
       if (_isHttpErrorObject(obj)) {
+        // Only include (statusCode) if it's non-zero
+        // No: print (0), as it removes ambiguity
         // `replace` here works ONCE, exactly as we need it
         s = s.replace('HttpError', `HttpError(${obj.data.httpStatusCode})`)
       }
