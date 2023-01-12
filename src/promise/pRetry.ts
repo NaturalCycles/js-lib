@@ -1,6 +1,5 @@
-import type { AnyFunction, AppError, CommonLogger, ErrorData } from '..'
-import { _since, _stringifyAny } from '..'
-import { TimeoutError } from './pTimeout'
+import type { AnyFunction, CommonLogger, ErrorData } from '..'
+import { _errorDataAppend, _since, pDelay, pTimeout } from '..'
 
 export interface PRetryOptions {
   /**
@@ -85,15 +84,6 @@ export interface PRetryOptions {
   logger?: CommonLogger
 
   /**
-   * Defaults to true.
-   * If true - preserves the stack trace in case of a Timeout (usually - very useful!).
-   * It has a certain perf cost.
-   *
-   * @experimental
-   */
-  keepStackTrace?: boolean
-
-  /**
    * Will be merged with `err.data` object.
    */
   errorData?: ErrorData
@@ -120,12 +110,10 @@ export async function pRetry<T>(
     predicate,
     logger = console,
     name,
-    keepStackTrace = true,
     timeout,
   } = opt
 
-  const fakeError = keepStackTrace ? new Error('RetryError') : undefined
-
+  const fakeError = timeout ? new Error('TimeoutError') : undefined
   let { logFirstAttempt = false, logRetries = true, logFailures = false, logSuccess = false } = opt
 
   if (opt.logAll) {
@@ -139,86 +127,50 @@ export async function pRetry<T>(
 
   let delay = initialDelay
   let attempt = 0
-  let timer: NodeJS.Timeout | undefined
-  let timedOut = false
 
-  return await new Promise((resolve, reject) => {
-    const rejectWithTimeout = () => {
-      timedOut = true // to prevent more tries
-      const err = new TimeoutError(`"${fname}" timed out after ${timeout} ms`, opt.errorData)
-      if (fakeError) {
-        // keep original stack
-        err.stack = fakeError.stack!.replace('Error: RetryError', 'TimeoutError')
+  /* eslint-disable no-await-in-loop, no-constant-condition */
+  while (true) {
+    const started = Date.now()
+
+    try {
+      attempt++
+      if ((attempt === 1 && logFirstAttempt) || (attempt > 1 && logRetries)) {
+        logger.log(`${fname} attempt #${attempt}...`)
       }
-      reject(err)
-    }
 
-    const next = async () => {
-      if (timedOut) return
+      let result: any
 
       if (timeout) {
-        timer = setTimeout(rejectWithTimeout, timeout)
+        await pTimeout(async () => await fn(attempt), {
+          timeout,
+          name: fname,
+          errorData: opt.errorData,
+          fakeError,
+        })
+      } else {
+        result = await fn(attempt)
       }
 
-      const started = Date.now()
-
-      try {
-        attempt++
-        if ((attempt === 1 && logFirstAttempt) || (attempt > 1 && logRetries)) {
-          logger.log(`${fname} attempt #${attempt}...`)
-        }
-
-        const r = await fn(attempt)
-
-        clearTimeout(timer)
-
-        if (logSuccess) {
-          logger.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
-        }
-
-        resolve(r)
-      } catch (err) {
-        clearTimeout(timer)
-
-        if (logFailures) {
-          logger.warn(
-            `${fname} attempt #${attempt} error in ${_since(started)}:`,
-            _stringifyAny(err, {
-              includeErrorData: true,
-            }),
-          )
-        }
-
-        if (
-          attempt >= maxAttempts ||
-          (predicate && !predicate(err as Error, attempt, maxAttempts))
-        ) {
-          // Give up
-
-          if (fakeError) {
-            // Preserve the original call stack
-            Object.defineProperty(err, 'stack', {
-              value:
-                (err as Error).stack +
-                '\n    --' +
-                fakeError.stack!.replace('Error: RetryError', ''),
-            })
-          }
-
-          ;(err as AppError).data = {
-            ...(err as AppError).data,
-            ...opt.errorData,
-          }
-
-          reject(err)
-        } else {
-          // Retry after delay
-          delay *= delayMultiplier
-          setTimeout(next, delay)
-        }
+      if (logSuccess) {
+        logger.log(`${fname} attempt #${attempt} succeeded in ${_since(started)}`)
       }
+
+      return result
+    } catch (err) {
+      if (logFailures) {
+        logger.warn(`${fname} attempt #${attempt} error in ${_since(started)}:`, err)
+      }
+
+      if (attempt >= maxAttempts || (predicate && !predicate(err as Error, attempt, maxAttempts))) {
+        // Give up
+        _errorDataAppend(err, opt.errorData)
+        throw err
+      }
+
+      // Retry after delay
+      delay *= delayMultiplier
+      await pDelay(delay)
+      // back to while(true) loop
     }
-
-    void next()
-  })
+  }
 }

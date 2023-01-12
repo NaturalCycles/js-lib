@@ -91,6 +91,8 @@ test('pRetry timeout should not happen', async () => {
 async function myFunction(): Promise<void> {
   await pRetry(async () => await pDelay(1000), {
     timeout: 10,
+    maxAttempts: 2,
+    delay: 5,
     logAll: true,
   })
 }
@@ -109,7 +111,7 @@ test('pRetry should time out and keep stack', async () => {
     .filter(line => !line.includes('processTicks') && !line.includes('Object.worker'))
 
   expect(stackLines.join('\n')).toMatchInlineSnapshot(`
-    "TimeoutError
+    "TimeoutError: "pRetry function" timed out after 10 ms
         at pRetry pRetry.ts
         at myFunction pRetry.test.ts
         at Object.<anonymous> pRetry.test.ts

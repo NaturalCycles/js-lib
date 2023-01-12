@@ -181,7 +181,9 @@ export function _isErrorObject(o: any): o is ErrorObject {
  *   })
  * }
  */
-export function _errorDataAppend(err: any, data: ErrorData): void {
+export function _errorDataAppend(err: any, data?: ErrorData): void {
+  if (!data) return
+
   err.data = {
     ...err.data,
     ...data,

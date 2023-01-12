@@ -80,6 +80,9 @@ export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
  */
 export type AnyFunction<T = any> = (...args: any[]) => T
 export type AnyAsyncFunction<T = any> = (...args: any[]) => Promise<T>
+export type AsyncFunction<T = any> = () => Promise<T>
+export type AnyPromisableFunction<T = any> = (...args: any[]) => Promisable<T>
+export type PromisableFunction<T = any> = () => Promisable<T>
 
 /**
  * Symbol to indicate END of Sequence.

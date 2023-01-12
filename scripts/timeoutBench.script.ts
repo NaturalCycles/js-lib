@@ -11,17 +11,18 @@ import { pDelay, pExpectedError, pTimeout } from '../src'
 
 runBenchScript({
   fns: {
-    noStack: async done => {
+    noTimeout: async done => {
       const err = await pExpectedError(
-        pTimeout(() => pDelay(10, 'v'), { timeout: 1, keepStackTrace: false }),
+        (async () => {
+          await pDelay(1)
+          throw new Error('yo')
+        })(),
       )
       const v2 = err.stack
       done.resolve()
     },
-    keepStack: async done => {
-      const err = await pExpectedError(
-        pTimeout(() => pDelay(10, 'v'), { timeout: 1, keepStackTrace: true }),
-      )
+    withTimeout: async done => {
+      const err = await pExpectedError(pTimeout(() => pDelay(10, 'v'), { timeout: 1 }))
       const v2 = err.stack
       done.resolve()
     },

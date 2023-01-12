@@ -49,5 +49,5 @@ test('pTimeout stack', async () => {
 })
 
 async function timeoutFail(): Promise<void> {
-  await pTimeout(() => pDelay(100, `hello world`), { timeout: 10, keepStackTrace: true })
+  await pTimeout(() => pDelay(100, `hello world`), { timeout: 10 })
 }

@@ -13,6 +13,6 @@ export async function pState(p: Promise<any>): Promise<'resolved' | 'rejected' |
     v => {
       return v === UNIQUE_VALUE ? 'pending' : 'resolved'
     },
-    () => 'rejected' as const,
+    () => 'rejected',
   )
 }
