@@ -1,5 +1,5 @@
 import type { CommonLogger } from '../index'
-import { _anyToError, _since, _stringifyAny } from '../index'
+import { _anyToError, _since } from '../index'
 import type { AnyFunction } from '../types'
 
 export interface TryCatchOptions {
@@ -51,11 +51,7 @@ export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {
       return r
     } catch (err) {
       if (logError) {
-        logger.warn(
-          `tryCatch.${fname} error in ${_since(started)}:\n${_stringifyAny(err, {
-            includeErrorData: true,
-          })}`,
-        )
+        logger.warn(`tryCatch.${fname} error in ${_since(started)}:`, err)
       }
 
       if (onError) {

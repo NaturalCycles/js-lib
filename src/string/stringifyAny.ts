@@ -34,13 +34,6 @@ export interface StringifyAnyOptions {
   maxLen?: number
 
   /**
-   * Pass true to include "stringified" `error.data` in the output.
-   *
-   * @default false
-   */
-  includeErrorData?: boolean
-
-  /**
    * Set to true to print Error.stack instead of just Error.message.
    *
    * @default false
@@ -129,12 +122,6 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
         // No: print (0), as it removes ambiguity
         // `replace` here works ONCE, exactly as we need it
         s = s.replace('HttpError', `HttpError(${obj.data.httpStatusCode})`)
-      }
-
-      // Here we ensure it has `data`
-      const { data } = obj
-      if (opt.includeErrorData && Object.keys(data).length > 0) {
-        s = [s, _stringifyAny(data, opt)].join('\n')
       }
     } else if (typeof (obj as any).code === 'string') {
       // Error that has no `data`, but has `code` property

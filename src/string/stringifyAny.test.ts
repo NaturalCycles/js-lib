@@ -11,10 +11,7 @@ test('stringifyAny default', () => {
 })
 
 test('stringifyAny includeErrorData', () => {
-  expectResults(
-    v => _stringifyAny(v, { includeErrorData: true }),
-    mockAllKindsOfThings(),
-  ).toMatchSnapshot()
+  expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
 })
 
 test('httpError', () => {
@@ -25,15 +22,6 @@ test('httpError', () => {
   })
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(409): la la"`)
-
-  expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
-    "HttpError(409): la la
-    {
-      "httpStatusCode": 409,
-      "userFriendly": true,
-      "other": "otherValue"
-    }"
-  `)
 })
 
 test('httpErrorResponse', () => {
@@ -51,16 +39,6 @@ test('httpErrorResponse', () => {
   expect(_stringifyAny(resp)).toMatchInlineSnapshot(`
     "HttpError(409): la la
     second line"
-  `)
-
-  expect(_stringifyAny(resp, { includeErrorData: true })).toMatchInlineSnapshot(`
-    "HttpError(409): la la
-    second line
-    {
-      "httpStatusCode": 409,
-      "userFriendly": true,
-      "other": "otherValue"
-    }"
   `)
 
   // this tests "duplicated line" bug

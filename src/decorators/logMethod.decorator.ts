@@ -155,10 +155,10 @@ function logFinished(
   }
 
   if (err !== undefined) {
-    t.push('ERROR:', _stringifyAny(err, { includeErrorData: true }))
+    t.push('ERROR:', err)
   } else if (logResultFn) {
     t.push(...logResultFn(res))
   }
 
-  logger.log(t.filter(Boolean).join(' '))
+  logger.log(...t.filter(Boolean))
 }

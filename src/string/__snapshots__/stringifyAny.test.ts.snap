@@ -152,10 +152,7 @@ Map {
   [Error: some err msg] => "Error: some err msg",
   [Error: Error with code] => "Error: Error with code
 code: auth/forbidden",
-  [AppError: app error] => "AppError: app error
-{
-  "k1": "v1"
-}",
+  [AppError: app error] => "AppError: app error",
   Symbol(a_am_symbol) => "Symbol(a_am_symbol)",
   1984-06-21T00:00:00.000Z => ""1984-06-21T00:00:00.000Z"",
 }
