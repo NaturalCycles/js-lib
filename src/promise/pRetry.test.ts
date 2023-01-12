@@ -57,6 +57,22 @@ test('pRetry', async () => {
   expect(r).toBe(3)
 })
 
+test('pRetry with timeout', async () => {
+  const r = await pRetry(
+    async attempt => {
+      if (attempt >= 3) return attempt
+      throw new Error(`fail`)
+    },
+    {
+      maxAttempts: 3,
+      delay: 10,
+      delayMultiplier: 1,
+      timeout: 100,
+    },
+  )
+  expect(r).toBe(3)
+})
+
 test('pRetry should throw on fail and keep stack', async () => {
   async function myFunction(): Promise<void> {
     await pRetry(

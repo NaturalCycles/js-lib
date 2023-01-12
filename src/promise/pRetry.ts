@@ -141,7 +141,7 @@ export async function pRetry<T>(
       let result: any
 
       if (timeout) {
-        await pTimeout(async () => await fn(attempt), {
+        result = await pTimeout(async () => await fn(attempt), {
           timeout,
           name: fname,
           errorData: opt.errorData,
