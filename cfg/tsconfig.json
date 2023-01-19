@@ -10,7 +10,7 @@
     // "rootDir": "./src",
 
     // Target/module
-    "target": "es2021",
+    "target": "es2022",
     "lib": ["esnext"], // add "dom" if needed
     "module": "commonjs",
     "moduleResolution": "node",
