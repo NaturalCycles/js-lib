@@ -28,6 +28,10 @@
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
+    // Otherwise since es2022 it defaults to true
+    // and starts to produce different/unexpected behavior
+    // https://angular.schule/blog/2022-11-use-define-for-class-fields
+    "useDefineForClassFields": false,
 
     // todo: monitor if we should have it default or not
     // Enabled should be faster, but will catch less errors
