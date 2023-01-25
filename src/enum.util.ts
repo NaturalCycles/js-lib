@@ -48,7 +48,7 @@ export function _numberEnumEntries<T extends NumberEnum>(en: T): [k: string, v: 
  * Doesn't work on Number-enums!
  */
 export function _stringEnumEntries<T extends StringEnum>(en: T): [k: string, v: T[keyof T]][] {
-  return Object.keys(en).map(k => [k, en[k]]) as any
+  return Object.entries(en) as any
 }
 
 /**
@@ -118,6 +118,20 @@ export function _numberEnumKey<T extends NumberEnum>(
 ): keyof T {
   const key = (en as any)[v]
   // This prevents passing a Key (not a Value) of enum here, which returns unexpected result (number, not string)
-  if (typeof key !== 'string') throw new Error(`_enumKey value not found for: ${v}`)
+  if (typeof key !== 'string') throw new Error(`_numberEnumKey not found for: ${v}`)
   return key
+}
+
+export function _stringEnumKeyNullable<T extends StringEnum>(
+  en: T,
+  // v: T[keyof T] | undefined | null, // cannot make it type-safe :(
+  v: string | undefined | null,
+): keyof T | undefined {
+  return Object.entries(en).find(([_, v2]) => v2 === v)?.[0]
+}
+
+export function _stringEnumKey<T extends StringEnum>(en: T, v: string | undefined | null): keyof T {
+  const r = _stringEnumKeyNullable(en, v)
+  if (!r) throw new Error(`_stringEnumKey not found for: ${v}`)
+  return r
 }

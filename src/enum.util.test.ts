@@ -9,6 +9,8 @@ import {
   _numberEnumNormalizeNullable,
   _numberEnumValues,
   _stringEnumEntries,
+  _stringEnumKey,
+  _stringEnumKeyNullable,
   _stringEnumKeys,
   _stringEnumValues,
 } from './enum.util'
@@ -160,11 +162,20 @@ test('_numberEnumKey, _numberEnumKeyNullable', () => {
 
   expect(() =>
     _numberEnumKey(MyNumberEnum, 'non-existing' as any),
-  ).toThrowErrorMatchingInlineSnapshot(`"_enumKey value not found for: non-existing"`)
+  ).toThrowErrorMatchingInlineSnapshot(`"_numberEnumKey not found for: non-existing"`)
   expect(() => _numberEnumKey(MyNumberEnum, 'K1' as any)).toThrowErrorMatchingInlineSnapshot(
-    `"_enumKey value not found for: K1"`,
+    `"_numberEnumKey not found for: K1"`,
   )
 
   expect(_numberEnumKey(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
   expect(_numberEnumKey(MyNumberEnum, 1)).toBe('K1')
+})
+
+test('_stringEnumKey', () => {
+  expect(_stringEnumKeyNullable(MyStringEnum, 'non-existing' as any)).toBeUndefined()
+  expect(() =>
+    _stringEnumKey(MyStringEnum, 'non-existing' as any),
+  ).toThrowErrorMatchingInlineSnapshot(`"_stringEnumKey not found for: non-existing"`)
+  expect(_stringEnumKeyNullable(MyStringEnum, 'K1_VALUE')).toBe('K1_KEY')
+  expect(_stringEnumKey(MyStringEnum, 'K2_VALUE')).toBe('K2_KEY')
 })
