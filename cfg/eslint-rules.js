@@ -288,7 +288,7 @@ module.exports = {
     ],
     'use-isnan': 2,
     'valid-typeof': 2,
-    'no-await-in-loop': 2,
+    'no-await-in-loop': 0, // it's actually often ok
     'no-extend-native': 2,
     'guard-for-in': 2,
     'jest/expect-expect': 0,
