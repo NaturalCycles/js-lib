@@ -273,7 +273,7 @@ test('format', () => {
     hour: '2-digit',
     minute: '2-digit',
   })
-  expect(localTime('1984-06-21T05:23:13').format(fmt2)).toBe('21 июня, 05:23')
+  expect(localTime('1984-06-21T05:23:13').format(fmt2)).toBe('21 июня в 05:23')
 })
 
 test('dayOfWeek', () => {
