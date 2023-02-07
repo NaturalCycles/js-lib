@@ -25,6 +25,13 @@ export interface ErrorData {
   report?: boolean
 
   /**
+   * If defined - used by SentrySharedService in backend-lib.
+   * Allows to report only X% of errors of this type.
+   * E.g 0.1 will report 10% of errors (and ignore the 90%)
+   */
+  reportRate?: number
+
+  /**
    * Sometimes error.message gets "decorated" with extra information
    * (e.g frontend-lib adds a method, url, etc for all the errors)
    * `originalMessage` is used to preserve the original `error.message` as it came from the backend.
