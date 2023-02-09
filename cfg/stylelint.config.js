@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-standard-scss'],
   rules: {
     'no-empty-source': null,
     'color-hex-length': 'short',
@@ -8,6 +8,7 @@ module.exports = {
       // keep units in css variables because their absence breaks css calculations
       { ignore: ['custom-properties'] },
     ],
+    'declaration-property-value-no-unknown': true,
     // Prettier covers these rules already:
     // 'color-hex-case': 'lower',
     // 'number-leading-zero': 'always',
