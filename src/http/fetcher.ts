@@ -39,8 +39,6 @@ const defRetryOptions: FetcherRetryOptions = {
 /**
  * Experimental wrapper around Fetch.
  * Works in both Browser and Node, using `globalThis.fetch`.
- *
- * @experimental
  */
 export class Fetcher {
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
@@ -435,7 +433,8 @@ export class Fetcher {
         retryPost: false,
         retry4xx: false,
         retry5xx: true,
-        logger: console,
+        // logger: console, Danger! doing this mutates console!
+        logger: cfg.logger || console,
         debug,
         logRequest: debug,
         logRequestBody: debug,
@@ -451,7 +450,7 @@ export class Fetcher {
         },
         hooks: {},
       },
-      _omit(cfg, ['method', 'credentials', 'headers']),
+      _omit(cfg, ['method', 'credentials', 'headers', 'logger']),
     )
 
     norm.init.headers = _mapKeys(norm.init.headers, k => k.toLowerCase())
