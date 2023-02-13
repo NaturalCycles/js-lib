@@ -182,7 +182,6 @@ export class Fetcher {
       signature,
     } as FetcherResponse<any>
 
-    /* eslint-disable no-await-in-loop */
     while (!res.retryStatus.retryStopped) {
       const started = Date.now()
 
@@ -205,6 +204,8 @@ export class Fetcher {
         // For example, CORS error would result in "TypeError: failed to fetch" here
         res.err = err as Error
         res.ok = false
+        // important to set it to undefined, otherwise it can keep the previous value (from previous try)
+        res.fetchResponse = undefined
       }
       res.statusFamily = this.getStatusFamily(res)
 
