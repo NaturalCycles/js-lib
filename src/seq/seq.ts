@@ -158,8 +158,6 @@ export function _seq<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T,
   return Sequence.create(initialValue, nextFn)
 }
 
-/* eslint-disable no-await-in-loop */
-
 /**
  * Experimental.
  * Feasibility to be proven.

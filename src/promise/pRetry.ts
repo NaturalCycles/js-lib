@@ -128,7 +128,7 @@ export async function pRetry<T>(
   let delay = initialDelay
   let attempt = 0
 
-  /* eslint-disable no-await-in-loop, no-constant-condition */
+  /* eslint-disable no-constant-condition */
   while (true) {
     const started = Date.now()
 
