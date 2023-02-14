@@ -14,7 +14,7 @@ export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
-export type LocalDateConfig = LocalDate | IsoDateString
+export type LocalDateConfig = LocalDate | Date | IsoDateString
 export type LocalDateFormatter = (ld: LocalDate) => string
 
 /* eslint-disable no-dupe-class-members */
@@ -67,6 +67,9 @@ export class LocalDate {
   static parseOrNull(d: LocalDateConfig | undefined | null): LocalDate | null {
     if (!d) return null
     if (d instanceof LocalDate) return d
+    if (d instanceof Date) {
+      return this.fromDate(d)
+    }
 
     // const [year, month, day] = d.slice(0, 10).split('-').map(Number)
     const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))

@@ -497,11 +497,7 @@ export class LocalTime {
   }
 
   toLocalDate(): LocalDate {
-    return LocalDate.create(
-      this.$date.getFullYear(),
-      this.$date.getMonth() + 1,
-      this.$date.getDate(),
-    )
+    return LocalDate.fromDate(this.$date)
   }
 
   toPretty(seconds = true): IsoDateTimeString {
