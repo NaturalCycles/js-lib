@@ -69,7 +69,7 @@ export class LocalDate {
     if (d instanceof LocalDate) return d
 
     // const [year, month, day] = d.slice(0, 10).split('-').map(Number)
-    const matches = DATE_REGEX.exec(d.slice(0, 10))
+    const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))
     if (!matches) return null
 
     const year = Number(matches[1])

@@ -253,3 +253,10 @@ test('diff2', () => {
     dayjs('2020-01-30').diff('2020-02-29', 'month'),
   )
 })
+
+test('parse weird input', () => {
+  // should not fail, but return null gracefully
+  expect(LocalDate.parseOrNull(5 as any)).toBeNull()
+  expect(LocalDate.parseOrNull(Date.now() as any)).toBeNull()
+  expect(LocalDate.parseOrNull((() => {}) as any)).toBeNull()
+})

@@ -82,6 +82,9 @@ export class LocalTime {
       date = d
     } else if (typeof d === 'number') {
       date = new Date(d * 1000)
+    } else if (typeof (d as any) !== 'string') {
+      // unexpected type, e.g Function or something
+      return null
     } else {
       date = new Date(d.slice(0, 19))
     }
