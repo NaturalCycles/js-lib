@@ -103,7 +103,17 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // if (obj?.name === 'Error') {
     //   s = obj.message
     // }
-    s = [obj.name, obj.message].filter(Boolean).join(': ')
+    if (_isErrorObject(obj) && _isHttpErrorObject(obj)) {
+      // Printing (0) to avoid ambiguity
+      s = `${obj.name}(${obj.data.httpStatusCode}): ${obj.message}`
+    }
+
+    s ||= [obj.name, obj.message].filter(Boolean).join(': ')
+
+    if (typeof (obj as any).code === 'string') {
+      // Error that has no `data`, but has `code` property
+      s += `\ncode: ${(obj as any).code}`
+    }
 
     if (opt.includeErrorStack && obj.stack) {
       // Here we're using the previously-generated "title line" (e.g "Error: some_message"),
@@ -116,18 +126,6 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
       s = [s, ...obj.stack.split('\n').slice(sLines)].join('\n')
     }
 
-    if (_isErrorObject(obj)) {
-      if (_isHttpErrorObject(obj)) {
-        // Only include (statusCode) if it's non-zero
-        // No: print (0), as it removes ambiguity
-        // `replace` here works ONCE, exactly as we need it
-        s = s.replace('HttpError', `HttpError(${obj.data.httpStatusCode})`)
-      }
-    } else if (typeof (obj as any).code === 'string') {
-      // Error that has no `data`, but has `code` property
-      s = [s, `code: ${(obj as any).code}`].join('\n')
-    }
-
     if (supportsAggregateError && obj instanceof AggregateError && obj.errors.length) {
       s = [
         s,
@@ -137,7 +135,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     }
 
     if (obj.cause && includeErrorCause) {
-      s = s + '\ncaused by: ' + _stringifyAny(obj.cause, opt)
+      s = s + '\nCaused by: ' + _stringifyAny(obj.cause, opt)
     }
   } else if (typeof obj === 'string') {
     //

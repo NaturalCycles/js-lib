@@ -10,10 +10,6 @@ test('stringifyAny default', () => {
   expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
 })
 
-test('stringifyAny includeErrorData', () => {
-  expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
-})
-
 test('httpError', () => {
   const err = new HttpError('la la', {
     httpStatusCode: 409,
@@ -22,6 +18,16 @@ test('httpError', () => {
   })
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(409): la la"`)
+})
+
+test('httpError with status 0', () => {
+  const err = new HttpError('la la', {
+    httpStatusCode: 0,
+    userFriendly: true,
+    other: 'otherValue',
+  })
+
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(0): la la"`)
 })
 
 test('httpErrorResponse', () => {
@@ -58,8 +64,8 @@ test('error with cause', () => {
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`
     "Error: err1
-    caused by: HttpError(400): http_error1
-    caused by: Error: sub-cause"
+    Caused by: HttpError(400): http_error1
+    Caused by: Error: sub-cause"
   `)
 })
 
