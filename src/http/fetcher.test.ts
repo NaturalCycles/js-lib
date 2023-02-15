@@ -1,5 +1,9 @@
+import { AppError } from '../error/app.error'
+import { HttpErrorResponse } from '../error/error.model'
+import { _errorToErrorObject } from '../error/error.util'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
+import { _stringifyAny } from '../string/stringifyAny'
 import { getFetcher } from './fetcher'
 
 test('defaults', () => {
@@ -54,4 +58,25 @@ test('should not mutate console', () => {
   // Here we're expecting that it's called 1 time
   console.log('yo')
   expect(consoleSpy).toBeCalledTimes(1)
+})
+
+test('mocking fetch', async () => {
+  const fetcher = getFetcher({
+    retry: {
+      count: 0,
+    },
+  })
+  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
+    return new Response(
+      JSON.stringify({
+        error: _errorToErrorObject(new AppError('aya-baya')),
+      } as HttpErrorResponse),
+      {
+        status: 500,
+      },
+    )
+  })
+
+  const r = await fetcher.doFetch('some')
+  console.log(_stringifyAny(r.err))
 })

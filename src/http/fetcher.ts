@@ -129,7 +129,7 @@ export class Fetcher {
   headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
 
   async fetch<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
-    const res = await this.rawFetch<T>(url, opt)
+    const res = await this.doFetch<T>(url, opt)
     if (res.err) {
       if (res.req.throwHttpErrors) throw res.err
       return res as any
@@ -140,8 +140,9 @@ export class Fetcher {
   /**
    * Returns FetcherResponse.
    * Never throws, returns `err` property in the response instead.
+   * Use this method instead of `throwHttpErrors: false` or try-catching.
    */
-  async rawFetch<T = unknown>(
+  async doFetch<T = unknown>(
     url: string,
     rawOpt: FetcherOptions = {},
   ): Promise<FetcherResponse<T>> {
@@ -198,7 +199,7 @@ export class Fetcher {
       }
 
       try {
-        res.fetchResponse = await globalThis.fetch(req.url, req.init)
+        res.fetchResponse = await this.callNativeFetch(req.url, req.init)
         res.ok = res.fetchResponse.ok
       } catch (err) {
         // For example, CORS error would result in "TypeError: failed to fetch" here
@@ -292,6 +293,13 @@ export class Fetcher {
         logger.log(res.body)
       }
     }
+  }
+
+  /**
+   * This method exists to be able to easily mock it.
+   */
+  async callNativeFetch(url: string, init: RequestInit): Promise<Response> {
+    return await globalThis.fetch(url, init)
   }
 
   private async onNotOkResponse(res: FetcherResponse, timeout?: number): Promise<void> {
