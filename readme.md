@@ -155,6 +155,10 @@ linter, or when linter behaves badly and corrupts your files (just happened to m
 Pass `--ext` (e.g `--ext ts,html`) to override the list of ESLint extensions (default is
 `ts,tsx,vue` right now).
 
+For Stylelint to be run, you need to manually install it in the target project:
+
+`yarn add -D stylelint stylelint-config-standard-scss`
+
 ##### ktlint
 
 `ktlint` will be used by lint-staged for all `**/*.{kt,kts}` files.

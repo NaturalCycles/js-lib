@@ -32,11 +32,15 @@ export async function lintAllCommand(): Promise<void> {
 
   await eslintAllCommand()
 
-  await stylelintAll()
+  if (
+    fs.existsSync(`node_modules/stylelint`) &&
+    fs.existsSync(`node_modules/stylelint-config-standard-scss`)
+  ) {
+    await stylelintAll()
+  }
 
   await runPrettier()
 
-  // Running ktlintAll (experimental!)
   if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
     const ktlintLib = require('@naturalcycles/ktlint')
     await ktlintLib.ktlintAll()
