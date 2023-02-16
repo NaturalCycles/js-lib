@@ -8,7 +8,6 @@ module.exports = {
       // keep units in css variables because their absence breaks css calculations
       { ignore: ['custom-properties'] },
     ],
-    'declaration-property-value-no-unknown': true,
     // Prettier covers these rules already:
     // 'color-hex-case': 'lower',
     // 'number-leading-zero': 'always',
