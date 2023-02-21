@@ -16,8 +16,12 @@ import {
   _lastOrUndefined,
   _mapToObject,
   _max,
+  _maxBy,
+  _maxByOrUndefined,
   _maxOrUndefined,
   _min,
+  _minBy,
+  _minByOrUndefined,
   _minOrUndefined,
   _shuffle,
   _sortBy,
@@ -303,4 +307,20 @@ test('_max', () => {
   expect(_max(['3', '2'])).toBe('3')
   expect(_max(['1', '3', '2'])).toBe('3')
   expect(_max(['1', '3', '2', '4'])).toBe('4')
+})
+
+test('_maxBy, _minBy', () => {
+  expect(_maxByOrUndefined([], () => 0)).toBeUndefined()
+  expect(() => _maxBy([], () => 0)).toThrowErrorMatchingInlineSnapshot(
+    `"_maxBy returned undefined"`,
+  )
+  expect(_maxByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 30 })
+  expect(_maxBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 30 })
+
+  expect(_minByOrUndefined([], () => 0)).toBeUndefined()
+  expect(() => _minBy([], () => 0)).toThrowErrorMatchingInlineSnapshot(
+    `"_minBy returned undefined"`,
+  )
+  expect(_minByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
+  expect(_minBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
 })
