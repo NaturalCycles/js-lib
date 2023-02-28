@@ -145,8 +145,6 @@ If you need to execute shards **in parallel**, you can follow e.g
 - `eslint-all`: runs `eslint` on needed paths
 - `stylelint-all`: runs `stylelint` on needed paths
 - `prettier-all`: runs just Prettier on needed paths
-- `lint-circleci`: fails if `.circleci/config.yml` is invalid
-  ([CircleCI CLI](https://circleci.com/docs/2.0/local-cli/) must be installed before)
 
 Pass `--no-fix` (or `--fix=false`) to disable the default `--fix` flag on linters. Useful to debug a
 linter, or when linter behaves badly and corrupts your files (just happened to me with

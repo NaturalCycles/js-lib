@@ -24,7 +24,6 @@
     "prettier-all": "tsn ./src/bin/prettier-all.ts",
     "stylelint-all": "tsn ./src/bin/stylelint-all.ts",
     "lint-all": "tsn ./src/bin/lint-all.ts",
-    "lint-circleci": "tsn ./src/bin/lint-circleci.ts",
     "eslint-all": "tsn ./src/bin/eslint-all.ts",
     "eslint-print-config": "eslint --print-config src/index.ts > tmp/eslint.config.json",
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
@@ -41,7 +40,6 @@
     "@types/yargs": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "command-exists": "^1.2.8",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
@@ -88,7 +86,6 @@
     "generate-build-info": "dist/bin/generate-build-info.js",
     "init-from-dev-lib": "dist/bin/init-from-dev-lib.js",
     "lint-all": "dist/bin/lint-all.js",
-    "lint-circleci": "dist/bin/lint-circleci.js",
     "lint-staged-def": "dist/bin/lint-staged-def.js",
     "prettier-all": "dist/bin/prettier-all.js",
     "stylelint-all": "dist/bin/stylelint-all.js",

@@ -73,9 +73,6 @@ const linters = {
     return [prettierCmd].map(s => `${s} ${filesList}`)
   },
 
-  // CircleCI config (if modified)
-  [`./.circleci/config.yml`]: ['./node_modules/.bin/lint-circleci'],
-
   '**/*.{kt,kts}': match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
