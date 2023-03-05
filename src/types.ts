@@ -222,14 +222,25 @@ export type UnixTimestampMillisNumber = number
  */
 export type UnixTimestamp = number
 
+export type NumberOfSeconds = number
+export type NumberOfMilliseconds = number
+
 /**
  * Same as `number`, but with semantic meaning that it's an Integer.
  */
 export type Integer = number
 
+/**
+ * Used as a compact representation of truthy value.
+ * undefined ('' or other short falsy value) should be used as falsy value.
+ */
+export type ShortBoolean = '1'
+
 export type Base64String = string
 export type Base64UrlString = string
 export type JWTString = string
+
+export type SemVerString = string
 
 /**
  * Named type for JSON.parse / JSON.stringify second argument
