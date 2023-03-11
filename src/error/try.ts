@@ -1,3 +1,4 @@
+import { _stringifyAny } from '../string/stringifyAny'
 import type { Class } from '../typeFest'
 import type { AnyFunction } from '../types'
 import { AppError } from './app.error'
@@ -112,4 +113,14 @@ export async function pExpectedError<ERR = Error>(
     }
     return err as ERR // this is expected!
   }
+}
+
+/**
+ * Shortcut function to simplify error snapshot-matching in tests.
+ */
+export async function pExpectedErrorString<ERR = Error>(
+  promise: Promise<any>,
+  errorClass?: Class<ERR>,
+): Promise<string> {
+  return _stringifyAny(await pExpectedError<ERR>(promise, errorClass))
 }
