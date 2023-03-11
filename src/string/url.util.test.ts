@@ -18,4 +18,8 @@ test.each([
   ],
 ])('_parseQueryString %s to equal %s', (search, result) => {
   expect(_parseQueryString(search)).toEqual(result)
+
+  // Just checking that the same can be achieved with URLSearchParams
+  const r = Object.fromEntries(new URLSearchParams(search).entries())
+  expect(r).toEqual(result)
 })

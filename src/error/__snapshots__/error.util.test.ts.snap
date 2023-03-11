@@ -66,7 +66,7 @@ Map {
     "name": "Error",
   } => [Error: yada],
   [AppError: err msg] => [AppError: err msg],
-  [HttpError: http err msg] => [HttpError: http err msg],
+  [HttpRequestError: http err msg] => [HttpRequestError: http err msg],
   {
     "error": {
       "data": {
@@ -229,12 +229,12 @@ Map {
     "message": "err msg",
     "name": "AppError",
   },
-  [HttpError: http err msg] => {
+  [HttpRequestError: http err msg] => {
     "data": {
-      "httpStatusCode": 400,
+      "backendResponseStatusCode": 400,
     },
     "message": "http err msg",
-    "name": "HttpError",
+    "name": "HttpRequestError",
   },
   {
     "error": {
@@ -318,71 +318,7 @@ Map {
     "name": "Error",
   } => true,
   [AppError: err msg] => true,
-  [HttpError: http err msg] => true,
-  {
-    "error": {
-      "data": {
-        "a": "b
-c",
-        "httpStatusCode": 400,
-      },
-      "message": "err msg",
-      "name": "HttpError",
-    },
-  } => false,
-}
-`;
-
-exports[`isHttpErrorObject 1`] = `
-Map {
-  undefined => false,
-  null => false,
-  "" => false,
-  "hello a" => false,
-  0 => false,
-  1 => false,
-  -5 => false,
-  [Function] => false,
-  {} => false,
-  [] => false,
-  [
-    "a",
-  ] => false,
-  {
-    "a": "aa",
-  } => false,
-  [Error: err msg] => false,
-  {
-    "message": "yada",
-  } => false,
-  {
-    "data": {},
-    "message": "yada",
-  } => false,
-  {
-    "data": {
-      "httpStatusCode": 404,
-    },
-    "message": "yada",
-  } => false,
-  {
-    "message": "yada",
-    "name": "Error",
-  } => false,
-  {
-    "data": {},
-    "message": "yada",
-    "name": "Error",
-  } => false,
-  {
-    "data": {
-      "httpStatusCode": 404,
-    },
-    "message": "yada",
-    "name": "Error",
-  } => true,
-  [AppError: err msg] => false,
-  [HttpError: http err msg] => true,
+  [HttpRequestError: http err msg] => true,
   {
     "error": {
       "data": {
@@ -446,7 +382,7 @@ Map {
     "name": "Error",
   } => false,
   [AppError: err msg] => false,
-  [HttpError: http err msg] => false,
+  [HttpRequestError: http err msg] => false,
   {
     "error": {
       "data": {
@@ -458,5 +394,69 @@ c",
       "name": "HttpError",
     },
   } => true,
+}
+`;
+
+exports[`isHttpRequestErrorObject 1`] = `
+Map {
+  undefined => false,
+  null => false,
+  "" => false,
+  "hello a" => false,
+  0 => false,
+  1 => false,
+  -5 => false,
+  [Function] => false,
+  {} => false,
+  [] => false,
+  [
+    "a",
+  ] => false,
+  {
+    "a": "aa",
+  } => false,
+  [Error: err msg] => false,
+  {
+    "message": "yada",
+  } => false,
+  {
+    "data": {},
+    "message": "yada",
+  } => false,
+  {
+    "data": {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => false,
+  {
+    "message": "yada",
+    "name": "Error",
+  } => false,
+  {
+    "data": {},
+    "message": "yada",
+    "name": "Error",
+  } => false,
+  {
+    "data": {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+    "name": "Error",
+  } => false,
+  [AppError: err msg] => false,
+  [HttpRequestError: http err msg] => false,
+  {
+    "error": {
+      "data": {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+      "name": "HttpError",
+    },
+  } => false,
 }
 `;

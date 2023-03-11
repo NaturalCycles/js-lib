@@ -1,4 +1,4 @@
-import type { ErrorData } from './error.model'
+import type { ErrorData, ErrorObject } from './error.model'
 
 /**
  * Base class for all our (not system) errors.
@@ -13,11 +13,11 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
   data!: DATA_TYPE
 
   /**
-   * cause here is normalized to be instance of Error
+   * cause here is normalized to be an ErrorObject
    */
-  override cause?: Error
+  override cause?: ErrorObject
 
-  constructor(message: string, data = {} as DATA_TYPE, opt?: ErrorOptions, name?: string) {
+  constructor(message: string, data = {} as DATA_TYPE, cause?: ErrorObject, name?: string) {
     super(message)
 
     Object.defineProperty(this, 'name', {
@@ -40,10 +40,10 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
       enumerable: false,
     })
 
-    if (opt?.cause) {
+    if (cause) {
       Object.defineProperty(this, 'cause', {
         // I'd love to do _anyToError(opt.cause) here, but it causes circular dep ;(
-        value: opt.cause,
+        value: cause,
         writable: true,
         configurable: true,
         enumerable: false,

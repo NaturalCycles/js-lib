@@ -3,7 +3,7 @@
 import { isServerSide } from '../env'
 import { ErrorObject } from '../error/error.model'
 import { _anyToError, _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
-import { HttpError } from '../error/http.error'
+import { HttpRequestError } from '../error/httpRequestError'
 import { _clamp } from '../number/number.util'
 import {
   _filterNullishValues,
@@ -13,8 +13,9 @@ import {
   _omit,
 } from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
-import { _jsonParseIfPossible } from '../string/json.util'
+import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _since } from '../time/time.util'
+import { UnixTimestampNumber } from '../types'
 import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -218,7 +219,7 @@ export class Fetcher {
         )
       } else {
         // !res.ok
-        await this.onNotOkResponse(res, timeout)
+        await this.onNotOkResponse(res, started, timeout)
       }
     }
 
@@ -231,7 +232,7 @@ export class Fetcher {
 
   private async onOkResponse(
     res: FetcherResponse<any> & { fetchResponse: Response },
-    started: number,
+    started: UnixTimestampNumber,
     timeout?: number,
   ): Promise<void> {
     const { req } = res
@@ -244,14 +245,21 @@ export class Fetcher {
         if (text) {
           try {
             res.body = text
-            res.body = JSON.parse(text, req.jsonReviver)
+            res.body = _jsonParse(text, req.jsonReviver)
           } catch (err) {
-            const { message } = _anyToError(err)
-            res.err = new HttpError([res.signature, message].join('\n'), {
-              httpStatusCode: 0,
-              url: req.url,
-            })
+            // Error while parsing json
+            // res.err = _anyToError(err, HttpRequestError, {
+            //   requestUrl: res.req.url,
+            //   requestBaseUrl: this.cfg.baseUrl,
+            //   requestMethod: res.req.init.method,
+            //   requestSignature: res.signature,
+            //   requestDuration: Date.now() - started,
+            //   responseStatusCode: res.fetchResponse.status,
+            // } satisfies HttpRequestErrorData)
+            res.err = _anyToError(err)
             res.ok = false
+
+            return await this.onNotOkResponse(res, started, timeout)
           }
         } else {
           // Body had a '' (empty string)
@@ -302,42 +310,44 @@ export class Fetcher {
     return await globalThis.fetch(url, init)
   }
 
-  private async onNotOkResponse(res: FetcherResponse, timeout?: number): Promise<void> {
+  private async onNotOkResponse(
+    res: FetcherResponse,
+    started: UnixTimestampNumber,
+    timeout?: number,
+  ): Promise<void> {
     clearTimeout(timeout)
 
-    let errObj: ErrorObject
+    let cause: ErrorObject | undefined
 
-    if (res.fetchResponse) {
+    if (res.err) {
+      // This is only possible on JSON.parse error (or CORS error!)
+      // This check should go first, to avoid calling .text() twice (which will fail)
+      cause = _errorToErrorObject(res.err)
+    } else if (res.fetchResponse) {
       const body = _jsonParseIfPossible(await res.fetchResponse.text())
-      errObj = _anyToErrorObject(body)
-    } else if (res.err) {
-      errObj = _errorToErrorObject(res.err)
-    } else {
-      errObj = {} as ErrorObject
+      if (body) {
+        cause = _anyToErrorObject(body)
+      }
     }
 
-    const originalMessage = errObj.message
-    errObj.message = [
-      [res.fetchResponse?.status, res.signature].filter(Boolean).join(' '),
-      originalMessage,
-    ]
-      .filter(Boolean)
-      .join('\n')
+    const message = [res.fetchResponse?.status, res.signature].filter(Boolean).join(' ')
 
-    res.err = new HttpError(
-      errObj.message,
-
+    res.err = new HttpRequestError(
+      message,
       _filterNullishValues({
-        ...errObj.data,
-        originalMessage,
-        httpStatusCode: res.fetchResponse?.status || 0,
+        responseStatusCode: res.fetchResponse?.status || 0,
         // These properties are provided to be used in e.g custom Sentry error grouping
         // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
         // Enabled, cause `data` is not printed by default when error is HttpError
         // method: req.method,
-        url: res.req.url,
         // tryCount: req.tryCount,
+        requestUrl: res.req.url,
+        requestBaseUrl: this.cfg.baseUrl || (null as any),
+        requestMethod: res.req.init.method,
+        requestSignature: res.signature,
+        requestDuration: Date.now() - started,
       }),
+      cause,
     )
 
     await this.processRetry(res)

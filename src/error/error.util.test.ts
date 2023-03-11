@@ -1,20 +1,20 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import type { ErrorObject, HttpErrorResponse } from '..'
+import type { ErrorObject, BackendErrorResponseObject } from '..'
 import {
   AppError,
-  HttpError,
+  HttpRequestError,
   _errorToErrorObject,
   _omit,
   _errorObjectToError,
   AssertionError,
   _errorDataAppend,
+  _isHttpRequestErrorObject,
 } from '..'
 import {
   _anyToError,
   _anyToErrorObject,
   _isErrorObject,
-  _isHttpErrorObject,
-  _isHttpErrorResponse,
+  _isBackendErrorResponseObject,
 } from './error.util'
 
 const anyItems = [
@@ -41,9 +41,9 @@ const anyItems = [
   { name: 'Error', message: 'yada', data: { httpStatusCode: 404 } } as ErrorObject,
   // Other
   new AppError('err msg'),
-  new HttpError('http err msg', {
-    httpStatusCode: 400,
-  }),
+  new HttpRequestError('http err msg', {
+    backendResponseStatusCode: 400,
+  } as any),
   {
     error: {
       name: 'HttpError',
@@ -53,7 +53,7 @@ const anyItems = [
         a: 'b\nc',
       },
     },
-  } as HttpErrorResponse,
+  } as BackendErrorResponseObject,
 ]
 
 test('anyToErrorObject', () => {
@@ -64,7 +64,7 @@ test('anyToErrorObject', () => {
 test('anyToError', () => {
   expectResults(v => _anyToError(v), anyItems).toMatchSnapshot()
 
-  const httpError = new HttpError('la la', {
+  const httpError = new AppError('la la', {
     httpStatusCode: 400,
     userFriendly: true,
   })
@@ -82,24 +82,24 @@ test('anyToError', () => {
         "userFriendly": true,
       },
       "message": "la la",
-      "name": "HttpError",
+      "name": "AppError",
     }
   `)
 
   // This is an "httpError", but packed in Error
   // With e.g name == 'HttpError'
   const httpError3 = _anyToError(httpErrorObject)
-  expect(httpError3).toMatchInlineSnapshot(`[HttpError: la la]`)
+  expect(httpError3).toMatchInlineSnapshot(`[AppError: la la]`)
   expect(httpError3).toBeInstanceOf(Error)
-  expect(httpError3).not.toBeInstanceOf(HttpError)
+  expect(httpError3).not.toBeInstanceOf(HttpRequestError)
   expect(httpError3.name).toBe(httpError.name)
-  expect((httpError3 as HttpError).data).toEqual(httpError.data)
+  expect((httpError3 as HttpRequestError).data).toEqual(httpError.data)
   expect(httpError3.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
 
   // This is a "proper" HttpError
-  const httpError4 = _anyToError(httpErrorObject, HttpError)
-  expect(httpError4).toMatchInlineSnapshot(`[HttpError: la la]`)
-  expect(httpError4).toBeInstanceOf(HttpError)
+  const httpError4 = _anyToError(httpErrorObject, HttpRequestError)
+  expect(httpError4).toMatchInlineSnapshot(`[AppError: la la]`)
+  expect(httpError4).toBeInstanceOf(HttpRequestError)
   expect(httpError4.name).toBe(httpError.name)
   expect(httpError4.data).toEqual(httpError.data)
   expect(httpError4.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
@@ -122,19 +122,19 @@ test('isErrorObject', () => {
   expectResults(v => _isErrorObject(v), anyItems).toMatchSnapshot()
 })
 
-test('isHttpErrorObject', () => {
-  expectResults(v => _isHttpErrorObject(v), anyItems).toMatchSnapshot()
+test('isHttpRequestErrorObject', () => {
+  expectResults(v => _isHttpRequestErrorObject(v), anyItems).toMatchSnapshot()
 })
 
 test('isHttpErrorResponse', () => {
-  expectResults(v => _isHttpErrorResponse(v), anyItems).toMatchSnapshot()
+  expectResults(v => _isBackendErrorResponseObject(v), anyItems).toMatchSnapshot()
 })
 
 test('_errorObjectToError should not repack if already same error', () => {
-  const e = new HttpError('yo', { httpStatusCode: 400 })
+  const e = new AppError('yo', { httpStatusCode: 400 })
   expect(_isErrorObject(e)).toBe(true)
   // HttpError not an ErrorObject, actually
-  const e2 = _errorObjectToError(e as ErrorObject, HttpError)
+  const e2 = _errorObjectToError(e as ErrorObject, AppError)
   expect(e2).toBe(e)
   const e3 = _anyToError(e)
   expect(e3).toBe(e)

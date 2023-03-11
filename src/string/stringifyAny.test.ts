@@ -1,8 +1,8 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
-import { HttpErrorResponse } from '../error/error.model'
+import { AppError } from '../error/app.error'
+import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorToErrorObject } from '../error/error.util'
-import { HttpError } from '../error/http.error'
 import { pExpectedError } from '../error/try'
 import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
 
@@ -10,40 +10,40 @@ test('stringifyAny default', () => {
   expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
 })
 
-test('httpError', () => {
-  const err = new HttpError('la la', {
+test('appError', () => {
+  const err = new AppError('la la', {
     httpStatusCode: 409,
     userFriendly: true,
     other: 'otherValue',
   })
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(409): la la"`)
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"AppError: la la"`)
 })
 
-test('httpError with status 0', () => {
-  const err = new HttpError('la la', {
+test('appError with status 0', () => {
+  const err = new AppError('la la', {
     httpStatusCode: 0,
     userFriendly: true,
     other: 'otherValue',
   })
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"HttpError(0): la la"`)
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"AppError: la la"`)
 })
 
-test('httpErrorResponse', () => {
-  const err = new HttpError('la la\nsecond line', {
+test('backendErrorResponse', () => {
+  const err = new AppError('la la\nsecond line', {
     httpStatusCode: 409,
     userFriendly: true,
     other: 'otherValue',
   })
 
-  const resp: HttpErrorResponse = {
+  const resp: BackendErrorResponseObject = {
     error: _errorToErrorObject(err),
   }
-  expect(resp.error.name).toBe('HttpError')
+  expect(resp.error.name).toBe('AppError')
 
   expect(_stringifyAny(resp)).toMatchInlineSnapshot(`
-    "HttpError(409): la la
+    "AppError: la la
     second line"
   `)
 
@@ -53,19 +53,17 @@ test('httpErrorResponse', () => {
 
 test('error with cause', () => {
   const err = new Error('err1', {
-    cause: new HttpError(
+    cause: new AppError(
       'http_error1',
       { httpStatusCode: 400 },
-      {
-        cause: new Error('sub-cause'),
-      },
+      { name: 'SomeError', message: 'sub-cause', data: {} },
     ),
   })
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`
     "Error: err1
-    Caused by: HttpError(400): http_error1
-    Caused by: Error: sub-cause"
+    Caused by: AppError: http_error1
+    Caused by: SomeError: sub-cause"
   `)
 })
 

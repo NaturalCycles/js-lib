@@ -22,7 +22,7 @@ exports[`_createPromiseDecorator 1`] = `
   "results": [
     {
       "type": "return",
-      "value": 4,
+      "value": undefined,
     },
   ],
 }

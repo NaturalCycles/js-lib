@@ -1,3 +1,6 @@
+import { HttpMethod, HttpStatusCode } from '../http/http.model'
+import { NumberOfMilliseconds } from '../types'
+
 /**
  * Extendable payload object to transfer custom additional data with AppError.
  */
@@ -21,8 +24,16 @@ export interface ErrorData {
   /**
    * Set to true to force reporting this error (e.g to Sentry).
    * Useful to be able to force-report e.g a 4xx error, which by default wouldn't be reported.
+   * Set to false to force not-reporting it.
    */
   report?: boolean
+
+  /**
+   * Set to true or false to control error reporting on the Client-side.
+   * It works as in indication/hint, not a guarantee,
+   * because Client-side still need to manually check and respect this property.
+   */
+  reportClientSide?: boolean
 
   /**
    * If defined - used by SentrySharedService in backend-lib.
@@ -36,7 +47,8 @@ export interface ErrorData {
    * (e.g frontend-lib adds a method, url, etc for all the errors)
    * `originalMessage` is used to preserve the original `error.message` as it came from the backend.
    */
-  originalMessage?: string
+  // originalMessage?: string
+  // use .cause.message instead
 
   /**
    * Can be used by error-reporting tools (e.g Sentry).
@@ -45,7 +57,26 @@ export interface ErrorData {
    */
   fingerprint?: string[]
 
-  httpStatusCode?: number
+  /**
+   * Set when throwing an error from your backend code, to indicate desired http status code.
+   * e.g throw new AppError('oj', { backendResponseStatusCode: 401 })
+   */
+  backendResponseStatusCode?: HttpStatusCode
+
+  /**
+   * Set to true when the error was thrown after response headers were sent.
+   */
+  headersSent?: boolean
+
+  /**
+   * Used in e.g http 401 error.
+   */
+  adminAuthRequired?: boolean
+
+  /**
+   * Used in e.g http 403 error.
+   */
+  adminPermissionsRequired?: string[]
 
   /**
    * Open-ended.
@@ -53,34 +84,24 @@ export interface ErrorData {
   [k: string]: any
 }
 
-export interface HttpErrorData extends ErrorData {
+export interface HttpRequestErrorData extends ErrorData {
+  requestUrl: string
+  requestBaseUrl?: string
+  requestMethod: HttpMethod
   /**
-   * @default 500
+   * Conveniently combines Method and Url, respects `logWithSearchParams` (and similar) configuration.
+   * E.g:
+   * GET /some/url
    */
-  httpStatusCode: number
-
+  requestSignature: string
   /**
-   * @example
-   *
-   * GET /api/some-endpoint
+   * Can be set to 0 if request "failed to start" or "failed to reach the server".
    */
-  // endpoint?: string
-
+  requestDuration: NumberOfMilliseconds
   /**
-   * Set to true when the error was thrown after response headers were sent.
+   * 0 is used for edge cases when e.g it failed to reach the server.
    */
-  headersSent?: boolean
-}
-
-export interface Admin401ErrorData extends HttpErrorData {
-  adminAuthRequired: true
-}
-
-export interface Admin403ErrorData extends HttpErrorData {
-  /**
-   * Returns non-empty array.
-   */
-  adminPermissionsRequired: string[]
+  responseStatusCode: HttpStatusCode
 }
 
 // export interface ErrorLike {
@@ -101,6 +122,8 @@ export interface Admin403ErrorData extends HttpErrorData {
  * Cannot contain any properties that stock Error doesn't have, otherwise
  * it will be hard to transform it to ErrorObject.
  * Everything "extra" should go under `data`.
+ *
+ * Instance of AppError class should satisfy ErrorObject interface.
  */
 export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
   /**
@@ -134,8 +157,10 @@ export interface ErrorObject<DATA_TYPE extends ErrorData = ErrorData> {
 }
 
 /**
- * JSON HTTP response from the Backend that represents "Error".
+ * JSON HTTP response object from the Backend that represents "Error".
+ * Assumption is that if JSON response "looks like this" - it's safe to print it in a custom way.
+ * Otherwise - it'll be printed in a generic way.
  */
-export interface HttpErrorResponse<DATA_TYPE extends HttpErrorData = HttpErrorData> {
+export interface BackendErrorResponseObject<DATA_TYPE extends ErrorData = ErrorData> {
   error: ErrorObject<DATA_TYPE>
 }

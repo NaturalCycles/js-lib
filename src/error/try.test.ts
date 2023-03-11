@@ -1,6 +1,6 @@
 import { expectTypeOf } from 'expect-type'
 import { AppError } from './app.error'
-import { HttpError } from './http.error'
+import { HttpRequestError } from './httpRequestError'
 import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
 
 const okFunction = (v = 1) => ({ result: v })
@@ -73,6 +73,6 @@ test('pExpectedError', async () => {
   expect(err2).toBeInstanceOf(UnexpectedPassError)
   expect(err2!.message).toMatchInlineSnapshot(`"expected error was not thrown"`)
 
-  const [err3] = await pTry(pExpectedError(createErrorPromise(), HttpError))
+  const [err3] = await pTry(pExpectedError(createErrorPromise(), HttpRequestError))
   expect(err3!.message).toMatchInlineSnapshot(`"oj"`)
 })

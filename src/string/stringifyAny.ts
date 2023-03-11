@@ -1,4 +1,4 @@
-import { _isErrorObject, _isHttpErrorObject, _isHttpErrorResponse } from '../error/error.util'
+import { _isErrorObject, _isBackendErrorResponseObject } from '../error/error.util'
 import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
@@ -88,7 +88,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   //
   // HttpErrorResponse
   //
-  if (_isHttpErrorResponse(obj)) {
+  if (_isBackendErrorResponseObject(obj)) {
     return _stringifyAny(obj.error, opt)
   }
 
@@ -103,12 +103,12 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     // if (obj?.name === 'Error') {
     //   s = obj.message
     // }
-    if (_isErrorObject(obj) && _isHttpErrorObject(obj)) {
-      // Printing (0) to avoid ambiguity
-      s = `${obj.name}(${obj.data.httpStatusCode}): ${obj.message}`
-    }
+    // if (_isErrorObject(obj) && _isHttpErrorObject(obj)) {
+    //   // Printing (0) to avoid ambiguity
+    //   s = `${obj.name}(${obj.data.httpStatusCode}): ${obj.message}`
+    // }
 
-    s ||= [obj.name, obj.message].filter(Boolean).join(': ')
+    s = [obj.name, obj.message].filter(Boolean).join(': ')
 
     if (typeof (obj as any).code === 'string') {
       // Error that has no `data`, but has `code` property

@@ -1,5 +1,5 @@
-import type { ErrorData } from '..'
-import { _deepEquals, _stringifyAny } from '..'
+import type { ErrorData, ErrorObject } from '..'
+import { _deepEquals, _isErrorObject, _stringifyAny, Class } from '..'
 import { AppError } from './app.error'
 
 /**
@@ -88,12 +88,25 @@ export function _assertDeepEquals<T>(
 
 export function _assertIsError<ERR extends Error = Error>(
   err: any,
-  message?: string,
+  errorClass: Class<ERR> = Error as any,
 ): asserts err is ERR {
-  if (!(err instanceof Error)) {
-    const msg = [message || `expected to be instanceof Error`, `actual typeof: ${typeof err}`].join(
-      '\n',
-    )
+  if (!(err instanceof errorClass)) {
+    const msg = [
+      `expected to be instanceof ${errorClass.name}`,
+      `actual typeof: ${typeof err}`,
+    ].join('\n')
+
+    throw new AssertionError(msg, {
+      userFriendly: true,
+    })
+  }
+}
+
+export function _assertIsErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
+  obj: any,
+): asserts obj is ErrorObject<DATA_TYPE> {
+  if (!_isErrorObject(obj)) {
+    const msg = [`expected to be ErrorObject`, `actual typeof: ${typeof obj}`].join('\n')
 
     throw new AssertionError(msg, {
       userFriendly: true,
@@ -124,7 +137,7 @@ export function _assertTypeOf<T>(v: any, expectedType: string, message?: string)
 }
 
 export class AssertionError extends AppError {
-  constructor(message: string, data = {}, opt?: ErrorOptions) {
-    super(message, data, opt, 'AssertionError')
+  constructor(message: string, data = {}, cause?: ErrorObject) {
+    super(message, data, cause, 'AssertionError')
   }
 }

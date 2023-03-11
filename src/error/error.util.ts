@@ -1,4 +1,10 @@
-import type { ErrorData, ErrorObject, HttpErrorData, HttpErrorResponse, Class } from '..'
+import type {
+  ErrorData,
+  ErrorObject,
+  BackendErrorResponseObject,
+  Class,
+  HttpRequestErrorData,
+} from '..'
 import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
 
 /**
@@ -52,7 +58,7 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   } else {
     o = _jsonParseIfPossible(o)
 
-    if (_isHttpErrorResponse(o)) {
+    if (_isBackendErrorResponseObject(o)) {
       eo = o.error as ErrorObject<DATA_TYPE>
     } else if (_isErrorObject(o)) {
       eo = o as ErrorObject<DATA_TYPE>
@@ -139,23 +145,20 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
   return err
 }
 
-export function _isHttpErrorResponse(o: any): o is HttpErrorResponse {
-  return _isHttpErrorObject(o?.error)
+export function _isBackendErrorResponseObject(o: any): o is BackendErrorResponseObject {
+  return _isErrorObject(o?.error)
 }
 
-export function _isHttpErrorObject(o: any): o is ErrorObject<HttpErrorData> {
-  return (
-    !!o &&
-    typeof o.name === 'string' &&
-    typeof o.message === 'string' &&
-    typeof o.data?.httpStatusCode === 'number'
-  )
+export function _isHttpRequestErrorObject(o: any): o is ErrorObject<HttpRequestErrorData> {
+  return !!o && o.name === 'HttpRequestError' && typeof o.data?.requestUrl === 'string'
 }
 
 /**
  * Note: any instance of AppError is also automatically an ErrorObject
  */
-export function _isErrorObject(o: any): o is ErrorObject {
+export function _isErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
+  o: any,
+): o is ErrorObject<DATA_TYPE> {
   return (
     !!o &&
     typeof o === 'object' &&
