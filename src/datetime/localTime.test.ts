@@ -280,9 +280,9 @@ test('dayOfWeek', () => {
   const t = localTime('1984-06-21')
   expect(t.dayOfWeek()).toBe(ISODayOfWeek.THURSDAY)
 
-  expect(() => t.dayOfWeek(-1)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: -1"`)
-  expect(() => t.dayOfWeek(0)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 0"`)
-  expect(() => t.dayOfWeek(8)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 8"`)
+  expect(() => t.dayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: -1"`)
+  expect(() => t.dayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 0"`)
+  expect(() => t.dayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 8"`)
   expect(t.dayOfWeek(1).toISODate()).toBe('1984-06-18')
   expect(t.dayOfWeek(2).toISODate()).toBe('1984-06-19')
   expect(t.dayOfWeek(3).toISODate()).toBe('1984-06-20')
