@@ -129,7 +129,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
 
-  const par = os.availableParallelism()
+  const par = os.availableParallelism?.()
   const cpus = os.cpus().length
   console.log(
     `${dimGrey(
