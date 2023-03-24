@@ -51,6 +51,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
 
   const {
     CI,
+    CIRCLECI,
     TZ = 'UTC',
     APP_ENV,
     JEST_NO_ALPHABETIC,
@@ -95,10 +96,14 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
       args.push('--coverage')
     }
 
-    // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
-    // as it's the most memory-efficient way
-    // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
-    maxWorkers ||= '--maxWorkers=2'
+    if (CIRCLECI) {
+      // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
+      // as it's the most memory-efficient way
+      // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
+      // We now only do it for CircleCI (not for CI in general), as it reports cpus as 36
+      // Github Actions don't do that and report correct number of cpus
+      maxWorkers ||= '--maxWorkers=2'
+    }
   }
 
   // Running all tests - will use `--silent` to suppress console-logs, will also set process.env.JEST_SILENT=1
