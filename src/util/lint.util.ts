@@ -12,7 +12,6 @@ export function getTSConfigPathScripts(): string {
   return [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
 }
 
-// eslint-disable-next-line max-params
 export async function runESLint(
   dir: string,
   eslintConfigPath: string,
@@ -28,6 +27,7 @@ export async function runESLint(
     `${dir}/**/*.{${extensions.join(',')}}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,
+    `--report-unused-disable-directives`,
     fix ? `--fix` : '',
   ].filter(Boolean)
 
