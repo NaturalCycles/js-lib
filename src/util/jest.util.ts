@@ -52,6 +52,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
   const {
     CI,
     CIRCLECI,
+    CPU_LIMIT,
     TZ = 'UTC',
     APP_ENV,
     JEST_NO_ALPHABETIC,
@@ -59,6 +60,7 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     NODE_OPTIONS = 'not defined',
   } = process.env
   const { node } = process.versions
+  const cpuLimit = Number(CPU_LIMIT) || undefined
   const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(2)
 
@@ -96,13 +98,17 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
       args.push('--coverage')
     }
 
-    if (CIRCLECI) {
-      // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
-      // as it's the most memory-efficient way
-      // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
-      // We now only do it for CircleCI (not for CI in general), as it reports cpus as 36
-      // Github Actions don't do that and report correct number of cpus
-      maxWorkers ||= '--maxWorkers=2'
+    if (!maxWorkers) {
+      if (cpuLimit && cpuLimit > 1) {
+        maxWorkers = `--maxWorkers=${cpuLimit - 1}`
+      } else if (CIRCLECI) {
+        // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
+        // as it's the most memory-efficient way
+        // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
+        // We now only do it for CircleCI (not for CI in general), as it reports cpus as 36
+        // Github Actions don't do that and report correct number of cpus
+        maxWorkers = '--maxWorkers=2'
+      }
     }
   }
 
@@ -134,11 +140,19 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
 
-  const par = os.availableParallelism?.()
+  const availableParallelism = os.availableParallelism?.()
   const cpus = os.cpus().length
   console.log(
     `${dimGrey(
-      `node ${node}, NODE_OPTIONS: ${NODE_OPTIONS}, cpus: ${cpus}, availableParallelism: ${par}`,
+      Object.entries({
+        node,
+        NODE_OPTIONS,
+        cpus,
+        availableParallelism,
+        cpuLimit,
+      })
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', '),
     )}`,
   )
 
