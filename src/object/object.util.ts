@@ -139,7 +139,6 @@ export function _mapKeys<T extends AnyObject>(
   obj: T,
   mapper: ObjectMapper<T, string>,
 ): StringMap<T[keyof T]> {
-  // eslint-disable-next-line unicorn/prefer-object-from-entries
   return Object.entries(obj).reduce((map, [k, v]) => {
     map[mapper(k, v, obj) as keyof T] = v
     return map

@@ -52,7 +52,7 @@ export interface PromiseDecoratorResp<PARAMS> {
  *
  * @experimental
  */
-// eslint-disable-next-line @typescript-eslint/naming-convention
+
 export function _createPromiseDecorator<RES = any, PARAMS = any>(
   cfg: PromiseDecoratorCfg<RES, PARAMS>,
   decoratorParams: PARAMS = {} as any,

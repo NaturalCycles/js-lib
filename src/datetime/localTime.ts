@@ -40,8 +40,6 @@ const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_MINUTE = 60000
 const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
 
-/* eslint-disable no-dupe-class-members */
-
 /**
  * @experimental
  */

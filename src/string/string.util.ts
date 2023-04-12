@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/prefer-string-slice */
-
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
  */

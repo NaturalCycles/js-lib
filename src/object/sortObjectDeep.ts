@@ -6,7 +6,6 @@ import { _isObject } from '..'
 export function _sortObjectDeep<T>(o: T): T {
   // array
   if (Array.isArray(o)) {
-    // eslint-disable-next-line unicorn/no-array-callback-reference
     return o.map(_sortObjectDeep) as any
   }
 

@@ -84,7 +84,6 @@ function isPrimitiveTypeName(name: unknown): name is PrimitiveTypeName {
 
 export type TypeName = ObjectTypeName | PrimitiveTypeName
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function isOfType<T extends Primitive | Function>(type: PrimitiveTypeName | 'function') {
   return (value: unknown): value is T => typeof value === type
 }
@@ -168,7 +167,6 @@ is.number = (value: unknown): value is number => isNumberType(value) && !is.nan(
 
 is.bigint = isOfType<bigint>('bigint')
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 is.function_ = isOfType<Function>('function')
 
 is.null_ = (value: unknown): value is null => value === null
@@ -228,7 +226,6 @@ is.asyncGeneratorFunction = (value: unknown): value is (...args: any[]) => Promi
 is.asyncFunction = <T = unknown>(value: unknown): value is (...args: any[]) => Promise<T> =>
   getObjectType(value) === 'AsyncFunction'
 
-// eslint-disable-next-line no-prototype-builtins, @typescript-eslint/ban-types
 is.boundFunction = (value: unknown): value is Function =>
   is.function_(value) && !value.hasOwnProperty('prototype')
 
@@ -270,7 +267,7 @@ is.urlString = (value: unknown): value is string => {
   }
 
   try {
-    new URL(value) // eslint-disable-line no-new
+    new URL(value)
     return true
   } catch {
     return false
@@ -512,7 +509,7 @@ interface Assert {
   string: (value: unknown) => asserts value is string
   number: (value: unknown) => asserts value is number
   bigint: (value: unknown) => asserts value is bigint
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   function_: (value: unknown) => asserts value is Function
   null_: (value: unknown) => asserts value is null
   class_: (value: unknown) => asserts value is Class
@@ -536,9 +533,9 @@ interface Assert {
   promise: <T = unknown>(value: unknown) => asserts value is Promise<T>
   generatorFunction: (value: unknown) => asserts value is GeneratorFunction
   asyncGeneratorFunction: (value: unknown) => asserts value is AsyncGeneratorFunction
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   asyncFunction: (value: unknown) => asserts value is Function
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   boundFunction: (value: unknown) => asserts value is Function
   regExp: (value: unknown) => asserts value is RegExp
   date: (value: unknown) => asserts value is Date
@@ -620,7 +617,7 @@ export const assert: Assert = {
     assertType(is.number(value), 'number', value),
   bigint: (value: unknown): asserts value is bigint =>
     assertType(is.bigint(value), 'bigint', value),
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   function_: (value: unknown): asserts value is Function =>
     assertType(is.function_(value), 'Function', value),
   null_: (value: unknown): asserts value is null => assertType(is.null_(value), 'null', value),
@@ -666,10 +663,10 @@ export const assert: Assert = {
     assertType(is.generatorFunction(value), 'GeneratorFunction', value),
   asyncGeneratorFunction: (value: unknown): asserts value is AsyncGeneratorFunction =>
     assertType(is.asyncGeneratorFunction(value), 'AsyncGeneratorFunction', value),
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   asyncFunction: (value: unknown): asserts value is Function =>
     assertType(is.asyncFunction(value), 'AsyncFunction', value),
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   boundFunction: (value: unknown): asserts value is Function =>
     assertType(is.boundFunction(value), 'Function', value),
   regExp: (value: unknown): asserts value is RegExp =>

@@ -17,8 +17,6 @@ const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 export type LocalDateConfig = LocalDate | Date | IsoDateString
 export type LocalDateFormatter = (ld: LocalDate) => string
 
-/* eslint-disable no-dupe-class-members */
-
 /**
  * @experimental
  */

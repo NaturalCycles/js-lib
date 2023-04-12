@@ -149,7 +149,7 @@ export function _sortBy<T>(
 ): T[] {
   const mod = descending ? -1 : 1
   return (mutate ? items : [...items]).sort((_a, _b) => {
-    const [a, b] = [_a, _b].map(mapper) // eslint-disable-line unicorn/no-array-callback-reference
+    const [a, b] = [_a, _b].map(mapper)
     if (typeof a === 'number' && typeof b === 'number') return (a - b) * mod
     return String(a).localeCompare(String(b)) * mod
   })
@@ -159,7 +159,7 @@ export function _sortBy<T>(
  * Like items.find(), but it tries to find from the END of the array.
  */
 export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined {
-  return [...items].reverse().find(predicate) // eslint-disable-line unicorn/no-array-callback-reference
+  return [...items].reverse().find(predicate)
 }
 
 export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {

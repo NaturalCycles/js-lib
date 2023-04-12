@@ -70,7 +70,7 @@ export function _leven(first: string, second: string): number {
     for (index = 0; index < firstLength; index++) {
       temporary2 = bCharacterCode === characterCodeCache[index] ? temporary : temporary + 1
       temporary = array[index]!
-      // eslint-disable-next-line no-multi-assign
+
       result = array[index] =
         temporary > result
           ? temporary2 > result
