@@ -179,7 +179,7 @@ export class Fetcher {
       }, timeoutSeconds * 1000) as any as number
     }
 
-    for await (const hook of this.cfg.hooks.beforeRequest || []) {
+    for (const hook of this.cfg.hooks.beforeRequest || []) {
       await hook(req)
     }
 
@@ -237,7 +237,7 @@ export class Fetcher {
       }
     }
 
-    for await (const hook of this.cfg.hooks.afterResponse || []) {
+    for (const hook of this.cfg.hooks.afterResponse || []) {
       await hook(res)
     }
 
@@ -382,7 +382,7 @@ export class Fetcher {
       retryStatus.retryStopped = true
     }
 
-    for await (const hook of this.cfg.hooks.beforeRetry || []) {
+    for (const hook of this.cfg.hooks.beforeRetry || []) {
       await hook(res)
     }
 

@@ -77,7 +77,7 @@ export async function pMap<IN, OUT>(
   if (concurrency === 1) {
     // Special case for concurrency == 1
 
-    for await (const item of items) {
+    for (const item of items) {
       try {
         const r = await mapper(item, currentIndex++)
         if (r === END) break
