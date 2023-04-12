@@ -129,6 +129,20 @@ export class Fetcher {
   deleteVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
 
+  // mode=readableStream
+  /**
+   * Returns raw fetchResponse.body, which is a ReadableStream<Uint8Array>
+   *
+   * More on streams and Node interop:
+   * https://css-tricks.com/web-streams-everywhere-and-fetch-for-node-js/
+   */
+  async getReadableStream(url: string, opt?: FetcherOptions): Promise<ReadableStream<Uint8Array>> {
+    return await this.fetch(url, {
+      mode: 'readableStream',
+      ...opt,
+    })
+  }
+
   async fetch<T = unknown>(url: string, opt?: FetcherOptions): Promise<T> {
     const res = await this.doFetch<T>(url, opt)
     if (res.err) {
@@ -276,6 +290,14 @@ export class Fetcher {
       res.body = res.fetchResponse.body ? await res.fetchResponse.arrayBuffer() : {}
     } else if (mode === 'blob') {
       res.body = res.fetchResponse.body ? await res.fetchResponse.blob() : {}
+    } else if (mode === 'readableStream') {
+      res.body = res.fetchResponse.body
+
+      if (res.body === null) {
+        res.err = new Error(`fetchResponse.body is null`)
+        res.ok = false
+        return await this.onNotOkResponse(res, started, timeout)
+      }
     }
 
     clearTimeout(timeout)

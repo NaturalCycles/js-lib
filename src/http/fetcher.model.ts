@@ -192,4 +192,4 @@ export type FetcherResponse<BODY = unknown> =
   | FetcherSuccessResponse<BODY>
   | FetcherErrorResponse<BODY>
 
-export type FetcherMode = 'json' | 'text' | 'void' | 'arrayBuffer' | 'blob'
+export type FetcherMode = 'json' | 'text' | 'void' | 'arrayBuffer' | 'blob' | 'readableStream'
