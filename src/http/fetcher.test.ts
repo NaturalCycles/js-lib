@@ -1,3 +1,4 @@
+import { _range } from '../array/range'
 import { AppError } from '../error/app.error'
 import { _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
@@ -155,4 +156,39 @@ test('json parse error', async () => {
     "HttpRequestError: 200 GET some
     Caused by: JsonParseError: Failed to parse: some text"
   `)
+})
+
+test('paginate', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    logResponseBody: true,
+  })
+
+  const pageSize = 10
+  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async url => {
+    const u = new URL(url)
+    const page = Number(u.searchParams.get('page'))
+    if (page > pageSize) return new Response(JSON.stringify([]))
+    return new Response(JSON.stringify(_range((page - 1) * pageSize, page * pageSize)))
+  })
+
+  const results: number[] = []
+
+  await fetcher.get<number[]>('https://a.com', {
+    searchParams: {
+      page: 1,
+    },
+    paginate: (req, res) => {
+      if (!res.body.length) return false // no more items
+      results.push(...res.body)
+
+      const u = new URL(req.url)
+      const page = Number(u.searchParams.get('page')) || 1
+      u.searchParams.set('page', String(page + 1))
+      req.url = u.toString()
+      return true
+    },
+  })
+
+  expect(results).toEqual(_range(0, pageSize * 10))
 })

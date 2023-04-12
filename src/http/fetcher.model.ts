@@ -1,16 +1,24 @@
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
-import type { Reviver } from '../types'
+import type { Reviver, UnixTimestampMillisNumber } from '../types'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
-export interface FetcherNormalizedCfg extends Required<FetcherCfg>, FetcherRequest {
+export interface FetcherNormalizedCfg
+  extends Required<FetcherCfg>,
+    Omit<FetcherRequest, 'started'> {
   logger: CommonLogger
   searchParams: Record<string, any>
 }
 
-export type FetcherBeforeRequestHook = (req: FetcherRequest) => Promisable<void>
-export type FetcherAfterResponseHook = (res: FetcherResponse) => Promisable<void>
-export type FetcherBeforeRetryHook = (res: FetcherResponse) => Promisable<void>
+export type FetcherBeforeRequestHook = <BODY = unknown>(
+  req: FetcherRequest<BODY>,
+) => Promisable<void>
+export type FetcherAfterResponseHook = <BODY = unknown>(
+  res: FetcherResponse<BODY>,
+) => Promisable<void>
+export type FetcherBeforeRetryHook = <BODY = unknown>(
+  res: FetcherResponse<BODY>,
+) => Promisable<void>
 
 export interface FetcherCfg {
   /**
@@ -88,7 +96,8 @@ export interface FetcherRetryOptions {
   timeoutMultiplier: number
 }
 
-export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers' | 'baseUrl'> {
+export interface FetcherRequest<BODY = unknown>
+  extends Omit<FetcherOptions<BODY>, 'method' | 'headers' | 'baseUrl'> {
   url: string
   init: RequestInitNormalized
   mode: FetcherMode
@@ -98,9 +107,10 @@ export interface FetcherRequest extends Omit<FetcherOptions, 'method' | 'headers
   retryPost: boolean
   retry4xx: boolean
   retry5xx: boolean
+  started: UnixTimestampMillisNumber
 }
 
-export interface FetcherOptions {
+export interface FetcherOptions<BODY = unknown> {
   method?: HttpMethod
 
   baseUrl?: string
@@ -159,6 +169,19 @@ export interface FetcherOptions {
   retry5xx?: boolean
 
   jsonReviver?: Reviver
+
+  /**
+   * Allows to walk over multiple pages of results.
+   * Paginate take a function.
+   * Function has access to FetcherRequest and FetcherResponse
+   * and has to make a decision to continue pagination or not.
+   * Return true to continue, false otherwise.
+   * If continue - it is expected to modify/mutate the FetcherRequest, as it will be used
+   * to request the next page.
+   *
+   * @experimental
+   */
+  paginate?: (req: FetcherRequest<BODY>, res: FetcherSuccessResponse<BODY>) => Promisable<boolean>
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
