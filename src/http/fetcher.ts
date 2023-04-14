@@ -57,7 +57,8 @@ export class Fetcher {
         url: string,
         opt?: FetcherOptions<void>,
       ): Promise<void> => {
-        return await this.fetch<void>(url, {
+        return await this.fetch<void>({
+          url,
           method,
           mode: 'void',
           ...opt,
@@ -69,7 +70,8 @@ export class Fetcher {
         url: string,
         opt?: FetcherOptions<string>,
       ): Promise<string> => {
-        return await this.fetch<string>(url, {
+        return await this.fetch<string>({
+          url,
           method,
           mode: 'text',
           ...opt,
@@ -78,7 +80,8 @@ export class Fetcher {
 
       // Default mode=json, but overridable
       ;(this as any)[m] = async <T = unknown>(url: string, opt?: FetcherOptions<T>): Promise<T> => {
-        return await this.fetch<T>(url, {
+        return await this.fetch<T>({
+          url,
           method,
           mode: 'json',
           ...opt,
@@ -145,14 +148,15 @@ export class Fetcher {
     url: string,
     opt?: FetcherOptions<ReadableStream<Uint8Array>>,
   ): Promise<ReadableStream<Uint8Array>> {
-    return await this.fetch(url, {
+    return await this.fetch({
+      url,
       mode: 'readableStream',
       ...opt,
     })
   }
 
-  async fetch<T = unknown>(url: string, opt?: FetcherOptions<T>): Promise<T> {
-    const res = await this.doFetch<T>(url, opt)
+  async fetch<T = unknown>(opt: FetcherOptions<T>): Promise<T> {
+    const res = await this.doFetch<T>(opt)
     if (res.err) {
       if (res.req.throwHttpErrors) throw res.err
       return res as any
@@ -165,15 +169,8 @@ export class Fetcher {
    * Never throws, returns `err` property in the response instead.
    * Use this method instead of `throwHttpErrors: false` or try-catching.
    */
-  async doFetch<T = unknown>(
-    url: string,
-    opt: FetcherOptions<T> = {},
-  ): Promise<FetcherResponse<T>> {
-    const req = this.normalizeOptions(url, opt)
-    return await this.doFetchRequest<T>(req)
-  }
-
-  async doFetchRequest<T = unknown>(req: FetcherRequest<T>): Promise<FetcherResponse<T>> {
+  async doFetch<T = unknown>(opt: FetcherOptions<T>): Promise<FetcherResponse<T>> {
+    const req = this.normalizeOptions(opt)
     const { logger } = this.cfg
     const {
       timeoutSeconds,
@@ -194,9 +191,9 @@ export class Fetcher {
       await hook(req)
     }
 
-    const isFullUrl = req.url.includes('://')
-    const fullUrl = isFullUrl ? new URL(req.url) : undefined
-    const shortUrl = fullUrl ? this.getShortUrl(fullUrl) : req.url
+    const isFullUrl = req.fullUrl.includes('://')
+    const fullUrl = isFullUrl ? new URL(req.fullUrl) : undefined
+    const shortUrl = fullUrl ? this.getShortUrl(fullUrl) : req.fullUrl
     const signature = [method, shortUrl].join(' ')
 
     const res = {
@@ -225,7 +222,7 @@ export class Fetcher {
       }
 
       try {
-        res.fetchResponse = await this.callNativeFetch(req.url, req.init)
+        res.fetchResponse = await this.callNativeFetch(req.fullUrl, req.init)
         res.ok = res.fetchResponse.ok
       } catch (err) {
         // For example, CORS error would result in "TypeError: failed to fetch" here
@@ -249,9 +246,9 @@ export class Fetcher {
     }
 
     if (req.paginate && res.ok) {
-      const proceed = await req.paginate(req, res)
-      if (proceed) {
-        return await this.doFetchRequest(req)
+      const proceeed = await req.paginate(res, opt)
+      if (proceeed) {
+        return await this.doFetch(opt)
       }
     }
 
@@ -372,7 +369,7 @@ export class Fetcher {
         // Enabled, cause `data` is not printed by default when error is HttpError
         // method: req.method,
         // tryCount: req.tryCount,
-        requestUrl: res.req.url,
+        requestUrl: res.req.fullUrl,
         requestBaseUrl: this.cfg.baseUrl || (null as any),
         requestMethod: res.req.init.method,
         requestSignature: res.signature,
@@ -495,7 +492,7 @@ export class Fetcher {
     const norm: FetcherNormalizedCfg = _merge(
       {
         baseUrl: '',
-        url: '',
+        inputUrl: '',
         mode: 'void',
         searchParams: {},
         timeoutSeconds: 30,
@@ -528,7 +525,7 @@ export class Fetcher {
     return norm
   }
 
-  private normalizeOptions<BODY>(url: string, opt: FetcherOptions<BODY>): FetcherRequest<BODY> {
+  private normalizeOptions<BODY>(opt: FetcherOptions<BODY>): FetcherRequest<BODY> {
     const {
       timeoutSeconds,
       throwHttpErrors,
@@ -543,7 +540,6 @@ export class Fetcher {
     const req: FetcherRequest<BODY> = {
       started: Date.now(),
       mode,
-      url,
       timeoutSeconds,
       throwHttpErrors,
       retryPost,
@@ -551,6 +547,8 @@ export class Fetcher {
       retry5xx,
       jsonReviver,
       ..._omit(opt, ['method', 'headers', 'credentials']),
+      inputUrl: opt.url || '',
+      fullUrl: opt.url || '',
       retry: {
         ...retry,
         ..._filterUndefinedValues(opt.retry || {}),
@@ -571,11 +569,11 @@ export class Fetcher {
     // setup url
     const baseUrl = opt.baseUrl || this.cfg.baseUrl
     if (baseUrl) {
-      if (url.startsWith('/')) {
+      if (req.fullUrl.startsWith('/')) {
         console.warn(`Fetcher: url should not start with / when baseUrl is specified`)
-        url = url.slice(1)
+        req.fullUrl = req.fullUrl.slice(1)
       }
-      req.url = `${baseUrl}/${url}`
+      req.fullUrl = `${baseUrl}/${req.inputUrl}`
     }
 
     const searchParams = _filterUndefinedValues({
@@ -585,7 +583,7 @@ export class Fetcher {
 
     if (Object.keys(searchParams).length) {
       const qs = new URLSearchParams(searchParams).toString()
-      req.url += req.url.includes('?') ? '&' : '?' + qs
+      req.fullUrl += req.fullUrl.includes('?') ? '&' : '?' + qs
     }
 
     // setup request body

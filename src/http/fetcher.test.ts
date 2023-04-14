@@ -21,6 +21,7 @@ test('defaults', () => {
         "headers": {},
         "method": "GET",
       },
+      "inputUrl": "",
       "logRequest": false,
       "logRequestBody": false,
       "logResponse": false,
@@ -40,7 +41,6 @@ test('defaults', () => {
       "searchParams": {},
       "throwHttpErrors": true,
       "timeoutSeconds": 30,
-      "url": "",
     }
   `)
 
@@ -84,7 +84,7 @@ test('mocking fetch', async () => {
     )
   })
 
-  const { err } = await fetcher.doFetch('some')
+  const { err } = await fetcher.doFetch({ url: 'some' })
 
   _assertIsError(err, HttpRequestError)
 
@@ -135,7 +135,8 @@ test('json parse error', async () => {
     return new Response('some text')
   })
 
-  const { err } = await fetcher.doFetch('some', {
+  const { err } = await fetcher.doFetch({
+    url: 'some',
     mode: 'json',
   })
   _assertIsError(err)
@@ -178,14 +179,11 @@ test('paginate', async () => {
     searchParams: {
       page: 1,
     },
-    paginate: (req, res) => {
+    paginate: (res, opt) => {
       if (!res.body.length) return false // no more items
       results.push(...res.body)
 
-      const u = new URL(req.url)
-      const page = Number(u.searchParams.get('page')) || 1
-      u.searchParams.set('page', String(page + 1))
-      req.url = u.toString()
+      opt.searchParams!['page']++
       return true
     },
   })

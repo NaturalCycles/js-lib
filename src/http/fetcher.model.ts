@@ -5,7 +5,7 @@ import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg
   extends Required<FetcherCfg>,
-    Omit<FetcherRequest, 'started'> {
+    Omit<FetcherRequest, 'started' | 'fullUrl'> {
   logger: CommonLogger
   searchParams: Record<string, any>
 }
@@ -97,8 +97,16 @@ export interface FetcherRetryOptions {
 }
 
 export interface FetcherRequest<BODY = unknown>
-  extends Omit<FetcherOptions<BODY>, 'method' | 'headers' | 'baseUrl'> {
-  url: string
+  extends Omit<FetcherOptions<BODY>, 'method' | 'headers' | 'baseUrl' | 'url'> {
+  /**
+   * inputUrl is only the part that was passed in the request,
+   * without baseUrl or searchParams.
+   */
+  inputUrl: string
+  /**
+   * fullUrl includes baseUrl and searchParams.
+   */
+  fullUrl: string
   init: RequestInitNormalized
   mode: FetcherMode
   throwHttpErrors: boolean
@@ -112,6 +120,12 @@ export interface FetcherRequest<BODY = unknown>
 
 export interface FetcherOptions<BODY = unknown> {
   method?: HttpMethod
+
+  /**
+   * If defined - this `url` will override the original given `url`.
+   * baseUrl (and searchParams) will still modify it.
+   */
+  url?: string
 
   baseUrl?: string
 
@@ -173,15 +187,18 @@ export interface FetcherOptions<BODY = unknown> {
   /**
    * Allows to walk over multiple pages of results.
    * Paginate take a function.
-   * Function has access to FetcherRequest and FetcherResponse
+   * Function has access to FetcherResponse and FetcherOptions
    * and has to make a decision to continue pagination or not.
-   * Return true to continue, false otherwise.
-   * If continue - it is expected to modify/mutate the FetcherRequest, as it will be used
-   * to request the next page.
+   *
+   * Return false to stop pagination.
+   * Return true to continue pagination.
+   * Feel free to mutate/modify opt (FetcherOptions), for example:
+   *
+   * opt.searchParams!['page']++
    *
    * @experimental
    */
-  paginate?: (req: FetcherRequest<BODY>, res: FetcherSuccessResponse<BODY>) => Promisable<boolean>
+  paginate?: (res: FetcherSuccessResponse<BODY>, opt: FetcherOptions<BODY>) => Promisable<boolean>
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
