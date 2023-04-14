@@ -15,6 +15,7 @@ import {
 import { pDelay } from '../promise/pDelay'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _since } from '../time/time.util'
+import { NumberOfMilliseconds } from '../types'
 import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -224,6 +225,8 @@ export class Fetcher {
       try {
         res.fetchResponse = await this.callNativeFetch(req.fullUrl, req.init)
         res.ok = res.fetchResponse.ok
+        // important to set it to undefined, otherwise it can keep the previous value (from previous try)
+        res.err = undefined
       } catch (err) {
         // For example, CORS error would result in "TypeError: failed to fetch" here
         res.err = err as Error
@@ -405,13 +408,12 @@ export class Fetcher {
     // but we should log all previous errors, otherwise they are lost.
     // Here is the right place where we know it's not the "last error"
     if (res.err) {
-      const { retryAttempt } = retryStatus
       this.cfg.logger.error(
         [
           ' <<',
           res.fetchResponse?.status || 0,
           res.signature,
-          `try#${retryAttempt + 1}/${count + 1}`,
+          `try#${retryStatus.retryAttempt + 1}/${count + 1}`,
           _since(res.req.started),
         ]
           .filter(Boolean)
@@ -423,8 +425,41 @@ export class Fetcher {
     retryStatus.retryAttempt++
     retryStatus.retryTimeout = _clamp(retryStatus.retryTimeout * timeoutMultiplier, 0, timeoutMax)
 
-    const noise = Math.random() * 500
-    await pDelay(retryStatus.retryTimeout + noise)
+    await pDelay(this.getRetryTimeout(res))
+  }
+
+  private getRetryTimeout(res: FetcherResponse): NumberOfMilliseconds {
+    let timeout: NumberOfMilliseconds = 0
+
+    // Handling http 429 with specific retry headers
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
+    if (res.fetchResponse && [429, 503].includes(res.fetchResponse.status)) {
+      const retryAfterStr =
+        res.fetchResponse.headers.get('retry-after') ??
+        res.fetchResponse.headers.get('x-ratelimit-reset')
+      if (retryAfterStr) {
+        if (Number(retryAfterStr)) {
+          timeout = Number(retryAfterStr) * 1000
+        } else {
+          const date = new Date(retryAfterStr)
+          if (!isNaN(date as any)) {
+            timeout = Number(date) - Date.now()
+          }
+        }
+
+        this.cfg.logger.log(`retry-after: ${retryAfterStr}`)
+        if (!timeout) {
+          this.cfg.logger.warn(`retry-after could not be parsed`)
+        }
+      }
+    }
+
+    if (!timeout) {
+      const noise = Math.random() * 500
+      timeout = res.retryStatus.retryTimeout + noise
+    }
+
+    return timeout
   }
 
   /**

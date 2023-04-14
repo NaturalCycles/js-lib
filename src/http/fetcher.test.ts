@@ -1,4 +1,5 @@
 import { _range } from '../array/range'
+import { localTime } from '../datetime/localTime'
 import { AppError } from '../error/app.error'
 import { _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
@@ -173,7 +174,7 @@ test('paginate', async () => {
     return new Response(JSON.stringify(_range((page - 1) * pageSize, page * pageSize)))
   })
 
-  const results: number[] = []
+  let results: number[] = []
 
   await fetcher.get<number[]>('https://a.com', {
     searchParams: {
@@ -189,4 +190,68 @@ test('paginate', async () => {
   })
 
   expect(results).toEqual(_range(0, pageSize * 10))
+
+  // Alternative implementation without Pagination API (for comparison)
+  results = []
+
+  let page = 1
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const r = await fetcher.get<number[]>('https://a.com', {
+      searchParams: {
+        page,
+      },
+    })
+
+    if (!r.length) break
+    results.push(...r)
+    page++
+  }
+
+  expect(results).toEqual(_range(0, pageSize * 10))
+})
+
+test('retryAfter', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+  })
+
+  let attempt = 0
+  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
+    if (++attempt < 2) {
+      return new Response('429 rate limited', {
+        status: 429,
+        headers: {
+          'retry-after': '2',
+        },
+      })
+    }
+    return new Response('ok')
+  })
+
+  const r = await fetcher.getText('')
+  expect(r).toBe('ok')
+})
+
+test('retryAfter date', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+  })
+
+  let attempt = 0
+  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
+    if (++attempt < 2) {
+      return new Response('429 rate limited', {
+        status: 429,
+        headers: {
+          'retry-after': localTime().add(2, 'second').getDate().toString(),
+        },
+      })
+    }
+    return new Response('ok')
+  })
+
+  const r = await fetcher.getText('')
+  expect(r).toBe('ok')
 })
