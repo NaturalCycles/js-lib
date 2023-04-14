@@ -10,9 +10,7 @@ export interface FetcherNormalizedCfg
   searchParams: Record<string, any>
 }
 
-export type FetcherBeforeRequestHook = <BODY = unknown>(
-  req: FetcherRequest<BODY>,
-) => Promisable<void>
+export type FetcherBeforeRequestHook = (req: FetcherRequest) => Promisable<void>
 export type FetcherAfterResponseHook = <BODY = unknown>(
   res: FetcherResponse<BODY>,
 ) => Promisable<void>
@@ -96,8 +94,8 @@ export interface FetcherRetryOptions {
   timeoutMultiplier: number
 }
 
-export interface FetcherRequest<BODY = unknown>
-  extends Omit<FetcherOptions<BODY>, 'method' | 'headers' | 'baseUrl' | 'url'> {
+export interface FetcherRequest
+  extends Omit<FetcherOptions, 'method' | 'headers' | 'baseUrl' | 'url'> {
   /**
    * inputUrl is only the part that was passed in the request,
    * without baseUrl or searchParams.
@@ -118,7 +116,7 @@ export interface FetcherRequest<BODY = unknown>
   started: UnixTimestampMillisNumber
 }
 
-export interface FetcherOptions<BODY = unknown> {
+export interface FetcherOptions {
   method?: HttpMethod
 
   /**
@@ -183,22 +181,6 @@ export interface FetcherOptions<BODY = unknown> {
   retry5xx?: boolean
 
   jsonReviver?: Reviver
-
-  /**
-   * Allows to walk over multiple pages of results.
-   * Paginate take a function.
-   * Function has access to FetcherResponse and FetcherOptions
-   * and has to make a decision to continue pagination or not.
-   *
-   * Return false to stop pagination.
-   * Return true to continue pagination.
-   * Feel free to mutate/modify opt (FetcherOptions), for example:
-   *
-   * opt.searchParams!['page']++
-   *
-   * @experimental
-   */
-  paginate?: (res: FetcherSuccessResponse<BODY>, opt: FetcherOptions<BODY>) => Promisable<boolean>
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {

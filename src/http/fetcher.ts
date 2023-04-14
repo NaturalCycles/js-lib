@@ -54,10 +54,7 @@ export class Fetcher {
       const m = method.toLowerCase()
 
       // mode=void
-      ;(this as any)[`${m}Void`] = async (
-        url: string,
-        opt?: FetcherOptions<void>,
-      ): Promise<void> => {
+      ;(this as any)[`${m}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
         return await this.fetch<void>({
           url,
           method,
@@ -67,10 +64,7 @@ export class Fetcher {
       }
 
       if (method === 'HEAD') return // mode=text
-      ;(this as any)[`${m}Text`] = async (
-        url: string,
-        opt?: FetcherOptions<string>,
-      ): Promise<string> => {
+      ;(this as any)[`${m}Text`] = async (url: string, opt?: FetcherOptions): Promise<string> => {
         return await this.fetch<string>({
           url,
           method,
@@ -80,7 +74,7 @@ export class Fetcher {
       }
 
       // Default mode=json, but overridable
-      ;(this as any)[m] = async <T = unknown>(url: string, opt?: FetcherOptions<T>): Promise<T> => {
+      ;(this as any)[m] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
         return await this.fetch<T>({
           url,
           method,
@@ -117,26 +111,26 @@ export class Fetcher {
 
   // These methods are generated dynamically in the constructor
   // These default methods use mode=json
-  get!: <T = unknown>(url: string, opt?: FetcherOptions<T>) => Promise<T>
-  post!: <T = unknown>(url: string, opt?: FetcherOptions<T>) => Promise<T>
-  put!: <T = unknown>(url: string, opt?: FetcherOptions<T>) => Promise<T>
-  patch!: <T = unknown>(url: string, opt?: FetcherOptions<T>) => Promise<T>
-  delete!: <T = unknown>(url: string, opt?: FetcherOptions<T>) => Promise<T>
+  get!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  post!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  put!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  patch!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
+  delete!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
 
   // mode=text
-  getText!: (url: string, opt?: FetcherOptions<string>) => Promise<string>
-  postText!: (url: string, opt?: FetcherOptions<string>) => Promise<string>
-  putText!: (url: string, opt?: FetcherOptions<string>) => Promise<string>
-  patchText!: (url: string, opt?: FetcherOptions<string>) => Promise<string>
-  deleteText!: (url: string, opt?: FetcherOptions<string>) => Promise<string>
+  getText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  postText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  putText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  patchText!: (url: string, opt?: FetcherOptions) => Promise<string>
+  deleteText!: (url: string, opt?: FetcherOptions) => Promise<string>
 
   // mode=void (no body fetching/parsing)
-  getVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
-  postVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
-  putVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
-  patchVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
-  deleteVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
-  headVoid!: (url: string, opt?: FetcherOptions<void>) => Promise<void>
+  getVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  postVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  putVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  patchVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  deleteVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+  headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
 
   // mode=readableStream
   /**
@@ -145,10 +139,7 @@ export class Fetcher {
    * More on streams and Node interop:
    * https://css-tricks.com/web-streams-everywhere-and-fetch-for-node-js/
    */
-  async getReadableStream(
-    url: string,
-    opt?: FetcherOptions<ReadableStream<Uint8Array>>,
-  ): Promise<ReadableStream<Uint8Array>> {
+  async getReadableStream(url: string, opt?: FetcherOptions): Promise<ReadableStream<Uint8Array>> {
     return await this.fetch({
       url,
       mode: 'readableStream',
@@ -156,7 +147,7 @@ export class Fetcher {
     })
   }
 
-  async fetch<T = unknown>(opt: FetcherOptions<T>): Promise<T> {
+  async fetch<T = unknown>(opt: FetcherOptions): Promise<T> {
     const res = await this.doFetch<T>(opt)
     if (res.err) {
       if (res.req.throwHttpErrors) throw res.err
@@ -170,7 +161,7 @@ export class Fetcher {
    * Never throws, returns `err` property in the response instead.
    * Use this method instead of `throwHttpErrors: false` or try-catching.
    */
-  async doFetch<T = unknown>(opt: FetcherOptions<T>): Promise<FetcherResponse<T>> {
+  async doFetch<T = unknown>(opt: FetcherOptions): Promise<FetcherResponse<T>> {
     const req = this.normalizeOptions(opt)
     const { logger } = this.cfg
     const {
@@ -246,13 +237,6 @@ export class Fetcher {
 
     for (const hook of this.cfg.hooks.afterResponse || []) {
       await hook(res)
-    }
-
-    if (req.paginate && res.ok) {
-      const proceeed = await req.paginate(res, opt)
-      if (proceeed) {
-        return await this.doFetch(opt)
-      }
     }
 
     return res
@@ -560,7 +544,7 @@ export class Fetcher {
     return norm
   }
 
-  private normalizeOptions<BODY>(opt: FetcherOptions<BODY>): FetcherRequest<BODY> {
+  private normalizeOptions(opt: FetcherOptions): FetcherRequest {
     const {
       timeoutSeconds,
       throwHttpErrors,
@@ -572,7 +556,7 @@ export class Fetcher {
       jsonReviver,
     } = this.cfg
 
-    const req: FetcherRequest<BODY> = {
+    const req: FetcherRequest = {
       started: Date.now(),
       mode,
       timeoutSeconds,

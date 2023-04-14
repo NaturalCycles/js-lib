@@ -174,26 +174,27 @@ test('paginate', async () => {
     return new Response(JSON.stringify(_range((page - 1) * pageSize, page * pageSize)))
   })
 
-  let results: number[] = []
+  const results: number[] = []
 
-  await fetcher.get<number[]>('https://a.com', {
-    searchParams: {
-      page: 1,
-    },
-    paginate: (res, opt) => {
-      if (!res.body.length) return false // no more items
-      results.push(...res.body)
-
-      opt.searchParams!['page']++
-      return true
-    },
-  })
-
-  expect(results).toEqual(_range(0, pageSize * 10))
+  // UPD: Pagination API was removed as "not ergonomic enough"
+  // Use "while(true) loop" instead
+  //
+  // await fetcher.get<number[]>('https://a.com', {
+  //   searchParams: {
+  //     page: 1,
+  //   },
+  //   paginate: (res, opt) => {
+  //     if (!res.body.length) return false // no more items
+  //     results.push(...res.body)
+  //
+  //     opt.searchParams!['page']++
+  //     return true
+  //   },
+  // })
+  //
+  // expect(results).toEqual(_range(0, pageSize * 10))
 
   // Alternative implementation without Pagination API (for comparison)
-  results = []
-
   let page = 1
 
   // eslint-disable-next-line no-constant-condition
