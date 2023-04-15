@@ -8,8 +8,6 @@ import {
   _dropRightWhile,
   _dropWhile,
   _findLast,
-  _flatten,
-  _flattenDeep,
   _groupBy,
   _intersection,
   _last,
@@ -49,16 +47,6 @@ test('_chunk', () => {
   expect(_chunk(b, 2)).toEqual([[1, 2], [3]])
 
   expect(_chunk([])).toEqual([])
-})
-
-test('_flatten', () => {
-  const a = [[1, 2], [3], [4, 5]]
-  expect(_flatten(a)).toEqual([1, 2, 3, 4, 5])
-})
-
-test('_flattenDeep', () => {
-  expect(_flattenDeep([[1, 2], [3], [4, 5]])).toEqual([1, 2, 3, 4, 5])
-  expect(_flattenDeep([[1, [2]], [3], [4, 5]])).toEqual([1, 2, 3, 4, 5])
 })
 
 test('_uniq', () => {

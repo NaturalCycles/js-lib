@@ -192,11 +192,6 @@ export interface InstanceId {
 export type IsoDateString = string
 
 /**
- * @deprecated use IsoDateString
- */
-export type IsoDate = string
-
-/**
  * Interface explicitly states that the value is an ISO DateTime string (with time).
  *
  * @example '2019-06-21T05:21:73Z'
@@ -216,11 +211,6 @@ export type UnixTimestampNumber = number
  * @example 1628945450000
  */
 export type UnixTimestampMillisNumber = number
-
-/**
- * @deprecated use UnixTimestampNumber
- */
-export type UnixTimestamp = number
 
 export type NumberOfSeconds = number
 export type NumberOfMilliseconds = number

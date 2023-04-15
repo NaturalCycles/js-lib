@@ -1,5 +1,4 @@
 import { _isNotNullish } from '../is.util'
-import type { RecursiveArray } from '../lodash.types'
 import type { FalsyValue, Mapper, Predicate, StringMap } from '../types'
 
 /**
@@ -18,33 +17,6 @@ export function _chunk<T>(array: readonly T[], size = 1): T[][] {
   return array.reduce((arr, item, idx) => {
     return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0]!, item]]
   }, [] as T[][])
-}
-
-/**
- * Polyfill to Array.flat() with depth=1.
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
- *
- * @deprecated prefer native Array.flat(), it's supported since iOS 12
- */
-export function _flatten<T>(arrays: T[][]): T[] {
-  // to flat single level array
-  return ([] as T[]).concat(...arrays)
-}
-
-/**
- * Recursively flattens a nested array.
- *
- * @param arr The array to recursively flatten.
- * @return Returns the new flattened array.
- *
- * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_flattendeep
- *
- * @deprecated prefer native Array.flat(), it's supported since iOS 12
- */
-export function _flattenDeep<T>(arr: RecursiveArray<T>): T[] {
-  return Array.isArray(arr)
-    ? arr.reduce((a: RecursiveArray<T>, b) => a.concat(_flattenDeep(b as RecursiveArray<T>)), [])
-    : ([arr] as any)
 }
 
 /**
