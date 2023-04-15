@@ -5,7 +5,10 @@ import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg
   extends Required<FetcherCfg>,
-    Omit<FetcherRequest, 'started' | 'fullUrl'> {
+    Omit<
+      FetcherRequest,
+      'started' | 'fullUrl' | 'logRequest' | 'logRequestBody' | 'logResponse' | 'logResponseBody'
+    > {
   logger: CommonLogger
   searchParams: Record<string, any>
 }
@@ -181,6 +184,11 @@ export interface FetcherOptions {
   retry5xx?: boolean
 
   jsonReviver?: Reviver
+
+  logRequest?: boolean
+  logRequestBody?: boolean
+  logResponse?: boolean
+  logResponseBody?: boolean
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {

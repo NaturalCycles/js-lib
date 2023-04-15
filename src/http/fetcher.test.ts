@@ -9,6 +9,7 @@ import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
 import { _stringifyAny } from '../string/stringifyAny'
 import { getFetcher } from './fetcher'
+import { FetcherRequest } from './fetcher.model'
 
 test('defaults', () => {
   const fetcher = getFetcher()
@@ -46,6 +47,41 @@ test('defaults', () => {
   `)
 
   expect(fetcher.cfg.logger).toBe(console)
+
+  const req: FetcherRequest = (fetcher as any).normalizeOptions({ url: 'some', logResponse: true })
+  expect(req.logResponse).toBe(true)
+  req.started = 1234
+
+  expect(req).toMatchInlineSnapshot(`
+    {
+      "fullUrl": "some",
+      "init": {
+        "credentials": undefined,
+        "headers": {},
+        "method": "GET",
+        "redirect": "follow",
+      },
+      "inputUrl": "some",
+      "logRequest": false,
+      "logRequestBody": false,
+      "logResponse": true,
+      "logResponseBody": false,
+      "mode": "void",
+      "retry": {
+        "count": 2,
+        "timeout": 1000,
+        "timeoutMax": 30000,
+        "timeoutMultiplier": 2,
+      },
+      "retry4xx": false,
+      "retry5xx": true,
+      "retryPost": false,
+      "started": 1234,
+      "throwHttpErrors": true,
+      "timeoutSeconds": 30,
+      "url": "some",
+    }
+  `)
 })
 
 test('should not mutate console', () => {
@@ -69,7 +105,9 @@ test('mocking fetch', async () => {
     retry: {
       count: 0,
     },
+    logResponse: true,
   })
+  expect(fetcher.cfg.logResponse).toBe(true)
   jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
     return new Response(
       JSON.stringify({

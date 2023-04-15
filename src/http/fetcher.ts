@@ -11,6 +11,7 @@ import {
   _mapKeys,
   _merge,
   _omit,
+  _pick,
 } from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
@@ -385,19 +386,18 @@ export class Fetcher {
       retryStatus.retryStopped = true
     }
 
-    if (retryStatus.retryStopped) return
-
-    // Here we know that more retries will be attempted
     // We don't log "last error", because it will be thrown and logged by consumer,
     // but we should log all previous errors, otherwise they are lost.
-    // Here is the right place where we know it's not the "last error"
-    if (res.err) {
+    // Here is the right place where we know it's not the "last error".
+    // lastError = retryStatus.retryStopped
+    // We need to log the response "anyway" if logResponse is true
+    if (res.err && (!retryStatus.retryStopped || res.req.logResponse)) {
       this.cfg.logger.error(
         [
           ' <<',
           res.fetchResponse?.status || 0,
           res.signature,
-          `try#${retryStatus.retryAttempt + 1}/${count + 1}`,
+          count && `try#${retryStatus.retryAttempt + 1}/${count + 1}`,
           _since(res.req.started),
         ]
           .filter(Boolean)
@@ -405,6 +405,8 @@ export class Fetcher {
         res.err.cause || res.err,
       )
     }
+
+    if (retryStatus.retryStopped) return
 
     retryStatus.retryAttempt++
     retryStatus.retryTimeout = _clamp(retryStatus.retryTimeout * timeoutMultiplier, 0, timeoutMax)
@@ -545,31 +547,26 @@ export class Fetcher {
   }
 
   private normalizeOptions(opt: FetcherOptions): FetcherRequest {
-    const {
-      timeoutSeconds,
-      throwHttpErrors,
-      retryPost,
-      retry4xx,
-      retry5xx,
-      retry,
-      mode,
-      jsonReviver,
-    } = this.cfg
-
     const req: FetcherRequest = {
+      ..._pick(this.cfg, [
+        'timeoutSeconds',
+        'throwHttpErrors',
+        'retryPost',
+        'retry4xx',
+        'retry5xx',
+        'mode',
+        'jsonReviver',
+        'logRequest',
+        'logRequestBody',
+        'logResponse',
+        'logResponseBody',
+      ]),
       started: Date.now(),
-      mode,
-      timeoutSeconds,
-      throwHttpErrors,
-      retryPost,
-      retry4xx,
-      retry5xx,
-      jsonReviver,
       ..._omit(opt, ['method', 'headers', 'credentials']),
       inputUrl: opt.url || '',
       fullUrl: opt.url || '',
       retry: {
-        ...retry,
+        ...this.cfg.retry,
         ..._filterUndefinedValues(opt.retry || {}),
       },
       init: _merge(
@@ -584,7 +581,6 @@ export class Fetcher {
         } as RequestInit,
       ),
     }
-
     // setup url
     const baseUrl = opt.baseUrl || this.cfg.baseUrl
     if (baseUrl) {

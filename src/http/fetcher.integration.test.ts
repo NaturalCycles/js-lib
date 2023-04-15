@@ -35,9 +35,13 @@ test('post with error', async () => {
     throwHttpErrors: false,
   })
   expect(r.ok).toBe(false)
-  expect(r.err!.message).toMatchInlineSnapshot(`
-    "404 POST https://kg-backend3.appspot.com/
-    404 Not Found: POST /"
+  expect(r.err!.message).toMatchInlineSnapshot(`"404 POST https://kg-backend3.appspot.com/"`)
+  expect(r.err?.cause).toMatchInlineSnapshot(`
+    {
+      "data": {},
+      "message": "404 Not Found: POST /",
+      "name": "Error",
+    }
   `)
 
   if (r.ok) {
