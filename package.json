@@ -44,7 +44,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^27.0.1",
-    "eslint-plugin-jsdoc": "^41.1.1",
+    "eslint-plugin-jsdoc": "^43.0.7",
     "eslint-plugin-unicorn": "^46.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-plugin-vue": "^9.0.0",
@@ -103,6 +103,7 @@
     "node": ">=18.12.0"
   },
   "publishConfig": {
+    "provenance": true,
     "access": "public"
   },
   "repository": {

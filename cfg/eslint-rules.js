@@ -173,7 +173,7 @@ module.exports = {
     // 'import/no-duplicates': 0,
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
-    'jsdoc/newline-after-description': 2,
+    // 'jsdoc/newline-after-description': 2,
     'no-array-constructor': 'off',
     'no-async-promise-executor': 2,
     'no-bitwise': 2,
