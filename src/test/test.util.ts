@@ -28,7 +28,7 @@ export function timeSpan(): () => number {
  * To support deterministic tests.
  */
 export function normalizeStack(s: string): string {
-  return s.replace(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
+  return s.replaceAll(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
 }
 
 export function expectWithMessage(

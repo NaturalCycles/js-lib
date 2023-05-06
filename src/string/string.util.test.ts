@@ -4,7 +4,6 @@ import {
   _lowerFirst,
   _nl2br,
   _removeWhitespace,
-  _replaceAll,
   _split,
   _substringBetweenLast,
   _upperFirst,
@@ -49,13 +48,6 @@ test('_substringBetweenLast', () => {
   const s = '/Users/lalala/someFile.test.ts'
   expect(_substringBetweenLast(s, '/', '.')).toBe('someFile')
 })
-
-test.each([['aabbcc', 'b', '.', 'aa..cc']])(
-  '_replaceAll %s %s %s',
-  (s, find, replaceWith, result) => {
-    expect(_replaceAll(s, find, replaceWith)).toBe(result)
-  },
-)
 
 test.each([
   ['', ''],

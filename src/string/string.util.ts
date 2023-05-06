@@ -25,7 +25,7 @@ export function _split(str: string, separator: string, limit: number): string[] 
 }
 
 export function _removeWhitespace(s: string): string {
-  return s.replace(/\s/g, '')
+  return s.replaceAll(/\s/g, '')
 }
 
 /**
@@ -91,19 +91,9 @@ export function _substringBetweenLast(
 }
 
 /**
- * Polyfill for es2021 `String.prototype.replaceAll`.
- * Uses regex implementation that's a bit faster than another popular "split/join" implementation.
- *
- * Based on: https://stackoverflow.com/a/1144788/4919972
- */
-export function _replaceAll(s: string, find: string, replaceWith: string): string {
-  return s.replace(new RegExp(find, 'g'), replaceWith)
-}
-
-/**
  * Converts `\n` (aka new-line) to `<br>`, to be presented in HTML.
  * Keeps `\n`, so if it's printed in non-HTML environment it still looks ok-ish.
  */
 export function _nl2br(s: string): string {
-  return s.replace(/\n/g, '<br>\n')
+  return s.replaceAll('\n', '<br>\n')
 }

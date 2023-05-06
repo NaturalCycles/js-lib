@@ -322,7 +322,7 @@ export function _invertMap<K, V>(m: ReadonlyMap<K, V>): Map<V, K> {
  */
 export function _get<T extends AnyObject>(obj = {} as T, path = ''): unknown {
   return path
-    .replace(/\[([^\]]+)]/g, '.$1')
+    .replaceAll(/\[([^\]]+)]/g, '.$1')
     .split('.')
     .reduce((o, p) => o?.[p], obj)
 }

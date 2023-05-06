@@ -77,10 +77,10 @@ export function pupa(template: string, data: any[] | AnyObject, opt: PupaOptions
   const doubleBraceRegex = /{{(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}}/gi
 
   if (doubleBraceRegex.test(template)) {
-    template = template.replace(doubleBraceRegex, composeHtmlEscape(replace))
+    template = template.replaceAll(doubleBraceRegex, composeHtmlEscape(replace))
   }
 
   const braceRegex = /{(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}/gi
 
-  return template.replace(braceRegex, replace)
+  return template.replaceAll(braceRegex, replace)
 }

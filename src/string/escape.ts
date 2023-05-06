@@ -14,20 +14,20 @@ Reasons:
 // Multiple `.replace()` calls are actually faster than using replacer functions
 function _htmlEscape(s: string): string {
   return s
-    .replace(/&/g, '&amp;') // Must happen first or else it will escape other just-escaped characters.
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+    .replaceAll('&', '&amp;') // Must happen first or else it will escape other just-escaped characters.
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
 }
 
 function _htmlUnescape(html: string): string {
   return html
-    .replace(/&gt;/g, '>')
-    .replace(/&lt;/g, '<')
-    .replace(/&#0?39;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&') // Must happen last or else it will unescape other characters in the wrong order.
+    .replaceAll('&gt;', '>')
+    .replaceAll('&lt;', '<')
+    .replaceAll(/&#0?39;/g, "'")
+    .replaceAll('&quot;', '"')
+    .replaceAll('&amp;', '&') // Must happen last or else it will unescape other characters in the wrong order.
 }
 
 export function htmlEscape(strings: string | TemplateStringsArray, ...values: any[]): string {
