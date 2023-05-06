@@ -345,6 +345,7 @@ module.exports = {
     'unicorn/prefer-set-has': 0,
     'unicorn/explicit-length-check': 0,
     'unicorn/no-array-for-each': 0,
+    'unicorn/prefer-at': 0, // iOS 15.4+
     'unicorn/import-style': 0, // todo: fix
     'unicorn/prefer-spread': 0, // fails on joiSchema.concat() which is not an array!
     'unicorn/better-regex': 0, // we still believe that [0-9] is clearer than [\d]
