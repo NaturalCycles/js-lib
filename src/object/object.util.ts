@@ -111,7 +111,7 @@ export function _filterObject<T extends AnyObject>(
  *  'pebbles': { 'user': 'pebbles', 'age': 1 }
  * }
  *
- * _.mapValues(users, function(o) { return o.age; });
+ * _.mapValues(users, function(_key, value) { return value.age; });
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  *
  * // The `_.property` iteratee shorthand.
