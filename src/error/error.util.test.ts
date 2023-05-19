@@ -3,12 +3,13 @@ import type { ErrorObject, BackendErrorResponseObject } from '..'
 import {
   AppError,
   HttpRequestError,
-  _errorToErrorObject,
+  _errorLikeToErrorObject,
   _omit,
   _errorObjectToError,
   AssertionError,
   _errorDataAppend,
   _isHttpRequestErrorObject,
+  _isErrorLike,
 } from '..'
 import {
   _anyToError,
@@ -108,7 +109,7 @@ test('anyToError', () => {
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
   const data = { a: 'b' }
   const err1 = new AppError('hello', data)
-  const err2 = _errorToErrorObject(err1)
+  const err2 = _errorLikeToErrorObject(err1)
   // console.log(err2)
 
   expect(err2.name).toBe('AppError')
@@ -120,6 +121,10 @@ test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
 
 test('isErrorObject', () => {
   expectResults(v => _isErrorObject(v), anyItems).toMatchSnapshot()
+})
+
+test('isErrorLike', () => {
+  expectResults(v => _isErrorLike(v), anyItems).toMatchSnapshot()
 })
 
 test('isHttpRequestErrorObject', () => {

@@ -1,4 +1,4 @@
-import { _isErrorObject, _isBackendErrorResponseObject } from '../error/error.util'
+import { _isBackendErrorResponseObject, _isErrorLike } from '../error/error.util'
 import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
@@ -92,10 +92,10 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     return _stringifyAny(obj.error, opt)
   }
 
-  if (obj instanceof Error || _isErrorObject(obj)) {
+  if (obj instanceof Error || _isErrorLike(obj)) {
     const { includeErrorCause = true } = opt
     //
-    // Error or ErrorObject
+    // Error or ErrorLike
     //
 
     // Omit "default" error name as non-informative

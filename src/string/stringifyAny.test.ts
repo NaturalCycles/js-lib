@@ -2,7 +2,7 @@ import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist
 import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
 import { AppError } from '../error/app.error'
 import { BackendErrorResponseObject } from '../error/error.model'
-import { _errorToErrorObject } from '../error/error.util'
+import { _errorLikeToErrorObject } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
 
@@ -38,7 +38,7 @@ test('backendErrorResponse', () => {
   })
 
   const resp: BackendErrorResponseObject = {
-    error: _errorToErrorObject(err),
+    error: _errorLikeToErrorObject(err),
   }
   expect(resp.error.name).toBe('AppError')
 

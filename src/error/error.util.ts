@@ -4,6 +4,7 @@ import type {
   BackendErrorResponseObject,
   Class,
   HttpRequestErrorData,
+  ErrorLike,
 } from '..'
 import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
 
@@ -53,8 +54,9 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
 ): ErrorObject<DATA_TYPE> {
   let eo: ErrorObject<DATA_TYPE>
 
-  if (o instanceof Error) {
-    eo = _errorToErrorObject<DATA_TYPE>(o)
+  // if (o instanceof Error) {
+  if (_isErrorLike(o)) {
+    eo = _errorLikeToErrorObject(o)
   } else {
     o = _jsonParseIfPossible(o)
 
@@ -62,6 +64,8 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
       eo = o.error as ErrorObject<DATA_TYPE>
     } else if (_isErrorObject(o)) {
       eo = o as ErrorObject<DATA_TYPE>
+    } else if (_isErrorLike(o)) {
+      eo = _errorLikeToErrorObject(o)
     } else {
       // Here we are sure it has no `data` property,
       // so, fair to return `data: {}` in the end
@@ -81,15 +85,16 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   return eo
 }
 
-export function _errorToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
-  e: AppError<DATA_TYPE> | Error,
+export function _errorLikeToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
+  e: AppError<DATA_TYPE> | Error | ErrorLike,
 ): ErrorObject<DATA_TYPE> {
   const obj: ErrorObject<DATA_TYPE> = {
     name: e.name,
     message: e.message,
     data: { ...(e as any).data }, // empty by default
-    stack: e.stack,
   }
+
+  if (e.stack) obj.stack = e.stack
 
   if (e.cause) {
     obj.cause = _anyToErrorObject(e.cause)
@@ -168,9 +173,9 @@ export function _isErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   )
 }
 
-// export function _isErrorLike(o: any): o is ErrorLike {
-//   return !!o && typeof o === 'object' && typeof o.name === 'string' && typeof o.message === 'string'
-// }
+export function _isErrorLike(o: any): o is ErrorLike {
+  return !!o && typeof o === 'object' && typeof o.name === 'string' && typeof o.message === 'string'
+}
 
 /**
  * Convenience function to safely add properties to Error's `data` object

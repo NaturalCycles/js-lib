@@ -104,13 +104,17 @@ export interface HttpRequestErrorData extends ErrorData {
   responseStatusCode: HttpStatusCode
 }
 
-// export interface ErrorLike {
-//   name: string
-//   message: string
-//   stack?: string
-//   data?: any
-//   cause?: any
-// }
+/**
+ * Sometimes there are cases when Errors come from unexpected places,
+ * where err is not instanceof Error, but still looks like Error.
+ */
+export interface ErrorLike {
+  name: string
+  message: string
+  stack?: string
+  data?: any
+  cause?: any
+}
 
 /**
  * Portable object that represents Error.
