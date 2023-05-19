@@ -2,6 +2,7 @@ import * as fs from 'node:fs'
 import { Readable } from 'node:stream'
 import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expectTypeOf } from 'expect-type'
+import { _stringifyAny } from '../string/stringifyAny'
 import { tmpDir } from '../test/paths'
 import { getFetcher } from './fetcher'
 import { FetcherResponse } from './fetcher.model'
@@ -43,6 +44,10 @@ test('post with error', async () => {
       "name": "Error",
     }
   `)
+  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+    "HttpRequestError: 404 POST https://kg-backend3.appspot.com/
+    Caused by: Error: 404 Not Found: POST /"
+  `)
 
   if (r.ok) {
     expectTypeOf(r.err).toBeUndefined()
@@ -66,4 +71,42 @@ test('getReadableStream', async () => {
     Readable.fromWeb(r as any), // `as any` because of typings conflict between Web and Node types
     fs.createWriteStream(`${tmpDir}/resp.txt`),
   ])
+})
+
+test('redirect: error', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    retry: { count: 0 },
+  })
+
+  const r = await fetcher.doFetch({
+    url: 'http://naturalcycles.com', // shall redirect to https
+    redirect: 'error',
+  })
+  expect(r.ok).toBe(false)
+  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+    "HttpRequestError: GET http://naturalcycles.com/
+    Caused by: TypeError: fetch failed
+    Caused by: Error: unexpected redirect"
+  `)
+})
+
+test('redirect: manual', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    retry: { count: 0 },
+  })
+
+  const r = await fetcher.doFetch({
+    url: 'http://naturalcycles.com', // shall redirect to https
+    redirect: 'manual',
+  })
+  expect(r.ok).toBe(false)
+  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+    "HttpRequestError: 301 GET http://naturalcycles.com/
+    Caused by: Error: Redirecting to https://naturalcycles.com/"
+  `)
+  expect(r.fetchResponse!.status).toBe(301)
+  expect(r.fetchResponse!.headers.get('location')).toBe('https://naturalcycles.com/')
+  expect(r.body).toBeUndefined()
 })

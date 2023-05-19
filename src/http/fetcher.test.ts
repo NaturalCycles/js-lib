@@ -3,7 +3,7 @@ import { localTime } from '../datetime/localTime'
 import { AppError } from '../error/app.error'
 import { _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
-import { _errorToErrorObject } from '../error/error.util'
+import { _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
@@ -111,7 +111,7 @@ test('mocking fetch', async () => {
   jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
     return new Response(
       JSON.stringify({
-        error: _errorToErrorObject(
+        error: _errorLikeToErrorObject(
           new AppError('aya-baya', {
             some: 'key',
           }),

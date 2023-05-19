@@ -2,7 +2,7 @@
 
 import { isServerSide } from '../env'
 import { ErrorObject } from '../error/error.model'
-import { _anyToError, _anyToErrorObject, _errorToErrorObject } from '../error/error.util'
+import { _anyToError, _anyToErrorObject, _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
 import { _clamp } from '../number/number.util'
 import {
@@ -221,7 +221,8 @@ export class Fetcher {
         res.err = undefined
       } catch (err) {
         // For example, CORS error would result in "TypeError: failed to fetch" here
-        res.err = err as Error
+        // or, `fetch failed` with the cause of `unexpected redirect`
+        res.err = _anyToError(err)
         res.ok = false
         // important to set it to undefined, otherwise it can keep the previous value (from previous try)
         res.fetchResponse = undefined
@@ -336,9 +337,10 @@ export class Fetcher {
     let cause: ErrorObject | undefined
 
     if (res.err) {
-      // This is only possible on JSON.parse error (or CORS error!)
+      // This is only possible on JSON.parse error, or CORS error,
+      // or `unexpected redirect`
       // This check should go first, to avoid calling .text() twice (which will fail)
-      cause = _errorToErrorObject(res.err)
+      cause = _errorLikeToErrorObject(res.err)
     } else if (res.fetchResponse) {
       const body = _jsonParseIfPossible(await res.fetchResponse.text())
       if (body) {
@@ -574,7 +576,7 @@ export class Fetcher {
           ...this.cfg.init,
           method: opt.method || this.cfg.init.method,
           credentials: opt.credentials || this.cfg.init.credentials,
-          redirect: opt.followRedirects ?? this.cfg.followRedirects ?? true ? 'follow' : 'error',
+          redirect: opt.redirect || 'follow',
         },
         {
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),

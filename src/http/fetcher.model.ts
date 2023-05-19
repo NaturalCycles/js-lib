@@ -150,9 +150,11 @@ export interface FetcherOptions {
 
   credentials?: RequestCredentials
   /**
-   * Default to true.
+   * Default to 'follow'.
+   * 'error' would throw on redirect.
+   * 'manual' will not throw, but return !ok response with 3xx status.
    */
-  followRedirects?: boolean
+  redirect?: RequestRedirect
 
   // Removing RequestInit from options to simplify FetcherOptions interface.
   // Will instead only add hand-picked useful options, such as `credentials`.
