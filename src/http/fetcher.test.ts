@@ -37,6 +37,7 @@ test('defaults', () => {
         "timeoutMax": 30000,
         "timeoutMultiplier": 2,
       },
+      "retry3xx": false,
       "retry4xx": false,
       "retry5xx": true,
       "retryPost": false,

@@ -76,7 +76,6 @@ test('getReadableStream', async () => {
 test('redirect: error', async () => {
   const fetcher = getFetcher({
     debug: true,
-    retry: { count: 0 },
   })
 
   const r = await fetcher.doFetch({
@@ -94,7 +93,6 @@ test('redirect: error', async () => {
 test('redirect: manual', async () => {
   const fetcher = getFetcher({
     debug: true,
-    retry: { count: 0 },
   })
 
   const r = await fetcher.doFetch({

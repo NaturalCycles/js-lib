@@ -1,7 +1,7 @@
 /// <reference lib="dom"/>
 
 import { isServerSide } from '../env'
-import { ErrorObject } from '../error/error.model'
+import { ErrorLike, ErrorObject } from '../error/error.model'
 import { _anyToError, _anyToErrorObject, _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
 import { _clamp } from '../number/number.util'
@@ -302,7 +302,7 @@ export class Fetcher {
     clearTimeout(timeout)
     res.retryStatus.retryStopped = true
 
-    // res.err can happen on JSON.parse error
+    // res.err can happen on `failed to fetch` type of error, e.g JSON.parse, CORS, unexpected redirect
     if (!res.err && this.cfg.logResponse) {
       const { retryAttempt } = res.retryStatus
       const { logger } = this.cfg
@@ -399,7 +399,9 @@ export class Fetcher {
           ' <<',
           res.fetchResponse?.status || 0,
           res.signature,
-          count && `try#${retryStatus.retryAttempt + 1}/${count + 1}`,
+          count &&
+            (retryStatus.retryAttempt || !retryStatus.retryStopped) &&
+            `try#${retryStatus.retryAttempt + 1}/${count + 1}`,
           _since(res.req.started),
         ]
           .filter(Boolean)
@@ -457,7 +459,7 @@ export class Fetcher {
    * statusCode of 0 (or absense of it) will BE retried.
    */
   private shouldRetry(res: FetcherResponse): boolean {
-    const { retryPost, retry4xx, retry5xx } = res.req
+    const { retryPost, retry3xx, retry4xx, retry5xx } = res.req
     const { method } = res.req.init
     if (method === 'POST' && !retryPost) return false
     const { statusFamily } = res
@@ -468,6 +470,12 @@ export class Fetcher {
       return true
     }
     if (statusFamily === 4 && !retry4xx) return false
+    if (statusFamily === 3 && !retry3xx) return false
+
+    // should not retry on `unexpected redirect` in error.cause.cause
+    if ((res.err?.cause as ErrorLike | void)?.cause?.message?.includes('unexpected redirect'))
+      return false
+
     return true // default is true
   }
 
@@ -521,6 +529,7 @@ export class Fetcher {
         timeoutSeconds: 30,
         throwHttpErrors: true,
         retryPost: false,
+        retry3xx: false,
         retry4xx: false,
         retry5xx: true,
         // logger: console, Danger! doing this mutates console!

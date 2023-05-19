@@ -114,6 +114,7 @@ export interface FetcherRequest
   timeoutSeconds: number
   retry: FetcherRetryOptions
   retryPost: boolean
+  retry3xx: boolean
   retry4xx: boolean
   retry5xx: boolean
   started: UnixTimestampMillisNumber
@@ -176,6 +177,10 @@ export interface FetcherOptions {
    * Set to true to allow retrying `post` requests.
    */
   retryPost?: boolean
+  /**
+   * Defaults to false.
+   */
+  retry3xx?: boolean
   /**
    * Defaults to false.
    */
