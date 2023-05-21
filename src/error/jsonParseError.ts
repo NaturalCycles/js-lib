@@ -12,7 +12,7 @@ export interface JsonParseErrorData extends ErrorData {
 export class JsonParseError extends AppError<JsonParseErrorData> {
   constructor(data: JsonParseErrorData, cause?: ErrorObject) {
     super(
-      ['Failed to parse', data?.text && _truncateMiddle(data.text, 200)].filter(Boolean).join(': '),
+      ['Failed to parse', data.text && _truncateMiddle(data.text, 200)].filter(Boolean).join(': '),
       data,
       cause,
       'JsonParseError',

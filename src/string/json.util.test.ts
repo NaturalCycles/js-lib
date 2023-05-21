@@ -1,7 +1,7 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { JsonParseError } from '../error/jsonParseError'
 import { _expectedError } from '../error/try'
-import { _jsonParse, _jsonParseIfPossible } from './json.util'
+import { _jsonParse, _jsonParseIfPossible, _jsonParseOrUndefined } from './json.util'
 
 test('jsonParseIfPossible', () => {
   expectResults(v => _jsonParseIfPossible(v), mockAllKindsOfThings()).toMatchSnapshot()
@@ -18,4 +18,14 @@ test('jsonParse', () => {
   const err = _expectedError(() => _jsonParse(text), JsonParseError)
   expect(err).toMatchInlineSnapshot(`[JsonParseError: Failed to parse: some raw text]`)
   expect(err.data.text).toBe(text)
+})
+
+test('jsonParseOrUndefined', () => {
+  const f = _jsonParseOrUndefined
+
+  expect(f('{"a": "b"}')).toEqual({ a: 'b' })
+  expect(f('  {"a": "b"}')).toEqual({ a: 'b' })
+  expect(f('5')).toBe(5)
+  expect(f('something')).toBeUndefined()
+  expect(f('{something')).toBeUndefined()
 })
