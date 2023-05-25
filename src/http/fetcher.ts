@@ -548,10 +548,11 @@ export class Fetcher {
           method: cfg.method || 'GET',
           headers: cfg.headers || {},
           credentials: cfg.credentials,
+          redirect: cfg.redirect,
         },
         hooks: {},
       },
-      _omit(cfg, ['method', 'credentials', 'headers', 'logger']),
+      _omit(cfg, ['method', 'credentials', 'headers', 'redirect', 'logger']),
     )
 
     norm.init.headers = _mapKeys(norm.init.headers, k => k.toLowerCase())
@@ -587,7 +588,7 @@ export class Fetcher {
           ...this.cfg.init,
           method: opt.method || this.cfg.init.method,
           credentials: opt.credentials || this.cfg.init.credentials,
-          redirect: opt.redirect || 'follow',
+          redirect: opt.redirect || this.cfg.init.redirect || 'follow',
         },
         {
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),

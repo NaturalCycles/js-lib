@@ -7,7 +7,14 @@ export interface FetcherNormalizedCfg
   extends Required<FetcherCfg>,
     Omit<
       FetcherRequest,
-      'started' | 'fullUrl' | 'logRequest' | 'logRequestBody' | 'logResponse' | 'logResponseBody'
+      | 'started'
+      | 'fullUrl'
+      | 'logRequest'
+      | 'logRequestBody'
+      | 'logResponse'
+      | 'logResponseBody'
+      | 'redirect'
+      | 'credentials'
     > {
   logger: CommonLogger
   searchParams: Record<string, any>

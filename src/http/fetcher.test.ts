@@ -22,6 +22,7 @@ test('defaults', () => {
         "credentials": undefined,
         "headers": {},
         "method": "GET",
+        "redirect": undefined,
       },
       "inputUrl": "",
       "logRequest": false,
