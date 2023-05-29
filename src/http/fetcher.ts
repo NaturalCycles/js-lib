@@ -14,6 +14,7 @@ import {
   _pick,
 } from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
+import { TimeoutError } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringifyAny } from '../string/stringifyAny'
 import { _since } from '../time/time.util'
@@ -177,7 +178,11 @@ export class Fetcher {
       const abortController = new AbortController()
       req.init.signal = abortController.signal
       timeout = setTimeout(() => {
-        abortController.abort(`timeout of ${timeoutSeconds} sec`)
+        // Apparently, providing a `string` reason to abort() causes Undici to throw `invalid_argument` error,
+        // so, we're wrapping it in a TimeoutError instance
+        abortController.abort(new TimeoutError(`request timed out after ${timeoutSeconds} sec`))
+        // abortController.abort(`timeout of ${timeoutSeconds} sec`)
+        // abortController.abort()
       }, timeoutSeconds * 1000) as any as number
     }
 
@@ -319,7 +324,7 @@ export class Fetcher {
           .join(' '),
       )
 
-      if (this.cfg.logResponseBody) {
+      if (this.cfg.logResponseBody && res.body !== undefined) {
         logger.log(res.body)
       }
     }
