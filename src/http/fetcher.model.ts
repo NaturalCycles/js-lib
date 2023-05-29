@@ -117,7 +117,6 @@ export interface FetcherRequest
   fullUrl: string
   init: RequestInitNormalized
   mode: FetcherMode
-  throwHttpErrors: boolean
   timeoutSeconds: number
   retry: FetcherRetryOptions
   retryPost: boolean
@@ -138,7 +137,6 @@ export interface FetcherOptions {
 
   baseUrl?: string
 
-  throwHttpErrors?: boolean
   /**
    * Default: 30.
    *
@@ -216,6 +214,7 @@ export interface FetcherSuccessResponse<BODY = unknown> {
   fetchResponse: Response
   body: BODY
   req: FetcherRequest
+  statusCode: number
   statusFamily?: HttpStatusFamily
   retryStatus: FetcherRetryStatus
   signature: string
@@ -227,6 +226,7 @@ export interface FetcherErrorResponse<BODY = unknown> {
   fetchResponse?: Response
   body?: BODY
   req: FetcherRequest
+  statusCode?: number
   statusFamily?: HttpStatusFamily
   retryStatus: FetcherRetryStatus
   signature: string

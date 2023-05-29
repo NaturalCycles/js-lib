@@ -153,8 +153,7 @@ export class Fetcher {
   async fetch<T = unknown>(opt: FetcherOptions): Promise<T> {
     const res = await this.doFetch<T>(opt)
     if (res.err) {
-      if (res.req.throwHttpErrors) throw res.err
-      return res as any
+      throw res.err
     }
     return res.body
   }
@@ -234,6 +233,7 @@ export class Fetcher {
         res.fetchResponse = undefined
       }
       res.statusFamily = this.getStatusFamily(res)
+      res.statusCode = res.fetchResponse?.status
 
       if (res.fetchResponse?.ok) {
         await this.onOkResponse(res as FetcherResponse<T> & { fetchResponse: Response }, timeout)
@@ -534,7 +534,6 @@ export class Fetcher {
         mode: 'void',
         searchParams: {},
         timeoutSeconds: 30,
-        throwHttpErrors: true,
         retryPost: false,
         retry3xx: false,
         retry4xx: false,
@@ -569,7 +568,6 @@ export class Fetcher {
     const req: FetcherRequest = {
       ..._pick(this.cfg, [
         'timeoutSeconds',
-        'throwHttpErrors',
         'retryPost',
         'retry4xx',
         'retry5xx',

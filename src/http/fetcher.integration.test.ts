@@ -6,7 +6,6 @@ import { TimeoutError } from '../promise/pTimeout'
 import { _stringifyAny } from '../string/stringifyAny'
 import { tmpDir } from '../test/paths'
 import { getFetcher } from './fetcher'
-import { FetcherResponse } from './fetcher.model'
 
 test('basic get', async () => {
   const fetcher = getFetcher({
@@ -33,12 +32,13 @@ test('post with error', async () => {
   const fetcher = getFetcher({
     debug: true,
   })
-  const r = await fetcher.post<FetcherResponse<number>>(`https://kg-backend3.appspot.com`, {
-    throwHttpErrors: false,
+  const r = await fetcher.doFetch<number>({
+    url: `https://kg-backend3.appspot.com`,
+    method: 'POST',
   })
   expect(r.ok).toBe(false)
   expect(r.err!.message).toMatchInlineSnapshot(`"404 POST https://kg-backend3.appspot.com/"`)
-  expect(r.err?.cause).toMatchInlineSnapshot(`
+  expect(r.err!.cause).toMatchInlineSnapshot(`
     {
       "data": {},
       "message": "404 Not Found: POST /",

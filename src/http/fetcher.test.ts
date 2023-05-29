@@ -43,7 +43,6 @@ test('defaults', () => {
       "retry5xx": true,
       "retryPost": false,
       "searchParams": {},
-      "throwHttpErrors": true,
       "timeoutSeconds": 30,
     }
   `)
@@ -79,7 +78,6 @@ test('defaults', () => {
       "retry5xx": true,
       "retryPost": false,
       "started": 1234,
-      "throwHttpErrors": true,
       "timeoutSeconds": 30,
       "url": "some",
     }
