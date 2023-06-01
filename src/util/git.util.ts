@@ -1,15 +1,11 @@
+import * as cp from 'node:child_process'
 import * as path from 'node:path'
+import type { UnixTimestampNumber } from '@naturalcycles/js-lib'
 import { logExec } from '@naturalcycles/nodejs-lib/dist/exec/exec.util'
 import execa = require('execa')
 
-export async function getLastGitCommitMsg(): Promise<string> {
-  // git log -1 --pretty=%B
-  const cmd = 'git'
-  const args = ['log', '-1', '--pretty=%B']
-
-  const { stdout: msg } = await execa(cmd, args)
-
-  return msg
+export function getLastGitCommitMsg(): string {
+  return execSync('git log -1 --pretty=%B')
 }
 
 export function commitMessageToTitleMessage(msg: string): string {
@@ -75,7 +71,7 @@ export async function gitPush(): Promise<void> {
   const args = ['push']
 
   const { CIRCLE_BRANCH } = process.env
-  const branchName = CIRCLE_BRANCH || (await gitCurrentBranchName())
+  const branchName = CIRCLE_BRANCH || gitCurrentBranchName()
 
   if (branchName) {
     args.push('--set-upstream', 'origin', branchName)
@@ -87,41 +83,24 @@ export async function gitPush(): Promise<void> {
   })
 }
 
-export async function gitCurrentCommitSha(full = false): Promise<string> {
-  // git rev-parse HEAD
-  const cmd = 'git'
-  const args = ['rev-parse', 'HEAD']
-
-  const { stdout: commitSha } = await execa(cmd, args)
-  return full ? commitSha.trim() : commitSha.trim().slice(0, 7)
+export function gitCurrentCommitSha(full = false): string {
+  const sha = execSync('git rev-parse HEAD')
+  return full ? sha : sha.slice(0, 7)
 }
 
-export async function gitCurrentCommitTimestamp(): Promise<number> {
-  // git log -1 --format=%ct
-  const cmd = 'git'
-  const args = ['log', '-1', '--format=%ct']
-
-  const { stdout: ts } = await execa(cmd, args)
-  return Number(ts)
+export function gitCurrentCommitTimestamp(): UnixTimestampNumber {
+  return Number(execSync('git log -1 --format=%ct'))
 }
 
-export async function gitCurrentBranchName(): Promise<string> {
-  // git rev-parse --abbrev-ref HEAD
-  const cmd = 'git'
-  const args = ['rev-parse', '--abbrev-ref', 'HEAD']
-
-  const { stdout: branchName } = await execa(cmd, args)
-  // console.log(`gitCurrentBranchName: ${branchName}`)
-  return branchName.trim()
+export function gitCurrentBranchName(): string {
+  return execSync('git rev-parse --abbrev-ref HEAD')
 }
 
-export async function gitCurrentRepoName(): Promise<string> {
-  // basename -s .git `git config --get remote.origin.url`
-  const cmd = 'git'
-  const args = ['config', '--get', 'remote.origin.url']
+export function gitCurrentRepoName(): string {
+  const originUrl = execSync('git config --get remote.origin.url')
+  return path.basename(originUrl, '.git')
+}
 
-  const { stdout: originUrl } = await execa(cmd, args)
-  const repoName = path.basename(originUrl, '.git')
-  // console.log(`gitCurrentRepoName: ${repoName}`)
-  return repoName
+function execSync(cmd: string): string {
+  return cp.execSync(cmd).toString().trim()
 }

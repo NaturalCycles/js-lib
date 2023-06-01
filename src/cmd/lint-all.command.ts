@@ -55,7 +55,7 @@ export async function lintAllCommand(): Promise<void> {
       } else {
         const msg =
           'style(ci): ' +
-          _truncate(commitMessageToTitleMessage(await getLastGitCommitMsg()), 60) +
+          _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60) +
           '\n\n[skip ci]'
 
         // pull, commit, push changes

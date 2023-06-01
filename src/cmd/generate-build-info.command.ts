@@ -11,7 +11,7 @@ export async function generateBuildInfoCommand(): Promise<void> {
     },
   }).argv
 
-  const buildInfo = await generateBuildInfo()
+  const buildInfo = generateBuildInfo()
   console.log(buildInfo)
 
   if (dir) fs.mkdirSync(dir, { recursive: true })

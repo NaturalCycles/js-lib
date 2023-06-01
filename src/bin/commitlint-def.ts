@@ -15,6 +15,6 @@ runScript(async () => {
   const sharedConfig = `${cfgDir}/commitlint.config.js`
   const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
 
-  const env = { GIT_BRANCH: await gitCurrentBranchName() }
+  const env = { GIT_BRANCH: gitCurrentBranchName() }
   await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
 })

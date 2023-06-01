@@ -8,7 +8,7 @@ import {
 } from './git.util'
 
 test('getLastGitCommitMsg', async () => {
-  const msg = await getLastGitCommitMsg()
+  const msg = getLastGitCommitMsg()
   console.log({ msg })
   expect(msg).toBeDefined()
 
@@ -22,15 +22,15 @@ test('gitHasUncommittedChanges', async () => {
 })
 
 test('gitCurrentBranchName', async () => {
-  const branchName = await gitCurrentBranchName()
+  const branchName = gitCurrentBranchName()
   console.log(branchName)
 })
 
 test('gitCurrentRepoName', async () => {
-  await gitCurrentRepoName()
+  gitCurrentRepoName()
 })
 
 test('gitCurrentCommitTimestamp', async () => {
-  const ts = await gitCurrentCommitTimestamp()
+  const ts = gitCurrentCommitTimestamp()
   console.log(ts, new Date(ts * 1000))
 })

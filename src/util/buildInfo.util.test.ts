@@ -1,6 +1,6 @@
 import { generateBuildInfo } from './buildInfo.util'
 
-test('generateBuildInfo', async () => {
-  const buildInfo = await generateBuildInfo()
+test('generateBuildInfo', () => {
+  const buildInfo = generateBuildInfo()
   console.log(buildInfo)
 })

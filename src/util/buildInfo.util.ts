@@ -7,21 +7,15 @@ import {
   gitCurrentRepoName,
 } from './git.util'
 
-export async function generateBuildInfo(dev = false): Promise<BuildInfo> {
+export function generateBuildInfo(dev = false): BuildInfo {
   const now = localTime()
-
-  const [rev, branchName, repoName, tsCommit] = dev
-    ? ['devRev', 'devBranch', 'devRepo', now.unix()]
-    : await Promise.all([
-        gitCurrentCommitSha(),
-        gitCurrentBranchName(),
-        gitCurrentRepoName(),
-        gitCurrentCommitTimestamp(),
-      ])
-
   const ts = now.unix()
-
   const tsStr = now.toPretty()
+
+  const rev = dev ? 'devRev' : gitCurrentCommitSha()
+  const branchName = dev ? 'devBranch' : gitCurrentBranchName()
+  const repoName = dev ? 'devRepo' : gitCurrentRepoName()
+  const tsCommit = dev ? now.unix() : gitCurrentCommitTimestamp()
 
   const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
 
