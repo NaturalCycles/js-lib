@@ -102,5 +102,9 @@ export function gitCurrentRepoName(): string {
 }
 
 function execSync(cmd: string): string {
-  return cp.execSync(cmd).toString().trim()
+  return cp
+    .execSync(cmd, {
+      encoding: 'utf8',
+    })
+    .trim()
 }
