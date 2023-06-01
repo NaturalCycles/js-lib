@@ -28,7 +28,7 @@ export async function lintAllCommand(): Promise<void> {
     },
   }).argv
 
-  const hadChangesBefore = await gitHasUncommittedChanges()
+  const hadChangesBefore = gitHasUncommittedChanges()
 
   await eslintAllCommand()
 
@@ -48,7 +48,7 @@ export async function lintAllCommand(): Promise<void> {
 
   if (commitOnChanges || failOnChanges) {
     // detect changes
-    const hasChanges = await gitHasUncommittedChanges()
+    const hasChanges = gitHasUncommittedChanges()
     if (hasChanges) {
       if (hadChangesBefore) {
         console.log(`lint-all: there are changes before running lint-all, will not commit`)
@@ -59,9 +59,9 @@ export async function lintAllCommand(): Promise<void> {
           '\n\n[skip ci]'
 
         // pull, commit, push changes
-        await gitPull()
-        await gitCommitAll(msg)
-        await gitPush()
+        gitPull()
+        gitCommitAll(msg)
+        gitPush()
       }
 
       // fail on changes

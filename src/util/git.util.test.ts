@@ -18,7 +18,8 @@ test('getLastGitCommitMsg', async () => {
 })
 
 test('gitHasUncommittedChanges', async () => {
-  await gitHasUncommittedChanges()
+  const changes = gitHasUncommittedChanges()
+  console.log({ changes })
 })
 
 test('gitCurrentBranchName', async () => {

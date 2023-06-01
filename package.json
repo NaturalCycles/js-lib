@@ -47,7 +47,6 @@
     "eslint-plugin-unicorn": "^47.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-plugin-vue": "^9.0.0",
-    "execa": "^5.0.0",
     "expect-type": "^0.16.0",
     "husky": "^8.0.1",
     "jest-junit": "^16.0.0",

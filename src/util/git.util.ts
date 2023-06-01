@@ -1,8 +1,7 @@
 import * as cp from 'node:child_process'
 import * as path from 'node:path'
+import { grey } from '@naturalcycles/nodejs-lib/dist/colors'
 import type { UnixTimestampNumber } from '@naturalcycles/js-lib'
-import { logExec } from '@naturalcycles/nodejs-lib/dist/exec/exec.util'
-import execa = require('execa')
 
 export function getLastGitCommitMsg(): string {
   return execSync('git log -1 --pretty=%B')
@@ -14,71 +13,74 @@ export function commitMessageToTitleMessage(msg: string): string {
   return title || preTitle!
 }
 
-export async function gitHasUncommittedChanges(): Promise<boolean> {
+export function gitHasUncommittedChanges(): boolean {
   // git diff-index --quiet HEAD -- || echo "untracked"
-  const cmd = 'git diff-index --quiet HEAD --'
-  const { exitCode } = await execa(cmd, {
-    shell: true,
-    reject: false,
-  })
-  // console.log(code)
-  return !!exitCode
+  try {
+    cp.execSync('git diff-index --quiet HEAD --', {
+      encoding: 'utf8',
+    })
+    return false
+  } catch {
+    return true
+  }
 }
 
 /**
  * @returns true if there were changes
  */
-export async function gitCommitAll(msg: string): Promise<boolean> {
+export function gitCommitAll(msg: string): boolean {
   // git commit -a -m "style(lint-all): $GIT_MSG" || true
-  // const cmd = `git commit -a --no-verify -m "${msg}"`
-  const cmd = `git`
-  const args = ['commit', '-a', '--no-verify', '-m', msg]
+  const cmd = `git commit -a --no-verify -m "${msg}"`
+  // const cmd = `git`
+  // const args = ['commit', '-a', '--no-verify', '-m', msg]
 
-  logExec(cmd, args)
-  const { exitCode } = await execa(cmd, args, {
-    // shell: true,
-    stdio: 'inherit',
-    reject: false,
-  })
-  // console.log(`gitCommitAll code: ${code}`)
+  console.log(grey(cmd))
 
-  return !exitCode
+  try {
+    cp.execSync(cmd, {
+      stdio: 'inherit',
+    })
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**
  * @returns true if there are not pushed commits.
  */
-export async function gitIsAhead(): Promise<boolean> {
+export function gitIsAhead(): boolean {
   // ahead=`git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
   const cmd = `git rev-list HEAD --not --remotes | wc -l | awk '{print $1}'`
-  const { stdout } = await execa(cmd, { shell: true })
+
+  const stdout = execSync(cmd)
+
   // console.log(`gitIsAhead: ${stdout}`)
   return Number(stdout) > 0
 }
 
-export async function gitPull(): Promise<void> {
-  const cmd = 'git'
-  const args = ['pull']
-  await execa(cmd, args, {
-    reject: false,
-    stdio: 'inherit',
-  })
+export function gitPull(): void {
+  const cmd = 'git pull'
+  try {
+    cp.execSync(cmd, {
+      stdio: 'inherit',
+    })
+  } catch {}
 }
 
-export async function gitPush(): Promise<void> {
+export function gitPush(): void {
   // git push --set-upstream origin $CIRCLE_BRANCH && echo "pushed, exiting" && exit 0
-  const cmd = 'git'
-  const args = ['push']
+  let cmd = 'git push'
 
-  const { CIRCLE_BRANCH } = process.env
-  const branchName = CIRCLE_BRANCH || gitCurrentBranchName()
+  const branchName = gitCurrentBranchName()
 
   if (branchName) {
-    args.push('--set-upstream', 'origin', branchName)
+    cmd += ` --set-upstream origin ${branchName}`
   }
 
-  logExec(cmd, args)
-  await execa(cmd, args, {
+  console.log(grey(cmd))
+
+  cp.execSync(cmd, {
     stdio: 'inherit',
   })
 }
