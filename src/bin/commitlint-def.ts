@@ -14,7 +14,10 @@ const localConfig = `${cwd}/commitlint.config.js`
 const sharedConfig = `${cfgDir}/commitlint.config.js`
 const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
 
-const env = { GIT_BRANCH: gitCurrentBranchName() }
+const env = {
+  ...process.env, // important to pass it through, to preserve $PATH
+  GIT_BRANCH: gitCurrentBranchName(),
+}
 
 // await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
 execSync(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
