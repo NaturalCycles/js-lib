@@ -31,27 +31,3 @@ export function generateBuildInfo(): BuildInfo {
     env: APP_ENV,
   }
 }
-
-export function generateBuildInfoDev(): BuildInfo {
-  const now = localTime()
-  const ts = now.unix()
-  const tsStr = now.toPretty()
-
-  const rev = 'devRev'
-  const branchName = 'devBranch'
-  const repoName = 'devRepo'
-  const tsCommit = now.unix()
-
-  const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
-
-  return {
-    ts,
-    tsCommit,
-    tsStr,
-    repoName,
-    branchName,
-    rev,
-    ver,
-    env: 'dev',
-  }
-}

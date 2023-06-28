@@ -1,14 +1,14 @@
 import * as fs from 'node:fs'
-import { _since } from '@naturalcycles/js-lib'
+import { _isTruthy, _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
-import { execCommand } from '@naturalcycles/nodejs-lib/dist/exec'
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import { cfgDir } from '../cnst/paths.cnst'
+import { execVoidCommandSync } from './exec.util'
 
-export async function tsc(noEmit = false): Promise<void> {
+export function tsc(noEmit = false): void {
   const started = Date.now()
-  const cmd = ['tsc', noEmit && '--noEmit'].filter(Boolean).join(' ')
-  await execCommand(cmd)
+  const args = [noEmit && '--noEmit'].filter(_isTruthy)
+  execVoidCommandSync('tsc', args)
   console.log(`${boldGrey('tsc')} ${dimGrey(`took ` + _since(started))}`)
 }
 

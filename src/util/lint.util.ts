@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { scriptsDir } from '../cnst/paths.cnst'
+import { execVoidCommandSync } from './exec.util'
 
 export function getTSConfigPath(): string {
   // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
@@ -12,13 +12,13 @@ export function getTSConfigPathScripts(): string {
   return [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
 }
 
-export async function runESLint(
+export function runESLint(
   dir: string,
   eslintConfigPath: string,
   tsconfigPath: string | undefined,
   extensions = ['ts', 'tsx', 'vue'],
   fix = true,
-): Promise<void> {
+): void {
   if (!fs.existsSync(dir)) return // faster to bail-out like this
 
   const args = [
@@ -31,5 +31,5 @@ export async function runESLint(
     fix ? `--fix` : '',
   ].filter(Boolean)
 
-  await execWithArgs('eslint', args)
+  execVoidCommandSync('eslint', args)
 }

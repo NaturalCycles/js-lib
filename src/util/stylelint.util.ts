@@ -1,7 +1,7 @@
 import * as fs from 'node:fs'
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
+import { execVoidCommandSync } from './exec.util'
 
 const { prettierDirs, stylelintExtensions, lintExclude } = require('../../cfg/_cnst')
 
@@ -13,7 +13,7 @@ export const stylelintPaths = [
   ...lintExclude.map((s: string) => `!${s}`),
 ]
 
-export async function stylelintAll(): Promise<void> {
+export function stylelintAll(): void {
   const { fix } = yargs.options({
     fix: {
       type: 'boolean',
@@ -33,5 +33,5 @@ export async function stylelintAll(): Promise<void> {
     ...stylelintPaths,
   ].filter(Boolean)
 
-  await execWithArgs('stylelint', args)
+  execVoidCommandSync('stylelint', args)
 }

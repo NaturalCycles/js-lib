@@ -4,5 +4,5 @@ import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
 import { stylelintAll } from '../util/stylelint.util'
 
 runScript(async () => {
-  await stylelintAll()
+  stylelintAll()
 })

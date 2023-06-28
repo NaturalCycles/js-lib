@@ -107,6 +107,7 @@ function execSync(cmd: string): string {
   return cp
     .execSync(cmd, {
       encoding: 'utf8',
+      // stdio: 'inherit', // no, otherwise we don't get the output returned
     })
     .trim()
 }

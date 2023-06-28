@@ -2,8 +2,8 @@ import * as fs from 'node:fs'
 import * as os from 'node:os'
 import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
 import { cfgDir } from '../cnst/paths.cnst'
+import { execVoidCommandSync } from './exec.util'
 import { nodeModuleExists } from './test.util'
 
 export function getJestConfigPath(): string {
@@ -43,7 +43,7 @@ interface RunJestOpt {
 /**
  * 1. Adds `--silent` if running all tests at once.
  */
-export async function runJest(opt: RunJestOpt = {}): Promise<void> {
+export function runJest(opt: RunJestOpt = {}): void {
   if (!nodeModuleExists('jest')) {
     console.log(dimGrey(`node_modules/${white('jest')} not found, skipping tests`))
     return
@@ -160,13 +160,13 @@ export async function runJest(opt: RunJestOpt = {}): Promise<void> {
     const totalShards = Number(JEST_SHARDS)
     const shards = _range(1, totalShards + 1)
 
-    for await (const shard of shards) {
-      await execWithArgs('jest', _uniq([...args, `--shard=${shard}/${totalShards}`]), {
+    for (const shard of shards) {
+      execVoidCommandSync('jest', _uniq([...args, `--shard=${shard}/${totalShards}`]), {
         env,
       })
     }
   } else {
-    await execWithArgs('jest', _uniq(args), {
+    execVoidCommandSync('jest', _uniq(args), {
       env,
     })
   }

@@ -1,10 +1,10 @@
 import * as fs from 'node:fs'
 import { _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
-import { execWithArgs } from '@naturalcycles/nodejs-lib/dist/exec'
+import { execVoidCommandSync } from '../util/exec.util'
 import { ensureProjectTsconfigScripts } from '../util/tsc.util'
 
-export async function tscScriptsCommand(): Promise<void> {
+export function tscScriptsCommand(): void {
   if (!fs.existsSync('./scripts')) {
     // ./scripts folder doesn't exist, skipping
     return
@@ -15,6 +15,6 @@ export async function tscScriptsCommand(): Promise<void> {
   const args: string[] = ['-P', projectTsconfigPath, '--noEmit']
 
   const started = Date.now()
-  await execWithArgs(`tsc`, args)
+  execVoidCommandSync(`tsc`, args)
   console.log(`${boldGrey('tsc scripts')} ${dimGrey(`took ` + _since(started))}`)
 }

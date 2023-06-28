@@ -6,7 +6,7 @@ import { getTSConfigPathScripts, runESLint } from '../util/lint.util'
 /**
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).
  */
-export async function eslintAllCommand(): Promise<void> {
+export function eslintAllCommand(): void {
   const { ext, fix } = yargs.options({
     ext: {
       type: 'string',
@@ -36,11 +36,11 @@ export async function eslintAllCommand(): Promise<void> {
   // todo: run on other dirs too, e.g pages, components, layouts
   // /src
   // await runESLint(`./src`, eslintConfigPathRoot, tsconfigPath, extensions)
-  await runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix)
+  runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix)
 
   // /scripts
-  await runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
+  runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
 
   // /e2e
-  await runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
+  runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
 }

@@ -7,5 +7,5 @@ runScript(async () => {
   console.log(
     '! "yarn test-integration-ci" is deprecated, use plain `yarn test-integration` instead !',
   )
-  await runJest({ integration: true })
+  runJest({ integration: true })
 })

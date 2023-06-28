@@ -30,16 +30,16 @@ export async function lintAllCommand(): Promise<void> {
 
   const hadChangesBefore = gitHasUncommittedChanges()
 
-  await eslintAllCommand()
+  eslintAllCommand()
 
   if (
     fs.existsSync(`node_modules/stylelint`) &&
     fs.existsSync(`node_modules/stylelint-config-standard-scss`)
   ) {
-    await stylelintAll()
+    stylelintAll()
   }
 
-  await runPrettier()
+  runPrettier()
 
   if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
     const ktlintLib = require('@naturalcycles/ktlint')
