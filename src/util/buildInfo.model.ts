@@ -1,11 +1,22 @@
+import { UnixTimestampNumber } from '@naturalcycles/js-lib'
+
 export interface BuildInfo {
-  ts: number
+  /**
+   * Unix timestamp of when the build was made.
+   */
+  ts: UnixTimestampNumber
+
+  /**
+   * Unix timestamp of commit ("committer date", not "author date")
+   */
+  tsCommit: UnixTimestampNumber
 
   /**
    * Human-readable time of the build. E.g:
    * 2019-06-21 18:35:19
    */
   tsStr: string
+
   repoName: string
   branchName: string
 
@@ -13,11 +24,6 @@ export interface BuildInfo {
    * GIT sha revision (first 7 characters)
    */
   rev: string
-
-  /**
-   * Unix timestamp of commit ("committer date", not "author date")
-   */
-  tsCommit: number
 
   /**
    * "Version string" in the following format:
@@ -32,4 +38,11 @@ export interface BuildInfo {
    * Build during development.
    */
   dev?: boolean
+
+  /**
+   * Build "environment".
+   * Normally taken from process.env.APP_ENV
+   * Can be undefined.
+   */
+  env?: string
 }

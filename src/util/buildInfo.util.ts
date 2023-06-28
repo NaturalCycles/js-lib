@@ -7,15 +7,16 @@ import {
   gitCurrentRepoName,
 } from './git.util'
 
-export function generateBuildInfo(dev = false): BuildInfo {
+export function generateBuildInfo(): BuildInfo {
+  const { APP_ENV } = process.env
   const now = localTime()
   const ts = now.unix()
   const tsStr = now.toPretty()
 
-  const rev = dev ? 'devRev' : gitCurrentCommitSha()
-  const branchName = dev ? 'devBranch' : gitCurrentBranchName()
-  const repoName = dev ? 'devRepo' : gitCurrentRepoName()
-  const tsCommit = dev ? now.unix() : gitCurrentCommitTimestamp()
+  const rev = gitCurrentCommitSha()
+  const branchName = gitCurrentBranchName()
+  const repoName = gitCurrentRepoName()
+  const tsCommit = gitCurrentCommitTimestamp()
 
   const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
 
@@ -27,5 +28,30 @@ export function generateBuildInfo(dev = false): BuildInfo {
     branchName,
     rev,
     ver,
+    env: APP_ENV,
+  }
+}
+
+export function generateBuildInfoDev(): BuildInfo {
+  const now = localTime()
+  const ts = now.unix()
+  const tsStr = now.toPretty()
+
+  const rev = 'devRev'
+  const branchName = 'devBranch'
+  const repoName = 'devRepo'
+  const tsCommit = now.unix()
+
+  const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
+
+  return {
+    ts,
+    tsCommit,
+    tsStr,
+    repoName,
+    branchName,
+    rev,
+    ver,
+    env: 'dev',
   }
 }
