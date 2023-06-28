@@ -834,9 +834,9 @@
     typescript "^5.0.2"
 
 "@naturalcycles/js-lib@^14.0.0":
-  version "14.154.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.154.0.tgz#046630ac6502c268e99229edc6d5a160cd673d09"
-  integrity sha512-YlCWrdbBlqBuKgLEKUIkPgDGziC6YItZb2mW9v7K+wy8p0mz2LBq/4JNBXQakTcUyJvwB44hn375CyAt+U8oEg==
+  version "14.155.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.155.0.tgz#a30c8c0488f246f7ae1914da67ffa018871cd707"
+  integrity sha512-mqFb7wdpReuG1W2mDByHI3ibMF/mfd3XzIxcENYQXuCxKTtfXpIwh179jrUGS8WbUkDCgbUy+JS+1HM6wyAKpg==
   dependencies:
     tslib "^2.0.0"
     zod "^3.20.2"

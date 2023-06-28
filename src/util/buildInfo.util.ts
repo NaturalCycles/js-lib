@@ -1,5 +1,4 @@
-import { localTime } from '@naturalcycles/js-lib'
-import type { BuildInfo } from './buildInfo.model'
+import { _filterUndefinedValues, BuildInfo, localTime } from '@naturalcycles/js-lib'
 import {
   gitCurrentBranchName,
   gitCurrentCommitSha,
@@ -20,7 +19,7 @@ export function generateBuildInfo(): BuildInfo {
 
   const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
 
-  return {
+  return _filterUndefinedValues({
     ts,
     tsCommit,
     tsStr,
@@ -29,5 +28,5 @@ export function generateBuildInfo(): BuildInfo {
     rev,
     ver,
     env: APP_ENV,
-  }
+  })
 }
