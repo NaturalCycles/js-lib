@@ -25,6 +25,9 @@
     "vuepress": "^1.7.1",
     "vuepress-plugin-typescript": "^0.3.1"
   },
+  "resolutions": {
+    "expect-type": "0.15.0"
+  },
   "files": [
     "dist",
     "dist-esm",
