@@ -8,7 +8,7 @@ import {
   gitHasUncommittedChanges,
   gitPull,
   gitPush,
-} from '../util/git.util'
+} from '@naturalcycles/nodejs-lib'
 import { runPrettier } from '../util/prettier.util'
 import { stylelintAll } from '../util/stylelint.util'
 import { eslintAllCommand } from './eslint-all.command'

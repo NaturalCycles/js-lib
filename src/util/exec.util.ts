@@ -1,7 +1,6 @@
 import { ProcessEnvOptions, SpawnOptions } from 'node:child_process'
 import * as cp from 'node:child_process'
 import { grey } from '@naturalcycles/nodejs-lib/dist/colors'
-import ErrnoException = NodeJS.ErrnoException
 
 export async function execVoidCommand(
   cmd: string,
@@ -54,7 +53,7 @@ export function execVoidCommandSync(
 
   if (r.error) {
     console.log(r.error)
-    process.exit((r.error as ErrnoException).errno || 1)
+    process.exit((r.error as NodeJS.ErrnoException).errno || 1)
   }
 }
 

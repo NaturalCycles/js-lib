@@ -170,9 +170,6 @@ Install it **locally** in you project by adding
 
 - `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
 - `update-from-dev-lib`: copy config files from `dev-lib/cfg/overwrite` to the project
-- `generate-build-info`: generate `buildInfo.json`
-  - `--dir <someDir>` will save it to given dir
-  - `--shell` will also generate `buildInfo.sh`
 
 ## Non-extendable config files
 
