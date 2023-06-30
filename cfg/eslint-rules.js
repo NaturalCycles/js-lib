@@ -168,6 +168,7 @@ module.exports = {
     ],
     'id-match': 2,
     'import/order': 2,
+    'import/no-anonymous-default-export': 2,
     // 'import/namespace': 0, // issues with e.g globby
     // 'import/no-unresolved': 0, // breaks for type-aliases, e.g '@/store'
     // 'import/no-duplicates': 0,
