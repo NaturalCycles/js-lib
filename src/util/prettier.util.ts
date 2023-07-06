@@ -20,7 +20,7 @@ export function runPrettier(): void {
     [`./prettier.config.js`].find(f => fs.existsSync(f)) || `${cfgDir}/prettier.config.js`
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  const args = [`--write`, `--loglevel=warn`, `--config`, prettierConfigPath, ...prettierPaths]
+  const args = [`--write`, `--log-level=warn`, `--config`, prettierConfigPath, ...prettierPaths]
 
   execVoidCommandSync('prettier', args)
 }
