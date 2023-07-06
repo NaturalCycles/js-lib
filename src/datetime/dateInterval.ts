@@ -10,7 +10,10 @@ export type DateIntervalString = string
  * @experimental
  */
 export class DateInterval {
-  private constructor(public start: LocalDate, public end: LocalDate) {}
+  private constructor(
+    public start: LocalDate,
+    public end: LocalDate,
+  ) {}
 
   static of(start: LocalDateConfig, end: LocalDateConfig): DateInterval {
     return new DateInterval(LocalDate.of(start), LocalDate.of(end))

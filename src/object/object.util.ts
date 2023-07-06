@@ -123,10 +123,13 @@ export function _mapValues<T extends AnyObject, OUT = T>(
   mapper: ObjectMapper<T, any>,
   mutate = false,
 ): OUT {
-  return Object.entries(obj).reduce((map, [k, v]) => {
-    map[k as keyof OUT] = mapper(k, v, obj)
-    return map
-  }, (mutate ? obj : {}) as OUT)
+  return Object.entries(obj).reduce(
+    (map, [k, v]) => {
+      map[k as keyof OUT] = mapper(k, v, obj)
+      return map
+    },
+    (mutate ? obj : {}) as OUT,
+  )
 }
 
 /**
@@ -165,13 +168,16 @@ export function _mapObject<IN extends AnyObject, OUT>(
   obj: IN,
   mapper: ObjectMapper<IN, [key: string, value: any]>,
 ): { [P in keyof IN]: OUT } {
-  return Object.entries(obj).reduce((map, [k, v]) => {
-    const r = mapper(k, v, obj) || []
-    if (r[0]) {
-      ;(map[r[0]] as any) = r[1]
-    }
-    return map
-  }, {} as { [P in keyof IN]: OUT })
+  return Object.entries(obj).reduce(
+    (map, [k, v]) => {
+      const r = mapper(k, v, obj) || []
+      if (r[0]) {
+        ;(map[r[0]] as any) = r[1]
+      }
+      return map
+    },
+    {} as { [P in keyof IN]: OUT },
+  )
 }
 
 export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): keyof T | undefined {

@@ -44,7 +44,11 @@ export function zSafeValidate<T>(
 }
 
 export class ZodValidationError<T> extends ZodError<T> {
-  constructor(issues: ZodIssue[], public value: T, public schema: ZodSchema<T>) {
+  constructor(
+    issues: ZodIssue[],
+    public value: T,
+    public schema: ZodSchema<T>,
+  ) {
     super(issues)
   }
 

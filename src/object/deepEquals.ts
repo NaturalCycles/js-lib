@@ -15,7 +15,7 @@ export function _deepEquals(a: any, b: any): boolean {
     const arrB = isArray(b)
     let i
     let length
-    let key
+    let key: string
 
     if (arrA && arrB) {
       length = a.length
@@ -44,8 +44,8 @@ export function _deepEquals(a: any, b: any): boolean {
     for (i = length; i-- !== 0; ) if (!hasProp.call(b, keys[i]!)) return false
 
     for (i = length; i-- !== 0; ) {
-      key = keys[i]
-      if (!_deepEquals(a[key!], b[key!])) return false
+      key = keys[i]!
+      if (!_deepEquals(a[key], b[key])) return false
     }
 
     return true

@@ -15,7 +15,10 @@ import { END, SKIP } from '../types'
  * @experimental
  */
 export class Sequence<T> implements Iterable<T> {
-  private constructor(initialValue: T | typeof END, private nextFn: AbortableMapper<T, T>) {
+  private constructor(
+    initialValue: T | typeof END,
+    private nextFn: AbortableMapper<T, T>,
+  ) {
     this.currentValue = initialValue
   }
 
@@ -165,7 +168,10 @@ export function _seq<T>(initialValue: T | typeof END, nextFn: AbortableMapper<T,
  * @experimental
  */
 export class AsyncSequence<T> implements AsyncIterable<T> {
-  private constructor(initialValue: T | typeof END, private nextFn: AbortableAsyncMapper<T, T>) {
+  private constructor(
+    initialValue: T | typeof END,
+    private nextFn: AbortableAsyncMapper<T, T>,
+  ) {
     this.currentValue = initialValue
   }
 

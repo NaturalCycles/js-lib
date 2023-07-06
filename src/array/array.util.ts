@@ -97,13 +97,16 @@ export function _by<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T
  * Returning `undefined` from the Mapper will EXCLUDE the item.
  */
 export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T[]> {
-  return items.reduce((map, item, index) => {
-    const res = mapper(item, index)
-    if (res !== undefined) {
-      map[res] = [...(map[res] || []), item]
-    }
-    return map
-  }, {} as StringMap<T[]>)
+  return items.reduce(
+    (map, item, index) => {
+      const res = mapper(item, index)
+      if (res !== undefined) {
+        map[res] = [...(map[res] || []), item]
+      }
+      return map
+    },
+    {} as StringMap<T[]>,
+  )
 }
 
 /**

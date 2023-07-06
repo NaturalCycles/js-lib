@@ -13,7 +13,10 @@ export type TimeIntervalString = string
  * @experimental
  */
 export class TimeInterval {
-  private constructor(private $start: UnixTimestampNumber, private $end: UnixTimestampNumber) {}
+  private constructor(
+    private $start: UnixTimestampNumber,
+    private $end: UnixTimestampNumber,
+  ) {}
 
   static of(start: LocalTimeConfig, end: LocalTimeConfig): TimeInterval {
     return new TimeInterval(

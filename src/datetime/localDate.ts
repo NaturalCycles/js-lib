@@ -21,7 +21,11 @@ export type LocalDateFormatter = (ld: LocalDate) => string
  * @experimental
  */
 export class LocalDate {
-  private constructor(private $year: number, private $month: number, private $day: number) {}
+  private constructor(
+    private $year: number,
+    private $month: number,
+    private $day: number,
+  ) {}
 
   static create(year: number, month: number, day: number): LocalDate {
     return new LocalDate(year, month, day)
