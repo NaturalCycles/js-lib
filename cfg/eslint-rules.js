@@ -403,10 +403,22 @@ module.exports = {
     'no-sequences': 2,
     'no-useless-concat': 2,
     '@typescript-eslint/ban-tslint-comment': 2,
-    // '@typescript-eslint/explicit-function-return-type': [2, {
-    //   allowTypedFunctionExpressions: true,
-    //   allowHigherOrderFunctions: true,
-    // }],
+    '@typescript-eslint/explicit-function-return-type': [
+      2,
+      {
+        // defaults
+        // allowExpressions: false,
+        // allowTypedFunctionExpressions: true,
+        // allowHigherOrderFunctions: true,
+        // allowDirectConstAssertionInArrowFunctions: true,
+        // allowConciseArrowFunctionExpressionsStartingWithVoid: false,
+        // allowFunctionsWithoutTypeParameters: false,
+        // allowedNames: [],
+        // allowIIFEs: false,
+        // overrides:
+        allowExpressions: true,
+      },
+    ],
     '@typescript-eslint/method-signature-style': 2,
     '@typescript-eslint/no-unnecessary-boolean-literal-compare': 2,
     // '@typescript-eslint/no-unnecessary-condition': [2, {
