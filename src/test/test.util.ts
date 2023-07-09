@@ -11,8 +11,8 @@ export function convertHrtime(hrtime: [number, number]): Record<string, number> 
 }
 
 export function timeSpan(): () => number {
-  const start = process.hrtime()
-  const end = (type: string) => convertHrtime(process.hrtime(start))[type]!
+  const start: [number, number] = process.hrtime()
+  const end = (type: string): number => convertHrtime(process.hrtime(start))[type]!
 
   const ret: any = () => end('milliseconds')
   ret.rounded = () => Math.round(end('milliseconds'))

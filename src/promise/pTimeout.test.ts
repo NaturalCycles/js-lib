@@ -3,13 +3,13 @@ import { pDelay } from './pDelay'
 import { pTimeout, pTimeoutFn, TimeoutError } from './pTimeout'
 
 test('pTimeoutFn happy case', async () => {
-  const fn = async (name: string) => await pDelay(10, `hello ${name}`)
+  const fn = async (name: string): Promise<string> => await pDelay(10, `hello ${name}`)
   const decoratedFn = pTimeoutFn(fn, { timeout: 100 })
   expect(await decoratedFn('world')).toBe('hello world')
 })
 
 test('pTimeoutFn default error', async () => {
-  const fn = () => pDelay(100)
+  const fn = (): Promise<void> => pDelay(100)
   const decoratedFn = pTimeoutFn(fn, { timeout: 10 })
   const err = await pExpectedError(decoratedFn())
   expect(err).toMatchInlineSnapshot(`[TimeoutError: "fn" timed out after 10 ms]`)
@@ -17,7 +17,7 @@ test('pTimeoutFn default error', async () => {
 })
 
 test('pTimeoutFn options', async () => {
-  const fn = () => pDelay(100)
+  const fn = (): Promise<void> => pDelay(100)
   const decoratedFn = pTimeoutFn(fn, { timeout: 10, name: 'custom name' })
   const err = await pExpectedError(decoratedFn(), TimeoutError)
   expect(err).toMatchInlineSnapshot(`[TimeoutError: "custom name" timed out after 10 ms]`)

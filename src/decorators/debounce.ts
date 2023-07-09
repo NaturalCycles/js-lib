@@ -51,7 +51,7 @@ export function _debounce<T extends AnyFunction>(
   const { leading = false, trailing = true } = opt
   const maxWait = maxing ? Math.max(Number(opt.maxWait) || 0, wait) : opt.maxWait
 
-  function invokeFunc(time: number) {
+  function invokeFunc(time: number): any {
     const args = lastArgs
     const thisArg = lastThis
 
@@ -65,11 +65,11 @@ export function _debounce<T extends AnyFunction>(
     return setTimeout(pendingFunc, wait) as any
   }
 
-  function cancelTimer(id: number) {
+  function cancelTimer(id: number): void {
     clearTimeout(id)
   }
 
-  function leadingEdge(time: number) {
+  function leadingEdge(time: number): any {
     // Reset any `maxWait` timer.
     lastInvokeTime = time
     // Start the timer for the trailing edge.
@@ -78,7 +78,7 @@ export function _debounce<T extends AnyFunction>(
     return leading ? invokeFunc(time) : result
   }
 
-  function remainingWait(time: number) {
+  function remainingWait(time: number): number {
     const timeSinceLastCall = time - lastCallTime!
     const timeSinceLastInvoke = time - lastInvokeTime
     const timeWaiting = wait - timeSinceLastCall
@@ -86,7 +86,7 @@ export function _debounce<T extends AnyFunction>(
     return maxing ? Math.min(timeWaiting, maxWait! - timeSinceLastInvoke) : timeWaiting
   }
 
-  function shouldInvoke(time: number) {
+  function shouldInvoke(time: number): boolean {
     const timeSinceLastCall = time - lastCallTime!
     const timeSinceLastInvoke = time - lastInvokeTime
 
@@ -101,7 +101,7 @@ export function _debounce<T extends AnyFunction>(
     )
   }
 
-  function timerExpired() {
+  function timerExpired(): any {
     const time = Date.now()
     if (shouldInvoke(time)) {
       return trailingEdge(time)
@@ -110,7 +110,7 @@ export function _debounce<T extends AnyFunction>(
     timerId = startTimer(timerExpired, remainingWait(time))
   }
 
-  function trailingEdge(time: number) {
+  function trailingEdge(time: number): any {
     timerId = undefined
 
     // Only invoke if we have `lastArgs` which means `func` has been
@@ -122,7 +122,7 @@ export function _debounce<T extends AnyFunction>(
     return result
   }
 
-  function cancel() {
+  function cancel(): void {
     if (timerId !== undefined) {
       cancelTimer(timerId)
     }
@@ -130,15 +130,15 @@ export function _debounce<T extends AnyFunction>(
     lastArgs = lastCallTime = lastThis = timerId = undefined
   }
 
-  function flush() {
+  function flush(): any {
     return timerId === undefined ? result : trailingEdge(Date.now())
   }
 
-  function pending() {
+  function pending(): boolean {
     return timerId !== undefined
   }
 
-  function debounced(this: any, ...args: any[]) {
+  function debounced(this: any, ...args: any[]): any {
     const time = Date.now()
     const isInvoking = shouldInvoke(time)
 

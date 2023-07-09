@@ -35,7 +35,7 @@ function runTest(
   }
 }
 
-function generateText(words: number) {
+function generateText(words: number): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789àâéèêôùûçÀÂÉÈÔÙÛÇ'
   const charsLength = chars.length
   let text = ''

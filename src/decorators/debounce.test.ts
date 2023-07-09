@@ -4,7 +4,8 @@ import { pDelay, _since } from '..'
 import type { AnyFunction } from '../types'
 import { _debounce } from './debounce'
 
-const originalFn = (started: number, n: number) => console.log(`#${n} after ${_since(started)}`)
+const originalFn = (started: number, n: number): void =>
+  console.log(`#${n} after ${_since(started)}`)
 
 async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
   const started = Date.now()

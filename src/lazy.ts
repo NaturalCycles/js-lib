@@ -42,8 +42,9 @@ export function _defineLazyProperty<OBJ extends AnyObject>(
   propertyName: keyof OBJ,
   fn: AnyFunction,
 ): OBJ {
-  const define = (value: any) =>
+  const define = (value: any): void => {
     Object.defineProperty(obj, propertyName, { value, enumerable: true, writable: true })
+  }
 
   Object.defineProperty(obj, propertyName, {
     configurable: true,

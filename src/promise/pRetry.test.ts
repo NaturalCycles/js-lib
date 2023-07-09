@@ -1,10 +1,11 @@
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
+import { AnyFunction } from '../types'
 import { pDelay } from './pDelay'
 import { pRetry, pRetryFn } from './pRetry'
 import { TimeoutError } from './pTimeout'
 
-function createFn(succeedOnAttempt: number) {
+function createFn(succeedOnAttempt: number): AnyFunction {
   let attempt = 0
   return async function someFn(...args: any[]) {
     attempt++

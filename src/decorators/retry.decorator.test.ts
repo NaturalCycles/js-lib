@@ -12,7 +12,7 @@ class C {
     delayMultiplier: 1,
     logAll: true,
   })
-  async fn(...args: any[]) {
+  async fn(...args: any[]): Promise<any> {
     this.attempt++
     // console.log(`fn called attempt=${attempt}`, {args})
     if (this.attempt >= this.succeedOnAttempt) {

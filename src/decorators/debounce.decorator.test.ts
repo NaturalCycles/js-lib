@@ -14,7 +14,7 @@ class C {
 }
 
 const inst = new C()
-const fn = (started: number, n: number) => inst.fn(started, n)
+const fn = (started: number, n: number): void => inst.fn(started, n)
 
 async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
   const started = Date.now()

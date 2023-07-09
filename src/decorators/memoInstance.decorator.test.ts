@@ -1,10 +1,10 @@
 import { _Memo, _range } from '..'
 
 class C {
-  fn() {}
+  fn(): void {}
 
   @_Memo()
-  method(n: number) {
+  method(n: number): number {
     this.fn()
     return n * 2
   }

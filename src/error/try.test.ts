@@ -3,8 +3,8 @@ import { AppError } from './app.error'
 import { HttpRequestError } from './httpRequestError'
 import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
 
-const okFunction = (v = 1) => ({ result: v })
-const errFunction = () => {
+const okFunction = (v = 1): { result: number } => ({ result: v })
+const errFunction = (): never => {
   throw new AppError('oj')
 }
 
@@ -26,8 +26,8 @@ test('_try', () => {
   expect(v).toBeUndefined()
 })
 
-const createOkPromise = async (v = 1) => ({ result: v })
-const createErrorPromise = async () => {
+const createOkPromise = async (v = 1): Promise<{ result: number }> => ({ result: v })
+const createErrorPromise = async (): Promise<never> => {
   throw new AppError('oj')
 }
 

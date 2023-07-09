@@ -121,7 +121,7 @@ export async function pMap<IN, OUT>(
   }
 
   return await new Promise<OUT[]>((resolve, reject) => {
-    const next = () => {
+    const next = (): void => {
       if (isSettled) {
         return
       }

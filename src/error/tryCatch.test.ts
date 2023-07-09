@@ -2,9 +2,9 @@ import { _TryCatch, _tryCatch } from './tryCatch'
 
 /* eslint-disable @typescript-eslint/await-thenable */
 
-const _fnSuccess = (...args: any[]) => args
+const _fnSuccess = (...args: any[]): any => args
 
-const _fnError = () => {
+const _fnError = (): never => {
   throw new Error('fail')
 }
 
@@ -27,7 +27,7 @@ test('_tryCatch', async () => {
 
 class C {
   @_TryCatch()
-  fnSuccess(...args: any[]) {
+  fnSuccess(...args: any[]): any {
     return args
   }
 
@@ -38,7 +38,7 @@ class C {
     logSuccess: true,
     logError: true,
   })
-  fnError() {
+  fnError(): never {
     throw new Error('fail')
   }
 }

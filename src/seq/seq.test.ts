@@ -3,8 +3,8 @@ import { END } from '../index'
 import { pDelay } from '../promise/pDelay'
 import { _seq, AsyncSequence, Sequence } from './seq'
 
-const isEven = (n: number) => n % 2 === 0
-const isOdd = (n: number) => n % 2 !== 0
+const isEven = (n: number): boolean => n % 2 === 0
+const isOdd = (n: number): boolean => n % 2 !== 0
 
 test('_seq', () => {
   const v = _seq(1, n => n + 1).find(n => n % 10 === 0)

@@ -14,28 +14,28 @@ let c = 0
 class C0 {
   constructor(private inc?: number) {}
 
-  work() {
+  work(): void {
     // c += this.inc
     c++
   }
 }
 
 class C1 {
-  getC0() {
+  getC0(): C0 {
     return new C0()
   }
 }
 
 class C2 {
   @memoSimple()
-  getC0() {
+  getC0(): C0 {
     return new C0()
   }
 }
 
 class C3 {
   @_Memo()
-  getC0() {
+  getC0(): C0 {
     return new C0()
   }
 }

@@ -242,16 +242,16 @@ export class JsonSchemaNumberBuilder extends JsonSchemaAnyBuilder<number, JsonSc
     return this
   }
 
-  int32 = () => this.format('int32')
-  int64 = () => this.format('int64')
-  float = () => this.format('float')
-  double = () => this.format('double')
-  unixTimestamp = () => this.format('unixTimestamp')
-  unixTimestamp2000 = () => this.format('unixTimestamp2000')
-  unixTimestampMillis = () => this.format('unixTimestampMillis')
-  unixTimestampMillis2000 = () => this.format('unixTimestampMillis2000')
-  utcOffset = () => this.format('utcOffset')
-  utcOffsetHours = () => this.format('utcOffsetHours')
+  int32 = (): this => this.format('int32')
+  int64 = (): this => this.format('int64')
+  float = (): this => this.format('float')
+  double = (): this => this.format('double')
+  unixTimestamp = (): this => this.format('unixTimestamp')
+  unixTimestamp2000 = (): this => this.format('unixTimestamp2000')
+  unixTimestampMillis = (): this => this.format('unixTimestampMillis')
+  unixTimestampMillis2000 = (): this => this.format('unixTimestampMillis2000')
+  utcOffset = (): this => this.format('utcOffset')
+  utcOffsetHours = (): this => this.format('utcOffsetHours')
 }
 
 export class JsonSchemaStringBuilder extends JsonSchemaAnyBuilder<string, JsonSchemaString> {
@@ -283,22 +283,22 @@ export class JsonSchemaStringBuilder extends JsonSchemaAnyBuilder<string, JsonSc
     return this
   }
 
-  email = () => this.format('email')
-  date = () => this.format('date')
-  url = () => this.format('url')
-  ipv4 = () => this.format('ipv4')
-  ipv6 = () => this.format('ipv6')
-  password = () => this.format('password')
-  id = () => this.format('id')
-  slug = () => this.format('slug')
-  semVer = () => this.format('semVer')
-  languageTag = () => this.format('languageTag')
-  countryCode = () => this.format('countryCode')
-  currency = () => this.format('currency')
+  email = (): this => this.format('email')
+  date = (): this => this.format('date')
+  url = (): this => this.format('url')
+  ipv4 = (): this => this.format('ipv4')
+  ipv6 = (): this => this.format('ipv6')
+  password = (): this => this.format('password')
+  id = (): this => this.format('id')
+  slug = (): this => this.format('slug')
+  semVer = (): this => this.format('semVer')
+  languageTag = (): this => this.format('languageTag')
+  countryCode = (): this => this.format('countryCode')
+  currency = (): this => this.format('currency')
 
-  trim = (trim = true) => this.transformModify('trim', trim)
-  toLowerCase = (toLowerCase = true) => this.transformModify('toLowerCase', toLowerCase)
-  toUpperCase = (toUpperCase = true) => this.transformModify('toUpperCase', toUpperCase)
+  trim = (trim = true): this => this.transformModify('trim', trim)
+  toLowerCase = (toLowerCase = true): this => this.transformModify('toLowerCase', toLowerCase)
+  toUpperCase = (toUpperCase = true): this => this.transformModify('toUpperCase', toUpperCase)
 
   private transformModify(t: 'trim' | 'toLowerCase' | 'toUpperCase', add: boolean): this {
     if (add) {

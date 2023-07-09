@@ -9,7 +9,7 @@ class C {
   @_Timeout({
     timeout: 50,
   })
-  async fn(delay: number, value?: any) {
+  async fn(delay: number, value?: any): Promise<any> {
     return await pDelay(delay, value)
   }
 }

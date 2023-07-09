@@ -61,7 +61,7 @@ class B {
   cacheMisses = 0
 
   @memoSimple()
-  a(a1 = 'def') {
+  a(a1 = 'def'): void {
     console.log(`a called with a1=${a1}`)
     this.cacheMisses++
   }

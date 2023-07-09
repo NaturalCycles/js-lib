@@ -1,10 +1,10 @@
 import { inspect } from 'node:util'
 import { AppError } from './app.error'
 
-const throwAppError = () => {
+const throwAppError = (): never => {
   throw new AppError('error')
 }
-const throwAppErrorAsync = async () => {
+const throwAppErrorAsync = async (): Promise<never> => {
   throw new AppError('error')
 }
 
