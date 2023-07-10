@@ -12,12 +12,6 @@ export interface BuildInfo {
    */
   tsCommit: UnixTimestampNumber
 
-  /**
-   * Human-readable time of the build. E.g:
-   * 2019-06-21 18:35:19
-   */
-  tsStr: string
-
   repoName: string
   branchName: string
 
@@ -51,8 +45,6 @@ export interface BuildInfo {
 export function generateBuildInfoDev(): BuildInfo {
   const now = localTime()
   const ts = now.unix()
-  const tsStr = now.toPretty()
-
   const rev = 'devRev'
   const branchName = 'devBranch'
   const repoName = 'devRepo'
@@ -63,7 +55,6 @@ export function generateBuildInfoDev(): BuildInfo {
   return {
     ts,
     tsCommit,
-    tsStr,
     repoName,
     branchName,
     rev,
