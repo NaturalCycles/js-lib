@@ -257,7 +257,7 @@ module.exports = {
     'no-sparse-arrays': 2,
     'no-this-before-super': 2,
     'no-throw-literal': 2,
-    'no-undef': 2,
+    'no-undef': 0, // covered by TS, conflicts with typescript-eslint
     'no-undef-init': 2,
     'no-underscore-dangle': 0,
     'no-unexpected-multiline': 0, // prettier
