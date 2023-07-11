@@ -428,5 +428,18 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': 2,
     '@typescript-eslint/prefer-string-starts-ends-with': 2,
     '@typescript-eslint/prefer-ts-expect-error': 2,
+    '@typescript-eslint/explicit-member-accessibility': [
+      2,
+      {
+        accessibility: 'no-public',
+      },
+    ],
+    '@typescript-eslint/no-mixed-enums': 2,
+    '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 2,
+    '@typescript-eslint/no-unnecessary-qualifier': 2,
+    '@typescript-eslint/prefer-enum-initializers': 2,
+    '@typescript-eslint/prefer-literal-enum-member': 2,
+    '@typescript-eslint/prefer-reduce-type-parameter': 2,
+    '@typescript-eslint/prefer-nullish-coalescing': 0, // we prefer `||` actually
   },
 }
