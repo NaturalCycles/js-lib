@@ -432,6 +432,7 @@ module.exports = {
       2,
       {
         accessibility: 'no-public',
+        overrides: { parameterProperties: 'off' },
       },
     ],
     '@typescript-eslint/no-mixed-enums': 2,
