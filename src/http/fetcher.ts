@@ -106,7 +106,7 @@ export class Fetcher {
     return this
   }
 
-  public cfg: FetcherNormalizedCfg
+  cfg: FetcherNormalizedCfg
 
   static create(cfg: FetcherCfg & FetcherOptions = {}): Fetcher {
     return new Fetcher(cfg)
