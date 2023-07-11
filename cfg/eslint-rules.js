@@ -439,7 +439,9 @@ module.exports = {
     '@typescript-eslint/no-unnecessary-qualifier': 2,
     '@typescript-eslint/prefer-enum-initializers': 2,
     '@typescript-eslint/prefer-literal-enum-member': 2,
-    '@typescript-eslint/prefer-reduce-type-parameter': 2,
+    '@typescript-eslint/prefer-reduce-type-parameter': 0, // gives ts compilation error
     '@typescript-eslint/prefer-nullish-coalescing': 0, // we prefer `||` actually
+    '@typescript-eslint/dot-notation': 0, // not always desireable
+    '@typescript-eslint/consistent-indexed-object-style': 0, // Record looses the name of the key
   },
 }
