@@ -444,5 +444,6 @@ module.exports = {
     '@typescript-eslint/prefer-nullish-coalescing': 0, // we prefer `||` actually
     '@typescript-eslint/dot-notation': 0, // not always desireable
     '@typescript-eslint/consistent-indexed-object-style': 0, // Record looses the name of the key
+    '@typescript-eslint/no-unsafe-enum-comparison': 0, // not practically helpful
   },
 }
