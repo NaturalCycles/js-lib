@@ -21,7 +21,7 @@ export enum ISODayOfWeek {
   SUNDAY = 7,
 }
 
-export type LocalTimeConfig = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
+export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
 export interface LocalTimeComponents {
@@ -50,7 +50,7 @@ export class LocalTime {
    * Parses input String into LocalDate.
    * Input can already be a LocalDate - it is returned as-is in that case.
    */
-  static of(d: LocalTimeConfig): LocalTime {
+  static of(d: LocalTimeInput): LocalTime {
     const t = this.parseOrNull(d)
 
     if (t === null) {
@@ -70,7 +70,7 @@ export class LocalTime {
   /**
    * Returns null if invalid
    */
-  static parseOrNull(d: LocalTimeConfig | undefined | null): LocalTime | null {
+  static parseOrNull(d: LocalTimeInput | undefined | null): LocalTime | null {
     if (!d) return null
     if (d instanceof LocalTime) return d
 
@@ -100,7 +100,7 @@ export class LocalTime {
     return new LocalTime(date)
   }
 
-  static parseToDate(d: LocalTimeConfig): Date {
+  static parseToDate(d: LocalTimeInput): Date {
     if (d instanceof LocalTime) return d.$date
     if (d instanceof Date) return d
 
@@ -113,7 +113,7 @@ export class LocalTime {
     return date
   }
 
-  static parseToUnixTimestamp(d: LocalTimeConfig): UnixTimestampNumber {
+  static parseToUnixTimestamp(d: LocalTimeInput): UnixTimestampNumber {
     if (typeof d === 'number') return d
     if (d instanceof LocalTime) return d.unix()
 
@@ -126,7 +126,7 @@ export class LocalTime {
     return date.valueOf() / 1000
   }
 
-  static isValid(d: LocalTimeConfig | undefined | null): boolean {
+  static isValid(d: LocalTimeInput | undefined | null): boolean {
     return this.parseOrNull(d) !== null
   }
 
@@ -283,11 +283,11 @@ export class LocalTime {
     return this.add(num * -1, unit, mutate)
   }
 
-  absDiff(other: LocalTimeConfig, unit: LocalTimeUnit): number {
+  absDiff(other: LocalTimeInput, unit: LocalTimeUnit): number {
     return Math.abs(this.diff(other, unit))
   }
 
-  diff(other: LocalTimeConfig, unit: LocalTimeUnit): number {
+  diff(other: LocalTimeInput, unit: LocalTimeUnit): number {
     const date2 = LocalTime.parseToDate(other)
 
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
@@ -384,11 +384,11 @@ export class LocalTime {
     })
   }
 
-  static earliestOrUndefined(items: LocalTimeConfig[]): LocalTime | undefined {
+  static earliestOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
     return items.length ? LocalTime.earliest(items) : undefined
   }
 
-  static earliest(items: LocalTimeConfig[]): LocalTime {
+  static earliest(items: LocalTimeInput[]): LocalTime {
     _assert(items.length, 'LocalTime.earliest called on empty array')
 
     return items
@@ -396,11 +396,11 @@ export class LocalTime {
       .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
-  static latestOrUndefined(items: LocalTimeConfig[]): LocalTime | undefined {
+  static latestOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
     return items.length ? LocalTime.latest(items) : undefined
   }
 
-  static latest(items: LocalTimeConfig[]): LocalTime {
+  static latest(items: LocalTimeInput[]): LocalTime {
     _assert(items.length, 'LocalTime.latest called on empty array')
 
     return items
@@ -408,29 +408,29 @@ export class LocalTime {
       .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
-  isSame(d: LocalTimeConfig): boolean {
+  isSame(d: LocalTimeInput): boolean {
     return this.cmp(d) === 0
   }
 
-  isBefore(d: LocalTimeConfig, inclusive = false): boolean {
+  isBefore(d: LocalTimeInput, inclusive = false): boolean {
     const r = this.cmp(d)
     return r === -1 || (r === 0 && inclusive)
   }
 
-  isSameOrBefore(d: LocalTimeConfig): boolean {
+  isSameOrBefore(d: LocalTimeInput): boolean {
     return this.cmp(d) <= 0
   }
 
-  isAfter(d: LocalTimeConfig, inclusive = false): boolean {
+  isAfter(d: LocalTimeInput, inclusive = false): boolean {
     const r = this.cmp(d)
     return r === 1 || (r === 0 && inclusive)
   }
 
-  isSameOrAfter(d: LocalTimeConfig): boolean {
+  isSameOrAfter(d: LocalTimeInput): boolean {
     return this.cmp(d) >= 0
   }
 
-  isBetween(min: LocalTimeConfig, max: LocalTimeConfig, incl: Inclusiveness = '[)'): boolean {
+  isBetween(min: LocalTimeInput, max: LocalTimeInput, incl: Inclusiveness = '[)'): boolean {
     let r = this.cmp(min)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (r < 0 || (r === 0 && incl[0] === '(')) return false
@@ -444,7 +444,7 @@ export class LocalTime {
    * returns 0 if they are equal
    * returns -1 if this < d
    */
-  cmp(d: LocalTimeConfig): -1 | 0 | 1 {
+  cmp(d: LocalTimeInput): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
     const t2 = LocalTime.parseToDate(d).valueOf()
     if (t1 === t2) return 0
@@ -462,7 +462,7 @@ export class LocalTime {
     }
   }
 
-  fromNow(now: LocalTimeConfig = new Date()): string {
+  fromNow(now: LocalTimeInput = new Date()): string {
     const msDiff = LocalTime.parseToDate(now).valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
@@ -599,7 +599,7 @@ export class LocalTime {
 /**
  * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
  */
-export function localTime(d?: LocalTimeConfig): LocalTime {
+export function localTime(d?: LocalTimeInput): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
 

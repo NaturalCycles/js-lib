@@ -14,7 +14,7 @@ export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
-export type LocalDateConfig = LocalDate | Date | IsoDateString
+export type LocalDateInput = LocalDate | Date | IsoDateString
 export type LocalDateFormatter = (ld: LocalDate) => string
 
 /**
@@ -35,7 +35,7 @@ export class LocalDate {
    * Parses input String into LocalDate.
    * Input can already be a LocalDate - it is returned as-is in that case.
    */
-  static of(d: LocalDateConfig): LocalDate {
+  static of(d: LocalDateInput): LocalDate {
     const t = this.parseOrNull(d)
 
     if (t === null) {
@@ -66,7 +66,7 @@ export class LocalDate {
   /**
    * Returns null if invalid.
    */
-  static parseOrNull(d: LocalDateConfig | undefined | null): LocalDate | null {
+  static parseOrNull(d: LocalDateInput | undefined | null): LocalDate | null {
     if (!d) return null
     if (d instanceof LocalDate) return d
     if (d instanceof Date) {
@@ -118,11 +118,11 @@ export class LocalDate {
     return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
   }
 
-  static earliestOrUndefined(items: LocalDateConfig[]): LocalDate | undefined {
+  static earliestOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
     return items.length ? LocalDate.earliest(items) : undefined
   }
 
-  static earliest(items: LocalDateConfig[]): LocalDate {
+  static earliest(items: LocalDateInput[]): LocalDate {
     _assert(items.length, 'LocalDate.earliest called on empty array')
 
     return items
@@ -130,11 +130,11 @@ export class LocalDate {
       .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
-  static latestOrUndefined(items: LocalDateConfig[]): LocalDate | undefined {
+  static latestOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
     return items.length ? LocalDate.latest(items) : undefined
   }
 
-  static latest(items: LocalDateConfig[]): LocalDate {
+  static latest(items: LocalDateInput[]): LocalDate {
     _assert(items.length, 'LocalDate.latest called on empty array')
 
     return items
@@ -143,8 +143,8 @@ export class LocalDate {
   }
 
   static range(
-    min: LocalDateConfig,
-    max: LocalDateConfig,
+    min: LocalDateInput,
+    max: LocalDateInput,
     incl: Inclusiveness = '[)',
     step = 1,
     stepUnit: LocalDateUnit = 'day',
@@ -209,30 +209,30 @@ export class LocalDate {
     return v === undefined ? this.$day : this.set('day', v)
   }
 
-  isSame(d: LocalDateConfig): boolean {
+  isSame(d: LocalDateInput): boolean {
     d = LocalDate.of(d)
     return this.$day === d.$day && this.$month === d.$month && this.$year === d.$year
   }
 
-  isBefore(d: LocalDateConfig, inclusive = false): boolean {
+  isBefore(d: LocalDateInput, inclusive = false): boolean {
     const r = this.cmp(d)
     return r === -1 || (r === 0 && inclusive)
   }
 
-  isSameOrBefore(d: LocalDateConfig): boolean {
+  isSameOrBefore(d: LocalDateInput): boolean {
     return this.cmp(d) <= 0
   }
 
-  isAfter(d: LocalDateConfig, inclusive = false): boolean {
+  isAfter(d: LocalDateInput, inclusive = false): boolean {
     const r = this.cmp(d)
     return r === 1 || (r === 0 && inclusive)
   }
 
-  isSameOrAfter(d: LocalDateConfig): boolean {
+  isSameOrAfter(d: LocalDateInput): boolean {
     return this.cmp(d) >= 0
   }
 
-  isBetween(min: LocalDateConfig, max: LocalDateConfig, incl: Inclusiveness = '[)'): boolean {
+  isBetween(min: LocalDateInput, max: LocalDateInput, incl: Inclusiveness = '[)'): boolean {
     let r = this.cmp(min)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (r < 0 || (r === 0 && incl[0] === '(')) return false
@@ -246,7 +246,7 @@ export class LocalDate {
    * returns 0 if they are equal
    * returns -1 if this < d
    */
-  cmp(d: LocalDateConfig): -1 | 0 | 1 {
+  cmp(d: LocalDateInput): -1 | 0 | 1 {
     d = LocalDate.of(d)
     if (this.$year < d.$year) return -1
     if (this.$year > d.$year) return 1
@@ -260,7 +260,7 @@ export class LocalDate {
   /**
    * Same as Math.abs( diff )
    */
-  absDiff(d: LocalDateConfig, unit: LocalDateUnit): number {
+  absDiff(d: LocalDateInput, unit: LocalDateUnit): number {
     return Math.abs(this.diff(d, unit))
   }
 
@@ -269,7 +269,7 @@ export class LocalDate {
    *
    * a.diff(b) means "a minus b"
    */
-  diff(d: LocalDateConfig, unit: LocalDateUnit): number {
+  diff(d: LocalDateInput, unit: LocalDateUnit): number {
     d = LocalDate.of(d)
 
     const sign = this.cmp(d)
@@ -509,6 +509,6 @@ export class LocalDate {
 /**
  * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
  */
-export function localDate(d?: LocalDateConfig): LocalDate {
+export function localDate(d?: LocalDateInput): LocalDate {
   return d ? LocalDate.of(d) : LocalDate.today()
 }

@@ -1,6 +1,6 @@
 import type { UnixTimestampNumber } from '../types'
 import type { Inclusiveness } from './localDate'
-import type { LocalTimeConfig } from './localTime'
+import type { LocalTimeInput } from './localTime'
 import { LocalTime } from './localTime'
 
 export type TimeIntervalConfig = TimeInterval | TimeIntervalString
@@ -18,7 +18,7 @@ export class TimeInterval {
     private $end: UnixTimestampNumber,
   ) {}
 
-  static of(start: LocalTimeConfig, end: LocalTimeConfig): TimeInterval {
+  static of(start: LocalTimeInput, end: LocalTimeInput): TimeInterval {
     return new TimeInterval(
       LocalTime.parseToUnixTimestamp(start),
       LocalTime.parseToUnixTimestamp(end),
@@ -78,7 +78,7 @@ export class TimeInterval {
     return this.cmp(d) >= 0
   }
 
-  includes(d: LocalTimeConfig, incl: Inclusiveness = '[)'): boolean {
+  includes(d: LocalTimeInput, incl: Inclusiveness = '[)'): boolean {
     d = LocalTime.parseToUnixTimestamp(d)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (d < this.$start || (d === this.$start && incl[0] === '(')) return false

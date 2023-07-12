@@ -1,4 +1,4 @@
-import type { Inclusiveness, LocalDateConfig, LocalDateUnit } from './localDate'
+import type { Inclusiveness, LocalDateInput, LocalDateUnit } from './localDate'
 import { LocalDate } from './localDate'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString
@@ -15,7 +15,7 @@ export class DateInterval {
     public end: LocalDate,
   ) {}
 
-  static of(start: LocalDateConfig, end: LocalDateConfig): DateInterval {
+  static of(start: LocalDateInput, end: LocalDateInput): DateInterval {
     return new DateInterval(LocalDate.of(start), LocalDate.of(end))
   }
 
@@ -59,7 +59,7 @@ export class DateInterval {
   /**
    * Ranges of DateInterval (start, end) are INCLUSIVE.
    */
-  includes(d: LocalDateConfig, incl: Inclusiveness = '[]'): boolean {
+  includes(d: LocalDateInput, incl: Inclusiveness = '[]'): boolean {
     d = LocalDate.of(d)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     return d.isAfter(this.start, incl[0] === '[') && d.isBefore(this.end, incl[1] === ']')
