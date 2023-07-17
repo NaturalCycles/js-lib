@@ -54,9 +54,7 @@ export async function lintAllCommand(): Promise<void> {
         console.log(`lint-all: there are changes before running lint-all, will not commit`)
       } else {
         const msg =
-          'style(ci): ' +
-          _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60) +
-          '\n\n[skip ci]'
+          'style(ci): ' + _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60)
 
         // pull, commit, push changes
         gitPull()
