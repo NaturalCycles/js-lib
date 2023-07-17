@@ -14,6 +14,7 @@
     "lib": ["esnext"], // add "dom" if needed
     "module": "commonjs",
     "moduleResolution": "node",
+    "moduleDetection": "force",
 
     // Emit
     "sourceMap": false,
