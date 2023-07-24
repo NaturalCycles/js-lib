@@ -140,3 +140,25 @@ test('timeout retries', async () => {
   console.log(err)
   console.log(_stringifyAny(err))
 }, 60_000)
+
+test('formData', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    retry: { count: 0 },
+  })
+
+  await fetcher.post('https://webhook.site/07577dc5-8a0a-4e21-866b-a3bdbaf641f4', {
+    form: {
+      a: 'a',
+      b: 2,
+    },
+  })
+
+  // to compare with how Got is doing it
+  // await getGot().post('https://webhook.site/07577dc5-8a0a-4e21-866b-a3bdbaf641f4', {
+  //     form: {
+  //       a: 'a',
+  //       b: 2,
+  //     },
+  //   }).json()
+})

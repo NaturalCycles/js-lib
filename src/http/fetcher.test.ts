@@ -20,7 +20,9 @@ test('defaults', () => {
       "hooks": {},
       "init": {
         "credentials": undefined,
-        "headers": {},
+        "headers": {
+          "user-agent": "fetcher",
+        },
         "method": "GET",
         "redirect": undefined,
       },
@@ -58,7 +60,10 @@ test('defaults', () => {
       "fullUrl": "some",
       "init": {
         "credentials": undefined,
-        "headers": {},
+        "headers": {
+          "accept": "*/*",
+          "user-agent": "fetcher",
+        },
         "method": "GET",
         "redirect": "follow",
       },

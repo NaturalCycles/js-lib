@@ -1,6 +1,6 @@
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
-import type { Reviver, UnixTimestampMillisNumber } from '../types'
+import type { AnyObject, Reviver, UnixTimestampMillisNumber } from '../types'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg
@@ -145,14 +145,32 @@ export interface FetcherOptions {
    */
   timeoutSeconds?: number
 
-  json?: any
-  text?: string
   /**
    * Supports all the types that RequestInit.body supports.
    *
    * Useful when you want to e.g pass FormData.
    */
   body?: Blob | BufferSource | FormData | URLSearchParams | string
+
+  /**
+   * Same as `body`, but also conveniently sets the
+   * Content-Type header to `text/plain`
+   */
+  text?: string
+
+  /**
+   * Same as `body`, but:
+   * 1. JSON.stringifies the passed variable
+   * 2. Conveniently sets the Content-Type header to `application/json`
+   */
+  json?: any
+
+  /**
+   * Same as `body`, but:
+   * 1. Transforms the passed plain js object into URLSearchParams and passes it to `body`
+   * 2. Conveniently sets the Content-Type header to `application/x-www-form-urlencoded`
+   */
+  form?: FormData | URLSearchParams | AnyObject
 
   credentials?: RequestCredentials
   /**

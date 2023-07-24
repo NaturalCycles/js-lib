@@ -1,4 +1,5 @@
 /// <reference lib="dom"/>
+/// <reference lib="dom.iterable"/>
 
 import { isServerSide } from '../env'
 import { ErrorLike, ErrorObject } from '../error/error.model'
@@ -28,10 +29,20 @@ import type {
   FetcherOptions,
   FetcherRequest,
   FetcherResponse,
+  FetcherResponseType,
   FetcherRetryOptions,
 } from './fetcher.model'
 import { HTTP_METHODS } from './http.model'
 import type { HttpStatusFamily } from './http.model'
+
+const acceptByResponseType: Record<FetcherResponseType, string> = {
+  text: 'text/plain',
+  json: 'application/json',
+  void: '*/*',
+  readableStream: 'application/octet-stream',
+  arrayBuffer: 'application/octet-stream',
+  blob: 'application/octet-stream',
+}
 
 const defRetryOptions: FetcherRetryOptions = {
   count: 2,
@@ -550,7 +561,10 @@ export class Fetcher {
         retry: { ...defRetryOptions },
         init: {
           method: cfg.method || 'GET',
-          headers: cfg.headers || {},
+          headers: {
+            'user-agent': 'fetcher',
+            ...cfg.headers,
+          },
           credentials: cfg.credentials,
           redirect: cfg.redirect,
         },
@@ -625,9 +639,20 @@ export class Fetcher {
     } else if (opt.text !== undefined) {
       req.init.body = opt.text
       req.init.headers['content-type'] = 'text/plain'
+    } else if (opt.form) {
+      if (opt.form instanceof URLSearchParams || opt.form instanceof FormData) {
+        req.init.body = opt.form
+      } else {
+        req.init.body = new URLSearchParams(opt.form)
+      }
+
+      req.init.headers['content-type'] = 'application/x-www-form-urlencoded'
     } else if (opt.body !== undefined) {
       req.init.body = opt.body
     }
+
+    // Unless `accept` header was already set - set it based on responseType
+    req.init.headers['accept'] ||= acceptByResponseType[req.responseType]
 
     return req
   }
