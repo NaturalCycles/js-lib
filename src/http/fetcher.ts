@@ -15,10 +15,10 @@ import {
   _pick,
 } from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
-import { TimeoutError } from '../promise/pTimeout'
+import { pTimeout, TimeoutError } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringifyAny } from '../string/stringifyAny'
-import { _since } from '../time/time.util'
+import { _ms, _since } from '../time/time.util'
 import { NumberOfMilliseconds } from '../types'
 import type {
   FetcherAfterResponseHook,
@@ -182,20 +182,6 @@ export class Fetcher {
       init: { method },
     } = req
 
-    // setup timeout
-    let timeout: number | undefined
-    if (timeoutSeconds) {
-      const abortController = new AbortController()
-      req.init.signal = abortController.signal
-      timeout = setTimeout(() => {
-        // Apparently, providing a `string` reason to abort() causes Undici to throw `invalid_argument` error,
-        // so, we're wrapping it in a TimeoutError instance
-        abortController.abort(new TimeoutError(`request timed out after ${timeoutSeconds} sec`))
-        // abortController.abort(`timeout of ${timeoutSeconds} sec`)
-        // abortController.abort()
-      }, timeoutSeconds * 1000) as any as number
-    }
-
     for (const hook of this.cfg.hooks.beforeRequest || []) {
       await hook(req)
     }
@@ -217,6 +203,19 @@ export class Fetcher {
 
     while (!res.retryStatus.retryStopped) {
       req.started = Date.now()
+
+      // setup timeout
+      let timeoutId: number | undefined
+      if (timeoutSeconds) {
+        const abortController = new AbortController()
+        req.init.signal = abortController.signal
+        timeoutId = setTimeout(() => {
+          // console.log(`actual request timed out in ${_since(req.started)}`)
+          // Apparently, providing a `string` reason to abort() causes Undici to throw `invalid_argument` error,
+          // so, we're wrapping it in a TimeoutError instance
+          abortController.abort(new TimeoutError(`request timed out after ${timeoutSeconds} sec`))
+        }, timeoutSeconds * 1000) as any as number
+      }
 
       if (this.cfg.logRequest) {
         const { retryAttempt } = res.retryStatus
@@ -242,15 +241,33 @@ export class Fetcher {
         res.ok = false
         // important to set it to undefined, otherwise it can keep the previous value (from previous try)
         res.fetchResponse = undefined
+      } finally {
+        clearTimeout(timeoutId)
+        // Separate Timeout will be introduced to "download and parse the body"
       }
       res.statusFamily = this.getStatusFamily(res)
       res.statusCode = res.fetchResponse?.status
 
       if (res.fetchResponse?.ok) {
-        await this.onOkResponse(res as FetcherResponse<T> & { fetchResponse: Response }, timeout)
+        try {
+          // We are applying a separate Timeout (as long as original Timeout for now) to "download and parse the body"
+          await pTimeout(
+            async () =>
+              await this.onOkResponse(res as FetcherResponse<T> & { fetchResponse: Response }),
+            {
+              timeout: timeoutSeconds * 1000 || Number.POSITIVE_INFINITY,
+              name: 'Fetcher.onOkResponse',
+            },
+          )
+        } catch (err) {
+          // onOkResponse can still fail, e.g when loading/parsing json, text or doing other response manipulation
+          res.err = _anyToError(err)
+          res.ok = false
+          await this.onNotOkResponse(res)
+        }
       } else {
         // !res.ok
-        await this.onNotOkResponse(res, timeout)
+        await this.onNotOkResponse(res)
       }
     }
 
@@ -263,34 +280,19 @@ export class Fetcher {
 
   private async onOkResponse(
     res: FetcherResponse<any> & { fetchResponse: Response },
-    timeout?: number,
   ): Promise<void> {
     const { req } = res
     const { responseType } = res.req
 
+    // This function is subject to a separate timeout to "download and parse the data"
     if (responseType === 'json') {
       if (res.fetchResponse.body) {
         const text = await res.fetchResponse.text()
 
         if (text) {
-          try {
-            res.body = text
-            res.body = _jsonParse(text, req.jsonReviver)
-          } catch (err) {
-            // Error while parsing json
-            // res.err = _anyToError(err, HttpRequestError, {
-            //   requestUrl: res.req.url,
-            //   requestBaseUrl: this.cfg.baseUrl,
-            //   requestMethod: res.req.init.method,
-            //   requestSignature: res.signature,
-            //   requestDuration: Date.now() - started,
-            //   responseStatusCode: res.fetchResponse.status,
-            // } satisfies HttpRequestErrorData)
-            res.err = _anyToError(err)
-            res.ok = false
-
-            return await this.onNotOkResponse(res, timeout)
-          }
+          res.body = text
+          res.body = _jsonParse(text, req.jsonReviver)
+          // Error while parsing json can happen - it'll be handled upstream
         } else {
           // Body had a '' (empty string)
           res.body = {}
@@ -310,13 +312,11 @@ export class Fetcher {
       res.body = res.fetchResponse.body
 
       if (res.body === null) {
-        res.err = new Error(`fetchResponse.body is null`)
-        res.ok = false
-        return await this.onNotOkResponse(res, timeout)
+        // Error is to be handled upstream
+        throw new Error(`fetchResponse.body is null`)
       }
     }
 
-    clearTimeout(timeout)
     res.retryStatus.retryStopped = true
 
     // res.err can happen on `failed to fetch` type of error, e.g JSON.parse, CORS, unexpected redirect
@@ -348,9 +348,7 @@ export class Fetcher {
     return await globalThis.fetch(url, init)
   }
 
-  private async onNotOkResponse(res: FetcherResponse, timeout?: number): Promise<void> {
-    clearTimeout(timeout)
-
+  private async onNotOkResponse(res: FetcherResponse): Promise<void> {
     let cause: ErrorObject | undefined
 
     if (res.err) {
@@ -433,7 +431,11 @@ export class Fetcher {
     retryStatus.retryAttempt++
     retryStatus.retryTimeout = _clamp(retryStatus.retryTimeout * timeoutMultiplier, 0, timeoutMax)
 
-    await pDelay(this.getRetryTimeout(res))
+    const timeout = this.getRetryTimeout(res)
+    if (res.req.debug) {
+      this.cfg.logger.log(` .. ${res.signature} waiting ${_ms(timeout)}`)
+    }
+    await pDelay(timeout)
   }
 
   private getRetryTimeout(res: FetcherResponse): NumberOfMilliseconds {
@@ -491,8 +493,9 @@ export class Fetcher {
     if (statusFamily === 3 && !retry3xx) return false
 
     // should not retry on `unexpected redirect` in error.cause.cause
-    if ((res.err?.cause as ErrorLike | void)?.cause?.message?.includes('unexpected redirect'))
+    if ((res.err?.cause as ErrorLike | void)?.cause?.message?.includes('unexpected redirect')) {
       return false
+    }
 
     return true // default is true
   }
@@ -533,7 +536,7 @@ export class Fetcher {
 
   private normalizeCfg(cfg: FetcherCfg & FetcherOptions): FetcherNormalizedCfg {
     if (cfg.baseUrl?.endsWith('/')) {
-      console.warn(`Fetcher: baseUrl should not end with /`)
+      console.warn(`Fetcher: baseUrl should not end with slash: ${cfg.baseUrl}`)
       cfg.baseUrl = cfg.baseUrl.slice(0, cfg.baseUrl.length - 1)
     }
     const { debug = false } = cfg
@@ -591,6 +594,7 @@ export class Fetcher {
         'logRequestBody',
         'logResponse',
         'logResponseBody',
+        'debug',
       ]),
       started: Date.now(),
       ..._omit(opt, ['method', 'headers', 'credentials']),

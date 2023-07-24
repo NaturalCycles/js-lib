@@ -1,6 +1,6 @@
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
-import type { AnyObject, Reviver, UnixTimestampMillisNumber } from '../types'
+import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillisNumber } from '../types'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg
@@ -13,6 +13,7 @@ export interface FetcherNormalizedCfg
       | 'logRequestBody'
       | 'logResponse'
       | 'logResponseBody'
+      | 'debug'
       | 'redirect'
       | 'credentials'
     > {
@@ -93,14 +94,14 @@ export interface FetcherCfg {
 
 export interface FetcherRetryStatus {
   retryAttempt: number
-  retryTimeout: number
+  retryTimeout: NumberOfMilliseconds
   retryStopped: boolean
 }
 
 export interface FetcherRetryOptions {
   count: number
-  timeout: number
-  timeoutMax: number
+  timeout: NumberOfMilliseconds
+  timeoutMax: NumberOfMilliseconds
   timeoutMultiplier: number
 }
 
@@ -219,6 +220,10 @@ export interface FetcherOptions {
   logRequestBody?: boolean
   logResponse?: boolean
   logResponseBody?: boolean
+  /**
+   * If true - enables all possible logging.
+   */
+  debug?: boolean
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {

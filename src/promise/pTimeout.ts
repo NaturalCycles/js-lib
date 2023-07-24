@@ -1,7 +1,7 @@
 import { AppError } from '../error/app.error'
 import type { ErrorData, ErrorObject } from '../error/error.model'
 import { _errorDataAppend } from '../error/error.util'
-import type { AnyAsyncFunction } from '../types'
+import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
 
 export class TimeoutError extends AppError {
   constructor(message: string, data = {}, cause?: ErrorObject) {
@@ -13,7 +13,7 @@ export interface PTimeoutOptions {
   /**
    * Timeout in milliseconds.
    */
-  timeout: number
+  timeout: NumberOfMilliseconds
 
   /**
    * If set - will be included in the error message.

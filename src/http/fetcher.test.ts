@@ -57,6 +57,7 @@ test('defaults', () => {
 
   expect(req).toMatchInlineSnapshot(`
     {
+      "debug": false,
       "fullUrl": "some",
       "init": {
         "credentials": undefined,
