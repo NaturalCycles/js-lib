@@ -116,7 +116,7 @@ export interface FetcherRequest
    */
   fullUrl: string
   init: RequestInitNormalized
-  mode: FetcherMode
+  responseType: FetcherResponseType
   timeoutSeconds: number
   retry: FetcherRetryOptions
   retryPost: boolean
@@ -167,7 +167,7 @@ export interface FetcherOptions {
   // init?: Partial<RequestInitNormalized>
 
   headers?: Record<string, any>
-  mode?: FetcherMode // default to 'void'
+  responseType?: FetcherResponseType // default to 'void'
 
   searchParams?: Record<string, any>
 
@@ -236,4 +236,10 @@ export type FetcherResponse<BODY = unknown> =
   | FetcherSuccessResponse<BODY>
   | FetcherErrorResponse<BODY>
 
-export type FetcherMode = 'json' | 'text' | 'void' | 'arrayBuffer' | 'blob' | 'readableStream'
+export type FetcherResponseType =
+  | 'json'
+  | 'text'
+  | 'void'
+  | 'arrayBuffer'
+  | 'blob'
+  | 'readableStream'

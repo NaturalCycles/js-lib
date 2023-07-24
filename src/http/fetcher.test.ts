@@ -31,7 +31,7 @@ test('defaults', () => {
       "logResponseBody": false,
       "logWithBaseUrl": true,
       "logWithSearchParams": true,
-      "mode": "void",
+      "responseType": "void",
       "retry": {
         "count": 2,
         "timeout": 1000,
@@ -67,7 +67,7 @@ test('defaults', () => {
       "logRequestBody": false,
       "logResponse": true,
       "logResponseBody": false,
-      "mode": "void",
+      "responseType": "void",
       "retry": {
         "count": 2,
         "timeout": 1000,
@@ -176,7 +176,7 @@ test('json parse error', async () => {
 
   const { err } = await fetcher.doFetch({
     url: 'some',
-    mode: 'json',
+    responseType: 'json',
   })
   _assertIsError(err)
   expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 200 GET some"`)

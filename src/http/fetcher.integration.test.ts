@@ -2,6 +2,8 @@ import * as fs from 'node:fs'
 import { Readable } from 'node:stream'
 import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expectTypeOf } from 'expect-type'
+import { HttpRequestError } from '../error/httpRequestError'
+import { pExpectedError } from '../error/try'
 import { TimeoutError } from '../promise/pTimeout'
 import { _stringifyAny } from '../string/stringifyAny'
 import { tmpDir } from '../test/paths'
@@ -101,10 +103,9 @@ test('redirect: manual', async () => {
     redirect: 'manual',
   })
   expect(r.ok).toBe(false)
-  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
-    "HttpRequestError: 301 GET http://naturalcycles.com/
-    Caused by: Error: Redirecting to https://naturalcycles.com/"
-  `)
+  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(
+    `"HttpRequestError: 301 GET http://naturalcycles.com/"`,
+  )
   expect(r.fetchResponse!.status).toBe(301)
   expect(r.fetchResponse!.headers.get('location')).toBe('https://naturalcycles.com/')
   expect(r.body).toBeUndefined()
@@ -117,11 +118,25 @@ test('timeout', async () => {
     retry: { count: 0 },
   })
 
-  const { err } = await fetcher.doFetch({ url: `https://kg-backend3.appspot.com/slow` })
+  const err = await pExpectedError(
+    fetcher.get(`https://kg-backend3.appspot.com/slow`),
+    HttpRequestError,
+  )
   // console.log(err)
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`
     "HttpRequestError: GET https://kg-backend3.appspot.com/slow
     Caused by: TimeoutError: request timed out after 1 sec"
   `)
-  expect((err!.cause as Error)!.name).toBe(TimeoutError.name)
+  expect(err.cause!.name).toBe(TimeoutError.name)
 })
+
+test('timeout retries', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    timeoutSeconds: 1,
+  })
+
+  const { err } = await fetcher.doFetch({ url: `https://kg-backend3.appspot.com/slow` })
+  console.log(err)
+  console.log(_stringifyAny(err))
+}, 60_000)

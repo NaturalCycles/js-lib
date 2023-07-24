@@ -56,32 +56,32 @@ export class Fetcher {
     HTTP_METHODS.forEach(method => {
       const m = method.toLowerCase()
 
-      // mode=void
+      // responseType=void
       ;(this as any)[`${m}Void`] = async (url: string, opt?: FetcherOptions): Promise<void> => {
         return await this.fetch<void>({
           url,
           method,
-          mode: 'void',
+          responseType: 'void',
           ...opt,
         })
       }
 
-      if (method === 'HEAD') return // mode=text
+      if (method === 'HEAD') return // responseType=text
       ;(this as any)[`${m}Text`] = async (url: string, opt?: FetcherOptions): Promise<string> => {
         return await this.fetch<string>({
           url,
           method,
-          mode: 'text',
+          responseType: 'text',
           ...opt,
         })
       }
 
-      // Default mode=json, but overridable
+      // Default responseType=json, but overridable
       ;(this as any)[m] = async <T = unknown>(url: string, opt?: FetcherOptions): Promise<T> => {
         return await this.fetch<T>({
           url,
           method,
-          mode: 'json',
+          responseType: 'json',
           ...opt,
         })
       }
@@ -113,21 +113,21 @@ export class Fetcher {
   }
 
   // These methods are generated dynamically in the constructor
-  // These default methods use mode=json
+  // These default methods use responseType=json
   get!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
   post!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
   put!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
   patch!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
   delete!: <T = unknown>(url: string, opt?: FetcherOptions) => Promise<T>
 
-  // mode=text
+  // responseType=text
   getText!: (url: string, opt?: FetcherOptions) => Promise<string>
   postText!: (url: string, opt?: FetcherOptions) => Promise<string>
   putText!: (url: string, opt?: FetcherOptions) => Promise<string>
   patchText!: (url: string, opt?: FetcherOptions) => Promise<string>
   deleteText!: (url: string, opt?: FetcherOptions) => Promise<string>
 
-  // mode=void (no body fetching/parsing)
+  // responseType=void (no body fetching/parsing)
   getVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   postVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   putVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
@@ -135,7 +135,7 @@ export class Fetcher {
   deleteVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
 
-  // mode=readableStream
+  // responseType=readableStream
   /**
    * Returns raw fetchResponse.body, which is a ReadableStream<Uint8Array>
    *
@@ -145,7 +145,7 @@ export class Fetcher {
   async getReadableStream(url: string, opt?: FetcherOptions): Promise<ReadableStream<Uint8Array>> {
     return await this.fetch({
       url,
-      mode: 'readableStream',
+      responseType: 'readableStream',
       ...opt,
     })
   }
@@ -255,9 +255,9 @@ export class Fetcher {
     timeout?: number,
   ): Promise<void> {
     const { req } = res
-    const { mode } = res.req
+    const { responseType } = res.req
 
-    if (mode === 'json') {
+    if (responseType === 'json') {
       if (res.fetchResponse.body) {
         const text = await res.fetchResponse.text()
 
@@ -289,13 +289,13 @@ export class Fetcher {
         // do not throw a "cannot parse null as Json" error
         res.body = {}
       }
-    } else if (mode === 'text') {
+    } else if (responseType === 'text') {
       res.body = res.fetchResponse.body ? await res.fetchResponse.text() : ''
-    } else if (mode === 'arrayBuffer') {
+    } else if (responseType === 'arrayBuffer') {
       res.body = res.fetchResponse.body ? await res.fetchResponse.arrayBuffer() : {}
-    } else if (mode === 'blob') {
+    } else if (responseType === 'blob') {
       res.body = res.fetchResponse.body ? await res.fetchResponse.blob() : {}
-    } else if (mode === 'readableStream') {
+    } else if (responseType === 'readableStream') {
       res.body = res.fetchResponse.body
 
       if (res.body === null) {
@@ -531,7 +531,7 @@ export class Fetcher {
       {
         baseUrl: '',
         inputUrl: '',
-        mode: 'void',
+        responseType: 'void',
         searchParams: {},
         timeoutSeconds: 30,
         retryPost: false,
@@ -571,7 +571,7 @@ export class Fetcher {
         'retryPost',
         'retry4xx',
         'retry5xx',
-        'mode',
+        'responseType',
         'jsonReviver',
         'logRequest',
         'logRequestBody',
