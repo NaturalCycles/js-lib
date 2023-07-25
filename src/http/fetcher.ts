@@ -31,6 +31,8 @@ import type {
   FetcherResponse,
   FetcherResponseType,
   FetcherRetryOptions,
+  FetcherMockFunction,
+  RequestInitNormalized,
 } from './fetcher.model'
 import { HTTP_METHODS } from './http.model'
 import type { HttpStatusFamily } from './http.model'
@@ -49,6 +51,20 @@ const defRetryOptions: FetcherRetryOptions = {
   timeout: 1000,
   timeoutMax: 30_000,
   timeoutMultiplier: 2,
+}
+
+let globalFetcherMock: FetcherMockFunction | null = null
+
+/**
+ * Allows to mock Fetcher.callNativeFetch globally (for all Fetcher instances out there).
+ *
+ * Call it with `null` to reset/unmock.
+ *
+ * Please note that jest.spyOn(someFetcher, 'callNativeFetch') has higher priority than
+ * a global mock, so it'll run instead of a global mock.
+ */
+export function setGlobalFetcherMock(fn: FetcherMockFunction | null): void {
+  globalFetcherMock = fn
 }
 
 /**
@@ -344,7 +360,12 @@ export class Fetcher {
   /**
    * This method exists to be able to easily mock it.
    */
-  async callNativeFetch(url: string, init: RequestInit): Promise<Response> {
+  async callNativeFetch(url: string, init: RequestInitNormalized): Promise<Response> {
+    // If global mock is defined - call it instead of the native Fetch
+    if (globalFetcherMock) {
+      return await globalFetcherMock(url, init)
+    }
+
     return await globalThis.fetch(url, init)
   }
 
@@ -365,7 +386,7 @@ export class Fetcher {
 
     cause ||= {
       name: 'Error',
-      message: 'Unknown cause',
+      message: 'Fetch failed',
       data: {},
     }
 

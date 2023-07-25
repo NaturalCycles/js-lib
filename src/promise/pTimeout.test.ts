@@ -11,7 +11,7 @@ test('pTimeoutFn happy case', async () => {
 test('pTimeoutFn default error', async () => {
   const fn = (): Promise<void> => pDelay(100)
   const decoratedFn = pTimeoutFn(fn, { timeout: 10 })
-  const err = await pExpectedError(decoratedFn())
+  const err = await pExpectedError(decoratedFn(), TimeoutError)
   expect(err).toMatchInlineSnapshot(`[TimeoutError: "fn" timed out after 10 ms]`)
   expect(err).toBeInstanceOf(TimeoutError)
 })

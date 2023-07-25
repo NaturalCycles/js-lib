@@ -122,5 +122,17 @@ export async function pExpectedErrorString<ERR = Error>(
   promise: Promise<any>,
   errorClass?: Class<ERR>,
 ): Promise<string> {
-  return _stringifyAny(await pExpectedError<ERR>(promise, errorClass))
+  const err = await pExpectedError<ERR>(promise, errorClass)
+  return _stringifyAny(err)
+}
+
+/**
+ * Shortcut function to simplify error snapshot-matching in tests.
+ */
+export function _expectedErrorString<ERR = Error>(
+  fn: AnyFunction,
+  errorClass?: Class<ERR>,
+): string {
+  const err = _expectedError<ERR>(fn, errorClass)
+  return _stringifyAny(err)
 }

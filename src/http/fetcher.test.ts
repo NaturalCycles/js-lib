@@ -5,10 +5,11 @@ import { _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
+import { pExpectedErrorString } from '../error/try'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
 import { _stringifyAny } from '../string/stringifyAny'
-import { getFetcher } from './fetcher'
+import { getFetcher, setGlobalFetcherMock } from './fetcher'
 import { FetcherRequest } from './fetcher.model'
 
 test('defaults', () => {
@@ -299,4 +300,23 @@ test('retryAfter date', async () => {
 
   const r = await fetcher.getText('')
   expect(r).toBe('ok')
+})
+
+test('globalFetcherMock', async () => {
+  setGlobalFetcherMock(async () => new Response('yo'))
+
+  const fetcher = getFetcher({
+    retry: { count: 0 },
+  })
+
+  const r = await fetcher.getText('https://example.com')
+  expect(r).toBe('yo')
+
+  setGlobalFetcherMock(null)
+
+  expect(await pExpectedErrorString(fetcher.getText('https://example.com'))).toMatchInlineSnapshot(`
+    "HttpRequestError: GET https://example.com/
+    Caused by: TypeError: fetch failed
+    Caused by: Error: Network request forbidden by jestOffline(): example.com"
+  `)
 })

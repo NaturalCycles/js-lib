@@ -1,5 +1,6 @@
 import * as fs from 'node:fs'
 import { Readable } from 'node:stream'
+import { jestOnline } from '@naturalcycles/dev-lib/dist/testing'
 import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expectTypeOf } from 'expect-type'
 import { HttpRequestError } from '../error/httpRequestError'
@@ -8,6 +9,8 @@ import { TimeoutError } from '../promise/pTimeout'
 import { _stringifyAny } from '../string/stringifyAny'
 import { tmpDir } from '../test/paths'
 import { getFetcher } from './fetcher'
+
+jestOnline()
 
 test('basic get', async () => {
   const fetcher = getFetcher({
@@ -103,9 +106,10 @@ test('redirect: manual', async () => {
     redirect: 'manual',
   })
   expect(r.ok).toBe(false)
-  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(
-    `"HttpRequestError: 301 GET http://naturalcycles.com/"`,
-  )
+  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+    "HttpRequestError: 301 GET http://naturalcycles.com/
+    Caused by: Error: Fetch failed"
+  `)
   expect(r.fetchResponse!.status).toBe(301)
   expect(r.fetchResponse!.headers.get('location')).toBe('https://naturalcycles.com/')
   expect(r.body).toBeUndefined()

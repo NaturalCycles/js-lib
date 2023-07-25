@@ -266,3 +266,10 @@ export type FetcherResponseType =
   | 'arrayBuffer'
   | 'blob'
   | 'readableStream'
+
+/**
+ * Function that mocks `Fetcher.callNativeFetch` globally.
+ *
+ * url is `fullUrl` (includes baseUrl and all).
+ */
+export type FetcherMockFunction = (url: string, init: RequestInitNormalized) => Promise<Response>
