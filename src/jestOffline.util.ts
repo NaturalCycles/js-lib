@@ -4,6 +4,8 @@ const LOCAL_HOSTS = ['localhost', '127.0.0.1']
 
 const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
 
+let mitm: any
+
 /**
  * Based on: https://github.com/palmerj3/jest-offline/blob/master/index.js
  */
@@ -15,7 +17,7 @@ export function jestOffline(): void {
 
   jestLog('jest offline mode')
   const createMitm = require('mitm')
-  const mitm = createMitm()
+  mitm ||= createMitm()
 
   mitm.on('connect', (socket: any, opts: any) => {
     const { host } = opts
@@ -26,4 +28,11 @@ export function jestOffline(): void {
 
     socket.bypass()
   })
+}
+
+/**
+ * Undo/reset the jestOffline() function by allowing network calls again.
+ */
+export function jestOnline(): void {
+  mitm?.disable()
 }

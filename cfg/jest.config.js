@@ -87,11 +87,6 @@ module.exports = {
   skipNodeResolution: true,
   testEnvironment: 'node',
   errorOnDeprecated: true,
-  snapshotFormat: {
-    // todo: remove when jest@29 makes it default
-    escapeString: false,
-    printBasicPrototype: false,
-  },
   restoreMocks: true,
   unmockedModulePathPatterns: [],
   setupFilesAfterEnv,
@@ -137,4 +132,5 @@ module.exports = {
       },
     ],
   ].filter(Boolean),
+  prettierPath: null, // todo: remove when jest has fixed it https://github.com/jestjs/jest/issues/14305
 }
