@@ -186,7 +186,7 @@ export interface FetcherOptions {
   // init?: Partial<RequestInitNormalized>
 
   headers?: Record<string, any>
-  responseType?: FetcherResponseType // default to 'void'
+  responseType?: FetcherResponseType // default to 'json'
 
   searchParams?: Record<string, any>
 

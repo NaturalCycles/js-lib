@@ -1,3 +1,4 @@
+import { expectTypeOf } from 'expect-type'
 import { _range } from '../array/range'
 import { localTime } from '../datetime/localTime'
 import { AppError } from '../error/app.error'
@@ -34,7 +35,7 @@ test('defaults', () => {
       "logResponseBody": false,
       "logWithBaseUrl": true,
       "logWithSearchParams": true,
-      "responseType": "void",
+      "responseType": "json",
       "retry": {
         "count": 2,
         "timeout": 1000,
@@ -63,7 +64,7 @@ test('defaults', () => {
       "init": {
         "credentials": undefined,
         "headers": {
-          "accept": "*/*",
+          "accept": "application/json",
           "user-agent": "fetcher",
         },
         "method": "GET",
@@ -74,7 +75,7 @@ test('defaults', () => {
       "logRequestBody": false,
       "logResponse": true,
       "logResponseBody": false,
-      "responseType": "void",
+      "responseType": "json",
       "retry": {
         "count": 2,
         "timeout": 1000,
@@ -183,7 +184,6 @@ test('json parse error', async () => {
 
   const { err } = await fetcher.doFetch({
     url: 'some',
-    responseType: 'json',
   })
   _assertIsError(err)
   expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 200 GET some"`)
@@ -319,4 +319,42 @@ test('globalFetcherMock', async () => {
     Caused by: TypeError: fetch failed
     Caused by: Error: Network request forbidden by jestOffline(): example.com"
   `)
+})
+
+test('tryFetch', async () => {
+  setGlobalFetcherMock(
+    async () =>
+      new Response('bad', {
+        status: 500,
+      }),
+  )
+
+  const [err, data] = await getFetcher().tryFetch<{ ok: boolean }>({
+    url: 'https://example.com',
+    method: 'POST',
+  })
+  expectTypeOf(err).toEqualTypeOf<HttpRequestError | null>()
+  expectTypeOf(data).toEqualTypeOf<{ ok: boolean } | null>()
+  expect(err).toBeInstanceOf(HttpRequestError)
+
+  if (err) {
+    expectTypeOf(err).toEqualTypeOf<HttpRequestError>()
+    expect(err.data.requestMethod).toBe('POST')
+    expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+      "HttpRequestError: 500 POST https://example.com/
+      Caused by: Error: bad"
+    `)
+  } else {
+    expectTypeOf(data).toEqualTypeOf<{ ok: boolean }>()
+  }
+
+  setGlobalFetcherMock(async () => new Response(JSON.stringify({ ok: true })))
+
+  const [err2, data2] = await getFetcher().tryFetch<{ ok: boolean }>({ url: 'https://example.com' })
+  if (err2) {
+    expectTypeOf(err2).toEqualTypeOf<HttpRequestError>()
+  } else {
+    expectTypeOf(data2).toEqualTypeOf<{ ok: boolean }>()
+    expect(data2).toEqual({ ok: true })
+  }
 })

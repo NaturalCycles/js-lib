@@ -143,7 +143,7 @@ test('timeout retries', async () => {
   const { err } = await fetcher.doFetch({ url: `https://kg-backend3.appspot.com/slow` })
   console.log(err)
   console.log(_stringifyAny(err))
-}, 60_000)
+}, 20_000)
 
 test('formData', async () => {
   const fetcher = getFetcher({

@@ -2,6 +2,7 @@
 /// <reference lib="dom.iterable"/>
 
 import { isServerSide } from '../env'
+import { _assertErrorClassOrRethrow } from '../error/assert'
 import { ErrorLike, ErrorObject } from '../error/error.model'
 import { _anyToError, _anyToErrorObject, _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
@@ -19,7 +20,7 @@ import { pTimeout, TimeoutError } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringifyAny } from '../string/stringifyAny'
 import { _ms, _since } from '../time/time.util'
-import { NumberOfMilliseconds } from '../types'
+import { ErrorDataTuple, NumberOfMilliseconds } from '../types'
 import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -186,14 +187,19 @@ export class Fetcher {
   }
 
   /**
-   * Like pTry - returns a [err, data] tuple.
+   * Like pTry - returns a [err, data] tuple (aka ErrorDataTuple).
    * err, if defined, is strictly HttpRequestError.
+   * UPD: actually not, err is typed as Error, as it feels unsafe to guarantee error type.
+   * UPD: actually yes - it will return HttpRequestError, and throw if there's an error
+   * of any other type.
    */
-  async tryFetch<T = unknown>(
-    opt: FetcherOptions,
-  ): Promise<[err: null, data: T] | [err: HttpRequestError, data: null]> {
+  async tryFetch<T = unknown>(opt: FetcherOptions): Promise<ErrorDataTuple<T, HttpRequestError>> {
     const res = await this.doFetch<T>(opt)
-    return res.err ? [res.err as HttpRequestError, null] : [null, res.body]
+    if (res.err) {
+      _assertErrorClassOrRethrow(res.err, HttpRequestError)
+      return [res.err, null]
+    }
+    return [null, res.body]
   }
 
   /**
@@ -585,7 +591,7 @@ export class Fetcher {
       {
         baseUrl: '',
         inputUrl: '',
-        responseType: 'void',
+        responseType: 'json',
         searchParams: {},
         timeoutSeconds: 30,
         retryPost: false,
