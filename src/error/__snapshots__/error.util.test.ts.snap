@@ -224,6 +224,11 @@ Map {
     "name": "AppError",
   },
   [HttpRequestError: http err msg] => {
+    "cause": {
+      "data": {},
+      "message": "Type error: la-la",
+      "name": "AppError",
+    },
     "data": {
       "backendResponseStatusCode": 400,
     },

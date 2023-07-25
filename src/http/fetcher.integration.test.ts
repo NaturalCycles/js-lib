@@ -127,7 +127,7 @@ test('timeout', async () => {
     "HttpRequestError: GET https://kg-backend3.appspot.com/slow
     Caused by: TimeoutError: request timed out after 1 sec"
   `)
-  expect(err.cause!.name).toBe(TimeoutError.name)
+  expect(err.cause.name).toBe(TimeoutError.name)
 })
 
 test('timeout retries', async () => {

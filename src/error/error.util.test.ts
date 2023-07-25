@@ -42,9 +42,17 @@ const anyItems = [
   { name: 'Error', message: 'yada', data: { httpStatusCode: 404 } } as ErrorObject,
   // Other
   new AppError('err msg'),
-  new HttpRequestError('http err msg', {
-    backendResponseStatusCode: 400,
-  } as any),
+  new HttpRequestError(
+    'http err msg',
+    {
+      backendResponseStatusCode: 400,
+    } as any,
+    {
+      name: 'AppError',
+      message: 'Type error: la-la',
+      data: {},
+    } satisfies ErrorObject,
+  ),
   {
     error: {
       name: 'HttpError',

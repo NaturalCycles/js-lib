@@ -19,7 +19,14 @@ import type { ErrorObject, HttpRequestErrorData } from './error.model'
  * (by default).
  */
 export class HttpRequestError extends AppError<HttpRequestErrorData> {
-  constructor(message: string, data: HttpRequestErrorData, cause?: ErrorObject) {
+  constructor(message: string, data: HttpRequestErrorData, cause: ErrorObject) {
     super(message, data, cause, 'HttpRequestError')
   }
+
+  /**
+   * Cause is strictly-defined for HttpRequestError,
+   * so it always has a cause.
+   * (for dev convenience)
+   */
+  override cause!: ErrorObject
 }

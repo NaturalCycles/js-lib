@@ -349,7 +349,7 @@ export class Fetcher {
   }
 
   private async onNotOkResponse(res: FetcherResponse): Promise<void> {
-    let cause: ErrorObject | undefined
+    let cause: ErrorObject
 
     if (res.err) {
       // This is only possible on JSON.parse error, or CORS error,
@@ -361,6 +361,12 @@ export class Fetcher {
       if (body) {
         cause = _anyToErrorObject(body)
       }
+    }
+
+    cause ||= {
+      name: 'Error',
+      message: 'Unknown cause',
+      data: {},
     }
 
     const message = [res.fetchResponse?.status, res.signature].filter(Boolean).join(' ')
