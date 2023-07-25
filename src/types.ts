@@ -278,3 +278,15 @@ export const _objectAssign = Object.assign as <T extends AnyObject>(
   target: T,
   part: Partial<T>,
 ) => T
+
+/**
+ * Defines a tuple of [err, data]
+ * where only 1 of them exists.
+ * Either error exists and data is null
+ * Or error is null and data is defined.
+ * This forces you to check `if (err)`, which lets
+ * TypeScript infer the existence of `data`.
+ *
+ * Functions like pTry use that.
+ */
+export type ErrorDataTuple<T = unknown, ERR = Error> = [err: null, data: T] | [err: ERR, data: null]

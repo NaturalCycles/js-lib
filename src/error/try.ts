@@ -1,7 +1,8 @@
 import { _stringifyAny } from '../string/stringifyAny'
 import type { Class } from '../typeFest'
-import type { AnyFunction } from '../types'
+import type { AnyFunction, ErrorDataTuple } from '../types'
 import { AppError } from './app.error'
+import { _assertErrorClassOrRethrow } from './assert'
 
 /**
  * Calls a function, returns a Tuple of [error, value].
@@ -9,9 +10,6 @@ import { AppError } from './app.error'
  * Useful e.g. in unit tests.
  *
  * Similar to pTry, but for sync functions.
- *
- * For convenience, second argument type is non-optional,
- * so you can use it without `!`. But you SHOULD always check `if (err)` first!
  *
  * ERR is typed as Error, not `unknown`. While unknown would be more correct,
  * according to recent TypeScript, Error gives more developer convenience.
@@ -25,29 +23,35 @@ import { AppError } from './app.error'
  * if (err) ...do something...
  * v // go ahead and use v
  */
-export function _try<ERR = Error, RETURN = void>(
-  fn: () => RETURN,
-): [err: ERR | null, value: RETURN] {
+export function _try<T, ERR extends Error = Error>(
+  fn: () => T,
+  errorClass?: Class<ERR>,
+): ErrorDataTuple<T, ERR> {
   try {
     return [null, fn()]
   } catch (err) {
-    return [err as ERR, undefined as any]
+    if (errorClass) {
+      _assertErrorClassOrRethrow(err, errorClass)
+    }
+
+    return [err as ERR, null]
   }
 }
 
 /**
  * Like _try, but for Promises.
- *
- * Also, intentionally types second return item as non-optional,
- * but you should check for `err` presense first!
  */
-export async function pTry<ERR = Error, RETURN = void>(
-  promise: Promise<RETURN>,
-): Promise<[err: ERR | null, value: Awaited<RETURN>]> {
+export async function pTry<T, ERR extends Error = Error>(
+  promise: Promise<T>,
+  errorClass?: Class<ERR>,
+): Promise<ErrorDataTuple<Awaited<T>, ERR>> {
   try {
     return [null, await promise]
   } catch (err) {
-    return [err as ERR, undefined as any]
+    if (errorClass) {
+      _assertErrorClassOrRethrow(err, errorClass)
+    }
+    return [err as ERR, null]
   }
 }
 

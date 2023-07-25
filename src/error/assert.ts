@@ -102,6 +102,21 @@ export function _assertIsError<ERR extends Error = Error>(
   }
 }
 
+/**
+ * Asserts that passed object is indeed an Error of defined ErrorClass.
+ * If yes - returns peacefully (with TypeScript assertion).
+ * In not - throws (re-throws) that error up.
+ */
+export function _assertErrorClassOrRethrow<ERR extends Error>(
+  err: any,
+  errorClass: Class<ERR>,
+): asserts err is ERR {
+  if (!(err instanceof errorClass)) {
+    // re-throw
+    throw err
+  }
+}
+
 export function _assertIsErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   obj: any,
 ): asserts obj is ErrorObject<DATA_TYPE> {

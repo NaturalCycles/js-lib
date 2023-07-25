@@ -1,7 +1,15 @@
 import { expectTypeOf } from 'expect-type'
 import { AppError } from './app.error'
+import { _assert } from './assert'
 import { HttpRequestError } from './httpRequestError'
-import { _expectedError, _try, pExpectedError, pTry, UnexpectedPassError } from './try'
+import {
+  _expectedError,
+  _try,
+  pExpectedError,
+  pExpectedErrorString,
+  pTry,
+  UnexpectedPassError,
+} from './try'
 
 const okFunction = (v = 1): { result: number } => ({ result: v })
 const errFunction = (): never => {
@@ -11,9 +19,13 @@ const errFunction = (): never => {
 test('_try', () => {
   const [err, res] = _try(() => okFunction())
   expectTypeOf(err).toEqualTypeOf<Error | null>()
-  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number } | null>()
   expect(err).toBeNull()
   expect(res).toEqual({ result: 1 })
+
+  _assert(!err)
+  expectTypeOf(err).toEqualTypeOf<null>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
 
   // On this line we're testing that `res` type is non-optional (by design)
   expect(res.result).toBe(1)
@@ -23,7 +35,7 @@ test('_try', () => {
 
   const [err2, v] = _try(errFunction)
   expect(err2).toMatchInlineSnapshot(`[AppError: oj]`)
-  expect(v).toBeUndefined()
+  expect(v).toBeNull()
 })
 
 const createOkPromise = async (v = 1): Promise<{ result: number }> => ({ result: v })
@@ -34,20 +46,39 @@ const createErrorPromise = async (): Promise<never> => {
 test('pTry', async () => {
   const [err, res] = await pTry(createOkPromise())
   expectTypeOf(err).toEqualTypeOf<Error | null>()
-  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number } | null>()
 
   expect(err).toBeNull()
   expect(res).toEqual({ result: 1 })
+
+  _assert(!err)
+  expectTypeOf(err).toEqualTypeOf<null>()
+  expectTypeOf(res).toEqualTypeOf<{ result: number }>()
 
   // On this line we're testing that `res` type is non-optional (by design)
   expect(res.result).toBe(1)
 
   const [err2, res2] = await pTry(createErrorPromise())
   expect(err2).toMatchInlineSnapshot(`[AppError: oj]`)
-  expect(res2).toBeUndefined()
+  expect(res2).toBeNull()
+
+  _assert(err2)
   // console.log(err2!.stack)
   // Test that "async-stacktraces" are preserved and it shows the originating function name
-  expect(err2?.stack?.includes('at createErrorPromise')).toBe(true)
+  expect(err2.stack?.includes('at createErrorPromise')).toBe(true)
+
+  // pTry with errorClass
+  const [err3, res3] = await pTry(createErrorPromise(), AppError)
+  expectTypeOf(err3).toEqualTypeOf<AppError<any> | null>()
+
+  _assert(err3)
+  expectTypeOf(err3).toEqualTypeOf<AppError<any>>()
+  expect(err3).toBeInstanceOf(AppError)
+  expect(res3).toBeNull()
+
+  // pTry to rethrow on mismatched errorType
+  const err4 = await pExpectedErrorString(pTry(createErrorPromise(), HttpRequestError))
+  expect(err4).toMatchInlineSnapshot(`"AppError: oj"`)
 })
 
 test('_expectedError', () => {
