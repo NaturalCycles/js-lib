@@ -186,9 +186,22 @@ export class Fetcher {
   }
 
   /**
+   * Like pTry - returns a [err, data] tuple.
+   * err, if defined, is strictly HttpRequestError.
+   */
+  async tryFetch<T = unknown>(
+    opt: FetcherOptions,
+  ): Promise<[err: null, data: T] | [err: HttpRequestError, data: null]> {
+    const res = await this.doFetch<T>(opt)
+    return res.err ? [res.err as HttpRequestError, null] : [null, res.body]
+  }
+
+  /**
    * Returns FetcherResponse.
    * Never throws, returns `err` property in the response instead.
    * Use this method instead of `throwHttpErrors: false` or try-catching.
+   *
+   * Note: responseType defaults to `void`, so, override it if you expect different.
    */
   async doFetch<T = unknown>(opt: FetcherOptions): Promise<FetcherResponse<T>> {
     const req = this.normalizeOptions(opt)
