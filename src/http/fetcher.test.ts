@@ -6,11 +6,10 @@ import { _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
-import { pExpectedErrorString } from '../error/try'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
 import { _stringifyAny } from '../string/stringifyAny'
-import { getFetcher, setGlobalFetcherMock } from './fetcher'
+import { Fetcher, getFetcher } from './fetcher'
 import { FetcherRequest } from './fetcher.model'
 
 test('defaults', () => {
@@ -116,7 +115,7 @@ test('mocking fetch', async () => {
     logResponse: true,
   })
   expect(fetcher.cfg.logResponse).toBe(true)
-  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
+  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async () => {
     return new Response(
       JSON.stringify({
         error: _errorLikeToErrorObject(
@@ -178,9 +177,7 @@ test('json parse error', async () => {
       count: 0,
     },
   })
-  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
-    return new Response('some text')
-  })
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response('some text'))
 
   const { err } = await fetcher.doFetch({
     url: 'some',
@@ -212,7 +209,7 @@ test('paginate', async () => {
   })
 
   const pageSize = 10
-  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async url => {
+  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async url => {
     const u = new URL(url)
     const page = Number(u.searchParams.get('page'))
     if (page > pageSize) return new Response(JSON.stringify([]))
@@ -263,18 +260,18 @@ test('retryAfter', async () => {
     debug: true,
   })
 
-  let attempt = 0
-  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
-    if (++attempt < 2) {
-      return new Response('429 rate limited', {
-        status: 429,
-        headers: {
-          'retry-after': '2',
-        },
-      })
-    }
-    return new Response('ok')
-  })
+  const badResponse = (): Response =>
+    new Response('429 rate limited', {
+      status: 429,
+      headers: {
+        'retry-after': '2',
+      },
+    })
+  jest
+    .spyOn(Fetcher, 'callNativeFetch')
+    .mockResolvedValueOnce(badResponse())
+    .mockResolvedValueOnce(badResponse())
+    .mockResolvedValueOnce(new Response('ok'))
 
   const r = await fetcher.getText('')
   expect(r).toBe('ok')
@@ -285,48 +282,29 @@ test('retryAfter date', async () => {
     debug: true,
   })
 
-  let attempt = 0
-  jest.spyOn(fetcher, 'callNativeFetch').mockImplementation(async () => {
-    if (++attempt < 2) {
-      return new Response('429 rate limited', {
-        status: 429,
-        headers: {
-          'retry-after': localTime().add(2, 'second').getDate().toString(),
-        },
-      })
-    }
-    return new Response('ok')
-  })
+  const badResponse = (): Response =>
+    new Response('429 rate limited', {
+      status: 429,
+      headers: {
+        'retry-after': localTime().add(2, 'second').getDate().toString(),
+      },
+    })
+
+  jest
+    .spyOn(Fetcher, 'callNativeFetch')
+    .mockImplementationOnce(async () => badResponse())
+    .mockImplementationOnce(async () => badResponse())
+    .mockResolvedValueOnce(new Response('ok'))
 
   const r = await fetcher.getText('')
   expect(r).toBe('ok')
 })
 
-test('globalFetcherMock', async () => {
-  setGlobalFetcherMock(async () => new Response('yo'))
-
-  const fetcher = getFetcher({
-    retry: { count: 0 },
-  })
-
-  const r = await fetcher.getText('https://example.com')
-  expect(r).toBe('yo')
-
-  setGlobalFetcherMock(null)
-
-  expect(await pExpectedErrorString(fetcher.getText('https://example.com'))).toMatchInlineSnapshot(`
-    "HttpRequestError: GET https://example.com/
-    Caused by: TypeError: fetch failed
-    Caused by: Error: Network request forbidden by jestOffline(): example.com"
-  `)
-})
-
 test('tryFetch', async () => {
-  setGlobalFetcherMock(
-    async () =>
-      new Response('bad', {
-        status: 500,
-      }),
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+    new Response('bad', {
+      status: 500,
+    }),
   )
 
   const [err, data] = await getFetcher().tryFetch<{ ok: boolean }>({
@@ -348,7 +326,9 @@ test('tryFetch', async () => {
     expectTypeOf(data).toEqualTypeOf<{ ok: boolean }>()
   }
 
-  setGlobalFetcherMock(async () => new Response(JSON.stringify({ ok: true })))
+  jest
+    .spyOn(Fetcher, 'callNativeFetch')
+    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
 
   const [err2, data2] = await getFetcher().tryFetch<{ ok: boolean }>({ url: 'https://example.com' })
   if (err2) {
