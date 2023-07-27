@@ -2,7 +2,7 @@ import { expectTypeOf } from 'expect-type'
 import { _range } from '../array/range'
 import { localTime } from '../datetime/localTime'
 import { AppError } from '../error/app.error'
-import { _assertIsError, _assertIsErrorObject } from '../error/assert'
+import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
 import { HttpRequestError } from '../error/httpRequestError'
@@ -169,6 +169,17 @@ test('mocking fetch', async () => {
     }
   `)
   expect(_stringifyAny(err.cause)).toMatchInlineSnapshot(`"AppError: aya-baya"`)
+
+  const { response } = err.data
+  _assert(response)
+  expect(response.ok).toBe(false)
+  expect(response.url).toMatchInlineSnapshot(`""`) // unclear why
+  expect(response.status).toBe(500)
+  expect(Object.fromEntries(response.headers)).toMatchInlineSnapshot(`
+    {
+      "content-type": "text/plain;charset=UTF-8",
+    }
+  `)
 })
 
 test('json parse error', async () => {

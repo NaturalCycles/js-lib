@@ -395,6 +395,7 @@ export class Fetcher {
     res.err = new HttpRequestError(
       message,
       _filterNullishValues({
+        response: res.fetchResponse,
         responseStatusCode: res.fetchResponse?.status || 0,
         // These properties are provided to be used in e.g custom Sentry error grouping
         // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
@@ -402,7 +403,7 @@ export class Fetcher {
         // method: req.method,
         // tryCount: req.tryCount,
         requestUrl: res.req.fullUrl,
-        requestBaseUrl: this.cfg.baseUrl || (null as any),
+        requestBaseUrl: this.cfg.baseUrl || undefined,
         requestMethod: res.req.init.method,
         requestSignature: res.signature,
         requestDuration: Date.now() - res.req.started,
@@ -660,7 +661,7 @@ export class Fetcher {
 
     if (Object.keys(searchParams).length) {
       const qs = new URLSearchParams(searchParams).toString()
-      req.fullUrl += req.fullUrl.includes('?') ? '&' : '?' + qs
+      req.fullUrl += (req.fullUrl.includes('?') ? '&' : '?') + qs
     }
 
     // setup request body

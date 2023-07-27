@@ -1,3 +1,5 @@
+/// <reference lib="dom"/>
+
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
 import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillisNumber } from '../types'

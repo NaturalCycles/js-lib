@@ -20,6 +20,15 @@ import type { ErrorObject, HttpRequestErrorData } from './error.model'
  */
 export class HttpRequestError extends AppError<HttpRequestErrorData> {
   constructor(message: string, data: HttpRequestErrorData, cause: ErrorObject) {
+    if (data.response) {
+      Object.defineProperty(data, 'response', {
+        value: data.response,
+        writable: true,
+        configurable: true,
+        enumerable: false,
+      })
+    }
+
     super(message, data, cause, 'HttpRequestError')
   }
 

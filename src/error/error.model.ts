@@ -85,6 +85,14 @@ export interface ErrorData {
 }
 
 export interface HttpRequestErrorData extends ErrorData {
+  /**
+   * Actual `fetch` Response as it was returned.
+   * Note that not every Request has a Response, hence it's optional.
+   *
+   * Non-enumerable.
+   */
+  response?: Response
+
   requestUrl: string
   requestBaseUrl?: string
   requestMethod: HttpMethod
