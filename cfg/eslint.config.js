@@ -5,12 +5,12 @@
  */
 
 // detect if jest is installed
-const hasJest = require('fs').existsSync('./node_modules/jest')
+const hasJest = require('node:fs').existsSync('./node_modules/jest')
 // console.log({hasJest})
 
 module.exports = {
   env: {
-    es2020: true,
+    es2024: true,
     node: true,
     jest: true,
     // 'jest/globals': true,

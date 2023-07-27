@@ -3,8 +3,8 @@
  * Extendable.
  */
 
-const fs = require('fs')
-const { CI } = process.env
+const fs = require('node:fs')
+const { CI, GITHUB_ACTIONS } = process.env
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
@@ -36,5 +36,6 @@ module.exports = {
         ancestorSeparator: ' ',
       },
     ],
+    GITHUB_ACTIONS && 'github-actions',
   ].filter(Boolean),
 }

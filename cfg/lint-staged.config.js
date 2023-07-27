@@ -5,7 +5,7 @@
 */
 
 const micromatch = require('micromatch')
-const fs = require('fs')
+const fs = require('node:fs')
 const {
   prettierDirs,
   prettierExtensionsExclusive,

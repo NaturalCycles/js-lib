@@ -3,7 +3,7 @@
  * Extendable.
  */
 
-const fs = require('fs')
+const fs = require('node:fs')
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists

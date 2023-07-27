@@ -3,9 +3,11 @@
  * Extendable.
  */
 
-const fs = require('fs')
+const fs = require('node:fs')
 
-const runInIDE = process.argv.includes('--runTestsByPath')
+const runInIDE = process.argv.some(
+  a => a === '--runTestsByPath' || a.startsWith('--testNamePattern='),
+)
 const ideIntegrationTest = runInIDE && process.argv.some(a => a.endsWith('.integration.test.ts'))
 const ideManualTest = runInIDE && process.argv.some(a => a.endsWith('.manual.test.ts'))
 const { CI, GITHUB_ACTIONS } = process.env
