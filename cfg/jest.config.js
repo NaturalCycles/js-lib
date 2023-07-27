@@ -8,7 +8,7 @@ const fs = require('fs')
 const runInIDE = process.argv.includes('--runTestsByPath')
 const ideIntegrationTest = runInIDE && process.argv.some(a => a.endsWith('.integration.test.ts'))
 const ideManualTest = runInIDE && process.argv.some(a => a.endsWith('.manual.test.ts'))
-const { CI } = process.env
+const { CI, GITHUB_ACTIONS } = process.env
 const cwd = process.cwd()
 
 // Set 'setupFilesAfterEnv' only if it exists
@@ -131,6 +131,7 @@ module.exports = {
         ancestorSeparator: ' ',
       },
     ],
+    GITHUB_ACTIONS && 'github-actions', // https://jestjs.io/blog/2022/04/25/jest-28#github-actions-reporter
   ].filter(Boolean),
   prettierPath: null, // todo: remove when jest has fixed it https://github.com/jestjs/jest/issues/14305
 }
