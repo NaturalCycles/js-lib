@@ -105,13 +105,14 @@ test('anyToError', () => {
   expect((httpError3 as HttpRequestError).data).toEqual(httpError.data)
   expect(httpError3.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
 
-  // This is a "proper" HttpError
+  // This is a "proper" HttpRequestError
   const httpError4 = _anyToError(httpErrorObject, HttpRequestError)
-  expect(httpError4).toMatchInlineSnapshot(`[AppError: la la]`)
+  expect(httpError4).toMatchInlineSnapshot(`[HttpRequestError: la la]`)
   expect(httpError4).toBeInstanceOf(HttpRequestError)
-  expect(httpError4.name).toBe(httpError.name)
+  expect(httpError4.name).toBe(HttpRequestError.name)
   expect(httpError4.data).toEqual(httpError.data)
-  expect(httpError4.stack).toBe(httpError.stack) // should preserve the original stack, despite "re-packing"
+  // should preserve the original stack, despite "re-packing"
+  expect(httpError4.stack).toBe(httpError.stack)
 })
 
 test('appErrorToErrorObject / errorObjectToAppError snapshot', () => {
@@ -160,7 +161,7 @@ test('_errorObjectToError should not repack if already same error', () => {
   const e4 = _errorObjectToError(e as ErrorObject, AssertionError)
   expect(e4).not.toBe(e)
   expect(e4).toBeInstanceOf(AssertionError)
-  expect(e4.name).toBe(e.name) // non-trivial, but name is kept as HttpError
+  expect(e4.name).toBe(AssertionError.name)
   expect(e4.data).toBe(e.data)
   expect(e4.stack).toBe(e.stack) // important to preserve the stack!
 })
