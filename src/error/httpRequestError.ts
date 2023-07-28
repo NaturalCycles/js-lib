@@ -1,4 +1,4 @@
-import { AppError } from './app.error'
+import { AppError, AppErrorOptions } from './app.error'
 import type { ErrorObject, HttpRequestErrorData } from './error.model'
 
 /**
@@ -19,17 +19,14 @@ import type { ErrorObject, HttpRequestErrorData } from './error.model'
  * (by default).
  */
 export class HttpRequestError extends AppError<HttpRequestErrorData> {
-  constructor(message: string, data: HttpRequestErrorData, cause: ErrorObject) {
+  constructor(message: string, data: HttpRequestErrorData, opt?: AppErrorOptions) {
     if (data.response) {
       Object.defineProperty(data, 'response', {
-        value: data.response,
-        writable: true,
-        configurable: true,
         enumerable: false,
       })
     }
 
-    super(message, data, cause, 'HttpRequestError')
+    super(message, data, { ...opt, name: 'HttpRequestError' })
   }
 
   /**

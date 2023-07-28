@@ -1,5 +1,5 @@
 export * from './array/array.util'
-export * from './lazy'
+export * from './define'
 export * from './string/url.util'
 export * from './array/range'
 export * from './decorators/createPromiseDecorator'

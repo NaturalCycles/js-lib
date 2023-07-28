@@ -62,7 +62,13 @@ export async function pTry<T, ERR extends Error = Error>(
  */
 export class UnexpectedPassError extends AppError {
   constructor() {
-    super('expected error was not thrown', {}, undefined, 'UnexpectedPassError')
+    super(
+      'expected error was not thrown',
+      {},
+      {
+        name: 'UnexpectedPassError',
+      },
+    )
   }
 }
 

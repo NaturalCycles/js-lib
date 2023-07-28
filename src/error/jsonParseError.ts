@@ -1,6 +1,6 @@
 import { _truncateMiddle } from '../string/string.util'
 import { AppError } from './app.error'
-import { ErrorData, ErrorObject } from './error.model'
+import { ErrorData } from './error.model'
 
 export interface JsonParseErrorData extends ErrorData {
   /**
@@ -10,12 +10,11 @@ export interface JsonParseErrorData extends ErrorData {
 }
 
 export class JsonParseError extends AppError<JsonParseErrorData> {
-  constructor(data: JsonParseErrorData, cause?: ErrorObject) {
-    super(
-      ['Failed to parse', data.text && _truncateMiddle(data.text, 200)].filter(Boolean).join(': '),
-      data,
-      cause,
-      'JsonParseError',
-    )
+  constructor(data: JsonParseErrorData) {
+    const message = ['Failed to parse', data.text && _truncateMiddle(data.text, 200)]
+      .filter(Boolean)
+      .join(': ')
+
+    super(message, data, { name: 'JsonParseError' })
   }
 }

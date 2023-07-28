@@ -180,6 +180,11 @@ test('mocking fetch', async () => {
       "content-type": "text/plain;charset=UTF-8",
     }
   `)
+  expect(Object.getOwnPropertyDescriptor(err.data, 'response')).toMatchObject({
+    configurable: true,
+    writable: true,
+    enumerable: false,
+  })
 })
 
 test('json parse error', async () => {

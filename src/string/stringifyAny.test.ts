@@ -55,8 +55,16 @@ test('error with cause', () => {
   const err = new Error('err1', {
     cause: new AppError(
       'http_error1',
-      { httpStatusCode: 400 },
-      { name: 'SomeError', message: 'sub-cause', data: {} },
+      {
+        httpStatusCode: 400,
+      },
+      {
+        cause: {
+          name: 'SomeError',
+          message: 'sub-cause',
+          data: {},
+        },
+      },
     ),
   })
 

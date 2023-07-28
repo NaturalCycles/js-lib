@@ -5,7 +5,7 @@ import type { ErrorData, ErrorObject } from './error.model'
  *
  * message - "technical" message. Frontend decides to show it or not.
  * data - optional "any" payload.
- * data.userMessage - if present, will be displayed to the User as is.
+ * data.userFriendly - if present, will be displayed to the User as is.
  *
  * Based on: https://medium.com/@xpl/javascript-deriving-from-error-properly-8d2f8f315801
  */
@@ -13,31 +13,26 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
   data!: DATA_TYPE
 
   /**
-   * cause here is normalized to be an ErrorObject
+   * `cause` here is normalized to be an ErrorObject
    */
   override cause?: ErrorObject
 
-  constructor(message: string, data = {} as DATA_TYPE, cause?: ErrorObject, name?: string) {
+  constructor(message: string, data = {} as DATA_TYPE, opt: AppErrorOptions = {}) {
     super(message)
+    const { name = this.constructor.name, cause } = opt
 
-    Object.defineProperty(this, 'name', {
-      value: name || this.constructor.name,
-      configurable: true,
-      writable: true,
-    })
-
-    // this is to allow changing this.constuctor.name to a non-minified version
-    Object.defineProperty(this.constructor, 'name', {
-      value: name || this.constructor.name,
-      configurable: true,
-      writable: true,
-    })
-
-    Object.defineProperty(this, 'data', {
-      value: data,
-      writable: true,
-      configurable: true,
-      enumerable: false,
+    Object.defineProperties(this, {
+      name: {
+        value: name,
+        configurable: true,
+        writable: true,
+      },
+      data: {
+        value: data,
+        writable: true,
+        configurable: true,
+        enumerable: false,
+      },
     })
 
     if (cause) {
@@ -46,9 +41,16 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
         value: cause,
         writable: true,
         configurable: true,
-        enumerable: false,
+        enumerable: true, // unlike standard - setting it to true for "visibility"
       })
     }
+
+    // this is to allow changing this.constuctor.name to a non-minified version
+    Object.defineProperty(this.constructor, 'name', {
+      value: name,
+      configurable: true,
+      writable: true,
+    })
 
     // todo: check if it's needed at all!
     // if (Error.captureStackTrace) {
@@ -61,4 +63,19 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
     //   })
     // }
   }
+}
+
+/**
+ * Extra options for AppError constructor.
+ */
+export interface AppErrorOptions {
+  /**
+   * Overrides Error.name and Error.constructor.name
+   */
+  name?: string
+
+  /**
+   * Sets Error.cause
+   */
+  cause?: ErrorObject
 }

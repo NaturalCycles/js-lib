@@ -13,6 +13,7 @@ import type {
 import {
   _noop,
   _objectAssign,
+  _objectEntries,
   _objectKeys,
   _passNothingPredicate,
   _passthroughMapper,
@@ -144,6 +145,10 @@ test('_stringMapValues, _stringMapEntries', () => {
     ['c', 3],
     ['d', 4],
   ])
+
+  const entries2 = _objectEntries(o)
+  expectTypeOf(entries2).toEqualTypeOf<[keyof typeof o, number][]>()
+  expect(entries2).toEqual(entries)
 
   const keys = _objectKeys(o)
   expectTypeOf(keys).toMatchTypeOf<string[]>()

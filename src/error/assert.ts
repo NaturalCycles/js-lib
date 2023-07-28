@@ -152,7 +152,7 @@ export function _assertTypeOf<T>(v: any, expectedType: string, message?: string)
 }
 
 export class AssertionError extends AppError {
-  constructor(message: string, data = {}, cause?: ErrorObject) {
-    super(message, data, cause, 'AssertionError')
+  constructor(message: string, data?: ErrorData) {
+    super(message, data, { name: 'AssertionError' })
   }
 }

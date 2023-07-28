@@ -112,7 +112,8 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
   // Here we pass constructor values assuming it's AppError or sub-class of it
   // If not - will be checked at the next step
   // We cannot check `if (errorClass instanceof AppError)`, only `err instanceof AppError`
-  const err = new errorClass(o.message, o.data, o.cause, o.name)
+  const { name, cause } = o
+  const err = new errorClass(o.message, o.data, { name, cause })
   // name: err.name, // cannot be assigned to a readonly property like this
   // stack: o.stack, // also readonly e.g in Firefox
 
@@ -125,33 +126,31 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
   if (!(err instanceof AppError)) {
     // Following actions are only needed for non-AppError-like errors
 
-    Object.defineProperty(err, 'name', {
-      value: o.name,
-      configurable: true,
-      writable: true,
-    })
-
-    Object.defineProperty(err.constructor, 'name', {
-      value: o.name,
-      configurable: true,
-      writable: true,
-    })
-
-    Object.defineProperty(err, 'data', {
-      value: o.data,
-      writable: true,
-      configurable: true,
-      enumerable: false,
-    })
-
-    if (o.cause) {
-      Object.defineProperty(err, 'cause', {
-        value: o.cause,
+    Object.defineProperties(err, {
+      name: {
+        value: name,
+        configurable: true,
+        writable: true,
+      },
+      data: {
+        value: o.data,
         writable: true,
         configurable: true,
         enumerable: false,
-      })
-    }
+      },
+      cause: {
+        value: cause,
+        writable: true,
+        configurable: true,
+        enumerable: true,
+      },
+    })
+
+    Object.defineProperty(err.constructor, 'name', {
+      value: name,
+      configurable: true,
+      writable: true,
+    })
   }
 
   return err

@@ -1,6 +1,7 @@
 import { _isEmpty, _isObject } from '../is.util'
 import type { PropertyPath } from '../lodash.types'
-import type { AnyObject, ObjectMapper, ObjectPredicate, StringMap, ValueOf } from '../types'
+import { _objectEntries, KeyValueTuple, SKIP } from '../types'
+import type { AnyObject, ObjectMapper, ObjectPredicate, ValueOf } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -111,24 +112,22 @@ export function _filterObject<T extends AnyObject>(
  *  'pebbles': { 'user': 'pebbles', 'age': 1 }
  * }
  *
- * _.mapValues(users, function(_key, value) { return value.age; });
+ * _mapValues(users, (_key, value) => value.age)
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  *
- * // The `_.property` iteratee shorthand.
- * _.mapValues(users, 'age')
- * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ * To skip some key-value pairs - use _mapObject instead.
  */
-export function _mapValues<T extends AnyObject, OUT = T>(
+export function _mapValues<T extends AnyObject>(
   obj: T,
   mapper: ObjectMapper<T, any>,
   mutate = false,
-): OUT {
-  return Object.entries(obj).reduce(
+): T {
+  return _objectEntries(obj).reduce(
     (map, [k, v]) => {
-      map[k as keyof OUT] = mapper(k, v, obj)
+      map[k] = mapper(k, v, obj)
       return map
     },
-    (mutate ? obj : {}) as OUT,
+    mutate ? obj : ({} as T),
   )
 }
 
@@ -137,15 +136,20 @@ export function _mapValues<T extends AnyObject, OUT = T>(
  * // => { 'a1': 1, 'b2': 2 }
  *
  * Does not support `mutate` flag.
+ *
+ * To skip some key-value pairs - use _mapObject instead.
  */
 export function _mapKeys<T extends AnyObject>(
   obj: T,
   mapper: ObjectMapper<T, string>,
-): StringMap<T[keyof T]> {
-  return Object.entries(obj).reduce((map, [k, v]) => {
-    map[mapper(k, v, obj) as keyof T] = v
-    return map
-  }, {} as T)
+): Record<string, T[keyof T]> {
+  return _objectEntries(obj).reduce(
+    (map, [k, v]) => {
+      map[mapper(k, v, obj)] = v
+      return map
+    },
+    {} as Record<string, T[keyof T]>,
+  )
 }
 
 /**
@@ -160,24 +164,21 @@ export function _mapKeys<T extends AnyObject>(
  * 0 - key of returned object (string)
  * 1 - value of returned object (any)
  *
- * If predicate returns falsy value (e.g undefined), or a tuple where key (first item) is falsy - then such key/value pair is ignored (filtered out).
+ * If predicate returns SKIP symbol - such key/value pair is ignored (filtered out).
  *
  * Non-string keys are passed via String(...)
  */
-export function _mapObject<IN extends AnyObject, OUT>(
-  obj: IN,
-  mapper: ObjectMapper<IN, [key: string, value: any]>,
-): { [P in keyof IN]: OUT } {
-  return Object.entries(obj).reduce(
-    (map, [k, v]) => {
-      const r = mapper(k, v, obj) || []
-      if (r[0]) {
-        ;(map[r[0]] as any) = r[1]
-      }
-      return map
-    },
-    {} as { [P in keyof IN]: OUT },
-  )
+export function _mapObject<T extends AnyObject>(
+  obj: T,
+  mapper: ObjectMapper<T, KeyValueTuple<string, any> | typeof SKIP>,
+): T {
+  return Object.entries(obj).reduce((map, [k, v]) => {
+    const r = mapper(k, v, obj)
+    if (r !== SKIP) {
+      map[r[0]] = r[1]
+    }
+    return map
+  }, {} as AnyObject) as T
 }
 
 export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): keyof T | undefined {
@@ -403,4 +404,24 @@ export function _set<T extends AnyObject>(obj: T, path: PropertyPath, value: any
 export function _has<T extends AnyObject>(obj: T, path: string): boolean {
   const v = _get(obj, path)
   return v !== undefined && v !== null
+}
+
+/**
+ * Does Object.freeze recursively for given object.
+ *
+ * Based on: https://github.com/substack/deep-freeze/blob/master/index.js
+ */
+export function _deepFreeze(o: any): void {
+  Object.freeze(o)
+
+  Object.getOwnPropertyNames(o).forEach(prop => {
+    if (
+      o.hasOwnProperty(prop) && // eslint-disable-line no-prototype-builtins
+      o[prop] !== null &&
+      (typeof o[prop] === 'object' || typeof o[prop] === 'function') &&
+      !Object.isFrozen(o[prop])
+    ) {
+      _deepFreeze(o[prop])
+    }
+  })
 }

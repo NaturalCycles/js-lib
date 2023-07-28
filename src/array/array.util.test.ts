@@ -1,5 +1,5 @@
-import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
+import { _deepFreeze } from '../object/object.util'
 import {
   _by,
   _chunk,
@@ -95,7 +95,7 @@ test('_groupBy', () => {
 
 test('_sortBy', () => {
   const a = [{ age: 20 }, { age: 10 }]
-  deepFreeze(a)
+  _deepFreeze(a)
   expect(_sortBy(a, r => r.age)).toEqual([{ age: 10 }, { age: 20 }])
   expect(_sortBy(a, o => o.age)).toEqual([{ age: 10 }, { age: 20 }])
   expect(_sortBy(a, o => o.age, false, true)).toEqual([{ age: 20 }, { age: 10 }])

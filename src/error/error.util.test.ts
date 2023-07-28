@@ -1,5 +1,5 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import type { ErrorObject, BackendErrorResponseObject } from '..'
+import type { ErrorObject, BackendErrorResponseObject, HttpRequestErrorData } from '..'
 import {
   AppError,
   HttpRequestError,
@@ -46,12 +46,14 @@ const anyItems = [
     'http err msg',
     {
       backendResponseStatusCode: 400,
-    } as any,
+    } as HttpRequestErrorData,
     {
-      name: 'AppError',
-      message: 'Type error: la-la',
-      data: {},
-    } satisfies ErrorObject,
+      cause: {
+        name: 'AppError',
+        message: 'Type error: la-la',
+        data: {},
+      },
+    },
   ),
   {
     error: {

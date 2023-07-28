@@ -1,11 +1,11 @@
-import { AppError } from '../error/app.error'
-import type { ErrorData, ErrorObject } from '../error/error.model'
+import { AppError, AppErrorOptions } from '../error/app.error'
+import type { ErrorData } from '../error/error.model'
 import { _errorDataAppend } from '../error/error.util'
 import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
 
 export class TimeoutError extends AppError {
-  constructor(message: string, data = {}, cause?: ErrorObject) {
-    super(message, data, cause, 'TimeoutError')
+  constructor(message: string, data?: ErrorData, opt?: AppErrorOptions) {
+    super(message, data, { ...opt, name: 'TimeoutError' })
   }
 }
 

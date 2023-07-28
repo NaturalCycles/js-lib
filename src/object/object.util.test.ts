@@ -1,7 +1,7 @@
-import { deepFreeze } from '@naturalcycles/dev-lib/dist/testing'
 import type { StringMap } from '../types'
 import {
   _deepCopy,
+  _deepFreeze,
   _deepTrim,
   _filterEmptyArrays,
   _filterEmptyValues,
@@ -65,7 +65,7 @@ test('_omit', () => {
     e: undefined,
   }
 
-  deepFreeze(obj)
+  _deepFreeze(obj)
 
   // expect(_omit(obj)).toEqual(obj)
 
@@ -110,7 +110,7 @@ test('_mask', () => {
       d: '1',
     },
   }
-  deepFreeze(o)
+  _deepFreeze(o)
   const r = _mask(o, ['b.c'])
   expect(r).toMatchInlineSnapshot(`
     {
@@ -222,7 +222,7 @@ test('_filterNullishValues', () => {
     e: '',
     f: 'wer',
   }
-  deepFreeze(o)
+  _deepFreeze(o)
 
   expect(_filterNullishValues(o)).toEqual({
     a: 1,
@@ -243,7 +243,7 @@ test('_filterUndefinedValues', () => {
     e: '',
     f: 'wer',
   }
-  deepFreeze(o)
+  _deepFreeze(o)
 
   expect(_filterUndefinedValues(o)).toEqual({
     a: 1,
@@ -488,7 +488,7 @@ test.each([
 
 test('_mapKeys', () => {
   const o = { a: 1, b: 2 }
-  deepFreeze(o)
+  _deepFreeze(o)
   expect(_mapKeys(o, (k, v) => k + v)).toEqual({ a1: 1, b2: 2 })
 })
 
@@ -497,7 +497,7 @@ test('_mapValues', () => {
     fred: { user: 'fred', age: 40 },
     pebbles: { user: 'pebbles', age: 1 },
   }
-  deepFreeze(users)
+  _deepFreeze(users)
   expect(_mapValues(users, (_k, v) => v)).toEqual(users)
   expect(_mapValues(users, (_k, v) => v.age)).toEqual({ fred: 40, pebbles: 1 })
 })
@@ -519,7 +519,7 @@ test('_mapValues StringMap', () => {
 
 test('_mapObject', () => {
   const o = { b: 2, c: 3, d: 4 }
-  deepFreeze(o)
+  _deepFreeze(o)
 
   // Example that inverts keys/values in the object
   const mapped = _mapObject(o, (k, v) => [String(v), k])
@@ -547,4 +547,19 @@ test('_findKeyByValue', () => {
   const char = _findKeyByValue(map, 2)
   // typeof char should be `CHAR | undefined`, not `string | undefined`
   expect(char).toBe(CHAR.B)
+})
+
+test('_deepFreeze', () => {
+  const o = {
+    a: {
+      b: 'bb',
+    },
+  }
+  _deepFreeze(o)
+  expect(() => (o.a = 'cc' as any)).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot assign to read only property 'a' of object '#<Object>'"`,
+  )
+  expect(() => (o.a.b = 'cc')).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot assign to read only property 'b' of object '#<Object>'"`,
+  )
 })

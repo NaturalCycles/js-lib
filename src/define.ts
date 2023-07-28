@@ -1,3 +1,5 @@
+import { _mapObject, _mapValues } from './object/object.util'
+import { SKIP } from './types'
 import type { AnyFunction, AnyObject } from './types'
 
 /**
@@ -71,4 +73,70 @@ export function _defineLazyProps<OBJ extends AnyObject>(
 ): OBJ {
   Object.entries(props).forEach(([k, fn]) => _defineLazyProperty(obj, k, fn!))
   return obj
+}
+
+/**
+ * Same as Object.defineProperty, but with better (least restricting) defaults.
+ *
+ * Defaults are:
+ * writable: true
+ * configurable: true
+ * enumerable: true
+ * value: existing obj[prop] value
+ *
+ * Original defaults:
+ * writable: false
+ * configurable: false
+ * enumerable: false
+ * value: existing obj[prop] value
+ *
+ */
+export function _defineProperty<T extends AnyObject>(
+  obj: T,
+  prop: keyof T,
+  pd: PropertyDescriptor,
+): T {
+  return Object.defineProperty(obj, prop, {
+    writable: true,
+    configurable: true,
+    enumerable: true,
+    // value: obj[prop], // existing value is already kept by default
+    ...pd,
+  })
+}
+
+/**
+ * Object.defineProperties with better defaults.
+ * See _defineProperty for exact defaults definition.
+ */
+export function _defineProps<T extends AnyObject>(
+  obj: T,
+  props: Partial<Record<keyof T, PropertyDescriptor>>,
+): T {
+  return Object.defineProperties(
+    obj,
+    _mapValues(props, (k, pd) => ({
+      writable: true,
+      configurable: true,
+      enumerable: true,
+      // value: obj[k], // existing value is already kept by default
+      ...pd,
+    })) as PropertyDescriptorMap,
+  )
+}
+
+/**
+ * Like _defineProps, but skips props with nullish values.
+ */
+export function _defineNonNullishProps<T extends AnyObject>(
+  obj: T,
+  props: Partial<Record<keyof T, PropertyDescriptor>>,
+): T {
+  return _defineProps(
+    obj,
+    _mapObject(props, (k, pd) => {
+      if (pd.value === null || pd.value === undefined) return SKIP
+      return [k as string, pd]
+    }),
+  )
 }

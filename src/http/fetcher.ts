@@ -408,7 +408,9 @@ export class Fetcher {
         requestSignature: res.signature,
         requestDuration: Date.now() - res.req.started,
       }),
-      cause,
+      {
+        cause,
+      },
     )
 
     await this.processRetry(res)

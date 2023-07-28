@@ -53,7 +53,7 @@ test('AppError log should NOT include constructor and data', () => {
 
 test('AppError with cause', () => {
   const err1 = new AppError('cozz')
-  const err = new AppError('hello', {}, err1)
+  const err = new AppError('hello', {}, { cause: err1 })
   expect(err.cause).toBe(err1)
 })
 
@@ -66,7 +66,7 @@ function filterStackTrace(s: string): string {
 
 class MinifiedError extends AppError {
   constructor() {
-    super('yo', {}, undefined, 'ProperError')
+    super('yo', {}, { name: 'ProperError' })
   }
 }
 

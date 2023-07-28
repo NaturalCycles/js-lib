@@ -163,7 +163,7 @@ export type KeyValueTuple<K, V> = [key: K, value: V]
 
 // Exclude<something, undefined> is used here to support StringMap<OBJ> (because values of StringMap add `undefined`)
 export type ObjectMapper<OBJ, OUT> = (
-  key: string,
+  key: keyof OBJ,
   value: Exclude<OBJ[keyof OBJ], undefined>,
   obj: OBJ,
 ) => OUT
@@ -250,10 +250,20 @@ export const _stringMapValues = Object.values as <T>(m: StringMap<T>) => T[]
 export const _stringMapEntries = Object.entries as <T>(m: StringMap<T>) => [k: string, v: T][]
 
 /**
- * Like `Object.keys`, but returns keys typed as `keyof T`, not as just `string`.
+ * Alias of `Object.keys`, but returns keys typed as `keyof T`, not as just `string`.
  * This is how TypeScript should work, actually.
  */
 export const _objectKeys = Object.keys as <T extends AnyObject>(obj: T) => (keyof T)[]
+
+/**
+ * Alias of `Object.entries`, but returns better-typed output.
+ *
+ * So e.g you can use _objectEntries(obj).map([k, v] => {})
+ * and `k` will be `keyof obj` instead of generic `string`.
+ */
+export const _objectEntries = Object.entries as <T extends AnyObject>(
+  obj: T,
+) => [k: keyof T, v: T[keyof T]][]
 
 export type NullishValue = null | undefined
 export type FalsyValue = false | '' | 0 | null | undefined
