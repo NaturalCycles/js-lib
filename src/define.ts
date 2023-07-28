@@ -121,7 +121,7 @@ export function _defineProps<T extends AnyObject>(
       enumerable: true,
       // value: obj[k], // existing value is already kept by default
       ...pd,
-    })) as PropertyDescriptorMap,
+    })),
   )
 }
 
@@ -137,6 +137,6 @@ export function _defineNonNullishProps<T extends AnyObject>(
     _mapObject(props, (k, pd) => {
       if (pd.value === null || pd.value === undefined) return SKIP
       return [k as string, pd]
-    }) as any,
+    }),
   )
 }

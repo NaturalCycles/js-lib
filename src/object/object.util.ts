@@ -117,18 +117,18 @@ export function _filterObject<T extends AnyObject>(
  *
  * To skip some key-value pairs - use _mapObject instead.
  */
-export function _mapValues<T extends AnyObject>(
-  obj: T,
-  mapper: ObjectMapper<T, any>,
+export function _mapValues<OUT = unknown, IN extends AnyObject = AnyObject>(
+  obj: IN,
+  mapper: ObjectMapper<IN, any>,
   mutate = false,
-): unknown {
+): OUT {
   return _objectEntries(obj).reduce(
     (map, [k, v]) => {
       map[k] = mapper(k, v, obj)
       return map
     },
-    mutate ? obj : ({} as T),
-  )
+    mutate ? obj : ({} as IN),
+  ) as any
 }
 
 /**
@@ -139,17 +139,11 @@ export function _mapValues<T extends AnyObject>(
  *
  * To skip some key-value pairs - use _mapObject instead.
  */
-export function _mapKeys<T extends AnyObject>(
-  obj: T,
-  mapper: ObjectMapper<T, string>,
-): Record<string, T[keyof T]> {
-  return _objectEntries(obj).reduce(
-    (map, [k, v]) => {
-      map[mapper(k, v, obj)] = v
-      return map
-    },
-    {} as Record<string, T[keyof T]>,
-  )
+export function _mapKeys<T extends AnyObject>(obj: T, mapper: ObjectMapper<T, string>): T {
+  return _objectEntries(obj).reduce((map, [k, v]) => {
+    map[mapper(k, v, obj)] = v
+    return map
+  }, {} as AnyObject) as T
 }
 
 /**
@@ -168,17 +162,17 @@ export function _mapKeys<T extends AnyObject>(
  *
  * Non-string keys are passed via String(...)
  */
-export function _mapObject<T extends AnyObject>(
-  obj: T,
-  mapper: ObjectMapper<T, KeyValueTuple<string, any> | typeof SKIP>,
-): unknown {
+export function _mapObject<OUT = unknown, IN extends AnyObject = AnyObject>(
+  obj: IN,
+  mapper: ObjectMapper<IN, KeyValueTuple<string, any> | typeof SKIP>,
+): OUT {
   return Object.entries(obj).reduce((map, [k, v]) => {
     const r = mapper(k, v, obj)
     if (r !== SKIP) {
       map[r[0]] = r[1]
     }
     return map
-  }, {} as AnyObject)
+  }, {} as AnyObject) as OUT
 }
 
 export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): keyof T | undefined {
@@ -186,7 +180,7 @@ export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): key
 }
 
 export function _objectNullValuesToUndefined<T extends AnyObject>(obj: T, mutate = false): T {
-  return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate) as T
+  return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate)
 }
 
 /**
