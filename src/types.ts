@@ -60,7 +60,19 @@ export interface SavedDBEntity<ID extends string | number = string> {
  * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
-export type BaseDBEntity<ID extends string | number = string> = Partial<SavedDBEntity<ID>>
+export interface BaseDBEntity<ID extends string | number = string> {
+  id?: ID
+
+  /**
+   * unixTimestamp of when the entity was first created (in the DB).
+   */
+  created?: UnixTimestampNumber
+
+  /**
+   * unixTimestamp of when the entity was last updated (in the DB).
+   */
+  updated?: UnixTimestampNumber
+}
 
 export type Saved<T extends Partial<ObjectWithId>> = T extends AnyObject
   ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity<NonNullable<T['id']>>
