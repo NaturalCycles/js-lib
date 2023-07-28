@@ -121,7 +121,7 @@ export function _mapValues<T extends AnyObject>(
   obj: T,
   mapper: ObjectMapper<T, any>,
   mutate = false,
-): T {
+): unknown {
   return _objectEntries(obj).reduce(
     (map, [k, v]) => {
       map[k] = mapper(k, v, obj)
@@ -171,14 +171,14 @@ export function _mapKeys<T extends AnyObject>(
 export function _mapObject<T extends AnyObject>(
   obj: T,
   mapper: ObjectMapper<T, KeyValueTuple<string, any> | typeof SKIP>,
-): T {
+): unknown {
   return Object.entries(obj).reduce((map, [k, v]) => {
     const r = mapper(k, v, obj)
     if (r !== SKIP) {
       map[r[0]] = r[1]
     }
     return map
-  }, {} as AnyObject) as T
+  }, {} as AnyObject)
 }
 
 export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): keyof T | undefined {
@@ -186,7 +186,7 @@ export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): key
 }
 
 export function _objectNullValuesToUndefined<T extends AnyObject>(obj: T, mutate = false): T {
-  return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate)
+  return _mapValues(obj, (_k, v) => (v === null ? undefined : v), mutate) as T
 }
 
 /**
