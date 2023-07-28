@@ -1,17 +1,6 @@
 import { CommonLogger } from '@naturalcycles/js-lib'
 import { expectTypeOf } from 'expect-type'
-import { deepFreeze, jestLog, jestLogger, silentConsole } from './testing.util'
-
-test('deepFreeze', () => {
-  const o = {
-    a: {
-      b: 'bb',
-    },
-  }
-  deepFreeze(o)
-  expect(() => (o.a = 'cc' as any)).toThrow()
-  expect(() => (o.a.b = 'cc')).toThrow()
-})
+import { jestLog, jestLogger, silentConsole } from './testing.util'
 
 test('jestLogger', () => {
   jestLog('hello')
