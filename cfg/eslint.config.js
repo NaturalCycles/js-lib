@@ -37,15 +37,15 @@ module.exports = {
         // 'plugin:import/recommended',
         // https://github.com/import-js/eslint-plugin-import/blob/main/config/typescript.js
         // 'plugin:import/typescript',
-        './eslint-rules.js',
         hasJest && './eslint-jest-rules.js',
+        './eslint-rules.js',
         'prettier', // must be last! it only turns off eslint rules that conflict with prettier
       ].filter(Boolean),
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: ['tsconfig.json'],
         sourceType: 'module',
-        ecmaVersion: 2020,
+        ecmaVersion: 'latest',
         extraFileExtensions: ['.vue', '.html'],
       },
       plugins: [
@@ -57,30 +57,6 @@ module.exports = {
         hasJest && 'jest',
         'unicorn',
       ].filter(Boolean),
-    },
-    {
-      files: ['*.vue'],
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:unicorn/recommended',
-        './eslint-rules.js',
-        'plugin:vue/recommended',
-        'prettier', // must go last
-      ],
-      env: {
-        browser: true,
-      },
-      parser: 'vue-eslint-parser',
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
-        project: ['tsconfig.json'],
-        sourceType: 'module',
-        ecmaVersion: 2020,
-        extraFileExtensions: ['.vue'],
-        // createDefaultProgram: true,
-      },
     },
   ],
 }
