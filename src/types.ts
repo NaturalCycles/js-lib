@@ -19,7 +19,8 @@ export type AnyEnum = NumberEnum
 export type NumberEnum = Record<string, number | string>
 export type StringEnum = Record<string, string>
 
-export interface CreatedUpdated {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CreatedUpdated = {
   created: number
   updated: number
 }
@@ -29,7 +30,8 @@ export interface CreatedUpdatedId<ID extends string | number = string | number>
   id: ID
 }
 
-export interface ObjectWithId<ID extends string | number = string | number> {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ObjectWithId<ID extends string | number = string | number> = {
   id: ID
 }
 
@@ -40,7 +42,8 @@ export interface AnyObjectWithId<ID extends string | number = string | number>
 /**
  * Base interface for any Entity that was saved to DB.
  */
-export interface SavedDBEntity<ID extends string | number = string> {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type SavedDBEntity<ID extends string | number = string> = {
   id: ID
 
   /**
@@ -60,7 +63,8 @@ export interface SavedDBEntity<ID extends string | number = string> {
  * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
-export interface BaseDBEntity<ID extends string | number = string> {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type BaseDBEntity<ID extends string | number = string> = {
   id?: ID
 
   /**
