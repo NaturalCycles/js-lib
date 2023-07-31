@@ -13,6 +13,7 @@ module.exports = {
         'plugin:unicorn/recommended',
         'plugin:vue/recommended',
         './eslint-rules.js',
+        './eslint-vue-rules.js',
         'prettier', // must go last
       ],
       env: {
