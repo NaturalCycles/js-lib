@@ -3,13 +3,54 @@ import { _isTruthy, _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execVoidCommandSync } from './exec.util'
+import { execVoidCommand, execVoidCommandSync } from './exec.util'
+
+export async function tscMainAndScripts(noEmit = false): Promise<void> {
+  await Promise.all([tscAsync(noEmit), tscScriptsAsync()])
+}
 
 export function tsc(noEmit = false): void {
   const started = Date.now()
   const args = [noEmit && '--noEmit'].filter(_isTruthy)
   execVoidCommandSync('tsc', args)
   console.log(`${boldGrey('tsc')} ${dimGrey(`took ` + _since(started))}`)
+}
+
+export async function tscAsync(noEmit = false): Promise<void> {
+  const started = Date.now()
+  const args = [noEmit && '--noEmit'].filter(_isTruthy)
+  await execVoidCommand('tsc', args)
+  console.log(`${boldGrey('tsc')} ${dimGrey(`took ` + _since(started))}`)
+}
+
+export function tscScripts(): void {
+  if (!fs.existsSync('./scripts')) {
+    // ./scripts folder doesn't exist, skipping
+    return
+  }
+
+  const projectTsconfigPath = ensureProjectTsconfigScripts()
+
+  const args: string[] = ['-P', projectTsconfigPath, '--noEmit']
+
+  const started = Date.now()
+  execVoidCommandSync(`tsc`, args)
+  console.log(`${boldGrey('tsc scripts')} ${dimGrey(`took ` + _since(started))}`)
+}
+
+export async function tscScriptsAsync(): Promise<void> {
+  if (!fs.existsSync('./scripts')) {
+    // ./scripts folder doesn't exist, skipping
+    return
+  }
+
+  const projectTsconfigPath = ensureProjectTsconfigScripts()
+
+  const args: string[] = ['-P', projectTsconfigPath, '--noEmit']
+
+  const started = Date.now()
+  await execVoidCommand(`tsc`, args)
+  console.log(`${boldGrey('tsc scripts')} ${dimGrey(`took ` + _since(started))}`)
 }
 
 /**
