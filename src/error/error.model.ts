@@ -58,6 +58,13 @@ export interface ErrorData {
   fingerprint?: string[]
 
   /**
+   * If set to true - it'll use error.message as fingerprint,
+   * so, all errors with the same message will be grouped together, even if they occurred in different places.
+   * Defaults to false.
+   */
+  fingerprintByMessage?: boolean
+
+  /**
    * Set when throwing an error from your backend code, to indicate desired http status code.
    * e.g throw new AppError('oj', { backendResponseStatusCode: 401 })
    */
