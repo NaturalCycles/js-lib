@@ -1,9 +1,9 @@
 import * as fs from 'node:fs'
+import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { _isTruthy, _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execVoidCommand, execVoidCommandSync } from './exec.util'
 
 export async function tscMainAndScripts(noEmit = false): Promise<void> {
   await Promise.all([tscAsync(noEmit), tscScriptsAsync()])

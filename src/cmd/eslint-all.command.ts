@@ -1,12 +1,12 @@
 import * as fs from 'node:fs'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
-import { getTSConfigPathScripts, runESLint } from '../util/lint.util'
+import { getTSConfigPathScripts, runESLintAsync } from '../util/lint.util'
 
 /**
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).
  */
-export function eslintAllCommand(): void {
+export async function eslintAllCommand(): Promise<void> {
   const { ext, fix } = yargs.options({
     ext: {
       type: 'string',
@@ -34,13 +34,23 @@ export function eslintAllCommand(): void {
   const tsconfigPathE2e = `./e2e/tsconfig.json`
 
   // todo: run on other dirs too, e.g pages, components, layouts
-  // /src
-  // await runESLint(`./src`, eslintConfigPathRoot, tsconfigPath, extensions)
-  runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix)
 
-  // /scripts
-  runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
-
-  // /e2e
-  runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
+  if (fix) {
+    await Promise.all([
+      // /src
+      runESLintAsync(`./src`, eslintConfigPathRoot, undefined, extensions, fix),
+      // /scripts
+      runESLintAsync(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix),
+      // /e2e
+      runESLintAsync(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix),
+    ])
+  } else {
+    // with no-fix - let's run serially
+    // /src
+    await runESLintAsync(`./src`, eslintConfigPathRoot, undefined, extensions, fix)
+    // /scripts
+    await runESLintAsync(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
+    // /e2e
+    await runESLintAsync(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
+  }
 }

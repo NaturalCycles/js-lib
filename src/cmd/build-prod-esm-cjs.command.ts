@@ -1,5 +1,4 @@
-import { _emptyDirSync, _pathExistsSync } from '@naturalcycles/nodejs-lib'
-import { execVoidCommand } from '../util/exec.util'
+import { _emptyDirSync, _pathExistsSync, execVoidCommand } from '@naturalcycles/nodejs-lib'
 
 // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`
 const TSCONF_CJS_PATH = `./tsconfig.cjs.prod.json`

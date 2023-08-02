@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
+import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
-import { execVoidCommandSync } from './exec.util'
 const { prettierDirs, prettierExtensionsAll, lintExclude } = require('../../cfg/_cnst')
 
 const prettierPaths = [

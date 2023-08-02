@@ -30,7 +30,7 @@ export async function lintAllCommand(): Promise<void> {
 
   const hadChangesBefore = gitHasUncommittedChanges()
 
-  eslintAllCommand()
+  await eslintAllCommand()
 
   if (
     fs.existsSync(`node_modules/stylelint`) &&
