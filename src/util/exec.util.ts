@@ -21,9 +21,11 @@ export async function execVoidCommand(
     })
 
     p.on('close', code => {
-      if (!code) return resolve()
-      console.log(`${cmd} exited with code ${code}`)
-      process.exit(code)
+      if (code) {
+        console.log(`${cmd} exited with code ${code}`)
+        process.exit(code)
+      }
+      resolve()
     })
   })
 }
