@@ -1,4 +1,6 @@
 import * as fs from 'node:fs'
+import { _since } from '@naturalcycles/js-lib'
+import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getTSConfigPathScripts, runESLintAsync } from '../util/lint.util'
@@ -7,6 +9,7 @@ import { getTSConfigPathScripts, runESLintAsync } from '../util/lint.util'
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).
  */
 export async function eslintAllCommand(): Promise<void> {
+  const started = Date.now()
   const { ext, fix } = yargs.options({
     ext: {
       type: 'string',
@@ -53,4 +56,6 @@ export async function eslintAllCommand(): Promise<void> {
     // /e2e
     await runESLintAsync(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
   }
+
+  console.log(`${boldGrey('eslint-all')} ${dimGrey(`took ` + _since(started))}`)
 }

@@ -1,5 +1,6 @@
 import * as fs from 'node:fs'
-import { _truncate } from '@naturalcycles/js-lib'
+import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
+import { _since, _truncate } from '@naturalcycles/js-lib'
 import * as yargs from 'yargs'
 import {
   commitMessageToTitleMessage,
@@ -17,6 +18,7 @@ import { eslintAllCommand } from './eslint-all.command'
  * We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
  */
 export async function lintAllCommand(): Promise<void> {
+  const started = Date.now()
   const { commitOnChanges, failOnChanges } = yargs.options({
     commitOnChanges: {
       type: 'boolean',
@@ -45,6 +47,8 @@ export async function lintAllCommand(): Promise<void> {
     const ktlintLib = require('@naturalcycles/ktlint')
     await ktlintLib.ktlintAll()
   }
+
+  console.log(`${boldGrey('lint-all')} ${dimGrey(`took ` + _since(started))}`)
 
   if (commitOnChanges || failOnChanges) {
     // detect changes
