@@ -27,6 +27,42 @@ export function _uniq<T>(a: readonly T[]): T[] {
 }
 
 /**
+ * Pushes an item to an array if it's not already there.
+ * Mutates the array (same as normal `push`) and also returns it for chaining convenience.
+ *
+ * _pushUniq([1, 2, 3], 2) // => [1, 2, 3]
+ *
+ * Shortcut for:
+ * if (!a.includes(item)) a.push(item)
+ * // or
+ * a = [...new Set(a).add(item)]
+ * // or
+ * a = _uniq([...a, item])
+ */
+export function _pushUniq<T>(a: T[], ...items: T[]): T[] {
+  items.forEach(item => {
+    if (!a.includes(item)) a.push(item)
+  })
+  return a
+}
+
+/**
+ * Like _pushUniq but uses a mapper to determine uniqueness (like _uniqBy).
+ * Mutates the array (same as normal `push`).
+ */
+export function _pushUniqBy<T>(a: T[], mapper: Mapper<T, any>, ...items: T[]): T[] {
+  const mappedSet = new Set(a.map((item, i) => mapper(item, i)))
+  items.forEach((item, i) => {
+    const mapped = mapper(item, i)
+    if (!mappedSet.has(mapped)) {
+      a.push(item)
+      mappedSet.add(mapped)
+    }
+  })
+  return a
+}
+
+/**
  * This method is like `_.uniq` except that it accepts `iteratee` which is
  * invoked for each element in `array` to generate the criterion by which
  * uniqueness is computed. The iteratee is invoked with one argument: (value).

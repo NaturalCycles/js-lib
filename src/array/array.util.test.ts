@@ -1,5 +1,6 @@
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import { _deepFreeze } from '../object/object.util'
+import { Mapper } from '../types'
 import {
   _by,
   _chunk,
@@ -21,6 +22,8 @@ import {
   _minBy,
   _minByOrUndefined,
   _minOrUndefined,
+  _pushUniq,
+  _pushUniqBy,
   _shuffle,
   _sortBy,
   _sum,
@@ -54,6 +57,18 @@ test('_uniq', () => {
   expect(_uniq(a)).toEqual([1, 2, 3, 5, 4])
 })
 
+test('_pushUniq', () => {
+  const a = [1, 2]
+  expect(_pushUniq(a)).toEqual([1, 2])
+  expect(_pushUniq(a)).toBe(a) // same reference
+  expect(_pushUniq(a, 1)).toEqual([1, 2])
+  expect(_pushUniq(a, 2)).toEqual([1, 2])
+  expect(_pushUniq(a, 3)).toEqual([1, 2, 3])
+  expect(_pushUniq(a, 3)).toBe(a) // same reference
+  expect(_pushUniq(a, 3, 2, 1)).toEqual([1, 2, 3])
+  expect(_pushUniq(a, 3, 2, 1, 5)).toEqual([1, 2, 3, 5])
+})
+
 test('_uniqBy', () => {
   const a = [1, 2, 2, 1, 3, 5, 3, 4]
   expect(_uniqBy(a, a => a)).toEqual([1, 2, 3, 5, 4])
@@ -61,6 +76,14 @@ test('_uniqBy', () => {
   expect(_uniqBy([2.1, 1.2, 2.3], Math.floor)).toEqual([2.1, 1.2])
 
   expect(_uniqBy([{ x: 1 }, { x: 2 }, { x: 1 }], r => r.x)).toEqual([{ x: 1 }, { x: 2 }])
+})
+
+test('_pushUniqBy', () => {
+  const a = [1, 2]
+  const floorMapper: Mapper<number, number> = n => Math.floor(n)
+  expect(_pushUniqBy(a, floorMapper)).toEqual([1, 2])
+  expect(_pushUniqBy(a, floorMapper)).toBe(a)
+  expect(_pushUniqBy(a, floorMapper, 1.1, 1.2, 1.5, 1.9, 2, 2.3, 3.1, 3.2)).toEqual([1, 2, 3.1])
 })
 
 test('_by', () => {
