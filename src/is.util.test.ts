@@ -1,7 +1,15 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { expectTypeOf } from 'expect-type'
 import { _sum } from './array/array.util'
-import { _isEmpty, _isEmptyObject, _isNull, _isObject, _isPrimitive, _isTruthy } from './is.util'
+import {
+  _isEmpty,
+  _isEmptyObject,
+  _isNotEmpty,
+  _isNull,
+  _isObject,
+  _isPrimitive,
+  _isTruthy,
+} from './is.util'
 import { _undefinedIfEmpty } from './object/object.util'
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
@@ -33,6 +41,7 @@ test.each([
   [true, false],
 ])('_isEmpty %s == %s', (v, empty) => {
   expect(_isEmpty(v)).toBe(empty)
+  expect(_isNotEmpty(v)).toBe(!empty)
   expect(_undefinedIfEmpty(v)).toBe(empty ? undefined : v)
 })
 

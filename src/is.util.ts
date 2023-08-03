@@ -74,3 +74,10 @@ export function _isEmpty(obj: any): boolean {
 
   return false
 }
+
+/**
+ * @see _isEmpty
+ */
+export function _isNotEmpty(obj: any): boolean {
+  return !_isEmpty(obj)
+}
