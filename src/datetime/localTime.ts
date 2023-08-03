@@ -53,9 +53,9 @@ export class LocalTime {
   static of(d: LocalTimeInput): LocalTime {
     const t = this.parseOrNull(d)
 
-    if (t === null) {
-      throw new TypeError(`Cannot parse "${d}" into LocalTime`)
-    }
+    _assert(t !== null, `Cannot parse "${d}" into LocalTime`, {
+      input: d,
+    })
 
     return t
   }
@@ -106,9 +106,9 @@ export class LocalTime {
 
     const date = typeof d === 'number' ? new Date(d * 1000) : new Date(d)
 
-    if (isNaN(date.getDate())) {
-      throw new TypeError(`Cannot parse "${d}" to Date`)
-    }
+    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to Date`, {
+      input: d,
+    })
 
     return date
   }
@@ -119,9 +119,9 @@ export class LocalTime {
 
     const date = d instanceof Date ? d : new Date(d)
 
-    if (isNaN(date.getDate())) {
-      throw new TypeError(`Cannot parse "${d}" to UnixTimestamp`)
-    }
+    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to UnixTimestamp`, {
+      input: d,
+    })
 
     return date.valueOf() / 1000
   }
@@ -220,7 +220,7 @@ export class LocalTime {
       return dow
     }
 
-    if (!VALID_DAYS_OF_WEEK.has(v)) throw new Error(`Invalid dayOfWeek: ${v}`)
+    _assert(VALID_DAYS_OF_WEEK.has(v), `Invalid dayOfWeek: ${v}`)
 
     return this.add(v - dow, 'day')
   }

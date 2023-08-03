@@ -38,9 +38,9 @@ export class LocalDate {
   static of(d: LocalDateInput): LocalDate {
     const t = this.parseOrNull(d)
 
-    if (t === null) {
-      throw new Error(`Cannot parse "${d}" into LocalDate`)
-    }
+    _assert(t !== null, `Cannot parse "${d}" into LocalDate`, {
+      input: d,
+    })
 
     return t
   }
@@ -48,9 +48,7 @@ export class LocalDate {
   static parseCompact(d: string): LocalDate {
     const [year, month, day] = [d.slice(0, 4), d.slice(4, 2), d.slice(6, 2)].map(Number)
 
-    if (!day || !month || !year) {
-      throw new Error(`Cannot parse "${d}" into LocalDate`)
-    }
+    _assert(day && month && year, `Cannot parse "${d}" into LocalDate`)
 
     return new LocalDate(year, month, day)
   }
