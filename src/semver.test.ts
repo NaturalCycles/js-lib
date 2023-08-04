@@ -1,5 +1,5 @@
 import { _expectedErrorString } from './error/try'
-import { _semver, Semver } from './semver'
+import { _semver, _semverCompare, Semver } from './semver'
 
 test('basic', () => {
   const s = Semver.of('1.2.3')
@@ -41,4 +41,20 @@ test.each([
   ['x', '0.0.0'],
 ])('parse', (str, expected) => {
   expect(Semver.parseOrNull(str)?.toString()).toBe(expected)
+})
+
+test.each([
+  ['', '', 0],
+  ['a', '', 1],
+  ['1', '', 1],
+  ['1', '1', 0],
+  ['1.', '1', 0],
+  ['1.0', '1.0', 0],
+  ['1.1', '1.0', 1],
+  ['1.1', '1.1.1', -1],
+  ['1.1.3', '1.1.51', -1],
+  ['1.1.3', '1.1.11', -1],
+  ['1.1.11', '1.1.3', 1],
+])('_semverCompare "%s" "%s" is %s', (a, b, expected) => {
+  expect(_semverCompare(a, b)).toBe(expected)
 })

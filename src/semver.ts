@@ -85,3 +85,24 @@ export class Semver {
 export function _semver(input: SemverInput): Semver {
   return Semver.of(input)
 }
+
+/**
+ * Returns 1 if a > b
+ * returns 0 if they are equal
+ * returns -1 if a < b
+ *
+ * Quick&dirty implementation, which should suffice for 95% of the cases.
+ *
+ * Credit: https://stackoverflow.com/a/47159772/4919972
+ */
+export function _semverCompare(a: string, b: string): -1 | 0 | 1 {
+  const t1 = a.split('.')
+  const t2 = b.split('.')
+  const s1 = _range(3)
+    .map(i => (t1[i] || '').padStart(5))
+    .join('')
+  const s2 = _range(3)
+    .map(i => (t2[i] || '').padStart(5))
+    .join('')
+  return s1 < s2 ? -1 : s1 > s2 ? 1 : 0
+}
