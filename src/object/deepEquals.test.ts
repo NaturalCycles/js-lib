@@ -1,6 +1,6 @@
-import { _deepEquals } from './deepEquals'
+import { _deepEquals, _deepJsonEquals } from './deepEquals'
 
-test('deepEquals Issue!', () => {
+test('_deepEquals Issue!', () => {
   expect(
     _deepEquals(
       {
@@ -15,7 +15,7 @@ test('deepEquals Issue!', () => {
   ).toBe(true)
 })
 
-test('deepEquals', () => {
+test('_deepEquals', () => {
   expect(
     _deepEquals(
       {
@@ -42,4 +42,18 @@ test('deepEquals', () => {
       },
     ),
   ).toBe(false)
+})
+
+test('_deepJsonEquals', () => {
+  const a = {
+    a: 'a',
+    b: 'b',
+  }
+  const b = {
+    ...a,
+    c: undefined,
+  }
+
+  expect(_deepEquals(a, b)).toBe(false)
+  expect(_deepJsonEquals(a, b)).toBe(true)
 })
