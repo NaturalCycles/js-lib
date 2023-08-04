@@ -5,6 +5,7 @@ import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expectTypeOf } from 'expect-type'
 import { HttpRequestError } from '../error/httpRequestError'
 import { pExpectedError } from '../error/try'
+import { objectToFormData } from '../form.util'
 import { TimeoutError } from '../promise/pTimeout'
 import { _stringifyAny } from '../string/stringifyAny'
 import { tmpDir } from '../test/paths'
@@ -165,4 +166,27 @@ test('formData', async () => {
   //       b: 2,
   //     },
   //   }).json()
+})
+
+test('formData with blob', async () => {
+  const fetcher = getFetcher({
+    debug: true,
+    retry: { count: 0 },
+  })
+
+  const buf = Buffer.from('asdfsdfsdf')
+
+  await fetcher.post('https://webhook.site/f7dba637-38ac-4b3c-a29b-1b5adeb04fd2', {
+    json: { a: 'a' },
+    headers: {
+      lo: 'lo',
+    },
+  })
+
+  await fetcher.post('https://webhook.site/f7dba637-38ac-4b3c-a29b-1b5adeb04fd2', {
+    body: objectToFormData({
+      a: 'a',
+      b: new Blob([buf]),
+    }),
+  })
 })

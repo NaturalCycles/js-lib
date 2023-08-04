@@ -637,13 +637,14 @@ export class Fetcher {
       init: _merge(
         {
           ...this.cfg.init,
+          headers: { ...this.cfg.init.headers }, // this avoids mutation
           method: opt.method || this.cfg.init.method,
           credentials: opt.credentials || this.cfg.init.credentials,
           redirect: opt.redirect || this.cfg.init.redirect || 'follow',
         },
         {
           headers: _mapKeys(opt.headers || {}, k => k.toLowerCase()),
-        } as RequestInit,
+        } satisfies RequestInit,
       ),
     }
     // setup url
@@ -667,6 +668,7 @@ export class Fetcher {
     }
 
     // setup request body
+    // Unless it's a well-defined input type (json, text) - content-type is set automatically by the native fetch
     if (opt.json !== undefined) {
       req.init.body = JSON.stringify(opt.json)
       req.init.headers['content-type'] = 'application/json'
@@ -678,9 +680,8 @@ export class Fetcher {
         req.init.body = opt.form
       } else {
         req.init.body = new URLSearchParams(opt.form)
+        req.init.headers['content-type'] = 'application/x-www-form-urlencoded'
       }
-
-      req.init.headers['content-type'] = 'application/x-www-form-urlencoded'
     } else if (opt.body !== undefined) {
       req.init.body = opt.body
     }

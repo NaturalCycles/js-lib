@@ -354,3 +354,39 @@ test('tryFetch', async () => {
     expect(data2).toEqual({ ok: true })
   }
 })
+
+test('should not mutate headers', async () => {
+  const a: any[] = []
+  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async (url, init) => {
+    a.push(init.headers)
+    return new Response(JSON.stringify({ ok: 1 }))
+  })
+
+  const fetcher = getFetcher()
+  const headers = { a: 'a' }
+
+  await fetcher.doFetch({
+    url: 'https://example.com',
+    headers,
+  })
+
+  await fetcher.doFetch({
+    url: 'https://example.com',
+  })
+
+  expect(a.length).toBe(2)
+  expect(a[0]).toMatchInlineSnapshot(`
+    {
+      "a": "a",
+      "accept": "application/json",
+      "user-agent": "fetcher",
+    }
+  `)
+  expect(a[1]).toMatchInlineSnapshot(`
+    {
+      "accept": "application/json",
+      "user-agent": "fetcher",
+    }
+  `)
+  expect(a[0]).not.toBe(a[1])
+})

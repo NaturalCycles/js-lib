@@ -6,7 +6,7 @@ test('basic', () => {
   expect(s.toString()).toBe('1.2.3')
   expect(`${s}`).toBe('1.2.3')
   expect(JSON.stringify(s)).toBe('"1.2.3"')
-  expect(s.toJSON()).toBe('"1.2.3"')
+  expect(s.toJSON()).toBe('1.2.3')
   expect(s.tokens).toEqual([1, 2, 3])
   expect(s.major).toBe(1)
   expect(s.minor).toBe(2)
