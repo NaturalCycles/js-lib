@@ -18,6 +18,15 @@ test('appError', () => {
   })
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`"AppError: la la"`)
+
+  expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
+    "AppError: la la
+    {
+      "httpStatusCode": 409,
+      "userFriendly": true,
+      "other": "otherValue"
+    }"
+  `)
 })
 
 test('appError with status 0', () => {

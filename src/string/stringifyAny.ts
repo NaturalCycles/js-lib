@@ -1,4 +1,4 @@
-import { _isBackendErrorResponseObject, _isErrorLike } from '../error/error.util'
+import { _isBackendErrorResponseObject, _isErrorLike, _isErrorObject } from '../error/error.util'
 import type { Reviver } from '../types'
 import { _jsonParseIfPossible } from './json.util'
 import { _safeJsonStringify } from './safeJsonStringify'
@@ -46,6 +46,13 @@ export interface StringifyAnyOptions {
    * @default true
    */
   includeErrorCause?: boolean
+
+  /**
+   * Set to true to include Error.data.
+   *
+   * @default false
+   */
+  includeErrorData?: boolean
 
   /**
    * Allows to pass custom "stringify function".
@@ -113,6 +120,10 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     if (typeof (obj as any).code === 'string') {
       // Error that has no `data`, but has `code` property
       s += `\ncode: ${(obj as any).code}`
+    }
+
+    if (opt.includeErrorData && _isErrorObject(obj)) {
+      s += '\n' + _stringifyAny(obj.data, opt)
     }
 
     if (opt.includeErrorStack && obj.stack) {
