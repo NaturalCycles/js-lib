@@ -78,3 +78,85 @@ code: auth/forbidden",
   1984-06-21T00:00:00.000Z => ""1984-06-21T00:00:00.000Z"",
 }
 `;
+
+exports[`stringifyAny default 2`] = `
+Map {
+  undefined => "undefined",
+  null => "null",
+  true => "true",
+  false => "false",
+  NaN => "null",
+  Infinity => "null",
+  "" => "empty_string",
+  " " => "empty_string",
+  "ho ho ho" => "ho ho ho",
+  "{" => "{",
+  "{"a": "a1"}" => "{
+  "a": "a1"
+}",
+  "[5, null, "s"]" => "[
+  5,
+  null,
+  "s"
+]",
+  [
+    5,
+    null,
+    "s",
+  ] => "[
+  5,
+  null,
+  "s"
+]",
+  15 => "15",
+  [
+    1,
+    2,
+    3,
+  ] => "[
+  1,
+  2,
+  3
+]",
+  {
+    "a": "a1",
+    "b": "b1",
+    "c": {
+      "d": 25,
+      "e": undefined,
+    },
+  } => "{
+  "a": "a1",
+  "b": "b1",
+  "c": {
+    "d": 25
+  }
+}",
+  {
+    "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference",
+    "message": "Reference already exists",
+  } => "{
+  "message": "Reference already exists",
+  "documentation_url": "https://developer.github.com/v3/git/refs/#create-a-reference"
+}",
+  [Function] => "function",
+  /i am regex, who are you\\?/ => "{}",
+  Map {
+    "a" => "b",
+  } => "{}",
+  Set {
+    "a",
+    "b",
+    "c",
+  } => "{}",
+  [Error: some err msg] => "Error: some err msg",
+  [Error: Error with code] => "Error: Error with code
+code: auth/forbidden",
+  [AppError: app error] => "AppError: app error
+{
+  "k1": "v1"
+}",
+  Symbol(a_am_symbol) => "Symbol(a_am_symbol)",
+  1984-06-21T00:00:00.000Z => ""1984-06-21T00:00:00.000Z"",
+}
+`;

@@ -122,7 +122,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
       s += `\ncode: ${(obj as any).code}`
     }
 
-    if (opt.includeErrorData && _isErrorObject(obj)) {
+    if (opt.includeErrorData && _isErrorObject(obj) && Object.keys(obj.data).length) {
       s += '\n' + _stringifyAny(obj.data, opt)
     }
 

@@ -8,6 +8,14 @@ import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
 
 test('stringifyAny default', () => {
   expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
+
+  expectResults(
+    v =>
+      _stringifyAny(v, {
+        includeErrorData: true,
+      }),
+    mockAllKindsOfThings(),
+  ).toMatchSnapshot()
 })
 
 test('appError', () => {
