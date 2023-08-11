@@ -1,4 +1,5 @@
 import { inspect } from 'node:util'
+import { _stringifyAny } from '../string/stringifyAny'
 import {
   AssertionError,
   _assert,
@@ -34,17 +35,21 @@ test('_assertEquals', () => {
 
   const [err] = _try(() => _assertEquals(1, 2))
   expect(err).toBeInstanceOf(AssertionError)
-  expect(err).toMatchInlineSnapshot(`
-    [AssertionError: not equal
+  expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
+    "AssertionError: not equal
     expected: 2
-    got     : 1]
+    got     : 1
+    {
+      "userFriendly": true
+    }"
   `)
 
   const err2 = _try(() => _assertEquals(1, 2, 'Should match'))[0]
-  expect(err2).toMatchInlineSnapshot(`
-    [AssertionError: Should match
-    expected: 2
-    got     : 1]
+  expect(_stringifyAny(err2, { includeErrorData: true })).toMatchInlineSnapshot(`
+    "AssertionError: Should match
+    {
+      "userFriendly": true
+    }"
   `)
 })
 

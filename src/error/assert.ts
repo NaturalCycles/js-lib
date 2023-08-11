@@ -43,13 +43,11 @@ export function _assertEquals<T>(
   errorData?: ErrorData,
 ): asserts actual is T {
   if (actual !== expected) {
-    const msg = [
-      message || 'not equal',
-      `expected: ${_stringifyAny(expected)}`,
-      `got     : ${_stringifyAny(actual)}`,
-    ]
-      .filter(Boolean)
-      .join('\n')
+    const msg =
+      message ||
+      ['not equal', `expected: ${_stringifyAny(expected)}`, `got     : ${_stringifyAny(actual)}`]
+        .filter(Boolean)
+        .join('\n')
 
     throw new AssertionError(msg, {
       userFriendly: true,
@@ -71,13 +69,15 @@ export function _assertDeepEquals<T>(
   errorData?: ErrorData,
 ): asserts actual is T {
   if (!_deepEquals(actual, expected)) {
-    const msg = [
-      message || `not deeply equal`,
-      `expected: ${_stringifyAny(expected)}`,
-      `got     : ${_stringifyAny(actual)}`,
-    ]
-      .filter(Boolean)
-      .join('\n')
+    const msg =
+      message ||
+      [
+        `not deeply equal`,
+        `expected: ${_stringifyAny(expected)}`,
+        `got     : ${_stringifyAny(actual)}`,
+      ]
+        .filter(Boolean)
+        .join('\n')
 
     throw new AssertionError(msg, {
       userFriendly: true,
