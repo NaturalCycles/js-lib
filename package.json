@@ -24,6 +24,7 @@
     "stylelint-all": "tsn ./src/bin/stylelint-all.ts",
     "lint-all": "tsn ./src/bin/lint-all.ts",
     "eslint-all": "tsn ./src/bin/eslint-all.ts",
+    "up": "tsn ./src/bin/up.ts",
     "eslint-print-config": "eslint --print-config src/index.ts > tmp/eslint.config.json",
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
   },
@@ -92,6 +93,7 @@
     "test-manual": "dist/bin/test-manual.js",
     "tsc-prod": "dist/bin/tsc-prod.js",
     "tsc-scripts": "dist/bin/tsc-scripts.js",
+    "up": "dist/bin/up.js",
     "update-from-dev-lib": "dist/bin/update-from-dev-lib.js"
   },
   "engines": {

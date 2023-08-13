@@ -168,6 +168,8 @@ Install it **locally** in you project by adding
 
 #### Other commands
 
+- `up`: shortcut for `yarn upgrade` && `yarn patch-package` (if `patch-package` exists in the
+  project).
 - `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
 - `update-from-dev-lib`: copy config files from `dev-lib/cfg/overwrite` to the project
 
