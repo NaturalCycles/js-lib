@@ -2,7 +2,7 @@ import * as fs from 'node:fs'
 import * as os from 'node:os'
 import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { _range, _uniq } from '@naturalcycles/js-lib'
-import { dimGrey, white } from '@naturalcycles/nodejs-lib/dist/colors'
+import { dimGrey, white } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
 import { nodeModuleExists } from './test.util'
 

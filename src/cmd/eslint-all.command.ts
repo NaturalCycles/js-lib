@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
 import { _since } from '@naturalcycles/js-lib'
-import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib/dist/colors'
+import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
 import * as yargs from 'yargs'
 import { cfgDir } from '../cnst/paths.cnst'
 import { getTSConfigPathScripts, runESLintAsync } from '../util/lint.util'
