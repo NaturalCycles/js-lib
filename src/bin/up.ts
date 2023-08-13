@@ -2,7 +2,7 @@
 
 import * as fs from 'node:fs'
 import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 
 runScript(async () => {
   execVoidCommandSync('yarn', ['upgrade'])

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { kpySync } from '@naturalcycles/nodejs-lib/dist/fs'
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 import { cfgOverwriteDir } from '../cnst/paths.cnst'
 
 runScript(() => {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { _emptyDirSync } from '@naturalcycles/nodejs-lib'
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 import { lintAllCommand } from '../cmd/lint-all.command'
 import { runJest } from '../util/jest.util'
 import { tscMainAndScripts } from '../util/tsc.util'

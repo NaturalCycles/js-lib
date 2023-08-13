@@ -4,7 +4,7 @@ yarn tsn testScript.ts
 
 */
 
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 
 runScript(async () => {
   console.log('test script')

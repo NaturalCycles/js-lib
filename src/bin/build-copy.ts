@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { runScript } from '@naturalcycles/nodejs-lib/dist/script'
+import { runScript } from '@naturalcycles/nodejs-lib'
 import { buildCopyCommand } from '../cmd/build-copy.command'
 
 runScript(buildCopyCommand)
