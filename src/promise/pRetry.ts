@@ -163,8 +163,7 @@ export async function pRetry<T>(
 
       if (attempt >= maxAttempts || (predicate && !predicate(err as Error, attempt, maxAttempts))) {
         // Give up
-        _errorDataAppend(err, opt.errorData)
-        throw err
+        throw _errorDataAppend(err, opt.errorData)
       }
 
       // Retry after delay

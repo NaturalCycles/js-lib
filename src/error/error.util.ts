@@ -185,21 +185,24 @@ export function _isErrorLike(o: any): o is ErrorLike {
 
 /**
  * Convenience function to safely add properties to Error's `data` object
- * (even if it wasn't previously existing)
+ * (even if it wasn't previously existing).
+ * Mutates err.
+ * Returns err for convenience, so you can re-throw it directly.
  *
  * @example
  *
  * try {} catch (err) {
- *   _errorDataAppend(err, {
+ *   throw _errorDataAppend(err, {
  *     httpStatusCode: 401,
  *   })
  * }
  */
-export function _errorDataAppend(err: any, data?: ErrorData): void {
-  if (!data) return
-
-  err.data = {
-    ...err.data,
+export function _errorDataAppend<ERR>(err: ERR, data?: ErrorData): ERR {
+  if (!data) return err
+  ;(err as any).data = {
+    ...(err as any).data,
     ...data,
   }
+
+  return err
 }

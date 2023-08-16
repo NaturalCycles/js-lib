@@ -170,7 +170,8 @@ test('_errorObjectToError should not repack if already same error', () => {
 
 test('_errorDataAppend', () => {
   const err = new Error('yo') as any
-  _errorDataAppend(err, { httpStatusCode: 401 })
+  const err_ = _errorDataAppend(err, { httpStatusCode: 401 })
+  expect(err_).toBe(err) // same object
   expect(err).toMatchInlineSnapshot(`[Error: yo]`)
   expect(err.data).toMatchInlineSnapshot(`
     {

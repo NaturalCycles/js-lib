@@ -82,8 +82,7 @@ export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions)
         } catch (err: any) {
           // keep original stack
           err.stack = fakeError.stack!.replace('Error: TimeoutError', err.name + ': ' + err.message)
-          _errorDataAppend(err, opt.errorData)
-          reject(err)
+          reject(_errorDataAppend(err, opt.errorData))
         }
         return
       }
