@@ -33,7 +33,7 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/js-lib": "^14.0.0",
-    "@naturalcycles/nodejs-lib": "^12.0.0",
+    "@naturalcycles/nodejs-lib": "^13.0.1",
     "@types/jest": "^29.0.0",
     "@types/node": "^20.1.0",
     "@types/yargs": "^16.0.0",
