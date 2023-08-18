@@ -58,6 +58,15 @@ const defRetryOptions: FetcherRetryOptions = {
  * Works in both Browser and Node, using `globalThis.fetch`.
  */
 export class Fetcher {
+  /**
+   * Included in UserAgent when run in Node.
+   * In the browser it's not included, as we want "browser own" UserAgent to be included instead.
+   *
+   * Version is to be incremented every time a difference in behaviour (or a bugfix) is done.
+   */
+  static readonly VERSION = 1
+  static readonly userAgent = isServerSide() ? `fetcher${this.VERSION}` : undefined
+
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
     if (typeof globalThis.fetch !== 'function') {
       throw new TypeError(`globalThis.fetch is not available`)
@@ -594,10 +603,10 @@ export class Fetcher {
         retry: { ...defRetryOptions },
         init: {
           method: cfg.method || 'GET',
-          headers: {
-            'user-agent': 'fetcher',
+          headers: _filterNullishValues({
+            'user-agent': Fetcher.userAgent,
             ...cfg.headers,
-          },
+          }),
           credentials: cfg.credentials,
           redirect: cfg.redirect,
         },
@@ -647,6 +656,10 @@ export class Fetcher {
         } satisfies RequestInit,
       ),
     }
+
+    // Because all header values are stringified, so `a: undefined` becomes `undefined` as a string
+    _filterNullishValues(req.init.headers, true)
+
     // setup url
     const baseUrl = opt.baseUrl || this.cfg.baseUrl
     if (baseUrl) {

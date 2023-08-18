@@ -22,7 +22,7 @@ test('defaults', () => {
       "init": {
         "credentials": undefined,
         "headers": {
-          "user-agent": "fetcher",
+          "user-agent": "fetcher1",
         },
         "method": "GET",
         "redirect": undefined,
@@ -64,7 +64,7 @@ test('defaults', () => {
         "credentials": undefined,
         "headers": {
           "accept": "application/json",
-          "user-agent": "fetcher",
+          "user-agent": "fetcher1",
         },
         "method": "GET",
         "redirect": "follow",
@@ -379,13 +379,13 @@ test('should not mutate headers', async () => {
     {
       "a": "a",
       "accept": "application/json",
-      "user-agent": "fetcher",
+      "user-agent": "fetcher1",
     }
   `)
   expect(a[1]).toMatchInlineSnapshot(`
     {
       "accept": "application/json",
-      "user-agent": "fetcher",
+      "user-agent": "fetcher1",
     }
   `)
   expect(a[0]).not.toBe(a[1])
