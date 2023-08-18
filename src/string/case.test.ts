@@ -16,6 +16,7 @@ const words = [
   'foo2bar',
   '__FOO_BAR__',
   '--FOO-BAR--',
+  'la-lo-lo',
 ]
 
 test('_snakeCase', () => {

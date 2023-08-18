@@ -16,6 +16,7 @@ Map {
   "foo2bar" => "foo2Bar",
   "__FOO_BAR__" => "fooBar",
   "--FOO-BAR--" => "fooBar",
+  "la-lo-lo" => "laLoLo",
   "add_data" => "addData",
   "director_of_track_and_trigger" => "directorOfTrackAndTrigger",
   "director_of_opti_push" => "directorOfOptiPush",
@@ -25,6 +26,7 @@ Map {
   "lh_test" => "lhTest",
   "foo_2_bar" => "foo2Bar",
   "foo_bar" => "fooBar",
+  "la_lo_lo" => "laLoLo",
 }
 `;
 
@@ -44,6 +46,7 @@ Map {
   "foo2bar" => "foo-2-bar",
   "__FOO_BAR__" => "foo-bar",
   "--FOO-BAR--" => "foo-bar",
+  "la-lo-lo" => "la-lo-lo",
 }
 `;
 
@@ -63,5 +66,6 @@ Map {
   "foo2bar" => "foo_2_bar",
   "__FOO_BAR__" => "foo_bar",
   "--FOO-BAR--" => "foo_bar",
+  "la-lo-lo" => "la_lo_lo",
 }
 `;

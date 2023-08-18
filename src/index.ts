@@ -86,7 +86,6 @@ export * from './web'
 export * from './zod/zod.util'
 export * from './zod/zod.shared.schemas'
 import { z, ZodSchema, ZodError, ZodIssue } from 'zod'
-import { is } from './vendor/is'
 
-export { is, z, ZodSchema, ZodError }
+export { z, ZodSchema, ZodError }
 export type { ZodIssue }
