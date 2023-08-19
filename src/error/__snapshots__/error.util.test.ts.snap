@@ -1,5 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`_errorSnippet 1`] = `
+Map {
+  undefined => "undefined",
+  null => "null",
+  "" => "empty_string",
+  "hello a" => "hello a",
+  0 => "0",
+  1 => "1",
+  -5 => "-5",
+  [Function] => "function",
+  {} => "{}",
+  [] => "[]",
+  [
+    "a",
+  ] => "[ "a" ]",
+  {
+    "a": "aa",
+  } => "{ "a": "aa" }",
+  [Error: err msg] => "err msg",
+  {
+    "message": "yada",
+  } => "{ "message": "yada" }",
+  {
+    "data": {},
+    "message": "yada",
+  } => "{ "message": "yada", "data": {} }",
+  {
+    "data": {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+  } => "{ "message": "yada", "data": { "httpStatusCode": 404 } }",
+  {
+    "message": "yada",
+    "name": "Error",
+  } => "yada",
+  {
+    "data": {},
+    "message": "yada",
+    "name": "Error",
+  } => "yada",
+  {
+    "data": {
+      "httpStatusCode": 404,
+    },
+    "message": "yada",
+    "name": "Error",
+  } => "yada",
+  [AppError: err msg] => "err msg",
+  [HttpRequestError: http err msg] => "http err msg
+Caused by Type error: la-la",
+  {
+    "error": {
+      "data": {
+        "a": "b
+c",
+        "httpStatusCode": 400,
+      },
+      "message": "err msg",
+      "name": "HttpError",
+    },
+  } => "HttpError: err msg",
+}
+`;
+
 exports[`anyToError 1`] = `
 Map {
   undefined => [Error: undefined],

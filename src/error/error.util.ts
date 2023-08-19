@@ -6,7 +6,7 @@ import type {
   HttpRequestErrorData,
   ErrorLike,
 } from '..'
-import { AppError, _jsonParseIfPossible, _stringifyAny } from '..'
+import { AppError, _jsonParseIfPossible, _stringifyAny, _truncate } from '..'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`
@@ -54,7 +54,6 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
 ): ErrorObject<DATA_TYPE> {
   let eo: ErrorObject<DATA_TYPE>
 
-  // if (o instanceof Error) {
   if (_isErrorLike(o)) {
     eo = _errorLikeToErrorObject(o)
   } else {
@@ -88,6 +87,15 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
 export function _errorLikeToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   e: AppError<DATA_TYPE> | Error | ErrorLike,
 ): ErrorObject<DATA_TYPE> {
+  // If it's already an ErrorObject - just return it
+  // AppError satisfies ErrorObject interface
+  // Error does not satisfy (lacks `data`)
+  // UPD: no, we expect a "plain object" here as an output,
+  // because Error classes sometimes have non-enumerable properties (e.g data)
+  if (!(e instanceof Error) && _isErrorObject(e)) {
+    return e as ErrorObject<DATA_TYPE>
+  }
+
   const obj: ErrorObject<DATA_TYPE> = {
     name: e.name,
     message: e.message,
@@ -154,6 +162,64 @@ export function _errorObjectToError<DATA_TYPE extends ErrorData, ERROR_TYPE exte
   }
 
   return err
+}
+
+export interface ErrorSnippetOptions {
+  /**
+   * Max length of the error line.
+   * Snippet may have multiple lines, one original and one per `cause`.
+   */
+  maxLineLength?: number
+
+  maxLines?: number
+}
+
+// These "common" error classes will not be printed as part of the Error snippet
+const commonErrorClasses = new Set([
+  'Error',
+  'AppError',
+  'AssertionError',
+  'HttpRequestError',
+  'JoiValidationError',
+])
+
+/**
+ * Provides a short semi-user-friendly error message snippet,
+ * that would allow to give a hint to the user what went wrong,
+ * also to developers and CS to distinguish between different errors.
+ *
+ * It's not supposed to have full information about the error, just a small extract from it.
+ */
+export function _errorSnippet(err: any, opt: ErrorSnippetOptions = {}): string {
+  const { maxLineLength = 60, maxLines = 3 } = opt
+  const e = _anyToErrorObject(err)
+
+  const lines = [errorObjectToSnippet(e)]
+
+  let { cause } = e
+
+  while (cause && lines.length < maxLines) {
+    lines.push('Caused by ' + errorObjectToSnippet(cause))
+    cause = cause.cause // insert DiCaprio Inception meme
+  }
+
+  return lines.map(line => _truncate(line, maxLineLength)).join('\n')
+
+  function errorObjectToSnippet(e: ErrorObject): string {
+    // Return snippet if it was already prepared
+    if (e.data.snippet) return e.data.snippet
+
+    // Code already serves the purpose of the snippet, so we can just return it
+    if (e.data.code) return e.data.code
+
+    return [
+      !commonErrorClasses.has(e.name) && e.name,
+      // replace "1+ white space characters" with a single space
+      e.message.replaceAll(/\s+/gm, ' ').trim(),
+    ]
+      .filter(Boolean)
+      .join(': ')
+  }
 }
 
 export function _isBackendErrorResponseObject(o: any): o is BackendErrorResponseObject {

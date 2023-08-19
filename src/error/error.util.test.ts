@@ -10,6 +10,7 @@ import {
   _errorDataAppend,
   _isHttpRequestErrorObject,
   _isErrorLike,
+  _errorSnippet,
 } from '..'
 import {
   _anyToError,
@@ -197,4 +198,8 @@ test('_errorDataAppend', () => {
       "httpStatusCode": 401,
     }
   `)
+})
+
+test('_errorSnippet', () => {
+  expectResults(v => _errorSnippet(v), anyItems).toMatchSnapshot()
 })

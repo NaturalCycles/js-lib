@@ -22,6 +22,15 @@ export interface ErrorData {
   errorId?: string
 
   /**
+   * If set - provides a short semi-user-friendly error message snippet,
+   * that would allow to give a hint to the user what went wrong,
+   * also to developers and CS to distinguish between different errors.
+   *
+   * It's not supposed to have full information about the error, just a small extract from it.
+   */
+  snippet?: string
+
+  /**
    * Set to true to force reporting this error (e.g to Sentry).
    * Useful to be able to force-report e.g a 4xx error, which by default wouldn't be reported.
    * Set to false to force not-reporting it.
@@ -41,14 +50,6 @@ export interface ErrorData {
    * E.g 0.1 will report 10% of errors (and ignore the 90%)
    */
   reportRate?: number
-
-  /**
-   * Sometimes error.message gets "decorated" with extra information
-   * (e.g frontend-lib adds a method, url, etc for all the errors)
-   * `originalMessage` is used to preserve the original `error.message` as it came from the backend.
-   */
-  // originalMessage?: string
-  // use .cause.message instead
 
   /**
    * Can be used by error-reporting tools (e.g Sentry).
