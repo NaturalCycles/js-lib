@@ -4,8 +4,13 @@
 import { isServerSide } from '../env'
 import { _assertErrorClassOrRethrow } from '../error/assert'
 import { ErrorLike, ErrorObject } from '../error/error.model'
-import { _anyToError, _anyToErrorObject, _errorLikeToErrorObject } from '../error/error.util'
-import { HttpRequestError } from '../error/httpRequestError'
+import {
+  _anyToError,
+  _anyToErrorObject,
+  _errorLikeToErrorObject,
+  HttpRequestError,
+  TimeoutError,
+} from '../error/error.util'
 import { _clamp } from '../number/number.util'
 import {
   _filterNullishValues,
@@ -16,7 +21,7 @@ import {
   _pick,
 } from '../object/object.util'
 import { pDelay } from '../promise/pDelay'
-import { pTimeout, TimeoutError } from '../promise/pTimeout'
+import { pTimeout } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringifyAny } from '../string/stringifyAny'
 import { _ms, _since } from '../time/time.util'

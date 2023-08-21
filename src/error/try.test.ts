@@ -1,15 +1,7 @@
 import { expectTypeOf } from 'expect-type'
-import { AppError } from './app.error'
 import { _assert } from './assert'
-import { HttpRequestError } from './httpRequestError'
-import {
-  _expectedError,
-  _try,
-  pExpectedError,
-  pExpectedErrorString,
-  pTry,
-  UnexpectedPassError,
-} from './try'
+import { AppError, HttpRequestError, UnexpectedPassError } from './error.util'
+import { _expectedError, _try, pExpectedError, pExpectedErrorString, pTry } from './try'
 
 const okFunction = (v = 1): { result: number } => ({ result: v })
 const errFunction = (): never => {

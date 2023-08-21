@@ -1,5 +1,6 @@
 import { inspect } from 'node:util'
-import { AppError } from './app.error'
+import { _stringifyAny } from '../string/stringifyAny'
+import { _anyToErrorObject, AppError } from './error.util'
 
 const throwAppError = (): never => {
   throw new AppError('error')
@@ -54,7 +55,16 @@ test('AppError log should NOT include constructor and data', () => {
 test('AppError with cause', () => {
   const err1 = new AppError('cozz')
   const err = new AppError('hello', {}, { cause: err1 })
-  expect(err.cause).toBe(err1)
+  expect(err.cause!.stack).toBeDefined()
+  delete err.cause!.stack
+  expect(err.cause).toMatchInlineSnapshot(`
+    {
+      "data": {},
+      "message": "cozz",
+      "name": "AppError",
+    }
+  `)
+  expect(_stringifyAny(_anyToErrorObject(err.cause))).toBe(_stringifyAny(_anyToErrorObject(err1)))
 })
 
 function filterStackTrace(s: string): string {

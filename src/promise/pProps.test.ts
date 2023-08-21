@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'expect-type'
-import { AppError } from '../error/app.error'
+import { AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
 import { pDefer } from './pDefer'

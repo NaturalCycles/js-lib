@@ -6,7 +6,7 @@ import type {
   HttpRequestErrorData,
   ErrorLike,
 } from '..'
-import { AppError, _jsonParseIfPossible, _stringifyAny, _truncate } from '..'
+import { _jsonParseIfPossible, _stringifyAny, _truncate, _truncateMiddle } from '..'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`
@@ -271,4 +271,166 @@ export function _errorDataAppend<ERR>(err: ERR, data?: ErrorData): ERR {
   }
 
   return err
+}
+
+/**
+ * Base class for all our (not system) errors.
+ *
+ * message - "technical" message. Frontend decides to show it or not.
+ * data - optional "any" payload.
+ * data.userFriendly - if present, will be displayed to the User as is.
+ *
+ * Based on: https://medium.com/@xpl/javascript-deriving-from-error-properly-8d2f8f315801
+ */
+export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
+  data!: DATA_TYPE
+
+  /**
+   * `cause` here is normalized to be an ErrorObject
+   */
+  override cause?: ErrorObject
+
+  constructor(message: string, data = {} as DATA_TYPE, opt: AppErrorOptions = {}) {
+    super(message)
+    const { name = this.constructor.name, cause } = opt
+
+    Object.defineProperties(this, {
+      name: {
+        value: name,
+        configurable: true,
+        writable: true,
+      },
+      data: {
+        value: data,
+        writable: true,
+        configurable: true,
+        enumerable: false,
+      },
+    })
+
+    if (cause) {
+      Object.defineProperty(this, 'cause', {
+        value: _anyToErrorObject(cause),
+        writable: true,
+        configurable: true,
+        enumerable: true, // unlike standard - setting it to true for "visibility"
+      })
+    }
+
+    // this is to allow changing this.constuctor.name to a non-minified version
+    Object.defineProperty(this.constructor, 'name', {
+      value: name,
+      configurable: true,
+      writable: true,
+    })
+
+    // todo: check if it's needed at all!
+    // if (Error.captureStackTrace) {
+    //   Error.captureStackTrace(this, this.constructor)
+    // } else {
+    //   Object.defineProperty(this, 'stack', {
+    //     value: new Error().stack, // eslint-disable-line unicorn/error-message
+    //     writable: true,
+    //     configurable: true,
+    //   })
+    // }
+  }
+}
+
+/**
+ * Extra options for AppError constructor.
+ */
+export interface AppErrorOptions {
+  /**
+   * Overrides Error.name and Error.constructor.name
+   */
+  name?: string
+
+  /**
+   * Sets Error.cause.
+   * It is transformed with _anyToErrorObject()
+   */
+  cause?: any
+}
+
+/**
+ * Error that is thrown when Http Request was made and returned an error.
+ * Thrown by, for example, Fetcher.
+ *
+ * On the Frontend this Error class represents the error when calling the API,
+ * contains all the necessary request and response information.
+ *
+ * On the Backend, similarly, it represents the error when calling some 3rd-party API
+ * (backend-to-backend call).
+ * On the Backend it often propagates all the way to the Backend error handler,
+ * where it would be wrapped in BackendErrorResponseObject.
+ *
+ * Please note that `ErrorData.backendResponseStatusCode` is NOT exactly the same as
+ * `HttpRequestErrorData.responseStatusCode`.
+ * E.g 3rd-party call may return 401, but our Backend will still wrap it into an 500 error
+ * (by default).
+ */
+export class HttpRequestError extends AppError<HttpRequestErrorData> {
+  constructor(message: string, data: HttpRequestErrorData, opt?: AppErrorOptions) {
+    if (data.response) {
+      Object.defineProperty(data, 'response', {
+        enumerable: false,
+      })
+    }
+
+    super(message, data, { ...opt, name: 'HttpRequestError' })
+  }
+
+  /**
+   * Cause is strictly-defined for HttpRequestError,
+   * so it always has a cause.
+   * (for dev convenience)
+   */
+  override cause!: ErrorObject
+}
+
+export class AssertionError extends AppError {
+  constructor(message: string, data?: ErrorData) {
+    super(message, data, { name: 'AssertionError' })
+  }
+}
+
+export interface JsonParseErrorData extends ErrorData {
+  /**
+   * Original text that failed to get parsed.
+   */
+  text?: string
+}
+
+export class JsonParseError extends AppError<JsonParseErrorData> {
+  constructor(data: JsonParseErrorData) {
+    const message = ['Failed to parse', data.text && _truncateMiddle(data.text, 200)]
+      .filter(Boolean)
+      .join(': ')
+
+    super(message, data, { name: 'JsonParseError' })
+  }
+}
+
+export class TimeoutError extends AppError {
+  constructor(message: string, data?: ErrorData, opt?: AppErrorOptions) {
+    super(message, data, { ...opt, name: 'TimeoutError' })
+  }
+}
+
+/**
+ * It is thrown when Error was expected, but didn't happen
+ * ("pass" happened instead).
+ * "Pass" means "no error".
+ */
+export class UnexpectedPassError extends AppError {
+  constructor() {
+    super(
+      'expected error was not thrown',
+      {},
+      {
+        name: 'UnexpectedPassError',
+      },
+    )
+  }
 }

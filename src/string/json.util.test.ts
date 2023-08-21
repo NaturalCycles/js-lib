@@ -1,5 +1,5 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
-import { JsonParseError } from '../error/jsonParseError'
+import { JsonParseError } from '../error/error.util'
 import { _expectedError } from '../error/try'
 import { _jsonParse, _jsonParseIfPossible, _jsonParseOrUndefined } from './json.util'
 

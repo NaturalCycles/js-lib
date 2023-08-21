@@ -1,8 +1,8 @@
 import { _stringifyAny } from '../string/stringifyAny'
 import type { Class } from '../typeFest'
 import type { AnyFunction, ErrorDataTuple } from '../types'
-import { AppError } from './app.error'
 import { _assertErrorClassOrRethrow } from './assert'
+import { UnexpectedPassError } from './error.util'
 
 /**
  * Calls a function, returns a Tuple of [error, value].
@@ -52,23 +52,6 @@ export async function pTry<T, ERR extends Error = Error>(
       _assertErrorClassOrRethrow(err, errorClass)
     }
     return [err as ERR, null]
-  }
-}
-
-/**
- * It is thrown when Error was expected, but didn't happen
- * ("pass" happened instead).
- * "Pass" means "no error".
- */
-export class UnexpectedPassError extends AppError {
-  constructor() {
-    super(
-      'expected error was not thrown',
-      {},
-      {
-        name: 'UnexpectedPassError',
-      },
-    )
   }
 }
 

@@ -1,7 +1,6 @@
 import { inspect } from 'node:util'
 import { _stringifyAny } from '../string/stringifyAny'
 import {
-  AssertionError,
   _assert,
   _assertDeepEquals,
   _assertEquals,
@@ -9,6 +8,7 @@ import {
   _assertIsNumber,
   _assertIsString,
 } from './assert'
+import { AssertionError } from './error.util'
 import { _try } from './try'
 
 /* eslint-disable no-self-compare */

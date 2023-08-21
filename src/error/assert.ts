@@ -1,6 +1,5 @@
 import type { ErrorData, ErrorObject } from '..'
-import { _deepEquals, _isErrorObject, _stringifyAny, Class } from '..'
-import { AppError } from './app.error'
+import { _deepEquals, _isErrorObject, _stringifyAny, AssertionError, Class } from '..'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).
@@ -148,11 +147,5 @@ export function _assertTypeOf<T>(v: any, expectedType: string, message?: string)
     throw new AssertionError(msg, {
       userFriendly: true,
     })
-  }
-}
-
-export class AssertionError extends AppError {
-  constructor(message: string, data?: ErrorData) {
-    super(message, data, { name: 'AssertionError' })
   }
 }

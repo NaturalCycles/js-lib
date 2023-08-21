@@ -1,8 +1,7 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
-import { AppError } from '../error/app.error'
 import { BackendErrorResponseObject } from '../error/error.model'
-import { _errorLikeToErrorObject } from '../error/error.util'
+import { _errorLikeToErrorObject, AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
 

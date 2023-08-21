@@ -1,5 +1,4 @@
 import { expectTypeOf } from 'expect-type'
-import type { AppError } from './error/app.error'
 import { _expectedError } from './error/try'
 import type {
   Reviver,
@@ -23,6 +22,7 @@ import {
   _stringMapValues,
   _typeCast,
 } from './types'
+import type { AppError } from '.'
 
 interface Item extends BaseDBEntity<number> {
   a?: number

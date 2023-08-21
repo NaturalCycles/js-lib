@@ -1,13 +1,6 @@
-import { AppError, AppErrorOptions } from '../error/app.error'
 import type { ErrorData } from '../error/error.model'
-import { _errorDataAppend } from '../error/error.util'
+import { _errorDataAppend, TimeoutError } from '../error/error.util'
 import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
-
-export class TimeoutError extends AppError {
-  constructor(message: string, data?: ErrorData, opt?: AppErrorOptions) {
-    super(message, data, { ...opt, name: 'TimeoutError' })
-  }
-}
 
 export interface PTimeoutOptions {
   /**

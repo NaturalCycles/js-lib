@@ -1,4 +1,4 @@
-import { JsonParseError } from '../error/jsonParseError'
+import { JsonParseError } from '../error/error.util'
 import { Reviver } from '../types'
 
 // const possibleJsonStartTokens = ['{', '[', '"']

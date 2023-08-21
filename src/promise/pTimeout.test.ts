@@ -1,6 +1,7 @@
+import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { pDelay } from './pDelay'
-import { pTimeout, pTimeoutFn, TimeoutError } from './pTimeout'
+import { pTimeout, pTimeoutFn } from './pTimeout'
 
 test('pTimeoutFn happy case', async () => {
   const fn = async (name: string): Promise<string> => await pDelay(10, `hello ${name}`)
