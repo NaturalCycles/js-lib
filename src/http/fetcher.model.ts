@@ -227,6 +227,11 @@ export interface FetcherOptions {
    * If true - enables all possible logging.
    */
   debug?: boolean
+
+  /**
+   * If provided - will be used instead of static `Fetcher.callNativeFetch`.
+   */
+  fetchFn?: FetchFunction
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
@@ -269,3 +274,10 @@ export type FetcherResponseType =
   | 'arrayBuffer'
   | 'blob'
   | 'readableStream'
+
+/**
+ * Signature for the `fetch` function.
+ * Used to be able to override and provide a different implementation,
+ * e.g when mocking.
+ */
+export type FetchFunction = (url: string, init: RequestInitNormalized) => Promise<Response>

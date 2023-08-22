@@ -286,7 +286,11 @@ export class Fetcher {
       }
 
       try {
-        res.fetchResponse = await Fetcher.callNativeFetch(req.fullUrl, req.init)
+        // Calls cfg.fetchFn if set, otherwise Fetcher.callNativeFetch
+        res.fetchResponse = await (this.cfg.fetchFn || Fetcher.callNativeFetch)(
+          req.fullUrl,
+          req.init,
+        )
         res.ok = res.fetchResponse.ok
         // important to set it to undefined, otherwise it can keep the previous value (from previous try)
         res.err = undefined

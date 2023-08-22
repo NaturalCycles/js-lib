@@ -186,6 +186,21 @@ test('mocking fetch', async () => {
   })
 })
 
+test('fetchFn', async () => {
+  const fetcher = getFetcher({
+    retry: {
+      count: 0,
+    },
+    fetchFn: async (url, _init) => {
+      return new Response(JSON.stringify({ url }))
+    },
+  })
+
+  const url = 'abc'
+  const r = await fetcher.get(url)
+  expect(r).toEqual({ url })
+})
+
 test('json parse error', async () => {
   const fetcher = getFetcher({
     retry: {
