@@ -1,7 +1,13 @@
 import { expectTypeOf } from 'expect-type'
 import { _range } from '../array/range'
 import { localTime } from '../datetime/localTime'
-import { AppError, HttpRequestError, pExpectedErrorString, UnexpectedPassError } from '..'
+import {
+  AppError,
+  ErrorObject,
+  HttpRequestError,
+  pExpectedErrorString,
+  UnexpectedPassError,
+} from '..'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
@@ -45,6 +51,7 @@ test('defaults', () => {
       "retry5xx": true,
       "retryPost": false,
       "searchParams": {},
+      "throwHttpErrors": true,
       "timeoutSeconds": 30,
     }
   `)
@@ -84,6 +91,7 @@ test('defaults', () => {
       "retry5xx": true,
       "retryPost": false,
       "started": 1234,
+      "throwHttpErrors": true,
       "timeoutSeconds": 30,
       "url": "some",
     }
@@ -199,6 +207,33 @@ test('fetchFn', async () => {
   const url = 'abc'
   const r = await fetcher.get(url)
   expect(r).toEqual({ url })
+})
+
+test('throwHttpErrors = false', async () => {
+  const fetcher = getFetcher({
+    retry: {
+      count: 0,
+    },
+    throwHttpErrors: false,
+  })
+
+  const error: ErrorObject = {
+    name: 'AppError',
+    message: 'some',
+    data: {},
+  }
+
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        error,
+      } satisfies BackendErrorResponseObject),
+      { status: 500 },
+    ),
+  )
+
+  const r = await fetcher.get('')
+  expect(r).toEqual({ error })
 })
 
 test('json parse error', async () => {

@@ -308,7 +308,7 @@ export class Fetcher {
       res.statusFamily = this.getStatusFamily(res)
       res.statusCode = res.fetchResponse?.status
 
-      if (res.fetchResponse?.ok) {
+      if (res.fetchResponse?.ok || !req.throwHttpErrors) {
         try {
           // We are applying a separate Timeout (as long as original Timeout for now) to "download and parse the body"
           await pTimeout(
@@ -384,7 +384,7 @@ export class Fetcher {
     res.retryStatus.retryStopped = true
 
     // res.err can happen on `failed to fetch` type of error, e.g JSON.parse, CORS, unexpected redirect
-    if (!res.err && this.cfg.logResponse) {
+    if ((!res.err || !req.throwHttpErrors) && this.cfg.logResponse) {
       const { retryAttempt } = res.retryStatus
       const { logger } = this.cfg
       logger.log(
@@ -654,6 +654,7 @@ export class Fetcher {
           redirect: cfg.redirect,
         },
         hooks: {},
+        throwHttpErrors: true,
       },
       _omit(cfg, ['method', 'credentials', 'headers', 'redirect', 'logger']),
     )
@@ -677,6 +678,7 @@ export class Fetcher {
         'logResponse',
         'logResponseBody',
         'debug',
+        'throwHttpErrors',
       ]),
       started: Date.now(),
       ..._omit(opt, ['method', 'headers', 'credentials']),

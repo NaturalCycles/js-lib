@@ -19,6 +19,7 @@ export interface FetcherNormalizedCfg
       | 'debug'
       | 'redirect'
       | 'credentials'
+      | 'throwHttpErrors'
     > {
   logger: CommonLogger
   searchParams: Record<string, any>
@@ -93,6 +94,8 @@ export interface FetcherCfg {
    * Defaults to `console`.
    */
   logger?: CommonLogger
+
+  throwHttpErrors?: boolean
 }
 
 export interface FetcherRetryStatus {
@@ -232,6 +235,12 @@ export interface FetcherOptions {
    * If provided - will be used instead of static `Fetcher.callNativeFetch`.
    */
   fetchFn?: FetchFunction
+
+  /**
+   * Default to true.
+   * Set to false to not throw on `!Response.ok`, but simply return `Response.body` as-is (json parsed, etc).
+   */
+  throwHttpErrors?: boolean
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {
