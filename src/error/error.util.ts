@@ -6,7 +6,7 @@ import type {
   HttpRequestErrorData,
   ErrorLike,
 } from '..'
-import { _jsonParseIfPossible, _stringifyAny, _truncate, _truncateMiddle } from '..'
+import { _jsonParseIfPossible, _stringifyAny, _truncate, _truncateMiddle, isServerSide } from '..'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`
@@ -325,7 +325,9 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
 
   constructor(message: string, data = {} as DATA_TYPE, opt: AppErrorOptions = {}) {
     super(message)
-    const { name = 'AppError', cause } = opt
+    // Here we default to `this.constructor.name` on Node, but to 'AppError' on the Frontend
+    // because Frontend tends to minify class names, so `constructor.name` is not reliable
+    const { name = isServerSide() ? this.constructor.name : 'AppError', cause } = opt
 
     Object.defineProperties(this, {
       name: {
