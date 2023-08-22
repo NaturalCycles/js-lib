@@ -19,7 +19,7 @@ test('_assert', () => {
   // expect(() => _assert(1 * 1 === 2)).toThrowErrorMatchingInlineSnapshot(`"See stacktrace"`)
   const [err] = _try(() => _assert(1 * 1 === 2))
   expect(err).toBeInstanceOf(AssertionError)
-  expect(err).toMatchInlineSnapshot(`[AssertionError: see stacktrace]`)
+  expect(err).toMatchInlineSnapshot(`[AssertionError: condition failed]`)
 
   // With custom message
   const err2 = _try(() => _assert(1 * 1 === 2, 'Really should match'))[0]
@@ -77,10 +77,9 @@ test('_assertIsError', () => {
   _assertIsError(new Error('a'))
 
   const [err] = _try(() => _assertIsError('asd'))
-  expect(err).toMatchInlineSnapshot(`
-    [AssertionError: expected to be instanceof Error
-    actual typeof: string]
-  `)
+  expect(err).toMatchInlineSnapshot(
+    `[AssertionError: Expected to be instanceof Error, actual typeof: string]`,
+  )
 })
 
 test('_assertIsString', () => {
@@ -88,11 +87,9 @@ test('_assertIsString', () => {
   _assertIsString('asd')
 
   const [err] = _try(() => _assertIsString(5))
-  expect(err).toMatchInlineSnapshot(`
-    [AssertionError: unexpected type
-    expected: string
-    got     : number]
-  `)
+  expect(err).toMatchInlineSnapshot(
+    `[AssertionError: Expected typeof string, actual typeof: number]`,
+  )
 })
 
 test('_assertIsNumber', () => {
@@ -100,11 +97,9 @@ test('_assertIsNumber', () => {
   _assertIsNumber(5)
 
   const [err] = _try(() => _assertIsNumber('asd'))
-  expect(err).toMatchInlineSnapshot(`
-    [AssertionError: unexpected type
-    expected: number
-    got     : string]
-  `)
+  expect(err).toMatchInlineSnapshot(
+    `[AssertionError: Expected typeof number, actual typeof: string]`,
+  )
 })
 
 test('AssertionError printability', () => {

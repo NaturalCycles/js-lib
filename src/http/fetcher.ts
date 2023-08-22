@@ -3,7 +3,7 @@
 /// <reference lib="dom.iterable"/>
 
 import { isServerSide } from '../env'
-import { _assertErrorClassOrRethrow } from '../error/assert'
+import { _assertErrorClassOrRethrow, _assertIsError } from '../error/assert'
 import { ErrorLike, ErrorObject } from '../error/error.model'
 import {
   _anyToError,
@@ -11,6 +11,7 @@ import {
   _errorLikeToErrorObject,
   HttpRequestError,
   TimeoutError,
+  UnexpectedPassError,
 } from '../error/error.util'
 import { _clamp } from '../number/number.util'
 import {
@@ -187,6 +188,23 @@ export class Fetcher {
   }
 
   /**
+   * Execute fetch and expect/assert it to return an Error (which will be wrapped in
+   * HttpRequestError as it normally would).
+   * If fetch succeeds, which is unexpected, it'll throw an UnexpectedPass error.
+   * Useful in unit testing.
+   */
+  async expectError(opt: FetcherOptions): Promise<HttpRequestError> {
+    const res = await this.doFetch(opt)
+
+    if (!res.err) {
+      throw new UnexpectedPassError('Fetch was expected to error')
+    }
+
+    _assertIsError(res.err, HttpRequestError)
+    return res.err
+  }
+
+  /**
    * Like pTry - returns a [err, data] tuple (aka ErrorDataTuple).
    * err, if defined, is strictly HttpRequestError.
    * UPD: actually not, err is typed as Error, as it feels unsafe to guarantee error type.
@@ -242,6 +260,9 @@ export class Fetcher {
       // setup timeout
       let timeoutId: number | undefined
       if (timeoutSeconds) {
+        // Used for Request timeout (when timeoutSeconds is set),
+        // but also for "downloadBody" timeout (even after request returned with 200, but before we loaded the body)
+        // UPD: no, not using for "downloadBody" currently
         const abortController = new AbortController()
         req.init.signal = abortController.signal
         timeoutId = setTimeout(() => {
@@ -291,10 +312,14 @@ export class Fetcher {
               await this.onOkResponse(res as FetcherResponse<T> & { fetchResponse: Response }),
             {
               timeout: timeoutSeconds * 1000 || Number.POSITIVE_INFINITY,
-              name: 'Fetcher.onOkResponse',
+              name: 'Fetcher.downloadBody',
             },
           )
         } catch (err) {
+          // Important to cancel the original request to not keep it running (and occupying resources)
+          // UPD: no, we probably don't need to, because "request" has already completed, it's just the "body" is pending
+          // if (err instanceof TimeoutError) {}
+
           // onOkResponse can still fail, e.g when loading/parsing json, text or doing other response manipulation
           res.err = _anyToError(err)
           res.ok = false
@@ -405,13 +430,21 @@ export class Fetcher {
       data: {},
     }
 
-    const message = [res.fetchResponse?.status, res.signature].filter(Boolean).join(' ')
+    let responseStatusCode = res.fetchResponse?.status || 0
+    if (res.statusFamily === 2) {
+      // important to reset httpStatusCode to 0 in this case, as status 2xx can be misleading
+      res.statusFamily = undefined
+      res.statusCode = undefined
+      responseStatusCode = 0
+    }
+
+    const message = [res.statusCode, res.signature].filter(Boolean).join(' ')
 
     res.err = new HttpRequestError(
       message,
       _filterNullishValues({
         response: res.fetchResponse,
-        responseStatusCode: res.fetchResponse?.status || 0,
+        responseStatusCode,
         // These properties are provided to be used in e.g custom Sentry error grouping
         // Actually, disabled now, to avoid unnecessary error printing when both msg and data are printed
         // Enabled, cause `data` is not printed by default when error is HttpError

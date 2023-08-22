@@ -441,9 +441,9 @@ export class TimeoutError extends AppError {
  * "Pass" means "no error".
  */
 export class UnexpectedPassError extends AppError {
-  constructor() {
+  constructor(message?: string) {
     super(
-      'expected error was not thrown',
+      message || 'expected error was not thrown',
       {},
       {
         name: 'UnexpectedPassError',

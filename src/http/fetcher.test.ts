@@ -1,7 +1,7 @@
 import { expectTypeOf } from 'expect-type'
 import { _range } from '../array/range'
 import { localTime } from '../datetime/localTime'
-import { AppError, HttpRequestError } from '..'
+import { AppError, HttpRequestError, pExpectedErrorString, UnexpectedPassError } from '..'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
@@ -198,7 +198,7 @@ test('json parse error', async () => {
     url: 'some',
   })
   _assertIsError(err)
-  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 200 GET some"`)
+  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: GET some"`)
   _assertIsErrorObject(err.cause)
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
@@ -212,7 +212,7 @@ test('json parse error', async () => {
   `)
 
   expect(_stringifyAny(err)).toMatchInlineSnapshot(`
-    "HttpRequestError: 200 GET some
+    "HttpRequestError: GET some
     Caused by: JsonParseError: Failed to parse: some text"
   `)
 })
@@ -388,4 +388,46 @@ test('should not mutate headers', async () => {
     }
   `)
   expect(a[0]).not.toBe(a[1])
+})
+
+test('expectError', async () => {
+  const fetcher = getFetcher({
+    retry: {
+      count: 0,
+    },
+  })
+
+  // 1. Error should pass
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        error: {
+          name: 'AppError',
+          message: 'some',
+          data: {},
+        },
+      } satisfies BackendErrorResponseObject),
+      { status: 500 },
+    ),
+  )
+
+  const err = await fetcher.expectError({ url: 'someUrl' })
+  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+    "HttpRequestError: 500 GET someUrl
+    Caused by: AppError: some"
+  `)
+
+  // 2. Pass should throw
+  jest
+    .spyOn(Fetcher, 'callNativeFetch')
+    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
+
+  expect(
+    await pExpectedErrorString(
+      fetcher.expectError({
+        url: 'some',
+      }),
+      UnexpectedPassError,
+    ),
+  ).toMatchInlineSnapshot(`"UnexpectedPassError: Fetch was expected to error"`)
 })

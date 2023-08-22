@@ -145,13 +145,15 @@ test('timeout retries', async () => {
   console.log(_stringifyAny(err))
 }, 20_000)
 
-test('formData', async () => {
+const webhookUrl = 'https://webhook.site/07577dc5-8a0a-4e21-866b-a3bdbaf641f4'
+
+test.skip('formData', async () => {
   const fetcher = getFetcher({
     debug: true,
     retry: { count: 0 },
   })
 
-  await fetcher.post('https://webhook.site/07577dc5-8a0a-4e21-866b-a3bdbaf641f4', {
+  await fetcher.post(webhookUrl, {
     form: {
       a: 'a',
       b: 2,
@@ -167,7 +169,7 @@ test('formData', async () => {
   //   }).json()
 })
 
-test('formData with blob', async () => {
+test.skip('formData with blob', async () => {
   const fetcher = getFetcher({
     debug: true,
     retry: { count: 0 },
@@ -175,7 +177,7 @@ test('formData with blob', async () => {
 
   const buf = Buffer.from('asdfsdfsdf')
 
-  await fetcher.post('https://webhook.site/f7dba637-38ac-4b3c-a29b-1b5adeb04fd2', {
+  await fetcher.post(webhookUrl, {
     json: { a: 'a' },
     headers: {
       lo: 'lo',

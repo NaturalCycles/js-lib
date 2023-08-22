@@ -22,7 +22,7 @@ export function _assert(
   errorData?: ErrorData,
 ): asserts condition {
   if (!condition) {
-    throw new AssertionError(message || 'see stacktrace', {
+    throw new AssertionError(message || 'condition failed', {
       userFriendly: true,
       ...errorData,
     })
@@ -90,14 +90,12 @@ export function _assertIsError<ERR extends Error = Error>(
   errorClass: Class<ERR> = Error as any,
 ): asserts err is ERR {
   if (!(err instanceof errorClass)) {
-    const msg = [
-      `expected to be instanceof ${errorClass.name}`,
-      `actual typeof: ${typeof err}`,
-    ].join('\n')
-
-    throw new AssertionError(msg, {
-      userFriendly: true,
-    })
+    throw new AssertionError(
+      `Expected to be instanceof ${errorClass.name}, actual typeof: ${typeof err}`,
+      {
+        userFriendly: true,
+      },
+    )
   }
 }
 
@@ -120,9 +118,7 @@ export function _assertIsErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   obj: any,
 ): asserts obj is ErrorObject<DATA_TYPE> {
   if (!_isErrorObject(obj)) {
-    const msg = [`expected to be ErrorObject`, `actual typeof: ${typeof obj}`].join('\n')
-
-    throw new AssertionError(msg, {
+    throw new AssertionError(`Expected to be ErrorObject, actual typeof: ${typeof obj}`, {
       userFriendly: true,
     })
   }
@@ -138,12 +134,7 @@ export function _assertIsNumber(v: any, message?: string): asserts v is number {
 
 export function _assertTypeOf<T>(v: any, expectedType: string, message?: string): asserts v is T {
   if (typeof v !== expectedType) {
-    const msg = [
-      message || `unexpected type`,
-      `expected: ${expectedType}`,
-      `got     : ${typeof v}`,
-    ].join('\n')
-
+    const msg = message || `Expected typeof ${expectedType}, actual typeof: ${typeof v}`
     throw new AssertionError(msg, {
       userFriendly: true,
     })

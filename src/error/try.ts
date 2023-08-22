@@ -66,10 +66,7 @@ export async function pTry<T, ERR extends Error = Error>(
 export function _expectedError<ERR = Error>(fn: AnyFunction, errorClass?: Class<ERR>): ERR {
   try {
     fn()
-    // Unexpected!
-    throw new UnexpectedPassError()
   } catch (err) {
-    if (err instanceof UnexpectedPassError) throw err // re-throw
     if (errorClass && !(err instanceof errorClass)) {
       console.warn(
         `_expectedError expected ${errorClass.constructor.name} but got different error class`,
@@ -78,6 +75,9 @@ export function _expectedError<ERR = Error>(fn: AnyFunction, errorClass?: Class<
     }
     return err as ERR // this is expected!
   }
+
+  // Unexpected!
+  throw new UnexpectedPassError()
 }
 
 /**
@@ -94,10 +94,7 @@ export async function pExpectedError<ERR = Error>(
 ): Promise<ERR> {
   try {
     await promise
-    // Unexpected!
-    throw new UnexpectedPassError()
   } catch (err) {
-    if (err instanceof UnexpectedPassError) throw err // re-throw
     if (errorClass && !(err instanceof errorClass)) {
       console.warn(
         `pExpectedError expected ${errorClass.constructor.name} but got different error class`,
@@ -106,6 +103,9 @@ export async function pExpectedError<ERR = Error>(
     }
     return err as ERR // this is expected!
   }
+
+  // Unexpected!
+  throw new UnexpectedPassError()
 }
 
 /**
