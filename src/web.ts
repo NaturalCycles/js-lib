@@ -1,3 +1,4 @@
+/// <reference lib="es2022"/>
 /// <reference lib="dom"/>
 
 import { StringMap } from './types'
