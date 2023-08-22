@@ -292,7 +292,7 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
 
   constructor(message: string, data = {} as DATA_TYPE, opt: AppErrorOptions = {}) {
     super(message)
-    const { name = this.constructor.name, cause } = opt
+    const { name = 'AppError', cause } = opt
 
     Object.defineProperties(this, {
       name: {
