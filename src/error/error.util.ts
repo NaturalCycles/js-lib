@@ -273,6 +273,29 @@ export function _errorDataAppend<ERR>(err: ERR, data?: ErrorData): ERR {
   return err
 }
 
+export interface AppErrorComponents<DATA_TYPE extends ErrorData = ErrorData> {
+  message: string
+  name?: string
+  data?: DATA_TYPE
+  cause?: any
+}
+
+/**
+ * Extra options for AppError constructor.
+ */
+export interface AppErrorOptions {
+  /**
+   * Overrides Error.name and Error.constructor.name
+   */
+  name?: string
+
+  /**
+   * Sets Error.cause.
+   * It is transformed with _anyToErrorObject()
+   */
+  cause?: any
+}
+
 /**
  * Base class for all our (not system) errors.
  *
@@ -289,6 +312,16 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
    * `cause` here is normalized to be an ErrorObject
    */
   override cause?: ErrorObject
+
+  /**
+   * Experimental alternative static constructor.
+   */
+  static of<DATA_TYPE extends ErrorData = ErrorData>(opt: AppErrorComponents): AppError<DATA_TYPE> {
+    return new AppError<DATA_TYPE>(opt.message, opt.data as DATA_TYPE, {
+      name: opt.name,
+      cause: opt.cause,
+    })
+  }
 
   constructor(message: string, data = {} as DATA_TYPE, opt: AppErrorOptions = {}) {
     super(message)
@@ -335,22 +368,6 @@ export class AppError<DATA_TYPE extends ErrorData = ErrorData> extends Error {
     //   })
     // }
   }
-}
-
-/**
- * Extra options for AppError constructor.
- */
-export interface AppErrorOptions {
-  /**
-   * Overrides Error.name and Error.constructor.name
-   */
-  name?: string
-
-  /**
-   * Sets Error.cause.
-   * It is transformed with _anyToErrorObject()
-   */
-  cause?: any
 }
 
 /**
