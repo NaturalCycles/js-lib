@@ -1,7 +1,7 @@
-import * as fs from 'node:fs'
+import fs from 'node:fs'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
 import { _since, _truncate } from '@naturalcycles/js-lib'
-import * as yargs from 'yargs'
+import yargs from 'yargs'
 import {
   commitMessageToTitleMessage,
   getLastGitCommitMsg,

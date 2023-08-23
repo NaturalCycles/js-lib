@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import type { ExecSyncOptions } from 'node:child_process'
-import * as cp from 'node:child_process'
-import * as fs from 'node:fs'
+import cp from 'node:child_process'
+import fs from 'node:fs'
 import { gitCurrentBranchName } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
 

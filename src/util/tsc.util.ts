@@ -1,4 +1,4 @@
-import * as fs from 'node:fs'
+import fs from 'node:fs'
 import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { _isTruthy, _since } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'

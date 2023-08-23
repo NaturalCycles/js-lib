@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-import * as fs from 'node:fs'
-import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
-import { runScript } from '@naturalcycles/nodejs-lib'
+import fs from 'node:fs'
+import { execVoidCommandSync, runScript } from '@naturalcycles/nodejs-lib'
 
 runScript(async () => {
   execVoidCommandSync('yarn', ['upgrade'])

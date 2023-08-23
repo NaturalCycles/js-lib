@@ -1,4 +1,4 @@
-import * as fs from 'node:fs'
+import fs from 'node:fs'
 import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { scriptsDir } from '../cnst/paths.cnst'
 

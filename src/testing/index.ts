@@ -1,4 +1,4 @@
-import * as timekeeper from 'timekeeper'
+import timekeeper from 'timekeeper'
 export * from '../jestOffline.util'
 export * from './expect.util'
 export * from './mockAllKindsOfThings'
