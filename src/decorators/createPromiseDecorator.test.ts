@@ -54,8 +54,8 @@ beforeEach(() => {
 })
 
 test('_createPromiseDecorator', async () => {
-  const _r = await c.run(2)
-  // expect(r).toBe(4) // todo: it suddenly broke
+  const r = await c.run(2)
+  expect(r).toBe(4)
 
   expect(thenFn).toMatchSnapshot()
 
