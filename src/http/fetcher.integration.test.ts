@@ -1,4 +1,4 @@
-import * as fs from 'node:fs'
+import fs from 'node:fs'
 import { Readable } from 'node:stream'
 import { jestOnline } from '@naturalcycles/dev-lib/dist/testing'
 import { _pipeline } from '@naturalcycles/nodejs-lib'

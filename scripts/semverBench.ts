@@ -5,7 +5,7 @@ yarn tsn semverBench
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import * as semver from 'semver'
+import semver from 'semver'
 import { _range, _semver } from '../src'
 
 const data = _range(10).map(n => `${n}.${(n * 7) % 10}.${(n * 9) % 7}`)
