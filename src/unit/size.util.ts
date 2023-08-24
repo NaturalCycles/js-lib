@@ -14,7 +14,7 @@ export function _kb(b: number): number {
  * Byte size to Human byte size string
  */
 export function _hb(b = 0): string {
-  if (b < 1024) return `${Math.round(b)} byte`
+  if (b < 1024) return `${Math.round(b)} byte(s)`
   if (b < 1024 ** 2) return `${(b / 1024).toPrecision(3)} Kb`
   if (b < 1024 ** 3) return `${(b / 1024 ** 2).toPrecision(3)} Mb`
   if (b < 1024 ** 4) return `${(b / 1024 ** 3).toPrecision(3)} Gb`

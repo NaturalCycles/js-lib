@@ -440,6 +440,19 @@ test('should not mutate headers', async () => {
   expect(a[0]).not.toBe(a[1])
 })
 
+test('fetcher response headers', async () => {
+  const fetcher = getFetcher()
+
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: 1 })))
+
+  const { fetchResponse } = await fetcher.doFetch({})
+  expect(Object.fromEntries(fetchResponse!.headers)).toMatchInlineSnapshot(`
+    {
+      "content-type": "text/plain;charset=UTF-8",
+    }
+  `)
+})
+
 test('expectError', async () => {
   const fetcher = getFetcher({
     retry: {
