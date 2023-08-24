@@ -1536,9 +1536,9 @@
     typescript "^5.0.2"
 
 "@naturalcycles/dev-lib@^13.0.1":
-  version "13.40.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-13.40.0.tgz#3f7b3ffbd3b1a1f28a5e13171db35904be864e26"
-  integrity sha512-OO2mSdU/uN1dMmM/tPA8lJ8/BNwGu9FdgOc9JbySyp0HuNxnCuHOBiyKHMpKmktLE/JJBrqCUK/PaeVjZW3TBg==
+  version "13.40.2"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-13.40.2.tgz#b272a417cad440b212c273adc049c230517283b5"
+  integrity sha512-DyH6RaNRbJOd/lcUf3NFssdscIjEERD+BNJcnGFmx2X0X1sc0aAguk/Uyb6woY15D0wQASa8XYxVcU7l/eSs9Q==
   dependencies:
     "@commitlint/cli" "^17.0.0"
     "@commitlint/config-conventional" "^17.0.0"
