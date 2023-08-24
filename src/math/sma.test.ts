@@ -9,7 +9,7 @@ test('sma', () => {
     nextIndex: 0,
   })
 
-  expect(sma.push(1)).toBe(1)
+  expect(sma.pushGetAvg(1)).toBe(1)
   expect(sma).toMatchObject({
     size: 3,
     data: [1],

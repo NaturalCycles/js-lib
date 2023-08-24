@@ -151,7 +151,7 @@ function logFinished(
   const t = ['<<', callSignature, 'took', _ms(millis)]
 
   if (sma) {
-    t.push(`(avg ${_ms(sma.push(millis))})`)
+    t.push(`(avg ${_ms(sma.pushGetAvg(millis))})`)
   }
 
   if (err !== undefined) {

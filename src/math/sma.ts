@@ -13,28 +13,31 @@ export class SimpleMovingAverage {
   private nextIndex = 0
 
   /**
-   * Current average (calculated, cached).
+   * Current average (calculated on the fly).
    * Returns 0 (not undefined) for empty data.
    */
-  avg = 0
+  get avg(): number {
+    if (this.data.length === 0) return 0
+    return this.data.reduce((total, n) => total + n, 0) / this.data.length
+  }
 
   /**
    * Push new value.
    * Returns newly calculated average (using newly pushed value).
    */
-  push(n: number): number {
+  pushGetAvg(n: number): number {
+    this.push(n)
+    return this.avg
+  }
+
+  /**
+   * Push new value.
+   */
+  push(n: number): void {
     this.data[this.nextIndex] = n
     this.nextIndex =
       this.nextIndex === this.size - 1
         ? 0 // reset
         : this.nextIndex + 1
-
-    return this.calculateAvg()
-  }
-
-  private calculateAvg(): number {
-    return (this.avg = this.data.length
-      ? this.data.reduce((total, n) => total + n, 0) / this.data.length
-      : 0)
   }
 }
