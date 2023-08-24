@@ -19,7 +19,16 @@ export async function buildProdESMCJSCommand(): Promise<void> {
   const esmPath = esmExists ? TSCONF_ESM_PATH : TSCONF_PATH
 
   await Promise.all([
-    execVoidCommand('tsc', ['-P', cjsPath, '--outDir', './dist', '--module', 'commonjs']),
+    execVoidCommand('tsc', [
+      '-P',
+      cjsPath,
+      '--outDir',
+      './dist',
+      '--module',
+      'commonjs',
+      '--moduleResolution',
+      'node',
+    ]),
     execVoidCommand('tsc', [
       '-P',
       esmPath,
