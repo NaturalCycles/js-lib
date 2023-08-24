@@ -6,10 +6,9 @@ const TSCONF_ESM_PATH = `./tsconfig.esm.prod.json`
 const TSCONF_PATH = `./tsconfig.prod.json`
 
 export async function buildProdESMCJSCommand(): Promise<void> {
-  const [cjsExists, esmExists] = [
-    _pathExistsSync(TSCONF_CJS_PATH),
-    _pathExistsSync(TSCONF_ESM_PATH),
-  ]
+  const cjsExists = _pathExistsSync(TSCONF_CJS_PATH)
+  const esmExists = _pathExistsSync(TSCONF_ESM_PATH)
+
   // it doesn't delete the dir itself, to prevent IDE jumping
   _emptyDirSync('./dist')
   _emptyDirSync('./dist-esm')
@@ -28,6 +27,8 @@ export async function buildProdESMCJSCommand(): Promise<void> {
       './dist-esm',
       '--module',
       'esnext',
+      '--moduleResolution',
+      'bundler',
       '--declaration',
       'false',
     ]),
