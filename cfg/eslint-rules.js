@@ -167,11 +167,23 @@ module.exports = {
       'undefined',
     ],
     'id-match': 2,
-    'import/order': 2,
+    'import/order': [
+      2,
+      {
+        alphabetize: {
+          order: 'asc',
+        },
+      },
+    ],
     'import/no-anonymous-default-export': 2,
     // 'import/namespace': 0, // issues with e.g globby
     // 'import/no-unresolved': 0, // breaks for type-aliases, e.g '@/store'
-    // 'import/no-duplicates': 0,
+    'import/no-duplicates': [2, { 'prefer-inline': false }],
+    'import/export': 2,
+    'import/no-empty-named-blocks': 2,
+    'import/no-cycle': 2,
+    'import/no-useless-path-segments': 2,
+    'import/no-default-export': 2,
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     // 'jsdoc/newline-after-description': 2,

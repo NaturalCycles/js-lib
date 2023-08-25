@@ -1,8 +1,8 @@
 import fs from 'node:fs'
-import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
 import { _since, _truncate } from '@naturalcycles/js-lib'
-import yargs from 'yargs'
 import {
+  boldGrey,
+  dimGrey,
   commitMessageToTitleMessage,
   getLastGitCommitMsg,
   gitCommitAll,
@@ -10,6 +10,7 @@ import {
   gitPull,
   gitPush,
 } from '@naturalcycles/nodejs-lib'
+import yargs from 'yargs'
 import { runPrettier } from '../util/prettier.util'
 import { stylelintAll } from '../util/stylelint.util'
 import { eslintAllCommand } from './eslint-all.command'

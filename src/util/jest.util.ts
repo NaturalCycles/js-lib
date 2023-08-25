@@ -1,8 +1,7 @@
 import fs from 'node:fs'
 import os from 'node:os'
-import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { _range, _uniq } from '@naturalcycles/js-lib'
-import { dimGrey, white } from '@naturalcycles/nodejs-lib'
+import { execVoidCommandSync, dimGrey, white } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
 import { nodeModuleExists } from './test.util'
 

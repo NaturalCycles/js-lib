@@ -823,17 +823,17 @@
     typescript "^5.0.2"
 
 "@naturalcycles/js-lib@^14.0.0":
-  version "14.177.2"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.177.2.tgz#bbfcf1779a3e949ef43fa3cc8c0e8eab42f8b4cf"
-  integrity sha512-k5YBnLVOcqkWbIR9a6J/3e0zSO2b8VqSpjuIqavIxA5Ushz70O01zMFlpV1lP2he5czK4pBojr5m9vPIw8oWAQ==
+  version "14.178.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.178.0.tgz#6145e3b31e08ba4dfee616c2e29b4eee2d1158c8"
+  integrity sha512-9wqWzdUBnviIiD5fudPFfXF0wGRoa0jXNd9+w3avJDn9hFNQ5ds6vYF5Qb0hN5SRquA2f1pp5S3vwTRtV+/JnA==
   dependencies:
     tslib "^2.0.0"
     zod "^3.20.2"
 
 "@naturalcycles/nodejs-lib@^13.0.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.1.1.tgz#695a28cbca3b90867519355a03e3925b96c463ab"
-  integrity sha512-7Rzcsz+4Dj/zIqVFSWnVKfheLubuRwgtw4y09JGVSuP/9yZ9bywu3HLyH5P00eJ7m0mG9ud+DS4OLlvAFRwnMA==
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.1.2.tgz#dd534835587049ea885b411a26aa35f787d22adb"
+  integrity sha512-Pi4jFhmBuL251v6Gfxa43Vpz2RsJAp58SciV+qcqunC4d4Bwp63zLl8WhzASMqpUmV6my56OV9RS8wbrGL0oKQ==
   dependencies:
     "@naturalcycles/js-lib" "^14.0.0"
     "@types/jsonwebtoken" "^9.0.0"
@@ -1021,9 +1021,9 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*", "@types/node@^20.1.0":
-  version "20.5.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.5.4.tgz#4666fb40f9974d60c53c4ff554315860ba4feab8"
-  integrity sha512-Y9vbIAoM31djQZrPYjpTLo0XlaSwOIsrlfE3LpulZeRblttsLQRFRlBAppW0LOxyT3ALj2M5vU1ucQQayQH3jA==
+  version "20.5.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.5.6.tgz#5e9aaa86be03a09decafd61b128d6cec64a5fe40"
+  integrity sha512-Gi5wRGPbbyOTX+4Y2iULQ27oUPrefaB0PxGQJnfyWN3kvEDGM3mIB5M/gQLmitZf7A9FmLeaqxD3L1CXpm3VKQ==
 
 "@types/node@20.4.7":
   version "20.4.7"
@@ -1621,9 +1621,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001517:
-  version "1.0.30001522"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001522.tgz#44b87a406c901269adcdb834713e23582dd71856"
-  integrity sha512-TKiyTVZxJGhsTszLuzb+6vUZSjVOAhClszBr2Ta2k9IwtNBT/4dzmL6aywt0HCgEZlmwJzXJd8yNiob6HgwTRg==
+  version "1.0.30001523"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001523.tgz#b838f70b1a98c556776b998fafb47d2b64146d4f"
+  integrity sha512-I5q5cisATTPZ1mc588Z//pj/Ox80ERYDfR71YnvY7raS/NOk8xXlZcB0sF7JdqaV//kOaa6aus7lRfpdnt1eBA==
 
 chalk@5.3.0:
   version "5.3.0"
@@ -1967,9 +1967,9 @@ ecdsa-sig-formatter@1.0.11:
     safe-buffer "^5.0.1"
 
 electron-to-chromium@^1.4.477:
-  version "1.4.501"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.501.tgz#05e97f61d109dc7a5ab246a81bb3fb892edfe954"
-  integrity sha512-NCF5hZUg73MEP0guvIM+BjPs9W07UeAuc5XCNqRZZTKJxLjE0ZS/Zo5UsV8bbs2y/jeKRPFPzdWdBfOGEZTXKg==
+  version "1.4.502"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.502.tgz#531cda8774813d97d6cfa2fb9d8ee3e2c75851fa"
+  integrity sha512-xqeGw3Gr6o3uyHy/yKjdnDQHY2RQvXcGC2cfHjccK1IGkH6cX1WQBN8EeC/YpwPhGkBaikDTecJ8+ssxSVRQlw==
 
 emittery@^0.13.1:
   version "0.13.1"

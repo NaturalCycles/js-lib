@@ -1,6 +1,5 @@
 import { _since } from '@naturalcycles/js-lib'
-import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
-import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
+import { execVoidCommandSync, boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
 
 export function tscProdCommand(): void {
   // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`

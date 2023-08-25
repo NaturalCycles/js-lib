@@ -1,8 +1,12 @@
 import fs from 'node:fs'
-import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { _isTruthy, _since } from '@naturalcycles/js-lib'
-import { boldGrey, dimGrey } from '@naturalcycles/nodejs-lib'
-import { kpySync } from '@naturalcycles/nodejs-lib'
+import {
+  execVoidCommand,
+  execVoidCommandSync,
+  boldGrey,
+  dimGrey,
+  kpySync,
+} from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
 
 export async function tscMainAndScripts(noEmit = false): Promise<void> {
