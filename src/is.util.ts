@@ -27,8 +27,8 @@ export const _isFalsy = <T>(v: T): v is Falsy<T> => !v
 /**
  * Returns true if item is Object, not null and not Array.
  */
-export function _isObject(item: any): item is AnyObject {
-  return (typeof item === 'object' && item !== null && !Array.isArray(item)) || false
+export function _isObject(obj: any): obj is AnyObject {
+  return obj?.constructor === Object
 }
 
 export function _isPrimitive(v: any): v is Primitive {
@@ -43,8 +43,8 @@ export function _isPrimitive(v: any): v is Primitive {
   )
 }
 
-export function _isEmptyObject(obj: any): boolean {
-  return obj && obj.constructor === Object && Object.keys(obj).length === 0
+export function _isEmptyObject(obj: AnyObject): boolean {
+  return Object.keys(obj).length === 0
 }
 
 /**

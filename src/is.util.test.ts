@@ -11,6 +11,7 @@ import {
   _isTruthy,
 } from './is.util'
 import { _undefinedIfEmpty } from './object/object.util'
+import { SKIP } from './types'
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
   expect(_isPrimitive(v)).toBe(true)
@@ -46,11 +47,28 @@ test.each([
 })
 
 test('_isObject', () => {
-  expect(_isObject(undefined)).toBe(false)
+  const a: any[] = [
+    1,
+    0,
+    -1,
+    undefined,
+    null,
+    'wer',
+    'a',
+    '',
+    {},
+    { a: 'b' },
+    [],
+    /some/,
+    () => {},
+    SKIP,
+  ]
+  const r = a.filter(i => _isObject(i))
+  expect(r).toEqual([{}, { a: 'b' }])
 })
 
 test('_isEmptyObject', () => {
-  const a = [1, 0, -1, undefined, null, 'wer', 'a', '', {}, { a: 'b' }]
+  const a: any[] = [{}, { a: 'b' }]
 
   const empty = a.filter(i => _isEmptyObject(i))
   expect(empty).toEqual([{}])
