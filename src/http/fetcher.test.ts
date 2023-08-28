@@ -1,6 +1,4 @@
 import { expectTypeOf } from 'expect-type'
-import { _range } from '../array/range'
-import { localTime } from '../datetime/localTime'
 import {
   AppError,
   ErrorObject,
@@ -8,6 +6,8 @@ import {
   pExpectedErrorString,
   UnexpectedPassError,
 } from '..'
+import { _range } from '../array/range'
+import { localTime } from '../datetime/localTime'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
