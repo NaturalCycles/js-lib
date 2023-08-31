@@ -1,5 +1,5 @@
 import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
-import { _range } from '..'
+import { _blockTimer, _range } from '..'
 import { _ms, _since } from './time.util'
 
 beforeEach(() => {
@@ -39,4 +39,8 @@ test('log progression', () => {
     console.log(m, _ms(m))
     m = Math.round(m * 1.1)
   })
+})
+
+test('_blockTimer', () => {
+  using _timer = _blockTimer()
 })

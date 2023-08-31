@@ -1,4 +1,22 @@
 /**
+ * using _ = blockTimer()
+ * // will log "took 1.234 sec" on dispose
+ *
+ * using _ = blockTimer('named')
+ * // will log "named took 1.234 sec" on dispose
+ *
+ * @experimental
+ */
+export function _blockTimer(name?: string): Disposable {
+  const started = Date.now()
+  return {
+    [Symbol.dispose](): void {
+      console.log(`${name ? name + ' ' : ''}took ${_since(started)}`)
+    },
+  } as any
+}
+
+/**
  * Returns time passed since `from` until `until` (default to Date.now())
  */
 export function _since(from: number, until = Date.now()): string {
