@@ -32,7 +32,7 @@ export class LocalDate {
   }
 
   /**
-   * Parses input String into LocalDate.
+   * Parses input into LocalDate.
    * Input can already be a LocalDate - it is returned as-is in that case.
    */
   static of(d: LocalDateInput): LocalDate {
@@ -505,12 +505,15 @@ export class LocalDate {
 }
 
 /**
- * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
+ * Convenience wrapper around `LocalDate.of`
  */
-export function localDate(d?: LocalDateInput | null): LocalDate {
-  return d ? LocalDate.of(d) : LocalDate.today()
+export function localDate(d: LocalDateInput): LocalDate {
+  return LocalDate.of(d)
 }
 
+/**
+ * Convenience wrapper around `LocalDate.today`
+ */
 export function localDateToday(): LocalDate {
   return LocalDate.today()
 }
@@ -522,4 +525,11 @@ export function localDateToday(): LocalDate {
  */
 export function localDateOrUndefined(d?: LocalDateInput | null): LocalDate | undefined {
   return d ? LocalDate.of(d) : undefined
+}
+
+/**
+ * Creates a LocalDate from the input, unless it's falsy - then returns LocalDate.today.
+ */
+export function localDateOrToday(d?: LocalDateInput | null): LocalDate {
+  return d ? LocalDate.of(d) : LocalDate.today()
 }

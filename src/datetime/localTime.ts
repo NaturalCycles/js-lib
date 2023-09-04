@@ -597,12 +597,15 @@ export class LocalTime {
 }
 
 /**
- * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
+ * Shortcut wrapper around `LocalTime.of`
  */
-export function localTime(d?: LocalTimeInput | null): LocalTime {
-  return d ? LocalTime.of(d) : LocalTime.now()
+export function localTime(d: LocalTimeInput): LocalTime {
+  return LocalTime.of(d)
 }
 
+/**
+ * Shortcut wrapper around `LocalTime.now`
+ */
 export function localTimeNow(): LocalTime {
   return LocalTime.now()
 }
@@ -614,6 +617,13 @@ export function localTimeNow(): LocalTime {
  */
 export function localTimeOrUndefined(d?: LocalTimeInput | null): LocalTime | undefined {
   return d ? LocalTime.of(d) : undefined
+}
+
+/**
+ * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
+ */
+export function localTimeOrNow(d?: LocalTimeInput | null): LocalTime {
+  return d ? LocalTime.of(d) : LocalTime.now()
 }
 
 // based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts

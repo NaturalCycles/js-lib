@@ -2,7 +2,14 @@ import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
 import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
-import { ISODayOfWeek, localTime, LocalTime, localTimeNow, localTimeOrUndefined } from './localTime'
+import {
+  ISODayOfWeek,
+  localTime,
+  LocalTime,
+  localTimeNow,
+  localTimeOrNow,
+  localTimeOrUndefined,
+} from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
@@ -100,6 +107,12 @@ test('basic', () => {
   expect(localTimeOrUndefined(start)?.toISODate()).toBe(start)
 
   expect(localTimeNow().toString()).toBeDefined()
+  expect(localTimeOrNow().toString()).toBeDefined()
+  expect(localTimeOrNow(lt).toISODate()).toBe(lt.toISODate())
+
+  expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot parse "undefined" into LocalTime"`,
+  )
 })
 
 test('isBetween', () => {
@@ -263,7 +276,7 @@ test('timezone-full string', () => {
 })
 
 test('startOf should have 0 millis', () => {
-  const t = localTime().startOf('day')
+  const t = localTimeNow().startOf('day')
   expect(t.getDate().getMilliseconds()).toBe(0)
   expect(t.getDate().getSeconds()).toBe(0)
   expect(t.getDate().getMinutes()).toBe(0)

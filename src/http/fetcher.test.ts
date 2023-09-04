@@ -3,11 +3,11 @@ import {
   AppError,
   ErrorObject,
   HttpRequestError,
+  localTimeNow,
   pExpectedErrorString,
   UnexpectedPassError,
 } from '..'
 import { _range } from '../array/range'
-import { localTime } from '../datetime/localTime'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
@@ -351,7 +351,7 @@ test('retryAfter date', async () => {
     new Response('429 rate limited', {
       status: 429,
       headers: {
-        'retry-after': localTime().add(2, 'second').getDate().toString(),
+        'retry-after': localTimeNow().add(2, 'second').getDate().toString(),
       },
     })
 
