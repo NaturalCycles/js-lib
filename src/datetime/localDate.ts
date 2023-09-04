@@ -507,7 +507,7 @@ export class LocalDate {
 /**
  * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
  */
-export function localDate(d?: LocalDateInput): LocalDate {
+export function localDate(d?: LocalDateInput | null): LocalDate {
   return d ? LocalDate.of(d) : LocalDate.today()
 }
 
@@ -516,6 +516,6 @@ export function localDate(d?: LocalDateInput): LocalDate {
  *
  * `localDate` function will instead return LocalDate of today for falsy input.
  */
-export function localDateOrUndefined(d?: LocalDateInput): LocalDate | undefined {
+export function localDateOrUndefined(d?: LocalDateInput | null): LocalDate | undefined {
   return d ? LocalDate.of(d) : undefined
 }

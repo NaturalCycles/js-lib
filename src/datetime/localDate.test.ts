@@ -37,7 +37,7 @@ test('basic', () => {
   expect(ld.endOf('day').toString()).toBe('1984-06-21')
 
   expect(localDateOrUndefined()).toBeUndefined()
-  expect(localDateOrUndefined(null as any)).toBeUndefined()
+  expect(localDateOrUndefined(null)).toBeUndefined()
   expect(localDateOrUndefined(0 as any)).toBeUndefined()
   expect(localDateOrUndefined(str)?.toString()).toBe(str)
 })

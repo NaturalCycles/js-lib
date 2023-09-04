@@ -95,7 +95,7 @@ test('basic', () => {
   expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
 
   expect(localTimeOrUndefined()).toBeUndefined()
-  expect(localTimeOrUndefined(null as any)).toBeUndefined()
+  expect(localTimeOrUndefined(null)).toBeUndefined()
   expect(localTimeOrUndefined(0 as any)).toBeUndefined()
   expect(localTimeOrUndefined(start)?.toISODate()).toBe(start)
 })

@@ -599,7 +599,7 @@ export class LocalTime {
 /**
  * Shortcut wrapper around `LocalDate.parse` / `LocalDate.today`
  */
-export function localTime(d?: LocalTimeInput): LocalTime {
+export function localTime(d?: LocalTimeInput | null): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
 
@@ -608,7 +608,7 @@ export function localTime(d?: LocalTimeInput): LocalTime {
  *
  * `localTime` function will instead return LocalTime of `now` for falsy input.
  */
-export function localTimeOrUndefined(d?: LocalTimeInput): LocalTime | undefined {
+export function localTimeOrUndefined(d?: LocalTimeInput | null): LocalTime | undefined {
   return d ? LocalTime.of(d) : undefined
 }
 
