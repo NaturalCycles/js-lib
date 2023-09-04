@@ -603,6 +603,15 @@ export function localTime(d?: LocalTimeInput): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
 
+/**
+ * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
+ *
+ * `localTime` function will instead return LocalTime of `now` for falsy input.
+ */
+export function localTimeOrUndefined(d?: LocalTimeInput): LocalTime | undefined {
+  return d ? LocalTime.of(d) : undefined
+}
+
 // based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts
 function getWeek(date: Date): number {
   const diff = startOfWeek(date).getTime() - startOfWeekYear(date).getTime()

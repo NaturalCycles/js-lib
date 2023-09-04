@@ -2,7 +2,7 @@ import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
 import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
-import { ISODayOfWeek, localTime, LocalTime } from './localTime'
+import { ISODayOfWeek, localTime, LocalTime, localTimeOrUndefined } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
@@ -93,6 +93,11 @@ test('basic', () => {
   expect(lt.endOf('minute').toISODateTime()).toBe('2022-01-01T01:02:59')
   expect(lt.endOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
   expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
+
+  expect(localTimeOrUndefined()).toBeUndefined()
+  expect(localTimeOrUndefined(null as any)).toBeUndefined()
+  expect(localTimeOrUndefined(0 as any)).toBeUndefined()
+  expect(localTimeOrUndefined(start)?.toISODate()).toBe(start)
 })
 
 test('isBetween', () => {
