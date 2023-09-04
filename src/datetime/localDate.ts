@@ -511,6 +511,10 @@ export function localDate(d?: LocalDateInput | null): LocalDate {
   return d ? LocalDate.of(d) : LocalDate.today()
 }
 
+export function localDateToday(): LocalDate {
+  return LocalDate.today()
+}
+
 /**
  * Creates a LocalDate from the input, unless it's falsy - then returns undefined.
  *

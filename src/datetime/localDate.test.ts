@@ -2,7 +2,7 @@ import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
 import type { LocalDateFormatter, LocalDateUnit } from './localDate'
-import { localDate, LocalDate, localDateOrUndefined } from './localDate'
+import { localDate, LocalDate, localDateOrUndefined, localDateToday } from './localDate'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 
@@ -40,6 +40,8 @@ test('basic', () => {
   expect(localDateOrUndefined(null)).toBeUndefined()
   expect(localDateOrUndefined(0 as any)).toBeUndefined()
   expect(localDateOrUndefined(str)?.toString()).toBe(str)
+
+  expect(localDateToday().toISODate()).toBeDefined()
 })
 
 test('isBetween', () => {

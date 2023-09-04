@@ -603,6 +603,10 @@ export function localTime(d?: LocalTimeInput | null): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
 
+export function localTimeNow(): LocalTime {
+  return LocalTime.now()
+}
+
 /**
  * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
  *
