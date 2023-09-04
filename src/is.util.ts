@@ -26,9 +26,11 @@ export const _isFalsy = <T>(v: T): v is Falsy<T> => !v
 
 /**
  * Returns true if item is Object, not null and not Array.
+ *
+ * Currently treats RegEx as Object too, e.g _isObject(/some/) === true
  */
 export function _isObject(obj: any): obj is AnyObject {
-  return obj?.constructor === Object
+  return (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) || false
 }
 
 export function _isPrimitive(v: any): v is Primitive {

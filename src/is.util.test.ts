@@ -64,7 +64,10 @@ test('_isObject', () => {
     SKIP,
   ]
   const r = a.filter(i => _isObject(i))
-  expect(r).toEqual([{}, { a: 'b' }])
+  expect(r).toEqual([{}, { a: 'b' }, /some/])
+
+  class Obj {}
+  expect(_isObject(new Obj())).toBe(true)
 })
 
 test('_isEmptyObject', () => {
