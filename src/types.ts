@@ -215,6 +215,13 @@ export type IsoDateString = string
 export type IsoDateTimeString = string
 
 /**
+ * Like IsoDateString, but without the Day token.
+ *
+ * @example '2023-09'
+ */
+export type YearMonthString = string
+
+/**
  * Interface explicitly states that the value is a Unix timestamp (in seconds).
  *
  * @example 1628945450

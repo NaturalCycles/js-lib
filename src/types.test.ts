@@ -8,6 +8,7 @@ import type {
   Unsaved,
   UnsavedId,
   AnyObject,
+  YearMonthString,
 } from './types'
 import {
   _noop,
@@ -29,6 +30,8 @@ interface Item extends BaseDBEntity<number> {
 }
 
 interface ItemDBM extends Saved<Item> {}
+
+const _ym: YearMonthString = '2021-01'
 
 test('saved/unsaved', () => {
   const a = 1
