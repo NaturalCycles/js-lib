@@ -2,6 +2,7 @@ import { _assert } from '../error/assert'
 import type {
   IsoDateString,
   IsoDateTimeString,
+  MonthId,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
@@ -237,6 +238,17 @@ export class LocalDate {
     r = this.cmp(max)
     if (r > 0 || (r === 0 && incl[1] === ')')) return false
     return true
+  }
+
+  /**
+   * Checks if this localDate is older than "today" by X units.
+   *
+   * Example:
+   *
+   * localDate(expirationDate).isOlderThan(5, 'day')
+   */
+  isOlderThan(n: number, unit: LocalDateUnitStrict): boolean {
+    return this.isBefore(LocalDate.today().add(-n, unit))
   }
 
   /**
@@ -480,6 +492,10 @@ export class LocalDate {
       String(this.$month).padStart(2, '0'),
       String(this.$day).padStart(2, '0'),
     ].join('')
+  }
+
+  toMonthId(): MonthId {
+    return this.toString().slice(0, 7)
   }
 
   // May be not optimal, as LocalTime better suits it

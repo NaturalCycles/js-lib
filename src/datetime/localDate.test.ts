@@ -27,6 +27,7 @@ test('basic', () => {
   expect(ld.day()).toBe(21)
   expect(ld.month()).toBe(6)
   expect(ld.year()).toBe(1984)
+  expect(ld.toMonthId()).toBe('1984-06')
   expect(JSON.stringify(ld)).toBe(`"${str}"`)
   expect(JSON.parse(JSON.stringify(ld))).toBe(str)
   expect(ld.absDiff(str, 'day')).toBe(0)
@@ -54,6 +55,9 @@ test('basic', () => {
   expect(() => localDate(undefined as any)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "undefined" into LocalDate"`,
   )
+
+  expect(ld.isOlderThan(5, 'day')).toBe(true)
+  expect(ld.isOlderThan(100, 'year')).toBe(false)
 })
 
 test('isBetween', () => {

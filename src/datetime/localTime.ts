@@ -3,6 +3,7 @@ import { _ms } from '../time/time.util'
 import type {
   IsoDateString,
   IsoDateTimeString,
+  MonthId,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
@@ -440,6 +441,17 @@ export class LocalTime {
   }
 
   /**
+   * Checks if this localTime is older than "now" by X units.
+   *
+   * Example:
+   *
+   * localTime(expirationDate).isOlderThan(5, 'day')
+   */
+  isOlderThan(n: number, unit: LocalTimeUnit): boolean {
+    return this.isBefore(LocalTime.now().add(-n, unit))
+  }
+
+  /**
    * Returns 1 if this > d
    * returns 0 if they are equal
    * returns -1 if this < d
@@ -585,6 +597,10 @@ export class LocalTime {
 
   toJSON(): UnixTimestampNumber {
     return this.unix()
+  }
+
+  toMonthId(): MonthId {
+    return this.$date.toISOString().slice(0, 7)
   }
 
   format(fmt: Intl.DateTimeFormat | LocalTimeFormatter): string {

@@ -215,11 +215,12 @@ export type IsoDateString = string
 export type IsoDateTimeString = string
 
 /**
+ * Identifies the Month.
  * Like IsoDateString, but without the Day token.
  *
  * @example '2023-09'
  */
-export type YearMonthString = string
+export type MonthId = string
 
 /**
  * Interface explicitly states that the value is a Unix timestamp (in seconds).

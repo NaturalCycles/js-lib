@@ -37,6 +37,7 @@ test('basic', () => {
   expect(lt.unix()).toBe(1640995200)
   expect(lt.valueOf()).toBe(1640995200)
   expect(lt.toJSON()).toBe(1640995200)
+  expect(lt.toMonthId()).toBe('2022-01')
   const lt2 = lt.clone()
   expect(lt2).not.toBe(lt)
   // eslint-disable-next-line jest/prefer-equality-matcher
@@ -47,6 +48,9 @@ test('basic', () => {
   expect(lt.isSameOrAfter(lt2)).toBe(true)
   expect(lt.isSameOrBefore(lt2)).toBe(true)
   expect(lt.cmp(lt2)).toBe(0)
+
+  expect(lt.isOlderThan(5, 'day')).toBe(true)
+  expect(lt.isOlderThan(100, 'year')).toBe(false)
 
   expect(lt.year(2023).year()).toBe(2023)
   expect(lt.year()).toBe(2022) // not changed
