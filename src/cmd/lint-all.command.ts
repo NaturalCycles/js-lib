@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 import fs from 'node:fs'
-import { _blockTimer, _since, _truncate } from '@naturalcycles/js-lib'
+import { _since, _truncate } from '@naturalcycles/js-lib'
 import {
   boldGrey,
   dimGrey,
@@ -34,8 +34,9 @@ export async function lintAllCommand(): Promise<void> {
   }).argv
 
   if (canRunBinary('actionlint')) {
-    using _ = _blockTimer('actionlint')
+    const st = Date.now()
     execVoidCommandSync(`actionlint`)
+    console.log(`${boldGrey('actionlint')} ${dimGrey(`took ` + _since(st))}`)
   } else {
     console.log(
       `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
