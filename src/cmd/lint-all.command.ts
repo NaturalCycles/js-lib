@@ -33,16 +33,6 @@ export async function lintAllCommand(): Promise<void> {
     },
   }).argv
 
-  if (canRunBinary('actionlint')) {
-    const st = Date.now()
-    execVoidCommandSync(`actionlint`)
-    console.log(`${boldGrey('actionlint')} ${dimGrey(`took ` + _since(st))}`)
-  } else {
-    console.log(
-      `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
-    )
-  }
-
   const hadChangesBefore = gitHasUncommittedChanges()
 
   // We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
@@ -57,10 +47,9 @@ export async function lintAllCommand(): Promise<void> {
 
   runPrettier()
 
-  if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
-    const ktlintLib = require('@naturalcycles/ktlint')
-    await ktlintLib.ktlintAll()
-  }
+  runActionLint()
+
+  await runKTLint()
 
   console.log(`${boldGrey('lint-all')} ${dimGrey(`took ` + _since(started))}`)
 
@@ -86,6 +75,25 @@ export async function lintAllCommand(): Promise<void> {
         process.exitCode = 1
       }
     }
+  }
+}
+
+async function runKTLint(): Promise<void> {
+  if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
+    const ktlintLib = require('@naturalcycles/ktlint')
+    await ktlintLib.ktlintAll()
+  }
+}
+
+function runActionLint(): void {
+  if (canRunBinary('actionlint')) {
+    const started = Date.now()
+    execVoidCommandSync(`actionlint`)
+    console.log(`${boldGrey('actionlint')} ${dimGrey(`took ` + _since(started))}`)
+  } else {
+    console.log(
+      `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
+    )
   }
 }
 
