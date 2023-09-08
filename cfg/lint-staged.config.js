@@ -6,6 +6,7 @@
 
 const micromatch = require('micromatch')
 const fs = require('node:fs')
+const { execSync } = require('node:child_process')
 const {
   prettierDirs,
   prettierExtensionsExclusive,
@@ -85,6 +86,20 @@ const linters = {
 
     return [`${dir}/resources/ktlint -F ${filesList}`]
   },
+
+  './.github/**/*.{yml,yaml}': match => {
+    if (!match.length) return []
+
+    if (!canRunBinary('actionlint')) {
+      console.log(
+        `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
+      )
+      return []
+    }
+
+    // run actionlint on all files at once, as it's fast anyway
+    return [`actionlint`]
+  },
 }
 
 // /scripts are separate, cause they require separate tsconfig.json
@@ -123,6 +138,15 @@ if (fs.existsSync(`./e2e`)) {
       ].map(s => `${s} ${filesList}`)
     },
   })
+}
+
+function canRunBinary(name) {
+  try {
+    execSync(`which ${name}`)
+    return true
+  } catch {
+    return false
+  }
 }
 
 module.exports = linters

@@ -1,5 +1,6 @@
+import { execSync } from 'node:child_process'
 import fs from 'node:fs'
-import { _since, _truncate } from '@naturalcycles/js-lib'
+import { _blockTimer, _since, _truncate } from '@naturalcycles/js-lib'
 import {
   boldGrey,
   dimGrey,
@@ -9,6 +10,7 @@ import {
   gitHasUncommittedChanges,
   gitPull,
   gitPush,
+  execVoidCommandSync,
 } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
 import { runPrettier } from '../util/prettier.util'
@@ -16,7 +18,7 @@ import { stylelintAll } from '../util/stylelint.util'
 import { eslintAllCommand } from './eslint-all.command'
 
 /**
- * We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
+ * Run all linters.
  */
 export async function lintAllCommand(): Promise<void> {
   const started = Date.now()
@@ -31,8 +33,18 @@ export async function lintAllCommand(): Promise<void> {
     },
   }).argv
 
+  if (canRunBinary('actionlint')) {
+    using _ = _blockTimer('actionlint')
+    execVoidCommandSync(`actionlint`)
+  } else {
+    console.log(
+      `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
+    )
+  }
+
   const hadChangesBefore = gitHasUncommittedChanges()
 
+  // We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
   await eslintAllCommand()
 
   if (
@@ -73,5 +85,14 @@ export async function lintAllCommand(): Promise<void> {
         process.exitCode = 1
       }
     }
+  }
+}
+
+function canRunBinary(name: string): boolean {
+  try {
+    execSync(`which ${name}`)
+    return true
+  } catch {
+    return false
   }
 }

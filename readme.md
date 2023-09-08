@@ -137,7 +137,7 @@ If you need to execute shards **in parallel**, you can follow e.g
 
 #### Lint commands
 
-- `lint-all`: runs ESLint, Stylelint, Prettier, in the right order.
+- `lint-all`: runs ESLint, Stylelint, Prettier, actionlint, ktlint in the right order.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
