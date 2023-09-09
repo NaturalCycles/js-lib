@@ -31,7 +31,11 @@ const eslintConfigPathRoot =
 
 const prettierCmd = `prettier --write --config ${prettierConfigPath}`
 const eslintCmd = `eslint --fix`
-const styleLintCmd = `stylelint --fix --config ${stylelintConfigPath}`
+
+const stylelintExists =
+  fs.existsSync('node_modules/stylelint') &&
+  fs.existsSync('node_modules/stylelint-config-standard-scss')
+const stylelintCmd = stylelintExists ? `stylelint --fix --config ${stylelintConfigPath}` : undefined
 
 const linters = {
   // *.{ts,tsx,vue} files: eslint, prettier
@@ -64,7 +68,7 @@ const linters = {
   [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: match => {
     const filesList = micromatch.not(match, lintExclude).join(' ')
     if (!filesList) return []
-    return [styleLintCmd, prettierCmd].map(s => `${s} ${filesList}`)
+    return [stylelintCmd, prettierCmd].filter(Boolean).map(s => `${s} ${filesList}`)
   },
 
   // Files in root dir
