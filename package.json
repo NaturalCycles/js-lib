@@ -4,8 +4,9 @@
   "scripts": {
     "prepare": "husky install",
     "build-prod": "build-prod-esm-cjs",
-    "docs-serve": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
-    "docs-build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build docs"
+    "docs-dev": "vitepress dev docs --open",
+    "docs-build": "vitepress build docs",
+    "docs-preview": "vitepress preview docs"
   },
   "dependencies": {
     "tslib": "^2.0.0",
@@ -21,8 +22,8 @@
     "crypto-js": "^4.1.1",
     "jest": "^29.0.0",
     "prettier": "^3.0.0",
-    "vuepress": "^1.7.1",
-    "vuepress-plugin-typescript": "^0.3.1"
+    "vitepress": "^1.0.0-rc.10",
+    "vue": "^3.2.45"
   },
   "resolutions": {
     "expect-type": "0.15.0"

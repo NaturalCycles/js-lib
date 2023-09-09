@@ -32,7 +32,8 @@ node_modules
 /log.txt
 /.sass-cache
 /.sourcemaps
-/docs/.vuepress/dist
+/docs/.vitepress/cache
+/docs/.vitepress/dist
 /loader
 
 /coverage

@@ -2,13 +2,29 @@
 
 > Standard library for universal (browser + Node.js) javascript
 
+<style>
+.badges p {
+    display: flex;
+    gap: 10px;
+}
+
+</style>
+
+<div class="badges">
+
 ![npm](https://img.shields.io/npm/v/@naturalcycles/js-lib/latest.svg)
 ![min.gz size](https://badgen.net/bundlephobia/minzip/@naturalcycles/js-lib)
 ![Actions](https://github.com/NaturalCycles/js-lib/workflows/default/badge.svg)
 ![loc](https://badgen.net/codeclimate/loc/NaturalCycles/js-lib)
+
+</div>
+<div class="badges">
+
 ![Maintainability](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/maintainability)
 ![Test Coverage](https://api.codeclimate.com/v1/badges/c2dc8d53bd79f79b1d8b/test_coverage)
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)
+
+</div>
 
 ## Design
 
