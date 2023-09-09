@@ -7,5 +7,10 @@ module.exports = {
   // everything that prettier supports:
   prettierExtensionsAll: 'ts,tsx,css,scss,js,jsx,json,md,graphql,yml,yaml,html,vue',
   stylelintExtensions: 'css,scss',
-  lintExclude: ['./**/__exclude/**', './docs/.vuepress/dist/**', './CHANGELOG.md'],
+  lintExclude: [
+    './**/__exclude/**',
+    './docs/.vitepress/dist/**',
+    './docs/.vitepress/cache/**',
+    './CHANGELOG.md',
+  ],
 }
