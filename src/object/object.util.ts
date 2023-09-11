@@ -419,3 +419,27 @@ export function _deepFreeze(o: any): void {
     }
   })
 }
+
+/**
+ * let target: T = { a: 'a', n: 1}
+ * let source: T = { a: 'a2', b: 'b' }
+ *
+ * _objectAssignExact(target, source)
+ *
+ * Does the same as `target = source`,
+ * except that it mutates the target to make it exactly the same as source,
+ * while keeping the reference to the same object.
+ *
+ * This way it can "propagate deletions".
+ * E.g source doesn't have the `n` property, so it'll be deleted from target.
+ * With normal Object.assign - it'll override the keys that `source` has, but not the
+ * "missing/deleted keys".
+ *
+ * To make mutation extra clear - function returns void (unlike Object.assign).
+ */
+export function _objectAssignExact<T extends AnyObject>(target: T, source: T): void {
+  Object.assign(target, source)
+  Object.keys(target)
+    .filter(k => !(k in source))
+    .forEach(k => delete target[k])
+}

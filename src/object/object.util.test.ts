@@ -19,6 +19,7 @@ import {
   _mapValues,
   _mask,
   _merge,
+  _objectAssignExact,
   _objectNullValuesToUndefined,
   _omit,
   _pick,
@@ -562,4 +563,37 @@ test('_deepFreeze', () => {
   expect(() => (o.a.b = 'cc')).toThrowErrorMatchingInlineSnapshot(
     `"Cannot assign to read only property 'b' of object '#<Object>'"`,
   )
+})
+
+test('_objectAssignExact', () => {
+  interface T {
+    a?: string
+    b?: string
+    n?: number
+  }
+
+  const target: T = {
+    a: 'a',
+    n: 1,
+  }
+
+  const source: T = {
+    a: 'a2',
+    b: 'b',
+  }
+  _deepFreeze(source)
+
+  // First, the behavior of stock Object.assign, to highlight the difference
+  expect(Object.assign({}, target, source)).toMatchInlineSnapshot(`
+    {
+      "a": "a2",
+      "b": "b",
+      "n": 1,
+    }
+  `)
+
+  _objectAssignExact(target, source)
+
+  expect(target).toStrictEqual(source)
+  expect(target).not.toBe(source)
 })
