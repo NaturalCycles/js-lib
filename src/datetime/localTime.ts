@@ -446,9 +446,11 @@ export class LocalTime {
    * Example:
    *
    * localTime(expirationDate).isOlderThan(5, 'day')
+   *
+   * Third argument allows to override "now".
    */
-  isOlderThan(n: number, unit: LocalTimeUnit): boolean {
-    return this.isBefore(LocalTime.now().add(-n, unit))
+  isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
+    return this.isBefore(LocalTime.of(now ?? new Date()).add(-n, unit))
   }
 
   /**

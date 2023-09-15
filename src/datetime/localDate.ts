@@ -246,9 +246,11 @@ export class LocalDate {
    * Example:
    *
    * localDate(expirationDate).isOlderThan(5, 'day')
+   *
+   * Third argument allows to override "today".
    */
-  isOlderThan(n: number, unit: LocalDateUnitStrict): boolean {
-    return this.isBefore(LocalDate.today().add(-n, unit))
+  isOlderThan(n: number, unit: LocalDateUnitStrict, today?: LocalDateInput): boolean {
+    return this.isBefore(LocalDate.of(today || new Date()).add(-n, unit))
   }
 
   /**
