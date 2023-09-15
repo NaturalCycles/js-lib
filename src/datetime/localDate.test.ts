@@ -57,7 +57,9 @@ test('basic', () => {
   )
 
   expect(ld.isOlderThan(5, 'day')).toBe(true)
+  expect(ld.isYoungerThan(5, 'day')).toBe(false)
   expect(ld.isOlderThan(100, 'year')).toBe(false)
+  expect(ld.isYoungerThan(100, 'year')).toBe(true)
 })
 
 test('isBetween', () => {
@@ -99,6 +101,7 @@ test('add basic', () => {
   expect(ld.clone().add(1, 'day', true).toString()).toBe('2022-01-02')
   expect(ld.add(-1, 'day').toString()).toBe('2021-12-31')
   expect(ld.subtract(1, 'day').toString()).toBe('2021-12-31')
+  expect(ld.minus(1, 'day').toString()).toBe('2021-12-31')
   expect(ld.add(-1, 'month').toString()).toBe('2021-12-01')
 
   const d = localDate('2022-05-31')

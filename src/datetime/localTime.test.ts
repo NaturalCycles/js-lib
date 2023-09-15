@@ -50,6 +50,7 @@ test('basic', () => {
   expect(lt.cmp(lt2)).toBe(0)
 
   expect(lt.isOlderThan(5, 'day')).toBe(true)
+  expect(lt.isYoungerThan(5, 'day')).toBe(false)
   expect(lt.isOlderThan(100, 'year')).toBe(false)
 
   expect(lt.year(2023).year()).toBe(2023)

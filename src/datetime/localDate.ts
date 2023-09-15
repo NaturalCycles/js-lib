@@ -254,6 +254,19 @@ export class LocalDate {
   }
 
   /**
+   * Checks if this localDate is younger than "today" by X units.
+   *
+   * Example:
+   *
+   * localDate(expirationDate).isYoungerThan(5, 'day')
+   *
+   * Third argument allows to override "today".
+   */
+  isYoungerThan(n: number, unit: LocalDateUnitStrict, today?: LocalDateInput): boolean {
+    return !this.isOlderThan(n, unit, today)
+  }
+
+  /**
    * Returns 1 if this > d
    * returns 0 if they are equal
    * returns -1 if this < d
@@ -416,6 +429,13 @@ export class LocalDate {
   }
 
   subtract(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
+    return this.add(-num, unit, mutate)
+  }
+
+  /**
+   * Alias to subtract
+   */
+  minus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
     return this.add(-num, unit, mutate)
   }
 

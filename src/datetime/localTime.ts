@@ -284,6 +284,13 @@ export class LocalTime {
     return this.add(num * -1, unit, mutate)
   }
 
+  /**
+   * Alias to subtract.
+   */
+  minus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
+    return this.add(num * -1, unit, mutate)
+  }
+
   absDiff(other: LocalTimeInput, unit: LocalTimeUnit): number {
     return Math.abs(this.diff(other, unit))
   }
@@ -451,6 +458,19 @@ export class LocalTime {
    */
   isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
     return this.isBefore(LocalTime.of(now ?? new Date()).add(-n, unit))
+  }
+
+  /**
+   * Checks if this localTime is younger than "now" by X units.
+   *
+   * Example:
+   *
+   * localTime(expirationDate).isYoungerThan(5, 'day')
+   *
+   * Third argument allows to override "now".
+   */
+  isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
+    return !this.isOlderThan(n, unit, now)
   }
 
   /**
