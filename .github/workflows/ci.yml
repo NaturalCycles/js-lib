@@ -10,7 +10,7 @@ jobs:
   build-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - { uses: actions/setup-node@v3, with: { node-version: 18, cache: 'yarn' } }
       - run: yarn --frozen-lockfile --prefer-offline
       - run: yarn build
@@ -28,7 +28,7 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - { uses: actions/checkout@v3, with: { persist-credentials: true } }
+      - { uses: actions/checkout@v4, with: { persist-credentials: true } }
       - { uses: actions/setup-node@v3, with: { node-version: 18, cache: 'yarn' } }
 
       # Cache for npm/npx in ~/.npm
