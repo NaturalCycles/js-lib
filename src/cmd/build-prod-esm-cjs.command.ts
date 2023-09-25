@@ -25,9 +25,9 @@ export async function buildProdESMCJSCommand(): Promise<void> {
       '--outDir',
       './dist',
       '--module',
-      'commonjs',
+      'nodenext',
       '--moduleResolution',
-      'node',
+      'nodenext',
     ]),
     execVoidCommand('tsc', [
       '-P',
