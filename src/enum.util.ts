@@ -3,21 +3,21 @@ import type { NumberEnum, StringEnum } from './types'
 /**
  * Returns all String keys of a number-enum.
  */
-export function _numberEnumKeys(en: NumberEnum): string[] {
+export function _numberEnumKeys<T extends NumberEnum>(en: T): (keyof T)[] {
   return Object.values(en).filter(k => typeof k === 'string') as string[]
 }
 
 /**
  * Returns all Number values of a number-enum.
  */
-export function _numberEnumValues(en: NumberEnum): number[] {
-  return Object.values(en).filter(k => typeof k === 'number') as number[]
+export function _numberEnumValues<T extends NumberEnum>(en: T): T[keyof T][] {
+  return Object.values(en).filter(k => typeof k === 'number') as any[]
 }
 
 /**
  * Returns all String keys of a string-enum.
  */
-export function _stringEnumKeys(en: StringEnum): string[] {
+export function _stringEnumKeys<T extends StringEnum>(en: T): (keyof T)[] {
   return Object.keys(en)
 }
 
@@ -35,7 +35,7 @@ export function _stringEnumValues<T extends StringEnum>(en: T): T[keyof T][] {
  *
  * Doesn't work on String-enums!
  */
-export function _numberEnumEntries<T extends NumberEnum>(en: T): [k: string, v: T[keyof T]][] {
+export function _numberEnumEntries<T extends NumberEnum>(en: T): [k: keyof T, v: T[keyof T]][] {
   return Object.values(en)
     .filter(k => typeof k === 'string')
     .map(k => [k, en[k]]) as any
@@ -45,7 +45,9 @@ export function _numberEnumEntries<T extends NumberEnum>(en: T): [k: string, v: 
  * Like _numberEnumEntries, but reversed.
  * So, keys are Numbers, values are Strings.
  */
-export function _numberEnumEntriesReversed<T extends NumberEnum>(en: T): [k: number, v: keyof T][] {
+export function _numberEnumEntriesReversed<T extends NumberEnum>(
+  en: T,
+): [k: T[keyof T], v: keyof T][] {
   return Object.values(en)
     .filter(k => typeof k === 'string')
     .map(k => [en[k], k]) as any
@@ -55,7 +57,7 @@ export function _numberEnumEntriesReversed<T extends NumberEnum>(en: T): [k: num
  * Like _numberEnumEntries, but as a Map.
  * Keys are Strings, values are Numbers.
  */
-export function _numberEnumAsMap<T extends NumberEnum>(en: T): Map<string, T[keyof T]> {
+export function _numberEnumAsMap<T extends NumberEnum>(en: T): Map<keyof T, T[keyof T]> {
   return new Map(
     Object.values(en)
       .filter(k => typeof k === 'string')
@@ -67,7 +69,7 @@ export function _numberEnumAsMap<T extends NumberEnum>(en: T): Map<string, T[key
  * Like _numberEnumEntriesReversed, but as a Map.
  * Keys are Numbers (actual Numbers, because it's a Map, not an Object), values are Strings.
  */
-export function _numberEnumAsMapReversed<T extends NumberEnum>(en: T): Map<number, keyof T> {
+export function _numberEnumAsMapReversed<T extends NumberEnum>(en: T): Map<T[keyof T], keyof T> {
   return new Map(
     Object.values(en)
       .filter(k => typeof k === 'string')
