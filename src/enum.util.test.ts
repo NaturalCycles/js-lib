@@ -1,18 +1,25 @@
+import { expectTypeOf } from 'expect-type'
 import {
   _numberEnumEntries,
-  _numberEnumInverse,
-  _numberEnumInverseNullable,
+  _numberEnumEntriesReversed,
+  _numberEnumValue,
+  _numberEnumValueOrUndefined,
   _numberEnumKey,
-  _numberEnumKeyNullable,
+  _numberEnumKeyOrUndefined,
   _numberEnumKeys,
+  _numberEnumAsMap,
   _numberEnumNormalize,
-  _numberEnumNormalizeNullable,
+  _numberEnumNormalizeOrUndefined,
+  _numberEnumAsMapReversed,
   _numberEnumValues,
   _stringEnumEntries,
   _stringEnumKey,
-  _stringEnumKeyNullable,
+  _stringEnumKeyOrUndefined,
   _stringEnumKeys,
   _stringEnumValues,
+  _stringEnumEntriesReversed,
+  _stringEnumAsMap,
+  _stringEnumAsMapReversed,
 } from './enum.util'
 
 enum MyNumberEnum {
@@ -27,33 +34,31 @@ enum MyStringEnum {
   K3_KEY = 'K3_VALUE',
 }
 
+// Object.keys(MyNumberEnum)
+// [ '1', '2', '3', 'K1', 'K2', 'K3' ]
+// Object.values(MyNumberEnum)
+// [ 'K1', 'K2', 'K3', 1, 2, 3 ]
+// Object.keys(MyStringEnum)
+// [ 'K1_KEY', 'K2_KEY', 'K3_KEY' ]
+// Object.values(MyStringEnum)
+// [ 'K1_VALUE', 'K2_VALUE', 'K3_VALUE' ]
+
 test('_numberEnumKeys', () => {
   expect(_numberEnumKeys(MyNumberEnum)).toEqual(['K1', 'K2', 'K3'])
-  expect(_numberEnumKeys(MyStringEnum)).toMatchInlineSnapshot(`
-    [
-      "K1_VALUE",
-      "K2_VALUE",
-      "K3_VALUE",
-    ]
-  `)
+  expectTypeOf(_numberEnumKeys(MyNumberEnum)).toEqualTypeOf<string[]>()
+  const keys = _numberEnumKeys(MyNumberEnum)
+  expect(keys).not.toContain('some')
 })
 
 test('_numberEnumValues', () => {
   expect(_numberEnumValues(MyNumberEnum)).toEqual([1, 2, 3])
-  expect(_numberEnumValues(MyStringEnum)).toEqual([])
+  expectTypeOf(_numberEnumValues(MyNumberEnum)).toEqualTypeOf<MyNumberEnum[]>()
+  expectTypeOf(_numberEnumValues(MyNumberEnum)).toEqualTypeOf<number[]>()
+  const values = _numberEnumValues(MyNumberEnum)
+  expect(values).toContain(MyNumberEnum.K1)
 })
 
 test('_stringEnumKeys', () => {
-  expect(_stringEnumKeys(MyNumberEnum as any)).toMatchInlineSnapshot(`
-    [
-      "1",
-      "2",
-      "3",
-      "K1",
-      "K2",
-      "K3",
-    ]
-  `)
   expect(_stringEnumKeys(MyStringEnum)).toMatchInlineSnapshot(`
     [
       "K1_KEY",
@@ -61,16 +66,10 @@ test('_stringEnumKeys', () => {
       "K3_KEY",
     ]
   `)
+  expectTypeOf(_stringEnumKeys(MyStringEnum)).toEqualTypeOf<string[]>()
 })
 
 test('_stringEnumValues', () => {
-  expect(_stringEnumValues(MyNumberEnum as any)).toMatchInlineSnapshot(`
-    [
-      "K1",
-      "K2",
-      "K3",
-    ]
-  `)
   expect(_stringEnumValues(MyStringEnum)).toMatchInlineSnapshot(`
     [
       "K1_VALUE",
@@ -78,6 +77,8 @@ test('_stringEnumValues', () => {
       "K3_VALUE",
     ]
   `)
+
+  expectTypeOf(_stringEnumValues(MyStringEnum)).toEqualTypeOf<MyStringEnum[]>()
 })
 
 test('_numberEnumEntries', () => {
@@ -88,28 +89,34 @@ test('_numberEnumEntries', () => {
       "K3": 3,
     }
   `)
+  expectTypeOf(_numberEnumEntries(MyNumberEnum)).toEqualTypeOf<[string, MyNumberEnum][]>()
 
-  expect(Object.fromEntries(_numberEnumEntries(MyStringEnum))).toMatchInlineSnapshot(`
-    {
-      "K1_VALUE": undefined,
-      "K2_VALUE": undefined,
-      "K3_VALUE": undefined,
+  expect(_numberEnumAsMap(MyNumberEnum)).toMatchInlineSnapshot(`
+    Map {
+      "K1" => 1,
+      "K2" => 2,
+      "K3" => 3,
+    }
+  `)
+
+  expect(new Map(_numberEnumEntriesReversed(MyNumberEnum))).toMatchInlineSnapshot(`
+    Map {
+      1 => "K1",
+      2 => "K2",
+      3 => "K3",
+    }
+  `)
+
+  expect(_numberEnumAsMapReversed(MyNumberEnum)).toMatchInlineSnapshot(`
+    Map {
+      1 => "K1",
+      2 => "K2",
+      3 => "K3",
     }
   `)
 })
 
 test('_stringEnumEntries', () => {
-  expect(Object.fromEntries(_stringEnumEntries(MyNumberEnum as any))).toMatchInlineSnapshot(`
-    {
-      "1": "K1",
-      "2": "K2",
-      "3": "K3",
-      "K1": 1,
-      "K2": 2,
-      "K3": 3,
-    }
-  `)
-
   expect(Object.fromEntries(_stringEnumEntries(MyStringEnum))).toMatchInlineSnapshot(`
     {
       "K1_KEY": "K1_VALUE",
@@ -117,20 +124,43 @@ test('_stringEnumEntries', () => {
       "K3_KEY": "K3_VALUE",
     }
   `)
+
+  expect(Object.fromEntries(_stringEnumEntriesReversed(MyStringEnum))).toMatchInlineSnapshot(`
+    {
+      "K1_VALUE": "K1_KEY",
+      "K2_VALUE": "K2_KEY",
+      "K3_VALUE": "K3_KEY",
+    }
+  `)
+
+  expect(_stringEnumAsMap(MyStringEnum)).toMatchInlineSnapshot(`
+    Map {
+      "K1_KEY" => "K1_VALUE",
+      "K2_KEY" => "K2_VALUE",
+      "K3_KEY" => "K3_VALUE",
+    }
+  `)
+  expect(_stringEnumAsMapReversed(MyStringEnum)).toMatchInlineSnapshot(`
+    Map {
+      "K1_VALUE" => "K1_KEY",
+      "K2_VALUE" => "K2_KEY",
+      "K3_VALUE" => "K3_KEY",
+    }
+  `)
 })
 
-test('_numberEnumInverse', () => {
-  expect(_numberEnumInverse(MyNumberEnum, 'K2')).toBe(2)
-  expect(() => _numberEnumInverse(MyNumberEnum, 'K4')).toThrowErrorMatchingInlineSnapshot(
-    `"_numberEnumInverse value not found for: K4"`,
+test('_numberEnumValue', () => {
+  expect(_numberEnumValue(MyNumberEnum, 'K2')).toBe(2)
+  expect(() => _numberEnumValue(MyNumberEnum, 'K4' as any)).toThrowErrorMatchingInlineSnapshot(
+    `"_numberEnumValue not found for: K4"`,
   )
 
-  expect(_numberEnumInverseNullable(MyNumberEnum, 'K2')).toBe(2)
-  expect(_numberEnumInverseNullable(MyNumberEnum, 'K4')).toBeUndefined()
-  expect(_numberEnumInverseNullable(MyNumberEnum, null as any)).toBeUndefined()
-  expect(_numberEnumInverseNullable(MyNumberEnum, undefined)).toBeUndefined()
-  expect(_numberEnumInverseNullable(MyNumberEnum, '')).toBeUndefined()
-  expect(_numberEnumInverseNullable(MyNumberEnum, 0 as any)).toBeUndefined()
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, 'K2')).toBe(2)
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, 'K4' as any)).toBeUndefined()
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, null as any)).toBeUndefined()
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, undefined)).toBeUndefined()
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, '' as any)).toBeUndefined()
+  expect(_numberEnumValueOrUndefined(MyNumberEnum, 0 as any)).toBeUndefined()
 })
 
 test('_numberEnumNormalize', () => {
@@ -144,21 +174,21 @@ test('_numberEnumNormalize', () => {
     `"_numberEnumNormalize value not found for: K4"`,
   )
 
-  expect(_numberEnumNormalizeNullable(MyNumberEnum, 'K2')).toBe(2)
-  expect(_numberEnumNormalizeNullable(MyNumberEnum, MyNumberEnum.K2)).toBe(2)
+  expect(_numberEnumNormalizeOrUndefined(MyNumberEnum, 'K2')).toBe(2)
+  expect(_numberEnumNormalizeOrUndefined(MyNumberEnum, MyNumberEnum.K2)).toBe(2)
 
   // Pass-through case, even if 4 is an invalid value
-  expect(_numberEnumNormalizeNullable(MyNumberEnum, 4)).toBe(4)
+  expect(_numberEnumNormalizeOrUndefined(MyNumberEnum, 4)).toBe(4)
 
   // String types are attempted to be converted and return undefined
-  expect(_numberEnumNormalizeNullable(MyNumberEnum, 'K4')).toBeUndefined()
+  expect(_numberEnumNormalizeOrUndefined(MyNumberEnum, 'K4')).toBeUndefined()
 })
 
-test('_numberEnumKey, _numberEnumKeyNullable', () => {
-  expect(_numberEnumKeyNullable(MyNumberEnum, 'non-existing' as any)).toBeUndefined()
-  expect(_numberEnumKeyNullable(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
-  expect(_numberEnumKeyNullable(MyNumberEnum, 1)).toBe('K1')
-  expect(_numberEnumKeyNullable(MyNumberEnum, 'K1' as any)).toBeUndefined()
+test('_numberEnumKey, _numberEnumKeyOrUndefined', () => {
+  expect(_numberEnumKeyOrUndefined(MyNumberEnum, 'non-existing' as any)).toBeUndefined()
+  expect(_numberEnumKeyOrUndefined(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
+  expect(_numberEnumKeyOrUndefined(MyNumberEnum, 1)).toBe('K1')
+  expect(_numberEnumKeyOrUndefined(MyNumberEnum, 'K1' as any)).toBeUndefined()
 
   expect(() =>
     _numberEnumKey(MyNumberEnum, 'non-existing' as any),
@@ -172,10 +202,10 @@ test('_numberEnumKey, _numberEnumKeyNullable', () => {
 })
 
 test('_stringEnumKey', () => {
-  expect(_stringEnumKeyNullable(MyStringEnum, 'non-existing' as any)).toBeUndefined()
+  expect(_stringEnumKeyOrUndefined(MyStringEnum, 'non-existing' as any)).toBeUndefined()
   expect(() =>
     _stringEnumKey(MyStringEnum, 'non-existing' as any),
   ).toThrowErrorMatchingInlineSnapshot(`"_stringEnumKey not found for: non-existing"`)
-  expect(_stringEnumKeyNullable(MyStringEnum, 'K1_VALUE')).toBe('K1_KEY')
+  expect(_stringEnumKeyOrUndefined(MyStringEnum, 'K1_VALUE')).toBe('K1_KEY')
   expect(_stringEnumKey(MyStringEnum, 'K2_VALUE')).toBe('K2_KEY')
 })
