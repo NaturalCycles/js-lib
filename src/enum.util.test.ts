@@ -45,8 +45,7 @@ enum MyStringEnum {
 
 test('_numberEnumKeys', () => {
   expect(_numberEnumKeys(MyNumberEnum)).toEqual(['K1', 'K2', 'K3'])
-  // expectTypeOf(_numberEnumKeys(MyNumberEnum)).toEqualTypeOf<(keyof MyNumberEnum)[]>()
-  expectTypeOf(_numberEnumKeys(MyNumberEnum)).toEqualTypeOf<('K1' | 'K2' | 'K3')[]>()
+  expectTypeOf(_numberEnumKeys(MyNumberEnum)).toEqualTypeOf<(keyof typeof MyNumberEnum)[]>()
   const keys = _numberEnumKeys(MyNumberEnum)
   expect(keys).not.toContain('some')
 })
@@ -67,8 +66,7 @@ test('_stringEnumKeys', () => {
       "K3_KEY",
     ]
   `)
-  // expectTypeOf(_stringEnumKeys(MyStringEnum)).toEqualTypeOf<string[]>()
-  expectTypeOf(_stringEnumKeys(MyStringEnum)).toEqualTypeOf<('K1_KEY' | 'K2_KEY' | 'K3_KEY')[]>()
+  expectTypeOf(_stringEnumKeys(MyStringEnum)).toEqualTypeOf<(keyof typeof MyStringEnum)[]>()
 })
 
 test('_stringEnumValues', () => {
@@ -92,7 +90,7 @@ test('_numberEnumEntries', () => {
     }
   `)
   expectTypeOf(_numberEnumEntries(MyNumberEnum)).toEqualTypeOf<
-    ['K1' | 'K2' | 'K3', MyNumberEnum][]
+    [keyof typeof MyNumberEnum, MyNumberEnum][]
   >()
 
   expect(_numberEnumAsMap(MyNumberEnum)).toMatchInlineSnapshot(`
