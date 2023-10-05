@@ -291,6 +291,13 @@ export class LocalTime {
     return this.add(num * -1, unit, mutate)
   }
 
+  /**
+   * Alias to add.
+   */
+  plus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
+    return this.add(num, unit, mutate)
+  }
+
   absDiff(other: LocalTimeInput, unit: LocalTimeUnit): number {
     return Math.abs(this.diff(other, unit))
   }
