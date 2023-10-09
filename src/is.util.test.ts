@@ -5,6 +5,7 @@ import {
   _isEmpty,
   _isEmptyObject,
   _isNotEmpty,
+  _isNotEmptyObject,
   _isNull,
   _isObject,
   _isPrimitive,
@@ -75,6 +76,7 @@ test('_isEmptyObject', () => {
 
   const empty = a.filter(i => _isEmptyObject(i))
   expect(empty).toEqual([{}])
+  expect(_isNotEmptyObject({})).toBe(false)
 })
 
 test('_isNull', () => {

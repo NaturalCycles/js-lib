@@ -49,6 +49,10 @@ export function _isEmptyObject(obj: AnyObject): boolean {
   return Object.keys(obj).length === 0
 }
 
+export function _isNotEmptyObject(obj: AnyObject): boolean {
+  return Object.keys(obj).length > 0
+}
+
 /**
  * Object is considered empty if it's one of:
  * undefined
