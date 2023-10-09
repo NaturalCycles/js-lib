@@ -455,7 +455,7 @@ export class LocalTime {
   }
 
   /**
-   * Checks if this localTime is older than "now" by X units.
+   * Checks if this localTime is older (<) than "now" by X units.
    *
    * Example:
    *
@@ -468,7 +468,14 @@ export class LocalTime {
   }
 
   /**
-   * Checks if this localTime is younger than "now" by X units.
+   * Checks if this localTime is same or older (<=) than "now" by X units.
+   */
+  isSameOrOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
+    return this.isSameOrBefore(LocalTime.of(now ?? new Date()).add(-n, unit))
+  }
+
+  /**
+   * Checks if this localTime is younger (>) than "now" by X units.
    *
    * Example:
    *
@@ -477,7 +484,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return !this.isOlderThan(n, unit, now)
+    return this.isAfter(LocalTime.of(now ?? new Date()).add(-n, unit))
+  }
+
+  /**
+   * Checks if this localTime is same or younger (>=) than "now" by X units.
+   */
+  isSameOrYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
+    return this.isSameOrAfter(LocalTime.of(now ?? new Date()).add(-n, unit))
   }
 
   /**

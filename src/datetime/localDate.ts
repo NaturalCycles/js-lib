@@ -241,7 +241,7 @@ export class LocalDate {
   }
 
   /**
-   * Checks if this localDate is older than "today" by X units.
+   * Checks if this localDate is older (<) than "today" by X units.
    *
    * Example:
    *
@@ -254,7 +254,14 @@ export class LocalDate {
   }
 
   /**
-   * Checks if this localDate is younger than "today" by X units.
+   * Checks if this localDate is same or older (<=) than "today" by X units.
+   */
+  isSameOrOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
+    return this.isSameOrBefore(LocalDate.of(today || new Date()).add(-n, unit))
+  }
+
+  /**
+   * Checks if this localDate is younger (>) than "today" by X units.
    *
    * Example:
    *
@@ -263,7 +270,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return !this.isOlderThan(n, unit, today)
+    return this.isAfter(LocalDate.of(today || new Date()).add(-n, unit))
+  }
+
+  /**
+   * Checks if this localDate is same or younger (>=) than "today" by X units.
+   */
+  isSameOrYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
+    return this.isSameOrAfter(LocalDate.of(today || new Date()).add(-n, unit))
   }
 
   /**
