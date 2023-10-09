@@ -3,6 +3,7 @@ import type {
   IsoDateString,
   IsoDateTimeString,
   MonthId,
+  SortDirection,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
@@ -112,8 +113,8 @@ export class LocalDate {
     return this.fromDateUTC(new Date())
   }
 
-  static sort(items: LocalDate[], mutate = false, descending = false): LocalDate[] {
-    const mod = descending ? -1 : 1
+  static sort(items: LocalDate[], mutate = false, dir: SortDirection = 'asc'): LocalDate[] {
+    const mod = dir === 'desc' ? -1 : 1
     return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
   }
 

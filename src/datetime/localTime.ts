@@ -4,6 +4,7 @@ import type {
   IsoDateString,
   IsoDateTimeString,
   MonthId,
+  SortDirection,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
@@ -389,8 +390,8 @@ export class LocalTime {
     return mutate ? this : new LocalTime(d)
   }
 
-  static sort(items: LocalTime[], mutate = false, descending = false): LocalTime[] {
-    const mod = descending ? -1 : 1
+  static sort(items: LocalTime[], mutate = false, dir: SortDirection = 'asc'): LocalTime[] {
+    const mod = dir === 'desc' ? -1 : 1
     return (mutate ? items : [...items]).sort((a, b) => {
       const v1 = a.$date.valueOf()
       const v2 = b.$date.valueOf()

@@ -324,3 +324,5 @@ export const _objectAssign = Object.assign as <T extends AnyObject>(
  * Functions like pTry use that.
  */
 export type ErrorDataTuple<T = unknown, ERR = Error> = [err: null, data: T] | [err: ERR, data: null]
+
+export type SortDirection = 'asc' | 'desc'

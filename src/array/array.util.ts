@@ -1,5 +1,5 @@
 import { _isNotNullish } from '../is.util'
-import type { FalsyValue, Mapper, Predicate, StringMap } from '../types'
+import type { FalsyValue, Mapper, Predicate, SortDirection, StringMap } from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -156,14 +156,21 @@ export function _sortBy<T>(
   items: T[],
   mapper: Mapper<T, any>,
   mutate = false,
-  descending = false,
+  dir: SortDirection = 'asc',
 ): T[] {
-  const mod = descending ? -1 : 1
+  const mod = dir === 'desc' ? -1 : 1
   return (mutate ? items : [...items]).sort((_a, _b) => {
     const [a, b] = [_a, _b].map(mapper)
     if (typeof a === 'number' && typeof b === 'number') return (a - b) * mod
     return String(a).localeCompare(String(b)) * mod
   })
+}
+
+/**
+ * Alias for _sortBy with descending order.
+ */
+export function _sortDescBy<T>(items: T[], mapper: Mapper<T, any>, mutate = false): T[] {
+  return _sortBy(items, mapper, mutate, 'desc')
 }
 
 /**
