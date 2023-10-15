@@ -351,7 +351,7 @@ test('retryAfter date', async () => {
     new Response('429 rate limited', {
       status: 429,
       headers: {
-        'retry-after': localTimeNow().add(2, 'second').getDate().toString(),
+        'retry-after': localTimeNow().plus(2, 'second').getDate().toString(),
       },
     })
 

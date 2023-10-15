@@ -15,14 +15,14 @@ runBenchScript({
   fns: {
     localDate: done => {
       const d = localDate(str)
-      const d2 = d.add(100, 'day')
+      const d2 = d.plus(100, 'day')
       const s = d2.toString()
       const s2 = s
       done.resolve()
     },
     localTime: done => {
       const d = localTime(str)
-      const d2 = d.add(100, 'day')
+      const d2 = d.plus(100, 'day')
       const s = d2.toString()
       const s2 = s
       done.resolve()

@@ -65,8 +65,8 @@ Examples:
 | create from unixtimestamp           | dayjs.unix(ts)                       | localTime(ts)                  |                                |
 | parse from ISO8601 date string      | dayjs(str)                           |                                | localDate(str)                 |
 | parse from ISO8601 date+time string | dayjs(str)                           | localTime(str)                 |                                |
-| now plus 1 hour                     | dayjs().add(1, 'hour')               | localTime().add(1, 'hour')     |                                |
-| today plus 1 day                    | dayjs().startOf('day').add(1, 'day') |                                | localDate().add(1, 'day')      |
+| now plus 1 hour                     | dayjs().add(1, 'hour')               | localTime().plus(1, 'hour')    |                                |
+| today plus 1 day                    | dayjs().startOf('day').add(1, 'day') |                                | localDate().plus(1, 'day')     |
 | toISODate (just date)               | dayjs().toISODate()                  | localTime().toISODate()        | localDate().toISODate()        |
 | toISODate with time                 | dayjs().format()                     | localTime().toISODateTime()    |                                |
 | diff in days                        | dayjs().diff(other, 'day')           | localTime().diff(other, 'day') | localDate().diff(other, 'day') |

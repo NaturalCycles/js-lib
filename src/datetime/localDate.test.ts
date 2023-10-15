@@ -98,15 +98,15 @@ test('sort', () => {
 test('add basic', () => {
   const ld = localDate('2022-01-01')
 
-  expect(ld.clone().add(1, 'day', true).toString()).toBe('2022-01-02')
-  expect(ld.add(-1, 'day').toString()).toBe('2021-12-31')
-  expect(ld.subtract(1, 'day').toString()).toBe('2021-12-31')
+  expect(ld.clone().plus(1, 'day', true).toString()).toBe('2022-01-02')
+  expect(ld.plus(-1, 'day').toString()).toBe('2021-12-31')
   expect(ld.minus(1, 'day').toString()).toBe('2021-12-31')
-  expect(ld.add(-1, 'month').toString()).toBe('2021-12-01')
+  expect(ld.minus(1, 'day').toString()).toBe('2021-12-31')
+  expect(ld.plus(-1, 'month').toString()).toBe('2021-12-01')
 
   const d = localDate('2022-05-31')
-  expect(d.add(1, 'month').toISODate()).toBe('2022-06-30')
-  expect(d.add(-1, 'month').toISODate()).toBe('2022-04-30')
+  expect(d.plus(1, 'month').toISODate()).toBe('2022-06-30')
+  expect(d.plus(-1, 'month').toISODate()).toBe('2022-04-30')
 })
 
 test('add', () => {
@@ -119,11 +119,11 @@ test('add', () => {
     units.forEach(unit =>
       _range(UNIT_RANGE[unit]).forEach(i => {
         let expected = d.add(i, unit).toISODate()
-        let actual = ld.add(i, unit).toString()
+        let actual = ld.plus(i, unit).toString()
 
         expectWithMessage(`${ld} + ${i} ${unit}`, expected, actual)
 
-        actual = ld.add(-i, unit).toString()
+        actual = ld.plus(-i, unit).toString()
         expected = d.add(-i, unit).toISODate()
 
         expectWithMessage(`${ld} - ${i} ${unit}`, expected, actual)
@@ -142,25 +142,25 @@ test('diff', () => {
     units.forEach(unitAdd => {
       _range(UNIT_RANGE[unitAdd]).forEach(i => {
         units.forEach(unit => {
-          let left = ld.add(i, unitAdd)
+          let left = ld.plus(i, unitAdd)
           let right = ld
           let actual = left.diff(right, unit)
           let expected = d.add(i, unitAdd).diff(d, unit)
           expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
           left = ld
-          right = ld.add(i, unitAdd)
+          right = ld.plus(i, unitAdd)
           actual = left.diff(right, unit)
           expected = d.diff(d.add(i, unitAdd), unit)
           expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
-          left = ld.add(-i, unitAdd)
+          left = ld.plus(-i, unitAdd)
           right = ld
           actual = left.diff(right, unit)
           expected = d.add(-i, unitAdd).diff(d, unit)
           expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
 
-          left = ld.add(i, unitAdd).add(40, 'day')
+          left = ld.plus(i, unitAdd).plus(40, 'day')
           right = ld
           actual = left.diff(right, unit)
           expected = d.add(i, unitAdd).add(40, 'day').diff(d, unit)

@@ -171,7 +171,7 @@ test('add', () => {
     units.forEach(unit => {
       _range(UNIT_RANGE[unit]).forEach(i => {
         let expected = d.add(i, unit)
-        let actual = lt.add(i, unit)
+        let actual = lt.plus(i, unit)
 
         expectWithMessage(`${lt} + ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
         expectWithMessage(
@@ -197,14 +197,14 @@ test('add', () => {
         )
 
         expected = d.subtract(i, unit)
-        actual = lt.subtract(i, unit)
+        actual = lt.minus(i, unit)
         expectWithMessage(`${lt} - ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
 
         units.forEach(roundUnit => {
           // console.log(unit2, lt.add(i, unit).startOf(unit2).toPretty(), d.add(i, unit).startOf(unit2).toPretty())
           // expect(lt.add(i, unit).startOf(unit2).unix()).toBe(d.add(i, unit).startOf(unit2).unix())
           expected = d.add(i, unit).startOf(roundUnit)
-          actual = lt.add(i, unit).startOf(roundUnit)
+          actual = lt.plus(i, unit).startOf(roundUnit)
 
           expectWithMessage(
             `${lt} + ${i} ${unit} startOf(${roundUnit})`,
@@ -215,7 +215,7 @@ test('add', () => {
           )
 
           expected = d.add(i, unit).endOf(roundUnit)
-          actual = lt.add(i, unit).endOf(roundUnit)
+          actual = lt.plus(i, unit).endOf(roundUnit)
 
           expectWithMessage(
             `${lt} + ${i} ${unit} endOf(${roundUnit})`,
@@ -226,7 +226,7 @@ test('add', () => {
           )
 
           expected = d.add(i, unit).add(40, 'day').startOf(roundUnit)
-          actual = lt.add(i, unit).add(40, 'day').startOf(roundUnit)
+          actual = lt.plus(i, unit).plus(40, 'day').startOf(roundUnit)
 
           expectWithMessage(
             `${lt} + ${i} ${unit} + 40 days startOf(${roundUnit})`,
@@ -252,7 +252,7 @@ test('diff', () => {
     units.forEach(unit => {
       units.forEach(unitAdd => {
         _range(UNIT_RANGE[unitAdd]).forEach(i => {
-          let left = lt.add(i, unitAdd)
+          let left = lt.plus(i, unitAdd)
           let right = lt
           let actual = left.diff(right, unit)
           let expected = d.add(i, unitAdd).diff(d, unit)
@@ -339,20 +339,20 @@ test('add edge', () => {
   // 2020-02-29 - 2020 year == 0000-02-29 00:00:00
   // expect(localTime('2020-02-29').add(-2020, 'year').toPretty()).toBe(dayjs('2020-02-29').add(-2020, 'year').toPretty())
 
-  expect(localTime('2022-05-31').add(21, 'month').toPretty()).toBe('2024-02-29 00:00:00')
+  expect(localTime('2022-05-31').plus(21, 'month').toPretty()).toBe('2024-02-29 00:00:00')
 
-  expect(localTime('2022-05-31').add(1, 'month').toPretty()).toBe('2022-06-30 00:00:00')
-  expect(localTime('2022-05-31').add(-1, 'month').toPretty()).toBe('2022-04-30 00:00:00')
+  expect(localTime('2022-05-31').plus(1, 'month').toPretty()).toBe('2022-06-30 00:00:00')
+  expect(localTime('2022-05-31').plus(-1, 'month').toPretty()).toBe('2022-04-30 00:00:00')
 
-  expect(localTime('2020-02-29').add(1, 'month').toPretty()).toBe('2020-03-29 00:00:00')
-  expect(localTime('2020-03-29').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-03-30').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-03-31').add(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-01-31').add(1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-01-31').add(2, 'month').toPretty()).toBe('2020-03-31 00:00:00')
-  expect(localTime('2020-01-31').add(3, 'month').toPretty()).toBe('2020-04-30 00:00:00')
-  expect(localTime('2020-02-29').add(1, 'year').toPretty()).toBe('2021-02-28 00:00:00')
-  expect(localTime('2021-02-28').add(-1, 'year').toPretty()).toBe('2020-02-28 00:00:00')
+  expect(localTime('2020-02-29').plus(1, 'month').toPretty()).toBe('2020-03-29 00:00:00')
+  expect(localTime('2020-03-29').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-03-30').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-03-31').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-01-31').plus(1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
+  expect(localTime('2020-01-31').plus(2, 'month').toPretty()).toBe('2020-03-31 00:00:00')
+  expect(localTime('2020-01-31').plus(3, 'month').toPretty()).toBe('2020-04-30 00:00:00')
+  expect(localTime('2020-02-29').plus(1, 'year').toPretty()).toBe('2021-02-28 00:00:00')
+  expect(localTime('2021-02-28').plus(-1, 'year').toPretty()).toBe('2020-02-28 00:00:00')
 })
 
 test('diff edge', () => {

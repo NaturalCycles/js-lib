@@ -224,7 +224,7 @@ export class LocalTime {
 
     _assert(VALID_DAYS_OF_WEEK.has(v), `Invalid dayOfWeek: ${v}`)
 
-    return this.add(v - dow, 'day')
+    return this.plus(v - dow, 'day')
   }
   hour(): number
   hour(v: number): LocalTime
@@ -267,7 +267,7 @@ export class LocalTime {
     return mutate ? this : new LocalTime(d)
   }
 
-  add(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
+  plus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
     if (unit === 'week') {
       num *= 7
       unit = 'day'
@@ -281,22 +281,22 @@ export class LocalTime {
     return this.set(unit, this.get(unit) + num, mutate)
   }
 
+  /**
+   * @deprecated use `minus` instead
+   */
   subtract(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.add(num * -1, unit, mutate)
+    return this.plus(num * -1, unit, mutate)
   }
 
-  /**
-   * Alias to subtract.
-   */
   minus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.add(num * -1, unit, mutate)
+    return this.plus(num * -1, unit, mutate)
   }
 
   /**
-   * Alias to add.
+   * @deprecated use `plus` instead
    */
-  plus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.add(num, unit, mutate)
+  add(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
+    return this.plus(num, unit, mutate)
   }
 
   absDiff(other: LocalTimeInput, unit: LocalTimeUnit): number {
@@ -465,14 +465,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isBefore(LocalTime.of(now ?? new Date()).add(-n, unit))
+    return this.isBefore(LocalTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or older (<=) than "now" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrBefore(LocalTime.of(now ?? new Date()).add(-n, unit))
+    return this.isSameOrBefore(LocalTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
@@ -485,14 +485,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isAfter(LocalTime.of(now ?? new Date()).add(-n, unit))
+    return this.isAfter(LocalTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or younger (>=) than "now" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrAfter(LocalTime.of(now ?? new Date()).add(-n, unit))
+    return this.isSameOrAfter(LocalTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**

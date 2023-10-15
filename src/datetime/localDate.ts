@@ -163,13 +163,13 @@ export class LocalDate {
     if (current.isAfter($min, incl[0] === '[')) {
       // ok
     } else {
-      current.add(1, stepUnit, true)
+      current.plus(1, stepUnit, true)
     }
 
     const incl2 = incl[1] === ']'
     while (current.isBefore($max, incl2)) {
       dates.push(current)
-      current = current.add(step, stepUnit)
+      current = current.plus(step, stepUnit)
     }
 
     return dates
@@ -251,14 +251,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isBefore(LocalDate.of(today || new Date()).add(-n, unit))
+    return this.isBefore(LocalDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or older (<=) than "today" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrBefore(LocalDate.of(today || new Date()).add(-n, unit))
+    return this.isSameOrBefore(LocalDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
@@ -271,14 +271,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isAfter(LocalDate.of(today || new Date()).add(-n, unit))
+    return this.isAfter(LocalDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or younger (>=) than "today" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrAfter(LocalDate.of(today || new Date()).add(-n, unit))
+    return this.isSameOrAfter(LocalDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
@@ -373,7 +373,7 @@ export class LocalDate {
     return days * sign || 0
   }
 
-  add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
+  plus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
     let { $day, $month, $year } = this
 
     if (unit === 'week') {
@@ -443,22 +443,22 @@ export class LocalDate {
     return new LocalDate($year, $month, $day)
   }
 
+  /**
+   * @deprecated use `minus` instead
+   */
   subtract(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    return this.add(-num, unit, mutate)
+    return this.plus(-num, unit, mutate)
   }
 
-  /**
-   * Alias to subtract
-   */
   minus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    return this.add(-num, unit, mutate)
+    return this.plus(-num, unit, mutate)
   }
 
   /**
-   * Alias to add
+   * @deprecated use `plus` instead
    */
-  plus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    return this.add(num, unit, mutate)
+  add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
+    return this.plus(num, unit, mutate)
   }
 
   startOf(unit: LocalDateUnitStrict): LocalDate {
