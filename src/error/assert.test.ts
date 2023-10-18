@@ -1,5 +1,5 @@
 import { inspect } from 'node:util'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import {
   _assert,
   _assertDeepEquals,
@@ -35,7 +35,7 @@ test('_assertEquals', () => {
 
   const [err] = _try(() => _assertEquals(1, 2))
   expect(err).toBeInstanceOf(AssertionError)
-  expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
+  expect(_stringify(err, { includeErrorData: true })).toMatchInlineSnapshot(`
     "AssertionError: not equal
     expected: 2
     got     : 1
@@ -45,7 +45,7 @@ test('_assertEquals', () => {
   `)
 
   const err2 = _try(() => _assertEquals(1, 2, 'Should match'))[0]
-  expect(_stringifyAny(err2, { includeErrorData: true })).toMatchInlineSnapshot(`
+  expect(_stringify(err2, { includeErrorData: true })).toMatchInlineSnapshot(`
     "AssertionError: Should match
     {
       "userFriendly": true

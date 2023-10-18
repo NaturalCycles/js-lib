@@ -13,7 +13,7 @@ import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import { Fetcher, getFetcher } from './fetcher'
 import { FetcherRequest } from './fetcher.model'
 
@@ -148,7 +148,7 @@ test('mocking fetch', async () => {
   expect(err).toMatchInlineSnapshot(`[HttpRequestError: 500 GET some]`)
 
   // This is how NC-ecosystem-aware consumer prints errors (e.g with Cause)
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "HttpRequestError: 500 GET some
     Caused by: AppError: aya-baya"
   `)
@@ -175,7 +175,7 @@ test('mocking fetch', async () => {
       "name": "AppError",
     }
   `)
-  expect(_stringifyAny(err.cause)).toMatchInlineSnapshot(`"AppError: aya-baya"`)
+  expect(_stringify(err.cause)).toMatchInlineSnapshot(`"AppError: aya-baya"`)
 
   const { response } = err.data
   _assert(response)
@@ -261,7 +261,7 @@ test('json parse error', async () => {
     }
   `)
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "HttpRequestError: GET some
     Caused by: JsonParseError: Failed to parse: some text"
   `)
@@ -383,7 +383,7 @@ test('tryFetch', async () => {
   if (err) {
     expectTypeOf(err).toEqualTypeOf<HttpRequestError>()
     expect(err.data.requestMethod).toBe('POST')
-    expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+    expect(_stringify(err)).toMatchInlineSnapshot(`
       "HttpRequestError: 500 POST https://example.com/
       Caused by: Error: bad"
     `)
@@ -475,7 +475,7 @@ test('expectError', async () => {
   )
 
   const err = await fetcher.expectError({ url: 'someUrl' })
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "HttpRequestError: 500 GET someUrl
     Caused by: AppError: some"
   `)

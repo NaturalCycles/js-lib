@@ -1,4 +1,4 @@
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import type { Class } from '../typeFest'
 import type { AnyFunction, ErrorDataTuple } from '../types'
 import { _assertErrorClassOrRethrow } from './assert'
@@ -116,7 +116,7 @@ export async function pExpectedErrorString<ERR = Error>(
   errorClass?: Class<ERR>,
 ): Promise<string> {
   const err = await pExpectedError<ERR>(promise, errorClass)
-  return _stringifyAny(err)
+  return _stringify(err)
 }
 
 /**
@@ -127,5 +127,5 @@ export function _expectedErrorString<ERR = Error>(
   errorClass?: Class<ERR>,
 ): string {
   const err = _expectedError<ERR>(fn, errorClass)
-  return _stringifyAny(err)
+  return _stringify(err)
 }

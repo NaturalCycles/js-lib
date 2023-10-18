@@ -3,14 +3,14 @@ import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject, AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
-import { _stringifyAny, setGlobalStringifyFunction } from './stringifyAny'
+import { _stringify, setGlobalStringifyFunction } from './stringify'
 
-test('stringifyAny default', () => {
-  expectResults(v => _stringifyAny(v), mockAllKindsOfThings()).toMatchSnapshot()
+test('stringify default', () => {
+  expectResults(v => _stringify(v), mockAllKindsOfThings()).toMatchSnapshot()
 
   expectResults(
     v =>
-      _stringifyAny(v, {
+      _stringify(v, {
         includeErrorData: true,
       }),
     mockAllKindsOfThings(),
@@ -24,9 +24,9 @@ test('appError', () => {
     other: 'otherValue',
   })
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"AppError: la la"`)
+  expect(_stringify(err)).toMatchInlineSnapshot(`"AppError: la la"`)
 
-  expect(_stringifyAny(err, { includeErrorData: true })).toMatchInlineSnapshot(`
+  expect(_stringify(err, { includeErrorData: true })).toMatchInlineSnapshot(`
     "AppError: la la
     {
       "httpStatusCode": 409,
@@ -43,7 +43,7 @@ test('appError with status 0', () => {
     other: 'otherValue',
   })
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`"AppError: la la"`)
+  expect(_stringify(err)).toMatchInlineSnapshot(`"AppError: la la"`)
 })
 
 test('backendErrorResponse', () => {
@@ -58,7 +58,7 @@ test('backendErrorResponse', () => {
   }
   expect(resp.error.name).toBe('AppError')
 
-  expect(_stringifyAny(resp)).toMatchInlineSnapshot(`
+  expect(_stringify(resp)).toMatchInlineSnapshot(`
     "AppError: la la
     second line"
   `)
@@ -84,7 +84,7 @@ test('error with cause', () => {
     ),
   })
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "Error: err1
     Caused by: AppError: http_error1
     Caused by: SomeError: sub-cause"
@@ -100,7 +100,7 @@ test('AggregateError', async () => {
     AggregateError,
   )
 
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "AggregateError: All promises were rejected
     2 error(s):
     1. Error: err1
@@ -114,7 +114,7 @@ const obj = {
 }
 
 test('simple object', () => {
-  expect(_stringifyAny(obj)).toMatchInlineSnapshot(`
+  expect(_stringify(obj)).toMatchInlineSnapshot(`
     "{
       "a": "a",
       "b": {
@@ -127,5 +127,5 @@ test('simple object', () => {
 test('setGlobalStringifyFunction', () => {
   setGlobalStringifyFunction(inspectAnyStringifyFn)
 
-  expect(_stringifyAny(obj)).toMatchInlineSnapshot(`"{ a: 'a', b: { c: 'c' } }"`)
+  expect(_stringify(obj)).toMatchInlineSnapshot(`"{ a: 'a', b: { c: 'c' } }"`)
 })

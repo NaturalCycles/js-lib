@@ -1,5 +1,5 @@
 import type { CommonLogger } from '..'
-import { SimpleMovingAverage, _stringifyAny, _assert } from '..'
+import { SimpleMovingAverage, _stringify, _assert } from '..'
 import { _ms } from '../time/time.util'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 
@@ -88,7 +88,7 @@ export function _LogMethod(opt: LogMethodOptions = {}): MethodDecorator {
     let { logResultFn } = opt
     if (!logResultFn) {
       if (logResult) {
-        logResultFn = r => ['result:', _stringifyAny(r)]
+        logResultFn = r => ['result:', _stringify(r)]
       } else if (logResultLength) {
         logResultFn = r => (Array.isArray(r) ? [`result: ${r.length} items`] : [])
       }

@@ -25,7 +25,7 @@ import {
 import { pDelay } from '../promise/pDelay'
 import { pTimeout } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import { _ms, _since } from '../time/time.util'
 import { ErrorDataTuple, NumberOfMilliseconds } from '../types'
 import type {
@@ -504,7 +504,7 @@ export class Fetcher {
           .filter(Boolean)
           .join(' ') + '\n',
         // We're stringifying the error here, otherwise Sentry shows it as [object Object]
-        _stringifyAny(res.err.cause || res.err),
+        _stringify(res.err.cause || res.err),
       )
     }
 

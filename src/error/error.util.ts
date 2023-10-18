@@ -6,7 +6,7 @@ import type {
   HttpRequestErrorData,
   ErrorLike,
 } from '..'
-import { _jsonParseIfPossible, _stringifyAny, _truncate, _truncateMiddle, isServerSide } from '..'
+import { _jsonParseIfPossible, _stringify, _truncate, _truncateMiddle, isServerSide } from '..'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`
@@ -46,7 +46,7 @@ export function _anyToError<ERROR_TYPE extends Error = Error>(
  * Converts "anything" to ErrorObject.
  * Detects if it's HttpErrorResponse, HttpErrorObject, ErrorObject, Error, etc..
  * If object is Error - Error.message will be used.
- * Objects (not Errors) get converted to prettified JSON string (via `_stringifyAny`).
+ * Objects (not Errors) get converted to prettified JSON string (via `_stringify`).
  */
 export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   o: any,
@@ -70,7 +70,7 @@ export function _anyToErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
       // so, fair to return `data: {}` in the end
       // Also we're sure it includes no "error name", e.g no `Error: ...`,
       // so, fair to include `name: 'Error'`
-      const message = _stringifyAny(o)
+      const message = _stringify(o)
 
       eo = {
         name: 'Error',

@@ -13,17 +13,16 @@ _jsonParseIfPossible({ a: 'a' }) // {a: 'a'} (same object, not a json string)
 _jsonParseIfPossible('{"a": "a"}') // {a: 'a'} gotcha! parsed json string into an object!
 ```
 
-## \_stringifyAny
+## \_stringify
 
-Inspired by `inspectAny` from [nodejs-lib](https://github.com/NaturalCycles/nodejs-lib), which is
+Inspired by `_inspect` from [nodejs-lib](https://github.com/NaturalCycles/nodejs-lib), which is
 based on `util.inpect` that is not available in the Browser.
 
 Transforms `any` to human-readable string (via `JSON.stringify` pretty).
 
 Safe (no error throwing).
 
-Correclty prints `Error`, `AppError`, `ErrorObject`:
-`error.message + '\n' + stringifyAny(error.data)`
+Correclty prints `Error`, `AppError`, `ErrorObject`: `error.message + '\n' + _stringify(error.data)`
 
 Enforces max length (default to `1000`, pass `0` to skip it).
 
@@ -39,20 +38,20 @@ Returns `undefined` (not a string, but actual `undefined`) if `undefined` is pas
 `util.inspect` behavior).
 
 ```ts
-_stringifyAny(undefined) // 'undefined'
-_stringifyAny(null) // 'null'
-_stringifyAny(true) // 'true'
-_stringifyAny(false) // 'false'
-_stringifyAny(NaN) // 'null'
-_stringifyAny(Infinity) // 'null'
-_stringifyAny('') // 'empty_string'
-_stringifyAny(' ') // 'empty_string'
-_stringifyAny('ho ho ho') // 'ho ho ho'
-_stringifyAny(15) // '15'
-_stringifyAny(new Error('some msg')) // 'Error: some msg'
+_stringify(undefined) // 'undefined'
+_stringify(null) // 'null'
+_stringify(true) // 'true'
+_stringify(false) // 'false'
+_stringify(NaN) // 'null'
+_stringify(Infinity) // 'null'
+_stringify('') // 'empty_string'
+_stringify(' ') // 'empty_string'
+_stringify('ho ho ho') // 'ho ho ho'
+_stringify(15) // '15'
+_stringify(new Error('some msg')) // 'Error: some msg'
 
 // AppError is stringified with it's Data object
-_stringifyAny(new AppError('some msg', { k1: 'v1' }))
+_stringify(new AppError('some msg', { k1: 'v1' }))
 // 'AppError: some msg\n
 // {
 //   "k1": "v1"

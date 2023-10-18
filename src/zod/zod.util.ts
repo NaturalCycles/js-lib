@@ -1,5 +1,5 @@
 import { ZodError, ZodSchema, ZodIssue } from 'zod'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 
 export interface ZodErrorResult<T> {
   success: false
@@ -71,7 +71,7 @@ export class ZodValidationError<T> extends ZodError<T> {
       `Invalid ${objectTitle}`,
       '',
       'Input:',
-      _stringifyAny(this.value),
+      _stringify(this.value),
       this.issues.length > 1 ? `\n${this.issues.length} issues:` : '',
       ...this.issues.slice(0, 100).map(i => {
         return [i.path.join('.'), i.message].filter(Boolean).join(': ')

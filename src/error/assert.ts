@@ -1,5 +1,5 @@
 import type { ErrorData, ErrorObject } from '..'
-import { _deepEquals, _isErrorObject, _stringifyAny, AssertionError, Class } from '..'
+import { _deepEquals, _isErrorObject, _stringify, AssertionError, Class } from '..'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).
@@ -44,7 +44,7 @@ export function _assertEquals<T>(
   if (actual !== expected) {
     const msg =
       message ||
-      ['not equal', `expected: ${_stringifyAny(expected)}`, `got     : ${_stringifyAny(actual)}`]
+      ['not equal', `expected: ${_stringify(expected)}`, `got     : ${_stringify(actual)}`]
         .filter(Boolean)
         .join('\n')
 
@@ -70,11 +70,7 @@ export function _assertDeepEquals<T>(
   if (!_deepEquals(actual, expected)) {
     const msg =
       message ||
-      [
-        `not deeply equal`,
-        `expected: ${_stringifyAny(expected)}`,
-        `got     : ${_stringifyAny(actual)}`,
-      ]
+      [`not deeply equal`, `expected: ${_stringify(expected)}`, `got     : ${_stringify(actual)}`]
         .filter(Boolean)
         .join('\n')
 

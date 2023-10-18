@@ -11,7 +11,7 @@ let globalStringifyFunction: JsonStringifyFunction = _safeJsonStringify
  * Allows to set Global "stringifyFunction" that will be used to "pretty-print" objects
  * in various cases.
  *
- * Used, for example, by _stringifyAny() to pretty-print objects/arrays.
+ * Used, for example, by _stringify() to pretty-print objects/arrays.
  *
  * Defaults to _safeJsonStringify.
  *
@@ -26,7 +26,7 @@ export function setGlobalStringifyFunction(fn: JsonStringifyFunction): void {
 
 export type JsonStringifyFunction = (obj: any, reviver?: Reviver, space?: number) => string
 
-export interface StringifyAnyOptions {
+export interface StringifyOptions {
   /**
    * @default 10_000
    * Default limit is less than in Node, cause it's likely to be used e.g in Browser alert()
@@ -64,13 +64,13 @@ export interface StringifyAnyOptions {
 }
 
 /**
- * Inspired by inspectAny from nodejs-lib, which is based on util.inpect that is not available in the Browser.
+ * Inspired by `_inspect` from nodejs-lib, which is based on util.inpect that is not available in the Browser.
  * Potentially can do this (with extra 2Kb gz size): https://github.com/deecewan/browser-util-inspect
  *
  * Transforms ANY to human-readable string (via JSON.stringify pretty).
  * Safe (no error throwing).
  *
- * Correclty prints Errors, AppErrors, ErrorObjects: error.message + \n + stringifyAny(error.data)
+ * Correctly prints Errors, AppErrors, ErrorObjects: error.message + \n + _stringify(error.data)
  *
  * Enforces max length (default to 1000, pass 0 to skip it).
  *
@@ -81,7 +81,7 @@ export interface StringifyAnyOptions {
  * Returns 'empty_string' if empty string is passed.
  * Returns 'undefined' if undefined is passed (default util.inspect behavior).
  */
-export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
+export function _stringify(obj: any, opt: StringifyOptions = {}): string {
   if (obj === undefined) return 'undefined'
   if (obj === null) return 'null'
   if (typeof obj === 'function') return 'function'
@@ -96,7 +96,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
   // HttpErrorResponse
   //
   if (_isBackendErrorResponseObject(obj)) {
-    return _stringifyAny(obj.error, opt)
+    return _stringify(obj.error, opt)
   }
 
   if (obj instanceof Error || _isErrorLike(obj)) {
@@ -123,7 +123,7 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
     }
 
     if (opt.includeErrorData && _isErrorObject(obj) && Object.keys(obj.data).length) {
-      s += '\n' + _stringifyAny(obj.data, opt)
+      s += '\n' + _stringify(obj.data, opt)
     }
 
     if (opt.includeErrorStack && obj.stack) {
@@ -141,12 +141,12 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
       s = [
         s,
         `${obj.errors.length} error(s):`,
-        ...obj.errors.map((err, i) => `${i + 1}. ${_stringifyAny(err, opt)}`),
+        ...obj.errors.map((err, i) => `${i + 1}. ${_stringify(err, opt)}`),
       ].join('\n')
     }
 
     if (obj.cause && includeErrorCause) {
-      s = s + '\nCaused by: ' + _stringifyAny(obj.cause, opt)
+      s = s + '\nCaused by: ' + _stringify(obj.cause, opt)
     }
   } else if (typeof obj === 'string') {
     //
@@ -178,3 +178,8 @@ export function _stringifyAny(obj: any, opt: StringifyAnyOptions = {}): string {
 
   return s
 }
+
+/**
+ * @deprecated renamed to _stringify
+ */
+export const _stringifyAny = _stringify

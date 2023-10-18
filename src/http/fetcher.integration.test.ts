@@ -6,7 +6,7 @@ import { expectTypeOf } from 'expect-type'
 import { HttpRequestError, TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { objectToFormData } from '../form.util'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import { tmpDir } from '../test/paths'
 import { getFetcher } from './fetcher'
 
@@ -50,7 +50,7 @@ test('post with error', async () => {
       "name": "Error",
     }
   `)
-  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+  expect(_stringify(r.err)).toMatchInlineSnapshot(`
     "HttpRequestError: 404 POST https://kg-backend3.appspot.com/
     Caused by: Error: 404 Not Found: POST /"
   `)
@@ -89,7 +89,7 @@ test('redirect: error', async () => {
     redirect: 'error',
   })
   expect(r.ok).toBe(false)
-  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+  expect(_stringify(r.err)).toMatchInlineSnapshot(`
     "HttpRequestError: GET http://naturalcycles.com/
     Caused by: TypeError: fetch failed
     Caused by: Error: unexpected redirect"
@@ -106,7 +106,7 @@ test('redirect: manual', async () => {
     redirect: 'manual',
   })
   expect(r.ok).toBe(false)
-  expect(_stringifyAny(r.err)).toMatchInlineSnapshot(`
+  expect(_stringify(r.err)).toMatchInlineSnapshot(`
     "HttpRequestError: 301 GET http://naturalcycles.com/
     Caused by: Error: Fetch failed"
   `)
@@ -127,7 +127,7 @@ test('timeout', async () => {
     HttpRequestError,
   )
   // console.log(err)
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "HttpRequestError: GET https://kg-backend3.appspot.com/slow
     Caused by: TimeoutError: request timed out after 1 sec"
   `)
@@ -142,7 +142,7 @@ test('timeout retries', async () => {
 
   const { err } = await fetcher.doFetch({ url: `https://kg-backend3.appspot.com/slow` })
   console.log(err)
-  console.log(_stringifyAny(err))
+  console.log(_stringify(err))
 }, 20_000)
 
 const webhookUrl = 'https://webhook.site/07577dc5-8a0a-4e21-866b-a3bdbaf641f4'

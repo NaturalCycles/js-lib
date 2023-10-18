@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`stringifyAny default 1`] = `
+exports[`stringify default 1`] = `
 Map {
   undefined => "undefined",
   null => "null",
@@ -79,7 +79,7 @@ code: auth/forbidden",
 }
 `;
 
-exports[`stringifyAny default 2`] = `
+exports[`stringify default 2`] = `
 Map {
   undefined => "undefined",
   null => "null",

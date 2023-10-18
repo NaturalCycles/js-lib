@@ -1,5 +1,5 @@
 import { inspect } from 'node:util'
-import { _stringifyAny } from '../string/stringifyAny'
+import { _stringify } from '../string/stringify'
 import { _anyToErrorObject, AppError } from './error.util'
 
 const throwAppError = (): never => {
@@ -64,7 +64,7 @@ test('AppError with cause', () => {
       "name": "AppError",
     }
   `)
-  expect(_stringifyAny(_anyToErrorObject(err.cause))).toBe(_stringifyAny(_anyToErrorObject(err1)))
+  expect(_stringify(_anyToErrorObject(err.cause))).toBe(_stringify(_anyToErrorObject(err1)))
 })
 
 function filterStackTrace(s: string): string {
