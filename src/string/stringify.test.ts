@@ -1,5 +1,5 @@
 import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
-import { inspectAnyStringifyFn } from '@naturalcycles/nodejs-lib'
+import { inspectStringifyFn } from '@naturalcycles/nodejs-lib'
 import { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject, AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
@@ -125,7 +125,7 @@ test('simple object', () => {
 })
 
 test('setGlobalStringifyFunction', () => {
-  setGlobalStringifyFunction(inspectAnyStringifyFn)
+  setGlobalStringifyFunction(inspectStringifyFn)
 
   expect(_stringify(obj)).toMatchInlineSnapshot(`"{ a: 'a', b: { c: 'c' } }"`)
 })

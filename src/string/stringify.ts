@@ -15,7 +15,7 @@ let globalStringifyFunction: JsonStringifyFunction = _safeJsonStringify
  *
  * Defaults to _safeJsonStringify.
  *
- * Node.js project can set it to _inspectAny, which allows to use `util.inspect`
+ * Node.js project can set it to _inspect, which allows to use `util.inspect`
  * as pretty-printing function.
  *
  * It's recommended that this function is circular-reference-safe.
