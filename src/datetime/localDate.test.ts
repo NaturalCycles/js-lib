@@ -245,6 +245,15 @@ test('range', () => {
   `)
 })
 
+test('rangeIterable', () => {
+  expect([...LocalDate.rangeIt('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
+    [
+      "2021-12-24",
+      "2021-12-25",
+    ]
+  `)
+})
+
 test('format', () => {
   const fmt: LocalDateFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
   expect(localDate('1984-06-21').format(fmt)).toBe('1984-06')

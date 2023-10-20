@@ -1,3 +1,5 @@
+import { Iterable2 } from '../iter/iterable2'
+
 /* eslint-disable no-redeclare, unicorn/no-new-array */
 
 /**
@@ -21,4 +23,24 @@ export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
     { length: Math.ceil((toExcl - fromIncl) / step) },
     (_, i) => i * step + fromIncl,
   )
+}
+
+/**
+ * Like _range, but returns an Iterable2.
+ */
+export function _rangeIt(toExcl: number): Iterable2<number>
+export function _rangeIt(fromIncl: number, toExcl: number, step?: number): Iterable2<number>
+export function _rangeIt(fromIncl: number, toExcl?: number, step = 1): Iterable2<number> {
+  if (toExcl === undefined) {
+    toExcl = fromIncl
+    fromIncl = 0
+  }
+
+  return Iterable2.of({
+    *[Symbol.iterator]() {
+      for (let i = fromIncl; i < toExcl!; i += step) {
+        yield i
+      }
+    },
+  })
 }

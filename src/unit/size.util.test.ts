@@ -1,5 +1,3 @@
-import { _seq } from '../seq/seq'
-import { END } from '../types'
 import { _gb, _hb, _hc, _kb, _mb } from './size.util'
 
 test('_hb', () => {
@@ -17,15 +15,15 @@ test('_hb', () => {
 })
 
 test('_hb log', () => {
-  _seq(2, n => (n < 10 ** 20 ? n * 11 : END)).forEach(n => {
+  for (let n = 2; n < 10 ** 22; n = n * 11) {
     console.log(`${n}: ${_hb(n)}`)
-  })
+  }
 })
 
 test('_hc log', () => {
-  _seq(2, n => (n < 10 ** 20 ? n * 11 : END)).forEach(n => {
+  for (let n = 2; n < 10 ** 22; n = n * 11) {
     console.log(`${n}: ${_hc(n)}`)
-  })
+  }
 
   expect([0, 0.1, 0.01, 0.15, 0.001, 0.00045, 0.00000000123].map(_hc)).toMatchInlineSnapshot(`
     [

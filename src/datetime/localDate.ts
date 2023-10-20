@@ -1,4 +1,5 @@
 import { _assert } from '../error/assert'
+import { Iterable2 } from '../iter/iterable2'
 import type {
   IsoDateString,
   IsoDateTimeString,
@@ -149,30 +150,48 @@ export class LocalDate {
     step = 1,
     stepUnit: LocalDateUnit = 'day',
   ): LocalDate[] {
+    return this.rangeIt(min, max, incl, step, stepUnit).toArray()
+  }
+
+  /**
+   * Experimental, returns the range as Iterable2.
+   */
+  static rangeIt(
+    min: LocalDateInput,
+    max: LocalDateInput,
+    incl: Inclusiveness = '[)',
+    step = 1,
+    stepUnit: LocalDateUnit = 'day',
+  ): Iterable2<LocalDate> {
     if (stepUnit === 'week') {
       step *= 7
       stepUnit = 'day'
     }
 
-    const dates: LocalDate[] = []
-    const $min = LocalDate.of(min)
+    const $min = LocalDate.of(min).startOf(stepUnit)
     const $max = LocalDate.of(max).startOf(stepUnit)
 
-    let current = $min.startOf(stepUnit)
+    let value = $min
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
-    if (current.isAfter($min, incl[0] === '[')) {
+    if (value.isAfter($min, incl[0] === '[')) {
       // ok
     } else {
-      current.plus(1, stepUnit, true)
+      value.plus(1, stepUnit, true)
     }
 
-    const incl2 = incl[1] === ']'
-    while (current.isBefore($max, incl2)) {
-      dates.push(current)
-      current = current.plus(step, stepUnit)
-    }
+    const rightInclusive = incl[1] === ']'
 
-    return dates
+    return Iterable2.of({
+      *[Symbol.iterator]() {
+        while (value.isBefore($max, rightInclusive)) {
+          yield value
+
+          // We don't mutate, because we already returned `current`
+          // in the previous iteration
+          value = value.plus(step, stepUnit)
+        }
+      },
+    })
   }
 
   get(unit: LocalDateUnitStrict): number {
