@@ -7,6 +7,8 @@ import {
   LocalDate,
   localDateOrToday,
   localDateOrUndefined,
+  localDateRange,
+  localDateRangeIt,
   localDateToday,
 } from './localDate'
 
@@ -212,14 +214,14 @@ test('toDate', () => {
 })
 
 test('range', () => {
-  expect(LocalDate.range('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
+  expect(localDateRange('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
     ]
   `)
 
-  expect(LocalDate.range('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
+  expect(localDateRange('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
@@ -227,7 +229,7 @@ test('range', () => {
     ]
   `)
 
-  expect(LocalDate.range('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
+  expect(localDateRange('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-26",
@@ -235,7 +237,7 @@ test('range', () => {
     ]
   `)
 
-  expect(LocalDate.range('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
+  expect(localDateRange('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-26",
@@ -246,7 +248,7 @@ test('range', () => {
 })
 
 test('rangeIterable', () => {
-  expect([...LocalDate.rangeIt('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
+  expect([...localDateRangeIt('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",

@@ -1,5 +1,5 @@
 import type { Inclusiveness, LocalDateInput, LocalDateUnit } from './localDate'
-import { LocalDate } from './localDate'
+import { LocalDate, localDateRange } from './localDate'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString
 export type DateIntervalString = string
@@ -81,14 +81,14 @@ export class DateInterval {
   }
 
   getDays(incl: Inclusiveness = '[]'): LocalDate[] {
-    return LocalDate.range(this.start, this.end, incl, 1, 'day')
+    return localDateRange(this.start, this.end, incl, 1, 'day')
   }
 
   /**
    * Returns an array of LocalDates that are included in the interval.
    */
   range(incl: Inclusiveness = '[]', step = 1, stepUnit: LocalDateUnit = 'day'): LocalDate[] {
-    return LocalDate.range(this.start, this.end, incl, step, stepUnit)
+    return localDateRange(this.start, this.end, incl, step, stepUnit)
   }
 
   toString(): DateIntervalString {

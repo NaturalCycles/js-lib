@@ -143,57 +143,6 @@ export class LocalDate {
       .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
-  static range(
-    min: LocalDateInput,
-    max: LocalDateInput,
-    incl: Inclusiveness = '[)',
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): LocalDate[] {
-    return this.rangeIt(min, max, incl, step, stepUnit).toArray()
-  }
-
-  /**
-   * Experimental, returns the range as Iterable2.
-   */
-  static rangeIt(
-    min: LocalDateInput,
-    max: LocalDateInput,
-    incl: Inclusiveness = '[)',
-    step = 1,
-    stepUnit: LocalDateUnit = 'day',
-  ): Iterable2<LocalDate> {
-    if (stepUnit === 'week') {
-      step *= 7
-      stepUnit = 'day'
-    }
-
-    const $min = LocalDate.of(min).startOf(stepUnit)
-    const $max = LocalDate.of(max).startOf(stepUnit)
-
-    let value = $min
-    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
-    if (value.isAfter($min, incl[0] === '[')) {
-      // ok
-    } else {
-      value.plus(1, stepUnit, true)
-    }
-
-    const rightInclusive = incl[1] === ']'
-
-    return Iterable2.of({
-      *[Symbol.iterator]() {
-        while (value.isBefore($max, rightInclusive)) {
-          yield value
-
-          // We don't mutate, because we already returned `current`
-          // in the previous iteration
-          value = value.plus(step, stepUnit)
-        }
-      },
-    })
-  }
-
   get(unit: LocalDateUnitStrict): number {
     return unit === 'year' ? this.$year : unit === 'month' ? this.$month : this.$day
   }
@@ -581,6 +530,57 @@ export class LocalDate {
 
     return fmt(this)
   }
+}
+
+export function localDateRange(
+  min: LocalDateInput,
+  max: LocalDateInput,
+  incl: Inclusiveness = '[)',
+  step = 1,
+  stepUnit: LocalDateUnit = 'day',
+): LocalDate[] {
+  return localDateRangeIt(min, max, incl, step, stepUnit).toArray()
+}
+
+/**
+ * Experimental, returns the range as Iterable2.
+ */
+export function localDateRangeIt(
+  min: LocalDateInput,
+  max: LocalDateInput,
+  incl: Inclusiveness = '[)',
+  step = 1,
+  stepUnit: LocalDateUnit = 'day',
+): Iterable2<LocalDate> {
+  if (stepUnit === 'week') {
+    step *= 7
+    stepUnit = 'day'
+  }
+
+  const $min = LocalDate.of(min).startOf(stepUnit)
+  const $max = LocalDate.of(max).startOf(stepUnit)
+
+  let value = $min
+  // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
+  if (value.isAfter($min, incl[0] === '[')) {
+    // ok
+  } else {
+    value.plus(1, stepUnit, true)
+  }
+
+  const rightInclusive = incl[1] === ']'
+
+  return Iterable2.of({
+    *[Symbol.iterator]() {
+      while (value.isBefore($max, rightInclusive)) {
+        yield value
+
+        // We don't mutate, because we already returned `current`
+        // in the previous iteration
+        value = value.plus(step, stepUnit)
+      }
+    },
+  })
 }
 
 /**
