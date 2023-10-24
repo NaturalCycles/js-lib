@@ -6,7 +6,7 @@ yarn tsn hashBench
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { md5 } from '@naturalcycles/nodejs-lib'
-import CryptoJS from 'crypto-js'
+import cryptoJS from 'crypto-js'
 import { _range, pMap, hashCode, hashCode64 } from '../src'
 const crypto = require('node:crypto').webcrypto
 
@@ -48,7 +48,7 @@ runBenchScript({
     // },
     cryptojsmd5: done => {
       const _r = data.map(obj => {
-        return CryptoJS.MD5(JSON.stringify(obj))
+        return cryptoJS.MD5(JSON.stringify(obj))
       })
 
       done.resolve()
