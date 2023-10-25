@@ -1,4 +1,4 @@
-import { _inRange, _randomInt, _range, _sortNumbers } from '../index'
+import { _inRange, _randomInt, _range, _runLessOften, _sortNumbers } from '../index'
 import { _clamp, _randomArrayItem, _round, _toFixed, _toPrecision } from './number.util'
 
 test('_randomInt', () => {
@@ -119,4 +119,16 @@ test.each([
   [-10, 5, 10, 5],
 ])('_clamp(%s, %s, %s) == %s', (x, min, max, result) => {
   expect(_clamp(x, min, max)).toBe(result)
+})
+
+test('_runLessOften', () => {
+  let ranTimes = 0
+  _range(10).forEach(() => {
+    if (_runLessOften(10)) {
+      ranTimes++
+    }
+  })
+
+  console.log({ ranTimes })
+  // not asserting this, as it's based on random
 })

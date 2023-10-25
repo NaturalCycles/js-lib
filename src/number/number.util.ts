@@ -13,6 +13,19 @@ export function _randomArrayItem<T>(array: T[]): T {
   return array[_randomInt(0, array.length - 1)]!
 }
 
+/**
+ * Convenience function to "throttle" some code - run it less often.
+ *
+ * @example
+ *
+ * if (_runLessOften(10)) {
+ *   // this code will run only 10% of the time
+ * }
+ */
+export function _runLessOften(percent: number): boolean {
+  return Math.random() * 100 < percent
+}
+
 // todo: _.random to support floats
 
 /**
