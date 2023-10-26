@@ -1,5 +1,5 @@
 import type { AsyncMapper } from '..'
-import { _inRange, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
+import { _isBetween, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
 import { timeSpan } from '../test/test.util'
 import { pDelay } from './pDelay'
 import { pMap } from './pMap'
@@ -37,13 +37,13 @@ const mapper: AsyncMapper = async ([val, ms]) => {
 test('main', async () => {
   const end = timeSpan()
   expect(await pMap(input, mapper)).toEqual([10, 20, 30])
-  expect(_inRange(end(), 290, 430)).toBe(true)
+  expect(_isBetween(end(), 290, 430)).toBe(true)
 })
 
 test('concurrency: 1', async () => {
   const end = timeSpan()
   expect(await pMap(input, mapper, { concurrency: 1 })).toEqual([10, 20, 30])
-  expect(_inRange(end(), 590, 760)).toBe(true)
+  expect(_isBetween(end(), 590, 760)).toBe(true)
 })
 
 test('concurrency: 4', async () => {

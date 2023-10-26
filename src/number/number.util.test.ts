@@ -1,4 +1,4 @@
-import { _inRange, _randomInt, _range, _runLessOften, _sortNumbers } from '../index'
+import { _isBetween, _randomInt, _range, _runLessOften, _sortNumbers } from '../index'
 import { _clamp, _randomArrayItem, _round, _toFixed, _toPrecision } from './number.util'
 
 test('_randomInt', () => {
@@ -27,8 +27,18 @@ test.each([
   [2, 2, 1, false],
   [2, 2, 2, false],
   [2, Number.NEGATIVE_INFINITY, 3, true],
-])('_inRange(%s, %s, %s) === %s', (n, minIncl, maxExcl, result) => {
-  expect(_inRange(n, minIncl, maxExcl)).toBe(result)
+])('_isBetween(%s, %s, %s) === %s', (n, min, max, result) => {
+  expect(_isBetween(n, min, max)).toBe(result)
+})
+
+test.each([
+  [2, 1, 3, true],
+  [2, 2, 3, true],
+  [2, 2, 1, false],
+  [2, 2, 2, true],
+  [2, Number.NEGATIVE_INFINITY, 3, true],
+])('_isBetween(%s, %s, %s) [] === %s', (n, min, max, result) => {
+  expect(_isBetween(n, min, max, '[]')).toBe(result)
 })
 
 test.each([

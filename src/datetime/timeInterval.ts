@@ -1,5 +1,4 @@
-import type { UnixTimestampNumber } from '../types'
-import type { Inclusiveness } from './localDate'
+import type { UnixTimestampNumber, Inclusiveness } from '../types'
 import type { LocalTimeInput } from './localTime'
 import { LocalTime } from './localTime'
 

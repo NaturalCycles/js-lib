@@ -1,6 +1,7 @@
 import { _assert } from '../error/assert'
 import { Iterable2 } from '../iter/iterable2'
 import type {
+  Inclusiveness,
   IsoDateString,
   IsoDateTimeString,
   MonthId,
@@ -12,7 +13,6 @@ import { LocalTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
-export type Inclusiveness = '()' | '[]' | '[)' | '(]'
 
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/

@@ -326,3 +326,5 @@ export const _objectAssign = Object.assign as <T extends AnyObject>(
 export type ErrorDataTuple<T = unknown, ERR = Error> = [err: null, data: T] | [err: ERR, data: null]
 
 export type SortDirection = 'asc' | 'desc'
+
+export type Inclusiveness = '()' | '[]' | '[)' | '(]'

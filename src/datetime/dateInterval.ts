@@ -1,4 +1,5 @@
-import type { Inclusiveness, LocalDateInput, LocalDateUnit } from './localDate'
+import { Inclusiveness } from '../types'
+import type { LocalDateInput, LocalDateUnit } from './localDate'
 import { LocalDate, localDateRange } from './localDate'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString

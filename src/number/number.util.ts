@@ -1,4 +1,4 @@
-import { SortDirection } from '../types'
+import type { Inclusiveness, SortDirection } from '../types'
 
 export function _randomInt(minIncl: number, maxIncl: number): number {
   return Math.floor(Math.random() * (maxIncl - minIncl + 1) + minIncl)
@@ -29,14 +29,27 @@ export function _runLessOften(percent: number): boolean {
 // todo: _.random to support floats
 
 /**
- *  _inRange(-10, 1, 5) // false
- * _inRange(1, 1, 5) // true
- * _inRange(3, 1, 5) // true
- * _inRange(5, 1, 5) // false
- * _inRange(7, 1, 5) // false
+ *  _isBetween(-10, 1, 5) // false
+ * _isBetween(1, 1, 5) // true
+ * _isBetween(3, 1, 5) // true
+ * _isBetween(5, 1, 5) // false
+ * _isBetween(7, 1, 5) // false
  */
-export function _inRange(x: number, minIncl: number, maxExcl: number): boolean {
-  return x >= minIncl && x < maxExcl
+export function _isBetween(
+  x: number,
+  min: number,
+  max: number,
+  incl: Inclusiveness = '[)',
+): boolean {
+  if (incl === '[)') {
+    return x >= min && x < max
+  } else if (incl === '[]') {
+    return x >= min && x <= max
+  } else if (incl === '(]') {
+    return x > min && x <= max
+  }
+  // ()
+  return x > min && x < max
 }
 
 export function _clamp(x: number, minIncl: number, maxIncl: number): number {
