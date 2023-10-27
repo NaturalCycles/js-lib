@@ -45,6 +45,10 @@ module.exports = {
         format: ['camelCase'],
       },
       {
+        selector: 'import',
+        format: null,
+      },
+      {
         selector: ['function', 'parameter', 'property', 'method', 'memberLike'],
         format: ['camelCase'],
         leadingUnderscore: 'allowSingleOrDouble',
