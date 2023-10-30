@@ -46,7 +46,7 @@ module.exports = {
       },
       {
         selector: 'import',
-        format: null,
+        format: ['camelCase', 'PascalCase'],
       },
       {
         selector: ['function', 'parameter', 'property', 'method', 'memberLike'],
