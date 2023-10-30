@@ -13,6 +13,7 @@ import {
   _intersection,
   _last,
   _lastOrUndefined,
+  _mapBy,
   _mapToObject,
   _max,
   _maxBy,
@@ -97,17 +98,36 @@ test('_by', () => {
     ab: { a: 'ab' },
   })
 
-  r = _by(a, v => v.a)
-  expect(r).toEqual({
-    aa: { a: 'aa' },
-    ab: { a: 'ab' },
-  })
-
   r = _by(a, v => v.a?.toUpperCase())
   expect(r).toEqual({
     AA: { a: 'aa' },
     AB: { a: 'ab' },
   })
+})
+
+test('_mapBy', () => {
+  const a = [{ a: 'aa' }, { a: 'ab' }, { b: 'bb' }]
+  expect(_mapBy(a, r => r.a)).toMatchInlineSnapshot(`
+    Map {
+      "aa" => {
+        "a": "aa",
+      },
+      "ab" => {
+        "a": "ab",
+      },
+    }
+  `)
+
+  expect(_mapBy(a, r => r.a?.toUpperCase())).toMatchInlineSnapshot(`
+    Map {
+      "AA" => {
+        "a": "aa",
+      },
+      "AB" => {
+        "a": "ab",
+      },
+    }
+  `)
 })
 
 test('_groupBy', () => {

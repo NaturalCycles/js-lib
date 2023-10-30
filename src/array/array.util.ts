@@ -114,11 +114,24 @@ export function _uniqBy<T>(arr: readonly T[], mapper: Mapper<T, any>): T[] {
  * Returning `undefined` from the Mapper will EXCLUDE the item.
  */
 export function _by<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T> {
-  return items.reduce((map, item, index) => {
-    const res = mapper(item, index)
-    if (res !== undefined) map[res] = item
-    return map
-  }, {} as StringMap<T>)
+  return Object.fromEntries(
+    items.map((item, i) => [mapper(item, i), item]).filter(([k]) => k !== undefined) as [any, T][],
+  )
+}
+
+/**
+ * Map an array of items by a key, that is calculated by a Mapper.
+ */
+export function _mapBy<ITEM, KEY>(
+  items: readonly ITEM[],
+  mapper: Mapper<ITEM, KEY>,
+): Map<KEY, ITEM> {
+  return new Map(
+    items.map((item, i) => [mapper(item, i), item]).filter(([k]) => k !== undefined) as [
+      KEY,
+      ITEM,
+    ][],
+  )
 }
 
 /**
