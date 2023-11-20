@@ -30,8 +30,8 @@ export type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G ex
 type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
   ? never
   : KeyType extends ExcludeType
-  ? never
-  : KeyType
+    ? never
+    : KeyType
 
 /**
  Create a type from an object type without certain keys.
@@ -94,12 +94,12 @@ export type Except<ObjectType, KeysType extends keyof ObjectType> = {
 export type ReadonlyDeep<T> = T extends Primitive | ((...args: any[]) => unknown)
   ? T
   : T extends ReadonlyMap<infer KeyType, infer ValueType>
-  ? ReadonlyMapDeep<KeyType, ValueType>
-  : T extends ReadonlySet<infer ItemType>
-  ? ReadonlySetDeep<ItemType>
-  : T extends object
-  ? ReadonlyObjectDeep<T>
-  : unknown
+    ? ReadonlyMapDeep<KeyType, ValueType>
+    : T extends ReadonlySet<infer ItemType>
+      ? ReadonlySetDeep<ItemType>
+      : T extends object
+        ? ReadonlyObjectDeep<T>
+        : unknown
 
 /**
  Same as `ReadonlyDeep`, but accepts only `ReadonlyMap`s as inputs. Internal helper for `ReadonlyDeep`.
@@ -171,8 +171,8 @@ export type Merge<Destination, Source> = {
   [Key in keyof OmitIndexSignature<Destination & Source>]: Key extends keyof Source
     ? Source[Key]
     : Key extends keyof Destination
-    ? Destination[Key]
-    : never
+      ? Destination[Key]
+      : never
 } & PickIndexSignature<Destination & Source>
 
 /**

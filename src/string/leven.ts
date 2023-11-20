@@ -77,8 +77,8 @@ export function _leven(first: string, second: string): number {
             ? result + 1
             : temporary2
           : temporary2 > temporary
-          ? temporary + 1
-          : temporary2
+            ? temporary + 1
+            : temporary2
     }
   }
 
