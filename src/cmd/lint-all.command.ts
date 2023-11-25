@@ -86,6 +86,9 @@ async function runKTLint(): Promise<void> {
 }
 
 function runActionLint(): void {
+  // Only run if there is a folder of `.github/workflows`, otherwise actionlint will fail
+  if (!fs.existsSync('.github/workflows')) return
+
   if (canRunBinary('actionlint')) {
     const started = Date.now()
     execVoidCommandSync(`actionlint`)
