@@ -1,4 +1,4 @@
-import { AbortableMapper, AbortablePredicate, END, Predicate, SKIP } from '../types'
+import { AbortableMapper, AbortablePredicate, END, SKIP } from '../types'
 
 /**
  * Iterable2 is a wrapper around Iterable that implements "Iterator Helpers proposal":
@@ -34,10 +34,26 @@ export class Iterable2<T> implements Iterable<T> {
     }
   }
 
-  find(cb: Predicate<T>): T | undefined {
+  some(cb: AbortablePredicate<T>): boolean {
+    // eslint-disable-next-line unicorn/prefer-array-some
+    return !!this.find(cb)
+  }
+
+  every(cb: AbortablePredicate<T>): boolean {
     let i = 0
     for (const v of this.it) {
-      if (cb(v, i++)) return v
+      const r = cb(v, i++)
+      if (r === END || !r) return false
+    }
+    return true
+  }
+
+  find(cb: AbortablePredicate<T>): T | undefined {
+    let i = 0
+    for (const v of this.it) {
+      const r = cb(v, i++)
+      if (r === END) return
+      if (r) return v
     }
   }
 

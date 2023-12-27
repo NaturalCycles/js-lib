@@ -5,6 +5,10 @@ test('iterable2', () => {
   expect(_rangeIt(3).toArray()).toEqual([0, 1, 2])
 
   expect(_rangeIt(1, 4).find(v => v % 2 === 0)).toBe(2)
+  expect(_rangeIt(1, 4).some(v => v % 2 === 0)).toBe(true)
+  expect(_rangeIt(1, 4).some(v => v % 2 === -1)).toBe(false)
+  expect(_rangeIt(1, 4).every(v => v % 2 === 0)).toBe(false)
+  expect(_rangeIt(1, 4).every(v => v > 0)).toBe(true)
 
   expect(
     _rangeIt(1, 4)
