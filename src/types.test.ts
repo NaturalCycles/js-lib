@@ -25,7 +25,7 @@ import {
 } from './types'
 import type { AppError } from '.'
 
-interface Item extends BaseDBEntity<number> {
+interface Item extends BaseDBEntity {
   a?: number
 }
 
@@ -52,13 +52,13 @@ test('saved/unsaved', () => {
 
   expectTypeOf(item).toEqualTypeOf<{
     a?: number
-    id?: number
+    id?: string
     created?: number
     updated?: number
   }>()
 
   const itemDBM: ItemDBM = {
-    id: 5, // should only allow number, but not string
+    id: '5', // should only allow string, but not number
     created: 1,
     updated: 1,
     a: 5,
@@ -67,7 +67,7 @@ test('saved/unsaved', () => {
   delete itemDBM.a
 
   expectTypeOf(itemDBM).toEqualTypeOf<{
-    id: number
+    id: string
     created: number
     updated: number
     a?: number
@@ -81,7 +81,7 @@ test('saved/unsaved', () => {
 
   expectTypeOf(unsavedItem).toEqualTypeOf<{
     a?: number
-    id?: number
+    id?: string
     created?: number
     updated?: number
   }>()
@@ -97,7 +97,7 @@ test('saved/unsaved', () => {
 
   expectTypeOf(unsavedItemDBM).toEqualTypeOf<{
     a?: number
-    id?: number
+    id?: string
     created?: number
     updated?: number
   }>()
@@ -106,7 +106,7 @@ test('saved/unsaved', () => {
   delete unsavedItemId.id
 
   expectTypeOf(unsavedItemId).toEqualTypeOf<{
-    id?: number
+    id?: string
     created: number
     updated: number
     a?: number

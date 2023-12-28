@@ -25,26 +25,23 @@ export type CreatedUpdated = {
   updated: number
 }
 
-export interface CreatedUpdatedId<ID extends string | number = string | number>
-  extends CreatedUpdated {
-  id: ID
+export interface CreatedUpdatedId extends CreatedUpdated {
+  id: string
 }
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ObjectWithId<ID extends string | number = string | number> = {
-  id: ID
+export type ObjectWithId = {
+  id: string
 }
 
-export interface AnyObjectWithId<ID extends string | number = string | number>
-  extends AnyObject,
-    ObjectWithId<ID> {}
+export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
 
 /**
  * Base interface for any Entity that was saved to DB.
  */
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type SavedDBEntity<ID extends string | number = string> = {
-  id: ID
+export type SavedDBEntity = {
+  id: string
 
   /**
    * unixTimestamp of when the entity was first created (in the DB).
@@ -64,8 +61,8 @@ export type SavedDBEntity<ID extends string | number = string> = {
  * When it's known to be saved - `SavedDBEntity` interface can be used instead.
  */
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type BaseDBEntity<ID extends string | number = string> = {
-  id?: ID
+export type BaseDBEntity = {
+  id?: string
 
   /**
    * unixTimestamp of when the entity was first created (in the DB).
@@ -79,11 +76,11 @@ export type BaseDBEntity<ID extends string | number = string> = {
 }
 
 export type Saved<T extends Partial<ObjectWithId>> = T extends AnyObject
-  ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity<NonNullable<T['id']>>
+  ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity
   : T
 
 export type Unsaved<T extends Partial<ObjectWithId>> = T extends AnyObject
-  ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity<NonNullable<T['id']>>
+  ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity
   : T
 
 export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
