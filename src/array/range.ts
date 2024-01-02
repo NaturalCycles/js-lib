@@ -1,3 +1,4 @@
+import { AsyncIterable2 } from '../iter/asyncIterable2'
 import { Iterable2 } from '../iter/iterable2'
 
 /* eslint-disable no-redeclare, unicorn/no-new-array */
@@ -38,6 +39,34 @@ export function _rangeIterable(fromIncl: number, toExcl?: number, step = 1): Ite
 
   return Iterable2.of({
     *[Symbol.iterator]() {
+      for (let i = fromIncl; i < toExcl!; i += step) {
+        yield i
+      }
+    },
+  })
+}
+
+/**
+ * Like _range, but returns an AsyncIterable2.
+ */
+export function _rangeAsyncIterable(toExcl: number): AsyncIterable2<number>
+export function _rangeAsyncIterable(
+  fromIncl: number,
+  toExcl: number,
+  step?: number,
+): AsyncIterable2<number>
+export function _rangeAsyncIterable(
+  fromIncl: number,
+  toExcl?: number,
+  step = 1,
+): AsyncIterable2<number> {
+  if (toExcl === undefined) {
+    toExcl = fromIncl
+    fromIncl = 0
+  }
+
+  return AsyncIterable2.of({
+    async *[Symbol.asyncIterator]() {
       for (let i = fromIncl; i < toExcl!; i += step) {
         yield i
       }

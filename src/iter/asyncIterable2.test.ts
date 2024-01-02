@@ -1,0 +1,32 @@
+import { _rangeAsyncIterable } from '../array/range'
+import { AsyncIterable2 } from './asyncIterable2'
+
+test('asyncIterable2', async () => {
+  expect(await _rangeAsyncIterable(3).toArray()).toEqual([0, 1, 2])
+
+  expect(await _rangeAsyncIterable(1, 4).find(v => v % 2 === 0)).toBe(2)
+  expect(await _rangeAsyncIterable(1, 4).some(v => v % 2 === 0)).toBe(true)
+  expect(await _rangeAsyncIterable(1, 4).some(v => v % 2 === -1)).toBe(false)
+  expect(await _rangeAsyncIterable(1, 4).every(v => v % 2 === 0)).toBe(false)
+  expect(await _rangeAsyncIterable(1, 4).every(v => v > 0)).toBe(true)
+
+  expect(
+    await _rangeAsyncIterable(1, 4)
+      .filter(v => v % 2 === 1)
+      .toArray(),
+  ).toEqual([1, 3])
+
+  expect(
+    await _rangeAsyncIterable(1, 4)
+      .map(v => v * 2)
+      .toArray(),
+  ).toEqual([2, 4, 6])
+
+  const a: number[] = []
+  await _rangeAsyncIterable(1, 4).forEach(v => a.push(v))
+  expect(a).toEqual([1, 2, 3])
+
+  expect(await AsyncIterable2.ofIterable([]).toArray()).toEqual([])
+  expect(await AsyncIterable2.empty().toArray()).toEqual([])
+  expect(await AsyncIterable2.ofIterable([3, 4]).toArray()).toEqual([3, 4])
+})
