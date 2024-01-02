@@ -539,13 +539,13 @@ export function localDateRange(
   step = 1,
   stepUnit: LocalDateUnit = 'day',
 ): LocalDate[] {
-  return localDateRangeIt(min, max, incl, step, stepUnit).toArray()
+  return localDateRangeIterable(min, max, incl, step, stepUnit).toArray()
 }
 
 /**
  * Experimental, returns the range as Iterable2.
  */
-export function localDateRangeIt(
+export function localDateRangeIterable(
   min: LocalDateInput,
   max: LocalDateInput,
   incl: Inclusiveness = '[)',

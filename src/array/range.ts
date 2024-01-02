@@ -28,9 +28,9 @@ export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
 /**
  * Like _range, but returns an Iterable2.
  */
-export function _rangeIt(toExcl: number): Iterable2<number>
-export function _rangeIt(fromIncl: number, toExcl: number, step?: number): Iterable2<number>
-export function _rangeIt(fromIncl: number, toExcl?: number, step = 1): Iterable2<number> {
+export function _rangeIterable(toExcl: number): Iterable2<number>
+export function _rangeIterable(fromIncl: number, toExcl: number, step?: number): Iterable2<number>
+export function _rangeIterable(fromIncl: number, toExcl?: number, step = 1): Iterable2<number> {
   if (toExcl === undefined) {
     toExcl = fromIncl
     fromIncl = 0

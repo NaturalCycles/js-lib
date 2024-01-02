@@ -8,7 +8,7 @@ import {
   localDateOrToday,
   localDateOrUndefined,
   localDateRange,
-  localDateRangeIt,
+  localDateRangeIterable,
   localDateToday,
 } from './localDate'
 
@@ -248,7 +248,7 @@ test('range', () => {
 })
 
 test('rangeIterable', () => {
-  expect([...localDateRangeIt('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
+  expect([...localDateRangeIterable('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
