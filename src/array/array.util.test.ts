@@ -34,6 +34,7 @@ import {
   _takeWhile,
   _uniq,
   _uniqBy,
+  _zip,
 } from './array.util'
 import { _range } from './range'
 
@@ -356,4 +357,16 @@ test('_maxBy, _minBy', () => {
   )
   expect(_minByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
   expect(_minBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
+})
+
+test('_zip', () => {
+  const a1 = [1, 2, 3]
+  const a2 = [2, 3, 4]
+  expect(_zip(a1, a2)).toEqual([
+    [1, 2],
+    [2, 3],
+    [3, 4],
+  ])
+
+  expect(_zip(a1, a2).map(([a, b]) => a * b)).toEqual([2, 6, 12])
 })

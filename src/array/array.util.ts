@@ -402,3 +402,14 @@ export function _minByOrUndefined<T>(
 
   return minItem
 }
+
+export function _zip<T1, T2>(array1: T1[], array2: T2[]): [T1, T2][] {
+  const len = Math.min(array1.length, array2.length)
+  const res: [T1, T2][] = []
+
+  for (let i = 0; i < len; i++) {
+    res.push([array1[i]!, array2[i]!])
+  }
+
+  return res
+}
