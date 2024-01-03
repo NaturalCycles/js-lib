@@ -1,5 +1,13 @@
 import { _isNotNullish } from '../is.util'
-import type { FalsyValue, Mapper, Predicate, SortDirection, StringMap } from '../types'
+import {
+  AbortablePredicate,
+  END,
+  FalsyValue,
+  Mapper,
+  Predicate,
+  SortDirection,
+  StringMap,
+} from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the
@@ -214,6 +222,21 @@ export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
     .reverse()
     .filter((v, index) => (proceed ||= !predicate(v, index)))
     .reverse()
+}
+
+/**
+ * Counts how many items match the predicate.
+ */
+export function _count<T>(items: T[], predicate: AbortablePredicate<T>): number {
+  let count = 0
+
+  for (const [i, item] of items.entries()) {
+    const r = predicate(item, i)
+    if (r === END) break
+    if (r) count++
+  }
+
+  return count
 }
 
 export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {

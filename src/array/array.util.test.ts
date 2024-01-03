@@ -4,6 +4,7 @@ import { Mapper } from '../types'
 import {
   _by,
   _chunk,
+  _count,
   _countBy,
   _difference,
   _dropRightWhile,
@@ -178,6 +179,11 @@ test('_dropRightWhile', () => {
   expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v <= 3)).toEqual([1, 2, 3, 4, 5])
   expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v > 5)).toEqual([1, 2, 3, 4, 5, 2, 1])
   expect(_dropRightWhile([1, 2, 3, 4, 5, 2, 1], v => v < 10)).toEqual([])
+})
+
+test('_count', () => {
+  const a = [1, 2, 3, 4, 5]
+  expect(_count(a, n => n % 2 === 0)).toBe(2)
 })
 
 test('_countBy', () => {
