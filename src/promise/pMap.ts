@@ -7,7 +7,7 @@ Improvements:
 - Compatible with pProps (that had typings issues)
  */
 
-import type { AbortableAsyncMapper } from '..'
+import type { AbortableAsyncMapper, CommonLogger } from '..'
 import { END, ErrorMode, SKIP } from '..'
 
 export interface PMapOptions {
@@ -24,8 +24,15 @@ export interface PMapOptions {
    * When set to THROW_AGGREGATED, instead of stopping when a promise rejects, it will wait for all the promises to settle and then reject with an Aggregated error.
    *
    * When set to SUPPRESS - will ignore errors and return results from successful operations.
+   * When in SUPPRESS - errors are still logged via the `logger` (which defaults to console).
    */
   errorMode?: ErrorMode
+
+  /**
+   * Default to `console`.
+   * Pass `null` to skip logging completely.
+   */
+  logger?: CommonLogger | null
 }
 
 /**
@@ -59,6 +66,7 @@ export async function pMap<IN, OUT>(
   mapper: AbortableAsyncMapper<IN, OUT>,
   opt: PMapOptions = {},
 ): Promise<OUT[]> {
+  const { logger = console } = opt
   const ret: (OUT | typeof SKIP)[] = []
   // const iterator = iterable[Symbol.iterator]()
   const items = [...iterable]
@@ -86,8 +94,10 @@ export async function pMap<IN, OUT>(
         if (errorMode === ErrorMode.THROW_IMMEDIATELY) throw err
         if (errorMode === ErrorMode.THROW_AGGREGATED) {
           errors.push(err as Error)
+        } else {
+          // otherwise, suppress (but still log via logger)
+          logger?.error(err)
         }
-        // otherwise, suppress completely
       }
     }
 
@@ -110,6 +120,9 @@ export async function pMap<IN, OUT>(
         if (r.value !== SKIP && r.value !== END) ret.push(r.value)
       } else if (errorMode === ErrorMode.THROW_AGGREGATED) {
         errors.push(r.reason)
+      } else {
+        // otherwise, suppress (but still log via logger)
+        logger?.error(r.reason)
       }
     })
 
@@ -165,6 +178,9 @@ export async function pMap<IN, OUT>(
             } else {
               if (errorMode === ErrorMode.THROW_AGGREGATED) {
                 errors.push(err)
+              } else {
+                // otherwise, suppress (but still log via logger)
+                logger?.error(err)
               }
               resolvingCount--
               next()
