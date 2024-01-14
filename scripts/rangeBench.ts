@@ -16,7 +16,7 @@ function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
 function _rangeWithFor(fromIncl: number, toExcl?: number, step = 1): number[] {
   const arr = []
   if (toExcl === undefined) {
-    for (let i = fromIncl; i < fromIncl; i++) {
+    for (let i = 0; i < fromIncl; i++) {
       arr.push(i)
     }
   } else {
