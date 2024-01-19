@@ -39,6 +39,8 @@ export type PartialObjectWithId = {
   id?: string
 }
 
+export interface AnyPartialObjectWithId extends AnyObject, PartialObjectWithId {}
+
 export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
 
 /**
