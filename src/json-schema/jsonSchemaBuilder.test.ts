@@ -1,7 +1,7 @@
 import { AjvSchema } from '@naturalcycles/nodejs-lib'
 import type { BaseDBEntity } from '../index'
 import { jsonSchema } from './jsonSchemaBuilder'
-import { baseDBEntityJsonSchema, savedDBEntityJsonSchema } from './jsonSchemas'
+import { baseDBEntityJsonSchema } from './jsonSchemas'
 
 interface Address {
   countryCode: string
@@ -27,12 +27,12 @@ const addressJsonSchema = jsonSchema.object<Address>({
 })
 
 const addressBMJsonSchema = addressJsonSchema.extend(baseDBEntityJsonSchema)
-const addressDBMJsonSchema = addressJsonSchema.extend(savedDBEntityJsonSchema)
+const addressDBMJsonSchema = addressJsonSchema.extend(baseDBEntityJsonSchema)
 
 // alternative
 
 const addressBMJsonSchema2 = baseDBEntityJsonSchema.extend(addressJsonSchema)
-const addressDBMJsonSchema2 = savedDBEntityJsonSchema.extend(addressJsonSchema)
+const addressDBMJsonSchema2 = baseDBEntityJsonSchema.extend(addressJsonSchema)
 
 // alternative 2
 const addressBMJsonSchema3 = addressJsonSchema.extend(
