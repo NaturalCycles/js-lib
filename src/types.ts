@@ -82,16 +82,14 @@ export type BaseDBEntity = {
   updated?: UnixTimestampNumber
 }
 
-export type Saved<T extends PartialObjectWithId> = T extends AnyObject
-  ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity
-  : T
+export type Saved<T> = T & SavedDBEntity
 
-export type Unsaved<T extends PartialObjectWithId> = T extends AnyObject
+export type Unsaved<T> = T extends AnyObject
   ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity
   : T
 
-export type UnsavedId<T extends PartialObjectWithId> = Omit<T, 'id'> & {
-  id?: T['id']
+export type UnsavedId<T> = Omit<T, 'id'> & {
+  id?: string
 }
 
 /**
