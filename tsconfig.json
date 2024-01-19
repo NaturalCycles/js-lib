@@ -3,8 +3,8 @@
   "compilerOptions": {
     "lib": ["esnext", "dom", "dom.iterable"],
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
   },
   "include": ["src"],
-  "exclude": ["**/__exclude"]
+  "exclude": ["**/__exclude"],
 }

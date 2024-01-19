@@ -17,9 +17,8 @@ export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
  @link https://github.com/microsoft/TypeScript/issues/27024#issuecomment-421529650
  @link https://stackoverflow.com/questions/68961864/how-does-the-equals-work-in-typescript/68963796#68963796
  */
-export type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
-  ? true
-  : false
+export type IsEqual<T, U> =
+  (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2 ? true : false
 
 /**
  * Filter out keys from an object.
@@ -27,11 +26,8 @@ export type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G ex
  * Returns `never` if `Key` extends `Exclude`.
  * Returns `Key` otherwise.
  */
-type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
-  ? never
-  : KeyType extends ExcludeType
-    ? never
-    : KeyType
+type Filter<KeyType, ExcludeType> =
+  IsEqual<KeyType, ExcludeType> extends true ? never : KeyType extends ExcludeType ? never : KeyType
 
 /**
  Create a type from an object type without certain keys.

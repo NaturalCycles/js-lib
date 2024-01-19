@@ -34,6 +34,11 @@ export type ObjectWithId = {
   id: string
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type PartialObjectWithId = {
+  id?: string
+}
+
 export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
 
 /**
@@ -75,15 +80,15 @@ export type BaseDBEntity = {
   updated?: UnixTimestampNumber
 }
 
-export type Saved<T extends Partial<ObjectWithId>> = T extends AnyObject
+export type Saved<T extends PartialObjectWithId> = T extends AnyObject
   ? Omit<T, 'id' | 'created' | 'updated'> & SavedDBEntity
   : T
 
-export type Unsaved<T extends Partial<ObjectWithId>> = T extends AnyObject
+export type Unsaved<T extends PartialObjectWithId> = T extends AnyObject
   ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity
   : T
 
-export type UnsavedId<T extends Partial<ObjectWithId>> = Omit<T, 'id'> & {
+export type UnsavedId<T extends PartialObjectWithId> = Omit<T, 'id'> & {
   id?: T['id']
 }
 
