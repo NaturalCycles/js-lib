@@ -93,10 +93,10 @@ export const zSlug = z
 
 export const zBaseDBEntity = z
   .object({
-    id: z.string().optional(),
-    created: zUnixTimestamp2000.optional(),
-    updated: zUnixTimestamp2000.optional(),
+    id: z.string(),
+    created: zUnixTimestamp2000,
+    updated: zUnixTimestamp2000,
   })
   .describe('BaseDBEntity')
 
-export const zSavedDBEntity = zBaseDBEntity.required().describe('SavedDBEntity')
+// export const zSavedDBEntity = zBaseDBEntity.required().describe('SavedDBEntity')

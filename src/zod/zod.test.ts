@@ -1,26 +1,26 @@
 import { _expectedError } from '../error/try'
-import { zBaseDBEntity, zEmail, zIsoDateString, zSavedDBEntity } from './zod.shared.schemas'
+import { zBaseDBEntity, zEmail, zIsoDateString } from './zod.shared.schemas'
 import { ZodValidationError, zSafeValidate, zValidate } from './zod.util'
 
 test('basic', () => {
-  const err = _expectedError(() => zValidate({} as any, zSavedDBEntity), ZodValidationError)
+  const err = _expectedError(() => zValidate({} as any, zBaseDBEntity), ZodValidationError)
   expect(err).toBeInstanceOf(Error)
   expect(err).toBeInstanceOf(ZodValidationError)
   expect(err.name).toBe('ZodError')
   expect(err.annotate()).toBe(err.message)
   expect(err.toString()).toBe(err.message)
-  expect(err.stack!.split('\n')[0]).toMatchInlineSnapshot(`"ZodError: Invalid SavedDBEntity"`)
+  expect(err.stack!.split('\n')[0]).toMatchInlineSnapshot(`"ZodError: Invalid BaseDBEntity"`)
   expect(err.message).toMatchInlineSnapshot(`
-    "Invalid SavedDBEntity
+"Invalid BaseDBEntity
 
-    Input:
-    {}
+Input:
+{}
 
-    3 issues:
-    id: Required
-    created: Required
-    updated: Required"
-  `)
+3 issues:
+id: Required
+created: Required
+updated: Required"
+`)
 
   expect(zSafeValidate(' a' as any, zBaseDBEntity).error!.message).toMatchInlineSnapshot(`
     "Invalid BaseDBEntity

@@ -5,7 +5,6 @@ import type {
   JsonSchemaArray,
   JsonSchemaOneOf,
   JsonSchemaTuple,
-  SavedDBEntity,
   AnyObject,
 } from '../index'
 import { mergeJsonSchemaObjects, _deepCopy, _sortObject } from '../index'
@@ -375,11 +374,7 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
       updated: { type: 'number', format: 'unixTimestamp2000' },
     })
 
-    return this
-  }
-
-  savedDBEntity(): JsonSchemaObjectBuilder<T & SavedDBEntity> {
-    return this.baseDBEntity().addRequired(['id', 'created', 'updated']) as any
+    return this.addRequired(['id', 'created', 'updated']) as any
   }
 
   extend<T2 extends AnyObject>(s2: JsonSchemaObjectBuilder<T2>): JsonSchemaObjectBuilder<T & T2> {

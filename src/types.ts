@@ -47,7 +47,7 @@ export interface AnyObjectWithId extends AnyObject, ObjectWithId {}
  * Base interface for any Entity that was saved to DB.
  */
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type SavedDBEntity = {
+export type BaseDBEntity = {
   id: string
 
   /**
@@ -61,31 +61,10 @@ export type SavedDBEntity = {
   updated: UnixTimestampNumber
 }
 
-/**
- * Base interface for any Entity that can be saved to DB.
- * This interface fits when entity was NOT YET saved to DB,
- * hence `id`, `created` and `updated` fields CAN BE undefined (yet).
- * When it's known to be saved - `SavedDBEntity` interface can be used instead.
- */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type BaseDBEntity = {
-  id?: string
-
-  /**
-   * unixTimestamp of when the entity was first created (in the DB).
-   */
-  created?: UnixTimestampNumber
-
-  /**
-   * unixTimestamp of when the entity was last updated (in the DB).
-   */
-  updated?: UnixTimestampNumber
-}
-
-export type Saved<T> = T & SavedDBEntity
+export type Saved<T> = T & BaseDBEntity
 
 export type Unsaved<T> = T extends AnyObject
-  ? Omit<T, 'id' | 'created' | 'updated'> & BaseDBEntity
+  ? Omit<T, 'id' | 'created' | 'updated'> & Partial<BaseDBEntity>
   : T
 
 export type UnsavedId<T> = Omit<T, 'id'> & {

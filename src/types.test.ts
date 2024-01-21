@@ -4,7 +4,6 @@ import type {
   Reviver,
   StringMap,
   BaseDBEntity,
-  Saved,
   Unsaved,
   UnsavedId,
   AnyObject,
@@ -29,7 +28,7 @@ interface Item extends BaseDBEntity {
   a?: number
 }
 
-interface ItemDBM extends Saved<Item> {}
+interface ItemDBM extends Item {}
 
 const _ym: MonthId = '2021-01'
 
@@ -44,7 +43,7 @@ test('saved/unsaved', () => {
     a: number
   }>()
 
-  const item: Item = {}
+  const item = {} as Unsaved<Item>
   delete item.a
   delete item.id
   delete item.created
@@ -177,7 +176,7 @@ test('_typeCast', () => {
 })
 
 test('_objectAssign', () => {
-  const item: Item = {}
+  const item = {} as Item
 
   // No TypeScript error here
   Object.assign(item, {
