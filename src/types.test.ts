@@ -68,8 +68,8 @@ test('saved/unsaved', () => {
 
   expectTypeOf(itemDBM).toEqualTypeOf<{
     id: string
-    created?: number
-    updated?: number
+    created: number
+    updated: number
     a?: number
   }>()
 
@@ -115,8 +115,8 @@ test('saved/unsaved', () => {
 
   expectTypeOf(unsavedItemId).toEqualTypeOf<{
     id?: string
-    created?: number
-    updated?: number
+    created: number
+    updated: number
     a?: number
   }>()
 })

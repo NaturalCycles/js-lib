@@ -3,12 +3,6 @@ import { jsonSchema } from './jsonSchemaBuilder'
 
 export const baseDBEntityJsonSchema = jsonSchema.object<BaseDBEntity>({
   id: jsonSchema.string(),
-  created: jsonSchema.unixTimestamp2000().optional(),
-  updated: jsonSchema.unixTimestamp2000().optional(),
+  created: jsonSchema.unixTimestamp2000(),
+  updated: jsonSchema.unixTimestamp2000(),
 })
-
-// export const savedDBEntityJsonSchema = jsonSchema.object<SavedDBEntity>({
-//   id: jsonSchema.string(),
-//   created: jsonSchema.unixTimestamp2000(),
-//   updated: jsonSchema.unixTimestamp2000(),
-// })

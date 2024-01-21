@@ -53,12 +53,12 @@ export type BaseDBEntity = {
   /**
    * unixTimestamp of when the entity was first created (in the DB).
    */
-  created?: UnixTimestampNumber
+  created: UnixTimestampNumber
 
   /**
    * unixTimestamp of when the entity was last updated (in the DB).
    */
-  updated?: UnixTimestampNumber
+  updated: UnixTimestampNumber
 }
 
 export type Saved<T> = T & {
