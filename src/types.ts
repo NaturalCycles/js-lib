@@ -53,18 +53,25 @@ export type BaseDBEntity = {
   /**
    * unixTimestamp of when the entity was first created (in the DB).
    */
-  created: UnixTimestampNumber
+  created?: UnixTimestampNumber
 
   /**
    * unixTimestamp of when the entity was last updated (in the DB).
    */
+  updated?: UnixTimestampNumber
+}
+
+export type Saved<T> = T & {
+  created: UnixTimestampNumber
   updated: UnixTimestampNumber
 }
 
-export type Saved<T> = T & BaseDBEntity
-
 export type Unsaved<T> = T extends AnyObject
-  ? Omit<T, 'id' | 'created' | 'updated'> & Partial<BaseDBEntity>
+  ? Omit<T, 'id' | 'created' | 'updated'> & {
+      id?: string
+      created?: UnixTimestampNumber
+      updated?: UnixTimestampNumber
+    }
   : T
 
 export type UnsavedId<T> = Omit<T, 'id'> & {

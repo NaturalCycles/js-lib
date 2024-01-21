@@ -38,8 +38,8 @@ const addressDBMJsonSchema2 = baseDBEntityJsonSchema.extend(addressJsonSchema)
 const addressBMJsonSchema3 = addressJsonSchema.extend(
   jsonSchema.object<BaseDBEntity>({
     id: jsonSchema.string(),
-    created: jsonSchema.unixTimestamp2000(),
-    updated: jsonSchema.unixTimestamp2000(),
+    created: jsonSchema.unixTimestamp2000().optional(),
+    updated: jsonSchema.unixTimestamp2000().optional(),
   }),
 )
 

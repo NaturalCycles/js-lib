@@ -94,8 +94,8 @@ export const zSlug = z
 export const zBaseDBEntity = z
   .object({
     id: z.string(),
-    created: zUnixTimestamp2000,
-    updated: zUnixTimestamp2000,
+    created: zUnixTimestamp2000.optional(),
+    updated: zUnixTimestamp2000.optional(),
   })
   .describe('BaseDBEntity')
 

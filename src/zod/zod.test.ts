@@ -16,10 +16,7 @@ test('basic', () => {
 Input:
 {}
 
-3 issues:
-id: Required
-created: Required
-updated: Required"
+id: Required"
 `)
 
   expect(zSafeValidate(' a' as any, zBaseDBEntity).error!.message).toMatchInlineSnapshot(`

@@ -8,6 +8,7 @@ import type {
   UnsavedId,
   AnyObject,
   MonthId,
+  Saved,
 } from './types'
 import {
   _noop,
@@ -67,6 +68,14 @@ test('saved/unsaved', () => {
 
   expectTypeOf(itemDBM).toEqualTypeOf<{
     id: string
+    created?: number
+    updated?: number
+    a?: number
+  }>()
+
+  const savedItemDBM = itemDBM as Saved<ItemDBM>
+  expectTypeOf(savedItemDBM).toEqualTypeOf<{
+    id: string
     created: number
     updated: number
     a?: number
@@ -106,8 +115,8 @@ test('saved/unsaved', () => {
 
   expectTypeOf(unsavedItemId).toEqualTypeOf<{
     id?: string
-    created: number
-    updated: number
+    created?: number
+    updated?: number
     a?: number
   }>()
 })

@@ -374,7 +374,7 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
       updated: { type: 'number', format: 'unixTimestamp2000' },
     })
 
-    return this.addRequired(['id', 'created', 'updated']) as any
+    return this.addRequired(['id']) as any
   }
 
   extend<T2 extends AnyObject>(s2: JsonSchemaObjectBuilder<T2>): JsonSchemaObjectBuilder<T & T2> {
