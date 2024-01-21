@@ -67,6 +67,10 @@ export type Saved<T> = T & {
   updated: UnixTimestampNumber
 }
 
+export type SavedId<T> = T & {
+  id: string
+}
+
 export type Unsaved<T> = T extends AnyObject
   ? Omit<T, 'id' | 'created' | 'updated'> & {
       id?: string
