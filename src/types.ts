@@ -62,6 +62,7 @@ export type BaseDBEntity = {
 }
 
 export type Saved<T> = T & {
+  id: string
   created: UnixTimestampNumber
   updated: UnixTimestampNumber
 }
