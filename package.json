@@ -2,7 +2,7 @@
   "name": "@naturalcycles/js-lib",
   "version": "14.55.0",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "build-prod": "build-prod-esm-cjs",
     "docs-dev": "vitepress dev docs --open",
     "docs-build": "vitepress build docs",
