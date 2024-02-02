@@ -1,6 +1,6 @@
 import { _isEmpty, _isObject } from '../is.util'
 import type { PropertyPath } from '../lodash.types'
-import { _objectEntries, KeyValueTuple, SKIP } from '../types'
+import { _objectEntries, KeyValueTuple, Reviver, SKIP } from '../types'
 import type { AnyObject, ObjectMapper, ObjectPredicate, ValueOf } from '../types'
 
 /**
@@ -186,8 +186,8 @@ export function _objectNullValuesToUndefined<T extends AnyObject>(obj: T, mutate
 /**
  * Deep copy object (by json parse/stringify, since it has unbeatable performance+simplicity combo).
  */
-export function _deepCopy<T>(o: T): T {
-  return JSON.parse(JSON.stringify(o))
+export function _deepCopy<T>(o: T, reviver?: Reviver): T {
+  return JSON.parse(JSON.stringify(o), reviver)
 }
 
 /**
