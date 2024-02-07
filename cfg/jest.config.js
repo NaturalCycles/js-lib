@@ -128,7 +128,7 @@ module.exports = {
         outputDirectory: './tmp/jest',
         outputName: 'unit.xml',
         suiteNameTemplate: '{filepath}',
-        classNameTemplate: '{classname}',
+        classNameTemplate: '{filename} - {classname}',
         titleTemplate: '{title}',
         ancestorSeparator: ' ',
       },
