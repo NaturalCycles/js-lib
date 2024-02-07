@@ -1,5 +1,5 @@
 import { commonLoggerCreate } from '@naturalcycles/js-lib'
-import { inspectAny } from '@naturalcycles/nodejs-lib'
+import { _inspect } from '@naturalcycles/nodejs-lib'
 
 export function silentConsole(): void {
   console.log = () => {}
@@ -16,7 +16,7 @@ export const jestLogger = commonLoggerCreate((_level, args) => {
   process.stdout.write(
     args
       .map(a =>
-        inspectAny(a, {
+        _inspect(a, {
           includeErrorStack: true,
         }),
       )

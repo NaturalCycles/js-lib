@@ -18,4 +18,13 @@ module.exports = {
   proseWrap: 'always',
   htmlWhitespaceSensitivity: 'css',
   endOfLine: 'lf',
+  overrides: [
+    {
+      // https://github.com/prettier/prettier/blob/main/CHANGELOG.md#use-json-parser-for-tsconfigjson-by-default-16012-by-sosukesuzuki
+      files: ['tsconfig.json', 'tsconfig.*.json'],
+      options: {
+        parser: 'jsonc',
+      },
+    },
+  ],
 }
