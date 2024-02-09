@@ -31,10 +31,14 @@ export async function eslintAllCommand(): Promise<void> {
   const eslintConfigPathE2e =
     ['./e2e/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
     `${cfgDir}/eslint.config.js`
+  const eslintConfigPathPlaywright =
+    ['./playwright/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
+    `${cfgDir}/eslint.config.js`
 
   // const tsconfigPath = getTSConfigPath()
   const tsconfigPathScripts = getTSConfigPathScripts()
   const tsconfigPathE2e = `./e2e/tsconfig.json`
+  const tsconfigPathPlaywright = `./playwright/tsconfig.json`
 
   // todo: run on other dirs too, e.g pages, components, layouts
 
@@ -46,6 +50,14 @@ export async function eslintAllCommand(): Promise<void> {
       runESLintAsync(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix),
       // /e2e
       runESLintAsync(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix),
+      // /playwright
+      runESLintAsync(
+        `./playwright`,
+        eslintConfigPathPlaywright,
+        tsconfigPathPlaywright,
+        undefined,
+        fix,
+      ),
     ])
   } else {
     // with no-fix - let's run serially
@@ -55,6 +67,14 @@ export async function eslintAllCommand(): Promise<void> {
     await runESLintAsync(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
     // /e2e
     await runESLintAsync(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
+    // /e2e
+    await runESLintAsync(
+      `./playwright`,
+      eslintConfigPathPlaywright,
+      tsconfigPathPlaywright,
+      undefined,
+      fix,
+    )
   }
 
   console.log(`${boldGrey('eslint-all')} ${dimGrey(`took ` + _since(started))}`)

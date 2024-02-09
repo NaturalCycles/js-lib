@@ -144,6 +144,25 @@ if (fs.existsSync(`./e2e`)) {
   })
 }
 
+// /playwright
+if (fs.existsSync(`./playwright`)) {
+  const eslintConfigPathE2e =
+    ['./playwright/.eslintrc.js', './.eslintrc.js'].find(p => fs.existsSync(p)) ||
+    `${cfgDir}/eslint.config.js`
+
+  Object.assign(linters, {
+    // eslint, Prettier
+    './playwright/**/*.{ts,tsx}': match => {
+      const filesList = micromatch.not(match, lintExclude).join(' ')
+      if (!filesList) return []
+      return [
+        `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./playwright/tsconfig.json`,
+        prettierCmd,
+      ].map(s => `${s} ${filesList}`)
+    },
+  })
+}
+
 function canRunBinary(name) {
   try {
     execSync(`which ${name}`)
