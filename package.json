@@ -30,8 +30,8 @@
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
-    "@commitlint/cli": "^18.0.0",
-    "@commitlint/config-conventional": "^18.0.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/js-lib": "^14.0.0",
     "@naturalcycles/nodejs-lib": "^13.0.1",
