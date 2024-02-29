@@ -11,7 +11,7 @@ export function _pick<T extends AnyObject, K extends keyof T>(
   obj: T,
   props: readonly K[],
   mutate = false,
-): T {
+): Pick<T, K> {
   if (mutate) {
     // Start as original object (mutable), DELETE properties that are not whitelisted
     return Object.keys(obj).reduce((r, prop) => {
@@ -34,7 +34,7 @@ export function _omit<T extends AnyObject, K extends keyof T>(
   obj: T,
   props: readonly K[],
   mutate = false,
-): T {
+): Omit<T, K> {
   return props.reduce(
     (r, prop) => {
       delete r[prop]
