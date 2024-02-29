@@ -23,6 +23,7 @@ node_modules
 .stencil
 .gitconfig
 .lighthouseci
+.sentryclirc
 
 #
 # Root dir
