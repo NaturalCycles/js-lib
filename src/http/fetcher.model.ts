@@ -127,7 +127,7 @@ export interface FetcherRequest
   timeoutSeconds: number
   retry: FetcherRetryOptions
   retryPost: boolean
-  retry3xx: boolean
+  retry3xx?: boolean
   retry4xx: boolean
   retry5xx: boolean
   started: UnixTimestampMillisNumber

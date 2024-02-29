@@ -575,7 +575,7 @@ export class Fetcher {
     if (statusFamily === 3 && !retry3xx) return false
 
     // should not retry on `unexpected redirect` in error.cause.cause
-    if ((res.err?.cause as ErrorLike | void)?.cause?.message?.includes('unexpected redirect')) {
+    if ((res.err?.cause as ErrorLike)?.cause?.message?.includes('unexpected redirect')) {
       return false
     }
 

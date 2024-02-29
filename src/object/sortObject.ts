@@ -1,5 +1,5 @@
 import type { AnyObject } from '../index'
-import { _omit } from '../index'
+import { _omit, _objectEntries } from '../index'
 
 /**
  * Returns new object with keys sorder in the given order.
@@ -15,7 +15,7 @@ export function _sortObject<T extends AnyObject>(obj: T, keyOrder: (keyof T)[]):
     }
   })
 
-  Object.entries(_omit(obj, keyOrder)).forEach(([k, v]) => {
+  _objectEntries(_omit(obj, keyOrder)).forEach(([k, v]) => {
     r[k as keyof T] = v
   })
 
