@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "sourceMap": false,
-    "target": "es2017" // targets es2017+ browsers: https://caniuse.com/sr_es11
+    "target": "es2017", // targets es2017+ browsers: https://caniuse.com/sr_es11
   },
-  "exclude": ["**/__exclude", "src/test", "src/**/*.test.*"]
+  "exclude": ["**/__exclude", "src/test", "src/**/*.test.*"],
 }
