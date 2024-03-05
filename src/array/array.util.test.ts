@@ -12,6 +12,7 @@ import {
   _findLast,
   _groupBy,
   _intersection,
+  _intersectsWith,
   _last,
   _lastOrUndefined,
   _mapBy,
@@ -202,17 +203,40 @@ test('_countBy', () => {
 
 test('_intersection', () => {
   const f = _intersection
-  expect(f()).toEqual([])
-  expect(f([1])).toEqual([1])
+  // expect(f()).toEqual([])
+  // expect(f([1])).toEqual([1])
+  expect(f([], [1])).toEqual([])
+  expect(f([1], [])).toEqual([])
   expect(f([1], [1])).toEqual([1])
   expect(f([1], [1, 2])).toEqual([1])
   expect(f([1], [2])).toEqual([])
   expect(f([2, 1], [2, 3])).toEqual([2])
 
-  expect(f([1], [1], [1])).toEqual([1])
-  expect(f([1], [1], [])).toEqual([])
-  expect(f([1], [1, 2], [])).toEqual([])
-  expect(f([1, 2], [1, 2, 3], [1, 2, 3, 4])).toEqual([1, 2])
+  // expect(f([1], [1], [1])).toEqual([1])
+  // expect(f([1], [1], [])).toEqual([])
+  // expect(f([1], [1, 2], [])).toEqual([])
+  // expect(f([1, 2], [1, 2, 3], [1, 2, 3, 4])).toEqual([1, 2])
+
+  expect(f([], new Set([1]))).toEqual([])
+  expect(f([1], new Set([]))).toEqual([])
+  expect(f([1], new Set([1]))).toEqual([1])
+  expect(f([1], new Set([1, 2]))).toEqual([1])
+  expect(f([1], new Set([2]))).toEqual([])
+  expect(f([2, 1], new Set([2, 3]))).toEqual([2])
+})
+
+test('_intersectsWith', () => {
+  const f = _intersectsWith
+
+  expect(f([], [1])).toBe(false)
+  expect(f([1], [])).toBe(false)
+  expect(f([1], [1])).toBe(true)
+  expect(f([1], [1, 2])).toBe(true)
+  expect(f([1], [2])).toBe(false)
+  expect(f([2, 1], [2, 3])).toBe(true)
+
+  expect(f([], new Set([1]))).toBe(false)
+  expect(f([2, 1], new Set([2, 3]))).toBe(true)
 })
 
 test('_difference', () => {

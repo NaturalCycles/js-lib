@@ -253,13 +253,32 @@ export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<numbe
 // investigate: _groupBy
 
 /**
+ * Returns an intersection between 2 arrays.
+ *
+ * Intersecion means an array of items that are present in both of the arrays.
+ *
+ * It's more performant to pass a Set as a second argument.
+ *
  * @example
  * _intersection([2, 1], [2, 3])
  * // [2]
  */
-export function _intersection<T>(...arrays: T[][]): T[] {
-  if (arrays.length === 0) return [] // edge case
-  return arrays.reduce((a, b) => a.filter(v => b.includes(v)))
+export function _intersection<T>(a1: T[], a2: T[] | Set<T>): T[] {
+  const a2set = a2 instanceof Set ? a2 : new Set(a2)
+  return a1.filter(v => a2set.has(v))
+}
+
+/**
+ * Returns true if there is at least 1 item common between 2 arrays.
+ * Otherwise returns false.
+ *
+ * It's more performant to use that versus `_intersection(a1, a2).length > 0`.
+ *
+ * Passing second array as Set is more performant (it'll skip turning the array into Set in-place).
+ */
+export function _intersectsWith<T>(a1: T[], a2: T[] | Set<T>): boolean {
+  const a2set = a2 instanceof Set ? a2 : new Set(a2)
+  return a1.some(v => a2set.has(v))
 }
 
 /**
