@@ -387,6 +387,10 @@ test('_maxBy, _minBy', () => {
   )
   expect(_minByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
   expect(_minBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
+
+  expect(_minBy([{ date: '2023-06-22' }, { date: '2023-06-21' }], u => u.date)).toEqual({
+    date: '2023-06-21',
+  })
 })
 
 test('_zip', () => {

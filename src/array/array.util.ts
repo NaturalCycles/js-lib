@@ -395,13 +395,13 @@ export function _max<T>(array: T[]): NonNullable<T> {
   return a.reduce((max, item) => (max >= item ? max : item))
 }
 
-export function _maxBy<T>(array: T[], mapper: Mapper<T, number | undefined>): T {
+export function _maxBy<T>(array: T[], mapper: Mapper<T, number | string | undefined>): T {
   const max = _maxByOrUndefined(array, mapper)
   if (max === undefined) throw new Error(`_maxBy returned undefined`)
   return max
 }
 
-export function _minBy<T>(array: T[], mapper: Mapper<T, number | undefined>): T {
+export function _minBy<T>(array: T[], mapper: Mapper<T, number | string | undefined>): T {
   const min = _minByOrUndefined(array, mapper)
   if (min === undefined) throw new Error(`_minBy returned undefined`)
   return min
@@ -411,11 +411,11 @@ export function _minBy<T>(array: T[], mapper: Mapper<T, number | undefined>): T 
 
 export function _maxByOrUndefined<T>(
   array: T[],
-  mapper: Mapper<T, number | undefined>,
+  mapper: Mapper<T, number | string | undefined>,
 ): T | undefined {
   if (!array.length) return
   let maxItem: T | undefined
-  let max: number | undefined
+  let max: number | string | undefined
   array.forEach((item, i) => {
     const v = mapper(item, i)
     if (v !== undefined && (max === undefined || v > max)) {
@@ -429,11 +429,11 @@ export function _maxByOrUndefined<T>(
 
 export function _minByOrUndefined<T>(
   array: T[],
-  mapper: Mapper<T, number | undefined>,
+  mapper: Mapper<T, number | string | undefined>,
 ): T | undefined {
   if (!array.length) return
   let minItem: T | undefined
-  let min: number | undefined
+  let min: number | string | undefined
   array.forEach((item, i) => {
     const v = mapper(item, i)
     if (v !== undefined && (min === undefined || v < min)) {
