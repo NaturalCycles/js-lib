@@ -13,7 +13,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@naturalcycles/bench-lib": "^1.5.0",
+    "@naturalcycles/bench-lib": "^2.0.0",
     "@naturalcycles/dev-lib": "^13.0.1",
     "@naturalcycles/nodejs-lib": "^13.0.1",
     "@naturalcycles/time-lib": "^3.5.1",

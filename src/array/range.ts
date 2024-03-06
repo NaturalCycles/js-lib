@@ -39,7 +39,7 @@ export function _rangeIterable(fromIncl: number, toExcl?: number, step = 1): Ite
 
   return Iterable2.of({
     *[Symbol.iterator]() {
-      for (let i = fromIncl; i < toExcl!; i += step) {
+      for (let i = fromIncl; i < toExcl; i += step) {
         yield i
       }
     },
@@ -67,7 +67,7 @@ export function _rangeAsyncIterable(
 
   return AsyncIterable2.of({
     async *[Symbol.asyncIterator]() {
-      for (let i = fromIncl; i < toExcl!; i += step) {
+      for (let i = fromIncl; i < toExcl; i += step) {
         yield i
       }
     },

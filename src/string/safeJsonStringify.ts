@@ -37,7 +37,7 @@ function serializer(replacer?: Reviver, cycleReplacer?: Reviver): Reviver {
       ~thisPos ? stack.splice(thisPos + 1) : stack.push(this)
       ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key)
       if (~stack.indexOf(value)) {
-        value = cycleReplacer!.call(this, key, value)
+        value = cycleReplacer.call(this, key, value)
       }
     } else {
       stack.push(value)
