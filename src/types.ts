@@ -236,6 +236,17 @@ export type NumberOfMilliseconds = number
 export type Integer = number
 
 /**
+ * Convenience type alias, that allows to write this:
+ *
+ * data: NullableNumber[]
+ *
+ * instead of this:
+ *
+ * data: (number | null)[]
+ */
+export type NullableNumber = number | null
+
+/**
  * Used as a compact representation of truthy value.
  * undefined ('' or other short falsy value) should be used as falsy value.
  */
