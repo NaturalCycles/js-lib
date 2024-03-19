@@ -365,6 +365,15 @@ export function _lastOrUndefined<T>(array: T[]): T | undefined {
   return array[array.length - 1]
 }
 
+/**
+ * Returns the first item of non-empty array.
+ * Throws if array is empty.
+ */
+export function _first<T>(array: T[]): T {
+  if (!array.length) throw new Error('_first called on empty array')
+  return array[0]!
+}
+
 export function _minOrUndefined<T>(array: T[]): NonNullable<T> | undefined {
   const a = array.filter(_isNotNullish)
   if (!a.length) return

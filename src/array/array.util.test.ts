@@ -10,6 +10,7 @@ import {
   _dropRightWhile,
   _dropWhile,
   _findLast,
+  _first,
   _groupBy,
   _intersection,
   _intersectsWith,
@@ -331,6 +332,14 @@ test('_last', () => {
   expect(_last([1, undefined])).toBeUndefined()
   expect(_last([1, 2])).toBe(2)
   expect(_last([1])).toBe(1)
+})
+
+test('_first', () => {
+  expect(() => _first([])).toThrowErrorMatchingInlineSnapshot(`"_first called on empty array"`)
+  expect(_first([undefined])).toBeUndefined()
+  expect(_first([1, undefined])).toBe(1)
+  expect(_first([1, 2])).toBe(1)
+  expect(_first([1])).toBe(1)
 })
 
 test('_min', () => {
