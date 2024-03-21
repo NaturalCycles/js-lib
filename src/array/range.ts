@@ -16,14 +16,17 @@ import { Iterable2 } from '../iter/iterable2'
 export function _range(toExcl: number): number[]
 export function _range(fromIncl: number, toExcl: number, step?: number): number[]
 export function _range(fromIncl: number, toExcl?: number, step = 1): number[] {
+  const arr = []
   if (toExcl === undefined) {
-    return Array.from(new Array(fromIncl), (_, i) => i)
+    for (let i = 0; i < fromIncl; i++) {
+      arr.push(i)
+    }
+  } else {
+    for (let i = fromIncl; i < toExcl; i += step) {
+      arr.push(i)
+    }
   }
-
-  return Array.from(
-    { length: Math.ceil((toExcl - fromIncl) / step) },
-    (_, i) => i * step + fromIncl,
-  )
+  return arr
 }
 
 /**
