@@ -94,9 +94,9 @@ module.exports = {
   setupFilesAfterEnv,
   workerIdleMemoryLimit: '800MB', // workaround for this: https://github.com/facebook/jest/issues/11956
   collectCoverageFrom: [
-    'src/**/*.ts',
+    'src/**/*.{ts,tsx}',
     '!**/__exclude/**',
-    '!src/index.ts',
+    '!src/index.{ts,tsx}',
     '!src/test/**',
     '!src/typings/**',
     '!scripts/**',
@@ -111,9 +111,9 @@ module.exports = {
     '!**/*.script.ts',
     '!**/*.module.ts',
     '!**/*.mock.ts',
-    '!**/*.page.ts',
-    '!**/*.component.ts',
-    '!**/*.modal.ts',
+    '!**/*.page.{ts,tsx}',
+    '!**/*.component.{ts,tsx}',
+    '!**/*.modal.{ts,tsx}',
   ],
   // default: ["clover", "json", "lcov", "text"]
   coverageReporters: ['clover', 'json', 'json-summary', 'lcov', !CI && 'text'].filter(Boolean),
