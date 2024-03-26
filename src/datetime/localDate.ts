@@ -9,7 +9,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { LocalTime } from './localTime'
+import { ISODayOfWeek, LocalTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
@@ -175,6 +175,10 @@ export class LocalDate {
   day(v: number): LocalDate
   day(v?: number): number | LocalDate {
     return v === undefined ? this.$day : this.set('day', v)
+  }
+
+  dayOfWeek(): ISODayOfWeek {
+    return (this.toDate().getDay() || 7) as ISODayOfWeek
   }
 
   isSame(d: LocalDateInput): boolean {
