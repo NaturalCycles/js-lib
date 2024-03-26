@@ -297,3 +297,14 @@ test('parse weird input', () => {
   expect(LocalDate.parseOrNull(Date.now() as any)).toBeNull()
   expect(LocalDate.parseOrNull((() => {}) as any)).toBeNull()
 })
+
+test('dayOfWeek', () => {
+  expect(localDate('1984-06-18').dayOfWeek()).toBe(1)
+  expect(localDate('1984-06-19').dayOfWeek()).toBe(2)
+  expect(localDate('1984-06-20').dayOfWeek()).toBe(3)
+  expect(localDate('1984-06-21').dayOfWeek()).toBe(4)
+  expect(localDate('1984-06-22').dayOfWeek()).toBe(5)
+  expect(localDate('1984-06-23').dayOfWeek()).toBe(6)
+  expect(localDate('1984-06-24').dayOfWeek()).toBe(7)
+  expect(localDate('1984-06-25').dayOfWeek()).toBe(1)
+})
