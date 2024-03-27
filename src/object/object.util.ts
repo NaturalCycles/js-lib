@@ -1,5 +1,4 @@
 import { _isEmpty, _isObject } from '../is.util'
-import type { PropertyPath } from '../lodash.types'
 import { _objectEntries, KeyValueTuple, Reviver, SKIP } from '../types'
 import type { AnyObject, ObjectMapper, ObjectPredicate, ValueOf } from '../types'
 
@@ -327,6 +326,9 @@ export function _get<T extends AnyObject>(obj = {} as T, path = ''): unknown {
     .split('.')
     .reduce((o, p) => o?.[p], obj)
 }
+
+type Many<T> = T | readonly T[]
+type PropertyPath = Many<PropertyKey>
 
 /**
  * Sets the value at path of object. If a portion of path doesn’t exist it’s created. Arrays are created for
