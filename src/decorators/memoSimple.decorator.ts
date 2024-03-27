@@ -12,14 +12,11 @@ Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
 import type { CommonLogger } from '../log/commonLogger'
-import { _getArgsSignature, _getTargetMethodSignature } from './decorator.util'
+import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
 export interface MemoOpts {
-  logHit?: boolean
-  logMiss?: boolean
-  logArgs?: boolean
   logger?: CommonLogger
 }
 
@@ -58,7 +55,7 @@ export const memoSimple =
    */
     const cache: MemoCache = new MapMemoCache()
 
-    const { logHit, logMiss, logArgs = true, logger = console } = opt
+    const { logger = console } = opt
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
@@ -67,26 +64,11 @@ export const memoSimple =
       const cacheKey = jsonMemoSerializer(args)
 
       if (cache.has(cacheKey)) {
-        if (logHit) {
-          logger.log(`${methodSignature}(${_getArgsSignature(args, logArgs)}) @memo hit`)
-        }
         return cache.get(cacheKey)
       }
 
-      const d = Date.now()
-
       const res: any = originalFn.apply(ctx, args)
-
-      if (logMiss) {
-        logger.log(
-          `${methodSignature}(${_getArgsSignature(args, logArgs)}) @memo miss (${
-            Date.now() - d
-          } ms)`,
-        )
-      }
-
       cache.set(cacheKey, res)
-
       return res
     } as any
     ;(descriptor.value as any).dropCache = () => {

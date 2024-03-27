@@ -1,7 +1,6 @@
 import type { CommonLogger } from '../log/commonLogger'
-import { _since } from '../time/time.util'
 import type { AnyObject } from '../types'
-import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
+import { _getTargetMethodSignature } from './decorator.util'
 import type { AsyncMemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
@@ -29,23 +28,6 @@ export interface AsyncMemoOptions {
   cacheRejections?: boolean
 
   /**
-   * Default to false
-   */
-  logHit?: boolean
-
-  /**
-   * Default to false
-   */
-  logMiss?: boolean
-
-  /**
-   * Set to `false` to skip logging method arguments.
-   *
-   * Defaults to true.
-   */
-  logArgs?: boolean
-
-  /**
    * Default to `console`
    */
   logger?: CommonLogger
@@ -53,6 +35,10 @@ export interface AsyncMemoOptions {
 
 /**
  * Like @_Memo, but allowing async MemoCache implementation.
+ *
+ * Important: it awaits the method to return the result before caching it.
+ *
+ * todo: test for "swarm requests", it should return "the same promise" and not cause a swarm origin hit
  *
  * Method CANNOT return `undefined`, as undefined will always be treated as cache MISS and retried.
  * Return `null` instead (it'll be cached).
@@ -71,9 +57,6 @@ export const _AsyncMemo =
     const cache = new Map<AnyObject, AsyncMemoCache>()
 
     const {
-      logHit = false,
-      logMiss = false,
-      logArgs = true,
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
@@ -105,15 +88,6 @@ export const _AsyncMemo =
 
       if (value !== undefined) {
         // hit!
-        if (logHit) {
-          logger.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-              args,
-              logArgs,
-            )}) @_AsyncMemo hit`,
-          )
-        }
-
         if (value instanceof Error) {
           throw value
         }
@@ -122,8 +96,6 @@ export const _AsyncMemo =
       }
 
       // Here we know it's a MISS, let's execute the real method
-      const started = Date.now()
-
       try {
         value = await originalFn.apply(ctx, args)
 
@@ -154,15 +126,6 @@ export const _AsyncMemo =
         }
 
         throw err
-      } finally {
-        if (logMiss) {
-          logger.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-              args,
-              logArgs,
-            )}) @_AsyncMemo miss (${_since(started)})`,
-          )
-        }
       }
     } as any
     ;(descriptor.value as any).dropCache = async () => {

@@ -1,7 +1,6 @@
 import type { CommonLogger } from '../log/commonLogger'
-import { _since } from '../time/time.util'
 import type { AnyObject } from '../types'
-import { _getArgsSignature, _getMethodSignature, _getTargetMethodSignature } from './decorator.util'
+import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
@@ -26,21 +25,6 @@ export interface MemoOptions {
    * False will allow >1 execution in case of errors.
    */
   cacheErrors?: boolean
-
-  /**
-   * Default to false
-   */
-  logHit?: boolean
-  /**
-   * Default to false
-   */
-  logMiss?: boolean
-
-  /**
-   * Defaults to true.
-   * Set to false to skip logging method arguments.
-   */
-  logArgs?: boolean
 
   /**
    * Default to `console`
@@ -87,9 +71,6 @@ export const _Memo =
     const cache = new Map<AnyObject, MemoCache>()
 
     const {
-      logHit = false,
-      logMiss = false,
-      logArgs = true,
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
@@ -107,12 +88,6 @@ export const _Memo =
       if (!cache.has(ctx)) {
         cache.set(ctx, cacheFactory())
       } else if (cache.get(ctx)!.has(cacheKey)) {
-        if (logHit) {
-          logger.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(args, logArgs)}) @_Memo hit`,
-          )
-        }
-
         value = cache.get(ctx)!.get(cacheKey)
 
         if (value instanceof Error) {
@@ -121,8 +96,6 @@ export const _Memo =
 
         return value
       }
-
-      const started = Date.now()
 
       try {
         value = originalFn.apply(ctx, args)
@@ -144,15 +117,6 @@ export const _Memo =
         }
 
         throw err
-      } finally {
-        if (logMiss) {
-          logger.log(
-            `${_getMethodSignature(ctx, keyStr)}(${_getArgsSignature(
-              args,
-              logArgs,
-            )}) @_Memo miss (${_since(started)})`,
-          )
-        }
       }
     } as any
     ;(descriptor.value as any).dropCache = () => {
