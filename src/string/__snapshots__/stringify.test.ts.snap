@@ -64,12 +64,18 @@ Map {
   /i am regex, who are you\\?/ => "{}",
   Map {
     "a" => "b",
-  } => "{}",
+  } => "{
+  "a": "b"
+}",
   Set {
     "a",
     "b",
     "c",
-  } => "{}",
+  } => "[
+  "a",
+  "b",
+  "c"
+]",
   [Error: some err msg] => "Error: some err msg",
   [Error: Error with code] => "Error: Error with code
 code: auth/forbidden",
@@ -143,12 +149,18 @@ Map {
   /i am regex, who are you\\?/ => "{}",
   Map {
     "a" => "b",
-  } => "{}",
+  } => "{
+  "a": "b"
+}",
   Set {
     "a",
     "b",
     "c",
-  } => "{}",
+  } => "[
+  "a",
+  "b",
+  "c"
+]",
   [Error: some err msg] => "Error: some err msg",
   [Error: Error with code] => "Error: Error with code
 code: auth/forbidden",

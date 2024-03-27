@@ -158,6 +158,12 @@ export function _stringify(obj: any, opt: StringifyOptions = {}): string {
     //
     // Other
     //
+    if (obj instanceof Map) {
+      obj = Object.fromEntries(obj)
+    } else if (obj instanceof Set) {
+      obj = [...obj]
+    }
+
     try {
       const { stringifyFn = globalStringifyFunction } = opt
 

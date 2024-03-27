@@ -128,4 +128,6 @@ test('setGlobalStringifyFunction', () => {
   setGlobalStringifyFunction(inspectStringifyFn)
 
   expect(_stringify(obj)).toMatchInlineSnapshot(`"{ a: 'a', b: { c: 'c' } }"`)
+
+  expect(_stringify(new Map([['a', 'b']]))).toMatchInlineSnapshot(`"{ a: 'b' }"`)
 })
