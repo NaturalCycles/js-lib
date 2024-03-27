@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a2 as e}from"./chunks/framework.DAhV_gi6.js";const g=JSON.parse('{"title":"Fetcher","description":"","frontmatter":{},"headers":[],"relativePath":"fetcher.md","filePath":"fetcher.md"}'),t={name:"fetcher.md"},n=e("",19),l=[n];function h(r,p,k,o,d,c){return a(),i("div",null,l)}const y=s(t,[["render",h]]);export{g as __pageData,y as default};

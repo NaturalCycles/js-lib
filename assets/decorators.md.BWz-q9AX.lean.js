@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a2 as n}from"./chunks/framework.DAhV_gi6.js";const g=JSON.parse('{"title":"Decorators","description":"","frontmatter":{},"headers":[],"relativePath":"decorators.md","filePath":"decorators.md"}'),t={name:"decorators.md"},e=n("",43),h=[e];function l(p,k,r,o,d,E){return a(),i("div",null,h)}const y=s(t,[["render",l]]);export{g as __pageData,y as default};

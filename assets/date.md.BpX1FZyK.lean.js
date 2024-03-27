@@ -1,0 +1,1 @@
+import{_ as t,c as e,o as a,a2 as o}from"./chunks/framework.DAhV_gi6.js";const y=JSON.parse('{"title":"LocalDate, LocalTime","description":"","frontmatter":{},"headers":[],"relativePath":"date.md","filePath":"date.md"}'),d={name:"date.md"},i=o("",22),r=[i];function l(s,n,c,m,u,p){return a(),e("div",null,r)}const f=t(d,[["render",l]]);export{y as __pageData,f as default};

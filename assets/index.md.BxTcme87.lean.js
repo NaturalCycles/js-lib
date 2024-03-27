@@ -1,0 +1,1 @@
+import{_ as e,c as s,o as a,a2 as i}from"./chunks/framework.DAhV_gi6.js";const k=JSON.parse('{"title":"js-lib","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),t={name:"index.md"},o=i("",25),n=[o];function l(r,d,c,p,h,g){return a(),s("div",null,n)}const b=e(t,[["render",l]]);export{k as __pageData,b as default};

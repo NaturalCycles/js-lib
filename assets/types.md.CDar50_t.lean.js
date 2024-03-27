@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a2 as t}from"./chunks/framework.DAhV_gi6.js";const E=JSON.parse('{"title":"Types","description":"","frontmatter":{},"headers":[],"relativePath":"types.md","filePath":"types.md"}'),h={name:"types.md"},e=t("",31),n=[e];function p(l,k,r,d,g,o){return a(),i("div",null,n)}const c=s(h,[["render",p]]);export{E as __pageData,c as default};
