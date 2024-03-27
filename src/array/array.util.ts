@@ -196,6 +196,9 @@ export function _sortDescBy<T>(items: T[], mapper: Mapper<T, any>, mutate = fals
 
 /**
  * Like items.find(), but it tries to find from the END of the array.
+ *
+ * Node 18+ supports native array.findLast() - use that.
+ * iOS Safari only has it since 15.4
  */
 export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined {
   return [...items].reverse().find(predicate)
