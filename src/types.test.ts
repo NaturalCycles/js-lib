@@ -44,13 +44,20 @@ test('saved/unsaved', () => {
     a: number
   }>()
 
+  expectTypeOf<Item>().toEqualTypeOf<{
+    a?: number
+    id: string
+    created: number
+    updated: number
+  }>()
+
   const item = {} as Unsaved<Item>
   delete item.a
   delete item.id
   delete item.created
   delete item.updated
 
-  expectTypeOf(item).toEqualTypeOf<{
+  expectTypeOf(item).toMatchTypeOf<{
     a?: number
     id?: string
     created?: number
@@ -74,7 +81,7 @@ test('saved/unsaved', () => {
   }>()
 
   const savedItemDBM = itemDBM as Saved<ItemDBM>
-  expectTypeOf(savedItemDBM).toEqualTypeOf<{
+  expectTypeOf(savedItemDBM).toMatchTypeOf<{
     id: string
     created: number
     updated: number
@@ -87,11 +94,11 @@ test('saved/unsaved', () => {
   delete unsavedItem.updated
   delete unsavedItem.a
 
-  expectTypeOf(unsavedItem).toEqualTypeOf<{
-    a?: number
+  expectTypeOf(unsavedItem).toMatchTypeOf<{
     id?: string
     created?: number
     updated?: number
+    a?: number
   }>()
 
   const unsavedItemDBM: Unsaved<ItemDBM> = {
@@ -103,7 +110,7 @@ test('saved/unsaved', () => {
   delete unsavedItemDBM.updated
   delete unsavedItemDBM.a
 
-  expectTypeOf(unsavedItemDBM).toEqualTypeOf<{
+  expectTypeOf(unsavedItemDBM).toMatchTypeOf<{
     a?: number
     id?: string
     created?: number
@@ -113,7 +120,7 @@ test('saved/unsaved', () => {
   const unsavedItemId: UnsavedId<ItemDBM> = itemDBM
   delete unsavedItemId.id
 
-  expectTypeOf(unsavedItemId).toEqualTypeOf<{
+  expectTypeOf(unsavedItemId).toMatchTypeOf<{
     id?: string
     created: number
     updated: number

@@ -25,9 +25,6 @@
     "vitepress": "^1.0.0",
     "vue": "^3.2.45"
   },
-  "resolutions": {
-    "expect-type": "0.15.0"
-  },
   "files": [
     "dist",
     "dist-esm",

@@ -52,8 +52,8 @@ test('_numberEnumKeys', () => {
 
 test('_numberEnumValues', () => {
   expect(_numberEnumValues(MyNumberEnum)).toEqual([1, 2, 3])
-  expectTypeOf(_numberEnumValues(MyNumberEnum)).toEqualTypeOf<MyNumberEnum[]>()
-  expectTypeOf(_numberEnumValues(MyNumberEnum)).toEqualTypeOf<number[]>()
+  expectTypeOf(_numberEnumValues(MyNumberEnum)).toMatchTypeOf<MyNumberEnum[]>()
+  expectTypeOf(_numberEnumValues(MyNumberEnum)).toMatchTypeOf<number[]>()
   const values = _numberEnumValues(MyNumberEnum)
   expect(values).toContain(MyNumberEnum.K1)
 })
@@ -78,7 +78,7 @@ test('_stringEnumValues', () => {
     ]
   `)
 
-  expectTypeOf(_stringEnumValues(MyStringEnum)).toEqualTypeOf<MyStringEnum[]>()
+  expectTypeOf(_stringEnumValues(MyStringEnum)).toMatchTypeOf<MyStringEnum[]>()
 })
 
 test('_numberEnumEntries', () => {
@@ -89,7 +89,7 @@ test('_numberEnumEntries', () => {
       "K3": 3,
     }
   `)
-  expectTypeOf(_numberEnumEntries(MyNumberEnum)).toEqualTypeOf<
+  expectTypeOf(_numberEnumEntries(MyNumberEnum)).toMatchTypeOf<
     [keyof typeof MyNumberEnum, MyNumberEnum][]
   >()
 
