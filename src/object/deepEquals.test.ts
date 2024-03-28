@@ -1,4 +1,5 @@
-import { _deepEquals, _deepJsonEquals } from './deepEquals'
+import { deepEqualsMocks } from '../test/deepEqualsMocks'
+import { _deepEquals, _deepJsonEquals, _jsonEquals } from './deepEquals'
 
 test('_deepEquals Issue!', () => {
   expect(
@@ -54,6 +55,29 @@ test('_deepJsonEquals', () => {
     c: undefined,
   }
 
-  expect(_deepEquals(a, b)).toBe(false)
+  expect(_deepEquals(a, b)).toBe(true)
   expect(_deepJsonEquals(a, b)).toBe(true)
+})
+
+test.each(deepEqualsMocks)(
+  '_deepEquals2 %s %s jsonEq=%s deepJsonEq=%s deepEq=%s',
+  (v1, v2, jsonEq, deepJsonEq, deepEq) => {
+    if (jsonEq !== 'error') {
+      expect(_jsonEquals(v1, v2)).toBe(jsonEq)
+    }
+    expect(_deepJsonEquals(v1, v2)).toBe(deepJsonEq)
+    expect(_deepEquals(v1, v2)).toBe(deepEq)
+  },
+)
+
+class A {
+  constructor(public v: string) {}
+  toJSON(): string {
+    return this.v
+  }
+}
+
+test('debug', () => {
+  const r = _deepEquals(new A('a'), 'a')
+  console.log(r)
 })
