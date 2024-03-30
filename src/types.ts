@@ -102,6 +102,12 @@ export const END = Symbol('END')
 export const SKIP = Symbol('SKIP')
 
 /**
+ * Symbol to indicate cache miss.
+ * To distinguish from cache returning `undefined` or `null`.
+ */
+export const MISS = Symbol('MISS')
+
+/**
  * Function which is called for every item in `input`. Expected to return a `Promise` or value.
  */
 export type AsyncMapper<IN = any, OUT = any> = (input: IN, index: number) => OUT | PromiseLike<OUT>

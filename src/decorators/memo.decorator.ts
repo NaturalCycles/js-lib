@@ -1,5 +1,6 @@
+import { _assert } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import type { AnyObject } from '../types'
+import { _objectAssign, AnyFunction, AnyObject } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -18,32 +19,35 @@ export interface MemoOptions {
   cacheKeyFn?: (args: any[]) => any
 
   /**
-   * Defaults to true.
-   * Set to false to skip caching errors.
-   *
-   * True will ensure "max 1 execution", but will "remember" errors.
-   * False will allow >1 execution in case of errors.
-   */
-  cacheErrors?: boolean
-
-  /**
    * Default to `console`
    */
   logger?: CommonLogger
 }
 
+export interface MemoInstance {
+  /**
+   * Clears the cache.
+   */
+  clear: () => void
+
+  getInstanceCache: () => Map<AnyObject, MemoCache>
+
+  getCache: (instance: AnyFunction) => MemoCache | undefined
+}
+
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
  * of the cache is the same. Key, by defaul, is calculated as `JSON.stringify(...args)`.
- * Cache is stored indefinitely in internal Map.
+ * Cache is stored indefinitely in the internal Map.
+ *
+ * If origin function throws an Error - it is NOT cached.
+ * So, error-throwing functions will be called multiple times.
+ * Therefor, if the origin function can possibly throw - it should try to be idempotent.
  *
  * Cache is stored **per instance** - separate cache for separate instances of the class.
  * If you don't want it that way - you can use a static method, then there will be only one "instance".
  *
- * Supports dropping it's cache by calling .dropCache() method of decorated function (useful in unit testing).
- *
- * Doesn't support Async functions, use @_AsyncMemo instead!
- * (or, it will simply return the [unresolved] Promise further, without awaiting it)
+ * Supports dropping it's cache by calling .clear() method of decorated function (useful in unit testing).
  *
  * Based on:
  * https://github.com/mgechev/memo-decorator/blob/master/index.ts
@@ -64,17 +68,16 @@ export const _Memo =
     // Map<ctx => MemoCache<cacheKey, result>>
     //
     // Internal map is from cacheKey to result
-    // External map is from ctx (instance of class) to Internal map
+    // External map (instanceCache) is from ctx (instance of class) to Internal map
     // External map is Weak to not cause memory leaks, to allow ctx objects to be garbage collected
     // UPD: tests show that normal Map also doesn't leak (to be tested further)
-    // Normal Map is needed to allow .dropCache()
-    const cache = new Map<AnyObject, MemoCache>()
+    // Normal Map is needed to allow .clear()
+    const instanceCache = new Map<AnyObject, MemoCache>()
 
     const {
       logger = console,
       cacheFactory = () => new MapMemoCache(),
       cacheKeyFn = jsonMemoSerializer,
-      cacheErrors = true,
     } = opt
 
     const keyStr = String(key)
@@ -83,47 +86,48 @@ export const _Memo =
     descriptor.value = function (this: typeof target, ...args: any[]): any {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
-      let value: any
 
-      if (!cache.has(ctx)) {
-        cache.set(ctx, cacheFactory())
-      } else if (cache.get(ctx)!.has(cacheKey)) {
-        value = cache.get(ctx)!.get(cacheKey)
-
-        if (value instanceof Error) {
-          throw value
-        }
-
-        return value
+      let cache = instanceCache.get(ctx)
+      if (!cache) {
+        cache = cacheFactory()
+        instanceCache.set(ctx, cache)
       }
+
+      if (cache.has(cacheKey)) {
+        // Hit
+        return cache.get(cacheKey)
+      }
+
+      // Miss
+      const value = originalFn.apply(ctx, args)
 
       try {
-        value = originalFn.apply(ctx, args)
-
-        try {
-          cache.get(ctx)!.set(cacheKey, value)
-        } catch (err) {
-          logger.error(err)
-        }
-
-        return value
+        cache.set(cacheKey, value)
       } catch (err) {
-        if (cacheErrors) {
-          try {
-            cache.get(ctx)!.set(cacheKey, err)
-          } catch (err) {
-            logger.error(err)
-          }
-        }
-
-        throw err
+        logger.error(err)
       }
+
+      return value
     } as any
-    ;(descriptor.value as any).dropCache = () => {
-      logger.log(`${methodSignature} @_Memo.dropCache()`)
-      cache.forEach(memoCache => memoCache.clear())
-      cache.clear()
-    }
+
+    _objectAssign(descriptor.value as MemoInstance, {
+      clear: () => {
+        logger.log(`${methodSignature} @_Memo.clear()`)
+        instanceCache.forEach(memoCache => memoCache.clear())
+        instanceCache.clear()
+      },
+      getInstanceCache: () => instanceCache,
+      getCache: instance => instanceCache.get(instance),
+    })
 
     return descriptor
   }
+
+/**
+ Call it on a method that is decorated with `@_Memo` to get access to additional functions,
+ e.g `clear` to clear the cache, or get its underlying data.
+ */
+export function _getMemo(method: AnyFunction): MemoInstance {
+  _assert(typeof (method as any)?.getInstanceCache === 'function', 'method is not a Memo instance')
+  return method as any
+}

@@ -1,16 +1,15 @@
+import { _assert } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import type { AnyObject } from '../types'
+import { _objectAssign, AnyAsyncFunction, AnyFunction, AnyObject, MISS } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
-import type { AsyncMemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import { AsyncMemoCache, jsonMemoSerializer } from './memo.util'
 
 export interface AsyncMemoOptions {
   /**
-   * Provide a custom implementation of MemoCache.
-   * Function that creates an instance of `MemoCache`.
-   * e.g LRUMemoCache from `@naturalcycles/nodejs-lib`.
+   * Provide a custom implementation of AsyncMemoCache.
+   * Function that creates an instance of `AsyncMemoCache`.
    */
-  cacheFactory?: () => AsyncMemoCache
+  cacheFactory: () => AsyncMemoCache
 
   /**
    * Provide a custom implementation of CacheKey function.
@@ -18,34 +17,33 @@ export interface AsyncMemoOptions {
   cacheKeyFn?: (args: any[]) => any
 
   /**
-   * Default true.
-   *
-   * Set to `false` to skip caching rejected promises (errors).
-   *
-   * True will ensure "max 1 execution", but will "remember" rejection.
-   * False will allow >1 execution in case of errors.
-   */
-  cacheRejections?: boolean
-
-  /**
    * Default to `console`
    */
   logger?: CommonLogger
 }
 
+export interface AsyncMemoInstance {
+  /**
+   * Clears the cache.
+   */
+  clear: () => Promise<void>
+
+  getInstanceCache: () => Map<AnyObject, AsyncMemoCache>
+
+  getCache: (instance: AnyAsyncFunction) => AsyncMemoCache | undefined
+}
+
 /**
  * Like @_Memo, but allowing async MemoCache implementation.
  *
- * Important: it awaits the method to return the result before caching it.
+ * Implementation is more complex than @_Memo, because it needs to handle "in-flight" Promises
+ * while waiting for cache to resolve, to prevent "async swarm" issue.
  *
- * todo: test for "swarm requests", it should return "the same promise" and not cause a swarm origin hit
- *
- * Method CANNOT return `undefined`, as undefined will always be treated as cache MISS and retried.
- * Return `null` instead (it'll be cached).
+ * @experimental consider normal @_Memo for most of the cases, it's stable and predictable
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _AsyncMemo =
-  (opt: AsyncMemoOptions = {}): MethodDecorator =>
+  (opt: AsyncMemoOptions): MethodDecorator =>
   (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new TypeError('Memoization can be applied only to methods')
@@ -54,89 +52,117 @@ export const _AsyncMemo =
     const originalFn = descriptor.value
 
     // Map from "instance" of the Class where @_AsyncMemo is applied to AsyncMemoCache instance.
-    const cache = new Map<AnyObject, AsyncMemoCache>()
+    const instanceCache = new Map<AnyObject, AsyncMemoCache>()
 
-    const {
-      logger = console,
-      cacheFactory = () => new MapMemoCache(),
-      cacheKeyFn = jsonMemoSerializer,
-      cacheRejections = true,
-    } = opt
+    // Cache from Instance to Map<key, Promise>
+    // This cache is temporary, with only one purpose - to prevent "async swarm"
+    // It only holds values that are "in-flight", until Promise is resolved
+    // After it's resolved - it's evicted from the cache and moved to the "proper" `instanceCache`
+    const instancePromiseCache = new Map<AnyObject, Map<any, Promise<any>>>()
+
+    const { logger = console, cacheFactory, cacheKeyFn = jsonMemoSerializer } = opt
 
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-    descriptor.value = async function (this: typeof target, ...args: any[]): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
+    descriptor.value = function (this: typeof target, ...args: any[]): Promise<any> {
       const ctx = this
-
       const cacheKey = cacheKeyFn(args)
 
-      if (!cache.has(ctx)) {
-        cache.set(ctx, cacheFactory())
+      let cache = instanceCache.get(ctx)
+      let promiseCache = instancePromiseCache.get(ctx)
+
+      if (!cache) {
+        cache = cacheFactory()
+        instanceCache.set(ctx, cache)
         // here, no need to check the cache. It's definitely a miss, because the cacheLayers is just created
         // UPD: no! AsyncMemo supports "persistent caches" (e.g Database-backed cache)
       }
-
-      let value: any
-
-      try {
-        value = await cache.get(ctx)!.get(cacheKey)
-      } catch (err) {
-        // log error, but don't throw, treat it as a "miss"
-        logger.error(err)
+      if (!promiseCache) {
+        promiseCache = new Map()
+        instancePromiseCache.set(ctx, promiseCache)
       }
 
-      if (value !== undefined) {
-        // hit!
-        if (value instanceof Error) {
-          throw value
-        }
-
-        return value
+      let promise = promiseCache.get(cacheKey)
+      // If there's already "in-flight" cache request - return that, to avoid "async swarm"
+      if (promise) {
+        // console.log('return promise', promiseCache.size)
+        return promise
       }
 
-      // Here we know it's a MISS, let's execute the real method
-      try {
-        value = await originalFn.apply(ctx, args)
-
-        // Save the value in the Cache, without awaiting it
-        // This is to support both sync and async functions
-        void (async () => {
-          try {
-            await cache.get(ctx)!.set(cacheKey, value)
-          } catch (err) {
-            // log and ignore the error
-            logger.error(err)
+      promise = cache.get(cacheKey).then(
+        async value => {
+          if (value !== MISS) {
+            // console.log('hit', promiseCache.size)
+            promiseCache.delete(cacheKey)
+            return value
           }
-        })()
 
-        return value
-      } catch (err) {
-        if (cacheRejections) {
-          // We put it to cache as raw Error, not Promise.reject(err)
-          // This is to support both sync and async functions
+          // Miss
+          // console.log('miss', promiseCache.size)
+          return await onMiss()
+        },
+        async err => {
+          // Log the cache error and proceed "as cache Miss"
+          logger.error(err)
+          return await onMiss()
+        },
+      )
+
+      promiseCache.set(cacheKey, promise)
+      return promise
+
+      //
+
+      async function onMiss(): Promise<any> {
+        try {
+          const value = await originalFn.apply(ctx, args)
+
+          // Save the value in the Cache, in parallel,
+          // not to slow down the main function execution
+          // and not to fail on possible cache issues
           void (async () => {
             try {
-              await cache.get(ctx)!.set(cacheKey, err)
+              await cache!.set(cacheKey, value)
             } catch (err) {
-              // log and ignore the error
-              logger.error(err)
+              logger.error(err) // log and ignore the error
+            } finally {
+              // Clear the "in-flight" promise cache entry, as we now have a "permanent" cache entry
+              promiseCache!.delete(cacheKey)
+              // console.log('cache set and cleared', promiseCache!.size)
             }
           })()
-        }
 
-        throw err
+          return value
+        } catch (err) {
+          promiseCache!.delete(cacheKey)
+          throw err
+        }
       }
     } as any
-    ;(descriptor.value as any).dropCache = async () => {
-      logger.log(`${methodSignature} @_AsyncMemo.dropCache()`)
-      try {
-        await Promise.all([...cache.values()].map(c => c.clear()))
-        cache.clear()
-      } catch (err) {
-        logger.error(err)
-      }
-    }
+
+    _objectAssign(descriptor.value as AsyncMemoInstance, {
+      clear: async () => {
+        logger.log(`${methodSignature} @_AsyncMemo.clear()`)
+        await Promise.all([...instanceCache.values()].map(c => c.clear()))
+        instanceCache.clear()
+      },
+      getInstanceCache: () => instanceCache,
+      getCache: instance => instanceCache.get(instance),
+    })
 
     return descriptor
   }
+
+/**
+ Call it on a method that is decorated with `@_AsyncMemo` to get access to additional functions,
+ e.g `clear` to clear the cache, or get its underlying data.
+ */
+export function _getAsyncMemo(method: AnyFunction): AsyncMemoInstance {
+  _assert(
+    typeof (method as any)?.getInstanceCache === 'function',
+    'method is not an AsyncMemo instance',
+  )
+  return method as any
+}

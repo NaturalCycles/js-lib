@@ -1,5 +1,4 @@
-import { _isPrimitive } from '..'
-import type { Promisable } from '../typeFest'
+import { _isPrimitive, MISS, pDelay } from '..'
 
 export type MemoSerializer = (args: any[]) => any
 
@@ -11,11 +10,17 @@ export const jsonMemoSerializer: MemoSerializer = args => {
 
 export interface MemoCache<KEY = any, VALUE = any> {
   has: (k: KEY) => boolean
-  get: (k: KEY) => VALUE | Error | undefined
-  set: (k: KEY, v: VALUE | Error) => void
+  /**
+   * `get` return signature doesn't contain `undefined`,
+   * because `undefined` is a valid VALUE to store in the Cache.
+   * `undefined` does NOT mean cache miss.
+   * Cache misses are checked by calling `has` method instead.
+   */
+  get: (k: KEY) => VALUE
+  set: (k: KEY, v: VALUE) => void
 
   /**
-   * Clear is only called when `.dropCache()` is called.
+   * Clear is only called when `_getMemoCache().clear()` is called.
    * Otherwise the Cache is "persistent" (never cleared).
    */
   clear: () => void
@@ -25,18 +30,18 @@ export interface AsyncMemoCache<KEY = any, VALUE = any> {
   // `has` method is removed, because it is assumed that it has a cost and it's best to avoid doing both `has` and then `get`
   // has(k: any): Promise<boolean>
   /**
-   * `undefined` value returned indicates the ABSENCE of value in the Cache.
-   * This also means that you CANNOT store `undefined` value in the Cache, as it'll be treated as a MISS.
-   * You CAN store `null` value instead, it will be treated as a HIT.
+   * MISS symbol indicates the ABSENCE of value in the Cache.
+   * You can safely store `undefined` or `null` values in the Cache,
+   * they will not be interpreted as a cache miss, because there is a special MISS symbol for that.
    */
-  get: (k: KEY) => Promisable<VALUE | Error | undefined>
-  set: (k: KEY, v: VALUE | Error) => Promisable<void>
+  get: (k: KEY) => Promise<VALUE | typeof MISS>
+  set: (k: KEY, v: VALUE) => Promise<void>
 
   /**
-   * Clear is only called when `.dropCache()` is called.
+   * Clear is only called when `_getAsyncMemo().clear()` is called.
    * Otherwise the Cache is "persistent" (never cleared).
    */
-  clear: () => Promisable<void>
+  clear: () => Promise<void>
 }
 
 // SingleValueMemoCache and ObjectMemoCache are example-only, not used in production code
@@ -85,24 +90,49 @@ export class ObjectMemoCache implements MemoCache {
 }
  */
 
-export class MapMemoCache<KEY = any, VALUE = any>
-  implements MemoCache<KEY, VALUE>, AsyncMemoCache<KEY, VALUE>
-{
-  private m = new Map<KEY, VALUE | Error>()
+export class MapMemoCache<KEY = any, VALUE = any> implements MemoCache<KEY, VALUE> {
+  private m = new Map<KEY, VALUE>()
 
   has(k: KEY): boolean {
     return this.m.has(k)
   }
 
-  get(k: KEY): VALUE | Error | undefined {
-    return this.m.get(k)
+  get(k: KEY): VALUE {
+    return this.m.get(k)!
   }
 
-  set(k: KEY, v: VALUE | Error): void {
+  set(k: KEY, v: VALUE): void {
     this.m.set(k, v)
   }
 
   clear(): void {
+    this.m.clear()
+  }
+}
+
+/**
+ * Implementation of AsyncMemoCache backed by a synchronous Map.
+ * Doesn't have a practical use except testing,
+ * because the point of AsyncMemoCache is to have an **async** backed cache.
+ */
+export class MapAsyncMemoCache<KEY = any, VALUE = any> implements AsyncMemoCache<KEY, VALUE> {
+  constructor(private delay = 0) {}
+
+  private m = new Map<KEY, VALUE>()
+
+  async get(k: KEY): Promise<VALUE | typeof MISS> {
+    await pDelay(this.delay)
+    if (!this.m.has(k)) return MISS
+    return this.m.get(k)!
+  }
+
+  async set(k: KEY, v: VALUE): Promise<void> {
+    await pDelay(this.delay)
+    this.m.set(k, v)
+  }
+
+  async clear(): Promise<void> {
+    await pDelay(this.delay)
     this.m.clear()
   }
 }

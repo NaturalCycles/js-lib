@@ -1,3 +1,4 @@
+import { MISS } from '../types'
 import type { AsyncMemoOptions } from './asyncMemo.decorator'
 import type { AsyncMemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -7,16 +8,14 @@ export interface MemoizedAsyncFunction {
 }
 
 /**
- * Only supports Sync functions.
- * To support Async functions - use _memoFnAsync
+ * @experimental
  */
 export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  opt: AsyncMemoOptions = {},
+  opt: AsyncMemoOptions,
 ): T & MemoizedAsyncFunction {
   const {
     logger = console,
-    cacheRejections = true,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
@@ -34,39 +33,21 @@ export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
       logger.error(err)
     }
 
-    if (value !== undefined) {
-      if (value instanceof Error) {
-        throw value
-      }
-
+    if (value !== MISS) {
       return value
     }
 
-    try {
-      value = await fn.apply(ctx, args)
+    value = await fn.apply(ctx, args)
 
-      void (async () => {
-        try {
-          await cache.set(cacheKey, value)
-        } catch (err) {
-          logger.error(err)
-        }
-      })()
-
-      return value
-    } catch (err) {
-      if (cacheRejections) {
-        void (async () => {
-          try {
-            await cache.set(cacheKey, err)
-          } catch (err) {
-            logger.error(err)
-          }
-        })()
+    void (async () => {
+      try {
+        await cache.set(cacheKey, value)
+      } catch (err) {
+        logger.error(err)
       }
+    })()
 
-      throw err
-    }
+    return value
   }
 
   Object.assign(memoizedFn, { cache })

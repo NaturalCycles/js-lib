@@ -10,6 +10,8 @@ export interface MemoizedFunction {
  * Only supports Sync functions.
  * To support Async functions - use _memoFnAsync.
  * Technically, you can use it with Async functions, but it'll return the Promise without awaiting it.
+ *
+ * @experimental
  */
 export function _memoFn<T extends (...args: any[]) => any>(
   fn: T,
@@ -17,7 +19,6 @@ export function _memoFn<T extends (...args: any[]) => any>(
 ): T & MemoizedFunction {
   const {
     logger = console,
-    cacheErrors = true,
     cacheFactory = () => new MapMemoCache(),
     cacheKeyFn = jsonMemoSerializer,
   } = opt
@@ -27,39 +28,20 @@ export function _memoFn<T extends (...args: any[]) => any>(
   const memoizedFn = function (this: any, ...args: any[]): T {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
-    let value: any
 
     if (cache.has(cacheKey)) {
-      value = cache.get(cacheKey)
-
-      if (value instanceof Error) {
-        throw value
-      }
-
-      return value
+      return cache.get(cacheKey)
     }
+
+    const value = fn.apply(ctx, args)
 
     try {
-      value = fn.apply(ctx, args)
-
-      try {
-        cache.set(cacheKey, value)
-      } catch (err) {
-        logger.error(err)
-      }
-
-      return value
+      cache.set(cacheKey, value)
     } catch (err) {
-      if (cacheErrors) {
-        try {
-          cache.set(cacheKey, err)
-        } catch (err) {
-          logger.error(err)
-        }
-      }
-
-      throw err
+      logger.error(err)
     }
+
+    return value
   }
 
   Object.assign(memoizedFn, { cache })

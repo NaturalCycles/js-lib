@@ -1,3 +1,4 @@
+import { MapAsyncMemoCache } from './memo.util'
 import { _memoFnAsync } from './memoFnAsync'
 
 let calledTimes = 0
@@ -8,7 +9,9 @@ async function fnOrig(n = 1): Promise<number> {
   return n * 2
 }
 
-const fn = _memoFnAsync(fnOrig)
+const fn = _memoFnAsync(fnOrig, {
+  cacheFactory: () => new MapAsyncMemoCache(),
+})
 
 beforeEach(() => {
   calledTimes = 0

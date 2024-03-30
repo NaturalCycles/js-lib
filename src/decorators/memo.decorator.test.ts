@@ -1,4 +1,6 @@
-import { _Memo } from './memo.decorator'
+import { _range } from '../array/range'
+import { pDelay } from '../promise/pDelay'
+import { _getMemo, _Memo } from './memo.decorator'
 
 class A {
   func(n: number): void {
@@ -32,8 +34,12 @@ test('memo a', () => {
   // to be called once per set of arguments (2)
   expect(a.func).toMatchSnapshot()
 
+  expect(_getMemo(a.a).getInstanceCache().size).toBe(1)
+
   // cleanup for the next tests
-  ;(a.a as any).dropCache()
+  _getMemo(a.a).clear()
+
+  expect(_getMemo(a.a).getInstanceCache().size).toBe(0)
 })
 
 test('MEMO_DROP_CACHE', () => {
@@ -43,8 +49,7 @@ test('MEMO_DROP_CACHE', () => {
   // first call
   a.a(2, 3)
 
-  // drop cache
-  ;(a.a as any).dropCache()
+  _getMemo(a.a).clear()
 
   // second call
   a.a(2, 3)
@@ -83,4 +88,25 @@ test('should work with default arg values', () => {
   b.a('nondef')
 
   expect(b.cacheMisses).toBe(3)
+})
+
+class C {
+  calls = 0
+
+  @_Memo()
+  async fn(): Promise<void> {
+    this.calls++
+    await pDelay(100)
+  }
+}
+
+test('swarm test of async function', async () => {
+  // Swarm is when one "slow" async function is called multiple times in parallel
+  // Expectation is that it should return the same Promise and `calls` should equal to 1
+  // Because it **synchronously** returns a Promise (despite the fact that it's async)
+  const c = new C()
+
+  await Promise.all(_range(10).map(() => c.fn()))
+
+  expect(c.calls).toBe(1)
 })

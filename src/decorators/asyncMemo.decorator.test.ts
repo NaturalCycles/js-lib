@@ -1,12 +1,14 @@
-import { _AsyncMemo } from './asyncMemo.decorator'
-import { MapMemoCache } from './memo.util'
+import { _range } from '../array/range'
+import { pDelay } from '../promise/pDelay'
+import { _AsyncMemo, _getAsyncMemo } from './asyncMemo.decorator'
+import { MapAsyncMemoCache } from './memo.util'
 
 class A {
   func(n: number): void {
     console.log(`func ${n}`)
   }
 
-  @_AsyncMemo()
+  @_AsyncMemo({ cacheFactory: () => new MapAsyncMemoCache() })
   async a(a1: number, a2: number): Promise<number> {
     const n = a1 * a2
     this.func(n)
@@ -34,7 +36,7 @@ test('memo a', async () => {
   expect(a.func).toMatchSnapshot()
 
   // cleanup for the next tests
-  await (a.a as any).dropCache()
+  await _getAsyncMemo(a.a).clear()
 })
 
 test('MEMO_DROP_CACHE', async () => {
@@ -45,21 +47,22 @@ test('MEMO_DROP_CACHE', async () => {
   await a.a(2, 3)
 
   // drop cache
-  await (a.a as any).dropCache()
+  await _getAsyncMemo(a.a).clear()
+  expect(_getAsyncMemo(a.a).getInstanceCache().size).toBe(0)
 
   // second call
   await a.a(2, 3)
 
-  expect(a.func).toBeCalledTimes(2)
+  expect(a.func).toHaveBeenCalledTimes(2)
 })
 
 class B {
   cacheMisses = 0
 
-  @_AsyncMemo() // testing 2 layers of AsyncMemo!
+  @_AsyncMemo({ cacheFactory: () => new MapAsyncMemoCache() }) // testing 2 layers of AsyncMemo!
   @_AsyncMemo({
     // testing to provide specific cacheFactory, should be no difference in this test
-    cacheFactory: () => new MapMemoCache(),
+    cacheFactory: () => new MapAsyncMemoCache(),
   })
   async a(a1 = 'def'): Promise<number> {
     console.log(`a called with a1=${a1}`)
@@ -84,4 +87,31 @@ test('should work with default arg values', async () => {
   await b.a('nondef')
 
   expect(b.cacheMisses).toBe(3)
+})
+
+class C {
+  calls = 0
+
+  @_AsyncMemo({
+    cacheFactory: () => new MapAsyncMemoCache(10),
+  })
+  async fn(): Promise<void> {
+    this.calls++
+    await pDelay(100)
+  }
+}
+
+test('swarm test of async function', async () => {
+  // Swarm is when one "slow" async function is called multiple times in parallel
+  // Expectation is that it should return the same Promise and `calls` should equal to 1
+  // Because it **synchronously** returns a Promise (despite the fact that it's async)
+  const c = new C()
+
+  await Promise.all(_range(10).map(() => c.fn()))
+
+  expect(c.calls).toBe(1)
+
+  await pDelay(150)
+  await Promise.all(_range(3).map(() => c.fn()))
+  expect(c.calls).toBe(1)
 })
