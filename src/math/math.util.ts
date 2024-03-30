@@ -62,7 +62,7 @@ export function _percentiles(values: number[], pcs: number[]): Record<number, nu
 
   const sorted = _sortNumbers(values)
 
-  pcs.forEach(pc => {
+  for (const pc of pcs) {
     // Floating pos in the range of [0; length - 1]
     const pos = ((values.length - 1) * pc) / 100
     const dec = pos % 1
@@ -70,7 +70,7 @@ export function _percentiles(values: number[], pcs: number[]): Record<number, nu
     const ceilPos = Math.ceil(pos)
 
     r[pc] = _averageWeighted([sorted[floorPos]!, sorted[ceilPos]!], [1 - dec, dec])
-  })
+  }
 
   return r
 }

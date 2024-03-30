@@ -82,7 +82,7 @@ export class Fetcher {
     this.cfg = this.normalizeCfg(cfg)
 
     // Dynamically create all helper methods
-    HTTP_METHODS.forEach(method => {
+    for (const method of HTTP_METHODS) {
       const m = method.toLowerCase()
 
       // responseType=void
@@ -114,7 +114,7 @@ export class Fetcher {
           ...opt,
         })
       }
-    })
+    }
   }
 
   /**

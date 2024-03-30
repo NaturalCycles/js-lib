@@ -440,7 +440,11 @@ export function _deepFreeze(o: any): void {
  */
 export function _objectAssignExact<T extends AnyObject>(target: T, source: T): void {
   Object.assign(target, source)
-  Object.keys(target)
-    .filter(k => !(k in source))
-    .forEach(k => delete target[k])
+
+  for (const k of Object.keys(target)) {
+    if (!(k in source)) {
+      // consider setting it to undefined maybe?
+      delete target[k]
+    }
+  }
 }

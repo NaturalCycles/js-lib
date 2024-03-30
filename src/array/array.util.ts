@@ -48,9 +48,9 @@ export function _uniq<T>(a: readonly T[]): T[] {
  * a = _uniq([...a, item])
  */
 export function _pushUniq<T>(a: T[], ...items: T[]): T[] {
-  items.forEach(item => {
+  for (const item of items) {
     if (!a.includes(item)) a.push(item)
-  })
+  }
   return a
 }
 
@@ -245,8 +245,8 @@ export function _count<T>(items: T[], predicate: AbortablePredicate<T>): number 
 export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
   const map: StringMap<number> = {}
 
-  items.forEach((item, index) => {
-    const key = mapper(item, index)
+  items.forEach((item, i) => {
+    const key = mapper(item, i)
     map[key] = (map[key] || 0) + 1
   })
 
@@ -326,12 +326,12 @@ export function _mapToObject<T, V>(
 ): StringMap<V> {
   const m: StringMap<V> = {}
 
-  array.forEach(item => {
+  for (const item of array) {
     const r = mapper(item)
-    if (!r) return // filtering
+    if (!r) continue // filtering
 
     m[r[0]] = r[1]
-  })
+  }
 
   return m
 }
@@ -428,13 +428,14 @@ export function _maxByOrUndefined<T>(
   if (!array.length) return
   let maxItem: T | undefined
   let max: number | string | undefined
-  array.forEach((item, i) => {
+
+  for (const [i, item] of array.entries()) {
     const v = mapper(item, i)
     if (v !== undefined && (max === undefined || v > max)) {
       maxItem = item
       max = v
     }
-  })
+  }
 
   return maxItem
 }
@@ -446,13 +447,14 @@ export function _minByOrUndefined<T>(
   if (!array.length) return
   let minItem: T | undefined
   let min: number | string | undefined
-  array.forEach((item, i) => {
+
+  for (const [i, item] of array.entries()) {
     const v = mapper(item, i)
     if (v !== undefined && (min === undefined || v < min)) {
       minItem = item
       min = v
     }
-  })
+  }
 
   return minItem
 }

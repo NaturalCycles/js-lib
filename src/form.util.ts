@@ -8,7 +8,9 @@ import type { AnyObject } from './types'
  */
 export function objectToFormData(obj: AnyObject = {}): FormData {
   const fd = new FormData()
-  Object.entries(obj).forEach(([k, v]) => fd.append(k, v))
+  for (const [k, v] of Object.entries(obj)) {
+    fd.append(k, v)
+  }
   return fd
 }
 
