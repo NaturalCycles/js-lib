@@ -308,3 +308,27 @@ test('dayOfWeek', () => {
   expect(localDate('1984-06-24').dayOfWeek()).toBe(7)
   expect(localDate('1984-06-25').dayOfWeek()).toBe(1)
 })
+
+// You shouldn't do it, I'm just discovering that it works, apparently
+test('comparison with string', () => {
+  const d = localDate('1984-06-21') as any
+  expect(d < '1984-06-22').toBe(true)
+  expect(d < '1985-06-22').toBe(true)
+  expect(d <= '1984-06-21').toBe(true)
+  expect(d < '1984-06-20').toBe(false)
+  expect(d >= '1984-06-21').toBe(true)
+  expect(d > '1984-06-20').toBe(true)
+  expect(d > '1981-06-20').toBe(true)
+})
+
+// You shouldn't do it, I'm just discovering that it works, apparently
+test('comparison with other LocalDates like primitives', () => {
+  const d = localDate('1984-06-21') as any
+  expect(d < localDate('1984-06-22')).toBe(true)
+  expect(d < localDate('1985-06-22')).toBe(true)
+  expect(d <= localDate('1984-06-21')).toBe(true)
+  expect(d < localDate('1984-06-20')).toBe(false)
+  expect(d >= localDate('1984-06-21')).toBe(true)
+  expect(d > localDate('1984-06-20')).toBe(true)
+  expect(d > localDate('1981-06-20')).toBe(true)
+})

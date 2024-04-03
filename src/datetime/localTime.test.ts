@@ -380,3 +380,27 @@ test('diff edge', () => {
   // 2022-05-31 + 1 day == 2022-06-01 00:00:00 should diff 0 month
   expect(localTime('2022-06-01').diff('2022-05-31', 'month')).toBe(0)
 })
+
+// You shouldn't do it, I'm just discovering that it works, apparently
+test('comparison with string', () => {
+  const d = localTime('1984-06-21T05:00:00') as any
+  expect(d < localTime('1984-06-22').unix()).toBe(true)
+  expect(d < localTime('1985-06-22').unix()).toBe(true)
+  expect(d <= localTime('1984-06-21T05:00:00').unix()).toBe(true)
+  expect(d < localTime('1984-06-20').unix()).toBe(false)
+  expect(d >= localTime('1984-06-21').unix()).toBe(true)
+  expect(d > localTime('1984-06-20').unix()).toBe(true)
+  expect(d > localTime('1981-06-20').unix()).toBe(true)
+})
+
+// You shouldn't do it, I'm just discovering that it works, apparently
+test('comparison with other LocalTimes like primitives', () => {
+  const d = localTime('1984-06-21T05:00:00') as any
+  expect(d < localTime('1984-06-22')).toBe(true)
+  expect(d < localTime('1985-06-22')).toBe(true)
+  expect(d <= localTime('1984-06-21T05:00:00')).toBe(true)
+  expect(d < localTime('1984-06-20')).toBe(false)
+  expect(d >= localTime('1984-06-21')).toBe(true)
+  expect(d > localTime('1984-06-20')).toBe(true)
+  expect(d > localTime('1981-06-20')).toBe(true)
+})
