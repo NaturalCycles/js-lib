@@ -7,9 +7,12 @@ const characterCodeCache: number[] = []
  * Modified version of: https://github.com/sindresorhus/leven/
  *
  * Returns a Levenshtein distance between first and second word.
+ *
+ * `limit` optional parameter can be used to limit the distance calculation
+ * and skip unnecessary iterations when limit is reached.
  */
-export function _leven(first: string, second: string): number {
-  if (first === second) {
+export function _leven(first: string, second: string, limit?: number): number {
+  if (first === second || limit === 0) {
     return 0
   }
 
@@ -47,6 +50,7 @@ export function _leven(first: string, second: string): number {
   secondLength -= start
 
   if (firstLength === 0) {
+    if (limit && secondLength >= limit) return limit
     return secondLength
   }
 
@@ -66,6 +70,7 @@ export function _leven(first: string, second: string): number {
     bCharacterCode = second.charCodeAt(start + index2)
     temporary = index2++
     result = index2
+    if (limit && result >= limit) return limit // exit early on limit
 
     for (index = 0; index < firstLength; index++) {
       temporary2 = bCharacterCode === characterCodeCache[index] ? temporary : temporary + 1
