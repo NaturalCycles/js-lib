@@ -186,6 +186,13 @@ test('_dropRightWhile', () => {
 test('_count', () => {
   const a = [1, 2, 3, 4, 5]
   expect(_count(a, n => n % 2 === 0)).toBe(2)
+
+  // with limit
+  expect(_count(a, n => n % 2 === 0, 0)).toBe(0)
+  expect(_count(a, n => n % 2 === 0, 1)).toBe(1)
+  expect(_count(a, n => n % 2 === 0, 2)).toBe(2)
+  expect(_count(a, n => n % 2 === 0, 3)).toBe(2)
+  expect(_count(a, n => n % 2 === 0, 55)).toBe(2)
 })
 
 test('_countBy', () => {

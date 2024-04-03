@@ -229,19 +229,28 @@ export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
 
 /**
  * Counts how many items match the predicate.
+ *
+ * `limit` allows to exit early when limit count is reached, skipping further iterations (perf optimization).
  */
-export function _count<T>(items: T[], predicate: AbortablePredicate<T>): number {
+export function _count<T>(items: T[], predicate: AbortablePredicate<T>, limit?: number): number {
+  if (limit === 0) return 0
   let count = 0
 
   for (const [i, item] of items.entries()) {
     const r = predicate(item, i)
     if (r === END) break
-    if (r) count++
+    if (r) {
+      count++
+      if (limit && count >= limit) break
+    }
   }
 
   return count
 }
 
+/**
+ * `limit` allows to exit early when limit count is reached, skipping further iterations (perf optimization).
+ */
 export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
   const map: StringMap<number> = {}
 
