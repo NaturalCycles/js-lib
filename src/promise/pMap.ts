@@ -5,11 +5,7 @@ export interface PMapOptions {
   /**
    * Number of concurrently pending promises returned by `mapper`.
    *
-   * Defaults to 16.
-   *
-   * It previously (and originally) defaulted to Infinity, which was later changed,
-   * because it's somewhat dangerous to run "infinite number of parallel promises".
-   * You can still emulate the old behavior by passing `Infinity`.
+   * Defaults to Infitity.
    */
   concurrency?: number
 
@@ -73,7 +69,7 @@ export async function pMap<IN, OUT>(
   const itemsLength = items.length
   if (itemsLength === 0) return [] // short circuit
 
-  const { concurrency = 16, errorMode = ErrorMode.THROW_IMMEDIATELY, logger = console } = opt
+  const { concurrency = Infinity, errorMode = ErrorMode.THROW_IMMEDIATELY, logger = console } = opt
 
   // Special cases that are able to preserve async stack traces
   // Special case: serial execution
@@ -81,8 +77,8 @@ export async function pMap<IN, OUT>(
     return await pMap1(items, mapper, errorMode, logger)
   }
 
-  // Special case: concurrency === Infinity or items.length <= concurrency
-  if (concurrency === Infinity || items.length <= concurrency) {
+  // Special case: items.length <= concurrency (including when concurrency === Infinity)
+  if (items.length <= concurrency) {
     return await pMapAll(items, mapper, errorMode, logger)
   }
 

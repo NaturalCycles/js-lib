@@ -23,7 +23,7 @@ Based on [p-map](https://github.com/sindresorhus/p-map)
 
 Allows to asynchronously map an array of Promises, with options to:
 
-- control `concurrency` (default: `16`)
+- control `concurrency` (default: `Infinity`)
 - control error behavior (`ErrorMode`):
   - `THROW_IMMEDIATELY` (default)
   - `THROW_AGGREGATED`: throw `AggregateError` in the end of execution, if at least 1 error happened
