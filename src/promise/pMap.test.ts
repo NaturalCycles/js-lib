@@ -230,3 +230,13 @@ async function fn(n: number): Promise<number> {
 
   return n * 2
 }
+
+test('Infinity math', () => {
+  const a = Infinity
+  const b = Infinity
+  expect(a).toBe(b)
+  // eslint-disable-next-line jest/prefer-equality-matcher
+  expect(a === b).toBe(true)
+  // eslint-disable-next-line jest/prefer-equality-matcher
+  expect(a === Infinity).toBe(true)
+})
