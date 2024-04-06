@@ -2,4 +2,5 @@
 # .prettierignore
 #
 /cfg/init
+/src/test/cfg
 /**/__exclude/**/*

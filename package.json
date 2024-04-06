@@ -4,7 +4,7 @@
   "scripts": {
     "prepare": "husky",
     "tsn-debug": "tsn testScript.ts",
-    "bt": "tsn ./src/bin/bt.ts",
+    "bt": "tsn ./src/bin/bt.ts && tsn eslintPrintConfig",
     "btl": "tsn ./src/bin/btl.ts",
     "build": "tsn ./src/bin/build.ts",
     "tsc-prod": "tsn ./src/bin/tsc-prod.ts",
@@ -26,7 +26,6 @@
     "eslint-all": "tsn ./src/bin/eslint-all.ts",
     "up": "tsn ./src/bin/up.ts",
     "upnc": "tsn ./src/bin/upnc.ts",
-    "eslint-print-config": "eslint --print-config src/index.ts > tmp/eslint.config.json",
     "update-from-dev-lib": "tsn ./src/bin/update-from-dev-lib.ts"
   },
   "dependencies": {
