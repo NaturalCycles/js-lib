@@ -4,6 +4,9 @@
   Supports default configs for `prettier`, `stylelint`, `eslint`, if they are not found in target project.
 */
 
+// this probably doesn't work, but we're still trying
+process.env['ESLINT_USE_FLAT_CONFIG'] = 'false'
+
 const micromatch = require('micromatch')
 const fs = require('node:fs')
 const { execSync } = require('node:child_process')

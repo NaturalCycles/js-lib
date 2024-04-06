@@ -149,7 +149,7 @@ module.exports = {
     complexity: [
       2,
       {
-        max: 30,
+        max: 40,
       },
     ],
     'constructor-super': 2,

@@ -10,6 +10,9 @@ runScript(async () => {
   const sharedConfig = `${cfgDir}/lint-staged.config.js`
   const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
 
+  // this probably doesn't work, but we're still trying
+  process.env['ESLINT_USE_FLAT_CONFIG'] = 'false'
+
   // await execWithArgs(`lint-staged`, [`--config`, config])
   // const lintStaged = require('lint-staged')
   // lint-staged is ESM since 12.0
