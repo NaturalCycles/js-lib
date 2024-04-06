@@ -52,5 +52,6 @@ test('memoFn', async () => {
   // Drop cache
   await fn.cache.clear()
   await fn()
-  expect(calledTimes).toBe(++expectedCallTimes)
+  expectedCallTimes++
+  expect(calledTimes).toBe(expectedCallTimes)
 })

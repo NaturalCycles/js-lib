@@ -49,5 +49,6 @@ test('memoFn', () => {
   // Drop cache
   fn.cache.clear()
   fn()
-  expect(calledTimes).toBe(++expectedCallTimes)
+  expectedCallTimes++
+  expect(calledTimes).toBe(expectedCallTimes)
 })

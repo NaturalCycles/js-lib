@@ -289,7 +289,7 @@ export function _unset<T extends AnyObject>(obj: T, prop: string): void {
     last = segs.pop()!.slice(0, -1) + '.' + last
   }
   while (segs.length && _isObject(obj)) {
-    const k = (prop = segs.shift()!)
+    const k = segs.shift()!
     obj = obj[k]
   }
   if (!_isObject(obj)) return
