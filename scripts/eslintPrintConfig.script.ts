@@ -17,6 +17,9 @@ runScript(async () => {
 
   execVoidCommandSync(`eslint --print-config src/index.ts > ${outputPath}`, [], {
     shell: true,
+    env: {
+      ESLINT_USE_FLAT_CONFIG: 'false',
+    },
   })
 
   const r = fs2.readJson<any>(outputPath)

@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { scriptsDir } from '../cnst/paths.cnst'
 
+const ESLINT_USE_FLAT_CONFIG = 'false'
+
 export function getTSConfigPath(): string {
   // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
   // return [`./tsconfig.base.json`].find(p => fs.existsSync(p)) || `./tsconfig.json`
@@ -21,7 +23,15 @@ export function runESLint(
 ): void {
   if (!fs.existsSync(dir)) return // faster to bail-out like this
 
-  execVoidCommandSync('eslint', getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix))
+  execVoidCommandSync(
+    'eslint',
+    getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix),
+    {
+      env: {
+        ESLINT_USE_FLAT_CONFIG,
+      },
+    },
+  )
 }
 
 export async function runESLintAsync(
@@ -36,6 +46,11 @@ export async function runESLintAsync(
   await execVoidCommand(
     'eslint',
     getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix),
+    {
+      env: {
+        ESLINT_USE_FLAT_CONFIG,
+      },
+    },
   )
 }
 

@@ -1060,6 +1060,9 @@
     "no-useless-escape": [
       2
     ],
+    "no-useless-assignment": [
+      2
+    ],
     "no-unneeded-ternary": [
       2
     ],
@@ -1740,10 +1743,19 @@
     "require-await": [
       "off"
     ],
+    "no-empty-static-block": [
+      "error"
+    ],
+    "no-new-native-nonconstructor": [
+      "error"
+    ],
     "no-nonoctal-decimal-escape": [
       "error"
     ],
     "no-unsafe-optional-chaining": [
+      "error"
+    ],
+    "no-unused-private-class-members": [
       "error"
     ],
     "no-useless-backreference": [
