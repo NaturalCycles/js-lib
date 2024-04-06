@@ -65,12 +65,12 @@ export function _substringBeforeLast(s: string, delimiter: string): string {
 
 export function _substringAfter(s: string, delimiter: string): string {
   const pos = s.indexOf(delimiter)
-  return pos !== -1 ? s.slice(pos + 1) : s
+  return pos !== -1 ? s.slice(pos + delimiter.length) : s
 }
 
 export function _substringAfterLast(s: string, delimiter: string): string {
   const pos = s.lastIndexOf(delimiter)
-  return pos !== -1 ? s.slice(pos + 1) : s
+  return pos !== -1 ? s.slice(pos + delimiter.length) : s
 }
 
 /**
