@@ -8,7 +8,7 @@ Changes are visible in git diff every time they are observed.
 
  */
 
-import { _substringAfter } from '@naturalcycles/js-lib'
+import { _sortObjectDeep, _substringAfter } from '@naturalcycles/js-lib'
 import { execVoidCommandSync, fs2, runScript } from '@naturalcycles/nodejs-lib'
 import { testDir } from '../src/cnst/paths.cnst'
 
@@ -24,5 +24,9 @@ runScript(async () => {
 
   const r = fs2.readJson<any>(outputPath)
   r.parser = _substringAfter(r.parser, 'dev-lib/')
-  fs2.writeJson(outputPath, r, { spaces: 2 })
+  // let str = JSON.stringify(r, null, 2) + '\n'
+  // console.log(str)
+  // str = str.replaceAll('"error"', '2').replaceAll('"warn"', '1').replaceAll('"off"', '0')
+  // fs2.writeFile(outputPath, str)
+  fs2.writeJson(outputPath, _sortObjectDeep(r), { spaces: 2 })
 })
