@@ -251,6 +251,9 @@ export type Integer = number
  * data: (number | null)[]
  */
 export type NullableNumber = number | null
+export type NullableString = string | null
+export type NullableBoolean = boolean | null
+export type NullableBuffer = Buffer | null
 
 /**
  * Used as a compact representation of truthy value.
