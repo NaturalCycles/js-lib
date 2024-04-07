@@ -1,4 +1,4 @@
-import { _isPrimitive, MISS, pDelay } from '..'
+import { _isPrimitive, MISS, pDelay, UnixTimestampNumber } from '..'
 
 export type MemoSerializer = (args: any[]) => any
 
@@ -6,6 +6,14 @@ export const jsonMemoSerializer: MemoSerializer = args => {
   if (args.length === 0) return undefined
   if (args.length === 1 && _isPrimitive(args[0])) return args[0]
   return JSON.stringify(args)
+}
+
+export interface MemoCacheOptions {
+  /**
+   * If set (and if it's implemented by the driver) - will set expiry TTL for each key of the batch.
+   * E.g EXAT in Redis.
+   */
+  expireAt?: UnixTimestampNumber
 }
 
 export interface MemoCache<KEY = any, VALUE = any> {
@@ -17,7 +25,7 @@ export interface MemoCache<KEY = any, VALUE = any> {
    * Cache misses are checked by calling `has` method instead.
    */
   get: (k: KEY) => VALUE
-  set: (k: KEY, v: VALUE) => void
+  set: (k: KEY, v: VALUE, opt?: MemoCacheOptions) => void
 
   /**
    * Clear is only called when `_getMemoCache().clear()` is called.
@@ -35,7 +43,7 @@ export interface AsyncMemoCache<KEY = any, VALUE = any> {
    * they will not be interpreted as a cache miss, because there is a special MISS symbol for that.
    */
   get: (k: KEY) => Promise<VALUE | typeof MISS>
-  set: (k: KEY, v: VALUE) => Promise<void>
+  set: (k: KEY, v: VALUE, opt?: MemoCacheOptions) => Promise<void>
 
   /**
    * Clear is only called when `_getAsyncMemo().clear()` is called.
