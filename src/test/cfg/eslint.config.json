@@ -1207,6 +1207,9 @@
     "unicorn/no-negated-condition": [
       0
     ],
+    "unicorn/no-array-method-this-argument": [
+      0
+    ],
     "unicorn/prevent-abbreviations": [
       0
     ],
@@ -1474,9 +1477,6 @@
       "error"
     ],
     "unicorn/no-anonymous-default-export": [
-      "error"
-    ],
-    "unicorn/no-array-method-this-argument": [
       "error"
     ],
     "unicorn/no-array-reduce": [
