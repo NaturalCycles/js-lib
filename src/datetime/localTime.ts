@@ -686,6 +686,14 @@ export function localTimeOrNow(d?: LocalTimeInput | null): LocalTime {
   return d ? LocalTime.of(d) : LocalTime.now()
 }
 
+/**
+ Convenience function to return current Unix timestamp in seconds.
+ Like Date.now(), but in seconds.
+ */
+export function nowUnix(): UnixTimestampNumber {
+  return Math.floor(Date.now() / 1000)
+}
+
 // based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts
 function getWeek(date: Date): number {
   const diff = startOfWeek(date).getTime() - startOfWeekYear(date).getTime()

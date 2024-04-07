@@ -1,8 +1,10 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
-import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
 import {
+  LocalTimeFormatter,
+  LocalTimeUnit,
+  nowUnix,
   ISODayOfWeek,
   localTime,
   LocalTime,
@@ -403,4 +405,8 @@ test('comparison with other LocalTimes like primitives', () => {
   expect(d >= localTime('1984-06-21')).toBe(true)
   expect(d > localTime('1984-06-20')).toBe(true)
   expect(d > localTime('1981-06-20')).toBe(true)
+})
+
+test('nowUnix', () => {
+  expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
 })
