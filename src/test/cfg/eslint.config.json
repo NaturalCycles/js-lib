@@ -1458,7 +1458,7 @@
       "error"
     ],
     "unicorn/prefer-array-flat": [
-      "error"
+      0
     ],
     "unicorn/prefer-array-flat-map": [
       "error"

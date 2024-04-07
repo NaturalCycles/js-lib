@@ -355,6 +355,7 @@ module.exports = {
     'unicorn/no-abusive-eslint-disable': 0,
     'unicorn/no-negated-condition': 0,
     'unicorn/no-array-method-this-argument': 0, // bug: wrongly removes`readable.flatMap` concurrency option
+    'unicorn/prefer-array-flat': 0, // bug: messes up with `readable.flatMap`
     'unicorn/number-literal-case': 0, // conflicts with prettier
     'unicorn/prevent-abbreviations': 0,
     'unicorn/prefer-module': 0,
