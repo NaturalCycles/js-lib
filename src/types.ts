@@ -339,3 +339,13 @@ export type ErrorDataTuple<T = unknown, ERR = Error> = [err: null, data: T] | [e
 export type SortDirection = 'asc' | 'desc'
 
 export type Inclusiveness = '()' | '[]' | '[)' | '(]'
+
+/**
+ * @experimental
+ */
+export interface CommonClient extends AsyncDisposable {
+  connected: boolean
+  connect: () => Promise<void>
+  disconnect: () => Promise<void>
+  ping: () => Promise<void>
+}
