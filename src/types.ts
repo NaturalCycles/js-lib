@@ -233,6 +233,8 @@ export type UnixTimestampNumber = number
  */
 export type UnixTimestampMillisNumber = number
 
+export type NumberOfHours = number
+export type NumberOfMinutes = number
 export type NumberOfSeconds = number
 export type NumberOfMilliseconds = number
 
