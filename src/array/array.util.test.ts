@@ -1,6 +1,6 @@
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import { _deepFreeze } from '../object/object.util'
-import { Mapper } from '../types'
+import { END, Mapper } from '../types'
 import {
   _by,
   _chunk,
@@ -9,6 +9,7 @@ import {
   _difference,
   _dropRightWhile,
   _dropWhile,
+  _find,
   _findLast,
   _first,
   _groupBy,
@@ -157,8 +158,14 @@ test('_sortBy with mutation', () => {
   expect(r).toBe(a)
 })
 
+test('_find', () => {
+  expect(_find([1, 2, 3, 4], n => n % 2 === 0)).toBe(2)
+  expect(_find([1, 2, 3, 4], n => (n === 2 ? END : false))).toBeUndefined()
+})
+
 test('_findLast', () => {
   expect(_findLast([1, 2, 3, 4], n => n % 2 === 1)).toBe(3)
+  expect(_findLast([1, 2, 3, 4], n => (n === 2 ? END : false))).toBeUndefined()
 })
 
 test('_takeWhile', () => {
