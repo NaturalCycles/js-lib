@@ -195,13 +195,27 @@ export function _sortDescBy<T>(items: T[], mapper: Mapper<T, any>, mutate = fals
 }
 
 /**
- * Like items.find(), but it tries to find from the END of the array.
+ * Similar to `Array.find`, but the `predicate` may return `END` to stop the iteration early.
  *
- * Node 18+ supports native array.findLast() - use that.
- * iOS Safari only has it since 15.4
+ * Use `Array.find` if you don't need to stop the iteration early.
  */
-export function _findLast<T>(items: T[], predicate: Predicate<T>): T | undefined {
-  return [...items].reverse().find(predicate)
+export function _find<T>(items: T[], predicate: AbortablePredicate<T>): T | undefined {
+  for (const [i, item] of items.entries()) {
+    const result = predicate(item, i)
+    if (result === END) return
+    if (result) return item
+  }
+}
+
+/**
+ * Similar to `Array.findLast`, but the `predicate` may return `END` to stop the iteration early.
+ *
+ * Use `Array.findLast` if you don't need to stop the iteration early, which is supported:
+ * - in Node since 18+
+ * - in iOS Safari since 15.4
+ */
+export function _findLast<T>(items: T[], predicate: AbortablePredicate<T>): T | undefined {
+  return _find(items.slice().reverse(), predicate)
 }
 
 export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {
