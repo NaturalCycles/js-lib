@@ -1,6 +1,6 @@
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import { _deepFreeze } from '../object/object.util'
-import { END, Mapper } from '../types'
+import { AbortablePredicate, END, Mapper } from '../types'
 import {
   _by,
   _chunk,
@@ -192,14 +192,23 @@ test('_dropRightWhile', () => {
 
 test('_count', () => {
   const a = [1, 2, 3, 4, 5]
-  expect(_count(a, n => n % 2 === 0)).toBe(2)
+  const isEven: AbortablePredicate<number> = n => n % 2 === 0
+
+  expect(_count(a, isEven)).toBe(2)
 
   // with limit
-  expect(_count(a, n => n % 2 === 0, 0)).toBe(0)
-  expect(_count(a, n => n % 2 === 0, 1)).toBe(1)
-  expect(_count(a, n => n % 2 === 0, 2)).toBe(2)
-  expect(_count(a, n => n % 2 === 0, 3)).toBe(2)
-  expect(_count(a, n => n % 2 === 0, 55)).toBe(2)
+  expect(_count(a, isEven, 0)).toBe(0)
+  expect(_count(a, isEven, 1)).toBe(1)
+  expect(_count(a, isEven, 2)).toBe(2)
+  expect(_count(a, isEven, 3)).toBe(2)
+  expect(_count(a, isEven, 55)).toBe(2)
+
+  // should support passing a readonly array
+  const b: readonly number[] = [1, 2, 3]
+  expect(_count(b, isEven)).toBe(1)
+
+  const c = [1, 2, 3] as Iterable<number>
+  expect(_count(c, isEven)).toBe(1)
 })
 
 test('_countBy', () => {
@@ -346,6 +355,10 @@ test('_last', () => {
   expect(_last([1, undefined])).toBeUndefined()
   expect(_last([1, 2])).toBe(2)
   expect(_last([1])).toBe(1)
+
+  // Should support passing readonly array
+  const ro = [1, 2, 3] as readonly number[]
+  expect(_last(ro)).toBe(3)
 })
 
 test('_first', () => {

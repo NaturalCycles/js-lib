@@ -199,7 +199,7 @@ export function _sortDescBy<T>(items: T[], mapper: Mapper<T, any>, mutate = fals
  *
  * Use `Array.find` if you don't need to stop the iteration early.
  */
-export function _find<T>(items: T[], predicate: AbortablePredicate<T>): T | undefined {
+export function _find<T>(items: readonly T[], predicate: AbortablePredicate<T>): T | undefined {
   for (const [i, item] of items.entries()) {
     const result = predicate(item, i)
     if (result === END) return
@@ -214,26 +214,26 @@ export function _find<T>(items: T[], predicate: AbortablePredicate<T>): T | unde
  * - in Node since 18+
  * - in iOS Safari since 15.4
  */
-export function _findLast<T>(items: T[], predicate: AbortablePredicate<T>): T | undefined {
+export function _findLast<T>(items: readonly T[], predicate: AbortablePredicate<T>): T | undefined {
   return _find(items.slice().reverse(), predicate)
 }
 
-export function _takeWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+export function _takeWhile<T>(items: readonly T[], predicate: Predicate<T>): T[] {
   let proceed = true
   return items.filter((v, index) => (proceed &&= predicate(v, index)))
 }
 
-export function _takeRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+export function _takeRightWhile<T>(items: readonly T[], predicate: Predicate<T>): T[] {
   let proceed = true
   return [...items].reverse().filter((v, index) => (proceed &&= predicate(v, index)))
 }
 
-export function _dropWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+export function _dropWhile<T>(items: readonly T[], predicate: Predicate<T>): T[] {
   let proceed = false
   return items.filter((v, index) => (proceed ||= !predicate(v, index)))
 }
 
-export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
+export function _dropRightWhile<T>(items: readonly T[], predicate: Predicate<T>): T[] {
   let proceed = false
   return [...items]
     .reverse()
@@ -246,12 +246,17 @@ export function _dropRightWhile<T>(items: T[], predicate: Predicate<T>): T[] {
  *
  * `limit` allows to exit early when limit count is reached, skipping further iterations (perf optimization).
  */
-export function _count<T>(items: T[], predicate: AbortablePredicate<T>, limit?: number): number {
+export function _count<T>(
+  items: Iterable<T>,
+  predicate: AbortablePredicate<T>,
+  limit?: number,
+): number {
   if (limit === 0) return 0
   let count = 0
+  let i = 0
 
-  for (const [i, item] of items.entries()) {
-    const r = predicate(item, i)
+  for (const item of items) {
+    const r = predicate(item, i++)
     if (r === END) break
     if (r) {
       count++
@@ -262,16 +267,14 @@ export function _count<T>(items: T[], predicate: AbortablePredicate<T>, limit?: 
   return count
 }
 
-/**
- * `limit` allows to exit early when limit count is reached, skipping further iterations (perf optimization).
- */
-export function _countBy<T>(items: T[], mapper: Mapper<T, any>): StringMap<number> {
+export function _countBy<T>(items: Iterable<T>, mapper: Mapper<T, any>): StringMap<number> {
   const map: StringMap<number> = {}
 
-  items.forEach((item, i) => {
-    const key = mapper(item, i)
+  let i = 0
+  for (const item of items) {
+    const key = mapper(item, i++)
     map[key] = (map[key] || 0) + 1
-  })
+  }
 
   return map
 }
@@ -319,15 +322,27 @@ export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
 /**
  * Returns the sum of items, or 0 for empty array.
  */
-export function _sum(items: number[]): number {
-  return items.reduce((sum, n) => sum + n, 0)
+export function _sum(items: Iterable<number>): number {
+  let sum = 0
+  for (const n of items) {
+    sum += n
+  }
+  return sum
 }
 
-export function _sumBy<T>(items: T[], mapper: Mapper<T, number | undefined>): number {
-  return items
-    .map((v, i) => mapper(v, i)!)
-    .filter(i => typeof i === 'number') // count only numbers, nothing else
-    .reduce((sum, n) => sum + n, 0)
+export function _sumBy<T>(items: Iterable<T>, mapper: Mapper<T, number | undefined>): number {
+  let sum = 0
+  let i = 0
+
+  for (const n of items) {
+    const v = mapper(n, i++)
+    if (typeof v === 'number') {
+      // count only numbers, nothing else
+      sum += v
+    }
+  }
+
+  return sum
 }
 
 /**
@@ -344,7 +359,7 @@ export function _sumBy<T>(items: T[], mapper: Mapper<T, number | undefined>): nu
  * // { '1': 'id1, '2': 'id2', '3': 'id3' }
  */
 export function _mapToObject<T, V>(
-  array: T[],
+  array: Iterable<T>,
   mapper: (item: T) => [key: any, value: V] | FalsyValue,
 ): StringMap<V> {
   const m: StringMap<V> = {}
@@ -379,7 +394,7 @@ export function _shuffle<T>(array: T[], mutate = false): T[] {
  * Returns last item of non-empty array.
  * Throws if array is empty.
  */
-export function _last<T>(array: T[]): T {
+export function _last<T>(array: readonly T[]): T {
   if (!array.length) throw new Error('_last called on empty array')
   return array[array.length - 1]!
 }
@@ -387,7 +402,7 @@ export function _last<T>(array: T[]): T {
 /**
  * Returns last item of the array (or undefined if array is empty).
  */
-export function _lastOrUndefined<T>(array: T[]): T | undefined {
+export function _lastOrUndefined<T>(array: readonly T[]): T | undefined {
   return array[array.length - 1]
 }
 
@@ -395,48 +410,48 @@ export function _lastOrUndefined<T>(array: T[]): T | undefined {
  * Returns the first item of non-empty array.
  * Throws if array is empty.
  */
-export function _first<T>(array: T[]): T {
+export function _first<T>(array: readonly T[]): T {
   if (!array.length) throw new Error('_first called on empty array')
   return array[0]!
 }
 
-export function _minOrUndefined<T>(array: T[]): NonNullable<T> | undefined {
+export function _minOrUndefined<T>(array: readonly T[]): NonNullable<T> | undefined {
   const a = array.filter(_isNotNullish)
   if (!a.length) return
-  return _min(a)
+  return a.reduce((min, item) => (min <= item ? min : item))
 }
 
 /**
  * Filters out nullish values (undefined and null).
  */
-export function _min<T>(array: T[]): NonNullable<T> {
+export function _min<T>(array: readonly T[]): NonNullable<T> {
   const a = array.filter(_isNotNullish)
   if (!a.length) throw new Error('_min called on empty array')
   return a.reduce((min, item) => (min <= item ? min : item))
 }
 
-export function _maxOrUndefined<T>(array: T[]): NonNullable<T> | undefined {
+export function _maxOrUndefined<T>(array: readonly T[]): NonNullable<T> | undefined {
   const a = array.filter(_isNotNullish)
   if (!a.length) return
-  return _max(a)
+  return a.reduce((max, item) => (max >= item ? max : item))
 }
 
 /**
  * Filters out nullish values (undefined and null).
  */
-export function _max<T>(array: T[]): NonNullable<T> {
+export function _max<T>(array: readonly T[]): NonNullable<T> {
   const a = array.filter(_isNotNullish)
   if (!a.length) throw new Error('_max called on empty array')
   return a.reduce((max, item) => (max >= item ? max : item))
 }
 
-export function _maxBy<T>(array: T[], mapper: Mapper<T, number | string | undefined>): T {
+export function _maxBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const max = _maxByOrUndefined(array, mapper)
   if (max === undefined) throw new Error(`_maxBy returned undefined`)
   return max
 }
 
-export function _minBy<T>(array: T[], mapper: Mapper<T, number | string | undefined>): T {
+export function _minBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const min = _minByOrUndefined(array, mapper)
   if (min === undefined) throw new Error(`_minBy returned undefined`)
   return min
@@ -445,7 +460,7 @@ export function _minBy<T>(array: T[], mapper: Mapper<T, number | string | undefi
 // todo: looks like it _maxByOrUndefined/_minByOrUndefined can be DRYer
 
 export function _maxByOrUndefined<T>(
-  array: T[],
+  array: readonly T[],
   mapper: Mapper<T, number | string | undefined>,
 ): T | undefined {
   if (!array.length) return
@@ -464,7 +479,7 @@ export function _maxByOrUndefined<T>(
 }
 
 export function _minByOrUndefined<T>(
-  array: T[],
+  array: readonly T[],
   mapper: Mapper<T, number | string | undefined>,
 ): T | undefined {
   if (!array.length) return
@@ -482,7 +497,7 @@ export function _minByOrUndefined<T>(
   return minItem
 }
 
-export function _zip<T1, T2>(array1: T1[], array2: T2[]): [T1, T2][] {
+export function _zip<T1, T2>(array1: readonly T1[], array2: readonly T2[]): [T1, T2][] {
   const len = Math.min(array1.length, array2.length)
   const res: [T1, T2][] = []
 
