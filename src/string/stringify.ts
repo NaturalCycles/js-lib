@@ -189,3 +189,10 @@ export function _stringify(obj: any, opt: StringifyOptions = {}): string {
  * @deprecated renamed to _stringify
  */
 export const _stringifyAny = _stringify
+
+/**
+ * Stringifies an object using `_stringify, but returns `undefined` if the object is `undefined`.
+ */
+export function _stringifyOrUndefined(obj: any, opt: StringifyOptions = {}): string | undefined {
+  return obj === undefined ? undefined : _stringify(obj, opt)
+}
