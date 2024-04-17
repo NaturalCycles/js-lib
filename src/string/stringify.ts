@@ -192,6 +192,17 @@ export const _stringifyAny = _stringify
 
 /**
  * Stringifies an object using `_stringify, but returns `undefined` if the object is `undefined`.
+ * Useful when we want to have a custom stringification of an undefined object,
+ * which is not `'undefined'`.
+ *
+ * Example:
+ * ```ts
+ * let a: string | undefined = "hello"
+ * _stringifyOrUndefined(a) || "default value" // => '"hello"'
+ * a = undefined
+ * _stringifyOrUndefined(a || "default value") // => '"default value"'
+ * _stringifyOrUndefined(a) || "default value"// => 'default value'
+ * ```
  */
 export function _stringifyOrUndefined(obj: any, opt: StringifyOptions = {}): string | undefined {
   return obj === undefined ? undefined : _stringify(obj, opt)
