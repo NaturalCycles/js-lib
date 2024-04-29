@@ -304,7 +304,6 @@ test('paginate', async () => {
   // Alternative implementation without Pagination API (for comparison)
   let page = 1
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const r = await fetcher.get<number[]>('https://a.com', {
       searchParams: {
