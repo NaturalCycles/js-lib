@@ -281,22 +281,8 @@ export class LocalTime {
     return this.set(unit, this.get(unit) + num, mutate)
   }
 
-  /**
-   * @deprecated use `minus` instead
-   */
-  subtract(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.plus(num * -1, unit, mutate)
-  }
-
   minus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
     return this.plus(num * -1, unit, mutate)
-  }
-
-  /**
-   * @deprecated use `plus` instead
-   */
-  add(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
-    return this.plus(num, unit, mutate)
   }
 
   absDiff(other: LocalTimeInput, unit: LocalTimeUnit): number {

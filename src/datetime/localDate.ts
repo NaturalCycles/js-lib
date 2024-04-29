@@ -415,22 +415,8 @@ export class LocalDate {
     return new LocalDate($year, $month, $day)
   }
 
-  /**
-   * @deprecated use `minus` instead
-   */
-  subtract(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    return this.plus(-num, unit, mutate)
-  }
-
   minus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
     return this.plus(-num, unit, mutate)
-  }
-
-  /**
-   * @deprecated use `plus` instead
-   */
-  add(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
-    return this.plus(num, unit, mutate)
   }
 
   startOf(unit: LocalDateUnitStrict): LocalDate {

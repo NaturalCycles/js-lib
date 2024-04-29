@@ -184,8 +184,3 @@ export function _stringify(obj: any, opt: StringifyOptions = {}): string {
 
   return s
 }
-
-/**
- * @deprecated renamed to _stringify
- */
-export const _stringifyAny = _stringify

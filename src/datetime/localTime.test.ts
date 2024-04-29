@@ -267,7 +267,7 @@ test('diff', () => {
           expectWithMessage(`${right} diff ${left} in ${unit}`, expected, actual)
 
           left = lt
-          right = lt.add(-i, unitAdd)
+          right = lt.plus(-i, unitAdd)
           actual = left.diff(right, unit)
           expected = d.diff(d.add(-i, unitAdd), unit)
           expectWithMessage(`${left} diff ${right} in ${unit}`, expected, actual)
