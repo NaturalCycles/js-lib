@@ -41,6 +41,11 @@ test('pTimeout happy case', async () => {
   expect(r).toBe('hello world')
 })
 
+test('pTimeout 0 timeout direct execution', async () => {
+  const r = await pTimeout(async () => 'hi', { timeout: 0 })
+  expect(r).toBe('hi')
+})
+
 test('pTimeout stack', async () => {
   const err = await pExpectedError(timeoutFail(), TimeoutError)
 

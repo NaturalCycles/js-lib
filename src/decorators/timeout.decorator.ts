@@ -8,6 +8,8 @@ export function _Timeout(opt: PTimeoutOptions): MethodDecorator {
   return (target, key, descriptor) => {
     _assert(typeof descriptor.value === 'function', '@_Timeout can be applied only to methods')
 
+    if (!opt.timeout) return descriptor
+
     const originalFn = descriptor.value
     const keyStr = String(key)
 

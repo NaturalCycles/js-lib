@@ -5,6 +5,8 @@ import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
 export interface PTimeoutOptions {
   /**
    * Timeout in milliseconds.
+   *
+   * If 0 is passed - the function would be executed right away, with no timeout.
    */
   timeout: NumberOfMilliseconds
 
@@ -46,6 +48,10 @@ export interface PTimeoutOptions {
 export function pTimeoutFn<T extends AnyAsyncFunction>(fn: T, opt: PTimeoutOptions): T {
   opt.name ||= fn.name
 
+  if (!opt.timeout) {
+    return fn
+  }
+
   return async function pTimeoutInternalFn(this: any, ...args: any[]) {
     return await pTimeout(() => fn.apply(this, args), opt)
   } as T
@@ -58,6 +64,11 @@ export function pTimeoutFn<T extends AnyAsyncFunction>(fn: T, opt: PTimeoutOptio
  * If the Function rejects - passes this rejection further.
  */
 export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions): Promise<T> {
+  if (!opt.timeout) {
+    // short-circuit to direct execution if 0 timeout is passed
+    return await fn()
+  }
+
   const { timeout, name = fn.name || 'pTimeout function', onTimeout } = opt
   const fakeError = opt.fakeError || new Error('TimeoutError')
 
