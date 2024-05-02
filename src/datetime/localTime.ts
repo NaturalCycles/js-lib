@@ -541,29 +541,8 @@ export class LocalTime {
   }
 
   toPretty(seconds = true): IsoDateTimeString {
-    const { year, month, day, hour, minute, second } = this.components()
-
-    return (
-      [
-        String(year).padStart(4, '0'),
-        String(month).padStart(2, '0'),
-        String(day).padStart(2, '0'),
-      ].join('-') +
-      ' ' +
-      [
-        String(hour).padStart(2, '0'),
-        String(minute).padStart(2, '0'),
-        seconds && String(second).padStart(2, '0'),
-      ]
-        .filter(Boolean)
-        .join(':')
-    )
-
-    // return this.$date
-    //   .toISOString()
-    //   .slice(0, seconds ? 19 : 16)
-    //   .split('T')
-    //   .join(' ')
+    const s = this.$date.toISOString()
+    return s.slice(0, 10) + ' ' + s.slice(11, seconds ? 19 : 16)
   }
 
   /**
@@ -577,31 +556,14 @@ export class LocalTime {
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
   toISODate(): IsoDateString {
-    const { year, month, day } = this.components()
-
-    return [
-      String(year).padStart(4, '0'),
-      String(month).padStart(2, '0'),
-      String(day).padStart(2, '0'),
-    ].join('-')
-
-    // return this.$date.toISOString().slice(0, 10)
+    return this.$date.toISOString().slice(0, 10)
   }
 
   /**
    * Returns e.g: `17:03:15` (or `17:03` with seconds=false)
    */
   toISOTime(seconds = true): string {
-    // return this.$date.toISOString().slice(11, seconds ? 19 : 16)
-    const { hour, minute, second } = this.components()
-
-    return [
-      String(hour).padStart(2, '0'),
-      String(minute).padStart(2, '0'),
-      seconds && String(second).padStart(2, '0'),
-    ]
-      .filter(Boolean)
-      .join(':')
+    return this.$date.toISOString().slice(11, seconds ? 19 : 16)
   }
 
   /**
