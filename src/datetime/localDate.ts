@@ -602,3 +602,11 @@ export function localDateOrUndefined(d?: LocalDateInput | null): LocalDate | und
 export function localDateOrToday(d?: LocalDateInput | null): LocalDate {
   return d ? LocalDate.of(d) : LocalDate.today()
 }
+
+/**
+ Convenience function to return current today's IsoDateString representation, e.g `2024-06-21`
+ */
+export function todayIsoDateString(): IsoDateString {
+  // It was benchmarked to be faster than by concatenating individual Date components
+  return new Date().toISOString().slice(0, 10)
+}

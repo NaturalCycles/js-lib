@@ -1,8 +1,10 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage } from '../test/test.util'
-import type { LocalDateFormatter, LocalDateUnit } from './localDate'
 import {
+  LocalDateFormatter,
+  LocalDateUnit,
+  todayIsoDateString,
   localDate,
   LocalDate,
   localDateOrToday,
@@ -331,4 +333,12 @@ test('comparison with other LocalDates like primitives', () => {
   expect(d >= localDate('1984-06-21')).toBe(true)
   expect(d > localDate('1984-06-20')).toBe(true)
   expect(d > localDate('1981-06-20')).toBe(true)
+})
+
+test('todayIsoDateString', () => {
+  // expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
+  const s = todayIsoDateString()
+  expect(s.startsWith(new Date().getFullYear() + '-')).toBe(true)
+  expect(s > '2024-05-01').toBe(true)
+  expect(s < '2099-01-01').toBe(true)
 })
