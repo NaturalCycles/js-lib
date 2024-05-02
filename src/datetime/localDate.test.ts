@@ -4,7 +4,7 @@ import { expectWithMessage } from '../test/test.util'
 import {
   LocalDateFormatter,
   LocalDateUnit,
-  todayIsoDateString,
+  todayString,
   localDate,
   LocalDate,
   localDateOrToday,
@@ -340,7 +340,7 @@ test('comparison with other LocalDates like primitives', () => {
 
 test('todayIsoDateString', () => {
   // expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
-  const s = todayIsoDateString()
+  const s = todayString()
   expect(s.startsWith(new Date().getFullYear() + '-')).toBe(true)
   expect(s > '2024-05-01').toBe(true)
   expect(s < '2099-01-01').toBe(true)
