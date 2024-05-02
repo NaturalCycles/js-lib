@@ -5,6 +5,8 @@ import type {
   IsoDateString,
   IsoDateTimeString,
   MonthId,
+  NumberOfHours,
+  NumberOfMinutes,
   SortDirection,
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
@@ -376,6 +378,14 @@ export class LocalTime {
     return mutate ? this : new LocalTime(d)
   }
 
+  /**
+   * Returns how many days are in the current month.
+   * E.g 31 for January.
+   */
+  daysInMonth(): number {
+    return LocalDate.getMonthLength(this.$date.getFullYear(), this.$date.getMonth() + 1)
+  }
+
   static sort(items: LocalTime[], mutate = false, dir: SortDirection = 'asc'): LocalTime[] {
     const mod = dir === 'desc' ? -1 : 1
     return (mutate ? items : [...items]).sort((a, b) => {
@@ -640,6 +650,30 @@ export function localTimeOrNow(d?: LocalTimeInput | null): LocalTime {
  */
 export function nowUnix(): UnixTimestampNumber {
   return Math.floor(Date.now() / 1000)
+}
+
+/**
+ * UTC offset is the opposite of "timezone offset" - it's the number of minutes to add
+ * to the local time to get UTC time.
+ *
+ * E.g utcOffset for CEST is -120,
+ * which means that you need to add -120 minutes to the local time to get UTC time.
+ *
+ * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+ */
+export function getUTCOffsetMinutes(): NumberOfMinutes {
+  return -new Date().getTimezoneOffset() || 0
+}
+
+/**
+ * Same as getUTCOffsetMinutes, but rounded to hours.
+ *
+ * E.g for CEST it is -2.
+ *
+ * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+ */
+export function getUTCOffsetHours(): NumberOfHours {
+  return Math.round(getUTCOffsetMinutes() / 60)
 }
 
 // based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts

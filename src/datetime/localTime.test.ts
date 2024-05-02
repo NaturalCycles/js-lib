@@ -11,6 +11,8 @@ import {
   localTimeNow,
   localTimeOrNow,
   localTimeOrUndefined,
+  getUTCOffsetMinutes,
+  getUTCOffsetHours,
 } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
@@ -107,6 +109,9 @@ test('basic', () => {
   expect(lt.endOf('minute').toISODateTime()).toBe('2022-01-01T01:02:59')
   expect(lt.endOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
   expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
+  expect(lt.daysInMonth()).toBe(31)
+  expect(lt.month(2).daysInMonth()).toBe(28)
+  expect(lt.month(4).daysInMonth()).toBe(30)
 
   expect(localTimeOrUndefined()).toBeUndefined()
   expect(localTimeOrUndefined(null)).toBeUndefined()
@@ -409,4 +414,14 @@ test('comparison with other LocalTimes like primitives', () => {
 
 test('nowUnix', () => {
   expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
+})
+
+test('utcOffset', () => {
+  const offset = dayjs().utcOffset()
+  const offset2 = -new Date().getTimezoneOffset()
+  expect(offset2).toBe(offset)
+
+  // Because unit tests always run in utc:
+  expect(getUTCOffsetMinutes()).toBe(0)
+  expect(getUTCOffsetHours()).toBe(0)
 })

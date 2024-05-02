@@ -46,6 +46,9 @@ test('basic', () => {
   expect(ld.endOf('year').toString()).toBe('1984-12-31')
   expect(ld.endOf('month').toString()).toBe('1984-06-30')
   expect(ld.endOf('day').toString()).toBe('1984-06-21')
+  expect(ld.daysInMonth()).toBe(30)
+  expect(ld.month(7).daysInMonth()).toBe(31)
+  expect(ld.month(2).daysInMonth()).toBe(29)
 
   expect(localDateOrUndefined()).toBeUndefined()
   expect(localDateOrUndefined(null)).toBeUndefined()

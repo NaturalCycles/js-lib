@@ -438,6 +438,14 @@ export class LocalDate {
     return LocalDate.create(this.$year, 12, 31)
   }
 
+  /**
+   * Returns how many days are in the current month.
+   * E.g 31 for January.
+   */
+  daysInMonth(): number {
+    return LocalDate.getMonthLength(this.$year, this.$month)
+  }
+
   static getYearLength(year: number): number {
     return this.isLeapYear(year) ? 366 : 365
   }
