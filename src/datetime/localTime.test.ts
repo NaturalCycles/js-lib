@@ -445,9 +445,22 @@ test('utcOffset', () => {
 
 test('fromDateUTC', () => {
   const s = `1984-06-21T05:00:00`
-  const lt = LocalTime.fromDateUTC(new Date(s))
+  const lt = localTime(s).utc()
+  const ltUtc = lt.utc()
+  // eslint-disable-next-line jest/prefer-equality-matcher
+  expect(lt !== ltUtc).toBe(true) // not the same instance
+  expect(lt.unix()).toBe(ltUtc.unix())
+  expect(ltUtc.toPretty()).toBe(`1984-06-21 05:00:00`)
+  expect(ltUtc.toISODate()).toBe(`1984-06-21`)
+  expect(ltUtc.toISODateTime()).toBe(s)
   if (isUTC()) {
     expect(lt.unix()).toMatchInlineSnapshot(`456642000`)
   }
+
+  const ltLocal = ltUtc.local()
+  // eslint-disable-next-line jest/prefer-equality-matcher
+  expect(ltLocal !== ltUtc).toBe(true)
+  expect(ltLocal.unix()).toBe(ltUtc.unix())
+  expect(ltLocal.toPretty()).toBe(lt.toPretty())
   // todo: figure out what to assert in non-utc mode
 })

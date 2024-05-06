@@ -107,10 +107,6 @@ export class LocalTime {
       return null
     }
 
-    // if (utc) {
-    //   date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
-    // }
-
     return new LocalTime(date)
   }
 
@@ -156,8 +152,20 @@ export class LocalTime {
     )
   }
 
-  static fromDateUTC(d: Date): LocalTime {
-    return new LocalTime(new Date(d.toISOString()))
+  /**
+   * Returns LocalTime that is based on the same unixtimestamp, but in UTC timezone.
+   * Opposite of `.local()` method.
+   */
+  utc(): LocalTime {
+    return new LocalTime(new Date(this.$date.toISOString()))
+  }
+
+  /**
+   * Returns LocalTime that is based on the same unixtimestamp, but in local timezone.
+   * Opposite of `.utc()` method.
+   */
+  local(): LocalTime {
+    return new LocalTime(new Date(this.$date.getTime()))
   }
 
   get(unit: LocalTimeUnit): number {

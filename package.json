@@ -4,8 +4,8 @@
   "scripts": {
     "prepare": "husky",
     "build-prod": "build-prod-esm-cjs",
-    "test-tz1": "TZ=Europe/Stockholm test local",
-    "test-tz2": "TZ=JST-9 test local",
+    "test-tz1": "TZ=Europe/Stockholm yarn test local",
+    "test-tz2": "TZ=JST-9 yarn test local",
     "docs-dev": "vitepress dev docs --open",
     "docs-build": "vitepress build docs",
     "docs-preview": "vitepress preview docs"
