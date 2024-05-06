@@ -52,3 +52,7 @@ export function expectWithMessage(
     )
   }
 }
+
+export function isUTC(): boolean {
+  return process.env['TZ'] === 'UTC'
+}

@@ -74,7 +74,6 @@ export class LocalDate {
       return this.fromDate(d)
     }
 
-    // const [year, month, day] = d.slice(0, 10).split('-').map(Number)
     const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))
     if (!matches) return null
 
@@ -96,11 +95,6 @@ export class LocalDate {
 
     return new LocalDate(year, month, day)
   }
-
-  // Can use just .toString()
-  // static parseToString(d: LocalDateConfig): IsoDateString {
-  //   return typeof d === 'string' ? d : d.toString()
-  // }
 
   static isValid(iso: string | undefined | null): boolean {
     return this.parseOrNull(iso) !== null
@@ -473,6 +467,14 @@ export class LocalDate {
     return new Date(this.$year, this.$month - 1, this.$day)
   }
 
+  /**
+   * Converts LocalDate to Date in UTC timezone.
+   * Unlike normal `.toDate` that uses browser's timezone by default.
+   */
+  toDateInUTC(): Date {
+    return new Date(this.toISODateTimeUTC())
+  }
+
   toLocalTime(): LocalTime {
     return LocalTime.of(this.toDate())
   }
@@ -486,6 +488,13 @@ export class LocalDate {
    */
   toISODateTime(): IsoDateTimeString {
     return this.toString() + 'T00:00:00'
+  }
+
+  /**
+   * Returns e.g: `1984-06-21T17:56:21Z` (notice the Z at the end, which indicates UTC)
+   */
+  toISODateTimeUTC(): IsoDateTimeString {
+    return this.toISODateTime() + 'Z'
   }
 
   toString(): IsoDateString {
@@ -616,5 +625,7 @@ export function localDateOrToday(d?: LocalDateInput | null): LocalDate {
  */
 export function todayString(): IsoDateString {
   // It was benchmarked to be faster than by concatenating individual Date components
-  return new Date().toISOString().slice(0, 10)
+  // return new Date().toISOString().slice(0, 10)
+  // But, toISOString always returns the date in UTC, so in the Browser it would give unexpected result!
+  return LocalDate.fromDate(new Date()).toString()
 }

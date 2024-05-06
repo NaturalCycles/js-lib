@@ -1,6 +1,6 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
-import { expectWithMessage } from '../test/test.util'
+import { expectWithMessage, isUTC } from '../test/test.util'
 import {
   LocalDateFormatter,
   LocalDateUnit,
@@ -27,6 +27,7 @@ test('basic', () => {
   const str = '1984-06-21'
   const ld = LocalDate.of(str)
   expect(ld.toString()).toBe(str)
+  expect(ld.toStringCompact()).toBe('19840621')
   expect(String(ld)).toBe(str)
   expect(ld.day()).toBe(21)
   expect(ld.month()).toBe(6)
@@ -37,6 +38,8 @@ test('basic', () => {
   expect(ld.absDiff(str, 'day')).toBe(0)
   expect(ld.clone().isSame(ld)).toBe(true)
 
+  expect(ld.toISODateTime()).toBe('1984-06-21T00:00:00')
+  expect(ld.toISODateTimeUTC()).toBe('1984-06-21T00:00:00Z')
   expect(ld.toLocalTime().toISODateTime()).toBe('1984-06-21T00:00:00')
   expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
 
@@ -207,7 +210,11 @@ test('validate', () => {
 test('toDate', () => {
   const str = '2022-03-06'
   const d = LocalDate.of(str)
-  expect(d.toDate()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
+  if (isUTC()) {
+    // timezone-dependent
+    expect(d.toDate()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
+  }
+  expect(d.toDateInUTC()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
   const d2 = LocalDate.fromDate(d.toDate())
   expect(d2.toString()).toBe(str)
   expect(d2.isSame(d)).toBe(true)
@@ -338,10 +345,17 @@ test('comparison with other LocalDates like primitives', () => {
   expect(d > localDate('1981-06-20')).toBe(true)
 })
 
-test('todayIsoDateString', () => {
+test('todayString', () => {
   // expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
   const s = todayString()
   expect(s.startsWith(new Date().getFullYear() + '-')).toBe(true)
   expect(s > '2024-05-01').toBe(true)
   expect(s < '2099-01-01').toBe(true)
+})
+
+test('todayString tz', () => {
+  if (isUTC()) return
+  console.log(process.env['TZ'])
+  console.log(todayString())
+  console.log(new Date().toString())
 })

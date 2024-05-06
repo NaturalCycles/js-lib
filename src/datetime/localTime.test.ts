@@ -1,6 +1,6 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
-import { expectWithMessage } from '../test/test.util'
+import { expectWithMessage, isUTC } from '../test/test.util'
 import {
   LocalTimeFormatter,
   LocalTimeUnit,
@@ -28,7 +28,7 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
 }
 
 test('basic', () => {
-  const start = '2022-01-01'
+  const start = '2022-01-01T00:00:00'
   const lt = LocalTime.of(start)
   expect(lt.year()).toBe(2022)
   expect(lt.month()).toBe(1)
@@ -38,9 +38,11 @@ test('basic', () => {
   expect(lt.toString()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
   expect(lt.toPretty(false)).toBe('2022-01-01 00:00')
-  expect(lt.unix()).toBe(1640995200)
-  expect(lt.valueOf()).toBe(1640995200)
-  expect(lt.toJSON()).toBe(1640995200)
+  if (isUTC()) {
+    expect(lt.unix()).toBe(1640995200)
+    expect(lt.valueOf()).toBe(1640995200)
+    expect(lt.toJSON()).toBe(1640995200)
+  }
   expect(lt.toMonthId()).toBe('2022-01')
   const lt2 = lt.clone()
   expect(lt2).not.toBe(lt)
@@ -63,13 +65,17 @@ test('basic', () => {
   expect(lt.toISODate()).toBe('2022-01-01')
   expect(lt.toISOTime()).toBe('00:00:00')
   expect(lt.toISOTime(false)).toBe('00:00')
-  expect(lt.toStringCompact()).toBe('20220101_0000')
-  expect(lt.toStringCompact(true)).toBe('20220101_000000')
+  if (isUTC()) {
+    expect(lt.toStringCompact()).toBe('20220101_0000')
+    expect(lt.toStringCompact(true)).toBe('20220101_000000')
+  }
 
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 
-  expect(LocalTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
-  expect(LocalTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
+  if (isUTC()) {
+    expect(LocalTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
+    expect(LocalTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
+  }
 
   expect(lt.year(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
   expect(lt.month(12).toISODateTime()).toBe('2022-12-01T00:00:00')
@@ -94,21 +100,23 @@ test('basic', () => {
     },
     true,
   )
-  expect(lt.startOf('year').toISODateTime()).toBe('2022-01-01T00:00:00')
-  expect(lt.startOf('month').toISODateTime()).toBe('2022-01-01T00:00:00')
-  expect(lt.startOf('day').toISODateTime()).toBe('2022-01-01T00:00:00')
-  expect(lt.startOf('hour').toISODateTime()).toBe('2022-01-01T01:00:00')
-  expect(lt.startOf('minute').toISODateTime()).toBe('2022-01-01T01:02:00')
-  expect(lt.startOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
-  expect(lt.startOf('week').toISODateTime()).toBe('2021-12-27T00:00:00')
+  if (isUTC()) {
+    expect(lt.startOf('year').toISODateTime()).toBe('2022-01-01T00:00:00')
+    expect(lt.startOf('month').toISODateTime()).toBe('2022-01-01T00:00:00')
+    expect(lt.startOf('day').toISODateTime()).toBe('2022-01-01T00:00:00')
+    expect(lt.startOf('hour').toISODateTime()).toBe('2022-01-01T01:00:00')
+    expect(lt.startOf('minute').toISODateTime()).toBe('2022-01-01T01:02:00')
+    expect(lt.startOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
+    expect(lt.startOf('week').toISODateTime()).toBe('2021-12-27T00:00:00')
 
-  expect(lt.endOf('year').toISODateTime()).toBe('2022-12-31T23:59:59')
-  expect(lt.endOf('month').toISODateTime()).toBe('2022-01-31T23:59:59')
-  expect(lt.endOf('day').toISODateTime()).toBe('2022-01-01T23:59:59')
-  expect(lt.endOf('hour').toISODateTime()).toBe('2022-01-01T01:59:59')
-  expect(lt.endOf('minute').toISODateTime()).toBe('2022-01-01T01:02:59')
-  expect(lt.endOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
-  expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
+    expect(lt.endOf('year').toISODateTime()).toBe('2022-12-31T23:59:59')
+    expect(lt.endOf('month').toISODateTime()).toBe('2022-01-31T23:59:59')
+    expect(lt.endOf('day').toISODateTime()).toBe('2022-01-01T23:59:59')
+    expect(lt.endOf('hour').toISODateTime()).toBe('2022-01-01T01:59:59')
+    expect(lt.endOf('minute').toISODateTime()).toBe('2022-01-01T01:02:59')
+    expect(lt.endOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
+    expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
+  }
   expect(lt.daysInMonth()).toBe(31)
   expect(lt.month(2).daysInMonth()).toBe(28)
   expect(lt.month(4).daysInMonth()).toBe(30)
@@ -116,7 +124,7 @@ test('basic', () => {
   expect(localTimeOrUndefined()).toBeUndefined()
   expect(localTimeOrUndefined(null)).toBeUndefined()
   expect(localTimeOrUndefined(0 as any)).toBeUndefined()
-  expect(localTimeOrUndefined(start)?.toISODate()).toBe(start)
+  expect(localTimeOrUndefined(start)?.toISODate()).toBe('2022-01-01')
 
   expect(localTimeNow().toString()).toBeDefined()
   expect(localTimeOrNow().toString()).toBeDefined()
@@ -169,6 +177,7 @@ test('validation', () => {
 })
 
 test('add', () => {
+  if (!isUTC()) return
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
@@ -249,6 +258,7 @@ test('add', () => {
 })
 
 test('diff', () => {
+  if (!isUTC()) return
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
   // const starts = ['2020-02-29']
 
@@ -283,7 +293,9 @@ test('diff', () => {
 })
 
 test('timezone-full string', () => {
+  if (!isUTC()) return // todo: this should parse to the same unixtime regardless of TZ
   const lt = LocalTime.of('2022-04-06T23:15:00+09:00')
+  expect(lt.unix()).toMatchInlineSnapshot(`1649286900`)
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
 
@@ -338,11 +350,13 @@ test('diff2', () => {
 })
 
 test('fromComponents', () => {
+  if (!isUTC()) return
   const lt = LocalTime.fromComponents({ year: 1984, month: 6 })
   expect(lt.toISODate()).toBe('1984-06-01')
 })
 
 test('add edge', () => {
+  if (!isUTC()) return
   // 2020-02-29 - 2020 year == 0000-02-29 00:00:00
   // expect(localTime('2020-02-29').add(-2020, 'year').toPretty()).toBe(dayjs('2020-02-29').add(-2020, 'year').toPretty())
 
@@ -390,6 +404,7 @@ test('diff edge', () => {
 
 // You shouldn't do it, I'm just discovering that it works, apparently
 test('comparison with string', () => {
+  if (!isUTC()) return
   const d = localTime('1984-06-21T05:00:00') as any
   expect(d < localTime('1984-06-22').unix()).toBe(true)
   expect(d < localTime('1985-06-22').unix()).toBe(true)
@@ -402,6 +417,7 @@ test('comparison with string', () => {
 
 // You shouldn't do it, I'm just discovering that it works, apparently
 test('comparison with other LocalTimes like primitives', () => {
+  if (!isUTC()) return
   const d = localTime('1984-06-21T05:00:00') as any
   expect(d < localTime('1984-06-22')).toBe(true)
   expect(d < localTime('1985-06-22')).toBe(true)
@@ -421,7 +437,17 @@ test('utcOffset', () => {
   const offset2 = -new Date().getTimezoneOffset()
   expect(offset2).toBe(offset)
 
-  // Because unit tests always run in utc:
-  expect(getUTCOffsetMinutes()).toBe(0)
-  expect(getUTCOffsetHours()).toBe(0)
+  if (isUTC()) {
+    expect(getUTCOffsetMinutes()).toBe(0)
+    expect(getUTCOffsetHours()).toBe(0)
+  }
+})
+
+test('fromDateUTC', () => {
+  const s = `1984-06-21T05:00:00`
+  const lt = LocalTime.fromDateUTC(new Date(s))
+  if (isUTC()) {
+    expect(lt.unix()).toMatchInlineSnapshot(`456642000`)
+  }
+  // todo: figure out what to assert in non-utc mode
 })

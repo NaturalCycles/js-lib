@@ -28,10 +28,15 @@ export enum ISODayOfWeek {
 export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
-export interface LocalTimeComponents {
+export type LocalTimeComponents = DateComponents & TimeComponents
+
+interface DateComponents {
   year: number
   month: number
   day: number
+}
+
+interface TimeComponents {
   hour: number
   minute: number
   second: number
@@ -88,7 +93,12 @@ export class LocalTime {
       // unexpected type, e.g Function or something
       return null
     } else {
+      // Slicing removes the "timezone component", and makes the date "local"
+      // e.g 2022-04-06T23:15:00+09:00
+      // becomes 2022-04-06T23:15:00
       date = new Date(d.slice(0, 19))
+      // We used to slice to remove the timezone information, now we don't
+      // date = new Date(d)
     }
 
     // validation
@@ -144,6 +154,10 @@ export class LocalTime {
     return new LocalTime(
       new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
     )
+  }
+
+  static fromDateUTC(d: Date): LocalTime {
+    return new LocalTime(new Date(d.toISOString()))
   }
 
   get(unit: LocalTimeUnit): number {
@@ -514,6 +528,22 @@ export class LocalTime {
     }
   }
 
+  private dateComponents(): DateComponents {
+    return {
+      year: this.$date.getFullYear(),
+      month: this.$date.getMonth() + 1,
+      day: this.$date.getDate(),
+    }
+  }
+
+  private timeComponents(): TimeComponents {
+    return {
+      hour: this.$date.getHours(),
+      minute: this.$date.getMinutes(),
+      second: this.$date.getSeconds(),
+    }
+  }
+
   fromNow(now: LocalTimeInput = new Date()): string {
     const msDiff = LocalTime.parseToDate(now).valueOf() - this.$date.valueOf()
 
@@ -550,30 +580,59 @@ export class LocalTime {
     return LocalDate.fromDate(this.$date)
   }
 
+  /**
+   * Returns e.g: `1984-06-21 17:56:21`
+   * or (if seconds=false):
+   * `1984-06-21 17:56`
+   */
   toPretty(seconds = true): IsoDateTimeString {
-    const s = this.$date.toISOString()
-    return s.slice(0, 10) + ' ' + s.slice(11, seconds ? 19 : 16)
+    return this.toISODate() + ' ' + this.toISOTime(seconds)
+    // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
+    // const s = this.$date.toISOString()
+    // return s.slice(0, 10) + ' ' + s.slice(11, seconds ? 19 : 16)
   }
 
   /**
    * Returns e.g: `1984-06-21T17:56:21`
    */
   toISODateTime(): IsoDateTimeString {
-    return this.$date.toISOString().slice(0, 19)
+    return this.toISODate() + 'T' + this.toISOTime()
+    // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
+    // return this.$date.toISOString().slice(0, 19)
   }
 
   /**
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
   toISODate(): IsoDateString {
-    return this.$date.toISOString().slice(0, 10)
+    const { year, month, day } = this.dateComponents()
+
+    return [
+      String(year).padStart(4, '0'),
+      String(month).padStart(2, '0'),
+      String(day).padStart(2, '0'),
+    ].join('-')
+
+    // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
+    // return this.$date.toISOString().slice(0, 10)
   }
 
   /**
    * Returns e.g: `17:03:15` (or `17:03` with seconds=false)
    */
   toISOTime(seconds = true): string {
-    return this.$date.toISOString().slice(11, seconds ? 19 : 16)
+    const { hour, minute, second } = this.timeComponents()
+
+    return [
+      String(hour).padStart(2, '0'),
+      String(minute).padStart(2, '0'),
+      seconds && String(second).padStart(2, '0'),
+    ]
+      .filter(Boolean)
+      .join(':')
+
+    // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
+    // return this.$date.toISOString().slice(11, seconds ? 19 : 16)
   }
 
   /**
@@ -602,7 +661,7 @@ export class LocalTime {
   }
 
   toMonthId(): MonthId {
-    return this.$date.toISOString().slice(0, 7)
+    return this.toISODate().slice(0, 7)
   }
 
   format(fmt: Intl.DateTimeFormat | LocalTimeFormatter): string {
