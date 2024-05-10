@@ -13,27 +13,23 @@ const str = '1984-06-21'
 
 runBenchScript({
   fns: {
-    localDate: done => {
+    localDate: () => {
       const d = localDate(str)
       const d2 = d.plus(100, 'day')
       const s = d2.toString()
       const s2 = s
-      done.resolve()
     },
-    localTime: done => {
+    localTime: () => {
       const d = localTime(str)
       const d2 = d.plus(100, 'day')
       const s = d2.toString()
       const s2 = s
-      done.resolve()
     },
-    dayjs: done => {
+    dayjs: () => {
       const d = dayjs(str)
       const d2 = d.add(100, 'day')
       const s = d2.toString()
       const s2 = s
-      done.resolve()
     },
   },
-  runs: 2,
 })

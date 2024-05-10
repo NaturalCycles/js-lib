@@ -13,11 +13,10 @@ const str = '1984-06-21'
 
 runBenchScript({
   fns: {
-    localDate: done => {
+    localDate: () => {
       const d = LocalDate.of(str)
       const s = d.toString()
       const s2 = s
-      done.resolve()
     },
     // lazyLocalDate: done => {
     //   const d = new LazyLocalDate(str)

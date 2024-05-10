@@ -10,17 +10,14 @@ import { runBenchScript } from '@naturalcycles/bench-lib'
 
 runBenchScript({
   fns: {
-    one: done => {
+    one: () => {
       const err = new Error('fake')
       const _a = err.stack
-      done.resolve()
     },
-    two: done => {
+    two: () => {
       const fake = { stack: '' }
       Error.captureStackTrace(fake)
       const _a = fake.stack
-      done.resolve()
     },
   },
-  runs: 2,
 })

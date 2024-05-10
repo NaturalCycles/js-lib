@@ -7,7 +7,7 @@ yarn tsn hashBench
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { md5 } from '@naturalcycles/nodejs-lib'
 import cryptoJS from 'crypto-js'
-import { _range, pMap, hashCode, hashCode64 } from '../src'
+import { _range, hashCode, hashCode64 } from '../src'
 const crypto = require('node:crypto').webcrypto
 
 const data = _range(100).map(n => ({
@@ -18,12 +18,10 @@ const data = _range(100).map(n => ({
 
 runBenchScript({
   fns: {
-    hashCode: done => {
+    hashCode: () => {
       const _r = data.map(obj => {
         return String(hashCode(JSON.stringify(obj)))
       })
-
-      done.resolve()
     },
     // hashCodeHex: done => {
     //   const _r = data.map(obj => {
@@ -32,12 +30,10 @@ runBenchScript({
     //
     //   done.resolve()
     // },
-    hashCodeBase64url: done => {
+    hashCodeBase64url: () => {
       const _r = data.map(obj => {
         return String(hashCode64(JSON.stringify(obj)))
       })
-
-      done.resolve()
     },
     // hashCodeBase36: done => {
     //   const _r = data.map(obj => {
@@ -46,34 +42,29 @@ runBenchScript({
     //
     //   done.resolve()
     // },
-    cryptojsmd5: done => {
+    cryptojsmd5: () => {
       const _r = data.map(obj => {
         return cryptoJS.MD5(JSON.stringify(obj))
       })
-
-      done.resolve()
     },
-    subtleCryptoSha256: async done => {
-      const _r: any[] = []
-
-      await pMap(data, async item => {
-        _r.push(await subtleCryptoSha256(JSON.stringify(item)))
-      })
-
-      done.resolve()
-    },
-    nodemd5: done => {
+    // subtleCryptoSha256: async done => {
+    //   const _r: any[] = []
+    //
+    //   await pMap(data, async item => {
+    //     _r.push(await subtleCryptoSha256(JSON.stringify(item)))
+    //   })
+    //
+    //   done.resolve()
+    // },
+    nodemd5: () => {
       const _r = data.map(obj => {
         return md5(JSON.stringify(obj))
       })
-
-      done.resolve()
     },
   },
-  runs: 2,
 })
 
-async function subtleCryptoSha256(s: string): Promise<string> {
+async function _subtleCryptoSha256(s: string): Promise<string> {
   const encoder = new TextEncoder()
   const data = encoder.encode(s)
   const hash = await crypto.subtle.digest('SHA-256', data)

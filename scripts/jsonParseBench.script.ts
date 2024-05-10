@@ -17,13 +17,11 @@ const data = mockAllKindsOfThings()
 
 runBenchScript({
   fns: {
-    before: done => {
+    before: () => {
       const out = data.map(t => before(t))
-      done.resolve()
     },
-    after: done => {
+    after: () => {
       const out = data.map(t => _jsonParseIfPossible(t))
-      done.resolve()
     },
   },
   runs: 2,

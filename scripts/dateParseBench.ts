@@ -18,7 +18,7 @@ const DATE = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 // regex x 26,494 ops/sec ±1.33% (90 runs sampled)
 runBenchScript({
   fns: {
-    dayjs: done => {
+    dayjs: () => {
       let y
       let m
       let d
@@ -30,10 +30,8 @@ runBenchScript({
         m = dd.month()
         d = dd.day()
       })
-
-      done.resolve()
     },
-    split: done => {
+    split: () => {
       let y
       let m
       let d
@@ -44,10 +42,8 @@ runBenchScript({
         m = month
         d = day
       })
-
-      done.resolve()
     },
-    regex: done => {
+    regex: () => {
       let y
       let m
       let d
@@ -59,10 +55,8 @@ runBenchScript({
         m = Number(matches[2])
         d = Number(matches[3])
       })
-
-      done.resolve()
     },
-    localDate: done => {
+    localDate: () => {
       let y
       let m
       let d
@@ -74,9 +68,6 @@ runBenchScript({
         m = dd.month()
         d = dd.day()
       })
-
-      done.resolve()
     },
   },
-  runs: 2,
 })

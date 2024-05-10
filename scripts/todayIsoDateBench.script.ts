@@ -9,18 +9,15 @@ import { IsoDateString } from '../src'
 
 runBenchScript({
   fns: {
-    v1: done => {
+    v1: () => {
       const s = fn1()
       const _r = s
-      done.resolve()
     },
-    v2: done => {
+    v2: () => {
       const s = fn2()
       const _r = s
-      done.resolve()
     },
   },
-  runs: 2,
 })
 
 function fn1(): IsoDateString {

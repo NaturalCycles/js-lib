@@ -14,24 +14,19 @@ const data2 = _range(data.length).map(n => `${n}.${Math.round((n * 7.5) % 10)}.$
 
 runBenchScript({
   fns: {
-    _semver: done => {
+    _semver: () => {
       const _a: any[] = []
 
       _range(data.length).forEach(i => {
         _a.push(_semver(data[i]!).cmp(data2[i]!))
       })
-
-      done.resolve()
     },
-    semver: done => {
+    semver: () => {
       const _a: any[] = []
 
       _range(data.length).forEach(i => {
         _a.push(semver.parse(data[i])!.compare(data2[i]!))
       })
-
-      done.resolve()
     },
   },
-  runs: 2,
 })

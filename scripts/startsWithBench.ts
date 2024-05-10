@@ -18,14 +18,11 @@ const data = _range(10).map(n => `{ "a": "b", "n": ${n}}`)
 
 runBenchScript({
   fns: {
-    startsWith: done => {
+    startsWith: () => {
       const out = data.map(t => t.startsWith('{'))
-      done.resolve()
     },
-    regex: done => {
+    regex: () => {
       const out = data.map(t => regex.test(t))
-      done.resolve()
     },
   },
-  runs: 2,
 })

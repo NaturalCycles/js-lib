@@ -12,28 +12,23 @@ const a2noMatch = [11, 12, 13, 14, 75, 4, 5]
 
 runBenchScript({
   fns: {
-    case1Match: done => {
+    case1Match: () => {
       const r = _intersectsWith1(a1, a2match)
       const _r2 = r
-      done.resolve()
     },
-    case2Match: done => {
+    case2Match: () => {
       const r = _intersectsWith2(a1, a2match)
       const _r2 = r
-      done.resolve()
     },
-    case1NoMatch: done => {
+    case1NoMatch: () => {
       const r = _intersectsWith1(a1, a2noMatch)
       const _r2 = r
-      done.resolve()
     },
-    case2NoMatch: done => {
+    case2NoMatch: () => {
       const r = _intersectsWith2(a1, a2noMatch)
       const _r2 = r
-      done.resolve()
     },
   },
-  runs: 2,
 })
 
 function _intersectsWith1<T>(a1: T[], a2: T[]): boolean {

@@ -52,24 +52,20 @@ const key = 2
 
 runBenchScript({
   fns: {
-    noMemo: done => {
+    noMemo: () => {
       // c1.getC0(key as any).work()
       c1.getC0().work()
       // let a = JSON.stringify({a: 'b'})
-      done.resolve()
     },
-    memoSimple: done => {
+    memoSimple: () => {
       // let a = JSON.stringify(undefined)
       // (c2 as any).getC0('abc').work()
       // c2.getC0(key as any).work()
       c2.getC0().work()
       // c0.work()
-      done.resolve()
     },
-    memo: done => {
+    memo: () => {
       c3.getC0().work()
-      done.resolve()
     },
   },
-  runs: 2,
 })
