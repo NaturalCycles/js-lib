@@ -934,7 +934,7 @@
       "off"
     ],
     "no-new-native-nonconstructor": [
-      "error"
+      "off"
     ],
     "no-new-symbol": [
       2
@@ -1286,6 +1286,9 @@
     "unicorn/consistent-destructuring": [
       0
     ],
+    "unicorn/consistent-empty-array-spread": [
+      "error"
+    ],
     "unicorn/consistent-function-scoping": [
       0
     ],
@@ -1361,6 +1364,9 @@
     "unicorn/no-instanceof-array": [
       "error"
     ],
+    "unicorn/no-invalid-fetch-options": [
+      "error"
+    ],
     "unicorn/no-invalid-remove-event-listener": [
       "error"
     ],
@@ -1368,6 +1374,9 @@
       "off"
     ],
     "unicorn/no-lonely-if": [
+      "error"
+    ],
+    "unicorn/no-magic-array-flat-depth": [
       "error"
     ],
     "unicorn/no-negated-condition": [
@@ -1565,6 +1574,9 @@
     "unicorn/prefer-spread": [
       0
     ],
+    "unicorn/prefer-string-raw": [
+      "error"
+    ],
     "unicorn/prefer-string-replace-all": [
       "error"
     ],
@@ -1575,6 +1587,9 @@
       "error"
     ],
     "unicorn/prefer-string-trim-start-end": [
+      "error"
+    ],
+    "unicorn/prefer-structured-clone": [
       "error"
     ],
     "unicorn/prefer-switch": [

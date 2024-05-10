@@ -1,4 +1,4 @@
-import { _stringifyAny, getFetcher, pExpectedError } from '@naturalcycles/js-lib'
+import { _stringify, getFetcher, pExpectedError } from '@naturalcycles/js-lib'
 const fetcher = getFetcher({
   retry: { count: 0 },
 })
@@ -9,7 +9,7 @@ test('should throw on network connections', async () => {
   if (detectLeaks) return // skip test on detectLeaks where jestOffline is disabled
 
   const err = await pExpectedError(fetcher.get('http://example.com'))
-  expect(_stringifyAny(err)).toMatchInlineSnapshot(`
+  expect(_stringify(err)).toMatchInlineSnapshot(`
     "HttpRequestError: GET http://example.com/
     Caused by: TypeError: fetch failed
     Caused by: Error: Network request forbidden by jestOffline(): example.com"
