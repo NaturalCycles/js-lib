@@ -368,6 +368,7 @@ module.exports = {
     'unicorn/prefer-at': 0, // iOS 15.4+
     'unicorn/import-style': 0, // todo: fix
     'unicorn/prefer-spread': 0, // fails on joiSchema.concat() which is not an array!
+    'unicorn/prefer-structured-clone': 0, // no real advantage, plus in most of the cases we want JSON to remove undefined, etc.
     'unicorn/better-regex': 0, // we still believe that [0-9] is clearer than [\d]
     'unicorn/no-object-as-default-parameter': 0, // doesn't allow e.g method (opt = { skipValidation: true })
     'unicorn/catch-error-name': [
