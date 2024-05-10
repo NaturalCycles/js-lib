@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "sourceMap": false,
+    "skipLibCheck": true, // because of the error in @types/markdown-it
     "target": "es2017", // targets es2017+ browsers: https://caniuse.com/sr_es11
   },
   "exclude": ["**/__exclude", "src/test", "src/**/*.test.*"],
