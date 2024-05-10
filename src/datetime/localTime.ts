@@ -191,6 +191,49 @@ export class LocalTime {
     return mutate ? this : new LocalTime(d)
   }
 
+  plusSeconds(num: number): LocalTime {
+    return this.plus(num, 'second')
+  }
+  plusMinutes(num: number): LocalTime {
+    return this.plus(num, 'minute')
+  }
+  plusHours(num: number): LocalTime {
+    return this.plus(num, 'hour')
+  }
+  plusDays(num: number): LocalTime {
+    return this.plus(num, 'day')
+  }
+  plusWeeks(num: number): LocalTime {
+    return this.plus(num, 'week')
+  }
+  plusMonths(num: number): LocalTime {
+    return this.plus(num, 'month')
+  }
+  plusYears(num: number): LocalTime {
+    return this.plus(num, 'year')
+  }
+  minusSeconds(num: number): LocalTime {
+    return this.plus(-num, 'second')
+  }
+  minusMinutes(num: number): LocalTime {
+    return this.plus(-num, 'minute')
+  }
+  minusHours(num: number): LocalTime {
+    return this.plus(-num, 'hour')
+  }
+  minusDays(num: number): LocalTime {
+    return this.plus(-num, 'day')
+  }
+  minusWeeks(num: number): LocalTime {
+    return this.plus(-num, 'week')
+  }
+  minusMonths(num: number): LocalTime {
+    return this.plus(-num, 'month')
+  }
+  minusYears(num: number): LocalTime {
+    return this.plus(-num, 'year')
+  }
+
   plus(num: number, unit: LocalTimeUnit, mutate = false): LocalTime {
     if (unit === 'week') {
       num *= 7

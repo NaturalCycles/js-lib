@@ -104,8 +104,8 @@ test('add basic', () => {
   expect(ld.plus(-1, 'month').toString()).toBe('2021-12-01')
 
   const d = localDate('2022-05-31')
-  expect(d.plus(1, 'month').toISODate()).toBe('2022-06-30')
-  expect(d.plus(-1, 'month').toISODate()).toBe('2022-04-30')
+  expect(d.plusMonths(1).toISODate()).toBe('2022-06-30')
+  expect(d.minusMonths(1).toISODate()).toBe('2022-04-30')
 })
 
 test('add', () => {

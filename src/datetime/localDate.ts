@@ -233,6 +233,31 @@ export class LocalDate {
     return days * sign || 0
   }
 
+  plusDays(num: number): LocalDate {
+    return this.plus(num, 'day')
+  }
+  plusWeeks(num: number): LocalDate {
+    return this.plus(num, 'week')
+  }
+  plusMonths(num: number): LocalDate {
+    return this.plus(num, 'month')
+  }
+  plusYears(num: number): LocalDate {
+    return this.plus(num, 'year')
+  }
+  minusDays(num: number): LocalDate {
+    return this.plus(-num, 'day')
+  }
+  minusWeeks(num: number): LocalDate {
+    return this.plus(-num, 'week')
+  }
+  minusMonths(num: number): LocalDate {
+    return this.plus(-num, 'month')
+  }
+  minusYears(num: number): LocalDate {
+    return this.plus(-num, 'year')
+  }
+
   plus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
     let { $day, $month, $year } = this
 

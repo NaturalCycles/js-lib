@@ -356,10 +356,10 @@ test('add edge', () => {
   // 2020-02-29 - 2020 year == 0000-02-29 00:00:00
   // expect(localTime('2020-02-29').add(-2020, 'year').toPretty()).toBe(dayjs('2020-02-29').add(-2020, 'year').toPretty())
 
-  expect(localTime('2022-05-31').plus(21, 'month').toPretty()).toBe('2024-02-29 00:00:00')
+  expect(localTime('2022-05-31').plusMonths(21).toPretty()).toBe('2024-02-29 00:00:00')
 
-  expect(localTime('2022-05-31').plus(1, 'month').toPretty()).toBe('2022-06-30 00:00:00')
-  expect(localTime('2022-05-31').plus(-1, 'month').toPretty()).toBe('2022-04-30 00:00:00')
+  expect(localTime('2022-05-31').plusMonths(1).toPretty()).toBe('2022-06-30 00:00:00')
+  expect(localTime('2022-05-31').minusMonths(1).toPretty()).toBe('2022-04-30 00:00:00')
 
   expect(localTime('2020-02-29').plus(1, 'month').toPretty()).toBe('2020-03-29 00:00:00')
   expect(localTime('2020-03-29').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
@@ -368,8 +368,8 @@ test('add edge', () => {
   expect(localTime('2020-01-31').plus(1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
   expect(localTime('2020-01-31').plus(2, 'month').toPretty()).toBe('2020-03-31 00:00:00')
   expect(localTime('2020-01-31').plus(3, 'month').toPretty()).toBe('2020-04-30 00:00:00')
-  expect(localTime('2020-02-29').plus(1, 'year').toPretty()).toBe('2021-02-28 00:00:00')
-  expect(localTime('2021-02-28').plus(-1, 'year').toPretty()).toBe('2020-02-28 00:00:00')
+  expect(localTime('2020-02-29').plusYears(1).toPretty()).toBe('2021-02-28 00:00:00')
+  expect(localTime('2021-02-28').minusYears(1).toPretty()).toBe('2020-02-28 00:00:00')
 })
 
 test('diff edge', () => {
