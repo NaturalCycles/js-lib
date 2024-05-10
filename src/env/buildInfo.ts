@@ -1,4 +1,4 @@
-import { localTimeNow } from '../datetime/localTime'
+import { localTime } from '../datetime/localTime'
 import type { UnixTimestampNumber } from '../types'
 
 export interface BuildInfo {
@@ -43,7 +43,7 @@ export interface BuildInfo {
 }
 
 export function generateBuildInfoDev(): BuildInfo {
-  const now = localTimeNow()
+  const now = localTime.now()
   const ts = now.unix()
   const rev = 'devRev'
   const branchName = 'devBranch'

@@ -1,18 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import {
-  LocalDateFormatter,
-  LocalDateUnit,
-  todayString,
-  localDate,
-  LocalDate,
-  localDateOrToday,
-  localDateOrUndefined,
-  localDateRange,
-  localDateRangeIterable,
-  localDateToday,
-} from './localDate'
+import { LocalDateFormatter, LocalDateUnit, todayString, localDate } from './localDate'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 
@@ -25,7 +14,7 @@ const UNIT_RANGE: Record<LocalDateUnit, number> = {
 
 test('basic', () => {
   const str = '1984-06-21'
-  const ld = LocalDate.of(str)
+  const ld = localDate.of(str)
   expect(ld.toString()).toBe(str)
   expect(ld.toStringCompact()).toBe('19840621')
   expect(String(ld)).toBe(str)
@@ -39,7 +28,7 @@ test('basic', () => {
   expect(ld.clone().isSame(ld)).toBe(true)
 
   expect(ld.toISODateTime()).toBe('1984-06-21T00:00:00')
-  expect(ld.toISODateTimeUTC()).toBe('1984-06-21T00:00:00Z')
+  expect(ld.toISODateTimeInUTC()).toBe('1984-06-21T00:00:00Z')
   expect(ld.toLocalTime().toISODateTime()).toBe('1984-06-21T00:00:00')
   expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
 
@@ -53,14 +42,14 @@ test('basic', () => {
   expect(ld.month(7).daysInMonth()).toBe(31)
   expect(ld.month(2).daysInMonth()).toBe(29)
 
-  expect(localDateOrUndefined()).toBeUndefined()
-  expect(localDateOrUndefined(null)).toBeUndefined()
-  expect(localDateOrUndefined(0 as any)).toBeUndefined()
-  expect(localDateOrUndefined(str)?.toString()).toBe(str)
+  expect(localDate.orUndefined()).toBeUndefined()
+  expect(localDate.orUndefined(null)).toBeUndefined()
+  expect(localDate.orUndefined(0 as any)).toBeUndefined()
+  expect(localDate.orUndefined(str)?.toString()).toBe(str)
 
-  expect(localDateToday().toISODate()).toBeDefined()
-  expect(localDateOrToday().toISODate()).toBe(LocalDate.today().toISODate())
-  expect(localDateOrToday(ld).toISODate()).toBe(ld.toISODate())
+  expect(localDate.today().toISODate()).toBeDefined()
+  expect(localDate.orToday().toISODate()).toBe(localDate.today().toISODate())
+  expect(localDate.orToday(ld).toISODate()).toBe(ld.toISODate())
 
   expect(() => localDate(undefined as any)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "undefined" into LocalDate"`,
@@ -73,7 +62,7 @@ test('basic', () => {
 })
 
 test('isBetween', () => {
-  const ld = LocalDate.of('1984-06-21')
+  const ld = localDate.of('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -95,14 +84,14 @@ test('isBetween', () => {
 test('sort', () => {
   const items = ['2022-01-03', '2022-01-01', '2022-01-02'].map(i => localDate(i))
 
-  expect(LocalDate.sort(items).map(s => s.toString())).toEqual([
+  expect(localDate.sort(items).map(s => s.toString())).toEqual([
     '2022-01-01',
     '2022-01-02',
     '2022-01-03',
   ])
 
-  expect(LocalDate.earliest(items).toString()).toBe('2022-01-01')
-  expect(LocalDate.latest(items).toString()).toBe('2022-01-03')
+  expect(localDate.min(items).toString()).toBe('2022-01-01')
+  expect(localDate.max(items).toString()).toBe('2022-01-03')
 })
 
 test('add basic', () => {
@@ -146,7 +135,7 @@ test('diff', () => {
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const ld = LocalDate.of(start)
+    const ld = localDate.of(start)
     const d = dayjs(start)
 
     units.forEach(unitAdd => {
@@ -183,39 +172,37 @@ test('diff', () => {
 
 test('validate', () => {
   // valid
-  expect(LocalDate.of('2022-01-01').toString()).toBe('2022-01-01')
-  expect(LocalDate.of('2022-01-01T22:01:01').toString()).toBe('2022-01-01')
-  expect(LocalDate.of('2022-01-01T22:01:01Z').toString()).toBe('2022-01-01')
-  expect(LocalDate.of('2022-01-01T22:01:01+2').toString()).toBe('2022-01-01')
-  expect(LocalDate.of('2022-01-01nahuy').toString()).toBe('2022-01-01')
+  expect(localDate('2022-01-01').toString()).toBe('2022-01-01')
+  expect(localDate('2022-01-01T22:01:01').toString()).toBe('2022-01-01')
+  expect(localDate('2022-01-01T22:01:01Z').toString()).toBe('2022-01-01')
+  expect(localDate('2022-01-01T22:01:01+2').toString()).toBe('2022-01-01')
+  expect(localDate('2022-01-01nahuy').toString()).toBe('2022-01-01')
   // expect(LocalDate.of('2022-1-1').toString()).toBe('2022-01-01') // it's strict now!
 
-  expect(() => LocalDate.of(undefined as any)).toThrow()
-  expect(() => LocalDate.of(5 as any)).toThrow()
-  expect(() => LocalDate.of('')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "" into LocalDate"`,
-  )
-  expect(() => LocalDate.of('2022-01-')).toThrowErrorMatchingInlineSnapshot(
+  expect(() => localDate(undefined as any)).toThrow()
+  expect(() => localDate(5 as any)).toThrow()
+  expect(() => localDate('')).toThrowErrorMatchingInlineSnapshot(`"Cannot parse "" into LocalDate"`)
+  expect(() => localDate('2022-01-')).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "2022-01-" into LocalDate"`,
   )
-  expect(() => LocalDate.of('2022-01-x1')).toThrowErrorMatchingInlineSnapshot(
+  expect(() => localDate('2022-01-x1')).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "2022-01-x1" into LocalDate"`,
   )
 
-  expect(LocalDate.isValid('2022-01-01')).toBe(true)
-  expect(LocalDate.isValid('2022-01-32')).toBe(false)
-  expect(LocalDate.isValid('abcd')).toBe(false)
+  expect(localDate.isValid('2022-01-01')).toBe(true)
+  expect(localDate.isValid('2022-01-32')).toBe(false)
+  expect(localDate.isValid('abcd')).toBe(false)
 })
 
 test('toDate', () => {
   const str = '2022-03-06'
-  const d = LocalDate.of(str)
+  const d = localDate.of(str)
   if (isUTC()) {
     // timezone-dependent
     expect(d.toDate()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
   }
   expect(d.toDateInUTC()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
-  const d2 = LocalDate.fromDate(d.toDate())
+  const d2 = localDate.fromDate(d.toDate())
   expect(d2.toString()).toBe(str)
   expect(d2.isSame(d)).toBe(true)
   expect(d2.cmp(d)).toBe(0)
@@ -226,14 +213,14 @@ test('toDate', () => {
 })
 
 test('range', () => {
-  expect(localDateRange('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
+  expect(localDate.range('2021-12-24', '2021-12-26')).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
     ]
   `)
 
-  expect(localDateRange('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
+  expect(localDate.range('2021-12-24', '2021-12-26', '[]')).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
@@ -241,7 +228,7 @@ test('range', () => {
     ]
   `)
 
-  expect(localDateRange('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
+  expect(localDate.range('2021-12-24', '2021-12-30', '[)', 2)).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-26",
@@ -249,7 +236,7 @@ test('range', () => {
     ]
   `)
 
-  expect(localDateRange('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
+  expect(localDate.range('2021-12-24', '2021-12-30', '[]', 2)).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-26",
@@ -260,7 +247,7 @@ test('range', () => {
 })
 
 test('rangeIterable', () => {
-  expect([...localDateRangeIterable('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
+  expect([...localDate.rangeIterable('2021-12-24', '2021-12-26')]).toMatchInlineSnapshot(`
     [
       "2021-12-24",
       "2021-12-25",
@@ -305,9 +292,9 @@ test('diff2', () => {
 
 test('parse weird input', () => {
   // should not fail, but return null gracefully
-  expect(LocalDate.parseOrNull(5 as any)).toBeNull()
-  expect(LocalDate.parseOrNull(Date.now() as any)).toBeNull()
-  expect(LocalDate.parseOrNull((() => {}) as any)).toBeNull()
+  expect(localDate.parseOrNull(5 as any)).toBeNull()
+  expect(localDate.parseOrNull(Date.now() as any)).toBeNull()
+  expect(localDate.parseOrNull((() => {}) as any)).toBeNull()
 })
 
 test('dayOfWeek', () => {

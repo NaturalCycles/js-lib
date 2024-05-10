@@ -8,9 +8,9 @@ yarn tsn dateParseBench
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
-import { localDate, localDateRange } from '../src'
+import { localDate } from '../src'
 
-const strings = localDateRange('2022-01-03', '2023-01-05').map(String)
+const strings = localDate.range('2022-01-03', '2023-01-05').map(String)
 const DATE = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
 // dayjs x 4,733 ops/sec ±0.31% (90 runs sampled)

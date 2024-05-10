@@ -7,10 +7,6 @@ import {
   nowUnix,
   ISODayOfWeek,
   localTime,
-  LocalTime,
-  localTimeNow,
-  localTimeOrNow,
-  localTimeOrUndefined,
   getUTCOffsetMinutes,
   getUTCOffsetHours,
 } from './localTime'
@@ -29,7 +25,7 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
 
 test('basic', () => {
   const start = '2022-01-01T00:00:00'
-  const lt = LocalTime.of(start)
+  const lt = localTime.of(start)
   expect(lt.year()).toBe(2022)
   expect(lt.month()).toBe(1)
   expect(lt.day()).toBe(1)
@@ -73,8 +69,8 @@ test('basic', () => {
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 
   if (isUTC()) {
-    expect(LocalTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
-    expect(LocalTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
+    expect(localTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
+    expect(localTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
   }
 
   expect(lt.year(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
@@ -121,14 +117,14 @@ test('basic', () => {
   expect(lt.month(2).daysInMonth()).toBe(28)
   expect(lt.month(4).daysInMonth()).toBe(30)
 
-  expect(localTimeOrUndefined()).toBeUndefined()
-  expect(localTimeOrUndefined(null)).toBeUndefined()
-  expect(localTimeOrUndefined(0 as any)).toBeUndefined()
-  expect(localTimeOrUndefined(start)?.toISODate()).toBe('2022-01-01')
+  expect(localTime.orUndefined()).toBeUndefined()
+  expect(localTime.orUndefined(null)).toBeUndefined()
+  expect(localTime.orUndefined(0 as any)).toBeUndefined()
+  expect(localTime.orUndefined(start)?.toISODate()).toBe('2022-01-01')
 
-  expect(localTimeNow().toString()).toBeDefined()
-  expect(localTimeOrNow().toString()).toBeDefined()
-  expect(localTimeOrNow(lt).toISODate()).toBe(lt.toISODate())
+  expect(localTime.now().toString()).toBeDefined()
+  expect(localTime.orNow().toString()).toBeDefined()
+  expect(localTime.orNow(lt).toISODate()).toBe(lt.toISODate())
 
   expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "undefined" into LocalTime"`,
@@ -136,7 +132,7 @@ test('basic', () => {
 })
 
 test('isBetween', () => {
-  const ld = LocalTime.of('1984-06-21')
+  const ld = localTime.of('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -170,10 +166,10 @@ test('validation', () => {
     `"Cannot parse "abcd" into LocalTime"`,
   )
 
-  expect(LocalTime.isValid('2022-01-01')).toBe(true)
-  expect(LocalTime.isValid('abcd')).toBe(false)
-  expect(LocalTime.isValid('2022-01-32')).toBe(false)
-  expect(LocalTime.isValid('2022-01-31')).toBe(true)
+  expect(localTime.isValid('2022-01-01')).toBe(true)
+  expect(localTime.isValid('abcd')).toBe(false)
+  expect(localTime.isValid('2022-01-32')).toBe(false)
+  expect(localTime.isValid('2022-01-31')).toBe(true)
 })
 
 test('add', () => {
@@ -181,7 +177,7 @@ test('add', () => {
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const lt = LocalTime.of(start)
+    const lt = localTime.of(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -263,7 +259,7 @@ test('diff', () => {
   // const starts = ['2020-02-29']
 
   starts.forEach(start => {
-    const lt = LocalTime.of(start)
+    const lt = localTime.of(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -294,13 +290,13 @@ test('diff', () => {
 
 test('timezone-full string', () => {
   if (!isUTC()) return // todo: this should parse to the same unixtime regardless of TZ
-  const lt = LocalTime.of('2022-04-06T23:15:00+09:00')
+  const lt = localTime.of('2022-04-06T23:15:00+09:00')
   expect(lt.unix()).toMatchInlineSnapshot(`1649286900`)
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
 
 test('startOf should have 0 millis', () => {
-  const t = localTimeNow().startOf('day')
+  const t = localTime.now().startOf('day')
   expect(t.getDate().getMilliseconds()).toBe(0)
   expect(t.getDate().getSeconds()).toBe(0)
   expect(t.getDate().getMinutes()).toBe(0)
@@ -351,7 +347,7 @@ test('diff2', () => {
 
 test('fromComponents', () => {
   if (!isUTC()) return
-  const lt = LocalTime.fromComponents({ year: 1984, month: 6 })
+  const lt = localTime.fromComponents({ year: 1984, month: 6 })
   expect(lt.toISODate()).toBe('1984-06-01')
 })
 

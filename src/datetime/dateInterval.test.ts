@@ -1,5 +1,5 @@
 import { DateInterval } from './dateInterval'
-import { LocalDate } from './localDate'
+import { localDate } from './localDate'
 
 /* eslint-disable jest/prefer-to-contain */
 
@@ -12,7 +12,7 @@ test('basic', () => {
   expect(int1.end.isSame('2022-03-30'))
 
   const int2 = DateInterval.of('2022-02-24', '2022-03-30')
-  const int3 = DateInterval.of(LocalDate.of('2022-02-24'), LocalDate.of('2022-03-30'))
+  const int3 = DateInterval.of(localDate('2022-02-24'), localDate('2022-03-30'))
 
   expect(int1.isSame(int2)).toBe(true)
   expect(int1.cmp(int2)).toBe(0)

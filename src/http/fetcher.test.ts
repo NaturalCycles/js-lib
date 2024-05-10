@@ -3,7 +3,7 @@ import {
   AppError,
   ErrorObject,
   HttpRequestError,
-  localTimeNow,
+  localTime,
   pExpectedErrorString,
   UnexpectedPassError,
 } from '..'
@@ -350,7 +350,7 @@ test('retryAfter date', async () => {
     new Response('429 rate limited', {
       status: 429,
       headers: {
-        'retry-after': localTimeNow().plus(2, 'second').getDate().toString(),
+        'retry-after': localTime.now().plus(2, 'second').getDate().toString(),
       },
     })
 

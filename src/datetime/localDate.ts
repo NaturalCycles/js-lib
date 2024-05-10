@@ -9,7 +9,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { ISODayOfWeek, LocalTime } from './localTime'
+import { ISODayOfWeek, localTime, LocalTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
@@ -21,121 +21,15 @@ export type LocalDateInput = LocalDate | Date | IsoDateString
 export type LocalDateFormatter = (ld: LocalDate) => string
 
 /**
- * @experimental
+ * LocalDate represents a date without time.
+ * It is timezone-independent.
  */
 export class LocalDate {
-  private constructor(
+  constructor(
     private $year: number,
     private $month: number,
     private $day: number,
   ) {}
-
-  static create(year: number, month: number, day: number): LocalDate {
-    return new LocalDate(year, month, day)
-  }
-
-  /**
-   * Parses input into LocalDate.
-   * Input can already be a LocalDate - it is returned as-is in that case.
-   */
-  static of(d: LocalDateInput): LocalDate {
-    const t = this.parseOrNull(d)
-
-    _assert(t !== null, `Cannot parse "${d}" into LocalDate`, {
-      input: d,
-    })
-
-    return t
-  }
-
-  static parseCompact(d: string): LocalDate {
-    const [year, month, day] = [d.slice(0, 4), d.slice(4, 2), d.slice(6, 2)].map(Number)
-
-    _assert(day && month && year, `Cannot parse "${d}" into LocalDate`)
-
-    return new LocalDate(year, month, day)
-  }
-
-  static fromDate(d: Date): LocalDate {
-    return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
-  }
-
-  static fromDateUTC(d: Date): LocalDate {
-    return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
-  }
-
-  /**
-   * Returns null if invalid.
-   */
-  static parseOrNull(d: LocalDateInput | undefined | null): LocalDate | null {
-    if (!d) return null
-    if (d instanceof LocalDate) return d
-    if (d instanceof Date) {
-      return this.fromDate(d)
-    }
-
-    const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))
-    if (!matches) return null
-
-    const year = Number(matches[1])
-    const month = Number(matches[2])
-    const day = Number(matches[3])
-
-    if (
-      !year ||
-      !month ||
-      month < 1 ||
-      month > 12 ||
-      !day ||
-      day < 1 ||
-      day > this.getMonthLength(year, month)
-    ) {
-      return null
-    }
-
-    return new LocalDate(year, month, day)
-  }
-
-  static isValid(iso: string | undefined | null): boolean {
-    return this.parseOrNull(iso) !== null
-  }
-
-  static today(): LocalDate {
-    return this.fromDate(new Date())
-  }
-
-  static todayUTC(): LocalDate {
-    return this.fromDateUTC(new Date())
-  }
-
-  static sort(items: LocalDate[], mutate = false, dir: SortDirection = 'asc'): LocalDate[] {
-    const mod = dir === 'desc' ? -1 : 1
-    return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
-  }
-
-  static earliestOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
-    return items.length ? LocalDate.earliest(items) : undefined
-  }
-
-  static earliest(items: LocalDateInput[]): LocalDate {
-    _assert(items.length, 'LocalDate.earliest called on empty array')
-
-    return items
-      .map(i => LocalDate.of(i))
-      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
-  }
-
-  static latestOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
-    return items.length ? LocalDate.latest(items) : undefined
-  }
-
-  static latest(items: LocalDateInput[]): LocalDate {
-    _assert(items.length, 'LocalDate.latest called on empty array')
-
-    return items
-      .map(i => LocalDate.of(i))
-      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
-  }
 
   get(unit: LocalDateUnitStrict): number {
     return unit === 'year' ? this.$year : unit === 'month' ? this.$month : this.$day
@@ -176,7 +70,7 @@ export class LocalDate {
   }
 
   isSame(d: LocalDateInput): boolean {
-    d = LocalDate.of(d)
+    d = localDate.of(d)
     return this.$day === d.$day && this.$month === d.$month && this.$year === d.$year
   }
 
@@ -217,14 +111,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isBefore(LocalDate.of(today || new Date()).plus(-n, unit))
+    return this.isBefore(localDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or older (<=) than "today" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrBefore(LocalDate.of(today || new Date()).plus(-n, unit))
+    return this.isSameOrBefore(localDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
@@ -237,14 +131,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isAfter(LocalDate.of(today || new Date()).plus(-n, unit))
+    return this.isAfter(localDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or younger (>=) than "today" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrAfter(LocalDate.of(today || new Date()).plus(-n, unit))
+    return this.isSameOrAfter(localDate.of(today || new Date()).plus(-n, unit))
   }
 
   /**
@@ -253,7 +147,7 @@ export class LocalDate {
    * returns -1 if this < d
    */
   cmp(d: LocalDateInput): -1 | 0 | 1 {
-    d = LocalDate.of(d)
+    d = localDate.of(d)
     if (this.$year < d.$year) return -1
     if (this.$year > d.$year) return 1
     if (this.$month < d.$month) return -1
@@ -276,7 +170,7 @@ export class LocalDate {
    * a.diff(b) means "a minus b"
    */
   diff(d: LocalDateInput, unit: LocalDateUnit): number {
-    d = LocalDate.of(d)
+    d = localDate.of(d)
 
     const sign = this.cmp(d)
     if (!sign) return 0
@@ -292,8 +186,8 @@ export class LocalDate {
         (big.$month === small.$month &&
           big.$day < small.$day &&
           !(
-            big.$day === LocalDate.getMonthLength(big.$year, big.$month) &&
-            small.$day === LocalDate.getMonthLength(small.$year, small.$month)
+            big.$day === localDate.getMonthLength(big.$year, big.$month) &&
+            small.$day === localDate.getMonthLength(small.$year, small.$month)
           ))
       ) {
         years--
@@ -305,7 +199,7 @@ export class LocalDate {
     if (unit === 'month') {
       let months = (big.$year - small.$year) * 12 + (big.$month - small.$month)
       if (big.$day < small.$day) {
-        const bigMonthLen = LocalDate.getMonthLength(big.$year, big.$month)
+        const bigMonthLen = localDate.getMonthLength(big.$year, big.$month)
         if (big.$day !== bigMonthLen || small.$day < bigMonthLen) {
           months--
         }
@@ -319,16 +213,16 @@ export class LocalDate {
     // If small date is after 1st of March - next year's "leapness" should be used
     const offsetYear = small.$month >= 3 ? 1 : 0
     for (let year = small.$year; year < big.$year; year++) {
-      days += LocalDate.getYearLength(year + offsetYear)
+      days += localDate.getYearLength(year + offsetYear)
     }
 
     if (small.$month < big.$month) {
       for (let month = small.$month; month < big.$month; month++) {
-        days += LocalDate.getMonthLength(big.$year, month)
+        days += localDate.getMonthLength(big.$year, month)
       }
     } else if (big.$month < small.$month) {
       for (let month = big.$month; month < small.$month; month++) {
-        days -= LocalDate.getMonthLength(big.$year, month)
+        days -= localDate.getMonthLength(big.$year, month)
       }
     }
 
@@ -375,10 +269,10 @@ export class LocalDate {
           $month += 12
         }
 
-        $day += LocalDate.getMonthLength($year, $month)
+        $day += localDate.getMonthLength($year, $month)
       }
     } else {
-      let monLen = LocalDate.getMonthLength($year, $month)
+      let monLen = localDate.getMonthLength($year, $month)
 
       if (unit !== 'day') {
         if ($day > monLen) {
@@ -394,7 +288,7 @@ export class LocalDate {
             $month -= 12
           }
 
-          monLen = LocalDate.getMonthLength($year, $month)
+          monLen = localDate.getMonthLength($year, $month)
         }
       }
     }
@@ -415,21 +309,21 @@ export class LocalDate {
 
   startOf(unit: LocalDateUnitStrict): LocalDate {
     if (unit === 'day') return this
-    if (unit === 'month') return LocalDate.create(this.$year, this.$month, 1)
+    if (unit === 'month') return new LocalDate(this.$year, this.$month, 1)
     // year
-    return LocalDate.create(this.$year, 1, 1)
+    return new LocalDate(this.$year, 1, 1)
   }
 
   endOf(unit: LocalDateUnitStrict): LocalDate {
     if (unit === 'day') return this
     if (unit === 'month')
-      return LocalDate.create(
+      return new LocalDate(
         this.$year,
         this.$month,
-        LocalDate.getMonthLength(this.$year, this.$month),
+        localDate.getMonthLength(this.$year, this.$month),
       )
     // year
-    return LocalDate.create(this.$year, 12, 31)
+    return new LocalDate(this.$year, 12, 31)
   }
 
   /**
@@ -437,20 +331,7 @@ export class LocalDate {
    * E.g 31 for January.
    */
   daysInMonth(): number {
-    return LocalDate.getMonthLength(this.$year, this.$month)
-  }
-
-  static getYearLength(year: number): number {
-    return this.isLeapYear(year) ? 366 : 365
-  }
-
-  static getMonthLength(year: number, month: number): number {
-    if (month === 2) return this.isLeapYear(year) ? 29 : 28
-    return MDAYS[month]!
-  }
-
-  static isLeapYear(year: number): boolean {
-    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+    return localDate.getMonthLength(this.$year, this.$month)
   }
 
   clone(): LocalDate {
@@ -472,32 +353,21 @@ export class LocalDate {
    * Unlike normal `.toDate` that uses browser's timezone by default.
    */
   toDateInUTC(): Date {
-    return new Date(this.toISODateTimeUTC())
+    return new Date(this.toISODateTimeInUTC())
   }
 
+  /**
+   * Converts LocalDate to LocalTime with 0 hours, 0 minutes, 0 seconds.
+   * LocalTime's Date will be in local timezone.
+   */
   toLocalTime(): LocalTime {
-    return LocalTime.of(this.toDate())
+    return localTime.of(this.toDate())
   }
 
+  /**
+   * Returns e.g: `1984-06-21`
+   */
   toISODate(): IsoDateString {
-    return this.toString()
-  }
-
-  /**
-   * Returns e.g: `1984-06-21T17:56:21`
-   */
-  toISODateTime(): IsoDateTimeString {
-    return this.toString() + 'T00:00:00'
-  }
-
-  /**
-   * Returns e.g: `1984-06-21T17:56:21Z` (notice the Z at the end, which indicates UTC)
-   */
-  toISODateTimeUTC(): IsoDateTimeString {
-    return this.toISODateTime() + 'Z'
-  }
-
-  toString(): IsoDateString {
     return [
       String(this.$year).padStart(4, '0'),
       String(this.$month).padStart(2, '0'),
@@ -505,6 +375,29 @@ export class LocalDate {
     ].join('-')
   }
 
+  /**
+   * Returns e.g: `1984-06-21T00:00:00`
+   * Hours, minutes and seconds are 0.
+   */
+  toISODateTime(): IsoDateTimeString {
+    return this.toISODate() + 'T00:00:00'
+  }
+
+  /**
+   * Returns e.g: `1984-06-21T00:00:00Z` (notice the Z at the end, which indicates UTC).
+   * Hours, minutes and seconds are 0.
+   */
+  toISODateTimeInUTC(): IsoDateTimeString {
+    return this.toISODateTime() + 'Z'
+  }
+
+  toString(): IsoDateString {
+    return this.toISODate()
+  }
+
+  /**
+   * Returns e.g: `19840621`
+   */
   toStringCompact(): string {
     return [
       String(this.$year).padStart(4, '0'),
@@ -513,21 +406,29 @@ export class LocalDate {
     ].join('')
   }
 
+  /**
+   * Returns e.g: `1984-06`
+   */
   toMonthId(): MonthId {
-    return this.toString().slice(0, 7)
+    return this.toISODate().slice(0, 7)
   }
 
-  // May be not optimal, as LocalTime better suits it
+  /**
+   * Returns unix timestamp of 00:00:00 of that date (in UTC, because unix timestamp always reflects UTC).
+   */
   unix(): UnixTimestampNumber {
     return Math.floor(this.toDate().valueOf() / 1000)
   }
 
+  /**
+   * Same as .unix(), but in milliseconds.
+   */
   unixMillis(): UnixTimestampMillisNumber {
     return this.toDate().valueOf()
   }
 
   toJSON(): IsoDateString {
-    return this.toString()
+    return this.toISODate()
   }
 
   format(fmt: Intl.DateTimeFormat | LocalDateFormatter): string {
@@ -539,93 +440,262 @@ export class LocalDate {
   }
 }
 
-export function localDateRange(
-  min: LocalDateInput,
-  max: LocalDateInput,
-  incl: Inclusiveness = '[)',
-  step = 1,
-  stepUnit: LocalDateUnit = 'day',
-): LocalDate[] {
-  return localDateRangeIterable(min, max, incl, step, stepUnit).toArray()
-}
-
-/**
- * Experimental, returns the range as Iterable2.
- */
-export function localDateRangeIterable(
-  min: LocalDateInput,
-  max: LocalDateInput,
-  incl: Inclusiveness = '[)',
-  step = 1,
-  stepUnit: LocalDateUnit = 'day',
-): Iterable2<LocalDate> {
-  if (stepUnit === 'week') {
-    step *= 7
-    stepUnit = 'day'
+class LocalDateFactory {
+  /**
+   * Create LocalDate from year, month and day components.
+   */
+  create(year: number, month: number, day: number): LocalDate {
+    return new LocalDate(year, month, day)
   }
 
-  const $min = LocalDate.of(min).startOf(stepUnit)
-  const $max = LocalDate.of(max).startOf(stepUnit)
+  /**
+   * Create LocalDate from LocalDateInput.
+   * Input can already be a LocalDate - it is returned as-is in that case.
+   * String - will be parsed as yyyy-mm-dd.
+   * Date - will be converted to LocalDate (as-is, in whatever timezone it is - local or UTC).
+   * No other formats are supported.
+   *
+   * Will throw if it fails to parse/construct LocalDate.
+   */
+  of(d: LocalDateInput): LocalDate {
+    const t = this.parseOrNull(d)
 
-  let value = $min
-  // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
-  if (value.isAfter($min, incl[0] === '[')) {
-    // ok
-  } else {
-    value.plus(1, stepUnit, true)
+    _assert(t !== null, `Cannot parse "${d}" into LocalDate`, {
+      input: d,
+    })
+
+    return t
   }
 
-  const rightInclusive = incl[1] === ']'
+  /**
+   * Tries to construct LocalDate from LocalDateInput, returns null otherwise.
+   * Does not throw (returns null instead).
+   */
+  parseOrNull(d: LocalDateInput | undefined | null): LocalDate | null {
+    if (!d) return null
+    if (d instanceof LocalDate) return d
+    if (d instanceof Date) {
+      return this.fromDate(d)
+    }
 
-  return Iterable2.of({
-    *[Symbol.iterator]() {
-      while (value.isBefore($max, rightInclusive)) {
-        yield value
+    const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))
+    if (!matches) return null
 
-        // We don't mutate, because we already returned `current`
-        // in the previous iteration
-        value = value.plus(step, stepUnit)
-      }
-    },
-  })
+    const year = Number(matches[1])
+    const month = Number(matches[2])
+    const day = Number(matches[3])
+
+    if (
+      !year ||
+      !month ||
+      month < 1 ||
+      month > 12 ||
+      !day ||
+      day < 1 ||
+      day > this.getMonthLength(year, month)
+    ) {
+      return null
+    }
+
+    return new LocalDate(year, month, day)
+  }
+
+  /**
+   * Parses "compact iso8601 format", e.g `19840621` into LocalDate.
+   * Throws if it fails to do so.
+   */
+  parseCompact(d: string): LocalDate {
+    const [year, month, day] = [d.slice(0, 4), d.slice(4, 2), d.slice(6, 2)].map(Number)
+
+    _assert(day && month && year, `Cannot parse "${d}" into LocalDate`)
+
+    return new LocalDate(year, month, day)
+  }
+
+  getYearLength(year: number): number {
+    return this.isLeapYear(year) ? 366 : 365
+  }
+
+  getMonthLength(year: number, month: number): number {
+    if (month === 2) return this.isLeapYear(year) ? 29 : 28
+    return MDAYS[month]!
+  }
+
+  isLeapYear(year: number): boolean {
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+  }
+
+  /**
+   * Constructs LocalDate from Date.
+   * Takes Date as-is, in its timezone - local or UTC.
+   */
+  fromDate(d: Date): LocalDate {
+    return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
+  }
+
+  /**
+   * Constructs LocalDate from Date.
+   * Takes Date's year/month/day components in UTC, using getUTCFullYear, getUTCMonth, getUTCDate.
+   */
+  fromDateInUTC(d: Date): LocalDate {
+    return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
+  }
+
+  /**
+   * Returns true if isoString is a valid iso8601 string like `yyyy-mm-dd`.
+   */
+  isValid(isoString: string | undefined | null): boolean {
+    return this.parseOrNull(isoString) !== null
+  }
+
+  /**
+   * Creates LocalDate that represents `today` (in local timezone).
+   */
+  today(): LocalDate {
+    return this.fromDate(new Date())
+  }
+
+  /**
+   * Creates LocalDate that represents `today` in UTC.
+   */
+  todayInUTC(): LocalDate {
+    return this.fromDateInUTC(new Date())
+  }
+
+  /**
+   * Sorts an array of LocalDates in `dir` order (ascending by default).
+   */
+  sort(items: LocalDate[], dir: SortDirection = 'asc', mutate = false): LocalDate[] {
+    const mod = dir === 'desc' ? -1 : 1
+    return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
+  }
+
+  /**
+   * Returns the earliest (min) LocalDate from the array, or undefined if the array is empty.
+   */
+  minOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
+    return items.length ? this.min(items) : undefined
+  }
+
+  /**
+   * Returns the earliest LocalDate from the array.
+   * Throws if the array is empty.
+   */
+  min(items: LocalDateInput[]): LocalDate {
+    _assert(items.length, 'localDate.min called on empty array')
+
+    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+  }
+
+  /**
+   * Returns the latest (max) LocalDate from the array, or undefined if the array is empty.
+   */
+  maxOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
+    return items.length ? this.max(items) : undefined
+  }
+
+  /**
+   * Returns the latest LocalDate from the array.
+   * Throws if the array is empty.
+   */
+  max(items: LocalDateInput[]): LocalDate {
+    _assert(items.length, 'localDate.max called on empty array')
+
+    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+  }
+
+  /**
+   * Returns the range (array) of LocalDates between min and max.
+   * By default, min is included, max is excluded.
+   */
+  range(
+    min: LocalDateInput,
+    max: LocalDateInput,
+    incl: Inclusiveness = '[)',
+    step = 1,
+    stepUnit: LocalDateUnit = 'day',
+  ): LocalDate[] {
+    return this.rangeIterable(min, max, incl, step, stepUnit).toArray()
+  }
+
+  /**
+   * Returns the Iterable2 of LocalDates between min and max.
+   * By default, min is included, max is excluded.
+   */
+  rangeIterable(
+    min: LocalDateInput,
+    max: LocalDateInput,
+    incl: Inclusiveness = '[)',
+    step = 1,
+    stepUnit: LocalDateUnit = 'day',
+  ): Iterable2<LocalDate> {
+    if (stepUnit === 'week') {
+      step *= 7
+      stepUnit = 'day'
+    }
+
+    const $min = this.of(min).startOf(stepUnit)
+    const $max = this.of(max).startOf(stepUnit)
+
+    let value = $min
+    // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
+    if (value.isAfter($min, incl[0] === '[')) {
+      // ok
+    } else {
+      value.plus(1, stepUnit, true)
+    }
+
+    const rightInclusive = incl[1] === ']'
+
+    return Iterable2.of({
+      *[Symbol.iterator]() {
+        while (value.isBefore($max, rightInclusive)) {
+          yield value
+
+          // We don't mutate, because we already returned `current`
+          // in the previous iteration
+          value = value.plus(step, stepUnit)
+        }
+      },
+    })
+  }
+
+  /**
+   * Creates a LocalDate from the input, unless it's falsy - then returns undefined.
+   *
+   * Similar to `localDate.orToday`, but that will instead return Today on falsy input.
+   */
+  orUndefined(d?: LocalDateInput | null): LocalDate | undefined {
+    return d ? this.of(d) : undefined
+  }
+
+  /**
+   * Creates a LocalDate from the input, unless it's falsy - then returns localDate.today.
+   */
+  orToday(d?: LocalDateInput | null): LocalDate {
+    return d ? this.of(d) : this.today()
+  }
 }
 
-/**
- * Convenience wrapper around `LocalDate.of`
- */
-export function localDate(d: LocalDateInput): LocalDate {
-  return LocalDate.of(d)
+interface LocalDateFn extends LocalDateFactory {
+  (d: LocalDateInput): LocalDate
 }
 
-/**
- * Convenience wrapper around `LocalDate.today`
- */
-export function localDateToday(): LocalDate {
-  return LocalDate.today()
-}
+const localDateFactory = new LocalDateFactory()
 
-/**
- * Creates a LocalDate from the input, unless it's falsy - then returns undefined.
- *
- * `localDate` function will instead return LocalDate of today for falsy input.
- */
-export function localDateOrUndefined(d?: LocalDateInput | null): LocalDate | undefined {
-  return d ? LocalDate.of(d) : undefined
-}
+// export const localDate = Object.assign((d: LocalDateInput) => {
+//   return localDateFactory.of(d)
+// }, localDateFactory) as LocalDateFn
 
-/**
- * Creates a LocalDate from the input, unless it's falsy - then returns LocalDate.today.
- */
-export function localDateOrToday(d?: LocalDateInput | null): LocalDate {
-  return d ? LocalDate.of(d) : LocalDate.today()
-}
+export const localDate = localDateFactory.of.bind(localDateFactory) as LocalDateFn
+
+// The line below is the blackest of black magic I have ever written in 2024.
+// And probably 2023 as well.
+Object.setPrototypeOf(localDate, localDateFactory)
 
 /**
  Convenience function to return current today's IsoDateString representation, e.g `2024-06-21`
  */
 export function todayString(): IsoDateString {
-  // It was benchmarked to be faster than by concatenating individual Date components
-  // return new Date().toISOString().slice(0, 10)
-  // But, toISOString always returns the date in UTC, so in the Browser it would give unexpected result!
-  return LocalDate.fromDate(new Date()).toString()
+  return localDate.fromDate(new Date()).toISODate()
 }

@@ -1,6 +1,5 @@
 import { Inclusiveness } from '../types'
-import type { LocalDateInput, LocalDateUnit } from './localDate'
-import { LocalDate, localDateRange } from './localDate'
+import { localDate, LocalDateInput, LocalDateUnit, LocalDate } from './localDate'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString
 export type DateIntervalString = string
@@ -17,7 +16,7 @@ export class DateInterval {
   ) {}
 
   static of(start: LocalDateInput, end: LocalDateInput): DateInterval {
-    return new DateInterval(LocalDate.of(start), LocalDate.of(end))
+    return new DateInterval(localDate(start), localDate(end))
   }
 
   /**
@@ -32,7 +31,7 @@ export class DateInterval {
       throw new Error(`Cannot parse "${d}" into DateInterval`)
     }
 
-    return new DateInterval(LocalDate.of(start), LocalDate.of(end))
+    return new DateInterval(localDate(start), localDate(end))
   }
 
   isSame(d: DateIntervalConfig): boolean {
@@ -61,7 +60,7 @@ export class DateInterval {
    * Ranges of DateInterval (start, end) are INCLUSIVE.
    */
   includes(d: LocalDateInput, incl: Inclusiveness = '[]'): boolean {
-    d = LocalDate.of(d)
+    d = localDate(d)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     return d.isAfter(this.start, incl[0] === '[') && d.isBefore(this.end, incl[1] === ']')
   }
@@ -82,14 +81,14 @@ export class DateInterval {
   }
 
   getDays(incl: Inclusiveness = '[]'): LocalDate[] {
-    return localDateRange(this.start, this.end, incl, 1, 'day')
+    return localDate.range(this.start, this.end, incl, 1, 'day')
   }
 
   /**
    * Returns an array of LocalDates that are included in the interval.
    */
   range(incl: Inclusiveness = '[]', step = 1, stepUnit: LocalDateUnit = 'day'): LocalDate[] {
-    return localDateRange(this.start, this.end, incl, step, stepUnit)
+    return localDate.range(this.start, this.end, incl, step, stepUnit)
   }
 
   toString(): DateIntervalString {

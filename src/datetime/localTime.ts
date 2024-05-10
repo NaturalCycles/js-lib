@@ -11,7 +11,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { LocalDate } from './localDate'
+import { localDate, LocalDate } from './localDate'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
 
@@ -49,111 +49,11 @@ const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_MINUTE = 60000
 const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
 
-/**
- * @experimental
- */
 export class LocalTime {
-  private constructor(private $date: Date) {}
+  constructor(public $date: Date) {}
 
   /**
-   * Parses input String into LocalDate.
-   * Input can already be a LocalDate - it is returned as-is in that case.
-   */
-  static of(d: LocalTimeInput): LocalTime {
-    const t = this.parseOrNull(d)
-
-    _assert(t !== null, `Cannot parse "${d}" into LocalTime`, {
-      input: d,
-    })
-
-    return t
-  }
-
-  /**
-   * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
-   */
-  static ofMillis(millis: UnixTimestampMillisNumber): LocalTime {
-    return LocalTime.of(new Date(millis))
-  }
-
-  /**
-   * Returns null if invalid
-   */
-  static parseOrNull(d: LocalTimeInput | undefined | null): LocalTime | null {
-    if (!d) return null
-    if (d instanceof LocalTime) return d
-
-    let date
-
-    if (d instanceof Date) {
-      date = d
-    } else if (typeof d === 'number') {
-      date = new Date(d * 1000)
-    } else if (typeof (d as any) !== 'string') {
-      // unexpected type, e.g Function or something
-      return null
-    } else {
-      // Slicing removes the "timezone component", and makes the date "local"
-      // e.g 2022-04-06T23:15:00+09:00
-      // becomes 2022-04-06T23:15:00
-      date = new Date(d.slice(0, 19))
-      // We used to slice to remove the timezone information, now we don't
-      // date = new Date(d)
-    }
-
-    // validation
-    if (isNaN(date.getDate())) {
-      // throw new TypeError(`Cannot parse "${d}" into LocalTime`)
-      return null
-    }
-
-    return new LocalTime(date)
-  }
-
-  static parseToDate(d: LocalTimeInput): Date {
-    if (d instanceof LocalTime) return d.$date
-    if (d instanceof Date) return d
-
-    const date = typeof d === 'number' ? new Date(d * 1000) : new Date(d)
-
-    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to Date`, {
-      input: d,
-    })
-
-    return date
-  }
-
-  static parseToUnixTimestamp(d: LocalTimeInput): UnixTimestampNumber {
-    if (typeof d === 'number') return d
-    if (d instanceof LocalTime) return d.unix()
-
-    const date = d instanceof Date ? d : new Date(d)
-
-    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to UnixTimestamp`, {
-      input: d,
-    })
-
-    return date.valueOf() / 1000
-  }
-
-  static isValid(d: LocalTimeInput | undefined | null): boolean {
-    return this.parseOrNull(d) !== null
-  }
-
-  static now(): LocalTime {
-    return new LocalTime(new Date())
-  }
-
-  static fromComponents(
-    c: { year: number; month: number } & Partial<LocalTimeComponents>,
-  ): LocalTime {
-    return new LocalTime(
-      new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
-    )
-  }
-
-  /**
-   * Returns LocalTime that is based on the same unixtimestamp, but in UTC timezone.
+   * Returns [cloned] LocalTime that is based on the same unixtimestamp, but in UTC timezone.
    * Opposite of `.local()` method.
    */
   utc(): LocalTime {
@@ -161,7 +61,7 @@ export class LocalTime {
   }
 
   /**
-   * Returns LocalTime that is based on the same unixtimestamp, but in local timezone.
+   * Returns [cloned] LocalTime that is based on the same unixtimestamp, but in local timezone.
    * Opposite of `.utc()` method.
    */
   local(): LocalTime {
@@ -299,7 +199,7 @@ export class LocalTime {
 
     if (unit === 'year' || unit === 'month') {
       const d = addMonths(this.$date, unit === 'month' ? num : num * 12, mutate)
-      return mutate ? this : LocalTime.of(d)
+      return mutate ? this : localTime.of(d)
     }
 
     return this.set(unit, this.get(unit) + num, mutate)
@@ -314,7 +214,7 @@ export class LocalTime {
   }
 
   diff(other: LocalTimeInput, unit: LocalTimeUnit): number {
-    const date2 = LocalTime.parseToDate(other)
+    const date2 = localTime.parseToDate(other)
 
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
@@ -322,9 +222,9 @@ export class LocalTime {
     let r
 
     if (unit === 'year') {
-      r = differenceInMonths(this.getDate(), date2) / 12
+      r = differenceInMonths(this.$date, date2) / 12
     } else if (unit === 'month') {
-      r = differenceInMonths(this.getDate(), date2)
+      r = differenceInMonths(this.$date, date2)
     } else if (unit === 'day') {
       r = secDiff / SECONDS_IN_DAY
     } else if (unit === 'week') {
@@ -390,7 +290,7 @@ export class LocalTime {
             endOfWeek(d, true)
           } else {
             // year or month
-            const lastDay = LocalDate.getMonthLength(d.getFullYear(), d.getMonth() + 1)
+            const lastDay = localDate.getMonthLength(d.getFullYear(), d.getMonth() + 1)
             d.setDate(lastDay)
           }
         }
@@ -405,41 +305,7 @@ export class LocalTime {
    * E.g 31 for January.
    */
   daysInMonth(): number {
-    return LocalDate.getMonthLength(this.$date.getFullYear(), this.$date.getMonth() + 1)
-  }
-
-  static sort(items: LocalTime[], mutate = false, dir: SortDirection = 'asc'): LocalTime[] {
-    const mod = dir === 'desc' ? -1 : 1
-    return (mutate ? items : [...items]).sort((a, b) => {
-      const v1 = a.$date.valueOf()
-      const v2 = b.$date.valueOf()
-      if (v1 === v2) return 0
-      return (v1 < v2 ? -1 : 1) * mod
-    })
-  }
-
-  static earliestOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
-    return items.length ? LocalTime.earliest(items) : undefined
-  }
-
-  static earliest(items: LocalTimeInput[]): LocalTime {
-    _assert(items.length, 'LocalTime.earliest called on empty array')
-
-    return items
-      .map(i => LocalTime.of(i))
-      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
-  }
-
-  static latestOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
-    return items.length ? LocalTime.latest(items) : undefined
-  }
-
-  static latest(items: LocalTimeInput[]): LocalTime {
-    _assert(items.length, 'LocalTime.latest called on empty array')
-
-    return items
-      .map(i => LocalTime.of(i))
-      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    return localDate.getMonthLength(this.$date.getFullYear(), this.$date.getMonth() + 1)
   }
 
   isSame(d: LocalTimeInput): boolean {
@@ -483,14 +349,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isBefore(LocalTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isBefore(localTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or older (<=) than "now" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrBefore(LocalTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrBefore(localTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
@@ -503,14 +369,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isAfter(LocalTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isAfter(localTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or younger (>=) than "now" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrAfter(LocalTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrAfter(localTime.of(now ?? new Date()).plus(-n, unit))
   }
 
   /**
@@ -520,19 +386,15 @@ export class LocalTime {
    */
   cmp(d: LocalTimeInput): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
-    const t2 = LocalTime.parseToDate(d).valueOf()
+    const t2 = localTime.parseToDate(d).valueOf()
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
 
   components(): LocalTimeComponents {
     return {
-      year: this.$date.getFullYear(),
-      month: this.$date.getMonth() + 1,
-      day: this.$date.getDate(),
-      hour: this.$date.getHours(),
-      minute: this.$date.getMinutes(),
-      second: this.$date.getSeconds(),
+      ...this.dateComponents(),
+      ...this.timeComponents(),
     }
   }
 
@@ -553,7 +415,7 @@ export class LocalTime {
   }
 
   fromNow(now: LocalTimeInput = new Date()): string {
-    const msDiff = LocalTime.parseToDate(now).valueOf() - this.$date.valueOf()
+    const msDiff = localTime.parseToDate(now).valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
 
@@ -585,7 +447,7 @@ export class LocalTime {
   }
 
   toLocalDate(): LocalDate {
-    return LocalDate.fromDate(this.$date)
+    return localDate.fromDate(this.$date)
   }
 
   /**
@@ -681,66 +543,151 @@ export class LocalTime {
   }
 }
 
-/**
- * Shortcut wrapper around `LocalTime.of`
- */
-export function localTime(d: LocalTimeInput): LocalTime {
-  return LocalTime.of(d)
-}
+class LocalTimeFactory {
+  /**
+   * Parses input String into LocalDate.
+   * Input can already be a LocalDate - it is returned as-is in that case.
+   */
+  of(d: LocalTimeInput): LocalTime {
+    const t = this.parseOrNull(d)
 
-/**
- * Shortcut wrapper around `LocalTime.now`
- */
-export function localTimeNow(): LocalTime {
-  return LocalTime.now()
-}
+    _assert(t !== null, `Cannot parse "${d}" into LocalTime`, {
+      input: d,
+    })
 
-/**
- * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
- *
- * `localTime` function will instead return LocalTime of `now` for falsy input.
- */
-export function localTimeOrUndefined(d?: LocalTimeInput | null): LocalTime | undefined {
-  return d ? LocalTime.of(d) : undefined
-}
+    return t
+  }
 
-/**
- * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
- */
-export function localTimeOrNow(d?: LocalTimeInput | null): LocalTime {
-  return d ? LocalTime.of(d) : LocalTime.now()
-}
+  /**
+   * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
+   */
+  ofMillis(millis: UnixTimestampMillisNumber): LocalTime {
+    return this.of(new Date(millis))
+  }
 
-/**
- Convenience function to return current Unix timestamp in seconds.
- Like Date.now(), but in seconds.
- */
-export function nowUnix(): UnixTimestampNumber {
-  return Math.floor(Date.now() / 1000)
-}
+  /**
+   * Returns null if invalid
+   */
+  parseOrNull(d: LocalTimeInput | undefined | null): LocalTime | null {
+    if (!d) return null
+    if (d instanceof LocalTime) return d
 
-/**
- * UTC offset is the opposite of "timezone offset" - it's the number of minutes to add
- * to the local time to get UTC time.
- *
- * E.g utcOffset for CEST is -120,
- * which means that you need to add -120 minutes to the local time to get UTC time.
- *
- * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
- */
-export function getUTCOffsetMinutes(): NumberOfMinutes {
-  return -new Date().getTimezoneOffset() || 0
-}
+    let date
 
-/**
- * Same as getUTCOffsetMinutes, but rounded to hours.
- *
- * E.g for CEST it is -2.
- *
- * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
- */
-export function getUTCOffsetHours(): NumberOfHours {
-  return Math.round(getUTCOffsetMinutes() / 60)
+    if (d instanceof Date) {
+      date = d
+    } else if (typeof d === 'number') {
+      date = new Date(d * 1000)
+    } else if (typeof (d as any) !== 'string') {
+      // unexpected type, e.g Function or something
+      return null
+    } else {
+      // Slicing removes the "timezone component", and makes the date "local"
+      // e.g 2022-04-06T23:15:00+09:00
+      // becomes 2022-04-06T23:15:00
+      date = new Date(d.slice(0, 19))
+      // We used to slice to remove the timezone information, now we don't
+      // date = new Date(d)
+    }
+
+    // validation
+    if (isNaN(date.getDate())) {
+      // throw new TypeError(`Cannot parse "${d}" into LocalTime`)
+      return null
+    }
+
+    return new LocalTime(date)
+  }
+
+  parseToDate(d: LocalTimeInput): Date {
+    if (d instanceof LocalTime) return d.$date
+    if (d instanceof Date) return d
+
+    const date = typeof d === 'number' ? new Date(d * 1000) : new Date(d)
+
+    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to Date`, {
+      input: d,
+    })
+
+    return date
+  }
+
+  parseToUnixTimestamp(d: LocalTimeInput): UnixTimestampNumber {
+    if (typeof d === 'number') return d
+    if (d instanceof LocalTime) return d.unix()
+
+    const date = d instanceof Date ? d : new Date(d)
+
+    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to UnixTimestamp`, {
+      input: d,
+    })
+
+    return date.valueOf() / 1000
+  }
+
+  isValid(d: LocalTimeInput | undefined | null): boolean {
+    return this.parseOrNull(d) !== null
+  }
+
+  now(): LocalTime {
+    return new LocalTime(new Date())
+  }
+
+  /**
+   * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
+   *
+   * `localTime` function will instead return LocalTime of `now` for falsy input.
+   */
+  orUndefined(d?: LocalTimeInput | null): LocalTime | undefined {
+    return d ? this.of(d) : undefined
+  }
+
+  /**
+   * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
+   */
+  orNow(d?: LocalTimeInput | null): LocalTime {
+    return d ? this.of(d) : this.now()
+  }
+
+  fromComponents(c: { year: number; month: number } & Partial<LocalTimeComponents>): LocalTime {
+    return new LocalTime(
+      new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
+    )
+  }
+
+  sort(items: LocalTime[], dir: SortDirection = 'asc', mutate = false): LocalTime[] {
+    const mod = dir === 'desc' ? -1 : 1
+    return (mutate ? items : [...items]).sort((a, b) => {
+      const v1 = a.$date.valueOf()
+      const v2 = b.$date.valueOf()
+      if (v1 === v2) return 0
+      return (v1 < v2 ? -1 : 1) * mod
+    })
+  }
+
+  minOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
+    return items.length ? this.min(items) : undefined
+  }
+
+  min(items: LocalTimeInput[]): LocalTime {
+    _assert(items.length, 'localTime.min called on empty array')
+
+    return items
+      .map(i => this.of(i))
+      .reduce((min, item) => (min.$date.valueOf() <= item.$date.valueOf() ? min : item))
+  }
+
+  maxOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
+    return items.length ? this.max(items) : undefined
+  }
+
+  max(items: LocalTimeInput[]): LocalTime {
+    _assert(items.length, 'localTime.max called on empty array')
+
+    return items
+      .map(i => this.of(i))
+      .reduce((max, item) => (max.$date.valueOf() >= item.$date.valueOf() ? max : item))
+  }
 }
 
 // based on: https://github.com/date-fns/date-fns/blob/master/src/getISOWeek/index.ts
@@ -832,7 +779,7 @@ function addMonths(d: Date, num: number, mutate = false): Date {
     month += 12
   }
 
-  const monthLen = LocalDate.getMonthLength(year, month)
+  const monthLen = localDate.getMonthLength(year, month)
   if (day > monthLen) day = monthLen
 
   d.setFullYear(year, month - 1, day)
@@ -846,4 +793,48 @@ function differenceInMonths(a: Date, b: Date): number {
   const sign = b.getTime() - anchor >= 0 ? 1 : -1
   const anchor2 = addMonths(a, wholeMonthDiff + sign).getTime()
   return -(wholeMonthDiff + ((b.getTime() - anchor) / (anchor2 - anchor)) * sign)
+}
+
+interface LocalTimeFn extends LocalTimeFactory {
+  (d: LocalTimeInput): LocalTime
+}
+
+const localTimeFactory = new LocalTimeFactory()
+
+export const localTime = localTimeFactory.of.bind(localTimeFactory) as LocalTimeFn
+
+// The line below is the blackest of black magic I have ever written in 2024.
+// And probably 2023 as well.
+Object.setPrototypeOf(localTime, localTimeFactory)
+
+/**
+ Convenience function to return current Unix timestamp in seconds.
+ Like Date.now(), but in seconds.
+ */
+export function nowUnix(): UnixTimestampNumber {
+  return Math.floor(Date.now() / 1000)
+}
+
+/**
+ * UTC offset is the opposite of "timezone offset" - it's the number of minutes to add
+ * to the local time to get UTC time.
+ *
+ * E.g utcOffset for CEST is -120,
+ * which means that you need to add -120 minutes to the local time to get UTC time.
+ *
+ * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+ */
+export function getUTCOffsetMinutes(): NumberOfMinutes {
+  return -new Date().getTimezoneOffset() || 0
+}
+
+/**
+ * Same as getUTCOffsetMinutes, but rounded to hours.
+ *
+ * E.g for CEST it is -2.
+ *
+ * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+ */
+export function getUTCOffsetHours(): NumberOfHours {
+  return Math.round(getUTCOffsetMinutes() / 60)
 }
