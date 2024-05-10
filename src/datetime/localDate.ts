@@ -665,14 +665,14 @@ class LocalDateFactory {
    *
    * Similar to `localDate.orToday`, but that will instead return Today on falsy input.
    */
-  orUndefined(d?: LocalDateInput | null): LocalDate | undefined {
+  orUndefined(d: LocalDateInput | null | undefined): LocalDate | undefined {
     return d ? this.of(d) : undefined
   }
 
   /**
    * Creates a LocalDate from the input, unless it's falsy - then returns localDate.today.
    */
-  orToday(d?: LocalDateInput | null): LocalDate {
+  orToday(d: LocalDateInput | null | undefined): LocalDate {
     return d ? this.of(d) : this.today()
   }
 }

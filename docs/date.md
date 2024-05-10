@@ -60,8 +60,8 @@ Examples:
 
 |                                     | day.js (via time-lib)                | LocalTime                      | LocalDate                      |
 | ----------------------------------- | ------------------------------------ | ------------------------------ | ------------------------------ |
-| now                                 | dayjs()                              | localTimeNow()                 |                                |
-| today                               | dayjs().startOf('day')               |                                | localDateToday()               |
+| now                                 | dayjs()                              | localTime.now()                |                                |
+| today                               | dayjs().startOf('day')               |                                | localDate.today()              |
 | create from unixtimestamp           | dayjs.unix(ts)                       | localTime(ts)                  |                                |
 | parse from ISO8601 date string      | dayjs(str)                           |                                | localDate(str)                 |
 | parse from ISO8601 date+time string | dayjs(str)                           | localTime(str)                 |                                |

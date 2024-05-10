@@ -117,13 +117,13 @@ test('basic', () => {
   expect(lt.month(2).daysInMonth()).toBe(28)
   expect(lt.month(4).daysInMonth()).toBe(30)
 
-  expect(localTime.orUndefined()).toBeUndefined()
+  expect(localTime.orUndefined(undefined)).toBeUndefined()
   expect(localTime.orUndefined(null)).toBeUndefined()
   expect(localTime.orUndefined(0 as any)).toBeUndefined()
   expect(localTime.orUndefined(start)?.toISODate()).toBe('2022-01-01')
 
   expect(localTime.now().toString()).toBeDefined()
-  expect(localTime.orNow().toString()).toBeDefined()
+  expect(localTime.orNow(undefined).toString()).toBeDefined()
   expect(localTime.orNow(lt).toISODate()).toBe(lt.toISODate())
 
   expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(

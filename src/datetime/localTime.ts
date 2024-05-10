@@ -638,14 +638,14 @@ class LocalTimeFactory {
    *
    * `localTime` function will instead return LocalTime of `now` for falsy input.
    */
-  orUndefined(d?: LocalTimeInput | null): LocalTime | undefined {
+  orUndefined(d: LocalTimeInput | null | undefined): LocalTime | undefined {
     return d ? this.of(d) : undefined
   }
 
   /**
    * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
    */
-  orNow(d?: LocalTimeInput | null): LocalTime {
+  orNow(d: LocalTimeInput | null | undefined): LocalTime {
     return d ? this.of(d) : this.now()
   }
 

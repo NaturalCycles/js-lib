@@ -42,13 +42,13 @@ test('basic', () => {
   expect(ld.month(7).daysInMonth()).toBe(31)
   expect(ld.month(2).daysInMonth()).toBe(29)
 
-  expect(localDate.orUndefined()).toBeUndefined()
+  expect(localDate.orUndefined(undefined)).toBeUndefined()
   expect(localDate.orUndefined(null)).toBeUndefined()
   expect(localDate.orUndefined(0 as any)).toBeUndefined()
   expect(localDate.orUndefined(str)?.toString()).toBe(str)
 
   expect(localDate.today().toISODate()).toBeDefined()
-  expect(localDate.orToday().toISODate()).toBe(localDate.today().toISODate())
+  expect(localDate.orToday(undefined).toISODate()).toBe(localDate.today().toISODate())
   expect(localDate.orToday(ld).toISODate()).toBe(ld.toISODate())
 
   expect(() => localDate(undefined as any)).toThrowErrorMatchingInlineSnapshot(
