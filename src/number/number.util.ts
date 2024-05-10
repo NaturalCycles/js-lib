@@ -34,11 +34,14 @@ export function _runLessOften(percent: number): boolean {
  * _isBetween(3, 1, 5) // true
  * _isBetween(5, 1, 5) // false
  * _isBetween(7, 1, 5) // false
+ *
+ * Also works with strings:
+ * _isBetween('2020-01-03', '2020-01-01', '2020-01-05') // true
  */
-export function _isBetween(
-  x: number,
-  min: number,
-  max: number,
+export function _isBetween<T extends number | string>(
+  x: T,
+  min: T,
+  max: T,
   incl: Inclusiveness = '[)',
 ): boolean {
   if (incl === '[)') {
@@ -48,7 +51,6 @@ export function _isBetween(
   } else if (incl === '(]') {
     return x > min && x <= max
   }
-  // ()
   return x > min && x < max
 }
 
