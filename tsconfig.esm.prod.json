@@ -3,7 +3,7 @@
   "compilerOptions": {
     "sourceMap": false,
     "skipLibCheck": true, // because of the error in @types/markdown-it
-    "target": "es2017", // targets es2017+ browsers: https://caniuse.com/sr_es11
+    "target": "es2020", // targets es2020+ browsers: https://caniuse.com/sr_es11
   },
   "exclude": ["**/__exclude", "src/test", "src/**/*.test.*"],
 }
