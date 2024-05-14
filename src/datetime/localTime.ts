@@ -12,6 +12,7 @@ import type {
   UnixTimestampNumber,
 } from '../types'
 import { localDate, LocalDate } from './localDate'
+import { WallTime } from './wallTime'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
 
@@ -28,15 +29,15 @@ export enum ISODayOfWeek {
 export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
-export type LocalTimeComponents = DateComponents & TimeComponents
+export type DateTimeObject = DateObject & TimeObject
 
-interface DateComponents {
+export interface DateObject {
   year: number
   month: number
   day: number
 }
 
-interface TimeComponents {
+export interface TimeObject {
   hour: number
   minute: number
   second: number
@@ -66,6 +67,83 @@ export class LocalTime {
    */
   local(): LocalTime {
     return new LocalTime(new Date(this.$date.getTime()))
+  }
+
+  /**
+   * Returns [cloned] fake LocalTime that has yyyy-mm-dd hh:mm:ss in the provided timezone.
+   * It is a fake LocalTime in a sense that it's timezone is not real.
+   * See this ("common errors"): https://stackoverflow.com/a/15171030/4919972
+   * Fake also means that unixTimestamp of that new LocalDate is not the same.
+   * For that reason we return WallTime, and not a LocalTime.
+   * WallTime can be pretty-printed as Date-only, Time-only or DateAndTime.
+   *
+   * E.g `inTimezone('America/New_York').toISOTime()`
+   *
+   * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   *
+   * @experimental
+   */
+  inTimezone(tz: string): WallTime {
+    const d = new Date(this.$date.toLocaleString('en-US', { timeZone: tz }))
+    return new WallTime({
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate(),
+      hour: d.getHours(),
+      minute: d.getMinutes(),
+      second: d.getSeconds(),
+    })
+  }
+
+  /**
+   * UTC offset is the opposite of "timezone offset" - it's the number of minutes to add
+   * to the local time to get UTC time.
+   *
+   * E.g utcOffset for CEST is -120,
+   * which means that you need to add -120 minutes to the local time to get UTC time.
+   *
+   * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+   *
+   * If timezone (tz) is specified, e.g `America/New_York`,
+   * it will return the UTC offset for that timezone.
+   *
+   * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   */
+  getUTCOffsetMinutes(tz?: string): NumberOfMinutes {
+    if (tz) {
+      // based on: https://stackoverflow.com/a/53652131/4919972
+      const nowTime = this.$date.getTime()
+      const tzTime = new Date(this.$date.toLocaleString('en-US', { timeZone: tz })).getTime()
+      return Math.round((tzTime - nowTime) / 60000) || 0
+    }
+
+    return -this.$date.getTimezoneOffset() || 0
+  }
+
+  /**
+   * Same as getUTCOffsetMinutes, but rounded to hours.
+   *
+   * E.g for CEST it is -2.
+   *
+   * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
+   *
+   * If timezone (tz) is specified, e.g `America/New_York`,
+   * it will return the UTC offset for that timezone.
+   */
+  getUTCOffsetHours(tz?: string): NumberOfHours {
+    return Math.round(this.getUTCOffsetMinutes(tz) / 60)
+  }
+
+  /**
+   * Returns e.g `-05:00` for New_York winter time.
+   */
+  getUTCOffsetString(tz: string): string {
+    const minutes = this.getUTCOffsetMinutes(tz)
+    const hours = Math.trunc(minutes / 60)
+    const sign = hours < 0 ? '-' : '+'
+    const h = String(Math.abs(hours)).padStart(2, '0')
+    const m = String(minutes % 60).padStart(2, '0')
+    return `${sign}${h}:${m}`
   }
 
   get(unit: LocalTimeUnit): number {
@@ -166,7 +244,7 @@ export class LocalTime {
     return v === undefined ? this.get('second') : this.set('second', v)
   }
 
-  setComponents(c: Partial<LocalTimeComponents>, mutate = false): LocalTime {
+  setComponents(c: Partial<DateTimeObject>, mutate = false): LocalTime {
     const d = mutate ? this.$date : new Date(this.$date)
 
     // Year, month and day set all-at-once, to avoid 30/31 (and 28/29) mishap
@@ -434,14 +512,14 @@ export class LocalTime {
     return t1 < t2 ? -1 : 1
   }
 
-  components(): LocalTimeComponents {
+  getDateTimeObject(): DateTimeObject {
     return {
-      ...this.dateComponents(),
-      ...this.timeComponents(),
+      ...this.getDateObject(),
+      ...this.getTimeObject(),
     }
   }
 
-  private dateComponents(): DateComponents {
+  getDateObject(): DateObject {
     return {
       year: this.$date.getFullYear(),
       month: this.$date.getMonth() + 1,
@@ -449,7 +527,7 @@ export class LocalTime {
     }
   }
 
-  private timeComponents(): TimeComponents {
+  getTimeObject(): TimeObject {
     return {
       hour: this.$date.getHours(),
       minute: this.$date.getMinutes(),
@@ -518,7 +596,7 @@ export class LocalTime {
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
   toISODate(): IsoDateString {
-    const { year, month, day } = this.dateComponents()
+    const { year, month, day } = this.getDateObject()
 
     return [
       String(year).padStart(4, '0'),
@@ -534,7 +612,7 @@ export class LocalTime {
    * Returns e.g: `17:03:15` (or `17:03` with seconds=false)
    */
   toISOTime(seconds = true): string {
-    const { hour, minute, second } = this.timeComponents()
+    const { hour, minute, second } = this.getTimeObject()
 
     return [
       String(hour).padStart(2, '0'),
@@ -552,7 +630,7 @@ export class LocalTime {
    * Returns e.g: `19840621_1705`
    */
   toStringCompact(seconds = false): string {
-    const { year, month, day, hour, minute, second } = this.components()
+    const { year, month, day, hour, minute, second } = this.getDateTimeObject()
 
     return [
       String(year).padStart(4, '0'),
@@ -672,6 +750,25 @@ class LocalTimeFactory {
     return this.parseOrNull(d) !== null
   }
 
+  /**
+   * Returns the IANA timezone e.g `Europe/Stockholm`.
+   * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   */
+  getTimezone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone
+  }
+
+  /**
+   * Returns true if passed IANA timezone is valid/supported.
+   * E.g `Europe/Stockholm` is valid, but `Europe/Stockholm2` is not.
+   *
+   * This implementation is not optimized for performance. If you need frequent validation -
+   * consider caching the Intl.supportedValuesOf values as Set and reuse that.
+   */
+  isTimezoneValid(tz: string): boolean {
+    return Intl.supportedValuesOf('timeZone').includes(tz)
+  }
+
   now(): LocalTime {
     return new LocalTime(new Date())
   }
@@ -692,7 +789,7 @@ class LocalTimeFactory {
     return d ? this.of(d) : this.now()
   }
 
-  fromComponents(c: { year: number; month: number } & Partial<LocalTimeComponents>): LocalTime {
+  fromComponents(c: { year: number; month: number } & Partial<DateTimeObject>): LocalTime {
     return new LocalTime(
       new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
     )
@@ -856,28 +953,4 @@ Object.setPrototypeOf(localTime, localTimeFactory)
  */
 export function nowUnix(): UnixTimestampNumber {
   return Math.floor(Date.now() / 1000)
-}
-
-/**
- * UTC offset is the opposite of "timezone offset" - it's the number of minutes to add
- * to the local time to get UTC time.
- *
- * E.g utcOffset for CEST is -120,
- * which means that you need to add -120 minutes to the local time to get UTC time.
- *
- * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
- */
-export function getUTCOffsetMinutes(): NumberOfMinutes {
-  return -new Date().getTimezoneOffset() || 0
-}
-
-/**
- * Same as getUTCOffsetMinutes, but rounded to hours.
- *
- * E.g for CEST it is -2.
- *
- * Instead of -0 it returns 0, for the peace of mind and less weird test/snapshot differences.
- */
-export function getUTCOffsetHours(): NumberOfHours {
-  return Math.round(getUTCOffsetMinutes() / 60)
 }

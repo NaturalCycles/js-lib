@@ -1,15 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import {
-  LocalTimeFormatter,
-  LocalTimeUnit,
-  nowUnix,
-  ISODayOfWeek,
-  localTime,
-  getUTCOffsetMinutes,
-  getUTCOffsetHours,
-} from './localTime'
+import { LocalTimeFormatter, LocalTimeUnit, nowUnix, ISODayOfWeek, localTime } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
@@ -129,6 +121,10 @@ test('basic', () => {
   expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "undefined" into LocalTime"`,
   )
+
+  expect(localTime.getTimezone()).toBe('UTC')
+  expect(localTime.isTimezoneValid('Europe/Stockholm')).toBe(true)
+  expect(localTime.isTimezoneValid('Europe/Stockholm2')).toBe(false)
 })
 
 test('isBetween', () => {
@@ -434,8 +430,8 @@ test('utcOffset', () => {
   expect(offset2).toBe(offset)
 
   if (isUTC()) {
-    expect(getUTCOffsetMinutes()).toBe(0)
-    expect(getUTCOffsetHours()).toBe(0)
+    expect(localTime.now().getUTCOffsetMinutes()).toBe(0)
+    expect(localTime.now().getUTCOffsetHours()).toBe(0)
   }
 })
 
@@ -459,4 +455,46 @@ test('fromDateUTC', () => {
   expect(ltLocal.unix()).toBe(ltUtc.unix())
   expect(ltLocal.toPretty()).toBe(lt.toPretty())
   // todo: figure out what to assert in non-utc mode
+})
+
+test('getUTCOffsetMinutes', () => {
+  const now = localTime('2024-05-14')
+  expect(now.getUTCOffsetMinutes('America/Los_Angeles')).toBe(-7 * 60)
+  expect(now.getUTCOffsetMinutes('America/New_York')).toBe(-4 * 60)
+  expect(now.getUTCOffsetMinutes('Europe/Stockholm')).toBe(2 * 60)
+  expect(now.getUTCOffsetHours('Europe/Stockholm')).toBe(2)
+  expect(now.getUTCOffsetMinutes('UTC')).toBe(0)
+  expect(now.getUTCOffsetHours('UTC')).toBe(0)
+  expect(now.getUTCOffsetMinutes('GMT')).toBe(0)
+  expect(now.getUTCOffsetMinutes('Asia/Tokyo')).toBe(9 * 60)
+})
+
+test('getUTCOffsetString', () => {
+  const now = localTime('2024-05-14')
+  expect(now.getUTCOffsetString('America/Los_Angeles')).toBe('-07:00')
+  expect(now.getUTCOffsetString('America/New_York')).toBe('-04:00')
+  expect(now.getUTCOffsetString('Europe/Stockholm')).toBe('+02:00')
+  expect(now.getUTCOffsetString('UTC')).toBe('+00:00')
+  expect(now.getUTCOffsetString('Asia/Tokyo')).toBe('+09:00')
+})
+
+test('inTimezone', () => {
+  const lt = localTime(`1984-06-21T05:00:00`)
+  expect(lt.toPretty()).toBe(`1984-06-21 05:00:00`)
+
+  // Nope, unix doesn't match ;(
+  // expect(lt.inTimezone('Europe/Stockholm').unix()).toBe(lt.unix())
+
+  expect(lt.inTimezone('Europe/Stockholm').toPretty()).toBe(`1984-06-21 07:00:00`)
+  expect(lt.inTimezone('America/New_York').toPretty()).toBe(`1984-06-21 01:00:00`)
+  expect(lt.inTimezone('America/Los_Angeles').toPretty()).toBe(`1984-06-20 22:00:00`)
+  expect(lt.inTimezone('Asia/Tokyo').toPretty()).toBe(`1984-06-21 14:00:00`)
+  expect(lt.inTimezone('Asia/Tokyo').toPretty(false)).toBe(`1984-06-21 14:00`)
+
+  const lt2 = localTime(`1984-02-14T21:00:00`)
+  expect(lt2.toPretty()).toBe(`1984-02-14 21:00:00`)
+  expect(lt2.inTimezone('Europe/Stockholm').toPretty()).toBe(`1984-02-14 22:00:00`)
+  expect(lt2.inTimezone('America/New_York').toPretty()).toBe(`1984-02-14 16:00:00`)
+  expect(lt2.inTimezone('America/Los_Angeles').toPretty()).toBe(`1984-02-14 13:00:00`)
+  expect(lt2.inTimezone('Asia/Tokyo').toPretty()).toBe(`1984-02-15 06:00:00`)
 })

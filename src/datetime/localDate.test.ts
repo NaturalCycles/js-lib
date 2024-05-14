@@ -22,6 +22,11 @@ test('basic', () => {
   expect(ld.month()).toBe(6)
   expect(ld.year()).toBe(1984)
   expect(ld.toMonthId()).toBe('1984-06')
+  expect(ld.toDateObject()).toEqual({
+    year: 1984,
+    month: 6,
+    day: 21,
+  })
   expect(JSON.stringify(ld)).toBe(`"${str}"`)
   expect(JSON.parse(JSON.stringify(ld))).toBe(str)
   expect(ld.absDiff(str, 'day')).toBe(0)

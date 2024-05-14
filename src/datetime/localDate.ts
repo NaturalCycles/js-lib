@@ -9,7 +9,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { ISODayOfWeek, localTime, LocalTime } from './localTime'
+import { DateObject, ISODayOfWeek, localTime, LocalTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
@@ -379,6 +379,14 @@ export class LocalDate {
    */
   toDateInUTC(): Date {
     return new Date(this.toISODateTimeInUTC())
+  }
+
+  toDateObject(): DateObject {
+    return {
+      year: this.$year,
+      month: this.$month,
+      day: this.$day,
+    }
   }
 
   /**
