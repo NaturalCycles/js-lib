@@ -46,6 +46,10 @@ test('basic', () => {
   expect(lt.isOlderThan(5, 'day')).toBe(true)
   expect(lt.isYoungerThan(5, 'day')).toBe(false)
   expect(lt.isOlderThan(100, 'year')).toBe(false)
+  expect(lt.getAgeInYears('2024-05-15')).toBe(2)
+  expect(lt.getAgeInMonths('2024-05-15')).toBe(28)
+  expect(lt.getAgeInDays('2024-05-15')).toBe(865)
+  expect(lt.getAgeIn('day', '2024-05-15')).toBe(865)
 
   expect(lt.year(2023).year()).toBe(2023)
   expect(lt.year()).toBe(2022) // not changed

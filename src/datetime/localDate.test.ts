@@ -64,6 +64,10 @@ test('basic', () => {
   expect(ld.isYoungerThan(5, 'day')).toBe(false)
   expect(ld.isOlderThan(100, 'year')).toBe(false)
   expect(ld.isYoungerThan(100, 'year')).toBe(true)
+  expect(ld.getAgeInYears('2024-05-15')).toBe(39)
+  expect(ld.getAgeInMonths('2024-05-15')).toBe(478)
+  expect(ld.getAgeInDays('2024-05-15')).toBe(14573)
+  expect(ld.getAgeIn('day', '2024-05-15')).toBe(14573)
 })
 
 test('isBetween', () => {

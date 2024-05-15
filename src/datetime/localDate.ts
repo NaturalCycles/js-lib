@@ -141,6 +141,19 @@ export class LocalDate {
     return this.isSameOrAfter(localDate.of(today || new Date()).plus(-n, unit))
   }
 
+  getAgeInYears(today?: LocalDateInput): number {
+    return this.getAgeIn('year', today)
+  }
+  getAgeInMonths(today?: LocalDateInput): number {
+    return this.getAgeIn('month', today)
+  }
+  getAgeInDays(today?: LocalDateInput): number {
+    return this.getAgeIn('day', today)
+  }
+  getAgeIn(unit: LocalDateUnit, today?: LocalDateInput): number {
+    return localDate.of(today || new Date()).diff(this, unit)
+  }
+
   /**
    * Returns 1 if this > d
    * returns 0 if they are equal

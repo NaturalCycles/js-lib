@@ -500,6 +500,28 @@ export class LocalTime {
     return this.isSameOrAfter(localTime.of(now ?? new Date()).plus(-n, unit))
   }
 
+  getAgeInYears(now?: LocalTimeInput): number {
+    return this.getAgeIn('year', now)
+  }
+  getAgeInMonths(now?: LocalTimeInput): number {
+    return this.getAgeIn('month', now)
+  }
+  getAgeInDays(now?: LocalTimeInput): number {
+    return this.getAgeIn('day', now)
+  }
+  getAgeInHours(now?: LocalTimeInput): number {
+    return this.getAgeIn('hour', now)
+  }
+  getAgeInMinutes(now?: LocalTimeInput): number {
+    return this.getAgeIn('minute', now)
+  }
+  getAgeInSeconds(now?: LocalTimeInput): number {
+    return this.getAgeIn('second', now)
+  }
+  getAgeIn(unit: LocalTimeUnit, now?: LocalTimeInput): number {
+    return localTime.of(now ?? new Date()).diff(this, unit)
+  }
+
   /**
    * Returns 1 if this > d
    * returns 0 if they are equal
