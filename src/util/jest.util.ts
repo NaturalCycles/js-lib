@@ -50,7 +50,6 @@ export function runJest(opt: RunJestOpt = {}): void {
 
   const {
     CI,
-    CIRCLECI,
     CPU_LIMIT,
     TZ = 'UTC',
     APP_ENV,
@@ -97,17 +96,8 @@ export function runJest(opt: RunJestOpt = {}): void {
       args.push('--coverage')
     }
 
-    if (!maxWorkers) {
-      if (cpuLimit && cpuLimit > 1) {
-        maxWorkers = `--maxWorkers=${cpuLimit - 1}`
-      } else if (CIRCLECI) {
-        // We used to default to 2, but due to memory being an issue for Jest - now we default to 1,
-        // as it's the most memory-efficient way
-        // Since `workerIdleMemoryLimit` was introduced by default - we're changing default back to 2 workers
-        // We now only do it for CircleCI (not for CI in general), as it reports cpus as 36
-        // Github Actions don't do that and report correct number of cpus
-        maxWorkers = '--maxWorkers=2'
-      }
+    if (!maxWorkers && cpuLimit && cpuLimit > 1) {
+      maxWorkers = `--maxWorkers=${cpuLimit - 1}`
     }
   }
 

@@ -99,7 +99,7 @@ adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
 
 - `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`).
   Detects `CI` env variable, adds `--coverage` if in CI. Uses `default` reporter in `!CI`, otherwise
-  `jest-junit` reporter. Includes fix for "CircleCI out of memory issue"
+  `jest-junit` reporter.
 - `test-integration`: runs `*.integration.test.ts` with `jest.integration-test.config.js` config.
 - `test-manual`: runs `*.manual.test.ts` with `jest.manual-test.config.js`.
 - `test-leaks`: runs Jest with `--logHeapUsage --detectOpenHandles --detectLeaks`.
