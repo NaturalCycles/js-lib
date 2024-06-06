@@ -52,6 +52,38 @@ export class Semver {
     return new Semver(_range(3).map(i => parseInt(t[i]!) || 0) as SemverTokens)
   }
 
+  /**
+   * Returns the highest (max) Semver from the array, or undefined if the array is empty.
+   */
+  static maxOrUndefined(items: SemverInput[]): Semver | undefined {
+    return items.length ? Semver.max(items) : undefined
+  }
+
+  /**
+   * Returns the highest Semver from the array.
+   * Throws if the array is empty.
+   */
+  static max(items: SemverInput[]): Semver {
+    _assert(items.length, 'semver.max called on empty array')
+    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+  }
+
+  /**
+   * Returns the lowest (min) Semver from the array, or undefined if the array is empty.
+   */
+  static minOrUndefined(items: SemverInput[]): Semver | undefined {
+    return items.length ? Semver.min(items) : undefined
+  }
+
+  /**
+   * Returns the lowest Semver from the array.
+   * Throws if the array is empty.
+   */
+  static min(items: SemverInput[]): Semver {
+    _assert(items.length, 'semver.min called on empty array')
+    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+  }
+
   isAfter = (other: SemverInput): boolean => this.cmp(other) > 0
   isSameOrAfter = (other: SemverInput): boolean => this.cmp(other) >= 0
   isBefore = (other: SemverInput): boolean => this.cmp(other) < 0
