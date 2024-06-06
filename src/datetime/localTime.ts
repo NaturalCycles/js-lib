@@ -1,4 +1,5 @@
 import { _assert } from '../error/assert'
+import { _isTruthy } from '../is.util'
 import { _ms } from '../time/time.util'
 import type {
   Inclusiveness,
@@ -27,6 +28,7 @@ export enum ISODayOfWeek {
 }
 
 export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
+export type LocalTimeInputNullable = LocalTimeInput | null | undefined
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
 export type DateTimeObject = DateObject & TimeObject
@@ -711,7 +713,7 @@ class LocalTimeFactory {
   /**
    * Returns null if invalid
    */
-  parseOrNull(d: LocalTimeInput | undefined | null): LocalTime | null {
+  parseOrNull(d: LocalTimeInputNullable): LocalTime | null {
     if (!d) return null
     if (d instanceof LocalTime) return d
 
@@ -768,7 +770,7 @@ class LocalTimeFactory {
     return date.valueOf() / 1000
   }
 
-  isValid(d: LocalTimeInput | undefined | null): boolean {
+  isValid(d: LocalTimeInputNullable): boolean {
     return this.parseOrNull(d) !== null
   }
 
@@ -800,14 +802,14 @@ class LocalTimeFactory {
    *
    * `localTime` function will instead return LocalTime of `now` for falsy input.
    */
-  orUndefined(d: LocalTimeInput | null | undefined): LocalTime | undefined {
+  orUndefined(d: LocalTimeInputNullable): LocalTime | undefined {
     return d ? this.of(d) : undefined
   }
 
   /**
    * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
    */
-  orNow(d: LocalTimeInput | null | undefined): LocalTime {
+  orNow(d: LocalTimeInputNullable): LocalTime {
     return d ? this.of(d) : this.now()
   }
 
@@ -827,26 +829,28 @@ class LocalTimeFactory {
     })
   }
 
-  minOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
+  minOrUndefined(items: LocalTimeInputNullable[]): LocalTime | undefined {
     return items.length ? this.min(items) : undefined
   }
 
-  min(items: LocalTimeInput[]): LocalTime {
-    _assert(items.length, 'localTime.min called on empty array')
+  min(items: LocalTimeInputNullable[]): LocalTime {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'localTime.min called on empty array')
 
-    return items
+    return items2
       .map(i => this.of(i))
       .reduce((min, item) => (min.$date.valueOf() <= item.$date.valueOf() ? min : item))
   }
 
-  maxOrUndefined(items: LocalTimeInput[]): LocalTime | undefined {
+  maxOrUndefined(items: LocalTimeInputNullable[]): LocalTime | undefined {
     return items.length ? this.max(items) : undefined
   }
 
-  max(items: LocalTimeInput[]): LocalTime {
-    _assert(items.length, 'localTime.max called on empty array')
+  max(items: LocalTimeInputNullable[]): LocalTime {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'localTime.max called on empty array')
 
-    return items
+    return items2
       .map(i => this.of(i))
       .reduce((max, item) => (max.$date.valueOf() >= item.$date.valueOf() ? max : item))
   }

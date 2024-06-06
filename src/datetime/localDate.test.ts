@@ -101,6 +101,9 @@ test('sort', () => {
 
   expect(localDate.min(items).toString()).toBe('2022-01-01')
   expect(localDate.max(items).toString()).toBe('2022-01-03')
+
+  // Test that undefined values are allowed
+  expect(localDate.max([...items, undefined]).toString()).toBe('2022-01-03')
 })
 
 test('add basic', () => {

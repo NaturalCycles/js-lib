@@ -27,8 +27,9 @@ test('basic', () => {
   )
 })
 
-test('min, max', () => {
+test('min, max, sort', () => {
   expect(semver2.min(['1.2.3', '1.2.4']).toString()).toBe('1.2.3')
+  expect(semver2.min(['1.2.3', undefined]).toString()).toBe('1.2.3')
   expect(semver2.minOrUndefined(['1.2.3', '1.2.4'])?.toString()).toBe('1.2.3')
   expect(semver2.minOrUndefined(['1.2.5'])?.toString()).toBe('1.2.5')
   expect(semver2.minOrUndefined([])).toBeUndefined()
@@ -37,6 +38,16 @@ test('min, max', () => {
   expect(semver2.maxOrUndefined(['1.2.3', '1.2.4'])?.toString()).toBe('1.2.4')
   expect(semver2.maxOrUndefined(['1.2.5'])?.toString()).toBe('1.2.5')
   expect(semver2.maxOrUndefined([])).toBeUndefined()
+
+  expect(semver2.sort(['1.2.4', '1.2.5', '1.1.9', '1.7.7'].map(semver2)).map(s => s.toString()))
+    .toMatchInlineSnapshot(`
+[
+  "1.1.9",
+  "1.2.4",
+  "1.2.5",
+  "1.7.7",
+]
+`)
 })
 
 test.each([

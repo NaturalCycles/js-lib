@@ -1,7 +1,10 @@
 import { _range } from './array/range'
 import { _assert } from './error/assert'
+import { _isTruthy } from './is.util'
+import { SortDirection } from './types'
 
 export type SemverInput = string | Semver
+export type SemverInputNullable = SemverInput | null | undefined
 export type SemverTokens = [major: number, minor: number, patch: number]
 
 /**
@@ -72,7 +75,7 @@ class SemverFactory {
     return s
   }
 
-  parseOrNull(input: SemverInput | undefined | null): Semver | null {
+  parseOrNull(input: SemverInputNullable): Semver | null {
     if (!input) return null
     if (input instanceof Semver) return input
 
@@ -83,7 +86,7 @@ class SemverFactory {
   /**
    * Returns the highest (max) Semver from the array, or undefined if the array is empty.
    */
-  maxOrUndefined(items: SemverInput[]): Semver | undefined {
+  maxOrUndefined(items: SemverInputNullable[]): Semver | undefined {
     return items.length ? this.max(items) : undefined
   }
 
@@ -91,15 +94,16 @@ class SemverFactory {
    * Returns the highest Semver from the array.
    * Throws if the array is empty.
    */
-  max(items: SemverInput[]): Semver {
-    _assert(items.length, 'semver.max called on empty array')
-    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+  max(items: SemverInputNullable[]): Semver {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'semver.max called on empty array')
+    return items2.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
   /**
    * Returns the lowest (min) Semver from the array, or undefined if the array is empty.
    */
-  minOrUndefined(items: SemverInput[]): Semver | undefined {
+  minOrUndefined(items: SemverInputNullable[]): Semver | undefined {
     return items.length ? this.min(items) : undefined
   }
 
@@ -107,9 +111,20 @@ class SemverFactory {
    * Returns the lowest Semver from the array.
    * Throws if the array is empty.
    */
-  min(items: SemverInput[]): Semver {
-    _assert(items.length, 'semver.min called on empty array')
-    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+  min(items: SemverInputNullable[]): Semver {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'semver.min called on empty array')
+    return items2
+      .map(i => this.of(i))
+      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+  }
+
+  /**
+   * Sorts an array of Semvers in `dir` order (ascending by default).
+   */
+  sort(items: Semver[], dir: SortDirection = 'asc', mutate = false): Semver[] {
+    const mod = dir === 'desc' ? -1 : 1
+    return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
   }
 }
 

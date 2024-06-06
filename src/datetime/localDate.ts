@@ -1,4 +1,5 @@
 import { _assert } from '../error/assert'
+import { _isTruthy } from '../is.util'
 import { Iterable2 } from '../iter/iterable2'
 import type {
   Inclusiveness,
@@ -18,6 +19,7 @@ const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
 export type LocalDateInput = LocalDate | Date | IsoDateString
+export type LocalDateInputNullable = LocalDateInput | null | undefined
 export type LocalDateFormatter = (ld: LocalDate) => string
 
 /**
@@ -517,7 +519,7 @@ class LocalDateFactory {
    * Tries to construct LocalDate from LocalDateInput, returns null otherwise.
    * Does not throw (returns null instead).
    */
-  parseOrNull(d: LocalDateInput | undefined | null): LocalDate | null {
+  parseOrNull(d: LocalDateInputNullable): LocalDate | null {
     if (!d) return null
     if (d instanceof LocalDate) return d
     if (d instanceof Date) {
@@ -619,7 +621,7 @@ class LocalDateFactory {
   /**
    * Returns the earliest (min) LocalDate from the array, or undefined if the array is empty.
    */
-  minOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
+  minOrUndefined(items: LocalDateInputNullable[]): LocalDate | undefined {
     return items.length ? this.min(items) : undefined
   }
 
@@ -627,16 +629,19 @@ class LocalDateFactory {
    * Returns the earliest LocalDate from the array.
    * Throws if the array is empty.
    */
-  min(items: LocalDateInput[]): LocalDate {
-    _assert(items.length, 'localDate.min called on empty array')
+  min(items: LocalDateInputNullable[]): LocalDate {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'localDate.min called on empty array')
 
-    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+    return items2
+      .map(i => this.of(i))
+      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
   /**
    * Returns the latest (max) LocalDate from the array, or undefined if the array is empty.
    */
-  maxOrUndefined(items: LocalDateInput[]): LocalDate | undefined {
+  maxOrUndefined(items: LocalDateInputNullable[]): LocalDate | undefined {
     return items.length ? this.max(items) : undefined
   }
 
@@ -644,10 +649,11 @@ class LocalDateFactory {
    * Returns the latest LocalDate from the array.
    * Throws if the array is empty.
    */
-  max(items: LocalDateInput[]): LocalDate {
-    _assert(items.length, 'localDate.max called on empty array')
+  max(items: LocalDateInputNullable[]): LocalDate {
+    const items2 = items.filter(_isTruthy)
+    _assert(items2.length, 'localDate.max called on empty array')
 
-    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    return items2.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
   /**
@@ -711,14 +717,14 @@ class LocalDateFactory {
    *
    * Similar to `localDate.orToday`, but that will instead return Today on falsy input.
    */
-  orUndefined(d: LocalDateInput | null | undefined): LocalDate | undefined {
+  orUndefined(d: LocalDateInputNullable): LocalDate | undefined {
     return d ? this.of(d) : undefined
   }
 
   /**
    * Creates a LocalDate from the input, unless it's falsy - then returns localDate.today.
    */
-  orToday(d: LocalDateInput | null | undefined): LocalDate {
+  orToday(d: LocalDateInputNullable): LocalDate {
     return d ? this.of(d) : this.today()
   }
 }
