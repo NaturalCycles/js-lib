@@ -1,8 +1,8 @@
 import { _expectedErrorString } from './error/try'
-import { _semver, _semverCompare, Semver } from './semver'
+import { _quickSemverCompare, semver2 } from './semver'
 
 test('basic', () => {
-  const s = Semver.of('1.2.3')
+  const s = semver2('1.2.3')
   expect(s.toString()).toBe('1.2.3')
   expect(`${s}`).toBe('1.2.3')
   expect(JSON.stringify(s)).toBe('"1.2.3"')
@@ -12,19 +12,31 @@ test('basic', () => {
   expect(s.minor).toBe(2)
   expect(s.patch).toBe(3)
 
-  const s2 = Semver.of('1.2.5')
+  const s2 = semver2.of('1.2.5')
   expect(s.cmp(s2)).toBe(-1)
   expect(s.isAfter(s2)).toBe(false)
   expect(s.isSameOrAfter(s2)).toBe(false)
   expect(s.isBefore(s2)).toBe(true)
   expect(s.isSameOrBefore(s2)).toBe(true)
   expect(s.isSame(s2)).toBe(false)
-  expect(_semver('1.5.4').isSame('1.5.4')).toBe(true)
-  expect(_semver('1.5.4').isSame(_semver('1.5.4'))).toBe(true)
+  expect(semver2('1.5.4').isSame('1.5.4')).toBe(true)
+  expect(semver2('1.5.4').isSame(semver2('1.5.4'))).toBe(true)
 
-  expect(_expectedErrorString(() => Semver.of(''))).toMatchInlineSnapshot(
+  expect(_expectedErrorString(() => semver2(''))).toMatchInlineSnapshot(
     `"AssertionError: Cannot parse "" into Semver"`,
   )
+})
+
+test('min, max', () => {
+  expect(semver2.min(['1.2.3', '1.2.4']).toString()).toBe('1.2.3')
+  expect(semver2.minOrUndefined(['1.2.3', '1.2.4'])?.toString()).toBe('1.2.3')
+  expect(semver2.minOrUndefined(['1.2.5'])?.toString()).toBe('1.2.5')
+  expect(semver2.minOrUndefined([])).toBeUndefined()
+
+  expect(semver2.max(['1.2.3', '1.2.4']).toString()).toBe('1.2.4')
+  expect(semver2.maxOrUndefined(['1.2.3', '1.2.4'])?.toString()).toBe('1.2.4')
+  expect(semver2.maxOrUndefined(['1.2.5'])?.toString()).toBe('1.2.5')
+  expect(semver2.maxOrUndefined([])).toBeUndefined()
 })
 
 test.each([
@@ -40,7 +52,7 @@ test.each([
   ['.', '0.0.0'],
   ['x', '0.0.0'],
 ])('parse', (str, expected) => {
-  expect(Semver.parseOrNull(str)?.toString()).toBe(expected)
+  expect(semver2.parseOrNull(str)?.toString()).toBe(expected)
 })
 
 test.each([
@@ -55,6 +67,6 @@ test.each([
   ['1.1.3', '1.1.51', -1],
   ['1.1.3', '1.1.11', -1],
   ['1.1.11', '1.1.3', 1],
-])('_semverCompare "%s" "%s" is %s', (a, b, expected) => {
-  expect(_semverCompare(a, b)).toBe(expected)
+])('_quickSemverCompare "%s" "%s" is %s', (a, b, expected) => {
+  expect(_quickSemverCompare(a, b)).toBe(expected)
 })

@@ -21,7 +21,7 @@ export type SemverTokens = [major: number, minor: number, patch: number]
  * @experimental
  */
 export class Semver {
-  private constructor(public tokens: SemverTokens) {}
+  constructor(public tokens: SemverTokens) {}
 
   get major(): number {
     return this.tokens[0]
@@ -31,57 +31,6 @@ export class Semver {
   }
   get patch(): number {
     return this.tokens[2]
-  }
-
-  static of(input: SemverInput): Semver {
-    const s = this.parseOrNull(input)
-
-    _assert(s !== null, `Cannot parse "${input}" into Semver`, {
-      userFriendly: true,
-      input,
-    })
-
-    return s
-  }
-
-  static parseOrNull(input: SemverInput | undefined | null): Semver | null {
-    if (!input) return null
-    if (input instanceof Semver) return input
-
-    const t = input.split('.')
-    return new Semver(_range(3).map(i => parseInt(t[i]!) || 0) as SemverTokens)
-  }
-
-  /**
-   * Returns the highest (max) Semver from the array, or undefined if the array is empty.
-   */
-  static maxOrUndefined(items: SemverInput[]): Semver | undefined {
-    return items.length ? Semver.max(items) : undefined
-  }
-
-  /**
-   * Returns the highest Semver from the array.
-   * Throws if the array is empty.
-   */
-  static max(items: SemverInput[]): Semver {
-    _assert(items.length, 'semver.max called on empty array')
-    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
-  }
-
-  /**
-   * Returns the lowest (min) Semver from the array, or undefined if the array is empty.
-   */
-  static minOrUndefined(items: SemverInput[]): Semver | undefined {
-    return items.length ? Semver.min(items) : undefined
-  }
-
-  /**
-   * Returns the lowest Semver from the array.
-   * Throws if the array is empty.
-   */
-  static min(items: SemverInput[]): Semver {
-    _assert(items.length, 'semver.min called on empty array')
-    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
   isAfter = (other: SemverInput): boolean => this.cmp(other) > 0
@@ -96,7 +45,7 @@ export class Semver {
    * returns -1 if this < other
    */
   cmp(other: SemverInput): -1 | 0 | 1 {
-    const { tokens } = Semver.of(other)
+    const { tokens } = semver2.of(other)
     for (let i = 0; i < 3; i++) {
       if (this.tokens[i]! < tokens[i]!) return -1
       if (this.tokens[i]! > tokens[i]!) return 1
@@ -111,12 +60,70 @@ export class Semver {
   }
 }
 
-/**
- * Shortcut for Semver.of(input)
- */
-export function _semver(input: SemverInput): Semver {
-  return Semver.of(input)
+class SemverFactory {
+  of(input: SemverInput): Semver {
+    const s = this.parseOrNull(input)
+
+    _assert(s !== null, `Cannot parse "${input}" into Semver`, {
+      userFriendly: true,
+      input,
+    })
+
+    return s
+  }
+
+  parseOrNull(input: SemverInput | undefined | null): Semver | null {
+    if (!input) return null
+    if (input instanceof Semver) return input
+
+    const t = input.split('.')
+    return new Semver(_range(3).map(i => parseInt(t[i]!) || 0) as SemverTokens)
+  }
+
+  /**
+   * Returns the highest (max) Semver from the array, or undefined if the array is empty.
+   */
+  maxOrUndefined(items: SemverInput[]): Semver | undefined {
+    return items.length ? this.max(items) : undefined
+  }
+
+  /**
+   * Returns the highest Semver from the array.
+   * Throws if the array is empty.
+   */
+  max(items: SemverInput[]): Semver {
+    _assert(items.length, 'semver.max called on empty array')
+    return items.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+  }
+
+  /**
+   * Returns the lowest (min) Semver from the array, or undefined if the array is empty.
+   */
+  minOrUndefined(items: SemverInput[]): Semver | undefined {
+    return items.length ? this.min(items) : undefined
+  }
+
+  /**
+   * Returns the lowest Semver from the array.
+   * Throws if the array is empty.
+   */
+  min(items: SemverInput[]): Semver {
+    _assert(items.length, 'semver.min called on empty array')
+    return items.map(i => this.of(i)).reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+  }
 }
+
+interface SemverFn extends SemverFactory {
+  (input: SemverInput): Semver
+}
+
+const semverFactory = new SemverFactory()
+
+export const semver2 = semverFactory.of.bind(semverFactory) as SemverFn
+
+// The line below is the blackest of black magic I have ever written in 2024.
+// And probably 2023 as well.
+Object.setPrototypeOf(semver2, semverFactory)
 
 /**
  * Returns 1 if a > b
@@ -127,7 +134,7 @@ export function _semver(input: SemverInput): Semver {
  *
  * Credit: https://stackoverflow.com/a/47159772/4919972
  */
-export function _semverCompare(a: string, b: string): -1 | 0 | 1 {
+export function _quickSemverCompare(a: string, b: string): -1 | 0 | 1 {
   const t1 = a.split('.')
   const t2 = b.split('.')
   const s1 = _range(3)
