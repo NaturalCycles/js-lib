@@ -5,7 +5,9 @@ import {
   _by,
   _chunk,
   _count,
+  _countAtLeast,
   _countBy,
+  _countLessThan,
   _difference,
   _dropRightWhile,
   _dropWhile,
@@ -195,6 +197,17 @@ test('_count', () => {
   const isEven: AbortablePredicate<number> = n => n % 2 === 0
 
   expect(_count(a, isEven)).toBe(2)
+  expect(_countAtLeast(a, isEven, 0)).toBe(true)
+  expect(_countAtLeast(a, isEven, 1)).toBe(true)
+  expect(_countAtLeast(a, isEven, 2)).toBe(true)
+  expect(_countAtLeast(a, isEven, 3)).toBe(false)
+  expect(_countAtLeast(a, isEven, 4)).toBe(false)
+
+  expect(_countLessThan(a, isEven, 0)).toBe(false)
+  expect(_countLessThan(a, isEven, 1)).toBe(false)
+  expect(_countLessThan(a, isEven, 2)).toBe(false)
+  expect(_countLessThan(a, isEven, 3)).toBe(true)
+  expect(_countLessThan(a, isEven, 4)).toBe(true)
 
   // with limit
   expect(_count(a, isEven, 0)).toBe(0)

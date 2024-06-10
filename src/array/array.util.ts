@@ -242,6 +242,32 @@ export function _dropRightWhile<T>(items: readonly T[], predicate: Predicate<T>)
 }
 
 /**
+ * Returns true if the _count >= limit.
+ * _count counts how many times the Predicate returns true, and stops
+ * when it reaches the limit.
+ */
+export function _countAtLeast<T>(
+  items: Iterable<T>,
+  predicate: AbortablePredicate<T>,
+  limit: number,
+): boolean {
+  return _count(items, predicate, limit) >= limit
+}
+
+/**
+ * Returns true if the _count <> limit.
+ * _count counts how many times the Predicate returns true, and stops
+ * when it reaches the limit.
+ */
+export function _countLessThan<T>(
+  items: Iterable<T>,
+  predicate: AbortablePredicate<T>,
+  limit: number,
+): boolean {
+  return _count(items, predicate, limit) < limit
+}
+
+/**
  * Counts how many items match the predicate.
  *
  * `limit` allows to exit early when limit count is reached, skipping further iterations (perf optimization).
