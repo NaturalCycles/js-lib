@@ -1382,6 +1382,9 @@
     "unicorn/no-negated-condition": [
       0
     ],
+    "unicorn/no-negation-in-equality-check": [
+      "error"
+    ],
     "unicorn/no-nested-ternary": [
       "off"
     ],
