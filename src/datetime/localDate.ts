@@ -751,3 +751,13 @@ Object.setPrototypeOf(localDate, localDateFactory)
 export function todayString(): IsoDateString {
   return localDate.fromDate(new Date()).toISODate()
 }
+
+/**
+ Convenience function to return current today's IsoDateString representation formatted with no hyphens, e.g `20240613`
+ */
+export function todayStringNoHyphens(): IsoDateString {
+  const date = new Date();
+  const ymd = date.toISOString().split('T')[0].split('-');
+  const date_formatted = `${ymd[0]}${ymd[1]}${ymd[2]}`
+  return date_formatted
+}

@@ -352,6 +352,13 @@ test('todayString', () => {
   expect(s < '2099-01-01').toBe(true)
 })
 
+test('todayStringNoHyphens', () => {
+  const s = todayString()
+  expect(s.startsWith(new Date().getFullYear())).toBe(true)
+  expect(s > '2024-05-01').toBe(true)
+  expect(s < '2099-01-01').toBe(true)
+})
+
 test('todayString tz', () => {
   if (isUTC()) return
   console.log(process.env['TZ'])
