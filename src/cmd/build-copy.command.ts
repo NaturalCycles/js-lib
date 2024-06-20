@@ -6,7 +6,7 @@ export function buildCopyCommand(): void {
     '**',
     '!**/*.ts',
     '!**/__snapshots__',
-    '**/__exclude',
+    '!**/__exclude',
     '!test',
     '!**/*.test.js',
   ]
