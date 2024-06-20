@@ -1,5 +1,5 @@
-/// <reference lib="es2022"/>
-/// <reference lib="dom"/>
+/// <reference lib="es2022" preserve="true" />
+/// <reference lib="dom" preserve="true" />
 
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'

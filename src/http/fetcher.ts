@@ -1,6 +1,6 @@
-/// <reference lib="es2022"/>
-/// <reference lib="dom"/>
-/// <reference lib="dom.iterable"/>
+/// <reference lib="es2022" preserve="true" />
+/// <reference lib="dom" preserve="true" />
+/// <reference lib="dom.iterable" preserve="true" />
 
 import { isServerSide } from '../env'
 import { _assertErrorClassOrRethrow, _assertIsError } from '../error/assert'

@@ -1,5 +1,5 @@
-/// <reference lib="es2022"/>
-/// <reference lib="dom"/>
+/// <reference lib="es2022" preserve="true" />
+/// <reference lib="dom" preserve="true" />
 
 import { StringMap } from './types'
 
