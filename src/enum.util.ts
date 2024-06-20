@@ -4,7 +4,7 @@ import type { NumberEnum, StringEnum } from './types'
  * Returns all String keys of a number-enum.
  */
 export function _numberEnumKeys<T extends NumberEnum>(en: T): (keyof T)[] {
-  return Object.values(en).filter(k => typeof k === 'string') as string[]
+  return Object.values(en).filter(k => typeof k === 'string')
 }
 
 /**

@@ -32,7 +32,7 @@ function objectToJsonSchema(rows: AnyObject[]): JsonSchemaObject {
   rows.forEach(r => {
     Object.keys(r).forEach(key => {
       typesByKey[key] ||= new Set<Type>()
-      typesByKey[key]!.add(getTypeOfValue(r[key]))
+      typesByKey[key].add(getTypeOfValue(r[key]))
     })
   })
 

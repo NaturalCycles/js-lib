@@ -89,4 +89,9 @@ test('_isTruthy', () => {
   expect(_sum(a)).toBe(6)
 
   expectTypeOf(a).toEqualTypeOf<number[]>()
+
+  // Test that build-in `.filter(Boolean)` behaves the same since TypeScript 5.5
+  // UPD: no, unfortunately it still doesn't work
+  // const b = [1, 2, undefined, null, 3].filter(Boolean)
+  // expectTypeOf(b).toEqualTypeOf<number[]>()
 })
