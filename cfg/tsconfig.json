@@ -5,9 +5,9 @@
 //
 {
   "compilerOptions": {
-    // Disabled because of https://github.com/Microsoft/TypeScript/issues/29172
-    // "outDir": "dist",
-    // "rootDir": "./src",
+    // ${configDir} is supported since ts 5.5
+    "rootDir": "${configDir}/src",
+    "outDir": "${configDir}/dist",
 
     // Target/module
     "target": "es2022",
@@ -39,7 +39,6 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "suppressImplicitAnyIndexErrors": false,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,

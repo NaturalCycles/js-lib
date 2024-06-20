@@ -4,8 +4,8 @@
 {
   "extends": "../cfg/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "../dist",
+    "rootDir": "${configDir}/..",
+    "outDir": "${configDir}/../dist",
   },
   "exclude": ["**/__exclude"],
 }
