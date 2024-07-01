@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a1 as h}from"./chunks/framework.BQk4z7MM.js";const b=JSON.parse('{"title":"Units","description":"","frontmatter":{},"headers":[],"relativePath":"units.md","filePath":"units.md"}'),n={name:"units.md"},t=h("",4),k=[t];function l(p,e,r,d,E,g){return a(),i("div",null,k)}const o=s(n,[["render",l]]);export{b as __pageData,o as default};

@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a1 as n}from"./chunks/framework.BQk4z7MM.js";const c=JSON.parse('{"title":"Time","description":"","frontmatter":{},"headers":[],"relativePath":"time.md","filePath":"time.md"}'),t={name:"time.md"},h=n("",16),l=[h];function e(k,p,r,d,E,g){return a(),i("div",null,l)}const y=s(t,[["render",e]]);export{c as __pageData,y as default};

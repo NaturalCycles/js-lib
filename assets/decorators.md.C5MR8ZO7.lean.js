@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a1 as n}from"./chunks/framework.BQk4z7MM.js";const g=JSON.parse('{"title":"Decorators","description":"","frontmatter":{},"headers":[],"relativePath":"decorators.md","filePath":"decorators.md"}'),t={name:"decorators.md"},e=n("",43),h=[e];function l(p,k,r,d,o,E){return a(),i("div",null,h)}const y=s(t,[["render",l]]);export{g as __pageData,y as default};
