@@ -714,7 +714,6 @@ class LocalTimeFactory {
    * Returns null if invalid
    */
   parseOrNull(d: LocalTimeInputNullable): LocalTime | null {
-    if (!d) return null
     if (d instanceof LocalTime) return d
 
     let date
@@ -723,6 +722,9 @@ class LocalTimeFactory {
       date = d
     } else if (typeof d === 'number') {
       date = new Date(d * 1000)
+    } else if (!d) {
+      // This check is after checking the number, to support `0`
+      return null
     } else if (typeof (d as any) !== 'string') {
       // unexpected type, e.g Function or something
       return null

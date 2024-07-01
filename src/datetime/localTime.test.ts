@@ -126,6 +126,8 @@ test('basic', () => {
     `"Cannot parse "undefined" into LocalTime"`,
   )
 
+  expect(localTime(0).toISODateTime()).toMatchInlineSnapshot(`"1970-01-01T00:00:00"`)
+
   expect(localTime.getTimezone()).toBe('UTC')
   expect(localTime.isTimezoneValid('Europe/Stockholm')).toBe(true)
   expect(localTime.isTimezoneValid('Europe/Stockholm2')).toBe(false)
