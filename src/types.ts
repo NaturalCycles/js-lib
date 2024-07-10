@@ -237,11 +237,19 @@ export type NumberOfHours = number
 export type NumberOfMinutes = number
 export type NumberOfSeconds = number
 export type NumberOfMilliseconds = number
+/**
+ * Integer between 0 and 100 (inclusive).
+ */
+export type NumberOfPercent = number
 
 /**
  * Same as `number`, but with semantic meaning that it's an Integer.
  */
 export type Integer = number
+export type PositiveInteger = number
+export type NonNegativeInteger = number
+export type PositiveNumber = number
+export type NonNegativeNumber = number
 
 /**
  * Convenience type alias, that allows to write this:
