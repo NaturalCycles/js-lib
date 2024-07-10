@@ -12,7 +12,12 @@ export interface ErrorData {
   code?: string
 
   /**
-   * If error.message is user-friendly (can be shown to the user "as is")
+   * If error.message is user-friendly (can be shown to the user "as is").
+   *
+   * This is a hint to the Client on how it should render the error message.
+   * userFriendly true means it can be rendered "as is".
+   * userFriendly false (or undefined) means the message is not guaranteed to be user-friendly,
+   * so client can resort to more generic "Oops, something went wrong" message.
    */
   userFriendly?: boolean
 

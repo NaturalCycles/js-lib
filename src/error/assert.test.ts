@@ -36,21 +36,15 @@ test('_assertEquals', () => {
   const [err] = _try(() => _assertEquals(1, 2))
   expect(err).toBeInstanceOf(AssertionError)
   expect(_stringify(err, { includeErrorData: true })).toMatchInlineSnapshot(`
-    "AssertionError: not equal
-    expected: 2
-    got     : 1
-    {
-      "userFriendly": true
-    }"
-  `)
+"AssertionError: not equal
+expected: 2
+got     : 1"
+`)
 
   const err2 = _try(() => _assertEquals(1, 2, 'Should match'))[0]
-  expect(_stringify(err2, { includeErrorData: true })).toMatchInlineSnapshot(`
-    "AssertionError: Should match
-    {
-      "userFriendly": true
-    }"
-  `)
+  expect(_stringify(err2, { includeErrorData: true })).toMatchInlineSnapshot(
+    `"AssertionError: Should match"`,
+  )
 })
 
 test('_assertDeepEquals', () => {

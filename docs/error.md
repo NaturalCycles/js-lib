@@ -95,8 +95,8 @@ API is similar to Node's assert(), except:
 
 1. Throws js-lib's AppError
 2. Has a default message, if not provided
-3. Sets `userFriendly` flag to true, cause it's always better to have at least SOME clue, rather
-   than fully generic "Oops" error.
+
+Since 2024-07-10 it no longer sets `userFriendly: true` by default.
 
 ```ts
 function run(err: any) {

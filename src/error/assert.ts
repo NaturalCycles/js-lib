@@ -14,7 +14,8 @@ import { _deepEquals, _isErrorObject, _stringify, AssertionError, Class } from '
  * API is similar to Node's assert(), except:
  * 1. Throws js-lib's AppError
  * 2. Has a default message, if not provided
- * 3. Sets `userFriendly` flag to true, cause it's always better to have at least SOME clue, rather than fully generic "Oops" error.
+ *
+ * Since 2024-07-10 it no longer sets `userFriendly: true` by default.
  */
 export function _assert(
   condition: any, // will be evaluated as Boolean
@@ -23,7 +24,6 @@ export function _assert(
 ): asserts condition {
   if (!condition) {
     throw new AssertionError(message || 'condition failed', {
-      userFriendly: true,
       ...errorData,
     })
   }
@@ -49,7 +49,6 @@ export function _assertEquals<T>(
         .join('\n')
 
     throw new AssertionError(msg, {
-      userFriendly: true,
       ...errorData,
     })
   }
@@ -75,7 +74,6 @@ export function _assertDeepEquals<T>(
         .join('\n')
 
     throw new AssertionError(msg, {
-      userFriendly: true,
       ...errorData,
     })
   }
@@ -88,9 +86,6 @@ export function _assertIsError<ERR extends Error = Error>(
   if (!(err instanceof errorClass)) {
     throw new AssertionError(
       `Expected to be instanceof ${errorClass.name}, actual typeof: ${typeof err}`,
-      {
-        userFriendly: true,
-      },
     )
   }
 }
@@ -114,9 +109,7 @@ export function _assertIsErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
   obj: any,
 ): asserts obj is ErrorObject<DATA_TYPE> {
   if (!_isErrorObject(obj)) {
-    throw new AssertionError(`Expected to be ErrorObject, actual typeof: ${typeof obj}`, {
-      userFriendly: true,
-    })
+    throw new AssertionError(`Expected to be ErrorObject, actual typeof: ${typeof obj}`)
   }
 }
 
@@ -131,8 +124,6 @@ export function _assertIsNumber(v: any, message?: string): asserts v is number {
 export function _assertTypeOf<T>(v: any, expectedType: string, message?: string): asserts v is T {
   if (typeof v !== expectedType) {
     const msg = message || `Expected typeof ${expectedType}, actual typeof: ${typeof v}`
-    throw new AssertionError(msg, {
-      userFriendly: true,
-    })
+    throw new AssertionError(msg)
   }
 }

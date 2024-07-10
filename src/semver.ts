@@ -68,7 +68,6 @@ class SemverFactory {
     const s = this.parseOrNull(input)
 
     _assert(s !== null, `Cannot parse "${input}" into Semver`, {
-      userFriendly: true,
       input,
     })
 
