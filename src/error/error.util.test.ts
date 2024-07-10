@@ -36,11 +36,11 @@ const anyItems = [
   // plain objects, not a qualified ErrorObject
   { message: 'yada' },
   { message: 'yada', data: {} },
-  { message: 'yada', data: { httpStatusCode: 404 } },
+  { message: 'yada', data: { backendResponseStatusCode: 404 } },
   // qualified ErrorObjects:
   { name: 'Error', message: 'yada' } as ErrorObject,
   { name: 'Error', message: 'yada', data: {} } as ErrorObject,
-  { name: 'Error', message: 'yada', data: { httpStatusCode: 404 } } as ErrorObject,
+  { name: 'Error', message: 'yada', data: { backendResponseStatusCode: 404 } } as ErrorObject,
   // Other
   new AppError('err msg'),
   new HttpRequestError(
@@ -61,7 +61,7 @@ const anyItems = [
       name: 'HttpError',
       message: 'err msg',
       data: {
-        httpStatusCode: 400,
+        backendResponseStatusCode: 400,
         a: 'b\nc',
       },
     },
@@ -77,7 +77,7 @@ test('anyToError', () => {
   expectResults(v => _anyToError(v), anyItems).toMatchSnapshot()
 
   const httpError = new AppError('la la', {
-    httpStatusCode: 400,
+    backendResponseStatusCode: 400,
     userFriendly: true,
   })
 
@@ -90,7 +90,7 @@ test('anyToError', () => {
   expect(_omit(httpErrorObject, ['stack'])).toMatchInlineSnapshot(`
     {
       "data": {
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
         "userFriendly": true,
       },
       "message": "la la",
@@ -148,7 +148,7 @@ test('isHttpErrorResponse', () => {
 })
 
 test('_errorObjectToError should not repack if already same error', () => {
-  const e = new AppError('yo', { httpStatusCode: 400 })
+  const e = new AppError('yo', { backendResponseStatusCode: 400 })
   expect(_isErrorObject(e)).toBe(true)
   // HttpError not an ErrorObject, actually
   const e2 = _errorObjectToError(e as ErrorObject, AppError)
@@ -171,33 +171,33 @@ test('_errorObjectToError should not repack if already same error', () => {
 
 test('_errorDataAppend', () => {
   const err = new Error('yo') as any
-  const err_ = _errorDataAppend(err, { httpStatusCode: 401 })
+  const err_ = _errorDataAppend(err, { backendResponseStatusCode: 401 })
   expect(err_).toBe(err) // same object
   expect(err).toMatchInlineSnapshot(`[Error: yo]`)
   expect(err.data).toMatchInlineSnapshot(`
     {
-      "httpStatusCode": 401,
+      "backendResponseStatusCode": 401,
     }
   `)
 
   const err2 = new AppError('yo', {
     code: 'A',
   })
-  _errorDataAppend(err2, { httpStatusCode: 401 })
+  _errorDataAppend(err2, { backendResponseStatusCode: 401 })
   expect((err2 as any).data).toMatchInlineSnapshot(`
-    {
-      "code": "A",
-      "httpStatusCode": 401,
-    }
-  `)
+{
+  "backendResponseStatusCode": 401,
+  "code": "A",
+}
+`)
 
   _errorDataAppend(err2, { code: 'B' })
   expect((err2 as any).data).toMatchInlineSnapshot(`
-    {
-      "code": "B",
-      "httpStatusCode": 401,
-    }
-  `)
+{
+  "backendResponseStatusCode": 401,
+  "code": "B",
+}
+`)
 })
 
 test('_errorSnippet', () => {

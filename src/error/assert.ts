@@ -9,7 +9,7 @@ import { _deepEquals, _isErrorObject, _stringify, AssertionError, Class } from '
  * vice-versa - for completely unexpected and 100% buggy "should never happen" cases.
  *
  * It'll result in http 500 on the server (cause that's the right code for "unexpected" errors).
- * Pass { httpStatusCode: x } at errorData argument to override the http code (will be picked up by backend-lib).
+ * Pass { backendResponseStatusCode: x } at errorData argument to override the http code (will be picked up by backend-lib).
  *
  * API is similar to Node's assert(), except:
  * 1. Throws js-lib's AppError

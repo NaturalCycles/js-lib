@@ -28,10 +28,10 @@ Map {
   } => "{ "message": "yada", "data": {} }",
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
-  } => "{ "message": "yada", "data": { "httpStatusCode": 404 } }",
+  } => "{ "message": "yada", "data": { "backendResponseStatusCode...",
   {
     "message": "yada",
     "name": "Error",
@@ -43,7 +43,7 @@ Map {
   } => "yada",
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -56,7 +56,7 @@ Caused by Type error: la-la",
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -102,13 +102,13 @@ Map {
 }],
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => [Error: {
   "message": "yada",
   "data": {
-    "httpStatusCode": 404
+    "backendResponseStatusCode": 404
   }
 }],
   {
@@ -122,7 +122,7 @@ Map {
   } => [Error: yada],
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -134,7 +134,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -240,7 +240,7 @@ Map {
   },
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => {
@@ -248,7 +248,7 @@ Map {
     "message": "{
   "message": "yada",
   "data": {
-    "httpStatusCode": 404
+    "backendResponseStatusCode": 404
   }
 }",
     "name": "Error",
@@ -272,13 +272,13 @@ Map {
   },
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
   } => {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -305,7 +305,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -314,7 +314,7 @@ c",
     "data": {
       "a": "b
 c",
-      "httpStatusCode": 400,
+      "backendResponseStatusCode": 400,
     },
     "message": "err msg",
     "name": "HttpError",
@@ -361,7 +361,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => false,
@@ -376,7 +376,7 @@ Map {
   } => true,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -388,7 +388,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -425,7 +425,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => false,
@@ -440,7 +440,7 @@ Map {
   } => true,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -452,7 +452,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -489,7 +489,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => false,
@@ -504,7 +504,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -516,7 +516,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",
@@ -553,7 +553,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
   } => false,
@@ -568,7 +568,7 @@ Map {
   } => false,
   {
     "data": {
-      "httpStatusCode": 404,
+      "backendResponseStatusCode": 404,
     },
     "message": "yada",
     "name": "Error",
@@ -580,7 +580,7 @@ Map {
       "data": {
         "a": "b
 c",
-        "httpStatusCode": 400,
+        "backendResponseStatusCode": 400,
       },
       "message": "err msg",
       "name": "HttpError",

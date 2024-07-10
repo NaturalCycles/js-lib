@@ -436,7 +436,7 @@ export class Fetcher {
 
     let responseStatusCode = res.fetchResponse?.status || 0
     if (res.statusFamily === 2) {
-      // important to reset httpStatusCode to 0 in this case, as status 2xx can be misleading
+      // important to reset responseStatusCode to 0 in this case, as status 2xx can be misleading
       res.statusFamily = undefined
       res.statusCode = undefined
       responseStatusCode = 0

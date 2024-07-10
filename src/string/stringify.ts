@@ -112,7 +112,7 @@ export function _stringify(obj: any, opt: StringifyOptions = {}): string {
     // }
     // if (_isErrorObject(obj) && _isHttpErrorObject(obj)) {
     //   // Printing (0) to avoid ambiguity
-    //   s = `${obj.name}(${obj.data.httpStatusCode}): ${obj.message}`
+    //   s = `${obj.name}(${obj.data.backendResponseStatusCode}): ${obj.message}`
     // }
 
     s = [obj.name, obj.message].filter(Boolean).join(': ')

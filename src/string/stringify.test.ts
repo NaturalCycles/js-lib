@@ -19,7 +19,7 @@ test('stringify default', () => {
 
 test('appError', () => {
   const err = new AppError('la la', {
-    httpStatusCode: 409,
+    backendResponseStatusCode: 409,
     userFriendly: true,
     other: 'otherValue',
   })
@@ -29,7 +29,7 @@ test('appError', () => {
   expect(_stringify(err, { includeErrorData: true })).toMatchInlineSnapshot(`
     "AppError: la la
     {
-      "httpStatusCode": 409,
+      "backendResponseStatusCode": 409,
       "userFriendly": true,
       "other": "otherValue"
     }"
@@ -38,7 +38,7 @@ test('appError', () => {
 
 test('appError with status 0', () => {
   const err = new AppError('la la', {
-    httpStatusCode: 0,
+    backendResponseStatusCode: 0,
     userFriendly: true,
     other: 'otherValue',
   })
@@ -48,7 +48,7 @@ test('appError with status 0', () => {
 
 test('backendErrorResponse', () => {
   const err = new AppError('la la\nsecond line', {
-    httpStatusCode: 409,
+    backendResponseStatusCode: 409,
     userFriendly: true,
     other: 'otherValue',
   })
@@ -72,7 +72,7 @@ test('error with cause', () => {
     cause: new AppError(
       'http_error1',
       {
-        httpStatusCode: 400,
+        backendResponseStatusCode: 400,
       },
       {
         cause: {

@@ -182,11 +182,11 @@ test('_typeCast', () => {
   _typeCast<AppError>(err)
   expectTypeOf(err).toEqualTypeOf<AppError>()
 
-  err.data = { httpStatusCode: 401 }
+  err.data = { backendResponseStatusCode: 401 }
   expect(err).toMatchInlineSnapshot(`[Error: yo]`)
   expect(err.data).toMatchInlineSnapshot(`
     {
-      "httpStatusCode": 401,
+      "backendResponseStatusCode": 401,
     }
   `)
 })

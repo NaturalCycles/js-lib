@@ -259,7 +259,7 @@ export function _isErrorLike(o: any): o is ErrorLike {
  *
  * try {} catch (err) {
  *   throw _errorDataAppend(err, {
- *     httpStatusCode: 401,
+ *     backendResponseStatusCode: 401,
  *   })
  * }
  */
