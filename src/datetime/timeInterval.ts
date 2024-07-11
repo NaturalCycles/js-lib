@@ -17,10 +17,7 @@ export class TimeInterval {
   ) {}
 
   static of(start: LocalTimeInput, end: LocalTimeInput): TimeInterval {
-    return new TimeInterval(
-      localTime.parseToUnixTimestamp(start),
-      localTime.parseToUnixTimestamp(end),
-    )
+    return new TimeInterval(localTime.of(start).unix(), localTime.of(end).unix())
   }
 
   get start(): UnixTimestampNumber {
@@ -77,7 +74,7 @@ export class TimeInterval {
   }
 
   includes(d: LocalTimeInput, incl: Inclusiveness = '[)'): boolean {
-    d = localTime.parseToUnixTimestamp(d)
+    d = localTime.of(d).unix()
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (d < this.$start || (d === this.$start && incl[0] === '(')) return false
     if (d > this.$end || (d === this.$end && incl[1] === ')')) return false

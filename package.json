@@ -6,6 +6,7 @@
     "build-prod": "build-prod-esm-cjs",
     "test-tz1": "TZ=Europe/Stockholm yarn test local",
     "test-tz2": "TZ=JST-9 yarn test local",
+    "test-ny": "TZ=GMT-0500 yarn test localTime",
     "docs-dev": "vitepress dev docs --open",
     "docs-build": "vitepress build docs",
     "docs-preview": "vitepress preview docs"

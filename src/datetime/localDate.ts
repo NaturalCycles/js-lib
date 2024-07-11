@@ -16,7 +16,7 @@ export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
 
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
+const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)/
 
 export type LocalDateInput = LocalDate | Date | IsoDateString
 export type LocalDateInputNullable = LocalDateInput | null | undefined
@@ -526,12 +526,12 @@ class LocalDateFactory {
       return this.fromDate(d)
     }
 
-    const matches = typeof (d as any) === 'string' && DATE_REGEX.exec(d.slice(0, 10))
-    if (!matches) return null
+    const m = typeof (d as any) === 'string' && DATE_REGEX.exec(d)
+    if (!m) return null
 
-    const year = Number(matches[1])
-    const month = Number(matches[2])
-    const day = Number(matches[3])
+    const year = Number(m[1])
+    const month = Number(m[2])
+    const day = Number(m[3])
 
     if (
       !year ||

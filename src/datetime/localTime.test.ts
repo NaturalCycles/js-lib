@@ -172,6 +172,21 @@ test('validation', () => {
   expect(localTime.isValid('abcd')).toBe(false)
   expect(localTime.isValid('2022-01-32')).toBe(false)
   expect(localTime.isValid('2022-01-31')).toBe(true)
+  expect(localTime.isValid('2022/01/31')).toBe(false)
+  expect(localTime.isValid('20220131')).toBe(false)
+  expect(localTime.isValid('2022-1-1')).toBe(false)
+  expect(localTime.isValid('2022-01-1')).toBe(false)
+  expect(localTime.isValid('2022-01-31T')).toBe(false)
+  expect(localTime.isValid('2022-01-31t05:05:05')).toBe(false)
+  expect(localTime.isValid('2022-01-31T05:05:5')).toBe(false)
+  expect(localTime.isValid('2022-01-31T05:05')).toBe(false)
+  expect(localTime.isValid('2022-01-31T05')).toBe(false)
+  expect(localTime.isValid('2022-01-31T05:05:05')).toBe(true)
+  expect(localTime.isValid('2022-01-31 05:05:05')).toBe(true)
+  expect(localTime.isValid('2022-01-31T05:05:05.whatever at this point')).toBe(true)
+  expect(localTime.isValid('2022-01-31T05:05:05.123')).toBe(true)
+  expect(localTime.isValid('2022-01-31T05:05:05.123Z')).toBe(true)
+  expect(localTime.isValid('2022-01-31T05:05:05Z')).toBe(true)
 })
 
 test('add', () => {
@@ -503,4 +518,13 @@ test('inTimezone', () => {
   expect(lt2.inTimezone('America/New_York').toPretty()).toBe(`1984-02-14 16:00:00`)
   expect(lt2.inTimezone('America/Los_Angeles').toPretty()).toBe(`1984-02-14 13:00:00`)
   expect(lt2.inTimezone('Asia/Tokyo').toPretty()).toBe(`1984-02-15 06:00:00`)
+})
+
+// This test should work both in `yarn test` (UTC) and `yarn test-tz2` (JST-09)
+test('parsing date string in negative timezone bug', () => {
+  const s = '2023-03-03'
+  console.log(new Date(s).toString())
+  const lt = localTime(s)
+  expect(lt.toISODate()).toBe(s)
+  expect(lt.toPretty()).toBe('2023-03-03 00:00:00')
 })

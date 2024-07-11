@@ -51,6 +51,10 @@ const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_DAY = 86400000
 // const MILLISECONDS_IN_MINUTE = 60000
 const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
+// It supports 2 forms:
+// 1. 2023-03-03
+// 2. 2023-03-03T05:10:02
+const DATE_TIME_REGEX = /^(\d{4})-(\d{2})-(\d{2})([T\s](\d{2}):(\d{2}):(\d{2}))?/
 
 export class LocalTime {
   constructor(public $date: Date) {}
@@ -337,7 +341,7 @@ export class LocalTime {
   }
 
   diff(other: LocalTimeInput, unit: LocalTimeUnit): number {
-    const date2 = localTime.parseToDate(other)
+    const date2 = localTime.of(other).$date
 
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
@@ -531,7 +535,7 @@ export class LocalTime {
    */
   cmp(d: LocalTimeInput): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
-    const t2 = localTime.parseToDate(d).valueOf()
+    const t2 = localTime.of(d).$date.valueOf()
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
@@ -560,7 +564,7 @@ export class LocalTime {
   }
 
   fromNow(now: LocalTimeInput = new Date()): string {
-    const msDiff = localTime.parseToDate(now).valueOf() - this.$date.valueOf()
+    const msDiff = localTime.of(now).$date.valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
 
@@ -729,47 +733,72 @@ class LocalTimeFactory {
       // unexpected type, e.g Function or something
       return null
     } else {
-      // Slicing removes the "timezone component", and makes the date "local"
-      // e.g 2022-04-06T23:15:00+09:00
-      // becomes 2022-04-06T23:15:00
-      date = new Date(d.slice(0, 19))
-      // We used to slice to remove the timezone information, now we don't
-      // date = new Date(d)
-    }
-
-    // validation
-    if (isNaN(date.getDate())) {
-      // throw new TypeError(`Cannot parse "${d}" into LocalTime`)
-      return null
+      date = this.parseStringToDateOrNull(d)
+      if (date === null) return null
     }
 
     return new LocalTime(date)
   }
 
-  parseToDate(d: LocalTimeInput): Date {
-    if (d instanceof LocalTime) return d.$date
-    if (d instanceof Date) return d
+  private parseStringToDateOrNull(s: string): Date | null {
+    // Slicing removes the "timezone component", and makes the date "local"
+    // e.g 2022-04-06T23:15:00+09:00
+    // becomes 2022-04-06T23:15:00
+    // date = new Date(d.slice(0, 19))
 
-    const date = typeof d === 'number' ? new Date(d * 1000) : new Date(d)
+    // Parsing is inspired by how Day.js does it
+    // Specifically, it ensures that `localTime('2023-03-03')` returns the expected Date, and not a day before
+    // Because `new Date('2023-03-03')` in NewYork gives you '2023-03-02 19:00:00 GMT-0500'
 
-    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to Date`, {
-      input: d,
-    })
+    const m = s.match(DATE_TIME_REGEX)
+    // Validate in 3 ways:
+    // 1. Should match Regex.
+    // In some ways it's stricter than Date constructor, e.g it doesn't allow 2023/05/05
+    // In other ways it's looser, e.g it allows `2023-05-05T`, while Date constructor doesn't.
+    // 2. Date constructor (of Node/v8 implementation, which we know is different from e.g WebKit/Safari)
+    // should not return `Invalid Date`.
+    // 3. Year, month and day should be valid, e.g 2023-01-32 should not be allowed.
+    // UPD: Actually, 3 can be skipped, because 2 is catching it already
+    // UPD: 2 is skipped, 1 and 3 are kept
+    // if (!m || isNaN(new Date(s).getDate())) return null
+    if (!m) return null
+    const year = Number(m[1])
+    const month = Number(m[2])
+    const day = Number(m[3])
+    const hour = Number(m[5])
+    const minute = Number(m[6])
+    const second = Number(m[7])
 
-    return date
-  }
+    // Validation for just the Date part
+    if (
+      !year ||
+      !month ||
+      month < 1 ||
+      month > 12 ||
+      !day ||
+      day < 1 ||
+      day > localDate.getMonthLength(year, month)
+    ) {
+      return null
+    }
 
-  parseToUnixTimestamp(d: LocalTimeInput): UnixTimestampNumber {
-    if (typeof d === 'number') return d
-    if (d instanceof LocalTime) return d.unix()
+    // Validation for Date+Time string, since the string is longer than YYYY-MM-DD
+    if (
+      s.length > 10 &&
+      (isNaN(hour) ||
+        isNaN(minute) ||
+        isNaN(second) ||
+        hour < 0 ||
+        hour > 23 ||
+        minute < 0 ||
+        minute > 59 ||
+        second < 0 ||
+        second > 59)
+    ) {
+      return null
+    }
 
-    const date = d instanceof Date ? d : new Date(d)
-
-    _assert(!isNaN(date.getDate()), `Cannot parse "${d}" to UnixTimestamp`, {
-      input: d,
-    })
-
-    return date.valueOf() / 1000
+    return new Date(year, month - 1, day, hour || 0, minute || 0, second || 0, 0)
   }
 
   isValid(d: LocalTimeInputNullable): boolean {
