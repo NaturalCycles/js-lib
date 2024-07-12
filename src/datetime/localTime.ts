@@ -32,6 +32,7 @@ export type LocalTimeInputNullable = LocalTimeInput | null | undefined
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
 export type DateTimeObject = DateObject & TimeObject
+export type DateTimeObjectInput = DateObject & Partial<TimeObject>
 
 export interface DateObject {
   year: number
@@ -63,7 +64,7 @@ export class LocalTime {
    * Returns [cloned] LocalTime that is based on the same unixtimestamp, but in UTC timezone.
    * Opposite of `.local()` method.
    */
-  utc(): LocalTime {
+  toUTC(): LocalTime {
     return new LocalTime(new Date(this.$date.toISOString()))
   }
 
@@ -71,7 +72,7 @@ export class LocalTime {
    * Returns [cloned] LocalTime that is based on the same unixtimestamp, but in local timezone.
    * Opposite of `.utc()` method.
    */
-  local(): LocalTime {
+  toLocal(): LocalTime {
     return new LocalTime(new Date(this.$date.getTime()))
   }
 
@@ -197,57 +198,59 @@ export class LocalTime {
     return t
   }
 
-  year(): number
-  year(v: number): LocalTime
-  year(v?: number): number | LocalTime {
-    return v === undefined ? this.get('year') : this.set('year', v)
+  get year(): number {
+    return this.$date.getFullYear()
   }
-  month(): number
-  month(v: number): LocalTime
-  month(v?: number): number | LocalTime {
-    return v === undefined ? this.get('month') : this.set('month', v)
+  setYear(v: number): LocalTime {
+    return this.set('year', v)
   }
-  week(): number
-  week(v: number): LocalTime
-  week(v?: number): number | LocalTime {
-    return v === undefined ? getWeek(this.$date) : this.set('week', v)
+  get month(): number {
+    return this.$date.getMonth() + 1
   }
-  day(): number
-  day(v: number): LocalTime
-  day(v?: number): number | LocalTime {
-    return v === undefined ? this.get('day') : this.set('day', v)
+  setMonth(v: number): LocalTime {
+    return this.set('month', v)
+  }
+  get week(): number {
+    return getWeek(this.$date)
+  }
+  setWeek(v: number): LocalTime {
+    return this.set('week', v)
+  }
+  get day(): number {
+    return this.$date.getDate()
+  }
+  setDay(v: number): LocalTime {
+    return this.set('day', v)
+  }
+  get hour(): number {
+    return this.$date.getHours()
+  }
+  setHour(v: number): LocalTime {
+    return this.set('hour', v)
+  }
+  get minute(): number {
+    return this.$date.getMinutes()
+  }
+  setMinute(v: number): LocalTime {
+    return this.set('minute', v)
+  }
+  get second(): number {
+    return this.$date.getSeconds()
+  }
+  setSecond(v: number): LocalTime {
+    return this.set('second', v)
   }
 
   /**
    * Based on ISO: 1-7 is Mon-Sun.
    */
-  dayOfWeek(): ISODayOfWeek
-  dayOfWeek(v: ISODayOfWeek): LocalTime
-  dayOfWeek(v?: ISODayOfWeek): ISODayOfWeek | LocalTime {
-    const dow = (this.$date.getDay() || 7) as ISODayOfWeek
-
-    if (v === undefined) {
-      return dow
-    }
-
+  get dayOfWeek(): ISODayOfWeek {
+    return (this.$date.getDay() || 7) as ISODayOfWeek
+  }
+  setDayOfWeek(v: ISODayOfWeek): LocalTime {
     _assert(VALID_DAYS_OF_WEEK.has(v), `Invalid dayOfWeek: ${v}`)
-
+    const dow = this.$date.getDay() || 7
     return this.plus(v - dow, 'day')
-  }
-  hour(): number
-  hour(v: number): LocalTime
-  hour(v?: number): number | LocalTime {
-    return v === undefined ? this.get('hour') : this.set('hour', v)
-  }
-  minute(): number
-  minute(v: number): LocalTime
-  minute(v?: number): number | LocalTime {
-    return v === undefined ? this.get('minute') : this.set('minute', v)
-  }
-  second(): number
-  second(v: number): LocalTime
-  second(v?: number): number | LocalTime {
-    return v === undefined ? this.get('second') : this.set('second', v)
   }
 
   setComponents(c: Partial<DateTimeObject>, mutate = false): LocalTime {
@@ -326,7 +329,7 @@ export class LocalTime {
 
     if (unit === 'year' || unit === 'month') {
       const d = addMonths(this.$date, unit === 'month' ? num : num * 12, mutate)
-      return mutate ? this : localTime.of(d)
+      return mutate ? this : localTime.from(d)
     }
 
     return this.set(unit, this.get(unit) + num, mutate)
@@ -341,7 +344,7 @@ export class LocalTime {
   }
 
   diff(other: LocalTimeInput, unit: LocalTimeUnit): number {
-    const date2 = localTime.of(other).$date
+    const date2 = localTime.from(other).$date
 
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
@@ -431,37 +434,32 @@ export class LocalTime {
    * Returns how many days are in the current month.
    * E.g 31 for January.
    */
-  daysInMonth(): number {
+  get daysInMonth(): number {
     return localDate.getMonthLength(this.$date.getFullYear(), this.$date.getMonth() + 1)
   }
 
   isSame(d: LocalTimeInput): boolean {
-    return this.cmp(d) === 0
+    return this.compare(d) === 0
   }
-
   isBefore(d: LocalTimeInput, inclusive = false): boolean {
-    const r = this.cmp(d)
+    const r = this.compare(d)
     return r === -1 || (r === 0 && inclusive)
   }
-
   isSameOrBefore(d: LocalTimeInput): boolean {
-    return this.cmp(d) <= 0
+    return this.compare(d) <= 0
   }
-
   isAfter(d: LocalTimeInput, inclusive = false): boolean {
-    const r = this.cmp(d)
+    const r = this.compare(d)
     return r === 1 || (r === 0 && inclusive)
   }
-
   isSameOrAfter(d: LocalTimeInput): boolean {
-    return this.cmp(d) >= 0
+    return this.compare(d) >= 0
   }
-
   isBetween(min: LocalTimeInput, max: LocalTimeInput, incl: Inclusiveness = '[)'): boolean {
-    let r = this.cmp(min)
+    let r = this.compare(min)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
     if (r < 0 || (r === 0 && incl[0] === '(')) return false
-    r = this.cmp(max)
+    r = this.compare(max)
     if (r > 0 || (r === 0 && incl[1] === ')')) return false
     return true
   }
@@ -476,14 +474,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isBefore(localTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isBefore(localTime.from(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or older (<=) than "now" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrBefore(localTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrBefore(localTime.from(now ?? new Date()).plus(-n, unit))
   }
 
   /**
@@ -496,14 +494,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isAfter(localTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isAfter(localTime.from(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or younger (>=) than "now" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrAfter(localTime.of(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrAfter(localTime.from(now ?? new Date()).plus(-n, unit))
   }
 
   getAgeInYears(now?: LocalTimeInput): number {
@@ -525,7 +523,7 @@ export class LocalTime {
     return this.getAgeIn('second', now)
   }
   getAgeIn(unit: LocalTimeUnit, now?: LocalTimeInput): number {
-    return localTime.of(now ?? new Date()).diff(this, unit)
+    return localTime.from(now ?? new Date()).diff(this, unit)
   }
 
   /**
@@ -533,21 +531,21 @@ export class LocalTime {
    * returns 0 if they are equal
    * returns -1 if this < d
    */
-  cmp(d: LocalTimeInput): -1 | 0 | 1 {
+  compare(d: LocalTimeInput): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
-    const t2 = localTime.of(d).$date.valueOf()
+    const t2 = localTime.from(d).$date.valueOf()
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
 
-  getDateTimeObject(): DateTimeObject {
+  toDateTimeObject(): DateTimeObject {
     return {
-      ...this.getDateObject(),
-      ...this.getTimeObject(),
+      ...this.toDateObject(),
+      ...this.toTimeObject(),
     }
   }
 
-  getDateObject(): DateObject {
+  toDateObject(): DateObject {
     return {
       year: this.$date.getFullYear(),
       month: this.$date.getMonth() + 1,
@@ -555,7 +553,7 @@ export class LocalTime {
     }
   }
 
-  getTimeObject(): TimeObject {
+  toTimeObject(): TimeObject {
     return {
       hour: this.$date.getHours(),
       minute: this.$date.getMinutes(),
@@ -563,8 +561,8 @@ export class LocalTime {
     }
   }
 
-  fromNow(now: LocalTimeInput = new Date()): string {
-    const msDiff = localTime.of(now).$date.valueOf() - this.$date.valueOf()
+  toFromNowString(now: LocalTimeInput = new Date()): string {
+    const msDiff = localTime.from(now).$date.valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
 
@@ -575,7 +573,7 @@ export class LocalTime {
     return `in ${_ms(msDiff * -1)}`
   }
 
-  getDate(): Date {
+  toDate(): Date {
     return this.$date
   }
 
@@ -583,11 +581,11 @@ export class LocalTime {
     return new LocalTime(new Date(this.$date))
   }
 
-  unix(): UnixTimestampNumber {
+  get unix(): UnixTimestampNumber {
     return Math.floor(this.$date.valueOf() / 1000)
   }
 
-  unixMillis(): UnixTimestampMillisNumber {
+  get unixMillis(): UnixTimestampMillisNumber {
     return this.$date.valueOf()
   }
 
@@ -624,7 +622,7 @@ export class LocalTime {
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
   toISODate(): IsoDateString {
-    const { year, month, day } = this.getDateObject()
+    const { year, month, day } = this.toDateObject()
 
     return [
       String(year).padStart(4, '0'),
@@ -640,7 +638,7 @@ export class LocalTime {
    * Returns e.g: `17:03:15` (or `17:03` with seconds=false)
    */
   toISOTime(seconds = true): string {
-    const { hour, minute, second } = this.getTimeObject()
+    const { hour, minute, second } = this.toTimeObject()
 
     return [
       String(hour).padStart(2, '0'),
@@ -658,7 +656,7 @@ export class LocalTime {
    * Returns e.g: `19840621_1705`
    */
   toStringCompact(seconds = false): string {
-    const { year, month, day, hour, minute, second } = this.getDateTimeObject()
+    const { year, month, day, hour, minute, second } = this.toDateTimeObject()
 
     return [
       String(year).padStart(4, '0'),
@@ -676,7 +674,7 @@ export class LocalTime {
   }
 
   toJSON(): UnixTimestampNumber {
-    return this.unix()
+    return this.unix
   }
 
   toMonthId(): MonthId {
@@ -694,53 +692,61 @@ export class LocalTime {
 
 class LocalTimeFactory {
   /**
-   * Parses input String into LocalDate.
-   * Input can already be a LocalDate - it is returned as-is in that case.
+   * Parses input String into LocalTime.
+   * Input can already be a LocalTime - it is returned as-is in that case.
    */
-  of(d: LocalTimeInput): LocalTime {
-    const t = this.parseOrNull(d)
+  from(input: LocalTimeInput): LocalTime {
+    const lt = this.fromOrNull(input)
+    this.assertNotNull(lt, input)
+    return lt
+  }
 
-    _assert(t !== null, `Cannot parse "${d}" into LocalTime`, {
-      input: d,
-    })
+  fromDate(date: Date): LocalTime {
+    return new LocalTime(date)
+  }
 
-    return t
+  fromUnix(ts: UnixTimestampNumber): LocalTime {
+    return new LocalTime(new Date(ts * 1000))
   }
 
   /**
    * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
    */
-  ofMillis(millis: UnixTimestampMillisNumber): LocalTime {
-    return this.of(new Date(millis))
+  fromMillis(millis: UnixTimestampMillisNumber): LocalTime {
+    return new LocalTime(new Date(millis))
   }
 
   /**
    * Returns null if invalid
    */
-  parseOrNull(d: LocalTimeInputNullable): LocalTime | null {
+  fromOrNull(d: LocalTimeInputNullable): LocalTime | null {
     if (d instanceof LocalTime) return d
-
-    let date
-
     if (d instanceof Date) {
-      date = d
-    } else if (typeof d === 'number') {
-      date = new Date(d * 1000)
-    } else if (!d) {
-      // This check is after checking the number, to support `0`
-      return null
-    } else if (typeof (d as any) !== 'string') {
-      // unexpected type, e.g Function or something
-      return null
-    } else {
-      date = this.parseStringToDateOrNull(d)
-      if (date === null) return null
+      return new LocalTime(d)
     }
-
-    return new LocalTime(date)
+    if (typeof d === 'number') {
+      return new LocalTime(new Date(d * 1000))
+    }
+    if (typeof d === 'string') {
+      return this.fromStringOrNull(d)
+    }
+    // This check is after checking the number, to support `0`
+    // unexpected type, e.g Function or something
+    return null
   }
 
-  private parseStringToDateOrNull(s: string): Date | null {
+  fromStringOrNull(s: string | undefined | null): LocalTime | null {
+    const date = this.parseStringToDateOrNull(s)
+    return date ? new LocalTime(date) : null
+  }
+
+  fromDateTimeObject(input: DateTimeObjectInput): LocalTime {
+    const { year, month, day = 1, hour = 0, minute = 0, second = 0 } = input
+    return new LocalTime(new Date(year, month - 1, day, hour, minute, second))
+  }
+
+  private parseStringToDateOrNull(s: string | undefined | null): Date | null {
+    if (!s) return null
     // Slicing removes the "timezone component", and makes the date "local"
     // e.g 2022-04-06T23:15:00+09:00
     // becomes 2022-04-06T23:15:00
@@ -801,8 +807,21 @@ class LocalTimeFactory {
     return new Date(year, month - 1, day, hour || 0, minute || 0, second || 0, 0)
   }
 
-  isValid(d: LocalTimeInputNullable): boolean {
-    return this.parseOrNull(d) !== null
+  isValid(input: LocalTimeInputNullable): boolean {
+    return this.fromOrNull(input) !== null
+  }
+
+  isValidString(isoString: string | undefined | null): boolean {
+    return this.fromStringOrNull(isoString) !== null
+  }
+
+  private assertNotNull(
+    lt: LocalTime | null,
+    input: LocalTimeInputNullable,
+  ): asserts lt is LocalTime {
+    _assert(lt !== null, `Cannot parse "${input}" into LocalTime`, {
+      input,
+    })
   }
 
   /**
@@ -833,21 +852,15 @@ class LocalTimeFactory {
    *
    * `localTime` function will instead return LocalTime of `now` for falsy input.
    */
-  orUndefined(d: LocalTimeInputNullable): LocalTime | undefined {
-    return d ? this.of(d) : undefined
+  orUndefined(input: LocalTimeInputNullable): LocalTime | undefined {
+    return input || input === 0 ? this.from(input) : undefined
   }
 
   /**
    * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
    */
-  orNow(d: LocalTimeInputNullable): LocalTime {
-    return d ? this.of(d) : this.now()
-  }
-
-  fromComponents(c: { year: number; month: number } & Partial<DateTimeObject>): LocalTime {
-    return new LocalTime(
-      new Date(c.year, c.month - 1, c.day || 1, c.hour || 0, c.minute || 0, c.second || 0),
-    )
+  orNow(input: LocalTimeInputNullable): LocalTime {
+    return input || input === 0 ? this.from(input) : this.now()
   }
 
   sort(items: LocalTime[], dir: SortDirection = 'asc', mutate = false): LocalTime[] {
@@ -869,7 +882,7 @@ class LocalTimeFactory {
     _assert(items2.length, 'localTime.min called on empty array')
 
     return items2
-      .map(i => this.of(i))
+      .map(i => this.from(i))
       .reduce((min, item) => (min.$date.valueOf() <= item.$date.valueOf() ? min : item))
   }
 
@@ -882,7 +895,7 @@ class LocalTimeFactory {
     _assert(items2.length, 'localTime.max called on empty array')
 
     return items2
-      .map(i => this.of(i))
+      .map(i => this.from(i))
       .reduce((max, item) => (max.$date.valueOf() >= item.$date.valueOf() ? max : item))
   }
 }
@@ -998,7 +1011,7 @@ interface LocalTimeFn extends LocalTimeFactory {
 
 const localTimeFactory = new LocalTimeFactory()
 
-export const localTime = localTimeFactory.of.bind(localTimeFactory) as LocalTimeFn
+export const localTime = localTimeFactory.from.bind(localTimeFactory) as LocalTimeFn
 
 // The line below is the blackest of black magic I have ever written in 2024.
 // And probably 2023 as well.

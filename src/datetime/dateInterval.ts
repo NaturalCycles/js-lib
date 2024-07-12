@@ -77,7 +77,7 @@ export class DateInterval {
    */
   cmp(d: DateIntervalConfig): -1 | 0 | 1 {
     d = DateInterval.parse(d)
-    return this.start.cmp(d.start) || this.end.cmp(d.end)
+    return this.start.compare(d.start) || this.end.compare(d.end)
   }
 
   getDays(incl: Inclusiveness = '[]'): LocalDate[] {

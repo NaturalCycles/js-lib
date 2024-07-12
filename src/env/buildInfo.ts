@@ -44,11 +44,11 @@ export interface BuildInfo {
 
 export function generateBuildInfoDev(): BuildInfo {
   const now = localTime.now()
-  const ts = now.unix()
+  const ts = now.unix
   const rev = 'devRev'
   const branchName = 'devBranch'
   const repoName = 'devRepo'
-  const tsCommit = now.unix()
+  const tsCommit = now.unix
 
   const ver = [now.toStringCompact(), repoName, branchName, rev].join('_')
 

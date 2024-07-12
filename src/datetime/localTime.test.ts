@@ -17,17 +17,17 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
 
 test('basic', () => {
   const start = '2022-01-01T00:00:00'
-  const lt = localTime.of(start)
-  expect(lt.year()).toBe(2022)
-  expect(lt.month()).toBe(1)
-  expect(lt.day()).toBe(1)
-  expect(lt.week()).toBe(52)
+  const lt = localTime.from(start)
+  expect(lt.year).toBe(2022)
+  expect(lt.month).toBe(1)
+  expect(lt.day).toBe(1)
+  expect(lt.week).toBe(52)
   expect(lt.toISODateTime()).toBe('2022-01-01T00:00:00')
   expect(lt.toString()).toBe('2022-01-01T00:00:00')
   expect(lt.toPretty()).toBe('2022-01-01 00:00:00')
   expect(lt.toPretty(false)).toBe('2022-01-01 00:00')
   if (isUTC()) {
-    expect(lt.unix()).toBe(1640995200)
+    expect(lt.unix).toBe(1640995200)
     expect(lt.valueOf()).toBe(1640995200)
     expect(lt.toJSON()).toBe(1640995200)
   }
@@ -41,7 +41,7 @@ test('basic', () => {
   expect(lt.isBefore(lt2)).toBe(false)
   expect(lt.isSameOrAfter(lt2)).toBe(true)
   expect(lt.isSameOrBefore(lt2)).toBe(true)
-  expect(lt.cmp(lt2)).toBe(0)
+  expect(lt.compare(lt2)).toBe(0)
 
   expect(lt.isOlderThan(5, 'day')).toBe(true)
   expect(lt.isYoungerThan(5, 'day')).toBe(false)
@@ -51,8 +51,8 @@ test('basic', () => {
   expect(lt.getAgeInDays('2024-05-15')).toBe(865)
   expect(lt.getAgeIn('day', '2024-05-15')).toBe(865)
 
-  expect(lt.year(2023).year()).toBe(2023)
-  expect(lt.year()).toBe(2022) // not changed
+  expect(lt.setYear(2023).year).toBe(2023)
+  expect(lt.year).toBe(2022) // not changed
 
   expect(lt.toISODate()).toBe('2022-01-01')
   expect(lt.toISOTime()).toBe('00:00:00')
@@ -65,22 +65,23 @@ test('basic', () => {
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 
   if (isUTC()) {
-    expect(localTime.ofMillis(1640995200000).toString()).toBe(lt.toString())
-    expect(localTime.of(new Date(1640995200000)).toString()).toBe(lt.toString())
+    expect(localTime.fromUnix(1640995200).toString()).toBe(lt.toString())
+    expect(localTime.fromMillis(1640995200000).toString()).toBe(lt.toString())
+    expect(localTime.from(new Date(1640995200000)).toString()).toBe(lt.toString())
   }
 
-  expect(lt.year(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
-  expect(lt.month(12).toISODateTime()).toBe('2022-12-01T00:00:00')
-  expect(lt.day(31).toISODateTime()).toBe('2022-01-31T00:00:00')
-  expect(lt.week(1).toISODateTime()).toBe('2021-01-09T00:00:00')
-  expect(lt.week(2).toISODateTime()).toBe('2021-01-16T00:00:00')
-  expect(lt.week(3).toISODateTime()).toBe('2021-01-23T00:00:00')
-  expect(lt.week(52).toISODateTime()).toBe('2022-01-01T00:00:00')
-  expect(lt.week(53).toISODateTime()).toBe('2022-01-08T00:00:00')
-  expect(lt.week(54).toISODateTime()).toBe('2022-01-15T00:00:00')
-  expect(lt.week(54).week()).toBe(2)
-  expect(lt.week(53).week()).toBe(1)
-  expect(lt.week(52).week()).toBe(52)
+  expect(lt.setYear(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
+  expect(lt.setMonth(12).toISODateTime()).toBe('2022-12-01T00:00:00')
+  expect(lt.setDay(31).toISODateTime()).toBe('2022-01-31T00:00:00')
+  expect(lt.setWeek(1).toISODateTime()).toBe('2021-01-09T00:00:00')
+  expect(lt.setWeek(2).toISODateTime()).toBe('2021-01-16T00:00:00')
+  expect(lt.setWeek(3).toISODateTime()).toBe('2021-01-23T00:00:00')
+  expect(lt.setWeek(52).toISODateTime()).toBe('2022-01-01T00:00:00')
+  expect(lt.setWeek(53).toISODateTime()).toBe('2022-01-08T00:00:00')
+  expect(lt.setWeek(54).toISODateTime()).toBe('2022-01-15T00:00:00')
+  expect(lt.setWeek(54).week).toBe(2)
+  expect(lt.setWeek(53).week).toBe(1)
+  expect(lt.setWeek(52).week).toBe(52)
 
   // console.log(lt.getDate())
   // console.log(lt.startOf('year').getDate())
@@ -109,13 +110,13 @@ test('basic', () => {
     expect(lt.endOf('second').toISODateTime()).toBe('2022-01-01T01:02:03')
     expect(lt.endOf('week').toISODateTime()).toBe('2022-01-02T23:59:59')
   }
-  expect(lt.daysInMonth()).toBe(31)
-  expect(lt.month(2).daysInMonth()).toBe(28)
-  expect(lt.month(4).daysInMonth()).toBe(30)
+  expect(lt.daysInMonth).toBe(31)
+  expect(lt.setMonth(2).daysInMonth).toBe(28)
+  expect(lt.setMonth(4).daysInMonth).toBe(30)
 
   expect(localTime.orUndefined(undefined)).toBeUndefined()
   expect(localTime.orUndefined(null)).toBeUndefined()
-  expect(localTime.orUndefined(0 as any)).toBeUndefined()
+  expect(localTime.orUndefined(0)?.toPretty()).toBe('1970-01-01 00:00:00')
   expect(localTime.orUndefined(start)?.toISODate()).toBe('2022-01-01')
 
   expect(localTime.now().toString()).toBeDefined()
@@ -134,7 +135,7 @@ test('basic', () => {
 })
 
 test('isBetween', () => {
-  const ld = localTime.of('1984-06-21')
+  const ld = localTime.from('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -158,9 +159,9 @@ test('fromNow', () => {
   const now = localTime('2022-03-28')
   const future = localTime('2022-04-01')
 
-  expect(past.fromNow(now)).toBe('32 days ago')
-  expect(now.fromNow(now)).toBe('now')
-  expect(future.fromNow(now)).toBe('in 4 days')
+  expect(past.toFromNowString(now)).toBe('32 days ago')
+  expect(now.toFromNowString(now)).toBe('now')
+  expect(future.toFromNowString(now)).toBe('in 4 days')
 })
 
 test('validation', () => {
@@ -169,6 +170,7 @@ test('validation', () => {
   )
 
   expect(localTime.isValid('2022-01-01')).toBe(true)
+  expect(localTime.isValidString('2022-01-01')).toBe(true)
   expect(localTime.isValid('abcd')).toBe(false)
   expect(localTime.isValid('2022-01-32')).toBe(false)
   expect(localTime.isValid('2022-01-31')).toBe(true)
@@ -194,7 +196,7 @@ test('add', () => {
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const lt = localTime.of(start)
+    const lt = localTime.from(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -202,11 +204,11 @@ test('add', () => {
         let expected = d.add(i, unit)
         let actual = lt.plus(i, unit)
 
-        expectWithMessage(`${lt} + ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
+        expectWithMessage(`${lt} + ${i} ${unit}`, expected.unix(), actual.unix, expected, actual)
         expectWithMessage(
           `${lt} + ${i} ${unit}`,
           expected.unixMillis(),
-          actual.unixMillis(),
+          actual.unixMillis,
           expected,
           actual,
         )
@@ -227,7 +229,7 @@ test('add', () => {
 
         expected = d.subtract(i, unit)
         actual = lt.minus(i, unit)
-        expectWithMessage(`${lt} - ${i} ${unit}`, expected.unix(), actual.unix(), expected, actual)
+        expectWithMessage(`${lt} - ${i} ${unit}`, expected.unix(), actual.unix, expected, actual)
 
         units.forEach(roundUnit => {
           // console.log(unit2, lt.add(i, unit).startOf(unit2).toPretty(), d.add(i, unit).startOf(unit2).toPretty())
@@ -238,7 +240,7 @@ test('add', () => {
           expectWithMessage(
             `${lt} + ${i} ${unit} startOf(${roundUnit})`,
             expected.unix(),
-            actual.unix(),
+            actual.unix,
             expected,
             actual,
           )
@@ -249,7 +251,7 @@ test('add', () => {
           expectWithMessage(
             `${lt} + ${i} ${unit} endOf(${roundUnit})`,
             expected.unix(),
-            actual.unix(),
+            actual.unix,
             expected,
             actual,
           )
@@ -260,7 +262,7 @@ test('add', () => {
           expectWithMessage(
             `${lt} + ${i} ${unit} + 40 days startOf(${roundUnit})`,
             expected.unix(),
-            actual.unix(),
+            actual.unix,
             expected,
             actual,
           )
@@ -276,7 +278,7 @@ test('diff', () => {
   // const starts = ['2020-02-29']
 
   starts.forEach(start => {
-    const lt = localTime.of(start)
+    const lt = localTime.from(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -307,21 +309,21 @@ test('diff', () => {
 
 test('timezone-full string', () => {
   if (!isUTC()) return // todo: this should parse to the same unixtime regardless of TZ
-  const lt = localTime.of('2022-04-06T23:15:00+09:00')
-  expect(lt.unix()).toMatchInlineSnapshot(`1649286900`)
+  const lt = localTime.from('2022-04-06T23:15:00+09:00')
+  expect(lt.unix).toMatchInlineSnapshot(`1649286900`)
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
 
 test('startOf should have 0 millis', () => {
   const t = localTime.now().startOf('day')
-  expect(t.getDate().getMilliseconds()).toBe(0)
-  expect(t.getDate().getSeconds()).toBe(0)
-  expect(t.getDate().getMinutes()).toBe(0)
-  expect(t.getDate().getHours()).toBe(0)
+  expect(t.toDate().getMilliseconds()).toBe(0)
+  expect(t.toDate().getSeconds()).toBe(0)
+  expect(t.toDate().getMinutes()).toBe(0)
+  expect(t.toDate().getHours()).toBe(0)
 })
 
 test('format', () => {
-  const fmt: LocalTimeFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
+  const fmt: LocalTimeFormatter = ld => `${ld.year}-${String(ld.month).padStart(2, '0')}`
   expect(localTime('1984-06-21').format(fmt)).toBe('1984-06')
 
   const fmt2 = new Intl.DateTimeFormat('ru', {
@@ -335,18 +337,24 @@ test('format', () => {
 
 test('dayOfWeek', () => {
   const t = localTime('1984-06-21')
-  expect(t.dayOfWeek()).toBe(ISODayOfWeek.THURSDAY)
+  expect(t.dayOfWeek).toBe(ISODayOfWeek.THURSDAY)
 
-  expect(() => t.dayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: -1"`)
-  expect(() => t.dayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 0"`)
-  expect(() => t.dayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(`"Invalid dayOfWeek: 8"`)
-  expect(t.dayOfWeek(1).toISODate()).toBe('1984-06-18')
-  expect(t.dayOfWeek(2).toISODate()).toBe('1984-06-19')
-  expect(t.dayOfWeek(3).toISODate()).toBe('1984-06-20')
-  expect(t.dayOfWeek(4).toISODate()).toBe('1984-06-21')
-  expect(t.dayOfWeek(5).toISODate()).toBe('1984-06-22')
-  expect(t.dayOfWeek(6).toISODate()).toBe('1984-06-23')
-  expect(t.dayOfWeek(7).toISODate()).toBe('1984-06-24')
+  expect(() => t.setDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
+    `"Invalid dayOfWeek: -1"`,
+  )
+  expect(() => t.setDayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(
+    `"Invalid dayOfWeek: 0"`,
+  )
+  expect(() => t.setDayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(
+    `"Invalid dayOfWeek: 8"`,
+  )
+  expect(t.setDayOfWeek(1).toISODate()).toBe('1984-06-18')
+  expect(t.setDayOfWeek(2).toISODate()).toBe('1984-06-19')
+  expect(t.setDayOfWeek(3).toISODate()).toBe('1984-06-20')
+  expect(t.setDayOfWeek(4).toISODate()).toBe('1984-06-21')
+  expect(t.setDayOfWeek(5).toISODate()).toBe('1984-06-22')
+  expect(t.setDayOfWeek(6).toISODate()).toBe('1984-06-23')
+  expect(t.setDayOfWeek(7).toISODate()).toBe('1984-06-24')
 })
 
 test('diff2', () => {
@@ -362,10 +370,10 @@ test('diff2', () => {
   expect(ld.diff('2020-12-01', 'day')).toBe(396)
 })
 
-test('fromComponents', () => {
+test('fromDateTimeObject', () => {
   if (!isUTC()) return
-  const lt = localTime.fromComponents({ year: 1984, month: 6 })
-  expect(lt.toISODate()).toBe('1984-06-01')
+  const lt = localTime.fromDateTimeObject({ year: 1984, month: 6, day: 21 })
+  expect(lt.toISODate()).toBe('1984-06-21')
 })
 
 test('add edge', () => {
@@ -419,13 +427,13 @@ test('diff edge', () => {
 test('comparison with string', () => {
   if (!isUTC()) return
   const d = localTime('1984-06-21T05:00:00') as any
-  expect(d < localTime('1984-06-22').unix()).toBe(true)
-  expect(d < localTime('1985-06-22').unix()).toBe(true)
-  expect(d <= localTime('1984-06-21T05:00:00').unix()).toBe(true)
-  expect(d < localTime('1984-06-20').unix()).toBe(false)
-  expect(d >= localTime('1984-06-21').unix()).toBe(true)
-  expect(d > localTime('1984-06-20').unix()).toBe(true)
-  expect(d > localTime('1981-06-20').unix()).toBe(true)
+  expect(d < localTime('1984-06-22').unix).toBe(true)
+  expect(d < localTime('1985-06-22').unix).toBe(true)
+  expect(d <= localTime('1984-06-21T05:00:00').unix).toBe(true)
+  expect(d < localTime('1984-06-20').unix).toBe(false)
+  expect(d >= localTime('1984-06-21').unix).toBe(true)
+  expect(d > localTime('1984-06-20').unix).toBe(true)
+  expect(d > localTime('1981-06-20').unix).toBe(true)
 })
 
 // You shouldn't do it, I'm just discovering that it works, apparently
@@ -442,7 +450,7 @@ test('comparison with other LocalTimes like primitives', () => {
 })
 
 test('nowUnix', () => {
-  expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
+  expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix)
 })
 
 test('utcOffset', () => {
@@ -458,22 +466,22 @@ test('utcOffset', () => {
 
 test('fromDateUTC', () => {
   const s = `1984-06-21T05:00:00`
-  const lt = localTime(s).utc()
-  const ltUtc = lt.utc()
+  const lt = localTime(s).toUTC()
+  const ltUtc = lt.toUTC()
   // eslint-disable-next-line jest/prefer-equality-matcher
   expect(lt !== ltUtc).toBe(true) // not the same instance
-  expect(lt.unix()).toBe(ltUtc.unix())
+  expect(lt.unix).toBe(ltUtc.unix)
   expect(ltUtc.toPretty()).toBe(`1984-06-21 05:00:00`)
   expect(ltUtc.toISODate()).toBe(`1984-06-21`)
   expect(ltUtc.toISODateTime()).toBe(s)
   if (isUTC()) {
-    expect(lt.unix()).toMatchInlineSnapshot(`456642000`)
+    expect(lt.unix).toMatchInlineSnapshot(`456642000`)
   }
 
-  const ltLocal = ltUtc.local()
+  const ltLocal = ltUtc.toLocal()
   // eslint-disable-next-line jest/prefer-equality-matcher
   expect(ltLocal !== ltUtc).toBe(true)
-  expect(ltLocal.unix()).toBe(ltUtc.unix())
+  expect(ltLocal.unix).toBe(ltUtc.unix)
   expect(ltLocal.toPretty()).toBe(lt.toPretty())
   // todo: figure out what to assert in non-utc mode
 })

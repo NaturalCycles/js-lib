@@ -64,9 +64,9 @@ runBenchScript({
       strings.forEach(s => {
         const dd = localDate(s)
 
-        y = dd.year()
-        m = dd.month()
-        d = dd.day()
+        y = dd.year
+        m = dd.month
+        d = dd.day
       })
     },
   },

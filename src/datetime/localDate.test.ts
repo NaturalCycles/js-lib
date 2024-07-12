@@ -14,13 +14,13 @@ const UNIT_RANGE: Record<LocalDateUnit, number> = {
 
 test('basic', () => {
   const str = '1984-06-21'
-  const ld = localDate.of(str)
+  const ld = localDate.from(str)
   expect(ld.toString()).toBe(str)
   expect(ld.toStringCompact()).toBe('19840621')
   expect(String(ld)).toBe(str)
-  expect(ld.day()).toBe(21)
-  expect(ld.month()).toBe(6)
-  expect(ld.year()).toBe(1984)
+  expect(ld.day).toBe(21)
+  expect(ld.month).toBe(6)
+  expect(ld.year).toBe(1984)
   expect(ld.toMonthId()).toBe('1984-06')
   expect(ld.toDateObject()).toEqual({
     year: 1984,
@@ -36,6 +36,8 @@ test('basic', () => {
   expect(ld.toISODateTimeInUTC()).toBe('1984-06-21T00:00:00Z')
   expect(ld.toLocalTime().toISODateTime()).toBe('1984-06-21T00:00:00')
   expect(ld.toLocalTime().toLocalDate().isSame(ld)).toBe(true)
+  expect(ld.unix).toMatchInlineSnapshot(`456624000`)
+  expect(ld.unixMillis).toMatchInlineSnapshot(`456624000000`)
 
   expect(ld.startOf('year').toString()).toBe('1984-01-01')
   expect(ld.startOf('month').toString()).toBe('1984-06-01')
@@ -43,9 +45,9 @@ test('basic', () => {
   expect(ld.endOf('year').toString()).toBe('1984-12-31')
   expect(ld.endOf('month').toString()).toBe('1984-06-30')
   expect(ld.endOf('day').toString()).toBe('1984-06-21')
-  expect(ld.daysInMonth()).toBe(30)
-  expect(ld.month(7).daysInMonth()).toBe(31)
-  expect(ld.month(2).daysInMonth()).toBe(29)
+  expect(ld.daysInMonth).toBe(30)
+  expect(ld.setMonth(7).daysInMonth).toBe(31)
+  expect(ld.setMonth(2).daysInMonth).toBe(29)
 
   expect(localDate.orUndefined(undefined)).toBeUndefined()
   expect(localDate.orUndefined(null)).toBeUndefined()
@@ -53,6 +55,7 @@ test('basic', () => {
   expect(localDate.orUndefined(str)?.toString()).toBe(str)
 
   expect(localDate.today().toISODate()).toBeDefined()
+  expect(localDate.todayInUTC().toISODate()).toBeDefined()
   expect(localDate.orToday(undefined).toISODate()).toBe(localDate.today().toISODate())
   expect(localDate.orToday(ld).toISODate()).toBe(ld.toISODate())
 
@@ -70,8 +73,21 @@ test('basic', () => {
   expect(ld.getAgeIn('day', '2024-05-15')).toBe(14573)
 })
 
+test('constructors', () => {
+  const s = localDate('1984-06-21').toISODate()
+  expect(localDate.from('1984-06-21').toISODate()).toBe(s)
+  expect(localDate.from(localDate('1984-06-21')).toISODate()).toBe(s)
+  expect(localDate.fromString('1984-06-21').toISODate()).toBe(s)
+  expect(localDate.fromStringOrNull('1984-06-21')?.toISODate()).toBe(s)
+  expect(localDate.fromCompactString('19840621').toISODate()).toBe(s)
+  expect(localDate.from(new Date(1984, 5, 21)).toISODate()).toBe(s)
+  expect(localDate.fromDate(new Date(1984, 5, 21)).toISODate()).toBe(s)
+  expect(localDate.fromComponents(1984, 6, 21).toISODate()).toBe(s)
+  expect(localDate.fromDateObject({ year: 1984, month: 6, day: 21 }).toISODate()).toBe(s)
+})
+
 test('isBetween', () => {
-  const ld = localDate.of('1984-06-21')
+  const ld = localDate.from('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -100,7 +116,9 @@ test('sort', () => {
   ])
 
   expect(localDate.min(items).toString()).toBe('2022-01-01')
+  expect(localDate.minOrUndefined(items)?.toString()).toBe('2022-01-01')
   expect(localDate.max(items).toString()).toBe('2022-01-03')
+  expect(localDate.maxOrUndefined(items)?.toString()).toBe('2022-01-03')
 
   // Test that undefined values are allowed
   expect(localDate.max([...items, undefined]).toString()).toBe('2022-01-03')
@@ -147,7 +165,7 @@ test('diff', () => {
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const ld = localDate.of(start)
+    const ld = localDate.from(start)
     const d = dayjs(start)
 
     units.forEach(unitAdd => {
@@ -202,13 +220,14 @@ test('validate', () => {
   )
 
   expect(localDate.isValid('2022-01-01')).toBe(true)
-  expect(localDate.isValid('2022-01-32')).toBe(false)
-  expect(localDate.isValid('abcd')).toBe(false)
+  expect(localDate.isValidString('2022-01-01')).toBe(true)
+  expect(localDate.isValidString('2022-01-32')).toBe(false)
+  expect(localDate.isValidString('abcd')).toBe(false)
 })
 
 test('toDate', () => {
   const str = '2022-03-06'
-  const d = localDate.of(str)
+  const d = localDate.from(str)
   if (isUTC()) {
     // timezone-dependent
     expect(d.toDate()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
@@ -217,7 +236,7 @@ test('toDate', () => {
   const d2 = localDate.fromDate(d.toDate())
   expect(d2.toString()).toBe(str)
   expect(d2.isSame(d)).toBe(true)
-  expect(d2.cmp(d)).toBe(0)
+  expect(d2.compare(d)).toBe(0)
   expect(d2.isAfter(d)).toBe(false)
   expect(d2.isBefore(d)).toBe(false)
   expect(d2.isSameOrAfter(d)).toBe(true)
@@ -268,10 +287,10 @@ test('rangeIterable', () => {
 })
 
 test('format', () => {
-  const fmt: LocalDateFormatter = ld => `${ld.year()}-${String(ld.month()).padStart(2, '0')}`
+  const fmt: LocalDateFormatter = ld => `${ld.year}-${String(ld.month).padStart(2, '0')}`
   expect(localDate('1984-06-21').format(fmt)).toBe('1984-06')
 
-  const fmt2: LocalDateFormatter = ld => `${String(ld.month()).padStart(2, '0')}/${ld.year()}`
+  const fmt2: LocalDateFormatter = ld => `${String(ld.month).padStart(2, '0')}/${ld.year}`
   expect(localDate('1984-06-21').format(fmt2)).toBe('06/1984')
 
   const fmt3 = new Intl.DateTimeFormat('ru', {
@@ -304,20 +323,20 @@ test('diff2', () => {
 
 test('parse weird input', () => {
   // should not fail, but return null gracefully
-  expect(localDate.parseOrNull(5 as any)).toBeNull()
-  expect(localDate.parseOrNull(Date.now() as any)).toBeNull()
-  expect(localDate.parseOrNull((() => {}) as any)).toBeNull()
+  expect(localDate.fromOrNull(5 as any)).toBeNull()
+  expect(localDate.fromOrNull(Date.now() as any)).toBeNull()
+  expect(localDate.fromOrNull((() => {}) as any)).toBeNull()
 })
 
 test('dayOfWeek', () => {
-  expect(localDate('1984-06-18').dayOfWeek()).toBe(1)
-  expect(localDate('1984-06-19').dayOfWeek()).toBe(2)
-  expect(localDate('1984-06-20').dayOfWeek()).toBe(3)
-  expect(localDate('1984-06-21').dayOfWeek()).toBe(4)
-  expect(localDate('1984-06-22').dayOfWeek()).toBe(5)
-  expect(localDate('1984-06-23').dayOfWeek()).toBe(6)
-  expect(localDate('1984-06-24').dayOfWeek()).toBe(7)
-  expect(localDate('1984-06-25').dayOfWeek()).toBe(1)
+  expect(localDate('1984-06-18').dayOfWeek).toBe(1)
+  expect(localDate('1984-06-19').dayOfWeek).toBe(2)
+  expect(localDate('1984-06-20').dayOfWeek).toBe(3)
+  expect(localDate('1984-06-21').dayOfWeek).toBe(4)
+  expect(localDate('1984-06-22').dayOfWeek).toBe(5)
+  expect(localDate('1984-06-23').dayOfWeek).toBe(6)
+  expect(localDate('1984-06-24').dayOfWeek).toBe(7)
+  expect(localDate('1984-06-25').dayOfWeek).toBe(1)
 })
 
 // You shouldn't do it, I'm just discovering that it works, apparently
