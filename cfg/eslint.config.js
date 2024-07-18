@@ -40,6 +40,7 @@ module.exports = {
         hasJest && './eslint-jest-rules.js',
         './eslint-rules.js',
         'prettier', // must be last! it only turns off eslint rules that conflict with prettier
+        './eslint-rules-post-prettier.js', // ;)
       ].filter(Boolean),
       parser: '@typescript-eslint/parser',
       parserOptions: {

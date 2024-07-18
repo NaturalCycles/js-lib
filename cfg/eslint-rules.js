@@ -153,7 +153,6 @@ module.exports = {
       },
     ],
     'constructor-super': 2,
-    curly: [2, 'multi-line'],
     'eol-last': 2,
     eqeqeq: [2, 'smart'],
     'for-direction': 2,
