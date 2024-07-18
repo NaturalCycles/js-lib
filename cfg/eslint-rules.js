@@ -170,8 +170,16 @@ module.exports = {
       'undefined',
     ],
     'id-match': 2,
-    'import/order': [
+    'simple-import-sort/imports': [
       2,
+      {
+        // This is what "removes any newlines between imports":
+        groups: [['^\\u0000', '^node:', '^@?\\w', '^', '^\\.']],
+      },
+    ],
+    'simple-import-sort/exports': 2,
+    'import/order': [
+      0, // disabled in favor of `simple-import-sort`
       {
         alphabetize: {
           order: 'asc',

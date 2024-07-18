@@ -3,14 +3,14 @@ import fs from 'node:fs'
 import { _since, _truncate } from '@naturalcycles/js-lib'
 import {
   boldGrey,
-  dimGrey,
   commitMessageToTitleMessage,
+  dimGrey,
+  execVoidCommandSync,
   getLastGitCommitMsg,
   gitCommitAll,
   gitHasUncommittedChanges,
   gitPull,
   gitPush,
-  execVoidCommandSync,
 } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
 import { runPrettier } from '../util/prettier.util'

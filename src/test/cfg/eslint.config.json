@@ -28,6 +28,7 @@
     "jest",
     "unused-imports",
     "@typescript-eslint",
+    "simple-import-sort",
     "import",
     "jsdoc"
   ],
@@ -656,15 +657,11 @@
       2
     ],
     "import/order": [
-      2,
+      0,
       {
         "alphabetize": {
-          "caseInsensitive": false,
-          "order": "asc",
-          "orderImportKind": "ignore"
-        },
-        "distinctGroup": true,
-        "warnOnUnassignedImports": false
+          "order": "asc"
+        }
       }
     ],
     "indent": [
@@ -1206,6 +1203,23 @@
     ],
     "semi-style": [
       "off"
+    ],
+    "simple-import-sort/exports": [
+      2
+    ],
+    "simple-import-sort/imports": [
+      2,
+      {
+        "groups": [
+          [
+            "^\\u0000",
+            "^node:",
+            "^@?\\w",
+            "^",
+            "^\\."
+          ]
+        ]
+      }
     ],
     "space-after-function-name": [
       "off"

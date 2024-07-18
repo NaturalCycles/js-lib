@@ -52,6 +52,7 @@ module.exports = {
       plugins: [
         'jsdoc',
         'import',
+        'simple-import-sort',
         '@typescript-eslint',
         // https://github.com/sweepline/eslint-plugin-unused-imports
         'unused-imports',

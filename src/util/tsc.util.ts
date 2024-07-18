@@ -1,10 +1,10 @@
 import fs from 'node:fs'
 import { _isTruthy, _since } from '@naturalcycles/js-lib'
 import {
-  execVoidCommand,
-  execVoidCommandSync,
   boldGrey,
   dimGrey,
+  execVoidCommand,
+  execVoidCommandSync,
   kpySync,
 } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'

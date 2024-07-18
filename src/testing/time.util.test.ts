@@ -1,4 +1,4 @@
-import { mockTime, mockTimeMillis, MOCK_TS_2018_06_21, resetTime } from './time.util'
+import { MOCK_TS_2018_06_21, mockTime, mockTimeMillis, resetTime } from './time.util'
 
 const now = Date.now()
 
