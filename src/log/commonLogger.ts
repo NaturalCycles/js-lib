@@ -1,4 +1,5 @@
-import { _noop } from '../index'
+// copy-pasted to avoid weird circular dependency
+const _noop = (..._args: any[]): undefined => undefined
 
 /**
  * These levels follow console.* naming,
