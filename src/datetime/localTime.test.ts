@@ -1,7 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import { LocalTimeFormatter, LocalTimeUnit, nowUnix, ISODayOfWeek, localTime } from './localTime'
+import { LocalTimeFormatter, LocalTimeUnit, ISODayOfWeek, localTime } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
@@ -17,7 +17,7 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
 
 test('basic', () => {
   const start = '2022-01-01T00:00:00'
-  const lt = localTime.from(start)
+  const lt = localTime.fromInput(start)
   expect(lt.year).toBe(2022)
   expect(lt.month).toBe(1)
   expect(lt.day).toBe(1)
@@ -67,7 +67,7 @@ test('basic', () => {
   if (isUTC()) {
     expect(localTime.fromUnix(1640995200).toString()).toBe(lt.toString())
     expect(localTime.fromMillis(1640995200000).toString()).toBe(lt.toString())
-    expect(localTime.from(new Date(1640995200000)).toString()).toBe(lt.toString())
+    expect(localTime.fromInput(new Date(1640995200000)).toString()).toBe(lt.toString())
   }
 
   expect(lt.setYear(2023).toISODateTime()).toBe('2023-01-01T00:00:00')
@@ -135,7 +135,7 @@ test('basic', () => {
 })
 
 test('isBetween', () => {
-  const ld = localTime.from('1984-06-21')
+  const ld = localTime('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -164,39 +164,84 @@ test('fromNow', () => {
   expect(future.toFromNowString(now)).toBe('in 4 days')
 })
 
-test('validation', () => {
-  expect(() => localTime('abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "abcd" into LocalTime"`,
-  )
+// prettier-ignore
+const validDates = [
+  ['2022-01-01', '2022-01-01T00:00:00'],
+  ['2023-12-29', '2023-12-29T00:00:00'],
+  ['2022-01-31T05:05:05', '2022-01-31T05:05:05'],
+  ['2022-01-31T05:05:05.whatever at this point', '2022-01-31T05:05:05'],
+  ['2022-01-31T05:05:05.123', '2022-01-31T05:05:05'],
+  ['2022-01-31T05:05:05.123Z', '2022-01-31T05:05:05'],
+  ['2022-01-31T05:05:05Z', '2022-01-31T05:05:05'],
+  ['2022-01-01T22:01:01Z', '2022-01-01T22:01:01'],
+]
 
-  expect(localTime.isValid('2022-01-01')).toBe(true)
-  expect(localTime.isValidString('2022-01-01')).toBe(true)
-  expect(localTime.isValid('abcd')).toBe(false)
-  expect(localTime.isValid('2022-01-32')).toBe(false)
-  expect(localTime.isValid('2022-01-31')).toBe(true)
-  expect(localTime.isValid('2022/01/31')).toBe(false)
-  expect(localTime.isValid('20220131')).toBe(false)
-  expect(localTime.isValid('2022-1-1')).toBe(false)
-  expect(localTime.isValid('2022-01-1')).toBe(false)
-  expect(localTime.isValid('2022-01-31T')).toBe(false)
-  expect(localTime.isValid('2022-01-31t05:05:05')).toBe(false)
-  expect(localTime.isValid('2022-01-31T05:05:5')).toBe(false)
-  expect(localTime.isValid('2022-01-31T05:05')).toBe(false)
-  expect(localTime.isValid('2022-01-31T05')).toBe(false)
-  expect(localTime.isValid('2022-01-31T05:05:05')).toBe(true)
-  expect(localTime.isValid('2022-01-31 05:05:05')).toBe(true)
-  expect(localTime.isValid('2022-01-31T05:05:05.whatever at this point')).toBe(true)
-  expect(localTime.isValid('2022-01-31T05:05:05.123')).toBe(true)
-  expect(localTime.isValid('2022-01-31T05:05:05.123Z')).toBe(true)
-  expect(localTime.isValid('2022-01-31T05:05:05Z')).toBe(true)
+// prettier-ignore
+const looselyValidDates = [
+  ['2022/01/31', '2022-01-31T00:00:00'],
+  ['2022-01-31 05:05:05', '2022-01-31T05:05:05'],
+  ['2022-1-1', '2022-01-01T00:00:00'],
+  ['2022-03-', '2022-03-01T00:00:00'],
+  ['2022-01-02nahuy', '2022-01-02T00:00:00'],
+  ['2022-01-31T', '2022-01-31T00:00:00'],
+  ['2022-01-31t05:05:05', '2022-01-31T05:05:05'],
+  ['2022-01-31T05:06', '2022-01-31T05:06:00'],
+  ['2022-01-31T05:0', '2022-01-31T05:00:00'],
+  ['2022-01-31T05', '2022-01-31T05:00:00'],
+  ['2022-01-31T0', '2022-01-31T00:00:00'],
+]
+
+// prettier-ignore
+const invalidDates = [
+  undefined,
+  5,
+  'abcd',
+  '2022-01-x1',
+  '20220131',
+  '2022-01-32',
+] as string[]
+
+test.each(validDates)('%s parses to %s and is strictly valid', (s, expected) => {
+  expect(localTime.isValid(s)).toBe(true)
+  expect(localTime.isValidString(s)).toBe(true)
+  expect(localTime(s).toISODate()).toBe(expected.slice(0, 10))
+  expect(localTime.fromIsoDateTimeString(s).toISODate()).toBe(expected.slice(0, 10))
+  expect(localTime(s).toString()).toBe(expected)
+  expect(localTime.parse(s).toString()).toBe(expected)
+  expect(localTime.try(s)?.toString()).toBe(expected)
 })
+
+test.each(looselyValidDates)('%s parses to %s and is loosely valid', (s, expected) => {
+  expect(localTime.isValid(s)).toBe(false)
+  expect(localTime.isValidString(s)).toBe(false)
+  expect(() => localTime(s)).toThrow('Cannot parse')
+  expect(() => localTime.fromIsoDateTimeString(s)).toThrow('Cannot parse')
+  expect(localTime.parse(s).toISODate()).toBe(expected.slice(0, 10))
+  expect(localTime.parse(s).toString()).toBe(expected)
+  expect(localTime.try(s)?.toString()).toBe(expected)
+})
+
+test.each(invalidDates)('%s is invalid', s => {
+  expect(localTime.isValidString(s)).toBe(false)
+  expect(() => localTime.fromIsoDateTimeString(s)).toThrow('Cannot parse')
+  expect(() => localTime.parse(s)).toThrow('Cannot parse')
+})
+
+// test.each(invalidDates)('%s is invalid', s => {
+//   expect(localDate.isValid(s)).toBe(false)
+//   expect(localDate.isValidString(s)).toBe(false)
+//   expect(() => localDate(s)).toThrow('Cannot parse')
+//   expect(() => localDate.fromIsoDateString(s)).toThrow('Cannot parse')
+//   expect(() => localDate.parseString(s)).toThrow('Cannot parse')
+//   expect(localDate.try(s)).toBeUndefined()
+// })
 
 test('add', () => {
   if (!isUTC()) return
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const lt = localTime.from(start)
+    const lt = localTime(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -278,7 +323,7 @@ test('diff', () => {
   // const starts = ['2020-02-29']
 
   starts.forEach(start => {
-    const lt = localTime.from(start)
+    const lt = localTime(start)
     const d = dayjs(start)
 
     units.forEach(unit => {
@@ -309,7 +354,7 @@ test('diff', () => {
 
 test('timezone-full string', () => {
   if (!isUTC()) return // todo: this should parse to the same unixtime regardless of TZ
-  const lt = localTime.from('2022-04-06T23:15:00+09:00')
+  const lt = localTime.fromInput('2022-04-06T23:15:00+09:00')
   expect(lt.unix).toMatchInlineSnapshot(`1649286900`)
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
@@ -450,7 +495,7 @@ test('comparison with other LocalTimes like primitives', () => {
 })
 
 test('nowUnix', () => {
-  expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix)
+  expect(localTime.nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix)
 })
 
 test('utcOffset', () => {

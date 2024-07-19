@@ -52,10 +52,23 @@ const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_DAY = 86400000
 // const MILLISECONDS_IN_MINUTE = 60000
 const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
-// It supports 2 forms:
-// 1. 2023-03-03
-// 2. 2023-03-03T05:10:02
-const DATE_TIME_REGEX = /^(\d{4})-(\d{2})-(\d{2})([T\s](\d{2}):(\d{2}):(\d{2}))?/
+
+/**
+ * It supports 2 forms:
+ * 1. 2023-03-03
+ * 2. 2023-03-03T05:10:02
+ * // todo: make it even looser, like Day.js
+ */
+const DATE_TIME_REGEX_LOOSE = /^(\d{4})-(\d{2})-(\d{2})([Tt\s](\d{2}):?(\d{2})?:?(\d{2})?)?/
+/**
+ * Supports 2 forms:
+ * 1. 2023-03-03
+ * 2. 2023-03-03T05:10:02
+ * Ok, now it allows arbitrary stuff after `:ss`, to allow millis/timezone info,
+ * but it will not take it into account.
+ */
+const DATE_TIME_REGEX_STRICT = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/
+const DATE_REGEX_STRICT = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
 export class LocalTime {
   constructor(public $date: Date) {}
@@ -329,7 +342,7 @@ export class LocalTime {
 
     if (unit === 'year' || unit === 'month') {
       const d = addMonths(this.$date, unit === 'month' ? num : num * 12, mutate)
-      return mutate ? this : localTime.from(d)
+      return mutate ? this : localTime.fromInput(d)
     }
 
     return this.set(unit, this.get(unit) + num, mutate)
@@ -344,7 +357,7 @@ export class LocalTime {
   }
 
   diff(other: LocalTimeInput, unit: LocalTimeUnit): number {
-    const date2 = localTime.from(other).$date
+    const date2 = localTime.fromInput(other).$date
 
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
@@ -474,14 +487,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isBefore(localTime.from(now ?? new Date()).plus(-n, unit))
+    return this.isBefore(localTime.fromInput(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or older (<=) than "now" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrBefore(localTime.from(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrBefore(localTime.fromInput(now ?? new Date()).plus(-n, unit))
   }
 
   /**
@@ -494,14 +507,14 @@ export class LocalTime {
    * Third argument allows to override "now".
    */
   isYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isAfter(localTime.from(now ?? new Date()).plus(-n, unit))
+    return this.isAfter(localTime.fromInput(now ?? new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localTime is same or younger (>=) than "now" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalTimeUnit, now?: LocalTimeInput): boolean {
-    return this.isSameOrAfter(localTime.from(now ?? new Date()).plus(-n, unit))
+    return this.isSameOrAfter(localTime.fromInput(now ?? new Date()).plus(-n, unit))
   }
 
   getAgeInYears(now?: LocalTimeInput): number {
@@ -523,7 +536,7 @@ export class LocalTime {
     return this.getAgeIn('second', now)
   }
   getAgeIn(unit: LocalTimeUnit, now?: LocalTimeInput): number {
-    return localTime.from(now ?? new Date()).diff(this, unit)
+    return localTime.fromInput(now ?? new Date()).diff(this, unit)
   }
 
   /**
@@ -533,7 +546,7 @@ export class LocalTime {
    */
   compare(d: LocalTimeInput): -1 | 0 | 1 {
     const t1 = this.$date.valueOf()
-    const t2 = localTime.from(d).$date.valueOf()
+    const t2 = localTime.fromInput(d).$date.valueOf()
     if (t1 === t2) return 0
     return t1 < t2 ? -1 : 1
   }
@@ -562,7 +575,7 @@ export class LocalTime {
   }
 
   toFromNowString(now: LocalTimeInput = new Date()): string {
-    const msDiff = localTime.from(now).$date.valueOf() - this.$date.valueOf()
+    const msDiff = localTime.fromInput(now).$date.valueOf() - this.$date.valueOf()
 
     if (msDiff === 0) return 'now'
 
@@ -692,16 +705,176 @@ export class LocalTime {
 
 class LocalTimeFactory {
   /**
-   * Parses input String into LocalTime.
-   * Input can already be a LocalTime - it is returned as-is in that case.
+   * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
+   *
+   * `localTime` function will instead return LocalTime of `now` for falsy input.
    */
-  from(input: LocalTimeInput): LocalTime {
-    const lt = this.fromOrNull(input)
-    this.assertNotNull(lt, input)
-    return lt
+  orUndefined(input: LocalTimeInputNullable): LocalTime | undefined {
+    return input || input === 0 ? this.fromInput(input) : undefined
+  }
+
+  /**
+   * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
+   */
+  orNow(input: LocalTimeInputNullable): LocalTime {
+    return input || input === 0 ? this.fromInput(input) : this.now()
+  }
+
+  now(): LocalTime {
+    return new LocalTime(new Date())
+  }
+
+  /**
+   Convenience function to return current Unix timestamp in seconds.
+   Like Date.now(), but in seconds.
+   */
+  nowUnix(): UnixTimestampNumber {
+    return Math.floor(Date.now() / 1000)
+  }
+
+  /**
+   * Create LocalTime from LocalTimeInput.
+   * Input can already be a LocalTime - it is returned as-is in that case.
+   * Date - will be used as-is.
+   * String - will be parsed as strict `yyyy-mm-ddThh:mm:ss`.
+   * Number - will be treated as unix timestamp in seconds.
+   */
+  fromInput(input: LocalTimeInput): LocalTime {
+    if (input instanceof LocalTime) return input
+    if (input instanceof Date) {
+      return this.fromDate(input)
+    }
+    if (typeof input === 'number') {
+      return this.fromUnix(input)
+    }
+    // It means it's a string
+    // Will parse it STRICTLY
+    return this.fromIsoDateTimeString(input)
+  }
+
+  /**
+   * Returns true if input is valid to create LocalTime.
+   */
+  isValid(input: LocalTimeInputNullable): boolean {
+    if (!input) return false
+    if (input instanceof LocalTime) return true
+    if (input instanceof Date) return !isNaN(input.getDate())
+    // We currently don't validate Unixtimestamp input, treat it as always valid
+    if (typeof input === 'number') return true
+    return this.isValidString(input)
+  }
+
+  /**
+   * Returns true if isoString is a valid iso8601 string like `yyyy-mm-ddThh:mm:dd`.
+   */
+  isValidString(isoString: string | undefined | null): boolean {
+    return !!this.parseStrictlyOrUndefined(isoString)
+  }
+
+  /**
+   * Tries to convert/parse the input into LocalTime.
+   * Uses LOOSE parsing.
+   * If invalid - doesn't throw, but returns undefined instead.
+   */
+  try(input: LocalTimeInputNullable): LocalTime | undefined {
+    if (input instanceof LocalTime) return input
+    if (input instanceof Date) {
+      if (isNaN(input.getDate())) return
+      return new LocalTime(input)
+    }
+    if (typeof input === 'number') {
+      return this.fromUnix(input)
+    }
+    if (!input) return
+    const date = this.parseLooselyOrUndefined(input)
+    return date ? new LocalTime(date) : undefined
+  }
+
+  /**
+   * Performs STRICT parsing.
+   * Only allows IsoDateTimeString or IsoDateString input, nothing else.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
+  fromIsoDateTimeString(s: IsoDateTimeString | IsoDateString): LocalTime {
+    const d = this.parseStrictlyOrUndefined(s)
+    _assert(d, `Cannot parse "${s}" into LocalTime`)
+    return new LocalTime(d)
+  }
+
+  /**
+   * Performs LOOSE parsing.
+   * Tries to coerce imprefect/incorrect string input into IsoDateTimeString.
+   * Use with caution.
+   * Allows to input IsoDateString, will set h:m:s to zeros.
+   */
+  parse(s: string): LocalTime {
+    const d = this.parseLooselyOrUndefined(String(s))
+    _assert(d, `Cannot parse "${s}" into LocalTime`)
+    return new LocalTime(d)
+  }
+
+  private parseStrictlyOrUndefined(s: string | undefined | null): Date | undefined {
+    if (!s || typeof (s as any) !== 'string') return
+    let m = DATE_TIME_REGEX_STRICT.exec(s)
+    if (!m) {
+      // DateTime regex didn't match, try just-Date regex
+      m = DATE_REGEX_STRICT.exec(s)
+      if (!m) return
+    }
+    const o: DateTimeObject = {
+      year: Number(m[1]),
+      month: Number(m[2]),
+      day: Number(m[3]),
+      hour: Number(m[4]) || 0,
+      minute: Number(m[5]) || 0,
+      second: Number(m[6]) || 0,
+    }
+    if (!this.isDateTimeObjectValid(o)) return
+    return this.createDateFromDateTimeObject(o)
+  }
+
+  private parseLooselyOrUndefined(s: string | undefined | null): Date | undefined {
+    if (!s || typeof (s as any) !== 'string') return
+    const m = DATE_TIME_REGEX_LOOSE.exec(s)
+    if (!m) {
+      if (s.length < 8) return
+      // Attempt to parse with Date constructor
+      const d = new Date(s)
+      return isNaN(d.getDate()) ? undefined : d
+    }
+    const o: DateTimeObject = {
+      year: Number(m[1]),
+      month: Number(m[2]),
+      day: Number(m[3]) || 1,
+      // [4] is skipped due to extra regex parentheses group
+      hour: Number(m[5]) || 0,
+      minute: Number(m[6]) || 0,
+      second: Number(m[7]) || 0,
+    }
+    if (!this.isDateTimeObjectValid(o)) return
+    return this.createDateFromDateTimeObject(o)
+  }
+
+  /**
+   * Throws on invalid value.
+   */
+  private validateDateTimeObject(o: DateTimeObject): void {
+    _assert(
+      this.isDateTimeObjectValid(o),
+      `Cannot construct LocalTime from: ${o.year}-${o.month}-${o.day} ${o.hour}:${o.minute}:${o.second}`,
+    )
+  }
+
+  isDateTimeObjectValid(o: DateTimeObject): boolean {
+    return localDate.isDateObjectValid(o) && this.isTimeObjectValid(o)
+  }
+
+  isTimeObjectValid({ hour, minute, second }: TimeObject): boolean {
+    return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59 && second >= 0 && second <= 59
   }
 
   fromDate(date: Date): LocalTime {
+    _assert(!isNaN(date.getDate()), `localTime.fromDate is called on Date object that is invalid`)
     return new LocalTime(date)
   }
 
@@ -716,113 +889,23 @@ class LocalTimeFactory {
     return new LocalTime(new Date(millis))
   }
 
-  /**
-   * Returns null if invalid
-   */
-  fromOrNull(d: LocalTimeInputNullable): LocalTime | null {
-    if (d instanceof LocalTime) return d
-    if (d instanceof Date) {
-      return new LocalTime(d)
-    }
-    if (typeof d === 'number') {
-      return new LocalTime(new Date(d * 1000))
-    }
-    if (typeof d === 'string') {
-      return this.fromStringOrNull(d)
-    }
-    // This check is after checking the number, to support `0`
-    // unexpected type, e.g Function or something
-    return null
+  fromDateTimeObject(o: DateTimeObjectInput): LocalTime {
+    // todo: validate?
+    return new LocalTime(this.createDateFromDateTimeObject(o))
   }
 
-  fromStringOrNull(s: string | undefined | null): LocalTime | null {
-    const date = this.parseStringToDateOrNull(s)
-    return date ? new LocalTime(date) : null
+  private createDateFromDateTimeObject(o: DateTimeObjectInput): Date {
+    return new Date(o.year, o.month - 1, o.day || 1, o.hour || 0, o.minute || 0, o.second || 0)
   }
 
-  fromDateTimeObject(input: DateTimeObjectInput): LocalTime {
-    const { year, month, day = 1, hour = 0, minute = 0, second = 0 } = input
-    return new LocalTime(new Date(year, month - 1, day, hour, minute, second))
-  }
-
-  private parseStringToDateOrNull(s: string | undefined | null): Date | null {
-    if (!s) return null
-    // Slicing removes the "timezone component", and makes the date "local"
-    // e.g 2022-04-06T23:15:00+09:00
-    // becomes 2022-04-06T23:15:00
-    // date = new Date(d.slice(0, 19))
-
-    // Parsing is inspired by how Day.js does it
-    // Specifically, it ensures that `localTime('2023-03-03')` returns the expected Date, and not a day before
-    // Because `new Date('2023-03-03')` in NewYork gives you '2023-03-02 19:00:00 GMT-0500'
-
-    const m = s.match(DATE_TIME_REGEX)
-    // Validate in 3 ways:
-    // 1. Should match Regex.
-    // In some ways it's stricter than Date constructor, e.g it doesn't allow 2023/05/05
-    // In other ways it's looser, e.g it allows `2023-05-05T`, while Date constructor doesn't.
-    // 2. Date constructor (of Node/v8 implementation, which we know is different from e.g WebKit/Safari)
-    // should not return `Invalid Date`.
-    // 3. Year, month and day should be valid, e.g 2023-01-32 should not be allowed.
-    // UPD: Actually, 3 can be skipped, because 2 is catching it already
-    // UPD: 2 is skipped, 1 and 3 are kept
-    // if (!m || isNaN(new Date(s).getDate())) return null
-    if (!m) return null
-    const year = Number(m[1])
-    const month = Number(m[2])
-    const day = Number(m[3])
-    const hour = Number(m[5])
-    const minute = Number(m[6])
-    const second = Number(m[7])
-
-    // Validation for just the Date part
-    if (
-      !year ||
-      !month ||
-      month < 1 ||
-      month > 12 ||
-      !day ||
-      day < 1 ||
-      day > localDate.getMonthLength(year, month)
-    ) {
-      return null
-    }
-
-    // Validation for Date+Time string, since the string is longer than YYYY-MM-DD
-    if (
-      s.length > 10 &&
-      (isNaN(hour) ||
-        isNaN(minute) ||
-        isNaN(second) ||
-        hour < 0 ||
-        hour > 23 ||
-        minute < 0 ||
-        minute > 59 ||
-        second < 0 ||
-        second > 59)
-    ) {
-      return null
-    }
-
-    return new Date(year, month - 1, day, hour || 0, minute || 0, second || 0, 0)
-  }
-
-  isValid(input: LocalTimeInputNullable): boolean {
-    return this.fromOrNull(input) !== null
-  }
-
-  isValidString(isoString: string | undefined | null): boolean {
-    return this.fromStringOrNull(isoString) !== null
-  }
-
-  private assertNotNull(
-    lt: LocalTime | null,
-    input: LocalTimeInputNullable,
-  ): asserts lt is LocalTime {
-    _assert(lt !== null, `Cannot parse "${input}" into LocalTime`, {
-      input,
-    })
-  }
+  // private assertNotNull(
+  //   lt: LocalTime | null,
+  //   input: LocalTimeInputNullable,
+  // ): asserts lt is LocalTime {
+  //   _assert(lt !== null, `Cannot parse "${input}" into LocalTime`, {
+  //     input,
+  //   })
+  // }
 
   /**
    * Returns the IANA timezone e.g `Europe/Stockholm`.
@@ -841,26 +924,6 @@ class LocalTimeFactory {
    */
   isTimezoneValid(tz: string): boolean {
     return Intl.supportedValuesOf('timeZone').includes(tz)
-  }
-
-  now(): LocalTime {
-    return new LocalTime(new Date())
-  }
-
-  /**
-   * Creates a LocalTime from the input, unless it's falsy - then returns undefined.
-   *
-   * `localTime` function will instead return LocalTime of `now` for falsy input.
-   */
-  orUndefined(input: LocalTimeInputNullable): LocalTime | undefined {
-    return input || input === 0 ? this.from(input) : undefined
-  }
-
-  /**
-   * Creates a LocalTime from the input, unless it's falsy - then returns LocalTime.now
-   */
-  orNow(input: LocalTimeInputNullable): LocalTime {
-    return input || input === 0 ? this.from(input) : this.now()
   }
 
   sort(items: LocalTime[], dir: SortDirection = 'asc', mutate = false): LocalTime[] {
@@ -882,7 +945,7 @@ class LocalTimeFactory {
     _assert(items2.length, 'localTime.min called on empty array')
 
     return items2
-      .map(i => this.from(i))
+      .map(i => this.fromInput(i))
       .reduce((min, item) => (min.$date.valueOf() <= item.$date.valueOf() ? min : item))
   }
 
@@ -895,7 +958,7 @@ class LocalTimeFactory {
     _assert(items2.length, 'localTime.max called on empty array')
 
     return items2
-      .map(i => this.from(i))
+      .map(i => this.fromInput(i))
       .reduce((max, item) => (max.$date.valueOf() >= item.$date.valueOf() ? max : item))
   }
 }
@@ -1011,16 +1074,8 @@ interface LocalTimeFn extends LocalTimeFactory {
 
 const localTimeFactory = new LocalTimeFactory()
 
-export const localTime = localTimeFactory.from.bind(localTimeFactory) as LocalTimeFn
+export const localTime = localTimeFactory.fromInput.bind(localTimeFactory) as LocalTimeFn
 
 // The line below is the blackest of black magic I have ever written in 2024.
 // And probably 2023 as well.
 Object.setPrototypeOf(localTime, localTimeFactory)
-
-/**
- Convenience function to return current Unix timestamp in seconds.
- Like Date.now(), but in seconds.
- */
-export function nowUnix(): UnixTimestampNumber {
-  return Math.floor(Date.now() / 1000)
-}

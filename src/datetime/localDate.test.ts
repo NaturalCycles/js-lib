@@ -1,7 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import { LocalDateFormatter, LocalDateUnit, todayString, localDate } from './localDate'
+import { LocalDateFormatter, LocalDateUnit, localDate } from './localDate'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 
@@ -14,7 +14,7 @@ const UNIT_RANGE: Record<LocalDateUnit, number> = {
 
 test('basic', () => {
   const str = '1984-06-21'
-  const ld = localDate.from(str)
+  const ld = localDate.fromInput(str)
   expect(ld.toString()).toBe(str)
   expect(ld.toStringCompact()).toBe('19840621')
   expect(String(ld)).toBe(str)
@@ -75,19 +75,17 @@ test('basic', () => {
 
 test('constructors', () => {
   const s = localDate('1984-06-21').toISODate()
-  expect(localDate.from('1984-06-21').toISODate()).toBe(s)
-  expect(localDate.from(localDate('1984-06-21')).toISODate()).toBe(s)
-  expect(localDate.fromString('1984-06-21').toISODate()).toBe(s)
-  expect(localDate.fromStringOrNull('1984-06-21')?.toISODate()).toBe(s)
+  expect(localDate.fromInput('1984-06-21').toISODate()).toBe(s)
+  expect(localDate.fromInput(localDate('1984-06-21')).toISODate()).toBe(s)
+  expect(localDate.fromIsoDateString('1984-06-21').toISODate()).toBe(s)
   expect(localDate.fromCompactString('19840621').toISODate()).toBe(s)
-  expect(localDate.from(new Date(1984, 5, 21)).toISODate()).toBe(s)
+  expect(localDate.fromInput(new Date(1984, 5, 21)).toISODate()).toBe(s)
   expect(localDate.fromDate(new Date(1984, 5, 21)).toISODate()).toBe(s)
-  expect(localDate.fromComponents(1984, 6, 21).toISODate()).toBe(s)
   expect(localDate.fromDateObject({ year: 1984, month: 6, day: 21 }).toISODate()).toBe(s)
 })
 
 test('isBetween', () => {
-  const ld = localDate.from('1984-06-21')
+  const ld = localDate.fromInput('1984-06-21')
   expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
   expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
@@ -165,7 +163,7 @@ test('diff', () => {
   const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
 
   starts.forEach(start => {
-    const ld = localDate.from(start)
+    const ld = localDate.fromInput(start)
     const d = dayjs(start)
 
     units.forEach(unitAdd => {
@@ -200,34 +198,58 @@ test('diff', () => {
   })
 })
 
-test('validate', () => {
-  // valid
-  expect(localDate('2022-01-01').toString()).toBe('2022-01-01')
-  expect(localDate('2022-01-01T22:01:01').toString()).toBe('2022-01-01')
-  expect(localDate('2022-01-01T22:01:01Z').toString()).toBe('2022-01-01')
-  expect(localDate('2022-01-01T22:01:01+2').toString()).toBe('2022-01-01')
-  expect(localDate('2022-01-01nahuy').toString()).toBe('2022-01-01')
-  // expect(LocalDate.of('2022-1-1').toString()).toBe('2022-01-01') // it's strict now!
+// prettier-ignore
+const validDates = [
+  '2022-01-01',
+  '2023-12-29',
+]
 
-  expect(() => localDate(undefined as any)).toThrow()
-  expect(() => localDate(5 as any)).toThrow()
-  expect(() => localDate('')).toThrowErrorMatchingInlineSnapshot(`"Cannot parse "" into LocalDate"`)
-  expect(() => localDate('2022-01-')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "2022-01-" into LocalDate"`,
-  )
-  expect(() => localDate('2022-01-x1')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "2022-01-x1" into LocalDate"`,
-  )
+// prettier-ignore
+const looselyValidDates = [
+  '2022-01-01T22:01:01',
+  '2022-01-01T22:01:01Z',
+  '2022-01-01nahuy',
+]
 
-  expect(localDate.isValid('2022-01-01')).toBe(true)
-  expect(localDate.isValidString('2022-01-01')).toBe(true)
-  expect(localDate.isValidString('2022-01-32')).toBe(false)
-  expect(localDate.isValidString('abcd')).toBe(false)
+// prettier-ignore
+const invalidDates = [
+  undefined,
+  5,
+  '',
+  '2022-01-',
+  '2022-01-x1',
+] as string[]
+
+test.each(validDates)('%s is valid', s => {
+  expect(localDate.isValid(s)).toBe(true)
+  expect(localDate.isValidString(s)).toBe(true)
+  expect(localDate(s).toISODate()).toBe(s)
+  expect(localDate.fromIsoDateString(s).toISODate()).toBe(s)
+  expect(localDate.parse(s).toISODate()).toBe(s)
+  expect(localDate.try(s)?.toISODate()).toBe(s)
+})
+
+test.each(looselyValidDates)('%s is loosely valid', s => {
+  expect(localDate.isValid(s)).toBe(false)
+  expect(localDate.isValidString(s)).toBe(false)
+  expect(() => localDate(s)).toThrow('Cannot parse')
+  expect(() => localDate.fromIsoDateString(s)).toThrow('Cannot parse')
+  expect(localDate.parse(s).toISODate()).toBe(s.slice(0, 10))
+  expect(localDate.try(s)?.toISODate()).toBe(s.slice(0, 10))
+})
+
+test.each(invalidDates)('%s is invalid', s => {
+  expect(localDate.isValid(s)).toBe(false)
+  expect(localDate.isValidString(s)).toBe(false)
+  expect(() => localDate(s)).toThrow('Cannot parse')
+  expect(() => localDate.fromIsoDateString(s)).toThrow('Cannot parse')
+  expect(() => localDate.parse(s)).toThrow('Cannot parse')
+  expect(localDate.try(s)).toBeUndefined()
 })
 
 test('toDate', () => {
   const str = '2022-03-06'
-  const d = localDate.from(str)
+  const d = localDate.fromInput(str)
   if (isUTC()) {
     // timezone-dependent
     expect(d.toDate()).toMatchInlineSnapshot(`2022-03-06T00:00:00.000Z`)
@@ -323,9 +345,9 @@ test('diff2', () => {
 
 test('parse weird input', () => {
   // should not fail, but return null gracefully
-  expect(localDate.fromOrNull(5 as any)).toBeNull()
-  expect(localDate.fromOrNull(Date.now() as any)).toBeNull()
-  expect(localDate.fromOrNull((() => {}) as any)).toBeNull()
+  expect(localDate.try(5 as any)).toBeUndefined()
+  expect(localDate.try(Date.now() as any)).toBeUndefined()
+  expect(localDate.try((() => {}) as any)).toBeUndefined()
 })
 
 test('dayOfWeek', () => {
@@ -365,7 +387,7 @@ test('comparison with other LocalDates like primitives', () => {
 
 test('todayString', () => {
   // expect(nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix())
-  const s = todayString()
+  const s = localDate.todayString()
   expect(s.startsWith(new Date().getFullYear() + '-')).toBe(true)
   expect(s > '2024-05-01').toBe(true)
   expect(s < '2099-01-01').toBe(true)
@@ -374,6 +396,6 @@ test('todayString', () => {
 test('todayString tz', () => {
   if (isUTC()) return
   console.log(process.env['TZ'])
-  console.log(todayString())
+  console.log(localDate.todayString())
   console.log(new Date().toString())
 })

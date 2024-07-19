@@ -16,8 +16,15 @@ export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
 
 const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-// Regex is open-ended (no $ at the end) to support e.g Date+Time string to be parsed (time part will be dropped)
-const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)/
+/**
+ * Regex is open-ended (no $ at the end) to support e.g Date+Time string to be parsed (time part will be dropped)
+ */
+const DATE_REGEX_LOOSE = /^(\d\d\d\d)-(\d\d)-(\d\d)/
+/**
+ * Strict version.
+ */
+const DATE_REGEX_STRICT = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
+const COMPACT_DATE_REGEX = /^(\d\d\d\d)(\d\d)(\d\d)$/
 
 export type LocalDateInput = LocalDate | Date | IsoDateString
 export type LocalDateInputNullable = LocalDateInput | null | undefined
@@ -67,7 +74,7 @@ export class LocalDate {
   }
 
   isSame(d: LocalDateInput): boolean {
-    d = localDate.from(d)
+    d = localDate.fromInput(d)
     return this.day === d.day && this.month === d.month && this.year === d.year
   }
 
@@ -108,14 +115,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isBefore(localDate.from(today || new Date()).plus(-n, unit))
+    return this.isBefore(localDate.fromInput(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or older (<=) than "today" by X units.
    */
   isSameOrOlderThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrBefore(localDate.from(today || new Date()).plus(-n, unit))
+    return this.isSameOrBefore(localDate.fromInput(today || new Date()).plus(-n, unit))
   }
 
   /**
@@ -128,14 +135,14 @@ export class LocalDate {
    * Third argument allows to override "today".
    */
   isYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isAfter(localDate.from(today || new Date()).plus(-n, unit))
+    return this.isAfter(localDate.fromInput(today || new Date()).plus(-n, unit))
   }
 
   /**
    * Checks if this localDate is same or younger (>=) than "today" by X units.
    */
   isSameOrYoungerThan(n: number, unit: LocalDateUnit, today?: LocalDateInput): boolean {
-    return this.isSameOrAfter(localDate.from(today || new Date()).plus(-n, unit))
+    return this.isSameOrAfter(localDate.fromInput(today || new Date()).plus(-n, unit))
   }
 
   getAgeInYears(today?: LocalDateInput): number {
@@ -148,7 +155,7 @@ export class LocalDate {
     return this.getAgeIn('day', today)
   }
   getAgeIn(unit: LocalDateUnit, today?: LocalDateInput): number {
-    return localDate.from(today || new Date()).diff(this, unit)
+    return localDate.fromInput(today || new Date()).diff(this, unit)
   }
 
   /**
@@ -157,7 +164,7 @@ export class LocalDate {
    * returns -1 if this < d
    */
   compare(d: LocalDateInput): -1 | 0 | 1 {
-    d = localDate.from(d)
+    d = localDate.fromInput(d)
     if (this.year < d.year) return -1
     if (this.year > d.year) return 1
     if (this.month < d.month) return -1
@@ -180,7 +187,7 @@ export class LocalDate {
    * a.diff(b) means "a minus b"
    */
   diff(d: LocalDateInput, unit: LocalDateUnit): number {
-    d = localDate.from(d)
+    d = localDate.fromInput(d)
 
     const sign = this.compare(d)
     if (!sign) return 0
@@ -481,141 +488,19 @@ export class LocalDate {
 
 class LocalDateFactory {
   /**
-   * Create LocalDate from LocalDateInput.
-   * Input can already be a LocalDate - it is returned as-is in that case.
-   * String - will be parsed as yyyy-mm-dd.
-   * Date - will be converted to LocalDate (as-is, in whatever timezone it is - local or UTC).
-   * No other formats are supported.
+   * Creates a LocalDate from the input, unless it's falsy - then returns undefined.
    *
-   * Will throw if it fails to parse/construct LocalDate.
+   * Similar to `localDate.orToday`, but that will instead return Today on falsy input.
    */
-  from(input: LocalDateInput): LocalDate {
-    const ld = this.fromOrNull(input)
-    this.assertNotNull(ld, input)
-    return ld
+  orUndefined(d: LocalDateInputNullable): LocalDate | undefined {
+    return d ? this.fromInput(d) : undefined
   }
 
   /**
-   * Tries to construct LocalDate from LocalDateInput, returns null otherwise.
-   * Does not throw (returns null instead).
+   * Creates a LocalDate from the input, unless it's falsy - then returns localDate.today.
    */
-  fromOrNull(d: LocalDateInputNullable): LocalDate | null {
-    if (!d) return null
-    if (d instanceof LocalDate) return d
-    if (d instanceof Date) {
-      return this.fromDate(d)
-    }
-    if (typeof (d as any) === 'string') {
-      return this.fromStringOrNull(d)
-    }
-
-    return null
-  }
-
-  fromString(s: string): LocalDate {
-    const ld = this.fromStringOrNull(s)
-    this.assertNotNull(ld, s)
-    return ld
-  }
-
-  fromStringOrNull(s: string | undefined | null): LocalDate | null {
-    if (!s) return null
-    const m = DATE_REGEX.exec(s)
-    if (!m) return null
-
-    const year = Number(m[1])
-    const month = Number(m[2])
-    const day = Number(m[3])
-
-    if (
-      !year ||
-      !month ||
-      month < 1 ||
-      month > 12 ||
-      !day ||
-      day < 1 ||
-      day > this.getMonthLength(year, month)
-    ) {
-      return null
-    }
-
-    return new LocalDate(year, month, day)
-  }
-
-  /**
-   * Parses "compact iso8601 format", e.g `19840621` into LocalDate.
-   * Throws if it fails to do so.
-   */
-  fromCompactString(s: string): LocalDate {
-    const [year, month, day] = [s.slice(0, 4), s.slice(4, 6), s.slice(6, 8)].map(Number)
-
-    _assert(day && month && year, `Cannot parse compact string "${s}" into LocalDate`)
-
-    return new LocalDate(year, month, day)
-  }
-
-  /**
-   * Constructs LocalDate from Date.
-   * Takes Date as-is, in its timezone - local or UTC.
-   */
-  fromDate(d: Date): LocalDate {
-    return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
-  }
-
-  /**
-   * Constructs LocalDate from Date.
-   * Takes Date's year/month/day components in UTC, using getUTCFullYear, getUTCMonth, getUTCDate.
-   */
-  fromDateInUTC(d: Date): LocalDate {
-    return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
-  }
-
-  /**
-   * Create LocalDate from year, month and day components.
-   */
-  fromComponents(year: number, month: number, day: number): LocalDate {
-    return new LocalDate(year, month, day)
-  }
-
-  fromDateObject(o: DateObject): LocalDate {
-    const { year, month, day } = o
-    return new LocalDate(year, month, day)
-  }
-
-  private assertNotNull(
-    ld: LocalDate | null,
-    input: LocalDateInputNullable,
-  ): asserts ld is LocalDate {
-    _assert(ld !== null, `Cannot parse "${input}" into LocalDate`, {
-      input,
-    })
-  }
-
-  getYearLength(year: number): number {
-    return this.isLeapYear(year) ? 366 : 365
-  }
-
-  getMonthLength(year: number, month: number): number {
-    if (month === 2) return this.isLeapYear(year) ? 29 : 28
-    return MDAYS[month]!
-  }
-
-  isLeapYear(year: number): boolean {
-    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
-  }
-
-  /**
-   * Returns true if input is valid to create LocalDate.
-   */
-  isValid(input: LocalDateInputNullable): boolean {
-    return this.fromOrNull(input) !== null
-  }
-
-  /**
-   * Returns true if isoString is a valid iso8601 string like `yyyy-mm-dd`.
-   */
-  isValidString(isoString: string | undefined | null): boolean {
-    return this.fromStringOrNull(isoString) !== null
+  orToday(d: LocalDateInputNullable): LocalDate {
+    return d ? this.fromInput(d) : this.today()
   }
 
   /**
@@ -630,6 +515,154 @@ class LocalDateFactory {
    */
   todayInUTC(): LocalDate {
     return this.fromDateInUTC(new Date())
+  }
+
+  /**
+   Convenience function to return current today's IsoDateString representation, e.g `2024-06-21`
+   */
+  todayString(): IsoDateString {
+    return this.fromDate(new Date()).toISODate()
+  }
+
+  /**
+   * Create LocalDate from LocalDateInput.
+   * Input can already be a LocalDate - it is returned as-is in that case.
+   * String - will be parsed as yyyy-mm-dd.
+   * Date - will be converted to LocalDate (as-is, in whatever timezone it is - local or UTC).
+   * No other formats are supported.
+   *
+   * Will throw if it fails to parse/construct LocalDate.
+   */
+  fromInput(input: LocalDateInput): LocalDate {
+    if (input instanceof LocalDate) return input
+    if (input instanceof Date) {
+      return this.fromDate(input)
+    }
+    // It means it's a string
+    return this.fromIsoDateString(input)
+  }
+
+  /**
+   * Returns true if input is valid to create LocalDate.
+   */
+  isValid(input: LocalDateInputNullable): boolean {
+    if (!input) return false
+    if (input instanceof LocalDate) return true
+    if (input instanceof Date) return !isNaN(input.getDate())
+    return this.isValidString(input)
+  }
+
+  /**
+   * Returns true if isoString is a valid iso8601 string like `yyyy-mm-dd`.
+   */
+  isValidString(isoString: string | undefined | null): boolean {
+    return !!this.parseToLocalDateOrUndefined(DATE_REGEX_STRICT, isoString)
+  }
+
+  /**
+   * Tries to convert/parse the input into LocalDate.
+   * Uses LOOSE parsing.
+   * If invalid - doesn't throw, but returns undefined instead.
+   */
+  try(input: LocalDateInputNullable): LocalDate | undefined {
+    if (!input) return
+    if (input instanceof LocalDate) return input
+    if (input instanceof Date) {
+      if (isNaN(input.getDate())) return
+      return new LocalDate(input.getFullYear(), input.getMonth() + 1, input.getDate())
+    }
+    return this.parseToLocalDateOrUndefined(DATE_REGEX_LOOSE, input)
+  }
+
+  /**
+   * Performs STRICT parsing.
+   * Only allows IsoDateString input, nothing else.
+   */
+  fromIsoDateString(s: IsoDateString): LocalDate {
+    return this.parseToLocalDate(DATE_REGEX_STRICT, s)
+  }
+
+  /**
+   * Parses "compact iso8601 format", e.g `19840621` into LocalDate.
+   * Throws if it fails to do so.
+   */
+  fromCompactString(s: string): LocalDate {
+    return this.parseToLocalDate(COMPACT_DATE_REGEX, s)
+  }
+
+  /**
+   * Performs LOOSE parsing.
+   * Tries to coerce imprefect/incorrect string input into IsoDateString.
+   * Use with caution.
+   * Allows to input IsoDateTimeString, will drop the Time part of it.
+   */
+  parse(s: string): LocalDate {
+    return this.parseToLocalDate(DATE_REGEX_LOOSE, String(s))
+  }
+
+  /**
+   * Throws if it fails to parse the input string via Regex and YMD validation.
+   */
+  private parseToLocalDate(regex: RegExp, s: string): LocalDate {
+    const ld = this.parseToLocalDateOrUndefined(regex, s)
+    _assert(ld, `Cannot parse "${s}" into LocalDate`)
+    return ld
+  }
+
+  /**
+   * Tries to parse the input string, returns undefined if input is invalid.
+   */
+  private parseToLocalDateOrUndefined(
+    regex: RegExp,
+    s: string | undefined | null,
+  ): LocalDate | undefined {
+    if (!s || typeof (s as any) !== 'string') return
+    const m = regex.exec(s)
+    if (!m) return
+    const year = Number(m[1])
+    const month = Number(m[2])
+    const day = Number(m[3])
+    if (!this.isDateObjectValid({ year, month, day })) return
+    return new LocalDate(year, month, day)
+  }
+
+  /**
+   * Throws on invalid value.
+   */
+  private validateDateObject(o: DateObject): void {
+    _assert(
+      this.isDateObjectValid(o),
+      `Cannot construct LocalDate from: ${o.year}-${o.month}-${o.day}`,
+    )
+  }
+
+  isDateObjectValid({ year, month, day }: DateObject): boolean {
+    return (
+      !!year && month >= 1 && month <= 12 && day >= 1 && day <= this.getMonthLength(year, month)
+    )
+  }
+
+  /**
+   * Constructs LocalDate from Date.
+   * Takes Date as-is, in its timezone - local or UTC.
+   */
+  fromDate(d: Date): LocalDate {
+    _assert(!isNaN(d.getDate()), `localDate.fromDate is called on Date object that is invalid`)
+    return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
+  }
+
+  /**
+   * Constructs LocalDate from Date.
+   * Takes Date's year/month/day components in UTC, using getUTCFullYear, getUTCMonth, getUTCDate.
+   */
+  fromDateInUTC(d: Date): LocalDate {
+    _assert(!isNaN(d.getDate()), `localDate.fromDateInUTC is called on Date object that is invalid`)
+    return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
+  }
+
+  fromDateObject(o: DateObject): LocalDate {
+    this.validateDateObject(o)
+    return new LocalDate(o.year, o.month, o.day)
   }
 
   /**
@@ -656,7 +689,7 @@ class LocalDateFactory {
     _assert(items2.length, 'localDate.min called on empty array')
 
     return items2
-      .map(i => this.from(i))
+      .map(i => this.fromInput(i))
       .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
@@ -676,7 +709,7 @@ class LocalDateFactory {
     _assert(items2.length, 'localDate.max called on empty array')
 
     return items2
-      .map(i => this.from(i))
+      .map(i => this.fromInput(i))
       .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
@@ -710,8 +743,8 @@ class LocalDateFactory {
       stepUnit = 'day'
     }
 
-    const $min = this.from(min).startOf(stepUnit)
-    const $max = this.from(max).startOf(stepUnit)
+    const $min = this.fromInput(min).startOf(stepUnit)
+    const $max = this.fromInput(max).startOf(stepUnit)
 
     let value = $min
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
@@ -736,20 +769,17 @@ class LocalDateFactory {
     })
   }
 
-  /**
-   * Creates a LocalDate from the input, unless it's falsy - then returns undefined.
-   *
-   * Similar to `localDate.orToday`, but that will instead return Today on falsy input.
-   */
-  orUndefined(d: LocalDateInputNullable): LocalDate | undefined {
-    return d ? this.from(d) : undefined
+  getYearLength(year: number): number {
+    return this.isLeapYear(year) ? 366 : 365
   }
 
-  /**
-   * Creates a LocalDate from the input, unless it's falsy - then returns localDate.today.
-   */
-  orToday(d: LocalDateInputNullable): LocalDate {
-    return d ? this.from(d) : this.today()
+  getMonthLength(year: number, month: number): number {
+    if (month === 2) return this.isLeapYear(year) ? 29 : 28
+    return MDAYS[month]!
+  }
+
+  isLeapYear(year: number): boolean {
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
   }
 }
 
@@ -759,15 +789,8 @@ interface LocalDateFn extends LocalDateFactory {
 
 const localDateFactory = new LocalDateFactory()
 
-export const localDate = localDateFactory.from.bind(localDateFactory) as LocalDateFn
+export const localDate = localDateFactory.fromInput.bind(localDateFactory) as LocalDateFn
 
 // The line below is the blackest of black magic I have ever written in 2024.
 // And probably 2023 as well.
 Object.setPrototypeOf(localDate, localDateFactory)
-
-/**
- Convenience function to return current today's IsoDateString representation, e.g `2024-06-21`
- */
-export function todayString(): IsoDateString {
-  return localDate.fromDate(new Date()).toISODate()
-}
