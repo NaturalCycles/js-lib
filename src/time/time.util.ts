@@ -37,7 +37,10 @@ export function _ms(millis: number): string {
   if (millis < 1000) return `${Math.round(millis)} ms`
 
   // < 5 sec
-  if (millis < 5000) return `${(millis / 1000).toFixed(3)} sec`
+  if (millis < 5000) {
+    const s = millis / 1000
+    return `${Math.trunc(s) === s ? s : s.toFixed(3)} sec`
+  }
 
   const sec = Math.floor(millis / 1000) % 60
   const min = Math.floor(millis / (60 * 1000)) % 60
