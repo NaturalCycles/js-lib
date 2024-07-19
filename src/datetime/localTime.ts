@@ -57,7 +57,6 @@ const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
  * It supports 2 forms:
  * 1. 2023-03-03
  * 2. 2023-03-03T05:10:02
- * // todo: make it even looser, like Day.js
  */
 const DATE_TIME_REGEX_LOOSE = /^(\d{4})-(\d{2})-(\d{2})([Tt\s](\d{2}):?(\d{2})?:?(\d{2})?)?/
 /**
@@ -67,7 +66,7 @@ const DATE_TIME_REGEX_LOOSE = /^(\d{4})-(\d{2})-(\d{2})([Tt\s](\d{2}):?(\d{2})?:
  * Ok, now it allows arbitrary stuff after `:ss`, to allow millis/timezone info,
  * but it will not take it into account.
  */
-const DATE_TIME_REGEX_STRICT = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/
+const DATE_TIME_REGEX_STRICT = /^(\d{4})-(\d{2})-(\d{2})[Tt\s](\d{2}):(\d{2}):(\d{2})/
 const DATE_REGEX_STRICT = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 
 export class LocalTime {
