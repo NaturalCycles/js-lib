@@ -77,7 +77,7 @@ test('constructors', () => {
   const s = localDate('1984-06-21').toISODate()
   expect(localDate.fromInput('1984-06-21').toISODate()).toBe(s)
   expect(localDate.fromInput(localDate('1984-06-21')).toISODate()).toBe(s)
-  expect(localDate.fromIsoDateString('1984-06-21').toISODate()).toBe(s)
+  expect(localDate.fromString('1984-06-21').toISODate()).toBe(s)
   expect(localDate.fromCompactString('19840621').toISODate()).toBe(s)
   expect(localDate.fromInput(new Date(1984, 5, 21)).toISODate()).toBe(s)
   expect(localDate.fromDate(new Date(1984, 5, 21)).toISODate()).toBe(s)
@@ -202,14 +202,18 @@ test('diff', () => {
 const validDates = [
   '2022-01-01',
   '2023-12-29',
-]
-
-// prettier-ignore
-const looselyValidDates = [
   '2022-01-01T22:01:01',
   '2022-01-01T22:01:01Z',
   '2022-01-01nahuy',
 ]
+
+test.each(validDates)('%s is valid', s => {
+  expect(localDate.isValid(s)).toBe(true)
+  expect(localDate.isValidString(s)).toBe(true)
+  expect(localDate(s).toISODate()).toBe(s.slice(0, 10))
+  expect(localDate.fromString(s).toISODate()).toBe(s.slice(0, 10))
+  expect(localDate.try(s)?.toISODate()).toBe(s.slice(0, 10))
+})
 
 // prettier-ignore
 const invalidDates = [
@@ -220,30 +224,11 @@ const invalidDates = [
   '2022-01-x1',
 ] as string[]
 
-test.each(validDates)('%s is valid', s => {
-  expect(localDate.isValid(s)).toBe(true)
-  expect(localDate.isValidString(s)).toBe(true)
-  expect(localDate(s).toISODate()).toBe(s)
-  expect(localDate.fromIsoDateString(s).toISODate()).toBe(s)
-  expect(localDate.parse(s).toISODate()).toBe(s)
-  expect(localDate.try(s)?.toISODate()).toBe(s)
-})
-
-test.each(looselyValidDates)('%s is loosely valid', s => {
-  expect(localDate.isValid(s)).toBe(false)
-  expect(localDate.isValidString(s)).toBe(false)
-  expect(() => localDate(s)).toThrow('Cannot parse')
-  expect(() => localDate.fromIsoDateString(s)).toThrow('Cannot parse')
-  expect(localDate.parse(s).toISODate()).toBe(s.slice(0, 10))
-  expect(localDate.try(s)?.toISODate()).toBe(s.slice(0, 10))
-})
-
 test.each(invalidDates)('%s is invalid', s => {
   expect(localDate.isValid(s)).toBe(false)
   expect(localDate.isValidString(s)).toBe(false)
   expect(() => localDate(s)).toThrow('Cannot parse')
-  expect(() => localDate.fromIsoDateString(s)).toThrow('Cannot parse')
-  expect(() => localDate.parse(s)).toThrow('Cannot parse')
+  expect(() => localDate.fromString(s)).toThrow('Cannot parse')
   expect(localDate.try(s)).toBeUndefined()
 })
 

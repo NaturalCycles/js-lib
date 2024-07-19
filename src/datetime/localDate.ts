@@ -19,11 +19,7 @@ const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 /**
  * Regex is open-ended (no $ at the end) to support e.g Date+Time string to be parsed (time part will be dropped)
  */
-const DATE_REGEX_LOOSE = /^(\d\d\d\d)-(\d\d)-(\d\d)/
-/**
- * Strict version.
- */
-const DATE_REGEX_STRICT = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
+const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)/
 const COMPACT_DATE_REGEX = /^(\d\d\d\d)(\d\d)(\d\d)$/
 
 export type LocalDateInput = LocalDate | Date | IsoDateString
@@ -540,7 +536,7 @@ class LocalDateFactory {
       return this.fromDate(input)
     }
     // It means it's a string
-    return this.fromIsoDateString(input)
+    return this.fromString(input)
   }
 
   /**
@@ -557,7 +553,7 @@ class LocalDateFactory {
    * Returns true if isoString is a valid iso8601 string like `yyyy-mm-dd`.
    */
   isValidString(isoString: string | undefined | null): boolean {
-    return !!this.parseToLocalDateOrUndefined(DATE_REGEX_STRICT, isoString)
+    return !!this.parseToLocalDateOrUndefined(DATE_REGEX, isoString)
   }
 
   /**
@@ -572,15 +568,15 @@ class LocalDateFactory {
       if (isNaN(input.getDate())) return
       return new LocalDate(input.getFullYear(), input.getMonth() + 1, input.getDate())
     }
-    return this.parseToLocalDateOrUndefined(DATE_REGEX_LOOSE, input)
+    return this.parseToLocalDateOrUndefined(DATE_REGEX, input)
   }
 
   /**
    * Performs STRICT parsing.
    * Only allows IsoDateString input, nothing else.
    */
-  fromIsoDateString(s: IsoDateString): LocalDate {
-    return this.parseToLocalDate(DATE_REGEX_STRICT, s)
+  fromString(s: IsoDateString): LocalDate {
+    return this.parseToLocalDate(DATE_REGEX, s)
   }
 
   /**
@@ -589,16 +585,6 @@ class LocalDateFactory {
    */
   fromCompactString(s: string): LocalDate {
     return this.parseToLocalDate(COMPACT_DATE_REGEX, s)
-  }
-
-  /**
-   * Performs LOOSE parsing.
-   * Tries to coerce imprefect/incorrect string input into IsoDateString.
-   * Use with caution.
-   * Allows to input IsoDateTimeString, will drop the Time part of it.
-   */
-  parse(s: string): LocalDate {
-    return this.parseToLocalDate(DATE_REGEX_LOOSE, String(s))
   }
 
   /**
