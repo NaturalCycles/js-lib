@@ -41,8 +41,8 @@ import type {
   FetcherRetryOptions,
   RequestInitNormalized,
 } from './fetcher.model'
-import { HTTP_METHODS } from './http.model'
 import type { HttpStatusFamily } from './http.model'
+import { HTTP_METHODS } from './http.model'
 
 const acceptByResponseType: Record<FetcherResponseType, string> = {
   text: 'text/plain',

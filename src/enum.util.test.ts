@@ -1,25 +1,25 @@
 import { expectTypeOf } from 'expect-type'
 import {
+  _numberEnumAsMap,
+  _numberEnumAsMapReversed,
   _numberEnumEntries,
   _numberEnumEntriesReversed,
-  _numberEnumValue,
-  _numberEnumValueOrUndefined,
   _numberEnumKey,
   _numberEnumKeyOrUndefined,
   _numberEnumKeys,
-  _numberEnumAsMap,
   _numberEnumNormalize,
   _numberEnumNormalizeOrUndefined,
-  _numberEnumAsMapReversed,
+  _numberEnumValue,
+  _numberEnumValueOrUndefined,
   _numberEnumValues,
+  _stringEnumAsMap,
+  _stringEnumAsMapReversed,
   _stringEnumEntries,
+  _stringEnumEntriesReversed,
   _stringEnumKey,
   _stringEnumKeyOrUndefined,
   _stringEnumKeys,
   _stringEnumValues,
-  _stringEnumEntriesReversed,
-  _stringEnumAsMap,
-  _stringEnumAsMapReversed,
 } from './enum.util'
 
 enum MyNumberEnum {

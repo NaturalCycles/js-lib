@@ -1,4 +1,4 @@
-import { pDelay, _since } from '..'
+import { _since, pDelay } from '..'
 import type { AnyFunction } from '../types'
 import { _Debounce } from './debounce.decorator'
 

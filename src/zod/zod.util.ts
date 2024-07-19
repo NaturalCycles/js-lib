@@ -1,4 +1,4 @@
-import { ZodError, ZodSchema, ZodIssue } from 'zod'
+import { ZodError, ZodIssue, ZodSchema } from 'zod'
 import { _stringify } from '../string/stringify'
 
 export interface ZodErrorResult<T> {

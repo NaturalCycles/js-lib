@@ -1,5 +1,5 @@
 import type { CommonLogger } from '..'
-import { SimpleMovingAverage, _stringify, _assert } from '..'
+import { _assert, _stringify, SimpleMovingAverage } from '..'
 import { _ms } from '../time/time.util'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 

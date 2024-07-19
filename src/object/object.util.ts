@@ -1,6 +1,6 @@
 import { _isEmpty, _isObject } from '../is.util'
-import { _objectEntries, KeyValueTuple, Reviver, SKIP } from '../types'
 import type { AnyObject, ObjectMapper, ObjectPredicate, ValueOf } from '../types'
+import { _objectEntries, KeyValueTuple, Reviver, SKIP } from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.

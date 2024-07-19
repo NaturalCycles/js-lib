@@ -1,14 +1,15 @@
 import { expectTypeOf } from 'expect-type'
+import type { AppError } from '.'
 import { _expectedError } from './error/try'
 import type {
-  Reviver,
-  StringMap,
+  AnyObject,
   BaseDBEntity,
+  MonthId,
+  Reviver,
+  Saved,
+  StringMap,
   Unsaved,
   UnsavedId,
-  AnyObject,
-  MonthId,
-  Saved,
 } from './types'
 import {
   _noop,
@@ -23,7 +24,6 @@ import {
   _stringMapValues,
   _typeCast,
 } from './types'
-import type { AppError } from '.'
 
 interface Item extends BaseDBEntity {
   a?: number

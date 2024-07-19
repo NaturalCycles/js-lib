@@ -1,22 +1,22 @@
 import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
-import type { ErrorObject, BackendErrorResponseObject, HttpRequestErrorData } from '..'
+import type { BackendErrorResponseObject, ErrorObject, HttpRequestErrorData } from '..'
 import {
-  AppError,
-  HttpRequestError,
-  _errorLikeToErrorObject,
-  _omit,
-  _errorObjectToError,
-  AssertionError,
   _errorDataAppend,
-  _isHttpRequestErrorObject,
-  _isErrorLike,
+  _errorLikeToErrorObject,
+  _errorObjectToError,
   _errorSnippet,
+  _isErrorLike,
+  _isHttpRequestErrorObject,
+  _omit,
+  AppError,
+  AssertionError,
+  HttpRequestError,
 } from '..'
 import {
   _anyToError,
   _anyToErrorObject,
-  _isErrorObject,
   _isBackendErrorResponseObject,
+  _isErrorObject,
 } from './error.util'
 
 const anyItems = [

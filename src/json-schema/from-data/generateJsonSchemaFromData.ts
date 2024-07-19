@@ -1,4 +1,5 @@
 import type {
+  AnyObject,
   JsonSchema,
   JsonSchemaArray,
   JsonSchemaBoolean,
@@ -8,7 +9,6 @@ import type {
   JsonSchemaOneOf,
   JsonSchemaString,
   StringMap,
-  AnyObject,
 } from '../..'
 import { _stringMapEntries, _uniq } from '../..'
 

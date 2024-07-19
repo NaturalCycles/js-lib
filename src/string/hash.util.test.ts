@@ -1,4 +1,4 @@
-import { hashCode, hashCode36, hashCode64, hashCode16 } from './hash.util'
+import { hashCode, hashCode16, hashCode36, hashCode64 } from './hash.util'
 
 test('hashCode', () => {
   const obj = {

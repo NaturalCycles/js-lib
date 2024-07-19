@@ -1,5 +1,5 @@
-import type { UnixTimestampNumber, Inclusiveness } from '../types'
-import { localTime, LocalTimeInput, LocalTime } from './localTime'
+import type { Inclusiveness, UnixTimestampNumber } from '../types'
+import { LocalTime, localTime, LocalTimeInput } from './localTime'
 
 export type TimeIntervalConfig = TimeInterval | TimeIntervalString
 export type TimeIntervalString = string

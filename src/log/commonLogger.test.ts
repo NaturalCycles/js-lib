@@ -1,10 +1,10 @@
 import type { CommonLogger, CommonLogWithLevelFunction } from './commonLogger'
 import {
-  commonLoggerMinLevel,
-  commonLoggerPipe,
-  commonLoggerNoop,
-  commonLoggerPrefix,
   commonLoggerCreate,
+  commonLoggerMinLevel,
+  commonLoggerNoop,
+  commonLoggerPipe,
+  commonLoggerPrefix,
 } from './commonLogger'
 
 // This "tests" that `console` is a valid CommonLogger by itself

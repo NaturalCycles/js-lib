@@ -10,7 +10,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { DateObject, ISODayOfWeek, localTime, LocalTime } from './localTime'
+import { DateObject, ISODayOfWeek, LocalTime, localTime } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
@@ -358,8 +358,9 @@ export class LocalDate {
 
   endOf(unit: LocalDateUnitStrict): LocalDate {
     if (unit === 'day') return this
-    if (unit === 'month')
+    if (unit === 'month') {
       return new LocalDate(this.year, this.month, localDate.getMonthLength(this.year, this.month))
+    }
     // year
     return new LocalDate(this.year, 12, 31)
   }

@@ -12,7 +12,7 @@ import type {
   UnixTimestampMillisNumber,
   UnixTimestampNumber,
 } from '../types'
-import { localDate, LocalDate } from './localDate'
+import { LocalDate, localDate } from './localDate'
 import { WallTime } from './wallTime'
 
 export type LocalTimeUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second'
