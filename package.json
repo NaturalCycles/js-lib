@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@naturalcycles/bench-lib": "^3.0.0",
-    "@naturalcycles/dev-lib": "^13.0.1",
+    "@naturalcycles/dev-lib": "^14.0.0",
     "@naturalcycles/nodejs-lib": "^13.0.1",
     "@naturalcycles/time-lib": "^3.5.1",
     "@types/crypto-js": "^4.1.1",
