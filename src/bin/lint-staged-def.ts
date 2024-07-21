@@ -2,16 +2,16 @@
 
 import fs from 'node:fs'
 import { runScript } from '@naturalcycles/nodejs-lib'
-import { cfgDir } from '../cnst/paths.cnst'
 
 runScript(async () => {
   // const cwd = process.cwd()
   const localConfig = `./lint-staged.config.js`
-  const sharedConfig = `${cfgDir}/lint-staged.config.js`
-  const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
-
-  // this probably doesn't work, but we're still trying
-  process.env['ESLINT_USE_FLAT_CONFIG'] = 'false'
+  // const sharedConfig = `${cfgDir}/lint-staged.config.js`
+  const config = fs.existsSync(localConfig) ? localConfig : undefined
+  if (!config) {
+    console.log(`lint-staged is skipped, because no ${localConfig} is found`)
+    return
+  }
 
   // await execWithArgs(`lint-staged`, [`--config`, config])
   // const lintStaged = require('lint-staged')

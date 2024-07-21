@@ -5,8 +5,8 @@ import { dimGrey, execVoidCommandSync, white } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from '../cnst/paths.cnst'
 import { nodeModuleExists } from './test.util'
 
-export function getJestConfigPath(): string {
-  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : `${cfgDir}/jest.config.js`
+export function getJestConfigPath(): string | undefined {
+  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : undefined
 }
 
 export function getJestIntegrationConfigPath(): string {
@@ -62,7 +62,7 @@ export function runJest(opt: RunJestOpt = {}): void {
   const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(2)
 
-  let jestConfig: string
+  let jestConfig: string | undefined
 
   if (manual) {
     jestConfig = getJestManualConfigPath()
@@ -70,6 +70,11 @@ export function runJest(opt: RunJestOpt = {}): void {
     jestConfig = getJestIntegrationConfigPath()
   } else {
     jestConfig = getJestConfigPath()
+  }
+
+  if (!jestConfig) {
+    console.log(dimGrey(`./jest.config.js not found, skipping jest`))
+    return
   }
 
   // Allow to override --maxWorkers

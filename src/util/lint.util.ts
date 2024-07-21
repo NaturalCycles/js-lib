@@ -2,8 +2,6 @@ import fs from 'node:fs'
 import { execVoidCommand, execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import { scriptsDir } from '../cnst/paths.cnst'
 
-const ESLINT_USE_FLAT_CONFIG = 'false'
-
 export function getTSConfigPath(): string {
   // this is to support "Solution style tsconfig.json" (as used in Angular10, for example)
   // return [`./tsconfig.base.json`].find(p => fs.existsSync(p)) || `./tsconfig.json`
@@ -16,41 +14,28 @@ export function getTSConfigPathScripts(): string {
 
 export function runESLint(
   dir: string,
-  eslintConfigPath: string,
+  eslintConfigPath: string | undefined,
   tsconfigPath?: string,
   extensions = ['ts', 'tsx', 'vue'],
   fix = true,
 ): void {
-  if (!fs.existsSync(dir)) return // faster to bail-out like this
+  if (!eslintConfigPath || !fs.existsSync(dir)) return // faster to bail-out like this
 
-  execVoidCommandSync(
-    'eslint',
-    getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix),
-    {
-      env: {
-        ESLINT_USE_FLAT_CONFIG,
-      },
-    },
-  )
+  execVoidCommandSync('eslint', getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix))
 }
 
 export async function runESLintAsync(
   dir: string,
-  eslintConfigPath: string,
+  eslintConfigPath: string | undefined,
   tsconfigPath?: string,
   extensions = ['ts', 'tsx', 'vue'],
   fix = true,
 ): Promise<void> {
-  if (!fs.existsSync(dir)) return // faster to bail-out like this
+  if (!eslintConfigPath || !fs.existsSync(dir)) return // faster to bail-out like this
 
   await execVoidCommand(
     'eslint',
     getEslintArgs(dir, eslintConfigPath, tsconfigPath, extensions, fix),
-    {
-      env: {
-        ESLINT_USE_FLAT_CONFIG,
-      },
-    },
   )
 }
 
@@ -67,7 +52,7 @@ function getEslintArgs(
     `${dir}/**/*.{${extensions.join(',')}}`,
     ...(tsconfigPath ? [`--parser-options=project:${tsconfigPath}`] : []),
     `--no-error-on-unmatched-pattern`,
-    `--report-unused-disable-directives`,
+    `--report-unused-disable-directives`, // todo: unnecessary with flat, as it's defined in the config
     fix ? `--fix` : '',
   ].filter(Boolean)
 }

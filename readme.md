@@ -24,7 +24,7 @@ This unlocks all commands listed below, e.g:
 
 By default, it uses default configs for Prettier, ESLint, Stylelint, that are included in this
 package (for convenience). You can override them by putting your own `prettier.config.js`,
-`.eslintrc.js`, `stylelint.config.json` in the root folder of your project.
+`eslint.config.js`, `stylelint.config.json` in the root folder of your project.
 
 ## Conventions
 

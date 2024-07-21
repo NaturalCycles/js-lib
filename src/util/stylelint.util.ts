@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
-import { cfgDir } from '../cnst/paths.cnst'
 
 const { prettierDirs, stylelintExtensions, lintExclude } = require('../../cfg/_cnst')
 
@@ -21,9 +20,8 @@ export function stylelintAll(): void {
     },
   }).argv
 
-  const config = [`./stylelint.config.js`, `${cfgDir}/stylelint.config.js`].find(f =>
-    fs.existsSync(f),
-  )!
+  const config = [`./stylelint.config.js`].find(f => fs.existsSync(f))
+  if (!config) return
 
   const args = [
     fix ? `--fix` : '',

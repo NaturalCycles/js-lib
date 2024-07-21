@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
-import { cfgDir } from '../cnst/paths.cnst'
 const { prettierDirs, prettierExtensionsAll, lintExclude } = require('../../cfg/_cnst')
 
 const prettierPaths = [
@@ -15,9 +14,8 @@ const prettierPaths = [
 ]
 
 export function runPrettier(): void {
-  // If there's no `prettier.config.js` in target project - pass `./cfg/prettier.config.js`
-  const prettierConfigPath =
-    [`./prettier.config.js`].find(f => fs.existsSync(f)) || `${cfgDir}/prettier.config.js`
+  const prettierConfigPath = [`./prettier.config.js`].find(f => fs.existsSync(f))
+  if (!prettierConfigPath) return
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
   const args = [`--write`, `--log-level=warn`, `--config`, prettierConfigPath, ...prettierPaths]
