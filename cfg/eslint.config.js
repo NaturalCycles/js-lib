@@ -50,7 +50,7 @@ function getConfig() {
       'unused-imports': require('eslint-plugin-unused-imports'),
       'simple-import-sort': require('eslint-plugin-simple-import-sort'),
       jsdoc: require('eslint-plugin-jsdoc'),
-      jest: hasJest ? require('eslint-plugin-jest') : undefined,
+      ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}),
     },
     languageOptions: {
       ecmaVersion: 'latest',
