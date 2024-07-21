@@ -2051,7 +2051,7 @@
       2
     ],
     "vue/require-explicit-emits": [
-      1
+      2
     ],
     "vue/require-expose": [
       2
@@ -2063,7 +2063,7 @@
       2
     ],
     "vue/require-prop-types": [
-      1
+      2
     ],
     "vue/require-render-return": [
       2

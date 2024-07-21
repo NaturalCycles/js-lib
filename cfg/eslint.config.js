@@ -32,6 +32,7 @@ module.exports = [
       parserOptions: {
         project: 'tsconfig.json',
         parser: tseslint.parser,
+        extraFileExtensions: ['.vue', '.html'],
       },
     },
     plugins: getConfig().plugins,

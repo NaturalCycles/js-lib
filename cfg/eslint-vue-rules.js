@@ -48,5 +48,7 @@ module.exports = {
     'vue/v-for-delimiter-style': [2, 'of'],
     'vue/valid-define-options': 2,
     'vue/eqeqeq': 2,
+    'vue/require-explicit-emits': 2,
+    'vue/require-prop-types': 2,
   },
 }
