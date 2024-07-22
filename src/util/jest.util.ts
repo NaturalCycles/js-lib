@@ -137,7 +137,7 @@ export function runJest(opt: RunJestOpt = {}): void {
   const availableParallelism = os.availableParallelism?.()
   const cpus = os.cpus().length
   console.log(
-    `${dimGrey(
+    dimGrey(
       Object.entries({
         node,
         NODE_OPTIONS,
@@ -147,7 +147,7 @@ export function runJest(opt: RunJestOpt = {}): void {
       })
         .map(([k, v]) => `${k}: ${v}`)
         .join(', '),
-    )}`,
+    ),
   )
 
   if (JEST_SHARDS) {

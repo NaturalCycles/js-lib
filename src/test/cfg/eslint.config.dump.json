@@ -2,7 +2,7 @@
   "language": "@/js",
   "languageOptions": {
     "ecmaVersion": "latest",
-    "parser": "typescript-eslint/parser@7.16.1",
+    "parser": "typescript-eslint/parser@7.17.0",
     "parserOptions": {
       "ecmaVersion": "latest",
       "extraFileExtensions": {
@@ -18,7 +18,7 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@7.16.1",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@7.17.0",
     "unicorn:eslint-plugin-unicorn@54.0.0",
     "vue:eslint-plugin-vue@9.27.0",
     "import",
@@ -283,6 +283,9 @@
     "@typescript-eslint/no-empty-interface": [
       0
     ],
+    "@typescript-eslint/no-empty-object-type": [
+      2
+    ],
     "@typescript-eslint/no-explicit-any": [
       0
     ],
@@ -346,7 +349,13 @@
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": [
       2
     ],
+    "@typescript-eslint/no-unnecessary-parameter-property-assignment": [
+      2
+    ],
     "@typescript-eslint/no-unnecessary-qualifier": [
+      2
+    ],
+    "@typescript-eslint/no-unnecessary-template-expression": [
       2
     ],
     "@typescript-eslint/no-unnecessary-type-assertion": [
@@ -370,6 +379,9 @@
     "@typescript-eslint/no-unsafe-enum-comparison": [
       0
     ],
+    "@typescript-eslint/no-unsafe-function-type": [
+      2
+    ],
     "@typescript-eslint/no-unsafe-member-access": [
       0
     ],
@@ -389,16 +401,25 @@
     "@typescript-eslint/no-var-requires": [
       0
     ],
+    "@typescript-eslint/no-wrapper-object-types": [
+      2
+    ],
     "@typescript-eslint/non-nullable-type-assertion-style": [
       2
     ],
     "@typescript-eslint/object-curly-spacing": [
       0
     ],
+    "@typescript-eslint/only-throw-error": [
+      2
+    ],
     "@typescript-eslint/prefer-as-const": [
       2
     ],
     "@typescript-eslint/prefer-enum-initializers": [
+      2
+    ],
+    "@typescript-eslint/prefer-find": [
       2
     ],
     "@typescript-eslint/prefer-for-of": [
@@ -420,6 +441,9 @@
       0
     ],
     "@typescript-eslint/prefer-optional-chain": [
+      2
+    ],
+    "@typescript-eslint/prefer-promise-reject-errors": [
       2
     ],
     "@typescript-eslint/prefer-reduce-type-parameter": [
@@ -1014,7 +1038,7 @@
       2
     ],
     "no-throw-literal": [
-      2
+      0
     ],
     "no-trailing-spaces": [
       0
@@ -1119,6 +1143,9 @@
         "destructuring": "all",
         "ignoreReadBeforeAssign": false
       }
+    ],
+    "prefer-promise-reject-errors": [
+      0
     ],
     "prefer-rest-params": [
       2

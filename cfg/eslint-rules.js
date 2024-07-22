@@ -279,7 +279,8 @@ module.exports = {
     'no-shadow-restricted-names': 2,
     'no-sparse-arrays': 2,
     'no-this-before-super': 2,
-    'no-throw-literal': 2,
+    'no-throw-literal': 0,
+    '@typescript-eslint/only-throw-error': 2,
     'no-undef': 0, // covered by TS, conflicts with typescript-eslint
     'no-undef-init': 2,
     'no-underscore-dangle': 0,
@@ -354,6 +355,9 @@ module.exports = {
     ],
     '@typescript-eslint/array-type': 2,
     '@typescript-eslint/prefer-regexp-exec': 0, // auto-fixer breaks code sometimes!
+    '@typescript-eslint/prefer-find': 2,
+    'prefer-promise-reject-errors': 0,
+    '@typescript-eslint/prefer-promise-reject-errors': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
     'unicorn/no-array-callback-reference': 0, // false positives
@@ -405,6 +409,11 @@ module.exports = {
     '@typescript-eslint/no-unsafe-assignment': 0,
     '@typescript-eslint/no-unsafe-member-access': 0,
     '@typescript-eslint/no-unsafe-call': 0,
+    '@typescript-eslint/no-unsafe-function-type': 2,
+    '@typescript-eslint/no-wrapper-object-types': 2,
+    '@typescript-eslint/no-empty-object-type': 2,
+    '@typescript-eslint/no-unnecessary-template-expression': 2,
+    '@typescript-eslint/no-unnecessary-parameter-property-assignment': 2,
     '@typescript-eslint/restrict-template-expressions': 0,
     '@typescript-eslint/no-unsafe-return': 0,
     '@typescript-eslint/restrict-plus-operands': 0,
