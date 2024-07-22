@@ -12,31 +12,37 @@ const tseslint = require('typescript-eslint')
 const hasJest = require('node:fs').existsSync('./node_modules/jest')
 // console.log({ hasJest })
 
+const defaultFiles = ['**/*.ts', '**/*.tsx']
+
 module.exports = [
-  eslint.configs.recommended,
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-type-checked.ts
-  ...tseslint.configs.recommendedTypeChecked,
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/stylistic-type-checked.ts
-  ...tseslint.configs.stylisticTypeChecked,
-  // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
-  require('eslint-plugin-unicorn').configs['flat/recommended'],
-  // https://eslint.vuejs.org/user-guide/#user-guide
-  ...require('eslint-plugin-vue').configs['flat/recommended'],
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    ...getConfig(),
+    ...eslint.configs.recommended,
+    files: defaultFiles,
   },
+  // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-type-checked.ts
+  ...tseslint.configs.recommendedTypeChecked.map(c => ({
+    ...c,
+    files: defaultFiles,
+  })),
+  // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/stylistic-type-checked.ts
+  ...tseslint.configs.stylisticTypeChecked.map(c => ({
+    ...c,
+    files: defaultFiles,
+  })),
+  // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
   {
-    files: ['*.vue', '**/*.vue'],
-    languageOptions: {
-      parserOptions: {
-        project: 'tsconfig.json',
-        parser: tseslint.parser,
-        extraFileExtensions: ['.vue', '.html'],
-      },
-    },
-    plugins: getConfig().plugins,
-    rules: getConfig().rules,
+    ...require('eslint-plugin-unicorn').configs['flat/recommended'],
+    files: defaultFiles,
+  },
+  // https://eslint.vuejs.org/user-guide/#user-guide
+  // ...require('eslint-plugin-vue').configs['flat/recommended'],
+  ...require('eslint-plugin-vue').configs['flat/recommended'].map(c => ({
+    ...c,
+    files: defaultFiles,
+  })),
+  {
+    files: defaultFiles,
+    ...getConfig(),
   },
   {
     ignores: ['**/__exclude/**', '**/*.scss', '**/*.js'],
@@ -63,10 +69,10 @@ function getConfig() {
         // testcafe
         fixture: 'readonly',
       },
-      parser: tseslint.parser,
+      // parser: tseslint.parser,
       parserOptions: {
         project: 'tsconfig.json',
-        ecmaVersion: 'latest',
+        parser: tseslint.parser,
         extraFileExtensions: ['.vue', '.html'],
       },
     },
