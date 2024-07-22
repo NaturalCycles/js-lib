@@ -2,13 +2,13 @@
   "language": "@/js",
   "languageOptions": {
     "ecmaVersion": "latest",
-    "parser": "typescript-eslint/parser@7.17.0",
+    "parser": "vue-eslint-parser@9.4.3",
     "parserOptions": {
-      "ecmaVersion": "latest",
       "extraFileExtensions": {
         "0": ".vue",
         "1": ".html"
       },
+      "parser": "typescript-eslint/parser@7.17.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -27,6 +27,7 @@
     "jsdoc",
     "jest:eslint-plugin-jest@28.6.0"
   ],
+  "processor": "vue/vue",
   "rules": {
     "@babel/object-curly-spacing": [
       0
@@ -284,7 +285,10 @@
       0
     ],
     "@typescript-eslint/no-empty-object-type": [
-      2
+      2,
+      {
+        "allowInterfaces": "always"
+      }
     ],
     "@typescript-eslint/no-explicit-any": [
       0
@@ -1737,6 +1741,9 @@
     "vue/comma-style": [
       0
     ],
+    "vue/comment-directive": [
+      2
+    ],
     "vue/component-api-style": [
       2,
       [
@@ -1808,6 +1815,9 @@
     ],
     "vue/html-self-closing": [
       0
+    ],
+    "vue/jsx-uses-vars": [
+      2
     ],
     "vue/key-spacing": [
       0

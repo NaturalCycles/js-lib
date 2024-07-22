@@ -411,7 +411,12 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 0,
     '@typescript-eslint/no-unsafe-function-type': 2,
     '@typescript-eslint/no-wrapper-object-types': 2,
-    '@typescript-eslint/no-empty-object-type': 2,
+    '@typescript-eslint/no-empty-object-type': [
+      2,
+      {
+        allowInterfaces: 'always',
+      },
+    ],
     '@typescript-eslint/no-unnecessary-template-expression': 2,
     '@typescript-eslint/no-unnecessary-parameter-property-assignment': 2,
     '@typescript-eslint/restrict-template-expressions': 0,
