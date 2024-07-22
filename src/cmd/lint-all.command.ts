@@ -8,7 +8,6 @@ import {
   execVoidCommandSync,
   getLastGitCommitMsg,
   gitCommitAll,
-  gitHasUncommittedChanges,
   gitPull,
   gitPush,
 } from '@naturalcycles/nodejs-lib'
@@ -33,12 +32,10 @@ export async function lintAllCommand(): Promise<void> {
     },
   }).argv
 
-  // todo: produce a cleaner "list of changed files"
-  let gitStatusAtStart: string | undefined
-  const hadChangesBefore = gitHasUncommittedChanges()
-  if ((commitOnChanges || failOnChanges) && hadChangesBefore) {
+  const needToTrackChanges = commitOnChanges || failOnChanges
+  const gitStatusAtStart = gitStatus()
+  if (needToTrackChanges && gitStatusAtStart) {
     console.log('lint-all: git shows changes before run:')
-    gitStatusAtStart = gitStatus()
     console.log(gitStatusAtStart)
   }
 
@@ -60,29 +57,22 @@ export async function lintAllCommand(): Promise<void> {
 
   console.log(`${boldGrey('lint-all')} ${dimGrey(`took ` + _since(started))}`)
 
-  if (commitOnChanges || failOnChanges) {
-    // detect changes
-    const hasChanges = gitHasUncommittedChanges()
-    if (hasChanges) {
-      const gitStatusAfter = gitStatus()
-      if (gitStatusAfter === gitStatusAtStart) {
-        console.log(`lint-all: git status is the same as before the run, will not commit`)
-      } else {
-        const msg =
-          'style(ci): ' + _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60)
+  if (needToTrackChanges) {
+    const gitStatusAfter = gitStatus()
+    const hasChanges = gitStatusAfter !== gitStatusAtStart
+    if (!hasChanges) return
+    const msg = 'style(ci): ' + _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60)
 
-        // pull, commit, push changes
-        gitPull()
-        gitCommitAll(msg)
-        gitPush()
-      }
+    // pull, commit, push changes
+    gitPull()
+    gitCommitAll(msg)
+    gitPush()
 
-      // fail on changes
-      if (failOnChanges) {
-        console.log(gitStatusAfter)
-        console.log('lint-all failOnChanges: exiting with status 1')
-        process.exitCode = 1
-      }
+    // fail on changes
+    if (failOnChanges) {
+      console.log(gitStatusAfter)
+      console.log('lint-all failOnChanges: exiting with status 1')
+      process.exitCode = 1
     }
   }
 }
@@ -120,7 +110,7 @@ function canRunBinary(name: string): boolean {
 
 function gitStatus(): string | undefined {
   try {
-    return execSync('git status', {
+    return execSync('git status -s', {
       encoding: 'utf8',
     })
   } catch {}
