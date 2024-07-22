@@ -18,7 +18,6 @@ export class MissingValueError extends Error {
   constructor(public key: any) {
     super(`Missing a value for ${key ? `the placeholder: ${key}` : 'a placeholder'}`)
     this.name = 'MissingValueError'
-    this.key = key
   }
 }
 

@@ -1,6 +1,6 @@
 import type { ErrorData } from '../error/error.model'
 import { _errorDataAppend, TimeoutError } from '../error/error.util'
-import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
+import { _typeCast, AnyAsyncFunction, NumberOfMilliseconds } from '../types'
 
 export interface PTimeoutOptions {
   /**
@@ -84,6 +84,7 @@ export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions)
         try {
           resolve(onTimeout(err))
         } catch (err: any) {
+          _typeCast<Error>(err)
           // keep original stack
           err.stack = fakeError.stack!.replace('Error: TimeoutError', err.name + ': ' + err.message)
           reject(_errorDataAppend(err, opt.errorData))
@@ -98,7 +99,7 @@ export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions)
     try {
       resolve(await fn())
     } catch (err) {
-      reject(err)
+      reject(err as Error)
     } finally {
       clearTimeout(timer)
     }

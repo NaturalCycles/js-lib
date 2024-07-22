@@ -124,7 +124,7 @@ export class PQueue {
         .then(result => {
           if (!resolveOnStart) fn.defer.resolve(result)
         })
-        .catch(err => {
+        .catch((err: Error) => {
           this.cfg.logger.error(err)
           if (resolveOnStart) return
 

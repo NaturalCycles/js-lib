@@ -127,7 +127,7 @@ export async function pMap<IN, OUT>(
             resolvingCount--
             next()
           },
-          err => {
+          (err: Error) => {
             if (errorMode === ErrorMode.THROW_IMMEDIATELY) {
               isSettled = true
               reject(err)
