@@ -33,7 +33,14 @@ export async function lintAllCommand(): Promise<void> {
     },
   }).argv
 
+  // todo: produce a cleaner "list of changed files"
+  let gitStatusAtStart: string | undefined
   const hadChangesBefore = gitHasUncommittedChanges()
+  if ((commitOnChanges || failOnChanges) && hadChangesBefore) {
+    console.log('lint-all: git shows changes before run:')
+    gitStatusAtStart = gitStatus()
+    console.log(gitStatusAtStart)
+  }
 
   // We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
   await eslintAllCommand()
@@ -57,8 +64,9 @@ export async function lintAllCommand(): Promise<void> {
     // detect changes
     const hasChanges = gitHasUncommittedChanges()
     if (hasChanges) {
-      if (hadChangesBefore) {
-        console.log(`lint-all: there are changes before running lint-all, will not commit`)
+      const gitStatusAfter = gitStatus()
+      if (gitStatusAfter === gitStatusAtStart) {
+        console.log(`lint-all: git status is the same as before the run, will not commit`)
       } else {
         const msg =
           'style(ci): ' + _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60)
@@ -71,6 +79,7 @@ export async function lintAllCommand(): Promise<void> {
 
       // fail on changes
       if (failOnChanges) {
+        console.log(gitStatusAfter)
         console.log('lint-all failOnChanges: exiting with status 1')
         process.exitCode = 1
       }
@@ -107,4 +116,12 @@ function canRunBinary(name: string): boolean {
   } catch {
     return false
   }
+}
+
+function gitStatus(): string | undefined {
+  try {
+    return execSync('git status', {
+      encoding: 'utf8',
+    })
+  } catch {}
 }
