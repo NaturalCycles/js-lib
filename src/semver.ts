@@ -36,19 +36,19 @@ export class Semver {
     return this.tokens[2]
   }
 
-  isAfter = (other: SemverInput): boolean => this.cmp(other) > 0
-  isSameOrAfter = (other: SemverInput): boolean => this.cmp(other) >= 0
-  isBefore = (other: SemverInput): boolean => this.cmp(other) < 0
-  isSameOrBefore = (other: SemverInput): boolean => this.cmp(other) <= 0
-  isSame = (other: SemverInput): boolean => this.cmp(other) === 0
+  isAfter = (other: SemverInput): boolean => this.compare(other) > 0
+  isSameOrAfter = (other: SemverInput): boolean => this.compare(other) >= 0
+  isBefore = (other: SemverInput): boolean => this.compare(other) < 0
+  isSameOrBefore = (other: SemverInput): boolean => this.compare(other) <= 0
+  isSame = (other: SemverInput): boolean => this.compare(other) === 0
 
   /**
    * Returns 1 if this > other
    * returns 0 if they are equal
    * returns -1 if this < other
    */
-  cmp(other: SemverInput): -1 | 0 | 1 {
-    const { tokens } = semver2.of(other)
+  compare(other: SemverInput): -1 | 0 | 1 {
+    const { tokens } = semver2.fromInput(other)
     for (let i = 0; i < 3; i++) {
       if (this.tokens[i]! < tokens[i]!) return -1
       if (this.tokens[i]! > tokens[i]!) return 1
@@ -64,18 +64,18 @@ export class Semver {
 }
 
 class SemverFactory {
-  of(input: SemverInput): Semver {
-    const s = this.parseOrNull(input)
+  fromInput(input: SemverInput): Semver {
+    const s = this.fromInputOrUndefined(input)
 
-    _assert(s !== null, `Cannot parse "${input}" into Semver`, {
+    _assert(s, `Cannot parse "${input}" into Semver`, {
       input,
     })
 
     return s
   }
 
-  parseOrNull(input: SemverInputNullable): Semver | null {
-    if (!input) return null
+  fromInputOrUndefined(input: SemverInputNullable): Semver | undefined {
+    if (!input) return
     if (input instanceof Semver) return input
 
     const t = input.split('.')
@@ -96,7 +96,9 @@ class SemverFactory {
   max(items: SemverInputNullable[]): Semver {
     const items2 = items.filter(_isTruthy)
     _assert(items2.length, 'semver.max called on empty array')
-    return items2.map(i => this.of(i)).reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    return items2
+      .map(i => this.fromInput(i))
+      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
   }
 
   /**
@@ -114,7 +116,7 @@ class SemverFactory {
     const items2 = items.filter(_isTruthy)
     _assert(items2.length, 'semver.min called on empty array')
     return items2
-      .map(i => this.of(i))
+      .map(i => this.fromInput(i))
       .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
   }
 
@@ -123,7 +125,7 @@ class SemverFactory {
    */
   sort(items: Semver[], dir: SortDirection = 'asc', mutate = false): Semver[] {
     const mod = dir === 'desc' ? -1 : 1
-    return (mutate ? items : [...items]).sort((a, b) => a.cmp(b) * mod)
+    return (mutate ? items : [...items]).sort((a, b) => a.compare(b) * mod)
   }
 }
 
@@ -133,7 +135,7 @@ interface SemverFn extends SemverFactory {
 
 const semverFactory = new SemverFactory()
 
-export const semver2 = semverFactory.of.bind(semverFactory) as SemverFn
+export const semver2 = semverFactory.fromInput.bind(semverFactory) as SemverFn
 
 // The line below is the blackest of black magic I have ever written in 2024.
 // And probably 2023 as well.

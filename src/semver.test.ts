@@ -12,8 +12,8 @@ test('basic', () => {
   expect(s.minor).toBe(2)
   expect(s.patch).toBe(3)
 
-  const s2 = semver2.of('1.2.5')
-  expect(s.cmp(s2)).toBe(-1)
+  const s2 = semver2.fromInput('1.2.5')
+  expect(s.compare(s2)).toBe(-1)
   expect(s.isAfter(s2)).toBe(false)
   expect(s.isSameOrAfter(s2)).toBe(false)
   expect(s.isBefore(s2)).toBe(true)
@@ -63,7 +63,7 @@ test.each([
   ['.', '0.0.0'],
   ['x', '0.0.0'],
 ])('parse', (str, expected) => {
-  expect(semver2.parseOrNull(str)?.toString()).toBe(expected)
+  expect(semver2.fromInputOrUndefined(str)?.toString()).toBe(expected)
 })
 
 test.each([

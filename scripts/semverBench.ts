@@ -18,7 +18,7 @@ runBenchScript({
       const _a: any[] = []
 
       _range(data.length).forEach(i => {
-        _a.push(semver2(data[i]!).cmp(data2[i]!))
+        _a.push(semver2(data[i]!).compare(data2[i]!))
       })
     },
     semver: () => {
