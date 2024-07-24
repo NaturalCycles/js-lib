@@ -42,7 +42,7 @@ jobs:
           key: npm-v1-${{ runner.os }}
 
       - run: yarn --frozen-lockfile
-      - run: yarn build-prod
+      - run: yarn build
 
       - name: release
         env:

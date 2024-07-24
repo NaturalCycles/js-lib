@@ -3,7 +3,11 @@
   "version": "14.55.0",
   "scripts": {
     "prepare": "husky",
-    "build-prod": "build-prod-esm-cjs",
+    "build": "dev-lib build-esm-cjs",
+    "test": "dev-lib test",
+    "lint": "dev-lib lint",
+    "bt": "dev-lib bt",
+    "lbt": "dev-lib lbt",
     "test-tz1": "TZ=Europe/Stockholm yarn test local",
     "test-tz2": "TZ=JST-9 yarn test local",
     "test-ny": "TZ=GMT-0500 yarn test localTime",
@@ -17,7 +21,7 @@
   },
   "devDependencies": {
     "@naturalcycles/bench-lib": "^3.0.0",
-    "@naturalcycles/dev-lib": "^14.0.0",
+    "@naturalcycles/dev-lib": "^15.0.3",
     "@naturalcycles/nodejs-lib": "^13.0.1",
     "@naturalcycles/time-lib": "^3.5.1",
     "@types/crypto-js": "^4.1.1",
