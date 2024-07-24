@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import os from 'node:os'
 import { select, Separator } from '@inquirer/prompts'
 import { _assert, _by, PromisableFunction } from '@naturalcycles/js-lib'
