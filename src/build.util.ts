@@ -15,6 +15,8 @@ export async function buildEsmCjs(): Promise<void> {
   fs2.emptyDir('./dist')
   fs2.emptyDir('./dist-esm')
 
+  buildCopy()
+
   const cjsPath = cjsExists ? TSCONF_CJS_PATH : TSCONF_PROD_PATH
   const esmPath = esmExists ? TSCONF_ESM_PATH : TSCONF_PROD_PATH
 
