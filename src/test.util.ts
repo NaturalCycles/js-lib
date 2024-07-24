@@ -31,7 +31,7 @@ export function runJest(opt: RunJestOpt = {}): void {
   const { node } = process.versions
   const cpuLimit = Number(CPU_LIMIT) || undefined
   const { integration, manual, leaks } = opt
-  const processArgs = process.argv.slice(2)
+  const processArgs = process.argv.slice(3)
 
   let jestConfig: string | undefined
 
@@ -164,7 +164,7 @@ function getJestManualConfigPath(): string {
  * Detects if jest is run with all tests, or with specific tests.
  */
 function isRunningAllTests(): boolean {
-  const args = process.argv.slice(2)
+  const args = process.argv.slice(3)
   const positionalArgs = args.filter(a => !a.startsWith('-'))
 
   // console.log(process.argv, positionalArgs)
