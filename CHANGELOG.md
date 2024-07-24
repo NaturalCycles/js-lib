@@ -37,7 +37,7 @@ These commands stay as shortcuts/aliases (they kind of make sense there, as they
 yarn bt                 => yarn dev-lib bt
 yarn btl                => yarn dev-lib lbt # lbt reflects the order: lint-build-test
 yarn build              => gone, no replacement
-yarn build-copy         => gone, no replacement
+yarn build-copy         => yarn dev-lib build-copy
 yarn tsc-prod, tsc-scripts => gone, no replacement
 yarn build-prod         => yarn dev-lib build
 yarn build-prod-esm-cjs => yarn dev-lib build-esm-cjs

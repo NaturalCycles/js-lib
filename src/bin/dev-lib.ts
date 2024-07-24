@@ -4,7 +4,7 @@ import os from 'node:os'
 import { select, Separator } from '@inquirer/prompts'
 import { _assert, _by, PromisableFunction } from '@naturalcycles/js-lib'
 import { dimGrey, runScript } from '@naturalcycles/nodejs-lib'
-import { buildEsmCjs, buildProd, runTSCInFolders } from '../build.util'
+import { buildCopy, buildEsmCjs, buildProd, runTSCInFolders } from '../build.util'
 import {
   eslintAll,
   lintAllCommand,
@@ -30,6 +30,12 @@ const commands: (Command | Separator)[] = [
     name: 'build',
     fn: buildProd,
     desc: 'Clean ./dist, run "build-copy" then tsc with emit, using tsconfig.prod.json',
+    cliOnly: true,
+  },
+  {
+    name: 'build-copy',
+    fn: buildCopy,
+    desc: 'Copy the non-ts files from ./src to ./dist',
     cliOnly: true,
   },
   {

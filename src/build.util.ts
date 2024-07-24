@@ -93,7 +93,7 @@ export async function runTSCProd(): Promise<void> {
   console.log(`${boldGrey('tsc prod')} ${dimGrey(`took ` + _since(started))}`)
 }
 
-function buildCopy(): void {
+export function buildCopy(): void {
   const baseDir = 'src'
   const inputPatterns = [
     '**',
