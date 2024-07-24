@@ -71,6 +71,12 @@ test('basic', () => {
   expect(ld.getAgeInMonths('2024-05-15')).toBe(478)
   expect(ld.getAgeInDays('2024-05-15')).toBe(14573)
   expect(ld.getAgeIn('day', '2024-05-15')).toBe(14573)
+
+  expect(ld.isToday()).toBe(false)
+  expect(ld.isAfterToday()).toBe(false)
+  expect(ld.isSameOrAfterToday()).toBe(false)
+  expect(ld.isBeforeToday()).toBe(true)
+  expect(ld.isSameOrBeforeToday()).toBe(true)
 })
 
 test('constructors', () => {

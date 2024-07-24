@@ -51,6 +51,9 @@ test('basic', () => {
   expect(lt.getAgeInDays('2024-05-15')).toBe(865)
   expect(lt.getAgeIn('day', '2024-05-15')).toBe(865)
 
+  expect(lt.isAfterNow()).toBe(false)
+  expect(lt.isBeforeNow()).toBe(true)
+
   expect(lt.setYear(2023).year).toBe(2023)
   expect(lt.year).toBe(2022) // not changed
 

@@ -538,6 +538,13 @@ export class LocalTime {
     return localTime.fromInput(now ?? new Date()).diff(this, unit)
   }
 
+  isAfterNow(): boolean {
+    return this.$date.valueOf() > Date.now()
+  }
+  isBeforeNow(): boolean {
+    return this.$date.valueOf() < Date.now()
+  }
+
   /**
    * Returns 1 if this > d
    * returns 0 if they are equal

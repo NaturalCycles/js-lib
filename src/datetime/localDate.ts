@@ -141,6 +141,22 @@ export class LocalDate {
     return this.isSameOrAfter(localDate.fromInput(today || new Date()).plus(-n, unit))
   }
 
+  isToday(): boolean {
+    return this.isSame(localDate.today())
+  }
+  isAfterToday(): boolean {
+    return this.isAfter(localDate.today())
+  }
+  isSameOrAfterToday(): boolean {
+    return this.isSameOrAfter(localDate.today())
+  }
+  isBeforeToday(): boolean {
+    return this.isBefore(localDate.today())
+  }
+  isSameOrBeforeToday(): boolean {
+    return this.isSameOrBefore(localDate.today())
+  }
+
   getAgeInYears(today?: LocalDateInput): number {
     return this.getAgeIn('year', today)
   }
