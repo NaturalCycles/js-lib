@@ -2,36 +2,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, execVoidCommandSync, white } from '@naturalcycles/nodejs-lib'
-import { cfgDir } from '../cnst/paths.cnst'
-import { nodeModuleExists } from './test.util'
-
-export function getJestConfigPath(): string | undefined {
-  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : undefined
-}
-
-export function getJestIntegrationConfigPath(): string {
-  return fs.existsSync(`./jest.integration-test.config.js`)
-    ? `./jest.integration-test.config.js`
-    : `${cfgDir}/jest.integration-test.config.js`
-}
-
-export function getJestManualConfigPath(): string {
-  return fs.existsSync(`./jest.manual-test.config.js`)
-    ? `./jest.manual-test.config.js`
-    : `${cfgDir}/jest.manual-test.config.js`
-}
-
-/**
- * Detects if jest is run with all tests, or with specific tests.
- */
-export function isRunningAllTests(): boolean {
-  const args = process.argv.slice(2)
-  const positionalArgs = args.filter(a => !a.startsWith('-'))
-
-  // console.log(process.argv, positionalArgs)
-
-  return !positionalArgs.length
-}
+import { cfgDir } from './paths'
 
 interface RunJestOpt {
   integration?: boolean
@@ -164,4 +135,39 @@ export function runJest(opt: RunJestOpt = {}): void {
       env,
     })
   }
+}
+
+/**
+ * Returns true if module with given name exists in _target project's_ node_modules.
+ */
+function nodeModuleExists(moduleName: string): boolean {
+  return fs.existsSync(`./node_modules/${moduleName}`)
+}
+
+function getJestConfigPath(): string | undefined {
+  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : undefined
+}
+
+function getJestIntegrationConfigPath(): string {
+  return fs.existsSync(`./jest.integration-test.config.js`)
+    ? `./jest.integration-test.config.js`
+    : `${cfgDir}/jest.integration-test.config.js`
+}
+
+function getJestManualConfigPath(): string {
+  return fs.existsSync(`./jest.manual-test.config.js`)
+    ? `./jest.manual-test.config.js`
+    : `${cfgDir}/jest.manual-test.config.js`
+}
+
+/**
+ * Detects if jest is run with all tests, or with specific tests.
+ */
+function isRunningAllTests(): boolean {
+  const args = process.argv.slice(2)
+  const positionalArgs = args.filter(a => !a.startsWith('-'))
+
+  // console.log(process.argv, positionalArgs)
+
+  return !positionalArgs.length
 }

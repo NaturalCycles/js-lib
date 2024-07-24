@@ -19,12 +19,26 @@ Install it:
 
 This unlocks all commands listed below, e.g:
 
-    yarn test
-    yarn lint-all
+    yarn dev-lib test
+    yarn dev-lib lint-all
+
+`yarn dev-lib` runs "interactive mode" that lets you explore available commands.
 
 By default, it uses default configs for Prettier, ESLint, Stylelint, that are included in this
 package (for convenience). You can override them by putting your own `prettier.config.js`,
-`eslint.config.js`, `stylelint.config.json` in the root folder of your project.
+`eslint.config.js`, `stylelint.config.js` in the root folder of your project.
+
+UPD: these tools/linters would use default configs if absent:
+
+- commitlint
+- lint-staged
+
+These tools require a respective config to run, otherwise they're not run. List of configs:
+
+- `jest.config.js`
+- `prettier.config.js`
+- `eslint.config.js` (eslint FLAT config)
+- `stylelint.config.js`
 
 ## Conventions
 
@@ -56,23 +70,15 @@ All files are linted and _prettified_ upon commit (using `husky`, `lint-staged` 
 
 ### Yarn commands
 
-These commands are available to be called as `yarn <command>`, because they are exposed as
-`npm scripts` in `node_modules/.bin/`.
+These commands are available to be called as `yarn dev-lib <command>`.
 
 #### Build commands
 
-- `tsc-prod`: does `tsc -p tsconfig.prod.ts`
-- `tsc-scripts`: does `tsc -p ./scripts/tsconfig.ts --noEmit` (type-checking for `./scripts`)
-
-- `build`: "Development build". Checks that "everything compiles". Does
-  `del ./dist && tsc && tsc-scripts`
+- `build`: "Production build". Does `del ./dist && build-copy && tsc-prod`
 - `bt`: "Build & Test". Does `del ./dist && tsc && tsc-scripts && test`
-- `btl`: "Build, Test & Lint". Does `lint-all && tsc && test`
-
-- `build-copy`: copies _additional files_ into `dist` folder (e.g `*.json`)
-- `build-prod`: "Production build". Does `del ./dist && build-copy && tsc-prod`
-- `build-prod-esm-cjs`: "Production build" for browser-lib, will produce CJS output in `./dist` and
-  ESM output in `./dist-esm`. Will use `./tsconfig.{cjs|esm}.prod.json` if exists, otherwise
+- `lbt`: "Lint, Build & Test". Does `lint && tsc && test`
+- `build-esm-cjs`: "Production build" for browser-lib, will produce CJS output in `./dist` and ESM
+  output in `./dist-esm`. Will use `./tsconfig.{cjs|esm}.prod.json` if exists, otherwise
   `tsconfig.prod.json`, which allows to override e.g compilation target.
 
 #### Test commands
@@ -83,7 +89,7 @@ There are 3 categories of tests supported:
 - Integration tests `*.integration.test.ts`
 - Manual tests `*.manual.test.ts`
 
-Unit tests are default. All tests are run on `yarn test`.
+Unit tests are default. All tests are run on `yarn dev-lib test`.
 
 Integration tests (optional) allow to have a setup file (`src/test/setupJest.integration.ts`) where
 you can define separate environment settings. You can use it to run so-called "integration tests" -
@@ -120,11 +126,11 @@ For manual tests:
 - `<rootDir>/src/test/setupJest.ts`
 - `<rootDir>/src/test/setupJest.manual.ts`
 
-`yarn test` runs tests in alphabetic order by default (internally it points `--testSequencer` to a
-pre-defined sequencer file that sorts all filenames alphabetically). Set `JEST_NO_ALPHABETIC` env
-variable to disable it.
+`yarn dev-lib test` runs tests in alphabetic order by default (internally it points
+`--testSequencer` to a pre-defined sequencer file that sorts all filenames alphabetically). Set
+`JEST_NO_ALPHABETIC` env variable to disable it.
 
-##### Shard support (experimental)
+##### Shard support
 
 Jest 28 introduced [--shard](https://jestjs.io/docs/cli#--shard) feature.
 
@@ -137,14 +143,14 @@ If you need to execute shards **in parallel**, you can follow e.g
 
 #### Lint commands
 
-- `lint-all`: runs ESLint, Stylelint, Prettier, actionlint, ktlint in the right order.
+- `lint`: runs ESLint, Stylelint, Prettier, actionlint, ktlint in the right order.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
 
-- `eslint-all`: runs `eslint` on needed paths
-- `stylelint-all`: runs `stylelint` on needed paths
-- `prettier-all`: runs just Prettier on needed paths
+- `eslint`: runs `eslint` on needed paths
+- `stylelint`: runs `stylelint` on needed paths
+- `prettier`: runs just Prettier on needed paths
 
 Pass `--no-fix` (or `--fix=false`) to disable the default `--fix` flag on linters. Useful to debug a
 linter, or when linter behaves badly and corrupts your files (just happened to me with
@@ -170,8 +176,6 @@ Install it **locally** in you project by adding
 
 - `up`: shortcut for `yarn upgrade` && `yarn patch-package` (if `patch-package` exists in the
   project).
-- `init-from-dev-lib`: copy config files from `dev-lib/cfg/init` to the project
-- `update-from-dev-lib`: copy config files from `dev-lib/cfg/overwrite` to the project
 
 ## Non-extendable config files
 
@@ -193,7 +197,7 @@ These files are meant to be extended in target project, so act as _recommended d
 - `husky.config.js`
 - `lint-staged.config.js`
 - `prettier.config.js`
-- `eslint.config.json`
+- `eslint.config.js`
 - `jest.config.js`
 
 ## eslint
@@ -201,4 +205,4 @@ These files are meant to be extended in target project, so act as _recommended d
 Presence of `jest` is detected by checking if `node_modules/jest` exists.
 
 If exists - `eslint-plugin-jest` recommended config (plus opinionated `dev-lib`'s rules) are
-enabled. Otherwise disabled ( to not cause "jest not found" errors)
+enabled. Otherwise disabled ( to not cause "jest not found" errors).

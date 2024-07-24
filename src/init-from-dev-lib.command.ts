@@ -1,5 +1,5 @@
 import { kpySync } from '@naturalcycles/nodejs-lib'
-import { cfgOverwriteDir } from '../cnst/paths.cnst'
+import { cfgOverwriteDir } from './paths'
 
 export function initFromDevLibCommand(): void {
   kpySync({

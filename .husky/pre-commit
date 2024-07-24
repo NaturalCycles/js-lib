@@ -1,3 +1,3 @@
 [ -n "$CI" ] && exit 0
 
-yarn lint-staged-def
+yarn dev-lib lint-staged

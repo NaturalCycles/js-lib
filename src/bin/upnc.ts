@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-import { execVoidCommandSync, runScript } from '@naturalcycles/nodejs-lib'
+import { runScript } from '@naturalcycles/nodejs-lib'
+import { upnc } from '../yarn.util'
 
 runScript(async () => {
-  execVoidCommandSync('yarn', ['upgrade', '--pattern', `@naturalcycles`])
-  execVoidCommandSync('yarn-deduplicate')
-  execVoidCommandSync('yarn')
+  upnc()
 })

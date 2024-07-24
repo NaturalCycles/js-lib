@@ -1,1 +1,1 @@
-export * from './cmd/build-prod.command'
+export { buildProd } from './build.util'

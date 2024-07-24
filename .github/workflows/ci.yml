@@ -38,7 +38,7 @@ jobs:
           key: npm-v1-${{ runner.os }}
 
       - run: yarn --frozen-lockfile --prefer-offline
-      - run: yarn build-prod
+      - run: yarn build
 
       - name: release
         env:
