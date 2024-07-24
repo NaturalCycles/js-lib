@@ -61,8 +61,6 @@
     "cfg/overwrite/.gitignore",
     "cfg"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "bin": {
     "dev-lib": "dist/bin/dev-lib.js",
     "up": "dist/bin/up.js",
