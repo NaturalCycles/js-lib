@@ -19,7 +19,7 @@
   "plugins": [
     "@",
     "@typescript-eslint:@typescript-eslint/eslint-plugin@7.17.0",
-    "unicorn:eslint-plugin-unicorn@54.0.0",
+    "unicorn:eslint-plugin-unicorn@55.0.0",
     "vue:eslint-plugin-vue@9.27.0",
     "import",
     "unused-imports",
@@ -1411,6 +1411,9 @@
     ],
     "unicorn/no-keyword-prefix": [
       0
+    ],
+    "unicorn/no-length-as-slice-end": [
+      2
     ],
     "unicorn/no-lonely-if": [
       2
