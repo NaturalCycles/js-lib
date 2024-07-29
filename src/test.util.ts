@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import os from 'node:os'
 import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, execVoidCommandSync, white } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from './paths'
@@ -19,16 +18,7 @@ export function runJest(opt: RunJestOpt = {}): void {
     return
   }
 
-  const {
-    CI,
-    CPU_LIMIT,
-    TZ = 'UTC',
-    APP_ENV,
-    JEST_NO_ALPHABETIC,
-    JEST_SHARDS,
-    NODE_OPTIONS = 'not defined',
-  } = process.env
-  const { node } = process.versions
+  const { CI, CPU_LIMIT, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, JEST_SHARDS } = process.env
   const cpuLimit = Number(CPU_LIMIT) || undefined
   const { integration, manual, leaks } = opt
   const processArgs = process.argv.slice(3)
@@ -104,22 +94,6 @@ export function runJest(opt: RunJestOpt = {}): void {
   if (!JEST_NO_ALPHABETIC) {
     args.push(`--testSequencer=${cfgDir}/jest.alphabetic.sequencer.js`)
   }
-
-  const availableParallelism = os.availableParallelism?.()
-  const cpus = os.cpus().length
-  console.log(
-    dimGrey(
-      Object.entries({
-        node,
-        NODE_OPTIONS,
-        cpus,
-        availableParallelism,
-        cpuLimit,
-      })
-        .map(([k, v]) => `${k}: ${v}`)
-        .join(', '),
-    ),
-  )
 
   if (JEST_SHARDS) {
     const totalShards = Number(JEST_SHARDS)
