@@ -25,7 +25,7 @@
     "@naturalcycles/nodejs-lib": "^13.0.1",
     "@naturalcycles/time-lib": "^3.5.1",
     "@types/crypto-js": "^4.1.1",
-    "@types/node": "^20.1.0",
+    "@types/node": "^22.0.0",
     "@types/semver": "^7.5.8",
     "crypto-js": "^4.1.1",
     "jest": "^29.0.0",

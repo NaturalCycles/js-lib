@@ -114,7 +114,7 @@ export async function pRetry<T>(
   } = opt
 
   const fakeError = timeout ? new Error('TimeoutError') : undefined
-  let { logFirstAttempt = false, logRetries = true, logFailures = false, logSuccess = false } = opt
+  let { logFirstAttempt = false, logRetries = true, logFailures = true, logSuccess = false } = opt
 
   if (opt.logAll) {
     logSuccess = logFirstAttempt = logRetries = logFailures = true
@@ -157,7 +157,7 @@ export async function pRetry<T>(
       return result
     } catch (err) {
       if (logFailures) {
-        logger.warn(`${fname} attempt #${attempt} error in ${_since(started)}:`, err)
+        logger.error(`${fname} attempt #${attempt} error in ${_since(started)}:`, err)
       }
 
       if (attempt >= maxAttempts || (predicate && !predicate(err as Error, attempt, maxAttempts))) {
