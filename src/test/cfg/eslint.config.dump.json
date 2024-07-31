@@ -8,7 +8,7 @@
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@7.17.0",
+      "parser": "typescript-eslint/parser@8.0.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,7 +18,7 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@7.17.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.0.0",
     "unicorn:eslint-plugin-unicorn@55.0.0",
     "vue:eslint-plugin-vue@9.27.0",
     "import",
@@ -49,31 +49,6 @@
     ],
     "@typescript-eslint/ban-tslint-comment": [
       2
-    ],
-    "@typescript-eslint/ban-types": [
-      2,
-      {
-        "types": {
-          "Boolean": {
-            "message": "Avoid using the `Boolean` type. Did you mean `boolean`?"
-          },
-          "Number": {
-            "message": "Avoid using the `Number` type. Did you mean `number`?"
-          },
-          "object": {
-            "message": "The `object` type is currently hard to use ([see this issue](https://github.com/microsoft/TypeScript/issues/21732)).\nConsider using `Record<string, any>` instead, as it allows you to more easily inspect and use the keys."
-          },
-          "Object": {
-            "message": "Avoid using the `Object` type. Did you mean `object`? Consider using Record<string, any> instead"
-          },
-          "String": {
-            "message": "Avoid using the `String` type. Did you mean `string`?"
-          },
-          "Symbol": {
-            "message": "Avoid using the `Symbol` type. Did you mean `symbol`?"
-          }
-        }
-      }
     ],
     "@typescript-eslint/block-spacing": [
       0
@@ -266,6 +241,9 @@
     "@typescript-eslint/no-array-constructor": [
       2
     ],
+    "@typescript-eslint/no-array-delete": [
+      2
+    ],
     "@typescript-eslint/no-base-to-string": [
       2
     ],
@@ -317,9 +295,6 @@
         "ignoreParameters": true
       }
     ],
-    "@typescript-eslint/no-loss-of-precision": [
-      2
-    ],
     "@typescript-eslint/no-misused-new": [
       2
     ],
@@ -346,6 +321,34 @@
     ],
     "@typescript-eslint/no-redundant-type-constituents": [
       0
+    ],
+    "@typescript-eslint/no-require-imports": [
+      0
+    ],
+    "@typescript-eslint/no-restricted-types": [
+      2,
+      {
+        "types": {
+          "Boolean": {
+            "message": "Avoid using the `Boolean` type. Did you mean `boolean`?"
+          },
+          "Number": {
+            "message": "Avoid using the `Number` type. Did you mean `number`?"
+          },
+          "object": {
+            "message": "The `object` type is currently hard to use ([see this issue](https://github.com/microsoft/TypeScript/issues/21732)).\nConsider using `Record<string, any>` instead, as it allows you to more easily inspect and use the keys."
+          },
+          "Object": {
+            "message": "Avoid using the `Object` type. Did you mean `object`? Consider using Record<string, any> instead"
+          },
+          "String": {
+            "message": "Avoid using the `String` type. Did you mean `string`?"
+          },
+          "Symbol": {
+            "message": "Avoid using the `Symbol` type. Did you mean `symbol`?"
+          }
+        }
+      }
     ],
     "@typescript-eslint/no-this-alias": [
       0
@@ -391,6 +394,9 @@
     ],
     "@typescript-eslint/no-unsafe-return": [
       0
+    ],
+    "@typescript-eslint/no-unsafe-unary-minus": [
+      2
     ],
     "@typescript-eslint/no-unused-expressions": [
       2
@@ -929,7 +935,7 @@
       2
     ],
     "no-loss-of-precision": [
-      0
+      2
     ],
     "no-misleading-character-class": [
       2
@@ -1076,6 +1082,9 @@
     ],
     "no-unsafe-optional-chaining": [
       2
+    ],
+    "no-unused-expressions": [
+      0
     ],
     "no-unused-labels": [
       2

@@ -2,7 +2,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/adjacent-overload-signatures': 2,
     '@typescript-eslint/ban-ts-comment': 0,
-    '@typescript-eslint/ban-types': [
+    '@typescript-eslint/no-restricted-types': [
       2,
       {
         types: {
@@ -345,6 +345,7 @@ module.exports = {
     '@typescript-eslint/no-redundant-type-constituents': 0, // `'a' | string` is still useful for DX
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-require-imports': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/explicit-module-boundary-types': [
