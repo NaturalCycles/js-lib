@@ -240,3 +240,14 @@ test('Infinity math', () => {
   // eslint-disable-next-line jest/prefer-equality-matcher
   expect(a === Infinity).toBe(true)
 })
+
+test('order is preserved', async () => {
+  const input = _range(6)
+  const result = await pMap(input, async v => {
+    await pDelay(100 - v * 20)
+    // console.log('done', v)
+    return v
+  })
+  // console.log(result)
+  expect(result).toEqual(input)
+})
