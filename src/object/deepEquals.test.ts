@@ -78,6 +78,6 @@ class A {
 }
 
 test('debug', () => {
-  const r = _deepEquals(new A('a'), 'a')
+  const r = _deepEquals(new A('a'), 'a' as any)
   console.log(r)
 })

@@ -40,7 +40,7 @@
  
  TLDR: _deepEquals should be useful in most of the cases, start there.
  */
-export function _deepEquals(a: any, b: any): boolean {
+export function _deepEquals<T>(a: T, b: T): boolean {
   if (a === b) return true
 
   if (Number.isNaN(a)) {
@@ -52,7 +52,7 @@ export function _deepEquals(a: any, b: any): boolean {
 
     if (Array.isArray(a)) {
       const length = a.length
-      if (length !== b.length) return false
+      if (!Array.isArray(b) || length !== b.length) return false
       for (let i = length; i-- !== 0; ) {
         if (!_deepEquals(a[i], b[i])) return false
       }
@@ -74,12 +74,14 @@ export function _deepEquals(a: any, b: any): boolean {
       return true
     }
 
-    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags
+    if (a.constructor === RegExp) {
+      return (a as RegExp).source === (b as any).source && (a as RegExp).flags === (b as any).flags
+    }
     if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf()
     if (a.toString !== Object.prototype.toString) return a.toString() === b.toString()
 
     for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
-      if (!_deepEquals(a[key], b[key])) return false
+      if (!_deepEquals(a[key as keyof T], b[key as keyof T])) return false
     }
 
     return true
@@ -102,36 +104,36 @@ export function _deepEquals(a: any, b: any): boolean {
  
  See _deepEquals docs for more details and comparison.
  */
-export function _deepJsonEquals(a: any, b: any): boolean {
+export function _deepJsonEquals<T>(a: T, b: T): boolean {
   if (a === b) return true
 
   if (Number.isNaN(a)) {
-    a = null
+    ;(a as any) = null
   } else if (typeof a === 'function') {
-    a = undefined
+    ;(a as any) = undefined
   } else if (a && typeof a === 'object') {
     if (a instanceof Date) {
-      a = a.valueOf()
+      ;(a as any) = a.valueOf()
     } else if ('toJSON' in a) {
-      a = a.toJSON()
+      a = (a as any).toJSON()
     }
   }
   if (Number.isNaN(b)) {
-    b = null
+    ;(b as any) = null
   } else if (typeof b === 'function') {
-    b = undefined
+    ;(b as any) = undefined
   } else if (b && typeof b === 'object') {
     if (b instanceof Date) {
-      b = b.valueOf()
+      ;(b as any) = b.valueOf()
     } else if ('toJSON' in b) {
-      b = b.toJSON()
+      b = (b as any).toJSON()
     }
   }
 
   if (a && b && typeof a === 'object' && typeof b === 'object') {
     if (Array.isArray(a)) {
       const length = a.length
-      if (length !== b.length) return false
+      if (!Array.isArray(b) || length !== b.length) return false
       for (let i = length; i-- !== 0; ) {
         if (!_deepJsonEquals(a[i], b[i])) return false
       }
@@ -139,7 +141,7 @@ export function _deepJsonEquals(a: any, b: any): boolean {
     }
 
     for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
-      if (!_deepJsonEquals(a[key], b[key])) return false
+      if (!_deepJsonEquals(a[key as keyof T], b[key as keyof T])) return false
     }
 
     return true
