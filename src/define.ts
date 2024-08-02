@@ -1,5 +1,5 @@
 import { _mapObject, _mapValues } from './object/object.util'
-import type { AnyFunction, AnyObject } from './types'
+import type { AnyFunction, AnyObject, Lazy } from './types'
 import { SKIP } from './types'
 
 /**
@@ -11,7 +11,7 @@ import { SKIP } from './types'
  *
  * Based on: https://github.com/sindresorhus/lazy-value
  */
-export function _lazyValue<T extends AnyFunction>(fn: T): T {
+export function _lazyValue<T>(fn: () => T): Lazy<T> {
   let isCalled = false
   let result: any
 

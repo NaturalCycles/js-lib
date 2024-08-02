@@ -49,7 +49,7 @@ test('MEMO_DROP_CACHE', () => {
   // second call
   a.a(2, 3)
 
-  expect(a.func).toBeCalledTimes(2)
+  expect(a.func).toHaveBeenCalledTimes(2)
 })
 
 test('memo unsupported', () => {

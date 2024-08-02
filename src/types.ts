@@ -90,6 +90,18 @@ export type AnyAsyncFunction<T = any> = (...args: any[]) => Promise<T>
 export type AsyncFunction<T = any> = () => Promise<T>
 export type AnyPromisableFunction<T = any> = (...args: any[]) => Promisable<T>
 export type PromisableFunction<T = any> = () => Promisable<T>
+/**
+ * A function that lazily calculates something.
+ */
+export type Lazy<T> = () => T
+/**
+ * A function that lazily calculates something async (returns a Promise).
+ */
+export type LazyPromise<T> = () => Promise<T>
+/**
+ * A function that lazily calculates something async, that can return null.
+ */
+export type LazyNullablePromise<T> = () => Promise<T | null>
 
 /**
  * Symbol to indicate END of Sequence.

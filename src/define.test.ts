@@ -1,3 +1,4 @@
+import { expectTypeOf } from 'expect-type'
 import {
   _defineLazyProperty,
   _defineLazyProps,
@@ -5,17 +6,18 @@ import {
   _defineProps,
   _lazyValue,
 } from './define'
-import { AnyObject } from './types'
+import { AnyObject, Lazy } from './types'
 
 test('_lazyValue', () => {
   const fn = jest.fn(() => 42)
 
   const value = _lazyValue(fn)
+  expectTypeOf(value).toEqualTypeOf<Lazy<number>>()
   expect(value()).toBe(42)
   expect(value()).toBe(42)
   expect(value()).toBe(42)
 
-  expect(fn).toBeCalledTimes(1)
+  expect(fn).toHaveBeenCalledTimes(1)
 })
 
 interface Obj {
@@ -33,7 +35,7 @@ test('_defineLazyProperty', () => {
   expect(obj.v).toBe(42)
   expect(obj.v).toBe(42)
 
-  expect(fn).toBeCalledTimes(1)
+  expect(fn).toHaveBeenCalledTimes(1)
 
   // Another way to declare an object:
 
@@ -60,12 +62,12 @@ test('_defineLazyProps', () => {
   expect(obj.v1).toBe(42)
   expect(obj.v1).toBe(42)
   expect(obj.v1).toBe(42)
-  expect(fn1).toBeCalledTimes(1)
+  expect(fn1).toHaveBeenCalledTimes(1)
 
   expect(obj.v2).toBe(48)
   expect(obj.v2).toBe(48)
   expect(obj.v2).toBe(48)
-  expect(fn2).toBeCalledTimes(1)
+  expect(fn2).toHaveBeenCalledTimes(1)
 })
 
 test('_defineProperty', () => {

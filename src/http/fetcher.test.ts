@@ -111,7 +111,7 @@ test('should not mutate console', () => {
   // So, it'll be called 0 times
   // Here we're expecting that it's called 1 time
   console.log('yo')
-  expect(consoleSpy).toBeCalledTimes(1)
+  expect(consoleSpy).toHaveBeenCalledTimes(1)
 })
 
 test('mocking fetch', async () => {
