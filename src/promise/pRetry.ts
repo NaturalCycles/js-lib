@@ -157,7 +157,9 @@ export async function pRetry<T>(
       return result
     } catch (err) {
       if (logFailures) {
-        logger.error(`${fname} attempt #${attempt} error in ${_since(started)}:`, err)
+        // Logger at warn (not error) level, because it's not a fatal error, but a retriable one
+        // Fatal one is not logged either, because it's been thrown instead
+        logger.warn(`${fname} attempt #${attempt} error in ${_since(started)}:`, err)
       }
 
       if (attempt >= maxAttempts || (predicate && !predicate(err as Error, attempt, maxAttempts))) {
