@@ -44,6 +44,11 @@ const commands: (Command | Separator)[] = [
     desc: 'Clean ./dist and ./dist-esm, then run "tsc" in CJS and ESM modes.',
     cliOnly: true,
   },
+  {
+    name: 'tsc',
+    fn: tscAll,
+    desc: 'Run tsc in folders (src, scripts, e2e, playwright) if there is tsconfig.json present',
+  },
   { name: 'bt', fn: bt, desc: 'Build & Test: run "build" and then "test".' },
   { name: 'lbt', fn: lbt, desc: 'Lint/Build/Test: run "lint", then "build", then "test".' },
   new Separator(), // test
@@ -144,8 +149,13 @@ async function lbt(): Promise<void> {
 }
 
 async function bt(): Promise<void> {
-  await runTSCInFolders(['.', 'scripts'], ['--noEmit'])
+  await tscAll()
   runJest()
+}
+
+async function tscAll(): Promise<void> {
+  // todo: remove playwright after it fully moves to e2e
+  await runTSCInFolders(['.', 'scripts', 'e2e', 'playwright'], ['--noEmit'])
 }
 
 function logEnvironment(): void {
