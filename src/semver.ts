@@ -1,6 +1,5 @@
 import { _range } from './array/range'
 import { _assert } from './error/assert'
-import { _isTruthy } from './is.util'
 import { SortDirection } from './types'
 
 export type SemverInput = string | Semver
@@ -86,7 +85,14 @@ class SemverFactory {
    * Returns the highest (max) Semver from the array, or undefined if the array is empty.
    */
   maxOrUndefined(items: SemverInputNullable[]): Semver | undefined {
-    return items.length ? this.max(items) : undefined
+    let max: Semver | undefined
+    for (const item of items) {
+      const input = this.fromInputOrUndefined(item)
+      if (!max || input?.isAfter(max)) {
+        max = input
+      }
+    }
+    return max
   }
 
   /**
@@ -94,18 +100,23 @@ class SemverFactory {
    * Throws if the array is empty.
    */
   max(items: SemverInputNullable[]): Semver {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'semver.max called on empty array')
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    const max = this.maxOrUndefined(items)
+    _assert(max, 'semver.max called on empty array')
+    return max
   }
 
   /**
    * Returns the lowest (min) Semver from the array, or undefined if the array is empty.
    */
   minOrUndefined(items: SemverInputNullable[]): Semver | undefined {
-    return items.length ? this.min(items) : undefined
+    let min: Semver | undefined
+    for (const item of items) {
+      const input = this.fromInputOrUndefined(item)
+      if (!min || input?.isBefore(min)) {
+        min = input
+      }
+    }
+    return min
   }
 
   /**
@@ -113,11 +124,9 @@ class SemverFactory {
    * Throws if the array is empty.
    */
   min(items: SemverInputNullable[]): Semver {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'semver.min called on empty array')
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+    const min = this.minOrUndefined(items)
+    _assert(min, 'semver.min called on empty array')
+    return min
   }
 
   /**

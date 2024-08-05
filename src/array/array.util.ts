@@ -1,4 +1,4 @@
-import { _isNotNullish } from '../is.util'
+import { _assert } from '../error/assert'
 import {
   AbortablePredicate,
   END,
@@ -22,14 +22,11 @@ import {
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
 export function _chunk<T>(array: readonly T[], size = 1): T[][] {
-  return array.reduce<T[][]>((arr, item, idx) => {
-    if (idx % size === 0) {
-      arr.push([item])
-    } else {
-      arr[arr.length - 1]!.push(item)
-    }
-    return arr
-  }, [])
+  const a: T[][] = []
+  for (let i = 0; i < array.length; i += size) {
+    a.push(array.slice(i, i + size))
+  }
+  return a
 }
 
 /**
@@ -93,17 +90,12 @@ export function _pushUniqBy<T>(a: T[], mapper: Mapper<T, any>, ...items: T[]): T
  * Based on: https://stackoverflow.com/a/40808569/4919972
  */
 export function _uniqBy<T>(arr: readonly T[], mapper: Mapper<T, any>): T[] {
-  return [
-    ...arr
-      .reduce((map, item, index) => {
-        const key = item === null || item === undefined ? item : mapper(item, index)
-
-        if (!map.has(key)) map.set(key, item)
-
-        return map
-      }, new Map())
-      .values(),
-  ]
+  const map = new Map<any, T>()
+  for (const [i, item] of arr.entries()) {
+    const key = item === undefined || item === null ? item : mapper(item, i)
+    if (!map.has(key)) map.set(key, item)
+  }
+  return [...map.values()]
 }
 
 /**
@@ -159,16 +151,13 @@ export function _mapBy<ITEM, KEY>(
  * Returning `undefined` from the Mapper will EXCLUDE the item.
  */
 export function _groupBy<T>(items: readonly T[], mapper: Mapper<T, any>): StringMap<T[]> {
-  return items.reduce(
-    (map, item, index) => {
-      const res = mapper(item, index)
-      if (res !== undefined) {
-        map[res] = [...(map[res] || []), item]
-      }
-      return map
-    },
-    {} as StringMap<T[]>,
-  )
+  const map: StringMap<T[]> = {}
+  for (const [i, item] of items.entries()) {
+    const key = mapper(item, i)
+    if (key === undefined) continue
+    ;(map[key] ||= []).push(item)
+  }
+  return map
 }
 
 /**
@@ -347,7 +336,11 @@ export function _intersectsWith<T>(a1: T[], a2: T[] | Set<T>): boolean {
  * // [1]
  */
 export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
-  return diffs.reduce((a, b) => a.filter(c => !b.includes(c)), source)
+  let a = source
+  for (const b of diffs) {
+    a = a.filter(c => !b.includes(c))
+  }
+  return a
 }
 
 /**
@@ -447,44 +440,54 @@ export function _first<T>(array: readonly T[]): T {
 }
 
 export function _minOrUndefined<T>(array: readonly T[]): NonNullable<T> | undefined {
-  const a = array.filter(_isNotNullish)
-  if (!a.length) return
-  return a.reduce((min, item) => (min <= item ? min : item))
+  let min: NonNullable<T> | undefined
+  for (const item of array) {
+    if (item === undefined || item === null) continue
+    if (min === undefined || item < min) {
+      min = item as NonNullable<T>
+    }
+  }
+  return min
 }
 
 /**
  * Filters out nullish values (undefined and null).
  */
 export function _min<T>(array: readonly T[]): NonNullable<T> {
-  const a = array.filter(_isNotNullish)
-  if (!a.length) throw new Error('_min called on empty array')
-  return a.reduce((min, item) => (min <= item ? min : item))
+  const min = _minOrUndefined(array)
+  _assert(min !== undefined, '_min called on empty array')
+  return min
 }
 
 export function _maxOrUndefined<T>(array: readonly T[]): NonNullable<T> | undefined {
-  const a = array.filter(_isNotNullish)
-  if (!a.length) return
-  return a.reduce((max, item) => (max >= item ? max : item))
+  let max: NonNullable<T> | undefined
+  for (const item of array) {
+    if (item === undefined || item === null) continue
+    if (max === undefined || item > max) {
+      max = item as NonNullable<T>
+    }
+  }
+  return max
 }
 
 /**
  * Filters out nullish values (undefined and null).
  */
 export function _max<T>(array: readonly T[]): NonNullable<T> {
-  const a = array.filter(_isNotNullish)
-  if (!a.length) throw new Error('_max called on empty array')
-  return a.reduce((max, item) => (max >= item ? max : item))
+  const max = _maxOrUndefined(array)
+  _assert(max !== undefined, '_max called on empty array')
+  return max
 }
 
 export function _maxBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const max = _maxByOrUndefined(array, mapper)
-  if (max === undefined) throw new Error('_maxBy returned undefined')
+  _assert(max !== undefined, '_maxBy returned undefined')
   return max
 }
 
 export function _minBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const min = _minByOrUndefined(array, mapper)
-  if (min === undefined) throw new Error('_minBy returned undefined')
+  _assert(min !== undefined, '_minBy returned undefined')
   return min
 }
 

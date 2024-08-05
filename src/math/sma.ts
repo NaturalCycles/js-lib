@@ -18,7 +18,9 @@ export class SimpleMovingAverage {
    */
   get avg(): number {
     if (this.data.length === 0) return 0
-    return this.data.reduce((total, n) => total + n, 0) / this.data.length
+    let total = 0
+    for (const n of this.data) total += n
+    return total / this.data.length
   }
 
   /**

@@ -1,6 +1,14 @@
 import { _isEmpty, _isObject } from '../is.util'
-import type { AnyObject, ObjectMapper, ObjectPredicate, ValueOf } from '../types'
-import { _objectEntries, KeyValueTuple, Reviver, SKIP } from '../types'
+import {
+  _objectEntries,
+  AnyObject,
+  KeyValueTuple,
+  ObjectMapper,
+  ObjectPredicate,
+  Reviver,
+  SKIP,
+  ValueOf,
+} from '../types'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -13,16 +21,17 @@ export function _pick<T extends AnyObject, K extends keyof T>(
 ): T {
   if (mutate) {
     // Start as original object (mutable), DELETE properties that are not whitelisted
-    return Object.keys(obj).reduce((r, prop) => {
-      if (!props.includes(prop as K)) delete r[prop]
-      return r
-    }, obj)
+    for (const prop of Object.keys(obj)) {
+      if (!props.includes(prop as K)) delete obj[prop]
+    }
+    return obj
   }
   // Start as empty object, pick/add needed properties
-  return props.reduce((r, prop) => {
+  const r = {} as T
+  for (const prop of props) {
     if (prop in obj) r[prop] = obj[prop]
-    return r
-  }, {} as T)
+  }
+  return r
 }
 
 /**
@@ -34,13 +43,18 @@ export function _omit<T extends AnyObject, K extends keyof T>(
   props: readonly K[],
   mutate = false,
 ): T {
-  return props.reduce(
-    (r, prop) => {
-      delete r[prop]
-      return r
-    },
-    mutate ? obj : { ...obj },
-  )
+  if (mutate) {
+    for (const prop of props) {
+      delete obj[prop]
+    }
+    return obj
+  }
+
+  const r = {} as T
+  for (const prop of Object.keys(obj)) {
+    if (!props.includes(prop as K)) r[prop as K] = obj[prop]
+  }
+  return r
 }
 
 /**
@@ -52,13 +66,11 @@ export function _omit<T extends AnyObject, K extends keyof T>(
  * ])
  */
 export function _mask<T extends AnyObject>(obj: T, props: string[], mutate = false): T {
-  return props.reduce(
-    (r, prop) => {
-      _unset(r, prop)
-      return r
-    },
-    mutate ? obj : _deepCopy(obj),
-  )
+  const r = mutate ? obj : _deepCopy(obj)
+  for (const prop of props) {
+    _unset(r, prop)
+  }
+  return r
 }
 
 /**
@@ -96,13 +108,22 @@ export function _filterObject<T extends AnyObject>(
   predicate: ObjectPredicate<T>,
   mutate = false,
 ): T {
-  return Object.keys(obj).reduce(
-    (r, k) => {
-      if (!predicate(k as keyof T, r[k], obj)) delete r[k]
-      return r
-    },
-    mutate ? obj : { ...obj },
-  )
+  if (mutate) {
+    for (const [k, v] of _objectEntries(obj)) {
+      if (!predicate(k, v, obj)) {
+        delete obj[k]
+      }
+    }
+    return obj
+  }
+
+  const r = {} as T
+  for (const [k, v] of _objectEntries(obj)) {
+    if (predicate(k, v, obj)) {
+      r[k] = v
+    }
+  }
+  return r
 }
 
 /**
@@ -121,13 +142,11 @@ export function _mapValues<OUT = unknown, IN extends AnyObject = AnyObject>(
   mapper: ObjectMapper<IN, any>,
   mutate = false,
 ): OUT {
-  return _objectEntries(obj).reduce(
-    (map, [k, v]) => {
-      map[k] = mapper(k, v, obj)
-      return map
-    },
-    mutate ? obj : ({} as IN),
-  ) as any
+  const map: any = mutate ? obj : {}
+  for (const [k, v] of Object.entries(obj)) {
+    map[k] = mapper(k, v, obj)
+  }
+  return map
 }
 
 /**
@@ -139,10 +158,11 @@ export function _mapValues<OUT = unknown, IN extends AnyObject = AnyObject>(
  * To skip some key-value pairs - use _mapObject instead.
  */
 export function _mapKeys<T extends AnyObject>(obj: T, mapper: ObjectMapper<T, string>): T {
-  return _objectEntries(obj).reduce((map, [k, v]) => {
-    map[mapper(k, v, obj)] = v
-    return map
-  }, {} as AnyObject) as T
+  const map = {} as T
+  for (const [k, v] of Object.entries(obj)) {
+    map[mapper(k, v, obj) as keyof T] = v
+  }
+  return map
 }
 
 /**
@@ -165,13 +185,13 @@ export function _mapObject<OUT = unknown, IN extends AnyObject = AnyObject>(
   obj: IN,
   mapper: ObjectMapper<IN, KeyValueTuple<string, any> | typeof SKIP>,
 ): OUT {
-  return Object.entries(obj).reduce((map, [k, v]) => {
+  const map: any = {}
+  for (const [k, v] of Object.entries(obj)) {
     const r = mapper(k, v, obj)
-    if (r !== SKIP) {
-      map[r[0]] = r[1]
-    }
-    return map
-  }, {} as AnyObject) as OUT
+    if (r === SKIP) continue
+    map[r[0]] = r[1]
+  }
+  return map
 }
 
 export function _findKeyByValue<T extends AnyObject>(obj: T, v: ValueOf<T>): keyof T | undefined {
@@ -322,10 +342,13 @@ export function _invertMap<K, V>(m: ReadonlyMap<K, V>): Map<V, K> {
  * _get(obj, 'unknown.path') // undefined
  */
 export function _get<T extends AnyObject>(obj = {} as T, path = ''): unknown {
-  return path
-    .replaceAll(/\[([^\]]+)]/g, '.$1')
-    .split('.')
-    .reduce((o, p) => o?.[p], obj)
+  return (
+    path
+      .replaceAll(/\[([^\]]+)]/g, '.$1')
+      .split('.')
+      // eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((o, p) => o?.[p], obj)
+  )
 }
 
 type Many<T> = T | readonly T[]
@@ -352,6 +375,7 @@ export function _set<T extends AnyObject>(obj: T, path: PropertyPath, value: any
     return obj as any
   }
 
+  // eslint-disable-next-line unicorn/no-array-reduce
   ;(path as any[]).slice(0, -1).reduce(
     (
       a,

@@ -2,23 +2,26 @@ import { words } from './lodash/words'
 import { _upperFirst } from './string.util'
 
 export function _camelCase(s: string): string {
-  // return s.replace(/(_\w)/g, m => m[1]!.toUpperCase())
-  return words(s.replaceAll(/['\u2019]/g, '')).reduce((result, word, index) => {
+  let r = ''
+  for (let word of words(s.replaceAll(/['\u2019]/g, ''))) {
     word = word.toLowerCase()
-    return result + (index ? _upperFirst(word) : word)
-  }, '')
+    r += r ? _upperFirst(word) : word
+  }
+  return r
 }
 
 export function _snakeCase(s: string): string {
-  return words(s.replaceAll(/['\u2019]/g, '')).reduce(
-    (result, word, index) => result + (index ? '_' : '') + word.toLowerCase(),
-    '',
-  )
+  let r = ''
+  for (const word of words(s.replaceAll(/['\u2019]/g, ''))) {
+    r += (r ? '_' : '') + word.toLowerCase()
+  }
+  return r
 }
 
 export function _kebabCase(s: string): string {
-  return words(s.replaceAll(/['\u2019]/g, '')).reduce(
-    (result, word, index) => result + (index ? '-' : '') + word.toLowerCase(),
-    '',
-  )
+  let r = ''
+  for (const word of words(s.replaceAll(/['\u2019]/g, ''))) {
+    r += (r ? '-' : '') + word.toLowerCase()
+  }
+  return r
 }

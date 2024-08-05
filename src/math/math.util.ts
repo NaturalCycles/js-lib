@@ -1,3 +1,4 @@
+import { _assert } from '../error/assert'
 import { _sortNumbers } from '../number/number.util'
 
 /**
@@ -9,24 +10,30 @@ import { _sortNumbers } from '../number/number.util'
  * // 2.5
  */
 export function _average(values: number[]): number {
-  return values.reduce((a, b) => a + b) / values.length
+  _assert(values.length, '_average is called on empty array')
+  let total = 0
+  for (const n of values) total += n
+  return total / values.length
 }
 
 /**
  * Same as _average, but safely returns null if input array is empty or nullish.
  */
 export function _averageOrNull(values: number[] | undefined | null): number | null {
-  return values?.length ? values.reduce((a, b) => a + b) / values.length : null
+  return values?.length ? _average(values) : null
 }
 
 /**
  * valuesArray and weightsArray length is expected to be the same.
  */
 export function _averageWeighted(values: number[], weights: number[]): number {
-  const numerator = values.map((value, i) => value * weights[i]!).reduce((a, b) => a + b)
-
-  const denominator = weights.reduce((a, b) => a + b)
-
+  let numerator = 0
+  let denominator = 0
+  // eslint-disable-next-line unicorn/no-for-loop
+  for (let i = 0; i < values.length; i++) {
+    numerator += values[i]! * weights[i]!
+    denominator += weights[i]!
+  }
   return numerator / denominator
 }
 

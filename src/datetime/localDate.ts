@@ -1,5 +1,4 @@
 import { _assert } from '../error/assert'
-import { _isTruthy } from '../is.util'
 import { Iterable2 } from '../iter/iterable2'
 import type {
   Inclusiveness,
@@ -686,7 +685,15 @@ class LocalDateFactory {
    * Returns the earliest (min) LocalDate from the array, or undefined if the array is empty.
    */
   minOrUndefined(items: LocalDateInputNullable[]): LocalDate | undefined {
-    return items.length ? this.min(items) : undefined
+    let min: LocalDate | undefined
+    for (const item of items) {
+      if (!item) continue
+      const ld = this.fromInput(item)
+      if (!min || ld.isBefore(min)) {
+        min = ld
+      }
+    }
+    return min
   }
 
   /**
@@ -694,19 +701,24 @@ class LocalDateFactory {
    * Throws if the array is empty.
    */
   min(items: LocalDateInputNullable[]): LocalDate {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'localDate.min called on empty array')
-
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((min, item) => (min.isSameOrBefore(item) ? min : item))
+    const min = this.minOrUndefined(items)
+    _assert(min, 'localDate.min called on empty array')
+    return min
   }
 
   /**
    * Returns the latest (max) LocalDate from the array, or undefined if the array is empty.
    */
   maxOrUndefined(items: LocalDateInputNullable[]): LocalDate | undefined {
-    return items.length ? this.max(items) : undefined
+    let max: LocalDate | undefined
+    for (const item of items) {
+      if (!item) continue
+      const ld = this.fromInput(item)
+      if (!max || ld.isAfter(max)) {
+        max = ld
+      }
+    }
+    return max
   }
 
   /**
@@ -714,12 +726,9 @@ class LocalDateFactory {
    * Throws if the array is empty.
    */
   max(items: LocalDateInputNullable[]): LocalDate {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'localDate.max called on empty array')
-
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((max, item) => (max.isSameOrAfter(item) ? max : item))
+    const max = this.maxOrUndefined(items)
+    _assert(max, 'localDate.max called on empty array')
+    return max
   }
 
   /**

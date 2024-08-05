@@ -1,0 +1,67 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "organizeImports": { "enabled": false },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useShorthandFunctionType": "error",
+        "useShorthandAssign": "error",
+        "useForOf": "error",
+        "useConsistentArrayType": "error",
+        "useShorthandArrayType": "error",
+        "noDefaultExport": "error",
+        "noCommaOperator": "error",
+        "noArguments": "error",
+        "noNonNullAssertion": "off",
+        "useImportType": "off",
+        "noParameterAssign": "off",
+        "useTemplate": "off",
+        "useNumberNamespace": "off",
+        "noUnusedTemplateLiteral": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "useArrayLiterals": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off",
+        "noAsyncPromiseExecutor": "off",
+        "noPrototypeBuiltins": "off",
+        "noThenProperty": "off"
+      },
+      "complexity": {
+        // "useSimplifiedLogicExpression": "error", // consider
+        "noForEach": "off",
+        "noUselessThisAlias": "off",
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off"
+      }
+    }
+  },
+  "overrides": [{ "include": ["tsconfig.json", "tsconfig.*.json"] }]
+}

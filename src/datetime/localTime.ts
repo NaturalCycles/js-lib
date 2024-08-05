@@ -1,5 +1,4 @@
 import { _assert } from '../error/assert'
-import { _isTruthy } from '../is.util'
 import { _ms } from '../time/time.util'
 import type {
   Inclusiveness,
@@ -946,29 +945,39 @@ class LocalTimeFactory {
   }
 
   minOrUndefined(items: LocalTimeInputNullable[]): LocalTime | undefined {
-    return items.length ? this.min(items) : undefined
+    let min: LocalTime | undefined
+    for (const item of items) {
+      if (!item) continue
+      const lt = this.fromInput(item)
+      if (!min || lt.$date.valueOf() < min.$date.valueOf()) {
+        min = lt
+      }
+    }
+    return min
   }
 
   min(items: LocalTimeInputNullable[]): LocalTime {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'localTime.min called on empty array')
-
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((min, item) => (min.$date.valueOf() <= item.$date.valueOf() ? min : item))
+    const min = this.minOrUndefined(items)
+    _assert(min, 'localTime.min called on empty array')
+    return min
   }
 
   maxOrUndefined(items: LocalTimeInputNullable[]): LocalTime | undefined {
-    return items.length ? this.max(items) : undefined
+    let max: LocalTime | undefined
+    for (const item of items) {
+      if (!item) continue
+      const lt = this.fromInput(item)
+      if (!max || lt.$date.valueOf() > max.$date.valueOf()) {
+        max = lt
+      }
+    }
+    return max
   }
 
   max(items: LocalTimeInputNullable[]): LocalTime {
-    const items2 = items.filter(_isTruthy)
-    _assert(items2.length, 'localTime.max called on empty array')
-
-    return items2
-      .map(i => this.fromInput(i))
-      .reduce((max, item) => (max.$date.valueOf() >= item.$date.valueOf() ? max : item))
+    const max = this.maxOrUndefined(items)
+    _assert(max, 'localTime.max called on empty array')
+    return max
   }
 }
 
