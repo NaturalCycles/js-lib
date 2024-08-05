@@ -1,3 +1,2 @@
 // console.log('setupJest.unit.ts')
-
-export {}
+// eslint-disable-next-line unicorn/no-empty-file

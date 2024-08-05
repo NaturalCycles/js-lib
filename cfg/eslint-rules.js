@@ -319,7 +319,7 @@ module.exports = {
     'guard-for-in': 2,
     'jest/expect-expect': 0,
     'jest/no-commented-out-tests': 0,
-    'jest/no-export': 0, // conflicts with typescript isolatedModules
+    'jest/no-export': 2,
     'jest/no-conditional-expect': 0,
     'jest/no-disabled-tests': 0,
     '@typescript-eslint/no-namespace': [

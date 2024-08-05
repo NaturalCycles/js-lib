@@ -1,3 +1,1 @@
 test.todo('empty')
-
-export {}

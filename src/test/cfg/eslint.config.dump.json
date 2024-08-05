@@ -718,7 +718,7 @@
       0
     ],
     "jest/no-export": [
-      0
+      2
     ],
     "jest/prefer-equality-matcher": [
       2

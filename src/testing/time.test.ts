@@ -3,5 +3,3 @@ test('time should work as normal', () => {
   console.log(d)
   expect(d.getFullYear()).toBeGreaterThan(2018)
 })
-
-export {}
