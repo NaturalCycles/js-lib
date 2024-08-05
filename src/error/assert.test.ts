@@ -14,16 +14,16 @@ import { _try } from './try'
 /* eslint-disable no-self-compare */
 
 test('_assert', () => {
+  // biome-ignore lint/suspicious/noSelfCompare: ok
   _assert(1 === 1) // should not throw
 
-  // expect(() => _assert(1 * 1 === 2)).toThrowErrorMatchingInlineSnapshot(`"See stacktrace"`)
   const [err] = _try(() => _assert(1 * 1 === 2))
   expect(err).toBeInstanceOf(AssertionError)
-  expect(err).toMatchInlineSnapshot(`[AssertionError: condition failed]`)
+  expect(err).toMatchInlineSnapshot('[AssertionError: condition failed]')
 
   // With custom message
   const err2 = _try(() => _assert(1 * 1 === 2, 'Really should match'))[0]
-  expect(err2).toMatchInlineSnapshot(`[AssertionError: Really should match]`)
+  expect(err2).toMatchInlineSnapshot('[AssertionError: Really should match]')
 })
 
 test('_assertEquals', () => {
@@ -72,7 +72,7 @@ test('_assertIsError', () => {
 
   const [err] = _try(() => _assertIsError('asd'))
   expect(err).toMatchInlineSnapshot(
-    `[AssertionError: Expected to be instanceof Error, actual typeof: string]`,
+    '[AssertionError: Expected to be instanceof Error, actual typeof: string]',
   )
 })
 
@@ -82,7 +82,7 @@ test('_assertIsString', () => {
 
   const [err] = _try(() => _assertIsString(5))
   expect(err).toMatchInlineSnapshot(
-    `[AssertionError: Expected typeof string, actual typeof: number]`,
+    '[AssertionError: Expected typeof string, actual typeof: number]',
   )
 })
 
@@ -92,7 +92,7 @@ test('_assertIsNumber', () => {
 
   const [err] = _try(() => _assertIsNumber('asd'))
   expect(err).toMatchInlineSnapshot(
-    `[AssertionError: Expected typeof number, actual typeof: string]`,
+    '[AssertionError: Expected typeof number, actual typeof: string]',
   )
 })
 

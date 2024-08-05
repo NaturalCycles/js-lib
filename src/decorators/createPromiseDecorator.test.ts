@@ -2,7 +2,7 @@ import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
 import { pDelay } from '../index'
 import { _createPromiseDecorator } from './createPromiseDecorator'
 
-export interface LoaderDecoratorParams {
+interface LoaderDecoratorParams {
   type: string
 }
 

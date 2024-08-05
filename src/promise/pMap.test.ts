@@ -137,7 +137,7 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
     AggregateError,
   )
   // expect(err.results).toEqual([20, 30])
-  expect(err).toMatchInlineSnapshot(`[AggregateError: pMap resulted in 2 error(s)]`)
+  expect(err).toMatchInlineSnapshot('[AggregateError: pMap resulted in 2 error(s)]')
   expect(err.errors).toMatchInlineSnapshot(`
     [
       [Error: foo],
@@ -148,7 +148,7 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
   // infinite concurrency
   err = await pExpectedError(pMap(errorInput1, mapper, { errorMode }), AggregateError)
   // expect(err.results).toEqual([20, 30])
-  expect(err).toMatchInlineSnapshot(`[AggregateError: pMap resulted in 2 error(s)]`)
+  expect(err).toMatchInlineSnapshot('[AggregateError: pMap resulted in 2 error(s)]')
   expect(err.errors).toMatchInlineSnapshot(`
     [
       [Error: foo],
@@ -162,7 +162,7 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
     AggregateError,
   )
   // expect(err.results).toEqual([20, 30])
-  expect(err).toMatchInlineSnapshot(`[AggregateError: pMap resulted in 2 error(s)]`)
+  expect(err).toMatchInlineSnapshot('[AggregateError: pMap resulted in 2 error(s)]')
   expect(err.errors).toMatchInlineSnapshot(`
     [
       [Error: foo],

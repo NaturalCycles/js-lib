@@ -145,7 +145,7 @@ test('mocking fetch', async () => {
   expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 500 GET some"`)
 
   // This is how Jest prints errors
-  expect(err).toMatchInlineSnapshot(`[HttpRequestError: 500 GET some]`)
+  expect(err).toMatchInlineSnapshot('[HttpRequestError: 500 GET some]')
 
   // This is how NC-ecosystem-aware consumer prints errors (e.g with Cause)
   expect(_stringify(err)).toMatchInlineSnapshot(`
@@ -164,7 +164,7 @@ test('mocking fetch', async () => {
   `)
 
   _assertIsErrorObject(err.cause)
-
+  // biome-ignore lint/performance/noDelete: ok
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
     {
@@ -250,6 +250,7 @@ test('json parse error', async () => {
   _assertIsError(err)
   expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: GET some"`)
   _assertIsErrorObject(err.cause)
+  // biome-ignore lint/performance/noDelete: ok
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
     {

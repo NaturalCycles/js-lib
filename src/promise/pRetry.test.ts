@@ -14,7 +14,7 @@ function createFn(succeedOnAttempt: number): AnyFunction {
       return args
     }
 
-    throw new Error(`fail`)
+    throw new Error('fail')
   }
 }
 
@@ -46,7 +46,7 @@ test('pRetry', async () => {
   const r = await pRetry(
     async attempt => {
       if (attempt >= 3) return attempt
-      throw new Error(`fail`)
+      throw new Error('fail')
     },
     {
       maxAttempts: 3,
@@ -62,7 +62,7 @@ test('pRetry with timeout', async () => {
   const r = await pRetry(
     async attempt => {
       if (attempt >= 3) return attempt
-      throw new Error(`fail`)
+      throw new Error('fail')
     },
     {
       maxAttempts: 3,
@@ -79,7 +79,7 @@ test('pRetry should throw on fail and keep stack', async () => {
     await pRetry(
       async attempt => {
         if (attempt >= 3) return attempt
-        throw new Error(`fail`)
+        throw new Error('fail')
       },
       {
         maxAttempts: 2, // so, it'll never succeed
@@ -93,7 +93,7 @@ test('pRetry should throw on fail and keep stack', async () => {
   const err = await pExpectedError(myFunction())
   // console.log(err)
 
-  expect(err).toMatchInlineSnapshot(`[Error: fail]`)
+  expect(err).toMatchInlineSnapshot('[Error: fail]')
   expect(err.stack).not.toContain('TimeoutError')
   expect(err.stack).toContain('at myFunction')
 })

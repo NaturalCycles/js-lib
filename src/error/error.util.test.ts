@@ -101,7 +101,7 @@ test('anyToError', () => {
   // This is an "httpError", but packed in Error
   // With e.g name == 'HttpError'
   const httpError3 = _anyToError(httpErrorObject)
-  expect(httpError3).toMatchInlineSnapshot(`[AppError: la la]`)
+  expect(httpError3).toMatchInlineSnapshot('[AppError: la la]')
   expect(httpError3).toBeInstanceOf(Error)
   expect(httpError3).not.toBeInstanceOf(HttpRequestError)
   expect(httpError3.name).toBe(httpError.name)
@@ -110,7 +110,7 @@ test('anyToError', () => {
 
   // This is a "proper" HttpRequestError
   const httpError4 = _anyToError(httpErrorObject, HttpRequestError)
-  expect(httpError4).toMatchInlineSnapshot(`[HttpRequestError: la la]`)
+  expect(httpError4).toMatchInlineSnapshot('[HttpRequestError: la la]')
   expect(httpError4).toBeInstanceOf(HttpRequestError)
   expect(httpError4.name).toBe(HttpRequestError.name)
   expect(httpError4.data).toEqual(httpError.data)
@@ -173,7 +173,7 @@ test('_errorDataAppend', () => {
   const err = new Error('yo') as any
   const err_ = _errorDataAppend(err, { backendResponseStatusCode: 401 })
   expect(err_).toBe(err) // same object
-  expect(err).toMatchInlineSnapshot(`[Error: yo]`)
+  expect(err).toMatchInlineSnapshot('[Error: yo]')
   expect(err.data).toMatchInlineSnapshot(`
     {
       "backendResponseStatusCode": 401,

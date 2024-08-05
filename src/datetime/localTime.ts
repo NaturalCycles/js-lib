@@ -361,7 +361,7 @@ export class LocalTime {
     const secDiff = (this.$date.valueOf() - date2.valueOf()) / 1000
     if (!secDiff) return 0
 
-    let r
+    let r: number
 
     if (unit === 'year') {
       r = differenceInMonths(this.$date, date2) / 12
@@ -764,7 +764,7 @@ class LocalTimeFactory {
   isValid(input: LocalTimeInputNullable): boolean {
     if (!input) return false
     if (input instanceof LocalTime) return true
-    if (input instanceof Date) return !isNaN(input.getDate())
+    if (input instanceof Date) return !Number.isNaN(input.getDate())
     // We currently don't validate Unixtimestamp input, treat it as always valid
     if (typeof input === 'number') return true
     return this.isValidString(input)
@@ -785,7 +785,7 @@ class LocalTimeFactory {
   try(input: LocalTimeInputNullable): LocalTime | undefined {
     if (input instanceof LocalTime) return input
     if (input instanceof Date) {
-      if (isNaN(input.getDate())) return
+      if (Number.isNaN(input.getDate())) return
       return new LocalTime(input)
     }
     if (typeof input === 'number') {
@@ -846,7 +846,7 @@ class LocalTimeFactory {
       if (s.length < 8) return
       // Attempt to parse with Date constructor
       const d = new Date(s)
-      return isNaN(d.getDate()) ? undefined : d
+      return Number.isNaN(d.getDate()) ? undefined : d
     }
     const o: DateTimeObject = {
       year: Number(m[1]),
@@ -880,7 +880,10 @@ class LocalTimeFactory {
   }
 
   fromDate(date: Date): LocalTime {
-    _assert(!isNaN(date.getDate()), `localTime.fromDate is called on Date object that is invalid`)
+    _assert(
+      !Number.isNaN(date.getDate()),
+      'localTime.fromDate is called on Date object that is invalid',
+    )
     return new LocalTime(date)
   }
 
@@ -1007,7 +1010,8 @@ function getWeekYear(date: Date): number {
 
   if (date.getTime() >= startOfNextYear.getTime()) {
     return year + 1
-  } else if (date.getTime() >= startOfThisYear.getTime()) {
+  }
+  if (date.getTime() >= startOfThisYear.getTime()) {
     return year
   }
   return year - 1

@@ -46,9 +46,11 @@ export function _isBetween<T extends number | string>(
 ): boolean {
   if (incl === '[)') {
     return x >= min && x < max
-  } else if (incl === '[]') {
+  }
+  if (incl === '[]') {
     return x >= min && x <= max
-  } else if (incl === '(]') {
+  }
+  if (incl === '(]') {
     return x > min && x <= max
   }
   return x > min && x < max

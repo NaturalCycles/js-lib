@@ -561,7 +561,7 @@ class LocalDateFactory {
   isValid(input: LocalDateInputNullable): boolean {
     if (!input) return false
     if (input instanceof LocalDate) return true
-    if (input instanceof Date) return !isNaN(input.getDate())
+    if (input instanceof Date) return !Number.isNaN(input.getDate())
     return this.isValidString(input)
   }
 
@@ -581,7 +581,7 @@ class LocalDateFactory {
     if (!input) return
     if (input instanceof LocalDate) return input
     if (input instanceof Date) {
-      if (isNaN(input.getDate())) return
+      if (Number.isNaN(input.getDate())) return
       return new LocalDate(input.getFullYear(), input.getMonth() + 1, input.getDate())
     }
     return this.parseToLocalDateOrUndefined(DATE_REGEX, input)
@@ -650,7 +650,10 @@ class LocalDateFactory {
    * Takes Date as-is, in its timezone - local or UTC.
    */
   fromDate(d: Date): LocalDate {
-    _assert(!isNaN(d.getDate()), `localDate.fromDate is called on Date object that is invalid`)
+    _assert(
+      !Number.isNaN(d.getDate()),
+      'localDate.fromDate is called on Date object that is invalid',
+    )
     return new LocalDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
   }
 
@@ -659,7 +662,10 @@ class LocalDateFactory {
    * Takes Date's year/month/day components in UTC, using getUTCFullYear, getUTCMonth, getUTCDate.
    */
   fromDateInUTC(d: Date): LocalDate {
-    _assert(!isNaN(d.getDate()), `localDate.fromDateInUTC is called on Date object that is invalid`)
+    _assert(
+      !Number.isNaN(d.getDate()),
+      'localDate.fromDateInUTC is called on Date object that is invalid',
+    )
     return new LocalDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
   }
 

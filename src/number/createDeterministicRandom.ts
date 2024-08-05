@@ -7,7 +7,7 @@
  */
 export function _createDeterministicRandom(): () => number {
   let seed = 0x2f6e2b1
-  return function () {
+  return () => {
     // Robert Jenkins’ 32 bit integer hash function
     seed = (seed + 0x7ed55d16 + (seed << 12)) & 0xffffffff
     seed = (seed ^ 0xc761c23c ^ (seed >>> 19)) & 0xffffffff

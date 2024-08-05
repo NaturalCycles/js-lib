@@ -54,7 +54,7 @@ export function _leven(first: string, second: string, limit?: number): number {
     return secondLength
   }
 
-  let bCharacterCode
+  let bCharacterCode: number
   let result: number
   let temporary: number
   let temporary2: number

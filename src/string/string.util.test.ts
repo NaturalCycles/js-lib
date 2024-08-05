@@ -42,9 +42,9 @@ test('substringBefore, substringAfter', () => {
   expect(_substringBefore(s1, '.ts')).toBe('someFile.test')
   expect(_substringAfter(s1, '.')).toBe('test.ts')
   expect(_substringAfter(s1, 'test.')).toBe('ts')
-  expect(_substringBeforeLast(s2, '/')).toBe(`/Users/lalala`)
-  expect(_substringAfterLast(s2, '/')).toBe(`someFile.test.ts`)
-  expect(_substringAfterLast(s2, 'la')).toBe(`/someFile.test.ts`)
+  expect(_substringBeforeLast(s2, '/')).toBe('/Users/lalala')
+  expect(_substringAfterLast(s2, '/')).toBe('someFile.test.ts')
+  expect(_substringAfterLast(s2, 'la')).toBe('/someFile.test.ts')
 })
 
 test('_substringBetweenLast', () => {

@@ -52,10 +52,10 @@ test('saved/unsaved', () => {
   }>()
 
   const item = {} as Unsaved<Item>
-  delete item.a
-  delete item.id
-  delete item.created
-  delete item.updated
+  item.a = undefined
+  item.id = undefined
+  item.created = undefined
+  item.updated = undefined
 
   expectTypeOf(item).toMatchTypeOf<{
     a?: number
@@ -71,7 +71,7 @@ test('saved/unsaved', () => {
     a: 5,
   }
 
-  delete itemDBM.a
+  itemDBM.a = undefined
 
   expectTypeOf(itemDBM).toEqualTypeOf<{
     id: string
@@ -89,10 +89,10 @@ test('saved/unsaved', () => {
   }>()
 
   const unsavedItem: Unsaved<Item> = {}
-  delete unsavedItem.id
-  delete unsavedItem.created
-  delete unsavedItem.updated
-  delete unsavedItem.a
+  unsavedItem.id = undefined
+  unsavedItem.created = undefined
+  unsavedItem.updated = undefined
+  unsavedItem.a = undefined
 
   expectTypeOf(unsavedItem).toMatchTypeOf<{
     id?: string
@@ -105,10 +105,10 @@ test('saved/unsaved', () => {
     a: 5,
   }
   // deletions test that these props exist and are optional
-  delete unsavedItemDBM.id
-  delete unsavedItemDBM.created
-  delete unsavedItemDBM.updated
-  delete unsavedItemDBM.a
+  unsavedItemDBM.id = undefined
+  unsavedItemDBM.created = undefined
+  unsavedItemDBM.updated = undefined
+  unsavedItemDBM.a = undefined
 
   expectTypeOf(unsavedItemDBM).toMatchTypeOf<{
     a?: number
@@ -118,7 +118,7 @@ test('saved/unsaved', () => {
   }>()
 
   const unsavedItemId: UnsavedId<ItemDBM> = itemDBM
-  delete unsavedItemId.id
+  unsavedItemId.id = undefined
 
   expectTypeOf(unsavedItemId).toMatchTypeOf<{
     id?: string
@@ -183,7 +183,7 @@ test('_typeCast', () => {
   expectTypeOf(err).toEqualTypeOf<AppError>()
 
   err.data = { backendResponseStatusCode: 401 }
-  expect(err).toMatchInlineSnapshot(`[Error: yo]`)
+  expect(err).toMatchInlineSnapshot('[Error: yo]')
   expect(err.data).toMatchInlineSnapshot(`
     {
       "backendResponseStatusCode": 401,

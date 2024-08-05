@@ -19,7 +19,7 @@ class C {
       return args
     }
 
-    throw new Error(`fail`)
+    throw new Error('fail')
   }
 }
 

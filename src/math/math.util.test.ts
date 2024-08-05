@@ -35,7 +35,7 @@ test('_averageOrNull', () => {
 })
 
 test('_averageWeighted', () => {
-  expect(_averageWeighted([1, 2], [3, 1])).toMatchInlineSnapshot(`1.25`)
+  expect(_averageWeighted([1, 2], [3, 1])).toMatchInlineSnapshot('1.25')
 
   const weights = numbers.map((_, i) => 1 + 0.1 * i)
   expect(_averageWeighted(numbers, weights)).toBe(39.25869391025641)

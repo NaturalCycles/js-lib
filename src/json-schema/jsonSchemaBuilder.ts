@@ -177,7 +177,7 @@ export class JsonSchemaAnyBuilder<T = unknown, SCHEMA_TYPE extends JsonSchema<T>
     if (optional) {
       this.schema.optionalField = true
     } else {
-      delete this.schema.optionalField
+      this.schema.optionalField = undefined
     }
     return this
   }
@@ -331,7 +331,7 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
       if (!schema.optionalField) {
         this.schema.required.push(k)
       } else {
-        delete schema.optionalField
+        schema.optionalField = undefined
       }
       this.schema.properties[k] = schema
     })

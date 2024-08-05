@@ -76,7 +76,7 @@ export class Fetcher {
 
   private constructor(cfg: FetcherCfg & FetcherOptions = {}) {
     if (typeof globalThis.fetch !== 'function') {
-      throw new TypeError(`globalThis.fetch is not available`)
+      throw new TypeError('globalThis.fetch is not available')
     }
 
     this.cfg = this.normalizeCfg(cfg)
@@ -377,7 +377,7 @@ export class Fetcher {
 
       if (res.body === null) {
         // Error is to be handled upstream
-        throw new Error(`fetchResponse.body is null`)
+        throw new Error('fetchResponse.body is null')
       }
     }
 
@@ -534,14 +534,14 @@ export class Fetcher {
           timeout = Number(retryAfterStr) * 1000
         } else {
           const date = new Date(retryAfterStr)
-          if (!isNaN(date as any)) {
+          if (!Number.isNaN(date as any)) {
             timeout = Number(date) - Date.now()
           }
         }
 
         this.cfg.logger.log(`retry-after: ${retryAfterStr}`)
         if (!timeout) {
-          this.cfg.logger.warn(`retry-after could not be parsed`)
+          this.cfg.logger.warn('retry-after could not be parsed')
         }
       }
     }
@@ -575,7 +575,9 @@ export class Fetcher {
     if (statusFamily === 3 && !retry3xx) return false
 
     // should not retry on `unexpected redirect` in error.cause.cause
-    if ((res.err?.cause as ErrorLike | void)?.cause?.message?.includes('unexpected redirect')) {
+    if (
+      (res.err?.cause as ErrorLike | undefined)?.cause?.message?.includes('unexpected redirect')
+    ) {
       return false
     }
 
@@ -709,7 +711,7 @@ export class Fetcher {
     const baseUrl = opt.baseUrl || this.cfg.baseUrl
     if (baseUrl) {
       if (req.fullUrl.startsWith('/')) {
-        console.warn(`Fetcher: url should not start with / when baseUrl is specified`)
+        console.warn('Fetcher: url should not start with / when baseUrl is specified')
         req.fullUrl = req.fullUrl.slice(1)
       }
       req.fullUrl = `${baseUrl}/${req.inputUrl}`

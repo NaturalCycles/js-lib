@@ -16,7 +16,7 @@ test('jsonParseIfPossible', () => {
 test('jsonParse', () => {
   const text = 'some raw text'
   const err = _expectedError(() => _jsonParse(text), JsonParseError)
-  expect(err).toMatchInlineSnapshot(`[JsonParseError: Failed to parse: some raw text]`)
+  expect(err).toMatchInlineSnapshot('[JsonParseError: Failed to parse: some raw text]')
   expect(err.data.text).toBe(text)
 })
 

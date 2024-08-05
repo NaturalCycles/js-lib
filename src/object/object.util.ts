@@ -262,7 +262,8 @@ export function _deepTrim<T extends AnyObject | string>(o: T): T {
 
   if (typeof o === 'string') {
     return o.trim() as T
-  } else if (typeof o === 'object') {
+  }
+  if (typeof o === 'object') {
     Object.keys(o).forEach(k => {
       o[k] = _deepTrim(o[k])
     })

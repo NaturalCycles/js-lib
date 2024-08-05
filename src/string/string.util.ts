@@ -1,11 +1,11 @@
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
  */
-export function _capitalize(s: string = ''): string {
+export function _capitalize(s = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }
 
-export function _upperFirst(s: string = ''): string {
+export function _upperFirst(s = ''): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 

@@ -1,4 +1,4 @@
-import type { PromisableFunction } from '../types'
+import type { NumberOfMilliseconds, PromisableFunction } from '../types'
 import { DeferredPromise, pDefer } from './pDefer'
 
 /**
@@ -7,7 +7,7 @@ import { DeferredPromise, pDefer } from './pDefer'
  * Can return a value.
  * If value is instanceof Error - rejects the Promise instead of resolving.
  */
-export async function pDelay<T>(ms = 0, value?: T): Promise<T> {
+export async function pDelay<T>(ms: NumberOfMilliseconds = 0, value?: T): Promise<T> {
   return await new Promise<T>((resolve, reject) =>
     setTimeout(value instanceof Error ? reject : resolve, ms, value),
   )
@@ -24,7 +24,10 @@ export async function pDelay<T>(ms = 0, value?: T): Promise<T> {
  *
  * On abort() - clears the Timeout and immediately resolves the Promise with void.
  */
-export function pDelayFn<T>(ms = 0, fn: PromisableFunction<T>): DeferredPromise<T> {
+export function pDelayFn<T>(
+  ms: NumberOfMilliseconds,
+  fn: PromisableFunction<T>,
+): DeferredPromise<T> {
   const p = pDefer<T>()
 
   const timer = setTimeout(async () => {

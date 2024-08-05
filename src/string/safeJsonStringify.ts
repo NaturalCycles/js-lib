@@ -26,7 +26,7 @@ function serializer(replacer?: Reviver, cycleReplacer?: Reviver): Reviver {
   const stack: any[] = []
   const keys: string[] = []
 
-  cycleReplacer ??= function (key, value) {
+  cycleReplacer ??= (key, value) => {
     if (stack[0] === value) return '[Circular ~]'
     return '[Circular ~.' + keys.slice(0, stack.indexOf(value)).join('.') + ']'
   }

@@ -22,9 +22,14 @@ import {
  * Based on: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_chunk
  */
 export function _chunk<T>(array: readonly T[], size = 1): T[][] {
-  return array.reduce((arr, item, idx) => {
-    return idx % size === 0 ? [...arr, [item]] : [...arr.slice(0, -1), [...arr.slice(-1)[0]!, item]]
-  }, [] as T[][])
+  return array.reduce<T[][]>((arr, item, idx) => {
+    if (idx % size === 0) {
+      arr.push([item])
+    } else {
+      arr[arr.length - 1]!.push(item)
+    }
+    return arr
+  }, [])
 }
 
 /**
@@ -473,13 +478,13 @@ export function _max<T>(array: readonly T[]): NonNullable<T> {
 
 export function _maxBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const max = _maxByOrUndefined(array, mapper)
-  if (max === undefined) throw new Error(`_maxBy returned undefined`)
+  if (max === undefined) throw new Error('_maxBy returned undefined')
   return max
 }
 
 export function _minBy<T>(array: readonly T[], mapper: Mapper<T, number | string | undefined>): T {
   const min = _minByOrUndefined(array, mapper)
-  if (min === undefined) throw new Error(`_minBy returned undefined`)
+  if (min === undefined) throw new Error('_minBy returned undefined')
   return min
 }
 

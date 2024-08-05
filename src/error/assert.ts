@@ -69,7 +69,7 @@ export function _assertDeepEquals<T>(
   if (!_deepEquals(actual, expected)) {
     const msg =
       message ||
-      [`not deeply equal`, `expected: ${_stringify(expected)}`, `got     : ${_stringify(actual)}`]
+      ['not deeply equal', `expected: ${_stringify(expected)}`, `got     : ${_stringify(actual)}`]
         .filter(Boolean)
         .join('\n')
 
@@ -122,6 +122,7 @@ export function _assertIsNumber(v: any, message?: string): asserts v is number {
 }
 
 export function _assertTypeOf<T>(v: any, expectedType: string, message?: string): asserts v is T {
+  // biome-ignore lint/suspicious/useValidTypeof: ok
   if (typeof v !== expectedType) {
     const msg = message || `Expected typeof ${expectedType}, actual typeof: ${typeof v}`
     throw new AssertionError(msg)

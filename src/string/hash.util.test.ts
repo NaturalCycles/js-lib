@@ -12,7 +12,7 @@ test('hashCode', () => {
 
   let s = JSON.stringify(obj)
   // expect(hashCode(s)).toMatchInlineSnapshot(`-480055922`)
-  expect(hashCode(s)).toMatchInlineSnapshot(`1667427726`)
+  expect(hashCode(s)).toMatchInlineSnapshot('1667427726')
   expect(hashCode16(s)).toMatchInlineSnapshot(`"6362ed8e"`)
   // expect(hashCodeBase32(s)).toMatchInlineSnapshot(`"1hm5rce"`)
   expect(hashCode36(s)).toMatchInlineSnapshot(`"rkqrgu"`)
@@ -21,7 +21,7 @@ test('hashCode', () => {
   obj.a = 'aa'
   s = JSON.stringify(obj)
   // expect(hashCode(s)).toMatchInlineSnapshot(`-1118941361`)
-  expect(hashCode(s)).toMatchInlineSnapshot(`1028542287`)
+  expect(hashCode(s)).toMatchInlineSnapshot('1028542287')
   expect(hashCode16(s)).toMatchInlineSnapshot(`"3d4e4f4f"`)
   // expect(hashCodeBase32(s)).toMatchInlineSnapshot(`"uksjqf"`)
   expect(hashCode36(s)).toMatchInlineSnapshot(`"h0d8b3"`)

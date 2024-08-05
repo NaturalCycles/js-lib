@@ -13,7 +13,7 @@ test('pDelay with return value', async () => {
   expect(r).toBe('v')
 
   const err = await pExpectedError(pDelay(10, new Error('yo')))
-  expect(err).toMatchInlineSnapshot(`[Error: yo]`)
+  expect(err).toMatchInlineSnapshot('[Error: yo]')
 })
 
 test('pDelayFn', async () => {
@@ -26,7 +26,7 @@ test('pDelayFn', async () => {
         throw new Error('yo')
       }),
     ),
-  ).toMatchInlineSnapshot(`[Error: yo]`)
+  ).toMatchInlineSnapshot('[Error: yo]')
 
   expect(
     await pExpectedError(
@@ -34,7 +34,7 @@ test('pDelayFn', async () => {
         throw new Error('yo')
       }),
     ),
-  ).toMatchInlineSnapshot(`[Error: yo]`)
+  ).toMatchInlineSnapshot('[Error: yo]')
 })
 
 test('pDelayFn abort', async () => {
