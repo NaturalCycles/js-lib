@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as i,a2 as e}from"./chunks/framework.Cas7Ic-p.js";const y=JSON.parse('{"title":"Error","description":"","frontmatter":{},"headers":[],"relativePath":"error.md","filePath":"error.md"}'),t={name:"error.md"},r=e("",60),n=[r];function h(o,p,l,d,k,c){return i(),a("div",null,n)}const u=s(t,[["render",h]]);export{y as __pageData,u as default};
