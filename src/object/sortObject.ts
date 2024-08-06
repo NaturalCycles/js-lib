@@ -1,5 +1,4 @@
 import type { AnyObject } from '../index'
-import { _omit } from '../index'
 
 /**
  * Returns new object with keys sorder in the given order.
@@ -9,15 +8,18 @@ import { _omit } from '../index'
 export function _sortObject<T extends AnyObject>(obj: T, keyOrder: (keyof T)[]): T {
   const r = {} as T
 
-  keyOrder.forEach(key => {
-    if (key in obj) {
-      r[key] = obj[key]
+  // First, go over ordered keys
+  for (const k of keyOrder) {
+    if (k in obj) {
+      r[k] = obj[k]
     }
-  })
+  }
 
-  Object.entries(_omit(obj, keyOrder)).forEach(([k, v]) => {
+  // Second, go over all other keys
+  for (const [k, v] of Object.entries(obj)) {
+    if (keyOrder.includes(k)) continue
     r[k as keyof T] = v
-  })
+  }
 
   return r
 }

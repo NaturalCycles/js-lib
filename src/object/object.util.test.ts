@@ -22,7 +22,9 @@ import {
   _objectAssignExact,
   _objectNullValuesToUndefined,
   _omit,
+  _omitWithUndefined,
   _pick,
+  _pickWithUndefined,
   _set,
   _unset,
 } from './object.util'
@@ -42,7 +44,6 @@ test('_pick', () => {
 
   const fields = ['a', 'c', 'd', 'e'] as const
   const r = f(obj, fields as any)
-  // console.log(r)
   expect(r).toEqual({ a: 1, c: 3, d: false })
   expect('e' in r).toBe(false) // should not add more fields with 'undefined' value
   // should not mutate
@@ -57,6 +58,43 @@ test('_pick', () => {
   expect(obj2).toBe(obj)
 })
 
+test('_pickWithUndefined', () => {
+  const f = _pickWithUndefined
+
+  const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: false,
+  }
+
+  // empty fields
+  expect(f(obj, [])).toEqual({
+    a: undefined,
+    b: undefined,
+    c: undefined,
+    d: undefined,
+  })
+
+  const fields = ['a', 'c', 'd', 'e'] as const
+  const r = f(obj, fields as any)
+  expect(r).toEqual({ a: 1, b: undefined, c: 3, d: false })
+  expect('e' in r).toBe(false) // should not add more fields with 'undefined' value
+  // should not mutate
+  expect(obj.c).toBe(3)
+  expect(r).not.toBe(obj)
+
+  // should mutate
+  const obj2 = f(obj, ['a'], true)
+  expect(obj2).toEqual({
+    a: 1,
+    b: undefined,
+    c: undefined,
+    d: undefined,
+  })
+  expect(obj2).toBe(obj)
+})
+
 test('_omit', () => {
   const obj = {
     a: 1,
@@ -67,8 +105,6 @@ test('_omit', () => {
   }
 
   _deepFreeze(obj)
-
-  // expect(_omit(obj)).toEqual(obj)
 
   // empty props
   expect(_omit(obj, [])).toEqual(obj)
@@ -85,6 +121,37 @@ test('_omit', () => {
   })
 })
 
+test('_omitWithUndefined', () => {
+  const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: false,
+    e: undefined,
+  }
+
+  _deepFreeze(obj)
+
+  // empty props
+  expect(_omitWithUndefined(obj, [])).toEqual(obj)
+
+  expect(_omitWithUndefined(obj, ['b', 'c'])).toEqual({
+    a: 1,
+    b: undefined,
+    c: undefined,
+    d: false,
+    e: undefined,
+  })
+
+  expect(_omit(obj, ['a', 'd', 'e'])).toEqual({
+    a: undefined,
+    b: 2,
+    c: 3,
+    d: undefined,
+    e: undefined,
+  })
+})
+
 test('_omit mutate', () => {
   const obj = {
     a: 1,
@@ -97,6 +164,26 @@ test('_omit mutate', () => {
   const obj2 = _omit(obj, ['b', 'c'], true)
   expect(obj2).toEqual({
     a: 1,
+    d: false,
+    e: undefined,
+  })
+  expect(obj2).toBe(obj)
+})
+
+test('_omitWithUndefined mutating', () => {
+  const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: false,
+    e: undefined,
+  }
+
+  const obj2 = _omitWithUndefined(obj, ['b', 'c'], true)
+  expect(obj2).toEqual({
+    a: 1,
+    b: undefined,
+    c: undefined,
     d: false,
     e: undefined,
   })

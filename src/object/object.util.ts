@@ -21,15 +21,33 @@ export function _pick<T extends AnyObject, K extends keyof T>(
 ): T {
   if (mutate) {
     // Start as original object (mutable), DELETE properties that are not whitelisted
-    for (const prop of Object.keys(obj)) {
-      if (!props.includes(prop as K)) delete obj[prop]
+    for (const k of Object.keys(obj)) {
+      if (!props.includes(k as K)) delete obj[k]
     }
     return obj
   }
   // Start as empty object, pick/add needed properties
   const r = {} as T
-  for (const prop of props) {
-    if (prop in obj) r[prop] = obj[prop]
+  for (const k of props) {
+    if (k in obj) r[k] = obj[k]
+  }
+  return r
+}
+
+/**
+ * Sets all properties of an object except passed ones to `undefined`.
+ * This is a more performant alternative to `_pick` that does picking/deleting.
+ */
+export function _pickWithUndefined<T extends AnyObject, K extends keyof T>(
+  obj: T,
+  props: readonly K[],
+  mutate = false,
+): T {
+  const r: T = mutate ? obj : { ...obj }
+  for (const k of Object.keys(r)) {
+    if (!props.includes(k as K)) {
+      r[k as K] = undefined as any
+    }
   }
   return r
 }
@@ -44,15 +62,31 @@ export function _omit<T extends AnyObject, K extends keyof T>(
   mutate = false,
 ): T {
   if (mutate) {
-    for (const prop of props) {
-      delete obj[prop]
+    for (const k of props) {
+      delete obj[k]
     }
     return obj
   }
 
   const r = {} as T
-  for (const prop of Object.keys(obj)) {
-    if (!props.includes(prop as K)) r[prop as K] = obj[prop]
+  for (const k of Object.keys(obj)) {
+    if (!props.includes(k as K)) r[k as K] = obj[k]
+  }
+  return r
+}
+
+/**
+ * Sets all passed properties of an object to `undefined`.
+ * This is a more performant alternative to `_omit` that does picking/deleting.
+ */
+export function _omitWithUndefined<T extends AnyObject, K extends keyof T>(
+  obj: T,
+  props: readonly K[],
+  mutate = false,
+): T {
+  const r: T = mutate ? obj : { ...obj }
+  for (const k of props) {
+    r[k] = undefined as any
   }
   return r
 }
@@ -67,8 +101,8 @@ export function _omit<T extends AnyObject, K extends keyof T>(
  */
 export function _mask<T extends AnyObject>(obj: T, props: string[], mutate = false): T {
   const r = mutate ? obj : _deepCopy(obj)
-  for (const prop of props) {
-    _unset(r, prop)
+  for (const k of props) {
+    _unset(r, k)
   }
   return r
 }
