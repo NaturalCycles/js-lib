@@ -25,7 +25,7 @@
     "unused-imports",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
-    "jest:eslint-plugin-jest@28.6.0"
+    "jest:eslint-plugin-jest@28.7.0"
   ],
   "processor": "vue/vue",
   "rules": {

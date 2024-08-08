@@ -317,11 +317,6 @@ module.exports = {
     'no-await-in-loop': 0, // it's actually often ok
     'no-extend-native': 2,
     'guard-for-in': 2,
-    'jest/expect-expect': 0,
-    'jest/no-commented-out-tests': 0,
-    'jest/no-export': 2,
-    'jest/no-conditional-expect': 0,
-    'jest/no-disabled-tests': 0,
     '@typescript-eslint/no-namespace': [
       2,
       {
