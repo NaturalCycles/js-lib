@@ -331,7 +331,7 @@ export function runBiome(verbose = false, fix = true): void {
 
 function canRunBinary(name: string): boolean {
   try {
-    execSync(`which ${name}`)
+    cp.execSync(`which ${name}`)
     return true
   } catch {
     return false
