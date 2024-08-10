@@ -11,6 +11,17 @@
 [![Known Vulnerabilities](https://snyk.io/package/npm/snyk/badge.svg)](https://snyk.io/package/npm/@naturalcycles/dev-lib)
 [![Actions](https://github.com/NaturalCycles/dev-lib/workflows/default/badge.svg)](https://github.com/NaturalCycles/dev-lib/actions)
 
+## Tools that dev-lib enables
+
+- Prettier
+- ESLint
+- Biome
+- Stylelint
+- Jest
+- ktlint
+- actionlint
+- lint-staged
+
 ## How to use
 
 Install it:
@@ -20,7 +31,7 @@ Install it:
 This unlocks all commands listed below, e.g:
 
     yarn dev-lib test
-    yarn dev-lib lint-all
+    yarn dev-lib lint
 
 `yarn dev-lib` runs "interactive mode" that lets you explore available commands.
 
@@ -143,12 +154,13 @@ If you need to execute shards **in parallel**, you can follow e.g
 
 #### Lint commands
 
-- `lint`: runs ESLint, Stylelint, Prettier, actionlint, ktlint in the right order.
+- `lint`: runs Biome, ESLint, Stylelint, Prettier, actionlint, ktlint in the right order.
 
   - `--commitOnChanges` will commit lint-modified changes and push them
   - `--failOnChanges` will exit with status 1 in the end (will fail the command)
 
 - `eslint`: runs `eslint` on needed paths
+- `biome`: runs `biome` on needed paths
 - `stylelint`: runs `stylelint` on needed paths
 - `prettier`: runs just Prettier on needed paths
 
@@ -162,6 +174,12 @@ Pass `--ext` (e.g `--ext ts,html`) to override the list of ESLint extensions (de
 For Stylelint to be run, you need to manually install it in the target project:
 
 `yarn add -D stylelint stylelint-config-standard-scss`
+
+For Biome to run you need to install it like this:
+
+`yarn add -D @biomejs/biome`
+
+and add `biome.jsonc` config to the root.
 
 ##### ktlint
 
@@ -198,6 +216,7 @@ These files are meant to be extended in target project, so act as _recommended d
 - `lint-staged.config.js`
 - `prettier.config.js`
 - `eslint.config.js`
+- `biome.jsonc`
 - `jest.config.js`
 
 ## eslint

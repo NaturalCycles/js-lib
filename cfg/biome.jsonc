@@ -1,0 +1,77 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "files": {
+    "ignore": ["**/__exclude", "*.compact.json"]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
+  },
+  "organizeImports": { "enabled": true },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "performance": {
+        "noDelete": "off" // todo
+      },
+      "correctness": {
+        // noUnusedImports + noUnusedVariables can replace eslint-plugin-unused-vars!
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useArrayLiterals": "error"
+      },
+      "style": {
+        "useShorthandFunctionType": "error",
+        "useShorthandAssign": "error",
+        "useForOf": "error",
+        "useConsistentArrayType": "error",
+        "useShorthandArrayType": "error",
+        "noDefaultExport": "error",
+        "noCommaOperator": "error",
+        "noArguments": "error",
+        "noNonNullAssertion": "off",
+        "useImportType": "off",
+        "noParameterAssign": "off",
+        "useTemplate": "off",
+        "useNumberNamespace": "off",
+        "noUnusedTemplateLiteral": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off",
+        "noAsyncPromiseExecutor": "off",
+        "noPrototypeBuiltins": "off",
+        "noGlobalIsNan": "off", // todo,
+        "noThenProperty": "off",
+        "noImportAssign": "off",
+        "noEmptyInterface": "off"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "noUselessThisAlias": "off",
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "overrides": [{ "include": ["tsconfig.json", "tsconfig.*.json"] }]
+}

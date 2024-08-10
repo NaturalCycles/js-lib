@@ -1,6 +1,6 @@
 import cp, { type ExecSyncOptions } from 'node:child_process'
 import fs from 'node:fs'
-import { _since, _truncate } from '@naturalcycles/js-lib'
+import { _isTruthy, _since, _truncate } from '@naturalcycles/js-lib'
 import {
   boldGrey,
   commitMessageToTitleMessage,
@@ -48,6 +48,8 @@ export async function lintAllCommand(): Promise<void> {
   // Fast linters (that run in <1 second) go first
 
   runActionLint()
+
+  runBiome()
 
   // From this point we start the "slow" linters, with ESLint leading the way
 
@@ -254,7 +256,8 @@ export async function lintStagedCommand(): Promise<void> {
   // const lintStaged = require('lint-staged')
   // lint-staged is ESM since 12.0
   // const lintStaged = await import('lint-staged')
-  // eslint-disable-next-line no-eval
+  /* eslint-disable no-eval */
+  // biome-ignore lint/security/noGlobalEval: ok
   const { default: lintStaged } = await eval(`import('lint-staged')`)
   const success = await lintStaged({
     configPath: config,
@@ -284,10 +287,9 @@ export function runCommitlintCommand(): void {
 }
 
 async function runKTLint(): Promise<void> {
-  if (fs.existsSync(`node_modules/@naturalcycles/ktlint`)) {
-    const ktlintLib = require('@naturalcycles/ktlint')
-    await ktlintLib.ktlintAll()
-  }
+  if (!fs.existsSync(`node_modules/@naturalcycles/ktlint`)) return
+  const ktlintLib = require('@naturalcycles/ktlint')
+  await ktlintLib.ktlintAll()
 }
 
 function runActionLint(): void {
@@ -303,6 +305,26 @@ function runActionLint(): void {
       `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
     )
   }
+}
+
+export function runBiome(verbose = false, fix = true): void {
+  if (!fs.existsSync(`node_modules/@biomejs/biome`)) {
+    if (verbose) console.log(`biome is not installed (checked in node_modules/@biomejs), skipping`)
+    return
+  }
+
+  const configPath = `biome.jsonc`
+  if (!fs.existsSync(configPath)) {
+    if (verbose) console.log(`biome is installed, but biome.jsonc config file is missing`)
+    return
+  }
+
+  const dirs = [`src`, `scripts`, `e2e`, `playwright`].filter(d => fs.existsSync(d))
+
+  execVoidCommandSync(
+    `biome`,
+    [`lint`, fix && '--write', fix && '--unsafe', ...dirs].filter(_isTruthy),
+  )
 }
 
 function canRunBinary(name: string): boolean {

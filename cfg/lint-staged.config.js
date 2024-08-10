@@ -34,6 +34,10 @@ const stylelintExists =
   fs.existsSync('node_modules/stylelint-config-standard-scss')
 const stylelintCmd = stylelintExists ? `stylelint --fix --config ${stylelintConfigPath}` : undefined
 
+const biomeInstalled = fs.existsSync('node_modules/@biomejs/biome')
+const biomeConfigPath = biomeInstalled && ['biome.jsonc'].find(p => fs.existsSync(p))
+const biomeCmd = biomeConfigPath && `biome lint --write --unsafe --`
+
 if (!eslintConfigPathRoot) {
   console.log('eslint is skipped, because ./eslint.config.js is not present')
 }
@@ -47,11 +51,15 @@ if (!stylelintCmd) {
 }
 
 const linters = {
-  // *.{ts,tsx,vue} files: eslint, prettier
+  // *.{ts,tsx,vue} files: biome, eslint, prettier
   './src/**/*.{ts,tsx,vue}': match => {
     const filesList = getFilesList(match)
     if (!filesList) return []
-    return [eslintConfigPathRoot && `${eslintCmd} --config ${eslintConfigPathRoot}`, prettierCmd]
+    return [
+      biomeCmd,
+      eslintConfigPathRoot && `${eslintCmd} --config ${eslintConfigPathRoot}`,
+      prettierCmd,
+    ]
       .filter(Boolean)
       .map(s => `${s} ${filesList}`)
   },
@@ -74,20 +82,21 @@ const linters = {
   //     prettierCmd].map(s => `${s} ${filesList}`)
   // },
 
-  // Files for Stylelint + Prettier
+  // Files for Biome + Stylelint + Prettier
   [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: match => {
     const filesList = getFilesList(match)
     if (!filesList) return []
-    return [stylelintCmd, prettierCmd].filter(Boolean).map(s => `${s} ${filesList}`)
+    return [biomeCmd, stylelintCmd, prettierCmd].filter(Boolean).map(s => `${s} ${filesList}`)
   },
 
-  // Files in root dir
+  // Files in root dir: prettier
   [`./*.{${prettierExtensionsAll}}`]: match => {
     const filesList = getFilesList(match)
     if (!filesList || !prettierCmd) return []
     return [prettierCmd].map(s => `${s} ${filesList}`)
   },
 
+  // ktlint
   '**/*.{kt,kts}': match => {
     const filesList = getFilesList(match)
     if (!filesList) return []
@@ -122,11 +131,12 @@ if (fs.existsSync(`./scripts`)) {
     fs.existsSync(p),
   )
   Object.assign(linters, {
-    // eslint, Prettier
+    // biome, eslint, Prettier
     './scripts/**/*.{ts,tsx}': match => {
       const filesList = getFilesList(match)
       if (!filesList) return []
       return [
+        biomeCmd,
         eslintConfigPathScripts &&
           `${eslintCmd} --config ${eslintConfigPathScripts} --parser-options=project:./scripts/tsconfig.json`,
         prettierCmd,
@@ -144,11 +154,12 @@ if (fs.existsSync(`./e2e`)) {
   )
 
   Object.assign(linters, {
-    // eslint, Prettier
+    // biome, eslint, Prettier
     './e2e/**/*.{ts,tsx}': match => {
       const filesList = getFilesList(match)
       if (!filesList) return []
       return [
+        biomeCmd,
         eslintConfigPathE2e &&
           `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./e2e/tsconfig.json`,
         prettierCmd,
@@ -166,11 +177,12 @@ if (fs.existsSync(`./playwright`)) {
   )
 
   Object.assign(linters, {
-    // eslint, Prettier
+    // biome, eslint, Prettier
     './playwright/**/*.{ts,tsx}': match => {
       const filesList = getFilesList(match)
       if (!filesList) return []
       return [
+        biomeCmd,
         eslintConfigPathE2e &&
           `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./playwright/tsconfig.json`,
         prettierCmd,
