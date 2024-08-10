@@ -324,11 +324,12 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    'unused-imports/no-unused-imports': 2,
-    'unused-imports/no-unused-vars': [
-      2,
-      { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
-    ],
+    // unused-imports/* rules are replaced by biome
+    // 'unused-imports/no-unused-imports': 2,
+    // 'unused-imports/no-unused-vars': [
+    //   2,
+    //   { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
+    // ],
     '@typescript-eslint/no-duplicate-enum-values': 2,
     '@typescript-eslint/no-redundant-type-constituents': 0, // `'a' | string` is still useful for DX
     '@typescript-eslint/no-empty-function': 0,

@@ -22,7 +22,6 @@
     "unicorn:eslint-plugin-unicorn@55.0.0",
     "vue:eslint-plugin-vue@9.27.0",
     "import-x",
-    "unused-imports",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
     "jest:eslint-plugin-jest@28.8.0"
@@ -1680,18 +1679,6 @@
     ],
     "unicorn/throw-new-error": [
       2
-    ],
-    "unused-imports/no-unused-imports": [
-      2
-    ],
-    "unused-imports/no-unused-vars": [
-      2,
-      {
-        "args": "after-used",
-        "argsIgnorePattern": "^_",
-        "vars": "all",
-        "varsIgnorePattern": "^_"
-      }
     ],
     "use-isnan": [
       2

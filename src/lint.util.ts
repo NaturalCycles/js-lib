@@ -309,7 +309,9 @@ function runActionLint(): void {
 
 export function runBiome(verbose = false, fix = true): void {
   if (!fs.existsSync(`node_modules/@biomejs/biome`)) {
-    if (verbose) console.log(`biome is not installed (checked in node_modules/@biomejs), skipping`)
+    if (verbose) {
+      console.log(`biome is not installed (checked in node_modules/@biomejs/biome), skipping`)
+    }
     return
   }
 

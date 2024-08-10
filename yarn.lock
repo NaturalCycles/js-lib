@@ -2179,13 +2179,6 @@ eslint-plugin-unicorn@^55.0.0:
     semver "^7.6.1"
     strip-indent "^3.0.0"
 
-eslint-plugin-unused-imports@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-4.0.1.tgz#b78916ecb82ae6d0f54efb33879c6c7ecb52f080"
-  integrity sha512-rax76s05z64uQgG9YXsWFmXrgjkaK79AvfeAWiSxhPP6RVGxeRaj4+2u+wxxu/mDy2pmJoOy1QTOEALMia2xGQ==
-  dependencies:
-    eslint-rule-composer "^0.3.0"
-
 eslint-plugin-vue@^9.0.0:
   version "9.27.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.27.0.tgz#c22dae704a03d9ecefa81364ff89f60ce0481f94"
@@ -2199,11 +2192,6 @@ eslint-plugin-vue@^9.0.0:
     semver "^7.6.0"
     vue-eslint-parser "^9.4.3"
     xml-name-validator "^4.0.0"
-
-eslint-rule-composer@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
-  integrity sha512-bt+Sh8CtDmn2OajxvNO+BX7Wn4CIWMpTRm3MaiKPCQcnnlm0CS2mhui6QaoeQugs+3Kj2ESKEEGJUdVafwhiCg==
 
 eslint-scope@^7.1.1:
   version "7.2.2"

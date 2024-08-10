@@ -54,7 +54,7 @@ function getConfig() {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       'import-x': require('eslint-plugin-import-x'),
-      'unused-imports': require('eslint-plugin-unused-imports'),
+      // 'unused-imports': require('eslint-plugin-unused-imports'), // disabled in favor of biome rules
       'simple-import-sort': require('eslint-plugin-simple-import-sort'),
       jsdoc: require('eslint-plugin-jsdoc'),
       ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}),
