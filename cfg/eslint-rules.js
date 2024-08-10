@@ -178,23 +178,16 @@ module.exports = {
       },
     ],
     'simple-import-sort/exports': 2,
-    'import/order': [
-      0, // disabled in favor of `simple-import-sort`
-      {
-        alphabetize: {
-          order: 'asc',
-        },
-      },
-    ],
-    'import/no-anonymous-default-export': 2,
-    // 'import/namespace': 0, // issues with e.g globby
-    // 'import/no-unresolved': 0, // breaks for type-aliases, e.g '@/store'
-    'import/no-duplicates': [2, { 'prefer-inline': false }],
-    'import/export': 2,
-    'import/no-empty-named-blocks': 2,
-    'import/no-cycle': 2,
-    'import/no-useless-path-segments': 2,
-    'import/no-default-export': 2,
+    // 'import-x/order': 0, // disabled in favor of `simple-import-sort`
+    // 'import-x/namespace': 0, // issues with e.g globby
+    // 'import-x/no-unresolved': 0, // breaks for type-aliases, e.g '@/store'
+    'import-x/no-anonymous-default-export': 2,
+    'import-x/no-duplicates': [2, { 'prefer-inline': false }],
+    'import-x/export': 2,
+    'import-x/no-empty-named-blocks': 2,
+    'import-x/no-cycle': 2,
+    'import-x/no-useless-path-segments': 2,
+    'import-x/no-default-export': 2,
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     // 'jsdoc/newline-after-description': 2,

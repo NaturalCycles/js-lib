@@ -21,7 +21,7 @@
     "@typescript-eslint:@typescript-eslint/eslint-plugin@8.0.1",
     "unicorn:eslint-plugin-unicorn@55.0.0",
     "vue:eslint-plugin-vue@9.27.0",
-    "import",
+    "import-x",
     "unused-imports",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
@@ -660,37 +660,29 @@
     "implicit-arrow-linebreak": [
       0
     ],
-    "import/export": [
+    "import-x/export": [
       2
     ],
-    "import/no-anonymous-default-export": [
+    "import-x/no-anonymous-default-export": [
       2
     ],
-    "import/no-cycle": [
+    "import-x/no-cycle": [
       2
     ],
-    "import/no-default-export": [
+    "import-x/no-default-export": [
       2
     ],
-    "import/no-duplicates": [
+    "import-x/no-duplicates": [
       2,
       {
         "prefer-inline": false
       }
     ],
-    "import/no-empty-named-blocks": [
+    "import-x/no-empty-named-blocks": [
       2
     ],
-    "import/no-useless-path-segments": [
+    "import-x/no-useless-path-segments": [
       2
-    ],
-    "import/order": [
-      0,
-      {
-        "alphabetize": {
-          "order": "asc"
-        }
-      }
     ],
     "indent": [
       0

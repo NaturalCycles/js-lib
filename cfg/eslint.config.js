@@ -53,7 +53,7 @@ function getConfig() {
   return {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      import: require('eslint-plugin-import'),
+      'import-x': require('eslint-plugin-import-x'),
       'unused-imports': require('eslint-plugin-unused-imports'),
       'simple-import-sort': require('eslint-plugin-simple-import-sort'),
       jsdoc: require('eslint-plugin-jsdoc'),
