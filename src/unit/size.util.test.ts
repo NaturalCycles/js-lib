@@ -15,13 +15,13 @@ test('_hb', () => {
 })
 
 test('_hb log', () => {
-  for (let n = 2; n < 10 ** 22; n = n * 11) {
+  for (let n = 2; n < 10 ** 22; n *= 11) {
     console.log(`${n}: ${_hb(n)}`)
   }
 })
 
 test('_hc log', () => {
-  for (let n = 2; n < 10 ** 22; n = n * 11) {
+  for (let n = 2; n < 10 ** 22; n *= 11) {
     console.log(`${n}: ${_hc(n)}`)
   }
 

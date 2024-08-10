@@ -4,8 +4,6 @@ yarn tsn dateParseBench
 
  */
 
-/* eslint-disable unused-imports/no-unused-vars */
-
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
 import { localDate } from '../src'
@@ -19,54 +17,54 @@ const DATE = /^(\d\d\d\d)-(\d\d)-(\d\d)$/
 runBenchScript({
   fns: {
     dayjs: () => {
-      let y
-      let m
-      let d
+      let _y: number
+      let _m: number
+      let _d: number
 
       strings.forEach(s => {
         const dd = dayjs(s)
 
-        y = dd.year()
-        m = dd.month()
-        d = dd.day()
+        _y = dd.year()
+        _m = dd.month()
+        _d = dd.day()
       })
     },
     split: () => {
-      let y
-      let m
-      let d
+      let _y: number
+      let _m: number
+      let _d: number
 
       strings.forEach(s => {
         const [year, month, day] = s.slice(0, 10).split('-').map(Number)
-        y = year
-        m = month
-        d = day
+        _y = year!
+        _m = month!
+        _d = day!
       })
     },
     regex: () => {
-      let y
-      let m
-      let d
+      let _y: number
+      let _m: number
+      let _d: number
 
       strings.forEach(s => {
         const matches: string[] | null = DATE.exec(s.slice(0, 10)) as string[]
 
-        y = Number(matches[1])
-        m = Number(matches[2])
-        d = Number(matches[3])
+        _y = Number(matches[1])
+        _m = Number(matches[2])
+        _d = Number(matches[3])
       })
     },
     localDate: () => {
-      let y
-      let m
-      let d
+      let _y: number
+      let _m: number
+      let _d: number
 
       strings.forEach(s => {
         const dd = localDate(s)
 
-        y = dd.year
-        m = dd.month
-        d = dd.day
+        _y = dd.year
+        _m = dd.month
+        _d = dd.day
       })
     },
   },

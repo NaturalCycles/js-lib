@@ -164,7 +164,6 @@ test('mocking fetch', async () => {
   `)
 
   _assertIsErrorObject(err.cause)
-  // biome-ignore lint/performance/noDelete: ok
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
     {
@@ -250,7 +249,6 @@ test('json parse error', async () => {
   _assertIsError(err)
   expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: GET some"`)
   _assertIsErrorObject(err.cause)
-  // biome-ignore lint/performance/noDelete: ok
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
     {
@@ -406,7 +404,7 @@ test('tryFetch', async () => {
 
 test('should not mutate headers', async () => {
   const a: any[] = []
-  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async (url, init) => {
+  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async (_url, init) => {
     a.push(init.headers)
     return new Response(JSON.stringify({ ok: 1 }))
   })

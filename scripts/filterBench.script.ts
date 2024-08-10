@@ -22,7 +22,7 @@ const objects = _range(1000).map(n => ({
 runBenchScript({
   fns: {
     candidate: () => {
-      const res = objects.map(o => filterNullishCandidate(o))
+      const _res = objects.map(o => filterNullishCandidate(o))
       // const res = filterNullishCandidate(objects[0]!)
     },
     // candidate2: done => {
@@ -37,13 +37,13 @@ runBenchScript({
     // },
     // // mutation should come later
     filterNullishMutate: () => {
-      const res = objects.map(o => _filterNullishValues(o, true))
+      const _res = objects.map(o => _filterNullishValues(o, true))
       // const res = _filterNullishValues(objects[0]!, true)
     },
   },
 })
 
-function filterNullishCandidate<T extends AnyObject>(obj: T, mutate = false): T {
+function filterNullishCandidate<T extends AnyObject>(obj: T, _mutate = false): T {
   const o: any = {}
 
   Object.entries(obj).forEach(([k, v]) => {
@@ -55,7 +55,8 @@ function filterNullishCandidate<T extends AnyObject>(obj: T, mutate = false): T 
   return o
 }
 
-function filterNullishCandidate2<T extends AnyObject>(obj: T, mutate = false): T {
+// biome-ignore lint: ok
+function filterNullishCandidate2<T extends AnyObject>(obj: T, _mutate = false): T {
   const o: any = {}
 
   for (const k of Object.keys(obj)) {

@@ -20,6 +20,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@naturalcycles/bench-lib": "^3.0.0",
     "@naturalcycles/dev-lib": "^15.0.3",
     "@naturalcycles/nodejs-lib": "^13.0.1",
@@ -46,7 +47,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=18.12.0"
+    "node": ">=20.13.0"
   },
   "publishConfig": {
     "provenance": true,

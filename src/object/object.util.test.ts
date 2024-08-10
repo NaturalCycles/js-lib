@@ -380,7 +380,7 @@ test('_filterObject', () => {
   }
 
   // should mutate
-  f(br, (k: any, v: any) => v !== null, true)
+  f(br, (_k: any, v: any) => v !== null, true)
   expect(br.c).toBeUndefined()
 })
 

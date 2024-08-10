@@ -4,8 +4,6 @@ yarn tsn jsonParseBench
 
  */
 
-/* eslint-disable unused-imports/no-unused-vars */
-
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { _jsonParseIfPossible } from '../src'
@@ -18,10 +16,10 @@ const data = mockAllKindsOfThings()
 runBenchScript({
   fns: {
     before: () => {
-      const out = data.map(t => before(t))
+      const _out = data.map(t => before(t))
     },
     after: () => {
-      const out = data.map(t => _jsonParseIfPossible(t))
+      const _out = data.map(t => _jsonParseIfPossible(t))
     },
   },
   runs: 2,

@@ -115,7 +115,7 @@ export function _defineProps<T extends AnyObject>(
 ): T {
   return Object.defineProperties(
     obj,
-    _mapValues(props, (k, pd) => ({
+    _mapValues(props, (_k, pd) => ({
       writable: true,
       configurable: true,
       enumerable: true,

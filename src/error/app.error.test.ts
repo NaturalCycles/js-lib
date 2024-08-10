@@ -56,7 +56,6 @@ test('AppError with cause', () => {
   const err1 = new AppError('cozz')
   const err = new AppError('hello', {}, { cause: err1 })
   expect(err.cause!.stack).toBeDefined()
-  // biome-ignore lint/performance/noDelete: ok
   delete err.cause!.stack
   expect(err.cause).toMatchInlineSnapshot(`
     {
