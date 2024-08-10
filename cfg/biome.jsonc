@@ -74,6 +74,7 @@
     }
   },
   "overrides": [
+    { "include": ["tsconfig.json", "tsconfig.*.json"] },
     {
       "include": ["*.vue"],
       "linter": {
