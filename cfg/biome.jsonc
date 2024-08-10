@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "files": {
-    "ignore": ["**/__exclude", "**/try.ts", "*.compact.json"]
+    "ignore": ["**/tsconfig.json", "**/tsconfig.*.json", "**/__exclude", "**/try.ts", "*.compact.json"]
   },
   "formatter": {
     "enabled": true,
@@ -74,7 +74,6 @@
     }
   },
   "overrides": [
-    { "include": ["tsconfig.json", "tsconfig.*.json"] },
     {
       "include": ["*.vue"],
       "linter": {
