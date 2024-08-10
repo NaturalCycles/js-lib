@@ -73,5 +73,18 @@
       "attributePosition": "auto"
     }
   },
-  "overrides": [{ "include": ["tsconfig.json", "tsconfig.*.json"] }]
+  "overrides": [
+    {
+      "include": ["*.vue"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            // doesn't work well with *.vue files
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ]
 }
