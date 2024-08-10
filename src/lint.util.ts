@@ -45,6 +45,12 @@ export async function lintAllCommand(): Promise<void> {
     console.log(gitStatusAtStart)
   }
 
+  // Fast linters (that run in <1 second) go first
+
+  runActionLint()
+
+  // From this point we start the "slow" linters, with ESLint leading the way
+
   // We run eslint BEFORE Prettier, because eslint can delete e.g unused imports.
   await eslintAll()
 
@@ -56,8 +62,6 @@ export async function lintAllCommand(): Promise<void> {
   }
 
   runPrettier()
-
-  runActionLint()
 
   await runKTLint()
 
