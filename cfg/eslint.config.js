@@ -83,7 +83,7 @@ function getConfig() {
       ...require('./eslint-rules').rules,
       ...require('./eslint-vue-rules').rules,
       ...(hasJest ? require('./eslint-jest-rules').rules : {}),
-      ...require('./eslint-prettier-rules').rules,
+      ...require('./eslint-prettier-rules').rules, // disable eslint rules already covered by prettier
       ...require('./eslint-biome-rules').rules, // disable eslint rules already covered by biome
     },
   }

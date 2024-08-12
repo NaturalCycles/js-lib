@@ -118,9 +118,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-array-constructor': 2,
-    '@typescript-eslint/no-empty-interface': 0, // too inconvenient
     '@typescript-eslint/no-extra-non-null-assertion': 2,
-    '@typescript-eslint/no-extra-semi': 0, // prettier handles it
     '@typescript-eslint/no-floating-promises': 2,
     '@typescript-eslint/no-inferrable-types': [
       2,
@@ -130,7 +128,6 @@ module.exports = {
     ],
     '@typescript-eslint/no-misused-new': 2,
     '@typescript-eslint/no-non-null-asserted-optional-chain': 2,
-    '@typescript-eslint/no-this-alias': 0, // buggy
     '@typescript-eslint/no-unused-expressions': 2,
     '@typescript-eslint/prefer-as-const': 2,
     '@typescript-eslint/prefer-for-of': 2,
@@ -190,7 +187,7 @@ module.exports = {
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     // 'jsdoc/newline-after-description': 2,
-    'no-array-constructor': 'off',
+    'no-array-constructor': 0,
     'no-async-promise-executor': 2,
     'no-bitwise': 2,
     'no-caller': 2,
@@ -210,12 +207,11 @@ module.exports = {
     'no-duplicate-case': 2,
     'no-empty': [2, { allowEmptyCatch: true }],
     'no-empty-character-class': 2,
-    'no-empty-function': 'off',
+    'no-empty-function': 0,
     'no-empty-pattern': 2,
     'no-eval': 2,
     'no-ex-assign': 2,
     'no-extra-boolean-cast': 2,
-    'no-extra-semi': 'off',
     'no-implicit-coercion': [
       2,
       {
@@ -271,12 +267,10 @@ module.exports = {
     'no-shadow-restricted-names': 2,
     'no-sparse-arrays': 2,
     'no-this-before-super': 2,
-    'no-throw-literal': 0,
     '@typescript-eslint/only-throw-error': 2,
     'no-undef': 0, // covered by TS, conflicts with typescript-eslint
     'no-undef-init': 2,
     'no-underscore-dangle': 0,
-    'no-unexpected-multiline': 0, // prettier
     'no-unreachable': 2,
     'no-unsafe-finally': 2,
     'no-unsafe-negation': 2,
@@ -347,7 +341,6 @@ module.exports = {
     '@typescript-eslint/prefer-find': 2,
     'prefer-promise-reject-errors': 0,
     '@typescript-eslint/prefer-promise-reject-errors': 2,
-    'arrow-body-style': 0,
     'unicorn/no-array-callback-reference': 0, // false positives
     'unicorn/no-process-exit': 0,
     'unicorn/no-array-push-push': 0,
