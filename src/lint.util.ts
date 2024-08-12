@@ -307,17 +307,17 @@ function runActionLint(): void {
   }
 }
 
-export function runBiome(verbose = false, fix = true): void {
-  if (!fs.existsSync(`node_modules/@biomejs/biome`)) {
-    if (verbose) {
-      console.log(`biome is not installed (checked in node_modules/@biomejs/biome), skipping`)
-    }
-    return
-  }
+export function runBiome(fix = true): void {
+  // if (!fs.existsSync(`node_modules/@biomejs/biome`)) {
+  //   if (verbose) {
+  //     console.log(`biome is not installed (checked in node_modules/@biomejs/biome), skipping`)
+  //   }
+  //   return
+  // }
 
   const configPath = `biome.jsonc`
   if (!fs.existsSync(configPath)) {
-    if (verbose) console.log(`biome is installed, but biome.jsonc config file is missing`)
+    console.log(`biome is skipped, because ./biome.jsonc is not present`)
     return
   }
 

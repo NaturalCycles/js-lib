@@ -34,8 +34,8 @@ const stylelintExists =
   fs.existsSync('node_modules/stylelint-config-standard-scss')
 const stylelintCmd = stylelintExists ? `stylelint --fix --config ${stylelintConfigPath}` : undefined
 
-const biomeInstalled = fs.existsSync('node_modules/@biomejs/biome')
-const biomeConfigPath = biomeInstalled && ['biome.jsonc'].find(p => fs.existsSync(p))
+// const biomeInstalled = fs.existsSync('node_modules/@biomejs/biome')
+const biomeConfigPath = ['biome.jsonc'].find(p => fs.existsSync(p))
 const biomeCmd = biomeConfigPath && `biome lint --write --unsafe --`
 
 if (!eslintConfigPathRoot) {

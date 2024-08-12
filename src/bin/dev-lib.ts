@@ -84,12 +84,12 @@ const commands: (Command | Separator)[] = [
   },
   {
     name: 'biome',
-    fn: () => runBiome(true),
+    fn: () => runBiome(),
     desc: 'Run biome linter on all files.',
   },
   {
     name: 'biome --no-fix',
-    fn: () => runBiome(true, false),
+    fn: () => runBiome(false),
     desc: 'Run biome linter on all files with "auto-fix" disabled. Useful for debugging.',
     interactiveOnly: true,
   },
