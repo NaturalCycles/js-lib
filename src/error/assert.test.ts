@@ -11,8 +11,6 @@ import {
 import { AssertionError } from './error.util'
 import { _try } from './try'
 
-/* eslint-disable no-self-compare */
-
 test('_assert', () => {
   // biome-ignore lint/suspicious/noSelfCompare: ok
   _assert(1 === 1) // should not throw

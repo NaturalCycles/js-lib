@@ -4,8 +4,6 @@ yarn tsn filterBench
 
  */
 
-/* eslint-disable unused-imports/no-unused-vars */
-
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import type { AnyObject } from '../src'
 import { _filterNullishValues, _range } from '../src'

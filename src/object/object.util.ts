@@ -332,7 +332,7 @@ export function _unset<T extends AnyObject>(obj: T, prop: string): void {
   if (!_isObject(obj)) {
     return
   }
-  // eslint-disable-next-line no-prototype-builtins
+
   if (obj.hasOwnProperty(prop)) {
     delete obj[prop]
     return
@@ -470,7 +470,7 @@ export function _deepFreeze(o: any): void {
 
   Object.getOwnPropertyNames(o).forEach(prop => {
     if (
-      o.hasOwnProperty(prop) && // eslint-disable-line no-prototype-builtins
+      o.hasOwnProperty(prop) &&
       o[prop] !== null &&
       (typeof o[prop] === 'object' || typeof o[prop] === 'function') &&
       !Object.isFrozen(o[prop])

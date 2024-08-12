@@ -1,7 +1,7 @@
 import { AsyncIterable2 } from '../iter/asyncIterable2'
 import { Iterable2 } from '../iter/iterable2'
 
-/* eslint-disable no-redeclare, unicorn/no-new-array */
+/* eslint-disable unicorn/no-new-array */
 
 /**
  * Returns an array with ranges from `from` up to (but not including) `to`.

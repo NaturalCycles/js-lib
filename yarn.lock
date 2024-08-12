@@ -1269,10 +1269,11 @@
     typescript "^5.0.2"
 
 "@naturalcycles/dev-lib@^15.0.3":
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-15.6.0.tgz#50e9128ea72204a26af49156cd2924fd12d8296c"
-  integrity sha512-slsYobCeIqO9O5bX0EkTJ7BEW8tJWIT3HoQhGoVifTskU1gJM/hnphxOVD4UMMs6aFmvB5stXd0YpOmynWFb4Q==
+  version "15.9.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-15.9.0.tgz#0fdc225b6423c4f1766bc31c0cc5b2c2479e9eca"
+  integrity sha512-FKDK22KYtKP594AUQIxtnTR56a1nrF2I3Tfho8r8luecH/9uWH6EhczMak3+7e6PdUZlTtkpDYIqXAAiDTcIrA==
   dependencies:
+    "@biomejs/biome" "^1.8.3"
     "@commitlint/cli" "^19.0.0"
     "@commitlint/config-conventional" "^19.0.0"
     "@eslint/js" "^9.7.0"
@@ -1290,7 +1291,6 @@
     eslint-plugin-jsdoc "^50.0.0"
     eslint-plugin-simple-import-sort "^12.1.1"
     eslint-plugin-unicorn "^55.0.0"
-    eslint-plugin-unused-imports "4.0.1"
     eslint-plugin-vue "^9.0.0"
     expect-type "^0.19.0"
     globals "^15.8.0"
@@ -2895,9 +2895,9 @@ eslint-plugin-jest@^28.0.0:
     "@typescript-eslint/utils" "^6.0.0 || ^7.0.0 || ^8.0.0"
 
 eslint-plugin-jsdoc@^50.0.0:
-  version "50.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-50.0.0.tgz#0d064e14e1a8a3624c0474359fc51325b38b0fc9"
-  integrity sha512-czyJ5F7/qY2LIhUD5Bl6q1CCZ8mjvfEA9HQN5nvIp/Pb8VLIlUNd+DMZdA2OKN74QQMS3pobC06hFqAOJyOv5Q==
+  version "50.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-50.0.1.tgz#4d8484d2268d9b69476f781906422a6d2bfc598a"
+  integrity sha512-UayhAysIk1Du8InV27WMbV4AMSJSu60+bekmeuGK2OUy4QJSFPr1srYT6AInykGkmMdRuHfDX6Q0tJEr8BtDtg==
   dependencies:
     "@es-joy/jsdoccomment" "~0.46.0"
     are-docs-informative "^0.0.2"
@@ -2938,13 +2938,6 @@ eslint-plugin-unicorn@^55.0.0:
     semver "^7.6.1"
     strip-indent "^3.0.0"
 
-eslint-plugin-unused-imports@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-4.0.1.tgz#b78916ecb82ae6d0f54efb33879c6c7ecb52f080"
-  integrity sha512-rax76s05z64uQgG9YXsWFmXrgjkaK79AvfeAWiSxhPP6RVGxeRaj4+2u+wxxu/mDy2pmJoOy1QTOEALMia2xGQ==
-  dependencies:
-    eslint-rule-composer "^0.3.0"
-
 eslint-plugin-vue@^9.0.0:
   version "9.27.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.27.0.tgz#c22dae704a03d9ecefa81364ff89f60ce0481f94"
@@ -2958,11 +2951,6 @@ eslint-plugin-vue@^9.0.0:
     semver "^7.6.0"
     vue-eslint-parser "^9.4.3"
     xml-name-validator "^4.0.0"
-
-eslint-rule-composer@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
-  integrity sha512-bt+Sh8CtDmn2OajxvNO+BX7Wn4CIWMpTRm3MaiKPCQcnnlm0CS2mhui6QaoeQugs+3Kj2ESKEEGJUdVafwhiCg==
 
 eslint-scope@^7.1.1:
   version "7.2.2"

@@ -72,7 +72,7 @@ export async function pTimeout<T>(fn: AnyAsyncFunction<T>, opt: PTimeoutOptions)
   const { timeout, name = fn.name || 'pTimeout function', onTimeout } = opt
   const fakeError = opt.fakeError || new Error('TimeoutError')
 
-  // eslint-disable-next-line no-async-promise-executor
+  // biome-ignore lint/suspicious/noAsyncPromiseExecutor: ok
   return await new Promise(async (resolve, reject) => {
     // Prepare the timeout timer
     const timer = setTimeout(() => {
