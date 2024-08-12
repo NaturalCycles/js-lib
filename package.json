@@ -17,6 +17,7 @@
     "upnc": "tsn ./src/bin/upnc.ts"
   },
   "dependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@eslint/js": "^9.7.0",
@@ -50,7 +51,6 @@
     "yargs": "^17.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
     "jest": "^29.0.0",
     "stylelint": "^16.0.2",
     "stylelint-config-standard-scss": "^13.0.0"
