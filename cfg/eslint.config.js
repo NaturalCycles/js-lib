@@ -83,10 +83,8 @@ function getConfig() {
       ...require('./eslint-rules').rules,
       ...require('./eslint-vue-rules').rules,
       ...(hasJest ? require('./eslint-jest-rules').rules : {}),
-      ...require('eslint-config-prettier').rules,
+      ...require('./eslint-prettier-rules').rules,
       ...require('./eslint-biome-rules').rules, // disable eslint rules already covered by biome
-      // Override prettier-config:
-      curly: [2, 'multi-line'],
     },
   }
 }

@@ -153,7 +153,6 @@ module.exports = {
       },
     ],
     'constructor-super': 2,
-    'eol-last': 2,
     eqeqeq: [2, 'smart'],
     'for-direction': 2,
     'getter-return': 2,
@@ -232,7 +231,6 @@ module.exports = {
     'no-invalid-this': 0, // too many false positives in valid classes
     'no-irregular-whitespace': 2,
     'no-misleading-character-class': 2,
-    'no-mixed-spaces-and-tabs': 2,
     'no-new-symbol': 2,
     'no-new-wrappers': 2,
     'no-obj-calls': 2,
@@ -266,6 +264,7 @@ module.exports = {
       'rxjs/observable/interval',
       'rxjs/observable/forkJoin',
     ],
+    curly: [2, 'multi-line'], // this one is an exception that can conflict with prettier
     'no-self-assign': 2,
     'no-setter-return': 2,
     'no-shadow': 0, // it is buggy with TypeScript enums
@@ -348,7 +347,6 @@ module.exports = {
     '@typescript-eslint/prefer-find': 2,
     'prefer-promise-reject-errors': 0,
     '@typescript-eslint/prefer-promise-reject-errors': 2,
-    'arrow-parens': [2, 'as-needed'],
     'arrow-body-style': 0,
     'unicorn/no-array-callback-reference': 0, // false positives
     'unicorn/no-process-exit': 0,
