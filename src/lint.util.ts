@@ -256,7 +256,7 @@ export async function lintStagedCommand(): Promise<void> {
   // const lintStaged = require('lint-staged')
   // lint-staged is ESM since 12.0
   // const lintStaged = await import('lint-staged')
-  /* eslint-disable no-eval */
+
   // biome-ignore lint/security/noGlobalEval: ok
   const { default: lintStaged } = await eval(`import('lint-staged')`)
   const success = await lintStaged({

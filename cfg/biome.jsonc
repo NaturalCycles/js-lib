@@ -45,7 +45,6 @@
       "suspicious": {
         "noExplicitAny": "off",
         "noAssignInExpressions": "off",
-        "noAsyncPromiseExecutor": "off",
         "noPrototypeBuiltins": "off",
         "noGlobalIsNan": "off", // todo,
         "noThenProperty": "off",
