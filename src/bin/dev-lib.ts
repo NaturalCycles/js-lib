@@ -171,15 +171,20 @@ async function tscAll(): Promise<void> {
 }
 
 function logEnvironment(): void {
-  const { CPU_LIMIT, NODE_OPTIONS = 'not defined' } = process.env
-  const { node } = process.versions
+  const {
+    platform,
+    arch,
+    versions: { node },
+    env: { CPU_LIMIT, NODE_OPTIONS = 'not defined' },
+  } = process
+
   const cpuLimit = Number(CPU_LIMIT) || undefined
   const availableParallelism = os.availableParallelism?.()
   const cpus = os.cpus().length
   console.log(
     dimGrey(
       Object.entries({
-        node,
+        node: `${node} ${platform} ${arch}`,
         NODE_OPTIONS,
         cpus,
         availableParallelism,

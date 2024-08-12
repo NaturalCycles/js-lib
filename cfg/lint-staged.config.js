@@ -4,6 +4,14 @@
   Supports default configs for `prettier`, `stylelint`, `eslint`, if they are not found in target project.
 */
 
+const {
+  platform,
+  arch,
+  versions: { node },
+} = process
+
+console.log(`lint-staged.config.js runs on node ${node} ${platform} ${arch}`)
+
 const fs = require('node:fs')
 const micromatch = require('micromatch')
 const { execSync } = require('node:child_process')
