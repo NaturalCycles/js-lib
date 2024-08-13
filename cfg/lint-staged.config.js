@@ -44,7 +44,7 @@ const stylelintCmd = stylelintExists ? `stylelint --fix --config ${stylelintConf
 
 // const biomeInstalled = fs.existsSync('node_modules/@biomejs/biome')
 const biomeConfigPath = ['biome.jsonc'].find(p => fs.existsSync(p))
-const biomeCmd = biomeConfigPath && `biome lint --write --unsafe --`
+const biomeCmd = biomeConfigPath && `biome lint --write --unsafe --no-errors-on-unmatched`
 
 if (!eslintConfigPathRoot) {
   console.log('eslint is skipped, because ./eslint.config.js is not present')
@@ -94,7 +94,8 @@ const linters = {
   [`./{${prettierDirs}}/**/*.{${stylelintExtensions}}`]: match => {
     const filesList = getFilesList(match)
     if (!filesList) return []
-    return [biomeCmd, stylelintCmd, prettierCmd].filter(Boolean).map(s => `${s} ${filesList}`)
+    // Biome's css/scss support is still in nursery, so Biome is disabled for now
+    return [stylelintCmd, prettierCmd].filter(Boolean).map(s => `${s} ${filesList}`)
   },
 
   // Files in root dir: prettier

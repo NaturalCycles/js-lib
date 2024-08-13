@@ -325,7 +325,9 @@ export function runBiome(fix = true): void {
 
   execVoidCommandSync(
     `biome`,
-    [`lint`, fix && '--write', fix && '--unsafe', ...dirs].filter(_isTruthy),
+    [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
+      _isTruthy,
+    ),
   )
 }
 
