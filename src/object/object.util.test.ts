@@ -1,8 +1,11 @@
-import type { StringMap } from '../types'
+import { _numberEnumKey } from '../enum.util'
+import type { AnyObject, StringMap } from '../types'
 import {
   _deepCopy,
   _deepFreeze,
   _deepTrim,
+  _diff,
+  _diffAndMap,
   _filterEmptyArrays,
   _filterEmptyValues,
   _filterFalsyValues,
@@ -27,6 +30,7 @@ import {
   _pickWithUndefined,
   _set,
   _unset,
+  ObjectDiffOptions,
 } from './object.util'
 
 test('_pick', () => {
@@ -683,4 +687,140 @@ test('_objectAssignExact', () => {
 
   expect(target).toStrictEqual(source)
   expect(target).not.toBe(source)
+})
+
+describe('_diff', () => {
+  test('should return with the differences between two objects', () => {
+    const obj1: AnyObject = {
+      a: 1,
+      b: 'b',
+      c: true,
+      d: { e: 2 },
+      f: undefined,
+      g: null,
+      h: [1, 2, 3],
+      i: [{ j: 1 }],
+    }
+    const obj2: AnyObject = {
+      a: 2,
+      b: 'b',
+      c: false,
+      d: { e: 3 },
+      f: 'f',
+      g: undefined,
+      h: [1, 2],
+      i: [{ j: 1 }, { j: 2 }],
+    }
+
+    const result = _diff(obj1, obj2)
+
+    expect(result).toEqual({
+      a: { from: 1, to: 2 },
+      c: { from: true, to: false },
+      d: { from: { e: 2 }, to: { e: 3 } },
+      f: { from: undefined, to: 'f' },
+      g: { from: null, to: undefined },
+      h: { from: [1, 2, 3], to: [1, 2] },
+      i: { from: [{ j: 1 }], to: [{ j: 1 }, { j: 2 }] },
+    })
+  })
+
+  test('should return with only the differences between two objects', () => {
+    const obj1 = { a: 1, b: 2 }
+    const obj2 = { a: 2, b: 2 }
+
+    expect(_diff(obj1, obj2)).toEqual({ a: { from: 1, to: 2 } })
+  })
+
+  test('should pick up removed and new fields too', () => {
+    interface Obj {
+      a?: number
+      b?: number
+      c?: number
+    }
+    const obj1: Obj = { a: 1, b: 2 }
+    const obj2: Obj = { b: 2, c: 3 }
+
+    expect(_diff(obj1, obj2)).toEqual({
+      a: { from: 1, to: undefined },
+      c: { from: undefined, to: 3 },
+    })
+  })
+
+  test('should return empty object when both objects are the same', () => {
+    const testCases = [{}, { a: 1 }, { a: { b: 1 } }]
+
+    testCases.forEach(obj => {
+      expect(_diff(obj, obj)).toEqual({})
+    })
+  })
+
+  test('should do deep compare but compile diffs only on the root level only', () => {
+    const obj1 = { a: { b: { c: 1 } } }
+    const obj2 = { a: { b: { c: 2 } } }
+
+    expect(_diff(obj1, obj2)).toEqual({ a: { from: { b: { c: 1 } }, to: { b: { c: 2 } } } })
+  })
+
+  test('should exclude fields on the exclude list', () => {
+    interface Obj {
+      a?: number
+      b?: number
+      c?: number
+    }
+    const obj1: Obj = { a: 1, b: 2, c: 3 }
+    const obj2: Obj = { a: 2, b: 2, c: 4 }
+    const options: Partial<ObjectDiffOptions<Obj>> = { ignore: ['a'] }
+
+    expect(_diff(obj1, obj2, options)).toEqual({ c: { from: 3, to: 4 } })
+  })
+})
+
+describe('_diffAndMap', () => {
+  test('should transform values with the transform function', () => {
+    interface Obj {
+      a: number
+      b: number
+      c: number
+    }
+    const obj1: Obj = { a: 1, b: 2, c: 3 }
+    const obj2: Obj = { a: 2, b: 3, c: 4 }
+    const mapper = {
+      a: (value: number) => value - 1,
+      b: () => 'x',
+      d: () => 'y',
+    }
+
+    const result = _diffAndMap(obj1, obj2, mapper)
+
+    expect(result).toEqual({
+      a: { from: 0, to: 1 },
+      b: { from: 'x', to: 'x' },
+      c: { from: 3, to: 4 },
+    })
+  })
+
+  test('should be usable for our numeric enums', () => {
+    enum Enum {
+      A = 1,
+      B = 2,
+    }
+
+    const obj1 = { a: Enum.A }
+    const obj2 = { a: Enum.B }
+    const mapper = {
+      a: (value: Enum) => _numberEnumKey(Enum, value),
+    }
+
+    const result = _diffAndMap(obj1, obj2, mapper)
+
+    expect(result).toEqual({ a: { from: 'A', to: 'B' } })
+  })
+
+  test('should behave as _diff when no mapper is provided', () => {
+    const obj1 = { a: 1, b: 2 }
+    const obj2 = { a: 2, b: 2 }
+
+    expect(_diffAndMap(obj1, obj2, {})).toEqual({ a: { from: 1, to: 2 } })
+  })
 })

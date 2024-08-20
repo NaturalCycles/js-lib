@@ -1,6 +1,7 @@
 import { _isEmpty, _isObject } from '../is.util'
 import {
   _objectEntries,
+  _objectKeys,
   AnyObject,
   KeyValueTuple,
   ObjectMapper,
@@ -9,6 +10,7 @@ import {
   SKIP,
   ValueOf,
 } from '../types'
+import { _deepEquals } from './deepEquals'
 
 /**
  * Returns clone of `obj` with only `props` preserved.
@@ -507,3 +509,63 @@ export function _objectAssignExact<T extends AnyObject>(target: T, source: T): v
     }
   }
 }
+
+export function _diff<T extends AnyObject>(
+  before: T,
+  after: T,
+  options?: Partial<ObjectDiffOptions<T>>,
+): ObjectDiffResult<T> {
+  const { ignore } = { ..._diffDefaultOptions, ...options }
+  const keys = [..._objectKeys(before), ..._objectKeys(after)]
+  const diff: ObjectDiffResult<T> = {}
+
+  for (const k of keys) {
+    if (ignore.includes(k)) continue
+    if (_deepEquals(before[k], after[k])) continue
+
+    diff[k] = { from: before[k], to: after[k] }
+  }
+
+  return diff
+}
+
+const _diffDefaultOptions: ObjectDiffOptions<any> = { ignore: [] } as const
+
+export type ObjectDiffResult<T extends AnyObject> = Partial<{
+  [k in keyof T]: { from: T[k]; to: T[k] }
+}>
+
+export interface ObjectDiffOptions<T> {
+  ignore: (keyof T)[]
+}
+
+export function _diffAndMap<T extends AnyObject>(
+  before: T,
+  after: T,
+  mapper?: { [k in keyof T]?: (v: T[k]) => any },
+  options?: Partial<ObjectDiffOptions<T>>,
+): ObjectDiffAndMapResult<T> {
+  const result = _diff(before, after, options)
+  if (!mapper) return result
+
+  const mappedResult: ObjectDiffAndMapResult<T> = {}
+  for (const k in result) {
+    if (!result[k]) continue
+
+    if (!mapper[k]) {
+      mappedResult[k] = result[k]
+      continue
+    }
+
+    const from = mapper[k](result[k].from)
+    const to = mapper[k](result[k].to)
+
+    mappedResult[k] = { from, to }
+  }
+
+  return mappedResult
+}
+
+export type ObjectDiffAndMapResult<T extends AnyObject> = Partial<{
+  [k in keyof T]: { from: any; to: any }
+}>
