@@ -390,3 +390,17 @@ test('todayString tz', () => {
   console.log(localDate.todayString())
   console.log(new Date().toString())
 })
+
+test('fractional unit input', () => {
+  const ld = localDate('1984-06-21')
+  expect(ld.plus(0.4, 'day').toISODate()).toBe('1984-06-21')
+  expect(ld.plus(0.5, 'day').toISODate()).toBe('1984-06-21')
+  expect(ld.plus(0.9, 'day').toISODate()).toBe('1984-06-21')
+  expect(ld.plus(1.1, 'day').toISODate()).toBe('1984-06-22')
+  expect(ld.minus(0.4, 'day').toISODate()).toBe('1984-06-20')
+  expect(ld.minus(0.5, 'day').toISODate()).toBe('1984-06-20')
+  expect(ld.minus(0.9, 'day').toISODate()).toBe('1984-06-20')
+  expect(ld.minus(1.1, 'day').toISODate()).toBe('1984-06-19')
+
+  expect(localDate('1984-06-21.5').toISODate()).toBe('1984-06-21')
+})

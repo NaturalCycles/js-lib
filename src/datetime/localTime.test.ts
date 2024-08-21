@@ -584,3 +584,33 @@ test('parsing date string in negative timezone bug', () => {
   expect(lt.toISODate()).toBe(s)
   expect(lt.toPretty()).toBe('2023-03-03 00:00:00')
 })
+
+test('fractional unit input', () => {
+  const lt = localTime('1984-06-21')
+  expect(lt.toString()).toBe('1984-06-21T00:00:00')
+
+  // Comparing only IsoDate part (no time component)
+  expect(lt.plus(0.4, 'day').toISODate()).toBe('1984-06-21')
+  expect(lt.plus(0.5, 'day').toISODate()).toBe('1984-06-21')
+  expect(lt.plus(0.9, 'day').toISODate()).toBe('1984-06-21')
+  expect(lt.plus(1.1, 'day').toISODate()).toBe('1984-06-22')
+  expect(lt.minus(0.4, 'day').toISODate()).toBe('1984-06-20')
+  expect(lt.minus(0.5, 'day').toISODate()).toBe('1984-06-20')
+  expect(lt.minus(0.9, 'day').toISODate()).toBe('1984-06-20')
+  expect(lt.minus(1.1, 'day').toISODate()).toBe('1984-06-19')
+
+  // Comparing full date+time component.
+  // LocalTime does NOT support fractional input, so it should be coerced (Math.floored) to Integer
+  expect(lt.plus(0.4, 'day').toString()).toBe('1984-06-21T00:00:00')
+  expect(lt.plus(0.5, 'day').toString()).toBe('1984-06-21T00:00:00')
+  expect(lt.plus(0.9, 'day').toString()).toBe('1984-06-21T00:00:00')
+  expect(lt.plus(1.1, 'day').toString()).toBe('1984-06-22T00:00:00')
+  expect(lt.minus(0.4, 'day').toString()).toBe('1984-06-20T00:00:00')
+  expect(lt.minus(0.5, 'day').toString()).toBe('1984-06-20T00:00:00')
+  expect(lt.minus(0.9, 'day').toString()).toBe('1984-06-20T00:00:00')
+  expect(lt.minus(1.1, 'day').toString()).toBe('1984-06-19T00:00:00')
+
+  expect(() => localTime('1984-06-21.5')).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot parse "1984-06-21.5" into LocalTime"`,
+  )
+})

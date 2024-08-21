@@ -287,6 +287,7 @@ export class LocalDate {
   }
 
   plus(num: number, unit: LocalDateUnit, mutate = false): LocalDate {
+    num = Math.floor(num) // if a fractional number like 0.5 is passed - it will be floored, as LocalDate only deals with "whole days" as minimal unit
     let { day, month, year } = this
 
     if (unit === 'week') {
