@@ -263,15 +263,15 @@ export function runCommitlintCommand(): void {
   const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
 
   const env = {
-    ...process.env, // important to pass it through, to preserve $PATH
     GIT_BRANCH: git2.getCurrentBranchName(),
   }
 
   // await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
   exec2.spawn(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
     env,
-    passProcessEnv: false,
+    passProcessEnv: true, // important to pass it through, to preserve $PATH
     forceColor: false,
+    log: false,
   })
 }
 
