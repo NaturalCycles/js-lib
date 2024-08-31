@@ -1,18 +1,7 @@
-import cp, { type ExecSyncOptions } from 'node:child_process'
+import cp from 'node:child_process'
 import fs from 'node:fs'
 import { _isTruthy, _since, _truncate } from '@naturalcycles/js-lib'
-import {
-  boldGrey,
-  commitMessageToTitleMessage,
-  dimGrey,
-  execVoidCommand,
-  execVoidCommandSync,
-  getLastGitCommitMsg,
-  gitCommitAll,
-  gitCurrentBranchName,
-  gitPull,
-  gitPush,
-} from '@naturalcycles/nodejs-lib'
+import { boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
 import { cfgDir, scriptsDir } from './paths'
 const {
@@ -73,12 +62,13 @@ export async function lintAllCommand(): Promise<void> {
     const gitStatusAfter = gitStatus()
     const hasChanges = gitStatusAfter !== gitStatusAtStart
     if (!hasChanges) return
-    const msg = 'style(ci): ' + _truncate(commitMessageToTitleMessage(getLastGitCommitMsg()), 60)
+    const msg =
+      'style(ci): ' + _truncate(git2.commitMessageToTitleMessage(git2.getLastGitCommitMsg()), 60)
 
     // pull, commit, push changes
-    gitPull()
-    gitCommitAll(msg)
-    gitPush()
+    git2.pull()
+    git2.commitAll(msg)
+    git2.push()
 
     // fail on changes
     if (failOnChanges) {
@@ -176,9 +166,8 @@ async function runESLint(
 ): Promise<void> {
   if (!eslintConfigPath || !fs.existsSync(dir)) return // faster to bail-out like this
 
-  await execVoidCommand(
-    'eslint',
-    [
+  await exec2.spawnAsync('eslint', {
+    args: [
       `--config`,
       eslintConfigPath,
       `${dir}/**/*.{${extensions.join(',')}}`,
@@ -187,7 +176,8 @@ async function runESLint(
       `--report-unused-disable-directives`, // todo: unnecessary with flat, as it's defined in the config
       fix ? `--fix` : '',
     ].filter(Boolean),
-  )
+    shell: false,
+  })
 }
 
 const prettierPaths = [
@@ -206,13 +196,10 @@ export function runPrettier(): void {
   if (!prettierConfigPath) return
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  execVoidCommandSync('prettier', [
-    `--write`,
-    `--log-level=warn`,
-    `--config`,
-    prettierConfigPath,
-    ...prettierPaths,
-  ])
+  exec2.spawn('prettier', {
+    args: [`--write`, `--log-level=warn`, `--config`, prettierConfigPath, ...prettierPaths],
+    shell: false,
+  })
 }
 
 const stylelintPaths = [
@@ -234,12 +221,12 @@ export function stylelintAll(): void {
   const config = [`./stylelint.config.js`].find(f => fs.existsSync(f))
   if (!config) return
 
-  execVoidCommandSync(
-    'stylelint',
-    [fix ? `--fix` : '', `--allow-empty-input`, `--config`, config, ...stylelintPaths].filter(
+  exec2.spawn('stylelint', {
+    args: [fix ? `--fix` : '', `--allow-empty-input`, `--config`, config, ...stylelintPaths].filter(
       Boolean,
     ),
-  )
+    shell: false,
+  })
 }
 
 export async function lintStagedCommand(): Promise<void> {
@@ -277,12 +264,14 @@ export function runCommitlintCommand(): void {
 
   const env = {
     ...process.env, // important to pass it through, to preserve $PATH
-    GIT_BRANCH: gitCurrentBranchName(),
+    GIT_BRANCH: git2.getCurrentBranchName(),
   }
 
   // await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
-  execSync(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
+  exec2.spawn(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
     env,
+    passProcessEnv: false,
+    forceColor: false,
   })
 }
 
@@ -297,9 +286,7 @@ function runActionLint(): void {
   if (!fs.existsSync('.github/workflows')) return
 
   if (canRunBinary('actionlint')) {
-    const started = Date.now()
-    execVoidCommandSync(`actionlint`)
-    console.log(`${boldGrey('actionlint')} ${dimGrey(`took ` + _since(started))}`)
+    exec2.spawn(`actionlint`)
   } else {
     console.log(
       `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
@@ -323,12 +310,13 @@ export function runBiome(fix = true): void {
 
   const dirs = [`src`, `scripts`, `e2e`, `playwright`].filter(d => fs.existsSync(d))
 
-  execVoidCommandSync(
-    `biome`,
-    [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
+  exec2.spawn(`biome`, {
+    args: [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
       _isTruthy,
     ),
-  )
+    logFinish: false,
+    shell: false,
+  })
 }
 
 function canRunBinary(name: string): boolean {
@@ -346,16 +334,4 @@ function gitStatus(): string | undefined {
       encoding: 'utf8',
     })
   } catch {}
-}
-
-function execSync(cmd: string, opt?: ExecSyncOptions): void {
-  try {
-    cp.execSync(cmd, {
-      ...opt,
-      encoding: 'utf8',
-      stdio: 'inherit',
-    })
-  } catch {
-    process.exit(1)
-  }
 }

@@ -1,18 +1,18 @@
 import fs from 'node:fs'
-import { execVoidCommandSync } from '@naturalcycles/nodejs-lib'
+import { exec2 } from '@naturalcycles/nodejs-lib'
 
 export function up(): void {
-  execVoidCommandSync('yarn', ['upgrade'])
-  execVoidCommandSync('yarn-deduplicate')
-  execVoidCommandSync('yarn')
+  exec2.spawn('yarn upgrade')
+  exec2.spawn('yarn-deduplicate')
+  exec2.spawn('yarn')
 
   if (fs.existsSync(`node_modules/patch-package`)) {
-    execVoidCommandSync('patch-package')
+    exec2.spawn('patch-package')
   }
 }
 
 export function upnc(): void {
-  execVoidCommandSync('yarn', ['upgrade', '--pattern', `@naturalcycles`])
-  execVoidCommandSync('yarn-deduplicate')
-  execVoidCommandSync('yarn')
+  exec2.spawn('yarn upgrade --pattern @naturalcycles')
+  exec2.spawn('yarn-deduplicate')
+  exec2.spawn('yarn')
 }

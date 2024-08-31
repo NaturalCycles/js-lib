@@ -9,15 +9,13 @@ Changes are visible in git diff every time they are observed.
  */
 
 import { _sortObjectDeep } from '@naturalcycles/js-lib'
-import { execVoidCommandSync, fs2, runScript } from '@naturalcycles/nodejs-lib'
+import { exec2, fs2, runScript } from '@naturalcycles/nodejs-lib'
 import { testDir } from '../src/paths'
 
 runScript(async () => {
   const outputPath = `${testDir}/cfg/eslint.config.dump.json`
 
-  execVoidCommandSync(`eslint --print-config src/index.ts > ${outputPath}`, [], {
-    shell: true,
-  })
+  exec2.spawn(`eslint --print-config src/index.ts > ${outputPath}`)
 
   // execVoidCommandSync(`eslint --config ./eslint.config.js --parser-options=project:./scripts/tsconfig.json --print-config scripts/eslintPrintConfig.script.ts > ${outputPath}`, [], {
   //   shell: true,

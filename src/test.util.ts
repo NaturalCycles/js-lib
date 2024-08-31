@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { _range, _uniq } from '@naturalcycles/js-lib'
-import { dimGrey, execVoidCommandSync, white } from '@naturalcycles/nodejs-lib'
+import { dimGrey, exec2, white } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from './paths'
 
 interface RunJestOpt {
@@ -100,12 +100,18 @@ export function runJest(opt: RunJestOpt = {}): void {
     const shards = _range(1, totalShards + 1)
 
     for (const shard of shards) {
-      execVoidCommandSync('jest', _uniq([...args, `--shard=${shard}/${totalShards}`]), {
+      exec2.spawn('jest', {
+        args: _uniq([...args, `--shard=${shard}/${totalShards}`]),
+        logFinish: false,
+        shell: false,
         env,
       })
     }
   } else {
-    execVoidCommandSync('jest', _uniq(args), {
+    exec2.spawn('jest', {
+      args: _uniq(args),
+      logFinish: false,
+      shell: false,
       env,
     })
   }

@@ -1,6 +1,5 @@
 import fs from 'node:fs'
-import { _since } from '@naturalcycles/js-lib'
-import { boldGrey, dimGrey, execVoidCommand, fs2, kpySync } from '@naturalcycles/nodejs-lib'
+import { exec2, fs2, kpySync } from '@naturalcycles/nodejs-lib'
 
 export async function buildEsmCjs(): Promise<void> {
   // You cannot have a shared `tsconfig.prod.json` because of relative paths for `include`
@@ -21,28 +20,34 @@ export async function buildEsmCjs(): Promise<void> {
   const esmPath = esmExists ? TSCONF_ESM_PATH : TSCONF_PROD_PATH
 
   await Promise.all([
-    execVoidCommand('tsc', [
-      '-P',
-      cjsPath,
-      '--outDir',
-      './dist',
-      '--module',
-      'nodenext',
-      '--moduleResolution',
-      'nodenext',
-    ]),
-    execVoidCommand('tsc', [
-      '-P',
-      esmPath,
-      '--outDir',
-      './dist-esm',
-      '--module',
-      'esnext',
-      '--moduleResolution',
-      'bundler',
-      '--declaration',
-      'false',
-    ]),
+    exec2.spawnAsync('tsc', {
+      args: [
+        '-P',
+        cjsPath,
+        '--outDir',
+        './dist',
+        '--module',
+        'nodenext',
+        '--moduleResolution',
+        'nodenext',
+      ],
+      shell: false,
+    }),
+    exec2.spawnAsync('tsc', {
+      args: [
+        '-P',
+        esmPath,
+        '--outDir',
+        './dist-esm',
+        '--module',
+        'esnext',
+        '--moduleResolution',
+        'bundler',
+        '--declaration',
+        'false',
+      ],
+      shell: false,
+    }),
   ])
 }
 
@@ -78,19 +83,19 @@ export async function runTSCInFolder(tsconfigPath: string, args: string[] = []):
     return
   }
 
-  const started = Date.now()
-  await execVoidCommand(`tsc`, ['-P', tsconfigPath, ...args])
-  console.log(`${boldGrey(`tsc ${tsconfigPath}`)} ${dimGrey(`took ` + _since(started))}`)
+  await exec2.spawnAsync(`tsc`, {
+    args: ['-P', tsconfigPath, ...args],
+    shell: false,
+  })
 }
 
 export async function runTSCProd(): Promise<void> {
   const tsconfigPath = [`./tsconfig.prod.json`].find(p => fs.existsSync(p)) || 'tsconfig.json'
 
-  const args: string[] = ['-P', tsconfigPath]
-
-  const started = Date.now()
-  await execVoidCommand(`tsc`, args)
-  console.log(`${boldGrey('tsc prod')} ${dimGrey(`took ` + _since(started))}`)
+  await exec2.spawnAsync(`tsc`, {
+    args: ['-P', tsconfigPath],
+    shell: false,
+  })
 }
 
 export function buildCopy(): void {
