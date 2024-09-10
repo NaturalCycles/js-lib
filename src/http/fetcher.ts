@@ -416,22 +416,29 @@ export class Fetcher {
   private async onNotOkResponse(res: FetcherResponse): Promise<void> {
     let cause: ErrorObject
 
+    // Try to fetch body and attach to res.body
+    // (but don't fail if it doesn't work)
+    if (!res.body && res.fetchResponse) {
+      try {
+        res.body = _jsonParseIfPossible(await res.fetchResponse.text())
+      } catch {
+        // ignore body fetching/parsing errors at this point
+      }
+    }
+
     if (res.err) {
       // This is only possible on JSON.parse error, or CORS error,
       // or `unexpected redirect`
       // This check should go first, to avoid calling .text() twice (which will fail)
       cause = _errorLikeToErrorObject(res.err)
-    } else if (res.fetchResponse) {
-      const body = _jsonParseIfPossible(await res.fetchResponse.text())
-      if (body) {
-        cause = _anyToErrorObject(body)
+    } else if (res.body) {
+      cause = _anyToErrorObject(res.body)
+    } else {
+      cause = {
+        name: 'Error',
+        message: 'Fetch failed',
+        data: {},
       }
-    }
-
-    cause ||= {
-      name: 'Error',
-      message: 'Fetch failed',
-      data: {},
     }
 
     let responseStatusCode = res.fetchResponse?.status || 0

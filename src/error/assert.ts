@@ -1,5 +1,14 @@
-import type { ErrorData, ErrorObject } from '..'
-import { _deepEquals, _isErrorObject, _stringify, AssertionError, Class } from '..'
+import {
+  _deepEquals,
+  _isBackendErrorResponseObject,
+  _isErrorObject,
+  _stringify,
+  AssertionError,
+  BackendErrorResponseObject,
+  Class,
+  ErrorData,
+  ErrorObject,
+} from '..'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).
@@ -110,6 +119,16 @@ export function _assertIsErrorObject<DATA_TYPE extends ErrorData = ErrorData>(
 ): asserts obj is ErrorObject<DATA_TYPE> {
   if (!_isErrorObject(obj)) {
     throw new AssertionError(`Expected to be ErrorObject, actual typeof: ${typeof obj}`)
+  }
+}
+
+export function _assertIsBackendErrorResponseObject<DATA_TYPE extends ErrorData = ErrorData>(
+  obj: any,
+): asserts obj is BackendErrorResponseObject<DATA_TYPE> {
+  if (!_isBackendErrorResponseObject(obj)) {
+    throw new AssertionError(
+      `Expected to be BackendErrorResponseObject, actual typeof: ${typeof obj}`,
+    )
   }
 }
 

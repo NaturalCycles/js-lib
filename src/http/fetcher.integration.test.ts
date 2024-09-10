@@ -112,7 +112,7 @@ test('redirect: manual', async () => {
   `)
   expect(r.fetchResponse!.status).toBe(301)
   expect(r.fetchResponse!.headers.get('location')).toBe('https://naturalcycles.com/')
-  expect(r.body).toBeUndefined()
+  expect(r.body).toBe('')
 })
 
 test('timeout', async () => {

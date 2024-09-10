@@ -1,5 +1,6 @@
 import { expectTypeOf } from 'expect-type'
 import {
+  _assertIsBackendErrorResponseObject,
   AppError,
   ErrorObject,
   HttpRequestError,
@@ -137,7 +138,15 @@ test('mocking fetch', async () => {
     )
   })
 
-  const { err } = await fetcher.doFetch({ url: 'some' })
+  const { err, body } = await fetcher.doFetch({ url: 'some' })
+  expect(body).toBeDefined()
+  _assertIsBackendErrorResponseObject(body)
+  expect(_stringify(body.error, { includeErrorData: true })).toMatchInlineSnapshot(`
+"AppError: aya-baya
+{
+  "some": "key"
+}"
+`)
 
   _assertIsError(err, HttpRequestError)
 
