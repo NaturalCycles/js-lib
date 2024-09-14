@@ -228,7 +228,6 @@ module.exports = {
     'no-irregular-whitespace': 2,
     'no-misleading-character-class': 2,
     'no-new-symbol': 2,
-    'no-new-wrappers': 2,
     'no-obj-calls': 2,
     'no-octal': 2,
     'no-prototype-builtins': 2,
@@ -267,9 +266,8 @@ module.exports = {
     'no-shadow-restricted-names': 2,
     'no-sparse-arrays': 2,
     'no-this-before-super': 2,
-    '@typescript-eslint/only-throw-error': 2,
+    '@typescript-eslint/only-throw-error': 0, // biome
     'no-undef': 0, // covered by TS, conflicts with typescript-eslint
-    'no-undef-init': 2,
     'no-underscore-dangle': 0,
     'no-unreachable': 2,
     'no-unsafe-finally': 2,

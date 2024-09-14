@@ -57,6 +57,7 @@ module.exports = {
     'no-shadow-restricted-names': 0,
     'no-sparse-array': 0,
     'no-this-before-super': 0,
+    'no-undef-init': 0,
     'no-unneeded-ternary': 0,
     'no-unreachable': 0,
     'no-unsafe-finally': 0,
@@ -158,6 +159,8 @@ module.exports = {
     'react-hooks/exhaustive-deps': 0,
     // "simple-import-sort/imports": 0, // we need it
     'stylistic/jsx-self-closing-comp': 0,
+    'unicorn/error-message': 0,
+    'unicorn/new-for-builtins': 0,
     'unicorn/no-array-for-each': 0,
     'unicorn/no-instanceof-array': 0,
     'unicorn/no-static-only-class': 0,
@@ -165,7 +168,10 @@ module.exports = {
     'unicorn/no-typeof-undefined': 0,
     'unicorn/no-useless-switch-case': 0,
     'unicorn/prefer-array-flat-map': 0,
+    'unicorn/prefer-date-now': 0,
     'unicorn/prefer-node-protocol': 0,
     'unicorn/prefer-number-properties': 0,
+    'unicorn/require-number-to-fixed-digits-argument': 0,
+    'unicorn/throw-new-error': 0,
   },
 }
