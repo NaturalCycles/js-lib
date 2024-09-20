@@ -6,6 +6,7 @@ module.exports = {
   prettierExtensionsExclusive: 'js,jsx,json,md,graphql,yml,yaml,html',
   // everything that prettier supports:
   prettierExtensionsAll: 'ts,tsx,cts,mts,css,scss,js,jsx,cjs,mjs,json,md,graphql,yml,yaml,html,vue',
+  eslintExtensions: 'ts,tsx,cts,mts,vue,html',
   stylelintExtensions: 'css,scss',
   lintExclude: ['./**/__exclude/**', './**/dist/**', './**/cache/**', './CHANGELOG.md'],
 }

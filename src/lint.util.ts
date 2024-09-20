@@ -8,6 +8,7 @@ const {
   prettierDirs,
   prettierExtensionsAll,
   stylelintExtensions,
+  eslintExtensions,
   lintExclude,
 } = require('../cfg/_cnst')
 
@@ -92,7 +93,7 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
   const { argv } = yargs.options({
     ext: {
       type: 'string',
-      default: 'ts,tsx,vue',
+      default: eslintExtensions,
     },
     fix: {
       type: 'boolean',
@@ -138,26 +139,32 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
       // /src
       runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix),
       // /scripts
-      runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix),
+      runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, extensions, fix),
       // /e2e
-      runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix),
+      runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, extensions, fix),
       // /playwright // todo: remove after migration to e2e folder is completed
-      runESLint(`./playwright`, eslintConfigPathPlaywright, tsconfigPathPlaywright, undefined, fix),
+      runESLint(
+        `./playwright`,
+        eslintConfigPathPlaywright,
+        tsconfigPathPlaywright,
+        extensions,
+        fix,
+      ),
     ])
   } else {
     // with no-fix - let's run serially
     // /src
     await runESLint(`./src`, eslintConfigPathRoot, undefined, extensions, fix)
     // /scripts
-    await runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, undefined, fix)
+    await runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, extensions, fix)
     // /e2e
-    await runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, undefined, fix)
+    await runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, extensions, fix)
     // /e2e
     await runESLint(
       `./playwright`,
       eslintConfigPathPlaywright,
       tsconfigPathPlaywright,
-      undefined,
+      extensions,
       fix,
     )
   }
@@ -169,7 +176,7 @@ async function runESLint(
   dir: string,
   eslintConfigPath: string | undefined,
   tsconfigPath?: string,
-  extensions = ['ts', 'tsx', 'vue'],
+  extensions = eslintExtensions,
   fix = true,
 ): Promise<void> {
   if (!eslintConfigPath || !fs.existsSync(dir)) return // faster to bail-out like this

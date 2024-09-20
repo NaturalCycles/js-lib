@@ -12,7 +12,7 @@ const tseslint = require('typescript-eslint')
 const hasJest = require('node:fs').existsSync('./node_modules/jest')
 // console.log({ hasJest })
 
-const defaultFiles = ['**/*.ts', '**/*.tsx']
+const defaultFiles = ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts']
 
 module.exports = [
   {
