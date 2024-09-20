@@ -5,12 +5,7 @@ module.exports = {
   // ts,tsx,css,scss excluded, cause they need to run in special order (overlap between >1 tool):
   prettierExtensionsExclusive: 'js,jsx,json,md,graphql,yml,yaml,html',
   // everything that prettier supports:
-  prettierExtensionsAll: 'ts,tsx,css,scss,js,jsx,json,md,graphql,yml,yaml,html,vue',
+  prettierExtensionsAll: 'ts,tsx,cts,mts,css,scss,js,jsx,cjs,mjs,json,md,graphql,yml,yaml,html,vue',
   stylelintExtensions: 'css,scss',
-  lintExclude: [
-    './**/__exclude/**',
-    './docs/.vitepress/dist/**',
-    './docs/.vitepress/cache/**',
-    './CHANGELOG.md',
-  ],
+  lintExclude: ['./**/__exclude/**', './**/dist/**', './**/cache/**', './CHANGELOG.md'],
 }

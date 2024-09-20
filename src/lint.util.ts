@@ -107,13 +107,21 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
 
   const extensions = ext.split(',')
 
-  const eslintConfigPathRoot = ['./eslint.config.js'].find(p => fs.existsSync(p))
-  const eslintConfigPathScripts = ['./scripts/eslint.config.js', './eslint.config.js'].find(p =>
+  const eslintConfigPathRoot = ['./eslint.config.js', './eslint.config.cjs'].find(p =>
     fs.existsSync(p),
   )
-  const eslintConfigPathE2e = ['./e2e/eslint.config.js', './eslint.config.js'].find(p =>
-    fs.existsSync(p),
-  )
+  const eslintConfigPathScripts = [
+    './scripts/eslint.config.js',
+    './scripts/eslint.config.cjs',
+    './eslint.config.js',
+    './eslint.config.cjs',
+  ].find(p => fs.existsSync(p))
+  const eslintConfigPathE2e = [
+    './e2e/eslint.config.js',
+    './e2e/eslint.config.cjs',
+    './eslint.config.js',
+    './eslint.config.cjs',
+  ].find(p => fs.existsSync(p))
   const eslintConfigPathPlaywright = ['./playwright/eslint.config.js', './eslint.config.js'].find(
     p => fs.existsSync(p),
   )
@@ -192,7 +200,9 @@ const prettierPaths = [
 ]
 
 export function runPrettier(): void {
-  const prettierConfigPath = [`./prettier.config.js`].find(f => fs.existsSync(f))
+  const prettierConfigPath = [`./prettier.config.js`, `./prettier.config.cjs`].find(f =>
+    fs.existsSync(f),
+  )
   if (!prettierConfigPath) return
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'

@@ -60,7 +60,7 @@ if (!stylelintCmd) {
 
 const linters = {
   // *.{ts,tsx,vue} files: biome, eslint, prettier
-  './src/**/*.{ts,tsx,vue}': match => {
+  './src/**/*.{ts,tsx,cts,mts,vue}': match => {
     const filesList = getFilesList(match)
     if (!filesList) return []
     return [
@@ -141,7 +141,7 @@ if (fs.existsSync(`./scripts`)) {
   )
   Object.assign(linters, {
     // biome, eslint, Prettier
-    './scripts/**/*.{ts,tsx}': match => {
+    './scripts/**/*.{ts,tsx,cts,mts}': match => {
       const filesList = getFilesList(match)
       if (!filesList) return []
       return [
@@ -164,7 +164,7 @@ if (fs.existsSync(`./e2e`)) {
 
   Object.assign(linters, {
     // biome, eslint, Prettier
-    './e2e/**/*.{ts,tsx}': match => {
+    './e2e/**/*.{ts,tsx,cts,mts}': match => {
       const filesList = getFilesList(match)
       if (!filesList) return []
       return [
