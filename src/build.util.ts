@@ -30,6 +30,9 @@ export async function buildEsmCjs(): Promise<void> {
         'nodenext',
         '--moduleResolution',
         'nodenext',
+        '--noEmit',
+        'false',
+        '--noCheck',
       ],
       shell: false,
     }),
@@ -45,6 +48,9 @@ export async function buildEsmCjs(): Promise<void> {
         'bundler',
         '--declaration',
         'false',
+        '--noEmit',
+        'false',
+        '--noCheck',
       ],
       shell: false,
     }),
@@ -89,11 +95,11 @@ export async function runTSCInFolder(tsconfigPath: string, args: string[] = []):
   })
 }
 
-export async function runTSCProd(): Promise<void> {
+export async function runTSCProd(args: string[] = []): Promise<void> {
   const tsconfigPath = [`./tsconfig.prod.json`].find(p => fs.existsSync(p)) || 'tsconfig.json'
 
   await exec2.spawnAsync(`tsc`, {
-    args: ['-P', tsconfigPath],
+    args: ['-P', tsconfigPath, '--noEmit', 'false', '--noCheck', ...args],
     shell: false,
   })
 }

@@ -28,30 +28,27 @@ interface Command {
 const commands: (Command | Separator)[] = [
   new Separator(), // build
   {
+    name: 'tsc',
+    fn: tscAll,
+    desc: 'Run tsc in folders (src, scripts, e2e, playwright) if there is tsconfig.json present',
+  },
+  { name: 'bt', fn: bt, desc: 'Build & Test: run "tsc" and then "test".' },
+  { name: 'lbt', fn: lbt, desc: 'Lint/Build/Test: run "lint", then "tsc", then "test".' },
+  {
     name: 'build',
     fn: buildProd,
-    desc: 'Clean ./dist, run "build-copy" then tsc with emit, using tsconfig.prod.json',
-    cliOnly: true,
+    desc: 'Clean ./dist, run "build-copy" then tsc with --emit and --noCheck, using tsconfig.prod.json',
   },
   {
     name: 'build-copy',
     fn: buildCopy,
     desc: 'Copy the non-ts files from ./src to ./dist',
-    cliOnly: true,
   },
   {
     name: 'build-esm-cjs',
     fn: buildEsmCjs,
-    desc: 'Clean ./dist and ./dist-esm, then run "tsc" in CJS and ESM modes.',
-    cliOnly: true,
+    desc: 'Clean ./dist and ./dist-esm, then run "tsc" in CJS and ESM modes, with --emit and --noCheck',
   },
-  {
-    name: 'tsc',
-    fn: tscAll,
-    desc: 'Run tsc in folders (src, scripts, e2e, playwright) if there is tsconfig.json present',
-  },
-  { name: 'bt', fn: bt, desc: 'Build & Test: run "build" and then "test".' },
-  { name: 'lbt', fn: lbt, desc: 'Lint/Build/Test: run "lint", then "build", then "test".' },
   new Separator(), // test
   { name: 'test', fn: runJest, desc: 'Run jest for *.test.ts files.' },
   {
