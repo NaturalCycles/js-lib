@@ -35,7 +35,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unicorn": "^55.0.0",
     "eslint-plugin-vue": "^9.0.0",
-    "expect-type": "^0.20.0",
+    "expect-type": "^1.0.0",
     "globals": "^15.8.0",
     "husky": "^9.0.2",
     "jest-junit": "^16.0.0",
