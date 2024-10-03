@@ -3,7 +3,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/js-lib/',
   title: 'js-lib',
-  description: 'NaturalCycles/js-lib: Standard library for universal (browser + Node.js) javascript',
+  description:
+    'NaturalCycles/js-lib: Standard library for universal (browser + Node.js) javascript',
   // ignoreDeadLinks: true,
 
   head: [
