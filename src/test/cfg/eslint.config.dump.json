@@ -19,7 +19,7 @@
   "plugins": [
     "@",
     "@typescript-eslint:@typescript-eslint/eslint-plugin@8.8.0",
-    "unicorn:eslint-plugin-unicorn@55.0.0",
+    "unicorn:eslint-plugin-unicorn@56.0.0",
     "vue:eslint-plugin-vue@9.28.0",
     "import-x",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
@@ -1301,6 +1301,9 @@
     "unicorn/consistent-empty-array-spread": [
       2
     ],
+    "unicorn/consistent-existence-index-check": [
+      2
+    ],
     "unicorn/consistent-function-scoping": [
       0
     ],
@@ -1529,6 +1532,9 @@
     "unicorn/prefer-export-from": [
       0
     ],
+    "unicorn/prefer-global-this": [
+      2
+    ],
     "unicorn/prefer-includes": [
       2
     ],
@@ -1539,6 +1545,9 @@
       2
     ],
     "unicorn/prefer-logical-operator-over-ternary": [
+      2
+    ],
+    "unicorn/prefer-math-min-max": [
       2
     ],
     "unicorn/prefer-math-trunc": [
