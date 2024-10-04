@@ -5,6 +5,7 @@
  * Will return `false` in the Browser.
  */
 export function isServerSide(): boolean {
+  // eslint-disable-next-line unicorn/prefer-global-this
   return typeof window === 'undefined'
 }
 
@@ -15,5 +16,6 @@ export function isServerSide(): boolean {
  * Will return `false` in Node.js.
  */
 export function isClientSide(): boolean {
+  // eslint-disable-next-line unicorn/prefer-global-this
   return typeof window !== 'undefined'
 }
