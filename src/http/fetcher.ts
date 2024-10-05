@@ -273,14 +273,14 @@ export class Fetcher {
         }, timeoutSeconds * 1000) as any as number
       }
 
-      if (this.cfg.logRequest) {
+      if (req.logRequest) {
         const { retryAttempt } = res.retryStatus
         logger.log(
           [' >>', signature, retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`]
             .filter(Boolean)
             .join(' '),
         )
-        if (this.cfg.logRequestBody && req.init.body) {
+        if (req.logRequestBody && req.init.body) {
           logger.log(req.init.body) // todo: check if we can _inspect it
         }
       }
@@ -384,7 +384,7 @@ export class Fetcher {
     res.retryStatus.retryStopped = true
 
     // res.err can happen on `failed to fetch` type of error, e.g JSON.parse, CORS, unexpected redirect
-    if ((!res.err || !req.throwHttpErrors) && this.cfg.logResponse) {
+    if ((!res.err || !req.throwHttpErrors) && req.logResponse) {
       const { retryAttempt } = res.retryStatus
       const { logger } = this.cfg
       logger.log(
@@ -399,7 +399,7 @@ export class Fetcher {
           .join(' '),
       )
 
-      if (this.cfg.logResponseBody && res.body !== undefined) {
+      if (req.logResponseBody && res.body !== undefined) {
         logger.log(res.body)
       }
     }
