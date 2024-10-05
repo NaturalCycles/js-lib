@@ -1,6 +1,7 @@
 /// <reference lib="es2022" preserve="true" />
 /// <reference lib="dom" preserve="true" />
 
+import type { ErrorData } from '../error/error.model'
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
 import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillisNumber } from '../types'
@@ -20,6 +21,7 @@ export interface FetcherNormalizedCfg
       | 'redirect'
       | 'credentials'
       | 'throwHttpErrors'
+      | 'errorData'
     > {
   logger: CommonLogger
   searchParams: Record<string, any>
@@ -32,6 +34,11 @@ export type FetcherAfterResponseHook = <BODY = unknown>(
 export type FetcherBeforeRetryHook = <BODY = unknown>(
   res: FetcherResponse<BODY>,
 ) => Promisable<void>
+/**
+ * Allows to mutate the error.
+ * Cannot cancel/prevent the error - AfterResponseHook can be used for that instead.
+ */
+export type FetcherOnErrorHook = (err: Error) => Promisable<void>
 
 export interface FetcherCfg {
   /**
@@ -58,7 +65,19 @@ export interface FetcherCfg {
      * Allows to mutate res.retryStatus to override retry behavior.
      */
     beforeRetry?: FetcherBeforeRetryHook[]
+
+    onError?: FetcherOnErrorHook[]
   }
+
+  /**
+   * If Fetcher has an error - `errorData` object will be appended to the error data.
+   * Like this:
+   *
+   * _errorDataAppend(err, cfg.errorData)
+   *
+   * So you, for example, can append a `fingerprint` to any error thrown from this fetcher.
+   */
+  errorData?: ErrorData | undefined
 
   /**
    * If true - enables all possible logging.
@@ -241,6 +260,22 @@ export interface FetcherOptions {
    * Set to false to not throw on `!Response.ok`, but simply return `Response.body` as-is (json parsed, etc).
    */
   throwHttpErrors?: boolean
+
+  /**
+   * If Fetcher has an error - `errorData` object will be appended to the error data.
+   * Like this:
+   *
+   * _errorDataAppend(err, cfg.errorData)
+   *
+   * So you, for example, can append a `fingerprint` to any error thrown from this fetcher.
+   */
+  errorData?: ErrorData
+
+  /**
+   * Allows to mutate the error.
+   * Cannot cancel/prevent the error - AfterResponseHook can be used for that instead.
+   */
+  onError?: FetcherOnErrorHook
 }
 
 export type RequestInitNormalized = Omit<RequestInit, 'method' | 'headers'> & {

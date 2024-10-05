@@ -8,6 +8,7 @@ import { ErrorLike, ErrorObject } from '../error/error.model'
 import {
   _anyToError,
   _anyToErrorObject,
+  _errorDataAppend,
   _errorLikeToErrorObject,
   HttpRequestError,
   TimeoutError,
@@ -34,6 +35,7 @@ import type {
   FetcherBeforeRetryHook,
   FetcherCfg,
   FetcherNormalizedCfg,
+  FetcherOnErrorHook,
   FetcherOptions,
   FetcherRequest,
   FetcherResponse,
@@ -132,6 +134,11 @@ export class Fetcher {
 
   onBeforeRetry(hook: FetcherBeforeRetryHook): this {
     ;(this.cfg.hooks.beforeRetry ||= []).push(hook)
+    return this
+  }
+
+  onError(hook: FetcherOnErrorHook): this {
+    ;(this.cfg.hooks.onError ||= []).push(hook)
     return this
   }
 
@@ -332,6 +339,16 @@ export class Fetcher {
       } else {
         // !res.ok
         await this.onNotOkResponse(res)
+      }
+    }
+
+    if (res.err) {
+      _errorDataAppend(res.err, req.errorData)
+
+      req.onError?.(res.err)
+
+      for (const hook of this.cfg.hooks.onError || []) {
+        await hook(res.err)
       }
     }
 
@@ -664,6 +681,7 @@ export class Fetcher {
         },
         hooks: {},
         throwHttpErrors: true,
+        errorData: {},
       },
       _omit(cfg, ['method', 'credentials', 'headers', 'redirect', 'logger']),
     )
@@ -688,6 +706,7 @@ export class Fetcher {
         'logResponseBody',
         'debug',
         'throwHttpErrors',
+        'errorData',
       ]),
       started: Date.now(),
       ..._omit(opt, ['method', 'headers', 'credentials']),

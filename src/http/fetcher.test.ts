@@ -3,6 +3,8 @@ import {
   _assertIsBackendErrorResponseObject,
   AppError,
   ErrorObject,
+  FetcherCfg,
+  FetcherOptions,
   HttpRequestError,
   localTime,
   pExpectedErrorString,
@@ -21,41 +23,42 @@ import { FetcherRequest } from './fetcher.model'
 test('defaults', () => {
   const fetcher = getFetcher()
   expect(_omit(fetcher.cfg, ['logger'])).toMatchInlineSnapshot(`
-    {
-      "baseUrl": "",
-      "debug": false,
-      "hooks": {},
-      "init": {
-        "credentials": undefined,
-        "headers": {
-          "user-agent": "fetcher2",
-        },
-        "method": "GET",
-        "redirect": undefined,
-      },
-      "inputUrl": "",
-      "logRequest": false,
-      "logRequestBody": false,
-      "logResponse": false,
-      "logResponseBody": false,
-      "logWithBaseUrl": true,
-      "logWithSearchParams": true,
-      "responseType": "json",
-      "retry": {
-        "count": 2,
-        "timeout": 1000,
-        "timeoutMax": 30000,
-        "timeoutMultiplier": 2,
-      },
-      "retry3xx": false,
-      "retry4xx": false,
-      "retry5xx": true,
-      "retryPost": false,
-      "searchParams": {},
-      "throwHttpErrors": true,
-      "timeoutSeconds": 30,
-    }
-  `)
+{
+  "baseUrl": "",
+  "debug": false,
+  "errorData": {},
+  "hooks": {},
+  "init": {
+    "credentials": undefined,
+    "headers": {
+      "user-agent": "fetcher2",
+    },
+    "method": "GET",
+    "redirect": undefined,
+  },
+  "inputUrl": "",
+  "logRequest": false,
+  "logRequestBody": false,
+  "logResponse": false,
+  "logResponseBody": false,
+  "logWithBaseUrl": true,
+  "logWithSearchParams": true,
+  "responseType": "json",
+  "retry": {
+    "count": 2,
+    "timeout": 1000,
+    "timeoutMax": 30000,
+    "timeoutMultiplier": 2,
+  },
+  "retry3xx": false,
+  "retry4xx": false,
+  "retry5xx": true,
+  "retryPost": false,
+  "searchParams": {},
+  "throwHttpErrors": true,
+  "timeoutSeconds": 30,
+}
+`)
 
   expect(fetcher.cfg.logger).toBe(console)
 
@@ -64,46 +67,47 @@ test('defaults', () => {
   req.started = 1234
 
   expect(req).toMatchInlineSnapshot(`
-    {
-      "debug": false,
-      "fullUrl": "some",
-      "init": {
-        "credentials": undefined,
-        "headers": {
-          "accept": "application/json",
-          "user-agent": "fetcher2",
-        },
-        "method": "GET",
-        "redirect": "follow",
-      },
-      "inputUrl": "some",
-      "logRequest": false,
-      "logRequestBody": false,
-      "logResponse": true,
-      "logResponseBody": false,
-      "responseType": "json",
-      "retry": {
-        "count": 2,
-        "timeout": 1000,
-        "timeoutMax": 30000,
-        "timeoutMultiplier": 2,
-      },
-      "retry4xx": false,
-      "retry5xx": true,
-      "retryPost": false,
-      "started": 1234,
-      "throwHttpErrors": true,
-      "timeoutSeconds": 30,
-      "url": "some",
-    }
-  `)
+{
+  "debug": false,
+  "errorData": {},
+  "fullUrl": "some",
+  "init": {
+    "credentials": undefined,
+    "headers": {
+      "accept": "application/json",
+      "user-agent": "fetcher2",
+    },
+    "method": "GET",
+    "redirect": "follow",
+  },
+  "inputUrl": "some",
+  "logRequest": false,
+  "logRequestBody": false,
+  "logResponse": true,
+  "logResponseBody": false,
+  "responseType": "json",
+  "retry": {
+    "count": 2,
+    "timeout": 1000,
+    "timeoutMax": 30000,
+    "timeoutMultiplier": 2,
+  },
+  "retry4xx": false,
+  "retry5xx": true,
+  "retryPost": false,
+  "started": 1234,
+  "throwHttpErrors": true,
+  "timeoutSeconds": 30,
+  "url": "some",
+}
+`)
 })
 
 test('should not mutate console', () => {
   const consoleSpy = jest.spyOn(console, 'log')
   const logger = commonLoggerNoop
 
-  const fetcher = getFetcher({
+  const fetcher = getNonRetryFetcher({
     logger,
   })
   expect(fetcher.cfg.logger).toBe(logger)
@@ -116,10 +120,7 @@ test('should not mutate console', () => {
 })
 
 test('mocking fetch', async () => {
-  const fetcher = getFetcher({
-    retry: {
-      count: 0,
-    },
+  const fetcher = getNonRetryFetcher({
     logResponse: true,
   })
   expect(fetcher.cfg.logResponse).toBe(true)
@@ -184,9 +185,8 @@ test('mocking fetch', async () => {
     }
   `)
   expect(_stringify(err.cause)).toMatchInlineSnapshot(`"AppError: aya-baya"`)
-
   const { response } = err.data
-  _assert(response)
+  _assert(response, 'response should exist')
   expect(response.ok).toBe(false)
   expect(response.url).toMatchInlineSnapshot(`""`) // unclear why
   expect(response.status).toBe(500)
@@ -203,10 +203,7 @@ test('mocking fetch', async () => {
 })
 
 test('fetchFn', async () => {
-  const fetcher = getFetcher({
-    retry: {
-      count: 0,
-    },
+  const fetcher = getNonRetryFetcher({
     fetchFn: async (url, _init) => {
       return new Response(JSON.stringify({ url }))
     },
@@ -218,10 +215,7 @@ test('fetchFn', async () => {
 })
 
 test('throwHttpErrors = false', async () => {
-  const fetcher = getFetcher({
-    retry: {
-      count: 0,
-    },
+  const fetcher = getNonRetryFetcher({
     throwHttpErrors: false,
   })
 
@@ -245,11 +239,7 @@ test('throwHttpErrors = false', async () => {
 })
 
 test('json parse error', async () => {
-  const fetcher = getFetcher({
-    retry: {
-      count: 0,
-    },
-  })
+  const fetcher = getNonRetryFetcher()
   jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response('some text'))
 
   const { err } = await fetcher.doFetch({
@@ -276,7 +266,7 @@ test('json parse error', async () => {
 })
 
 test('paginate', async () => {
-  const fetcher = getFetcher({
+  const fetcher = getNonRetryFetcher({
     debug: true,
     logResponseBody: true,
   })
@@ -379,7 +369,7 @@ test('tryFetch', async () => {
     }),
   )
 
-  const [err, data] = await getFetcher().tryFetch<{ ok: boolean }>({
+  const [err, data] = await getNonRetryFetcher().tryFetch<{ ok: boolean }>({
     url: 'https://example.com',
     method: 'POST',
   })
@@ -418,7 +408,7 @@ test('should not mutate headers', async () => {
     return new Response(JSON.stringify({ ok: 1 }))
   })
 
-  const fetcher = getFetcher()
+  const fetcher = getNonRetryFetcher()
   const headers = { a: 'a' }
 
   await fetcher.doFetch({
@@ -448,7 +438,7 @@ test('should not mutate headers', async () => {
 })
 
 test('fetcher response headers', async () => {
-  const fetcher = getFetcher()
+  const fetcher = getNonRetryFetcher()
 
   jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: 1 })))
 
@@ -461,25 +451,10 @@ test('fetcher response headers', async () => {
 })
 
 test('expectError', async () => {
-  const fetcher = getFetcher({
-    retry: {
-      count: 0,
-    },
-  })
+  const fetcher = getNonRetryFetcher()
 
   // 1. Error should pass
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
-    new Response(
-      JSON.stringify({
-        error: {
-          name: 'AppError',
-          message: 'some',
-          data: {},
-        },
-      } satisfies BackendErrorResponseObject),
-      { status: 500 },
-    ),
-  )
+  mockFetcherWithError()
 
   const err = await fetcher.expectError({ url: 'someUrl' })
   expect(_stringify(err)).toMatchInlineSnapshot(`
@@ -500,4 +475,56 @@ test('expectError', async () => {
       UnexpectedPassError,
     ),
   ).toMatchInlineSnapshot(`"UnexpectedPassError: Fetch was expected to error"`)
+})
+
+function mockFetcherWithError(): void {
+  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        error: {
+          name: 'AppError',
+          message: 'some',
+          data: {},
+        },
+      } satisfies BackendErrorResponseObject),
+      { status: 500 },
+    ),
+  )
+}
+
+function getNonRetryFetcher(opt?: FetcherCfg & FetcherOptions): Fetcher {
+  return getFetcher({
+    ...opt,
+    retry: {
+      count: 0,
+    },
+  })
+}
+
+test('onError', async () => {
+  mockFetcherWithError()
+  const fetcher = getNonRetryFetcher()
+
+  const err = await fetcher.expectError({
+    url: 'someUrl',
+    onError: err => {
+      ;(err as any).yo = 'yo'
+      ;(err as AppError).data['aa'] = 'aa'
+    },
+  })
+  expect((err as any)['yo']).toBe('yo')
+  expect(err.data['aa']).toBe('aa')
+})
+
+test('errorData', async () => {
+  mockFetcherWithError()
+  const fetcher = getNonRetryFetcher()
+
+  const err = await fetcher.expectError({
+    url: 'someUrl',
+    errorData: {
+      b: 'bb',
+    },
+  })
+  expect(err.data['b']).toBe('bb')
 })

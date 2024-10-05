@@ -40,10 +40,24 @@ test('post with error', async () => {
   const r = await fetcher.doFetch<number>({
     url: `https://kg-backend3.appspot.com`,
     method: 'POST',
+    errorData: { a: 'aa' },
   })
   expect(r.ok).toBe(false)
-  expect(r.err!.message).toMatchInlineSnapshot(`"404 POST https://kg-backend3.appspot.com/"`)
-  expect(r.err!.cause).toMatchInlineSnapshot(`
+  expect(r.err).toBeInstanceOf(HttpRequestError)
+  const err = r.err as HttpRequestError
+  err.data.requestDuration = 10 // stabilize the test
+  expect(err.data).toMatchInlineSnapshot(`
+{
+  "a": "aa",
+  "requestDuration": 10,
+  "requestMethod": "POST",
+  "requestSignature": "POST https://kg-backend3.appspot.com/",
+  "requestUrl": "https://kg-backend3.appspot.com",
+  "responseStatusCode": 404,
+}
+`)
+  expect(err.message).toMatchInlineSnapshot(`"404 POST https://kg-backend3.appspot.com/"`)
+  expect(err.cause).toMatchInlineSnapshot(`
     {
       "data": {},
       "message": "404 Not Found: POST /",
