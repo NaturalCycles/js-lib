@@ -265,11 +265,9 @@ export function _isErrorLike(o: any): o is ErrorLike {
  */
 export function _errorDataAppend<ERR>(err: ERR, data?: ErrorData): ERR {
   if (!data) return err
-  ;(err as any).data = {
-    ...(err as any).data,
-    ...data,
-  }
-
+  ;(err as any).data ||= {} // create err.data if it doesn't exist
+  // Using Object.assign instead of ...data to not override err.data's non-enumerable properties
+  Object.assign((err as any).data, data)
   return err
 }
 

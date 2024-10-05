@@ -183,6 +183,7 @@ test('_errorDataAppend', () => {
   const err2 = new AppError('yo', {
     code: 'A',
   })
+  const err2Data = err2.data
   _errorDataAppend(err2, { backendResponseStatusCode: 401 })
   expect((err2 as any).data).toMatchInlineSnapshot(`
 {
@@ -190,6 +191,9 @@ test('_errorDataAppend', () => {
   "code": "A",
 }
 `)
+  // Should not re-assign err.data to a new object, should keep the same reference instead
+  // eslint-disable-next-line jest/prefer-equality-matcher
+  expect(err2.data === err2Data).toBe(true)
 
   _errorDataAppend(err2, { code: 'B' })
   expect((err2 as any).data).toMatchInlineSnapshot(`
