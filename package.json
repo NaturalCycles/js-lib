@@ -21,7 +21,7 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@eslint/js": "^9.7.0",
-    "@inquirer/prompts": "^6.0.1",
+    "@inquirer/prompts": "^7.0.0",
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/js-lib": "^14.0.0",
     "@naturalcycles/nodejs-lib": "^13.0.1",
