@@ -30,7 +30,7 @@ const commands: (Command | Separator)[] = [
   {
     name: 'tsc',
     fn: tscAll,
-    desc: 'Run tsc in folders (src, scripts, e2e, playwright) if there is tsconfig.json present',
+    desc: 'Run tsc in folders (src, scripts, e2e) if there is tsconfig.json present',
   },
   { name: 'bt', fn: bt, desc: 'Build & Test: run "tsc" and then "test".' },
   { name: 'lbt', fn: lbt, desc: 'Lint/Build/Test: run "lint", then "tsc", then "test".' },
@@ -163,8 +163,7 @@ async function bt(): Promise<void> {
 }
 
 async function tscAll(): Promise<void> {
-  // todo: remove playwright after it fully moves to e2e
-  await runTSCInFolders(['.', 'scripts', 'e2e', 'playwright'], ['--noEmit'])
+  await runTSCInFolders(['.', 'scripts', 'e2e'], ['--noEmit'])
 }
 
 function logEnvironment(): void {

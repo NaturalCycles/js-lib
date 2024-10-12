@@ -179,29 +179,6 @@ if (fs.existsSync(`./e2e`)) {
   })
 }
 
-// /playwright
-if (fs.existsSync(`./playwright`)) {
-  const eslintConfigPathE2e = ['./playwright/eslint.config.js', './eslint.config.js'].find(p =>
-    fs.existsSync(p),
-  )
-
-  Object.assign(linters, {
-    // biome, eslint, Prettier
-    './playwright/**/*.{ts,tsx}': match => {
-      const filesList = getFilesList(match)
-      if (!filesList) return []
-      return [
-        biomeCmd,
-        eslintConfigPathE2e &&
-          `${eslintCmd} --config ${eslintConfigPathE2e} --parser-options=project:./playwright/tsconfig.json`,
-        prettierCmd,
-      ]
-        .filter(Boolean)
-        .map(s => `${s} ${filesList}`)
-    },
-  })
-}
-
 function getFilesList(match) {
   return micromatch.not(match, lintExclude).join(' ')
 }

@@ -123,14 +123,10 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
     './eslint.config.js',
     './eslint.config.cjs',
   ].find(p => fs.existsSync(p))
-  const eslintConfigPathPlaywright = ['./playwright/eslint.config.js', './eslint.config.js'].find(
-    p => fs.existsSync(p),
-  )
 
   const tsconfigPathScripts =
     [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
   const tsconfigPathE2e = `./e2e/tsconfig.json`
-  const tsconfigPathPlaywright = `./playwright/tsconfig.json`
 
   // todo: run on other dirs too, e.g pages, components, layouts
 
@@ -142,14 +138,6 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
       runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, extensions, fix),
       // /e2e
       runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, extensions, fix),
-      // /playwright // todo: remove after migration to e2e folder is completed
-      runESLint(
-        `./playwright`,
-        eslintConfigPathPlaywright,
-        tsconfigPathPlaywright,
-        extensions,
-        fix,
-      ),
     ])
   } else {
     // with no-fix - let's run serially
@@ -159,14 +147,6 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
     await runESLint(`./scripts`, eslintConfigPathScripts, tsconfigPathScripts, extensions, fix)
     // /e2e
     await runESLint(`./e2e`, eslintConfigPathE2e, tsconfigPathE2e, extensions, fix)
-    // /e2e
-    await runESLint(
-      `./playwright`,
-      eslintConfigPathPlaywright,
-      tsconfigPathPlaywright,
-      extensions,
-      fix,
-    )
   }
 
   console.log(`${boldGrey('eslint-all')} ${dimGrey(`took ` + _since(started))}`)
@@ -325,7 +305,7 @@ export function runBiome(fix = true): void {
     return
   }
 
-  const dirs = [`src`, `scripts`, `e2e`, `playwright`].filter(d => fs.existsSync(d))
+  const dirs = [`src`, `scripts`, `e2e`].filter(d => fs.existsSync(d))
 
   exec2.spawn(`biome`, {
     args: [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
