@@ -382,6 +382,7 @@ module.exports = {
     'unicorn/prefer-regexp-test': 0,
     'unicorn/prefer-query-selector': 0,
     'unicorn/prefer-prototype-methods': 0, // false-positive on node promisify() of callback functions
+    'unicorn/expiring-todo-comments': 1, // warning, instead of error
     '@typescript-eslint/return-await': [2, 'always'],
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/no-misused-promises': 0,

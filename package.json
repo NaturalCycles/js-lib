@@ -6,7 +6,7 @@
     "tsn-debug": "tsn testScript.ts",
     "dev-lib": "tsn ./src/bin/dev-lib.ts",
     "bt": "tsn ./src/bin/dev-lib.ts bt && tsn eslintPrintConfig",
-    "lbt": "tsn ./src/bin/dev-lib.ts lbt",
+    "lbt": "tsn ./src/bin/dev-lib.ts lbt && tsn eslintPrintConfig",
     "build": "tsn ./src/bin/dev-lib.ts build",
     "build-prod-esm-cjs": "tsn ./src/bin/dev-lib.ts build-esm-cjs",
     "test": "tsn ./src/bin/dev-lib.ts test",
