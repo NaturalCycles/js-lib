@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'expect-type'
-import type { AppError } from '.'
+import type { AppError, Branded } from '.'
 import { _expectedError } from './error/try'
 import type {
   AnyObject,
@@ -217,4 +217,15 @@ test('Unsaved type', () => {
   // expectTypeOf<Unsaved<any>>().toEqualTypeOf<any>()
 
   function _fn<BM extends AnyObject>(_a: Unsaved<BM>): void {}
+})
+
+test('branded', () => {
+  type MyId = Branded<string, 'MyId'>
+  const id = '123' as MyId
+  const id2 = '124' as MyId
+  expect(id2 > id).toBe(true) // string comparison still works
+  expect(id).toBe('123')
+  expect(id2).toBe('124')
+  const s: string = id // MyId is assignable to string
+  expect(s).toEqual(id)
 })

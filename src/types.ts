@@ -1,5 +1,22 @@
 import type { Promisable } from './typeFest'
 
+declare const __brand: unique symbol
+
+interface Brand<B> {
+  [__brand]: B
+}
+
+/**
+ * Helper to create "Branded" types.
+ *
+ * Example:
+ * export type MyId = Branded<string, 'MyId'>
+ *
+ * MyId can be assigned to a string,
+ * but string cannot be assigned to MyId without casting it (`as MyId`).
+ */
+export type Branded<T, B> = T & Brand<B>
+
 /**
  * Map from String to String (or <T>).
  *
