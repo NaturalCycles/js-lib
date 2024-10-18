@@ -56,7 +56,7 @@ export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {
 
       if (onError) {
         try {
-          return await onError(_anyToError(err)) // eslint-disable-line @typescript-eslint/return-await
+          return await onError(_anyToError(err))
         } catch {}
       }
       // returns undefined, but doesn't rethrow
