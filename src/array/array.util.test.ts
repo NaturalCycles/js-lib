@@ -278,13 +278,12 @@ test('_intersectsWith', () => {
 
 test('_difference', () => {
   const f = _difference
-  expect(f([1])).toEqual([1])
   expect(f([1], [1])).toEqual([])
   expect(f([1], [1, 2])).toEqual([])
   expect(f([1, 2], [2])).toEqual([1])
   expect(f([2, 1], [2, 3])).toEqual([1])
   expect(f([2, 1], [3])).toEqual([2, 1])
-  expect(f([2, 4, 1], [3], [2], [3])).toEqual([4, 1])
+  expect(f([2, 4, 1], [2, 3])).toEqual([4, 1])
 })
 
 test('_mapToObject', () => {

@@ -331,16 +331,17 @@ export function _intersectsWith<T>(a1: T[], a2: T[] | Set<T>): boolean {
 }
 
 /**
+ * Returns array1 minus array2.
+ *
  * @example
  * _difference([2, 1], [2, 3])
  * // [1]
+ *
+ * Passing second array as Set is more performant (it'll skip turning the array into Set in-place).
  */
-export function _difference<T>(source: T[], ...diffs: T[][]): T[] {
-  let a = source
-  for (const b of diffs) {
-    a = a.filter(c => !b.includes(c))
-  }
-  return a
+export function _difference<T>(a1: T[], a2: T[] | Set<T>): T[] {
+  const a2set = a2 instanceof Set ? a2 : new Set(a2)
+  return a1.filter(v => !a2set.has(v))
 }
 
 /**
