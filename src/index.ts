@@ -1,6 +1,7 @@
 export * from './abort'
 export * from './array/array.util'
 export * from './array/range'
+export * from './bot'
 export * from './datetime/dateInterval'
 export * from './datetime/localDate'
 export * from './datetime/localTime'
