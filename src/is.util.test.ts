@@ -68,6 +68,7 @@ test('_isObject', () => {
   expect(r).toEqual([{}, { a: 'b' }, /some/])
 
   class Obj {}
+
   expect(_isObject(new Obj())).toBe(true)
 })
 

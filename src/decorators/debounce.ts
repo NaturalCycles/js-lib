@@ -161,6 +161,7 @@ export function _debounce<T extends AnyFunction>(
     }
     return result
   }
+
   debounced.cancel = cancel
   debounced.flush = flush
   debounced.pending = pending

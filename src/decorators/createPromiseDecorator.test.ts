@@ -47,6 +47,7 @@ class C {
   //   return 4
   // }
 }
+
 const c = new C()
 
 beforeEach(() => {

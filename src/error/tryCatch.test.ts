@@ -42,6 +42,7 @@ class C {
     throw new Error('fail')
   }
 }
+
 const c = new C()
 
 test('@_TryCatch', async () => {
