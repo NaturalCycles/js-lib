@@ -35,6 +35,14 @@
     "@babel/semi": [
       0
     ],
+    "@stylistic/lines-between-class-members": [
+      2,
+      "always",
+      {
+        "exceptAfterOverload": true,
+        "exceptAfterSingleLine": true
+      }
+    ],
     "@stylistic/padding-line-between-statements": [
       2,
       {

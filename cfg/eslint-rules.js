@@ -474,5 +474,6 @@ module.exports = {
       { blankLine: 'always', prev: 'class', next: '*' },
       { blankLine: 'always', prev: '*', next: 'class' },
     ],
+    '@stylistic/lines-between-class-members': [2, 'always', { exceptAfterSingleLine: true }],
   },
 }

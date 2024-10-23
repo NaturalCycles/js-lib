@@ -67,8 +67,6 @@ function getConfig() {
         ...globals.node,
         ...globals.jest,
         NodeJS: 'readonly',
-        // testcafe
-        fixture: 'readonly',
       },
       // parser: tseslint.parser,
       parserOptions: {
