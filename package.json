@@ -25,6 +25,7 @@
     "@naturalcycles/cli": "^1.0.0",
     "@naturalcycles/js-lib": "^14.0.0",
     "@naturalcycles/nodejs-lib": "^13.0.1",
+    "@stylistic/eslint-plugin": "^2.9.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^22.0.0",
     "@types/yargs": "^16.0.0",
