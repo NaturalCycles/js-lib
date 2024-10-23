@@ -28,9 +28,11 @@ export class Semver {
   get major(): number {
     return this.tokens[0]
   }
+
   get minor(): number {
     return this.tokens[1]
   }
+
   get patch(): number {
     return this.tokens[2]
   }

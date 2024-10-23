@@ -131,38 +131,47 @@ export class JsonSchemaAnyBuilder<T = unknown, SCHEMA_TYPE extends JsonSchema<T>
     Object.assign(this.schema, { $schema })
     return this
   }
+
   $schemaDraft7(): this {
     this.$schema('http://json-schema.org/draft-07/schema#')
     return this
   }
+
   $id($id: string): this {
     Object.assign(this.schema, { $id })
     return this
   }
+
   title(title: string): this {
     Object.assign(this.schema, { title })
     return this
   }
+
   description(description: string): this {
     Object.assign(this.schema, { description })
     return this
   }
+
   deprecated(deprecated = true): this {
     Object.assign(this.schema, { deprecated })
     return this
   }
+
   type(type: string): this {
     Object.assign(this.schema, { type })
     return this
   }
+
   default(v: any): this {
     Object.assign(this.schema, { default: v })
     return this
   }
+
   oneOf(schemas: JsonSchema[]): this {
     Object.assign(this.schema, { oneOf: schemas })
     return this
   }
+
   allOf(schemas: JsonSchema[]): this {
     Object.assign(this.schema, { allOf: schemas })
     return this
@@ -211,18 +220,22 @@ export class JsonSchemaNumberBuilder extends JsonSchemaAnyBuilder<number, JsonSc
     Object.assign(this.schema, { multipleOf })
     return this
   }
+
   min(minimum: number): this {
     Object.assign(this.schema, { minimum })
     return this
   }
+
   exclusiveMin(exclusiveMinimum: number): this {
     Object.assign(this.schema, { exclusiveMinimum })
     return this
   }
+
   max(maximum: number): this {
     Object.assign(this.schema, { maximum })
     return this
   }
+
   exclusiveMax(exclusiveMaximum: number): this {
     Object.assign(this.schema, { exclusiveMaximum })
     return this
@@ -264,14 +277,17 @@ export class JsonSchemaStringBuilder extends JsonSchemaAnyBuilder<string, JsonSc
     Object.assign(this.schema, { pattern })
     return this
   }
+
   min(minLength: number): this {
     Object.assign(this.schema, { minLength })
     return this
   }
+
   max(maxLength: number): this {
     Object.assign(this.schema, { maxLength })
     return this
   }
+
   length(minLength: number, maxLength: number): this {
     Object.assign(this.schema, { minLength, maxLength })
     return this
@@ -358,10 +374,12 @@ export class JsonSchemaObjectBuilder<T extends AnyObject> extends JsonSchemaAnyB
     Object.assign(this.schema, { minProperties })
     return this
   }
+
   maxProps(maxProperties: number): this {
     Object.assign(this.schema, { maxProperties })
     return this
   }
+
   additionalProps(additionalProperties: boolean): this {
     Object.assign(this.schema, { additionalProperties })
     return this
@@ -400,10 +418,12 @@ export class JsonSchemaArrayBuilder<ITEM> extends JsonSchemaAnyBuilder<
     Object.assign(this.schema, { minItems })
     return this
   }
+
   max(maxItems: number): this {
     Object.assign(this.schema, { maxItems })
     return this
   }
+
   unique(uniqueItems: number): this {
     Object.assign(this.schema, { uniqueItems })
     return this

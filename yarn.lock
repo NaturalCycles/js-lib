@@ -1307,9 +1307,9 @@
     typescript "^5.0.2"
 
 "@naturalcycles/dev-lib@^15.0.3":
-  version "15.24.0"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-15.24.0.tgz#0f07805ffe25abc3f7f2ce6cfc64f8761825360e"
-  integrity sha512-g5Pw8WuazJbOBU8t/yQSMlsLQjFo0jMUVN3wMPpDYFFznqSipBNnSfC1rFDDSZ36YO/b4cfsRA4I/z0P7MNaLA==
+  version "15.25.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/dev-lib/-/dev-lib-15.25.0.tgz#dfc8270ca2f695399b8101242d740da253df5acd"
+  integrity sha512-UUSw+XwuzktCQ4gJdV+eG4OJPcCnX7XvIL7kC0InCkCnd9VFOPMMZ+QdB4E7AxBLnJ/fO8mRmj2KFSFymbK3cg==
   dependencies:
     "@biomejs/biome" "^1.8.3"
     "@commitlint/cli" "^19.0.0"

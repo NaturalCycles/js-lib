@@ -212,42 +212,55 @@ export class LocalTime {
   get year(): number {
     return this.$date.getFullYear()
   }
+
   setYear(v: number): LocalTime {
     return this.set('year', v)
   }
+
   get month(): number {
     return this.$date.getMonth() + 1
   }
+
   setMonth(v: number): LocalTime {
     return this.set('month', v)
   }
+
   get week(): number {
     return getWeek(this.$date)
   }
+
   setWeek(v: number): LocalTime {
     return this.set('week', v)
   }
+
   get day(): number {
     return this.$date.getDate()
   }
+
   setDay(v: number): LocalTime {
     return this.set('day', v)
   }
+
   get hour(): number {
     return this.$date.getHours()
   }
+
   setHour(v: number): LocalTime {
     return this.set('hour', v)
   }
+
   get minute(): number {
     return this.$date.getMinutes()
   }
+
   setMinute(v: number): LocalTime {
     return this.set('minute', v)
   }
+
   get second(): number {
     return this.$date.getSeconds()
   }
+
   setSecond(v: number): LocalTime {
     return this.set('second', v)
   }
@@ -258,6 +271,7 @@ export class LocalTime {
   get dayOfWeek(): ISODayOfWeek {
     return (this.$date.getDay() || 7) as ISODayOfWeek
   }
+
   setDayOfWeek(v: ISODayOfWeek): LocalTime {
     _assert(VALID_DAYS_OF_WEEK.has(v), `Invalid dayOfWeek: ${v}`)
     const dow = this.$date.getDay() || 7
@@ -292,42 +306,55 @@ export class LocalTime {
   plusSeconds(num: number): LocalTime {
     return this.plus(num, 'second')
   }
+
   plusMinutes(num: number): LocalTime {
     return this.plus(num, 'minute')
   }
+
   plusHours(num: number): LocalTime {
     return this.plus(num, 'hour')
   }
+
   plusDays(num: number): LocalTime {
     return this.plus(num, 'day')
   }
+
   plusWeeks(num: number): LocalTime {
     return this.plus(num, 'week')
   }
+
   plusMonths(num: number): LocalTime {
     return this.plus(num, 'month')
   }
+
   plusYears(num: number): LocalTime {
     return this.plus(num, 'year')
   }
+
   minusSeconds(num: number): LocalTime {
     return this.plus(-num, 'second')
   }
+
   minusMinutes(num: number): LocalTime {
     return this.plus(-num, 'minute')
   }
+
   minusHours(num: number): LocalTime {
     return this.plus(-num, 'hour')
   }
+
   minusDays(num: number): LocalTime {
     return this.plus(-num, 'day')
   }
+
   minusWeeks(num: number): LocalTime {
     return this.plus(-num, 'week')
   }
+
   minusMonths(num: number): LocalTime {
     return this.plus(-num, 'month')
   }
+
   minusYears(num: number): LocalTime {
     return this.plus(-num, 'year')
   }
@@ -452,20 +479,25 @@ export class LocalTime {
   isSame(d: LocalTimeInput): boolean {
     return this.compare(d) === 0
   }
+
   isBefore(d: LocalTimeInput, inclusive = false): boolean {
     const r = this.compare(d)
     return r === -1 || (r === 0 && inclusive)
   }
+
   isSameOrBefore(d: LocalTimeInput): boolean {
     return this.compare(d) <= 0
   }
+
   isAfter(d: LocalTimeInput, inclusive = false): boolean {
     const r = this.compare(d)
     return r === 1 || (r === 0 && inclusive)
   }
+
   isSameOrAfter(d: LocalTimeInput): boolean {
     return this.compare(d) >= 0
   }
+
   isBetween(min: LocalTimeInput, max: LocalTimeInput, incl: Inclusiveness = '[)'): boolean {
     let r = this.compare(min)
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
@@ -518,21 +550,27 @@ export class LocalTime {
   getAgeInYears(now?: LocalTimeInput): number {
     return this.getAgeIn('year', now)
   }
+
   getAgeInMonths(now?: LocalTimeInput): number {
     return this.getAgeIn('month', now)
   }
+
   getAgeInDays(now?: LocalTimeInput): number {
     return this.getAgeIn('day', now)
   }
+
   getAgeInHours(now?: LocalTimeInput): number {
     return this.getAgeIn('hour', now)
   }
+
   getAgeInMinutes(now?: LocalTimeInput): number {
     return this.getAgeIn('minute', now)
   }
+
   getAgeInSeconds(now?: LocalTimeInput): number {
     return this.getAgeIn('second', now)
   }
+
   getAgeIn(unit: LocalTimeUnit, now?: LocalTimeInput): number {
     return localTime.fromInput(now ?? new Date()).diff(this, unit)
   }
@@ -540,6 +578,7 @@ export class LocalTime {
   isAfterNow(): boolean {
     return this.$date.valueOf() > Date.now()
   }
+
   isBeforeNow(): boolean {
     return this.$date.valueOf() < Date.now()
   }

@@ -57,9 +57,11 @@ export class LocalDate {
   setYear(v: number): LocalDate {
     return this.set('year', v)
   }
+
   setMonth(v: number): LocalDate {
     return this.set('month', v)
   }
+
   setDay(v: number): LocalDate {
     return this.set('day', v)
   }
@@ -143,15 +145,19 @@ export class LocalDate {
   isToday(): boolean {
     return this.isSame(localDate.today())
   }
+
   isAfterToday(): boolean {
     return this.isAfter(localDate.today())
   }
+
   isSameOrAfterToday(): boolean {
     return this.isSameOrAfter(localDate.today())
   }
+
   isBeforeToday(): boolean {
     return this.isBefore(localDate.today())
   }
+
   isSameOrBeforeToday(): boolean {
     return this.isSameOrBefore(localDate.today())
   }
@@ -159,12 +165,15 @@ export class LocalDate {
   getAgeInYears(today?: LocalDateInput): number {
     return this.getAgeIn('year', today)
   }
+
   getAgeInMonths(today?: LocalDateInput): number {
     return this.getAgeIn('month', today)
   }
+
   getAgeInDays(today?: LocalDateInput): number {
     return this.getAgeIn('day', today)
   }
+
   getAgeIn(unit: LocalDateUnit, today?: LocalDateInput): number {
     return localDate.fromInput(today || new Date()).diff(this, unit)
   }
@@ -264,24 +273,31 @@ export class LocalDate {
   plusDays(num: number): LocalDate {
     return this.plus(num, 'day')
   }
+
   plusWeeks(num: number): LocalDate {
     return this.plus(num, 'week')
   }
+
   plusMonths(num: number): LocalDate {
     return this.plus(num, 'month')
   }
+
   plusYears(num: number): LocalDate {
     return this.plus(num, 'year')
   }
+
   minusDays(num: number): LocalDate {
     return this.plus(-num, 'day')
   }
+
   minusWeeks(num: number): LocalDate {
     return this.plus(-num, 'week')
   }
+
   minusMonths(num: number): LocalDate {
     return this.plus(-num, 'month')
   }
+
   minusYears(num: number): LocalDate {
     return this.plus(-num, 'year')
   }
