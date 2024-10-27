@@ -11,7 +11,7 @@ const BASE64URL = BASE62 + '-_'
  *
  * 1. Performance
  * 2. For non-cryptographic use (where accidental collision is not the end-of-the-world)
- * 3. Compact size (32 bits max, versus 128 in md5; presented in less string json-safe characters)
+ * 3. Compact size (32 bits max, versus 128 in md5; presented in smaller number of string json-safe characters)
  *
  * Basically, these functions are as simple as they can be, but still "random enough" for
  * normal non-cryptographic use cases.

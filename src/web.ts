@@ -7,6 +7,12 @@ import { StringMap } from './types'
  * Implements WebStorage API by using in-memory storage.
  * Can be useful in SSR environment or unit tests.
  *
+ * This is how localStorage can be mocked in Node:
+ *
+ * Object.assign(globalThis, {
+ *  localStorage: new InMemoryWebStorage(),
+ * })
+ *
  * @experimental
  */
 export class InMemoryWebStorage implements Storage {
