@@ -1,12 +1,17 @@
 /* eslint-disable no-bitwise */
 
 /**
+ * Function that returns a random number between 0 and 1.
+ * Exactly same signature as Math.random function.
+ */
+export type RandomFunction = () => number
+
+/**
  * Returns a "deterministic Math.random() function"
  *
  * Based on: https://gist.github.com/mathiasbynens/5670917
  */
-export function _createDeterministicRandom(): () => number {
-  let seed = 0x2f6e2b1
+export function _createDeterministicRandom(seed = 0x2f6e2b1): RandomFunction {
   return () => {
     // Robert Jenkins’ 32 bit integer hash function
     seed = (seed + 0x7ed55d16 + (seed << 12)) & 0xffffffff
