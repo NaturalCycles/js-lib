@@ -1,14 +1,8 @@
-import {
-  _deepEquals,
-  _isBackendErrorResponseObject,
-  _isErrorObject,
-  _stringify,
-  AssertionError,
-  BackendErrorResponseObject,
-  Class,
-  ErrorData,
-  ErrorObject,
-} from '..'
+import { _deepEquals } from '../object/deepEquals'
+import { _stringify } from '../string/stringify'
+import type { Class } from '../typeFest'
+import type { BackendErrorResponseObject, ErrorData, ErrorObject } from './error.model'
+import { _isBackendErrorResponseObject, _isErrorObject, AssertionError } from './error.util'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).

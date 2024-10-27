@@ -1,4 +1,7 @@
-import { _isPrimitive, MISS, pDelay, UnixTimestampNumber } from '..'
+import { _isPrimitive } from '../is.util'
+import { pDelay } from '../promise/pDelay'
+import type { UnixTimestampNumber } from '../types'
+import { MISS } from '../types'
 
 export type MemoSerializer = (args: any[]) => any
 

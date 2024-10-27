@@ -6,7 +6,10 @@ import type {
   ErrorObject,
   HttpRequestErrorData,
 } from '..'
-import { _jsonParseIfPossible, _stringify, _truncate, _truncateMiddle, isServerSide } from '..'
+import { isServerSide } from '../env'
+import { _jsonParseIfPossible } from '../string/json.util'
+import { _truncate, _truncateMiddle } from '../string/string.util'
+import { _stringify } from '../string/stringify'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`

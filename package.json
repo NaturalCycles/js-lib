@@ -36,6 +36,7 @@
   "files": [
     "dist",
     "dist-esm",
+    "cfg",
     "src",
     "!src/test",
     "!src/**/*.test.*",
