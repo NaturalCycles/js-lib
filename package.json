@@ -69,7 +69,7 @@
     "upnc": "dist/bin/upnc.js"
   },
   "engines": {
-    "node": ">=20.13.0"
+    "node": ">=22.11.0"
   },
   "publishConfig": {
     "provenance": true,
