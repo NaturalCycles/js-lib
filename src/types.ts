@@ -38,8 +38,8 @@ export type StringEnum = Record<string, string>
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type CreatedUpdated = {
-  created: number
-  updated: number
+  created: UnixTimestamp
+  updated: UnixTimestamp
 }
 
 export interface CreatedUpdatedId extends CreatedUpdated {
