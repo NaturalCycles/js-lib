@@ -4,7 +4,7 @@
 import type { ErrorData } from '../error/error.model'
 import type { CommonLogger } from '../log/commonLogger'
 import type { Promisable } from '../typeFest'
-import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillisNumber } from '../types'
+import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillis } from '../types'
 import type { HttpMethod, HttpStatusFamily } from './http.model'
 
 export interface FetcherNormalizedCfg
@@ -149,7 +149,7 @@ export interface FetcherRequest
   retry3xx: boolean
   retry4xx: boolean
   retry5xx: boolean
-  started: UnixTimestampMillisNumber
+  started: UnixTimestampMillis
 }
 
 export interface FetcherOptions {

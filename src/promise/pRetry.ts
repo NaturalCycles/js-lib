@@ -1,4 +1,4 @@
-import type { AnyFunction, CommonLogger, ErrorData } from '..'
+import type { AnyFunction, CommonLogger, ErrorData, UnixTimestampMillis } from '..'
 import { _errorDataAppend, _since, pDelay, pTimeout } from '..'
 
 export interface PRetryOptions {
@@ -129,7 +129,7 @@ export async function pRetry<T>(
   let attempt = 0
 
   while (true) {
-    const started = Date.now()
+    const started = Date.now() as UnixTimestampMillis
 
     try {
       attempt++

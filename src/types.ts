@@ -70,18 +70,18 @@ export type BaseDBEntity = {
   /**
    * unixTimestamp of when the entity was first created (in the DB).
    */
-  created: UnixTimestampNumber
+  created: UnixTimestamp
 
   /**
    * unixTimestamp of when the entity was last updated (in the DB).
    */
-  updated: UnixTimestampNumber
+  updated: UnixTimestamp
 }
 
 export type Saved<T> = T & {
   id: string
-  created: UnixTimestampNumber
-  updated: UnixTimestampNumber
+  created: UnixTimestamp
+  updated: UnixTimestamp
 }
 
 export type SavedId<T> = T & {
@@ -90,8 +90,8 @@ export type SavedId<T> = T & {
 
 export type Unsaved<T> = Omit<T, 'id' | 'created' | 'updated'> & {
   id?: string
-  created?: UnixTimestampNumber
-  updated?: UnixTimestampNumber
+  created?: UnixTimestamp
+  updated?: UnixTimestamp
 }
 
 export type UnsavedId<T> = Omit<T, 'id'> & {
@@ -249,18 +249,20 @@ export type IsoDateTimeString = string
 export type MonthId = string
 
 /**
- * Interface explicitly states that the value is a Unix timestamp (in seconds).
+ * Branded UnixTimestamp in seconds.
+ * Extends (compatible with) `number`.
  *
  * @example 1628945450
  */
-export type UnixTimestampNumber = number
+export type UnixTimestamp = Branded<number, 'UnixTimestamp'>
 
 /**
- * Interface explicitly states that the value is a "Unix timestamp in **milleseconds**" (not seconds)
+ * Branded UnixTimestamp in milliseconds (not seconds).
+ * Extends (compatible with) `number`.
  *
  * @example 1628945450000
  */
-export type UnixTimestampMillisNumber = number
+export type UnixTimestampMillis = Branded<number, 'UnixTimestampMillis'>
 
 export type NumberOfHours = number
 export type NumberOfMinutes = number

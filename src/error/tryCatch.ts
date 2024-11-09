@@ -1,4 +1,4 @@
-import type { CommonLogger } from '../index'
+import type { CommonLogger, UnixTimestampMillis } from '../index'
 import { _anyToError, _since } from '../index'
 import type { AnyFunction } from '../types'
 
@@ -39,7 +39,7 @@ export function _tryCatch<T extends AnyFunction>(fn: T, opt: TryCatchOptions = {
   const fname = fn.name || 'anonymous'
 
   return async function (this: any, ...args: any[]) {
-    const started = Date.now()
+    const started = Date.now() as UnixTimestampMillis
 
     try {
       const r = await fn.apply(this, args)

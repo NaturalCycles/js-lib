@@ -1,6 +1,6 @@
 import { _isPrimitive } from '../is.util'
 import { pDelay } from '../promise/pDelay'
-import type { UnixTimestampNumber } from '../types'
+import type { UnixTimestamp } from '../types'
 import { MISS } from '../types'
 
 export type MemoSerializer = (args: any[]) => any
@@ -16,7 +16,7 @@ export interface MemoCacheOptions {
    * If set (and if it's implemented by the driver) - will set expiry TTL for each key of the batch.
    * E.g EXAT in Redis.
    */
-  expireAt?: UnixTimestampNumber
+  expireAt?: UnixTimestamp
 }
 
 export interface MemoCache<KEY = any, VALUE = any> {

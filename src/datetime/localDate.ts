@@ -6,8 +6,8 @@ import type {
   IsoDateTimeString,
   MonthId,
   SortDirection,
-  UnixTimestampMillisNumber,
-  UnixTimestampNumber,
+  UnixTimestamp,
+  UnixTimestampMillis,
 } from '../types'
 import { DateObject, ISODayOfWeek, LocalTime, localTime } from './localTime'
 
@@ -491,15 +491,15 @@ export class LocalDate {
   /**
    * Returns unix timestamp of 00:00:00 of that date (in UTC, because unix timestamp always reflects UTC).
    */
-  get unix(): UnixTimestampNumber {
-    return Math.floor(this.toDate().valueOf() / 1000)
+  get unix(): UnixTimestamp {
+    return Math.floor(this.toDate().valueOf() / 1000) as UnixTimestamp
   }
 
   /**
    * Same as .unix(), but in milliseconds.
    */
-  get unixMillis(): UnixTimestampMillisNumber {
-    return this.toDate().valueOf()
+  get unixMillis(): UnixTimestampMillis {
+    return this.toDate().valueOf() as UnixTimestampMillis
   }
 
   toJSON(): IsoDateString {

@@ -1,16 +1,16 @@
 import { localTime } from '../datetime/localTime'
-import type { UnixTimestampNumber } from '../types'
+import type { UnixTimestamp } from '../types'
 
 export interface BuildInfo {
   /**
    * Unix timestamp of when the build was made.
    */
-  ts: UnixTimestampNumber
+  ts: UnixTimestamp
 
   /**
    * Unix timestamp of commit ("committer date", not "author date")
    */
-  tsCommit: UnixTimestampNumber
+  tsCommit: UnixTimestamp
 
   repoName: string
   branchName: string

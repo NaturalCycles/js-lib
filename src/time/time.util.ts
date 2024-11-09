@@ -1,3 +1,5 @@
+import type { NumberOfMilliseconds, UnixTimestampMillis } from '../types'
+
 /**
  * using _ = blockTimer()
  * // will log "took 1.234 sec" on dispose
@@ -8,7 +10,7 @@
  * @experimental
  */
 export function _blockTimer(name?: string): Disposable {
-  const started = Date.now()
+  const started = Date.now() as UnixTimestampMillis
   return {
     [Symbol.dispose](): void {
       console.log(`${name ? name + ' ' : ''}took ${_since(started)}`)
@@ -19,7 +21,10 @@ export function _blockTimer(name?: string): Disposable {
 /**
  * Returns time passed since `from` until `until` (default to Date.now())
  */
-export function _since(from: number, until = Date.now()): string {
+export function _since(
+  from: UnixTimestampMillis,
+  until: UnixTimestampMillis = Date.now() as UnixTimestampMillis,
+): string {
   return _ms(until - from)
 }
 
@@ -32,7 +37,7 @@ export function _since(from: number, until = Date.now()): string {
  * 59m2s
  * 1h3m12s
  */
-export function _ms(millis: number): string {
+export function _ms(millis: NumberOfMilliseconds): string {
   // <1 sec
   if (millis < 1000) return `${Math.round(millis)} ms`
 

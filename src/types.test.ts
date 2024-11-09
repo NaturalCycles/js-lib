@@ -1,5 +1,12 @@
 import { expectTypeOf } from 'expect-type'
-import type { AppError, Branded } from '.'
+import {
+  AppError,
+  asUnixTimestamp,
+  asUnixTimestamp2000,
+  Branded,
+  localTime,
+  UnixTimestamp,
+} from '.'
 import { _expectedError } from './error/try'
 import type {
   AnyObject,
@@ -47,8 +54,8 @@ test('saved/unsaved', () => {
   expectTypeOf<Item>().toEqualTypeOf<{
     a?: number
     id: string
-    created: number
-    updated: number
+    created: UnixTimestamp
+    updated: UnixTimestamp
   }>()
 
   const item = {} as Unsaved<Item>
@@ -66,8 +73,8 @@ test('saved/unsaved', () => {
 
   const itemDBM: ItemDBM = {
     id: '5', // should only allow string, but not number
-    created: 1,
-    updated: 1,
+    created: 1 as UnixTimestamp,
+    updated: 1 as UnixTimestamp,
     a: 5,
   }
 
@@ -75,8 +82,8 @@ test('saved/unsaved', () => {
 
   expectTypeOf(itemDBM).toEqualTypeOf<{
     id: string
-    created: number
-    updated: number
+    created: UnixTimestamp
+    updated: UnixTimestamp
     a?: number
   }>()
 
@@ -228,4 +235,26 @@ test('branded', () => {
   expect(id2).toBe('124')
   const s: string = id // MyId is assignable to string
   expect(s).toEqual(id)
+})
+
+test('UnixTimestamp branded type', () => {
+  const ts = 123 as UnixTimestamp
+  const ts2: number = ts // compatible
+  const _ts3: UnixTimestamp = ts2 as UnixTimestamp // needs casting
+  const _ts4 = asUnixTimestamp(ts2) // casting with a helper function
+})
+
+test('asUnixTimestamp2000', () => {
+  const valid = localTime('2022-07-14').unix
+  const tooOld = localTime('1984-06-21').unix
+  const tsInMillis = localTime('2022-07-14').unixMillis
+
+  expect(asUnixTimestamp2000(valid)).toBe(valid)
+
+  expect(() => asUnixTimestamp2000(tooOld)).toThrowErrorMatchingInlineSnapshot(
+    `"Number is not a valid UnixTimestamp2000: 456624000"`,
+  )
+  expect(() => asUnixTimestamp2000(tsInMillis)).toThrowErrorMatchingInlineSnapshot(
+    `"Number is not a valid UnixTimestamp2000: 1657756800000"`,
+  )
 })

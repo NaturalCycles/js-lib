@@ -1,12 +1,12 @@
-import { _since, pDelay } from '..'
+import { _since, pDelay, UnixTimestampMillis } from '..'
 import type { AnyFunction } from '../types'
 import { _debounce } from './debounce'
 
-const originalFn = (started: number, n: number): void =>
+const originalFn = (started: UnixTimestampMillis, n: number): void =>
   console.log(`#${n} after ${_since(started)}`)
 
 async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
-  const started = Date.now()
+  const started = Date.now() as UnixTimestampMillis
 
   for (let i = 0; i < count; i++) {
     await pDelay(interval)

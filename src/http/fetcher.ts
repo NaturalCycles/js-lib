@@ -28,7 +28,7 @@ import { pTimeout } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringify } from '../string/stringify'
 import { _ms, _since } from '../time/time.util'
-import { ErrorDataTuple, NumberOfMilliseconds } from '../types'
+import { ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
 import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -262,7 +262,7 @@ export class Fetcher {
     } as FetcherResponse<any>
 
     while (!res.retryStatus.retryStopped) {
-      req.started = Date.now()
+      req.started = Date.now() as UnixTimestampMillis
 
       // setup timeout
       let timeoutId: number | undefined
@@ -708,7 +708,7 @@ export class Fetcher {
         'throwHttpErrors',
         'errorData',
       ]),
-      started: Date.now(),
+      started: Date.now() as UnixTimestampMillis,
       ..._omit(opt, ['method', 'headers', 'credentials']),
       inputUrl: opt.url || '',
       fullUrl: opt.url || '',

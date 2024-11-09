@@ -1,4 +1,4 @@
-import type { Inclusiveness, UnixTimestampNumber } from '../types'
+import type { Inclusiveness, UnixTimestamp } from '../types'
 import { LocalTime, localTime, LocalTimeInput } from './localTime'
 
 export type TimeIntervalConfig = TimeInterval | TimeIntervalString
@@ -12,19 +12,19 @@ export type TimeIntervalString = string
  */
 export class TimeInterval {
   private constructor(
-    private $start: UnixTimestampNumber,
-    private $end: UnixTimestampNumber,
+    private $start: UnixTimestamp,
+    private $end: UnixTimestamp,
   ) {}
 
   static of(start: LocalTimeInput, end: LocalTimeInput): TimeInterval {
     return new TimeInterval(localTime.fromInput(start).unix, localTime.fromInput(end).unix)
   }
 
-  get start(): UnixTimestampNumber {
+  get start(): UnixTimestamp {
     return this.$start
   }
 
-  get end(): UnixTimestampNumber {
+  get end(): UnixTimestamp {
     return this.$end
   }
 
@@ -42,7 +42,7 @@ export class TimeInterval {
   static parse(d: TimeIntervalConfig): TimeInterval {
     if (d instanceof TimeInterval) return d
 
-    const [start, end] = d.split('/').map(Number)
+    const [start, end] = d.split('/').map(Number) as UnixTimestamp[]
 
     if (!end || !start) {
       throw new Error(`Cannot parse "${d}" into TimeInterval`)

@@ -8,8 +8,8 @@ import type {
   NumberOfHours,
   NumberOfMinutes,
   SortDirection,
-  UnixTimestampMillisNumber,
-  UnixTimestampNumber,
+  UnixTimestamp,
+  UnixTimestampMillis,
 } from '../types'
 import { LocalDate, localDate } from './localDate'
 import { WallTime } from './wallTime'
@@ -26,7 +26,7 @@ export enum ISODayOfWeek {
   SUNDAY = 7,
 }
 
-export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestampNumber
+export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestamp
 export type LocalTimeInputNullable = LocalTimeInput | null | undefined
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
@@ -638,16 +638,16 @@ export class LocalTime {
     return new LocalTime(new Date(this.$date))
   }
 
-  get unix(): UnixTimestampNumber {
-    return Math.floor(this.$date.valueOf() / 1000)
+  get unix(): UnixTimestamp {
+    return Math.floor(this.$date.valueOf() / 1000) as UnixTimestamp
   }
 
-  get unixMillis(): UnixTimestampMillisNumber {
-    return this.$date.valueOf()
+  get unixMillis(): UnixTimestampMillis {
+    return this.$date.valueOf() as UnixTimestampMillis
   }
 
-  valueOf(): UnixTimestampNumber {
-    return Math.floor(this.$date.valueOf() / 1000)
+  valueOf(): UnixTimestamp {
+    return Math.floor(this.$date.valueOf() / 1000) as UnixTimestamp
   }
 
   toLocalDate(): LocalDate {
@@ -730,7 +730,7 @@ export class LocalTime {
     return this.toISODateTime()
   }
 
-  toJSON(): UnixTimestampNumber {
+  toJSON(): UnixTimestamp {
     return this.unix
   }
 
@@ -772,8 +772,8 @@ class LocalTimeFactory {
    Convenience function to return current Unix timestamp in seconds.
    Like Date.now(), but in seconds.
    */
-  nowUnix(): UnixTimestampNumber {
-    return Math.floor(Date.now() / 1000)
+  nowUnix(): UnixTimestamp {
+    return Math.floor(Date.now() / 1000) as UnixTimestamp
   }
 
   /**
@@ -925,14 +925,14 @@ class LocalTimeFactory {
     return new LocalTime(date)
   }
 
-  fromUnix(ts: UnixTimestampNumber): LocalTime {
+  fromUnix(ts: UnixTimestamp): LocalTime {
     return new LocalTime(new Date(ts * 1000))
   }
 
   /**
    * Create LocalTime from unixTimestamp in milliseconds (not in seconds).
    */
-  fromMillis(millis: UnixTimestampMillisNumber): LocalTime {
+  fromMillis(millis: UnixTimestampMillis): LocalTime {
     return new LocalTime(new Date(millis))
   }
 

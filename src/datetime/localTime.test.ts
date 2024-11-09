@@ -1,6 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
+import { UnixTimestamp, UnixTimestampMillis } from '../types'
 import { ISODayOfWeek, localTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
@@ -68,8 +69,10 @@ test('basic', () => {
   expect(lt.toLocalDate().toString()).toBe('2022-01-01')
 
   if (isUTC()) {
-    expect(localTime.fromUnix(1640995200).toString()).toBe(lt.toString())
-    expect(localTime.fromMillis(1640995200000).toString()).toBe(lt.toString())
+    expect(localTime.fromUnix(1640995200 as UnixTimestamp).toString()).toBe(lt.toString())
+    expect(localTime.fromMillis(1640995200000 as UnixTimestampMillis).toString()).toBe(
+      lt.toString(),
+    )
     expect(localTime.fromInput(new Date(1640995200000)).toString()).toBe(lt.toString())
   }
 
@@ -119,7 +122,7 @@ test('basic', () => {
 
   expect(localTime.orUndefined(undefined)).toBeUndefined()
   expect(localTime.orUndefined(null)).toBeUndefined()
-  expect(localTime.orUndefined(0)?.toPretty()).toBe('1970-01-01 00:00:00')
+  expect(localTime.orUndefined(0 as UnixTimestamp)?.toPretty()).toBe('1970-01-01 00:00:00')
   expect(localTime.orUndefined(start)?.toISODate()).toBe('2022-01-01')
 
   expect(localTime.now().toString()).toBeDefined()
@@ -130,7 +133,9 @@ test('basic', () => {
     `"Cannot parse "undefined" into LocalTime"`,
   )
 
-  expect(localTime(0).toISODateTime()).toMatchInlineSnapshot(`"1970-01-01T00:00:00"`)
+  expect(localTime(0 as UnixTimestamp).toISODateTime()).toMatchInlineSnapshot(
+    `"1970-01-01T00:00:00"`,
+  )
 
   expect(localTime.getTimezone()).toBe('UTC')
   expect(localTime.isTimezoneValid('Europe/Stockholm')).toBe(true)

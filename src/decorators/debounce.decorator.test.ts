@@ -1,4 +1,4 @@
-import { _since, pDelay } from '..'
+import { _since, pDelay, UnixTimestampMillis } from '..'
 import type { AnyFunction } from '../types'
 import { _Debounce } from './debounce.decorator'
 
@@ -6,13 +6,13 @@ class C {
   // @debounce(200, {leading: true, trailing: true})
   // @throttle(200, {leading: true, trailing: true})
   @_Debounce(20)
-  fn(started: number, n: number): void {
+  fn(started: UnixTimestampMillis, n: number): void {
     console.log(`#${n} after ${_since(started)}`)
   }
 }
 
 const inst = new C()
-const fn = (started: number, n: number): void => inst.fn(started, n)
+const fn = (started: UnixTimestampMillis, n: number): void => inst.fn(started, n)
 
 async function startTimer(fn: AnyFunction, interval: number, count: number): Promise<void> {
   const started = Date.now()

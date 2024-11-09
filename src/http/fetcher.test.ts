@@ -9,6 +9,7 @@ import {
   localTime,
   pExpectedErrorString,
   UnexpectedPassError,
+  UnixTimestampMillis,
 } from '..'
 import { _range } from '../array/range'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
@@ -64,7 +65,7 @@ test('defaults', () => {
 
   const req: FetcherRequest = (fetcher as any).normalizeOptions({ url: 'some', logResponse: true })
   expect(req.logResponse).toBe(true)
-  req.started = 1234
+  req.started = 1234 as UnixTimestampMillis
 
   expect(req).toMatchInlineSnapshot(`
 {

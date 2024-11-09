@@ -1,6 +1,8 @@
 import { _deepEquals } from '../object/deepEquals'
 import { _stringify } from '../string/stringify'
 import type { Class } from '../typeFest'
+import type { UnixTimestamp } from '../types'
+import { TS_2000, TS_2500 } from '../zod/zod.shared.schemas'
 import type { BackendErrorResponseObject, ErrorData, ErrorObject } from './error.model'
 import { _isBackendErrorResponseObject, _isErrorObject, AssertionError } from './error.util'
 
@@ -140,4 +142,27 @@ export function _assertTypeOf<T>(v: any, expectedType: string, message?: string)
     const msg = message || `Expected typeof ${expectedType}, actual typeof: ${typeof v}`
     throw new AssertionError(msg)
   }
+}
+
+/**
+ * Casts an arbitrary number as UnixTimestamp.
+ * Right now does not perform any validation (unlike `asUnixTimestamp2000`),
+ * but only type casting.
+ */
+export function asUnixTimestamp(n: number): UnixTimestamp {
+  return n as UnixTimestamp
+}
+
+/**
+ * Casts an arbitrary number as UnixTimestamp2000.
+ * Throws if the number is not inside 2000-01-01 and 2500-01-01 time interval,
+ * which would indicate a bug.
+ */
+export function asUnixTimestamp2000(n: number): UnixTimestamp {
+  if (!n || n < TS_2000 || n > TS_2500) {
+    throw new AssertionError(`Number is not a valid UnixTimestamp2000: ${n}`, {
+      fingerprint: 'asUnixTimestamp2000',
+    })
+  }
+  return n as UnixTimestamp
 }

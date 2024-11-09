@@ -1,5 +1,5 @@
 import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
-import { _range } from '..'
+import { _range, NumberOfMilliseconds, UnixTimestampMillis } from '..'
 import { _ms, _since } from './time.util'
 
 beforeEach(() => {
@@ -7,33 +7,62 @@ beforeEach(() => {
 })
 
 test('since', () => {
-  expect(_since(1000, 1001)).toBe('1 ms')
-  expect(_since(1000, 1010)).toBe('10 ms')
+  expect(_since(1000 as UnixTimestampMillis, 1001 as UnixTimestampMillis)).toBe('1 ms')
+  expect(_since(1000 as UnixTimestampMillis, 1010 as UnixTimestampMillis)).toBe('10 ms')
 })
 
 test('ms', () => {
-  expect(_ms(1)).toBe('1 ms')
-  expect(_ms(10)).toBe('10 ms')
-  expect(_ms(999)).toBe('999 ms')
-  expect(_ms(1000)).toBe('1 sec')
-  expect(_ms(1001)).toBe('1.001 sec')
-  expect(_ms(1005)).toBe('1.005 sec')
-  expect(_ms(49123)).toBe('49 sec')
-  expect(_ms(59123)).toBe('59 sec')
-  expect(_ms(59923)).toBe('59 sec')
-  expect(_ms(60000)).toBe('1m0s')
-  expect(_ms(60912)).toBe('1m0s')
-  expect(_ms(69123)).toBe('1m9s')
-  expect(_ms(69500)).toBe('1m9s')
-  expect(_ms(3292100)).toBe('54m52s')
-  expect(_ms(59 * 60 * 1000 + 59 * 1000)).toBe('59m59s')
-  expect(_ms(3599500)).toBe('59m59s')
-  expect(_ms(3600000)).toBe('1h0m')
-  expect(_ms(3732000)).toBe('1h2m')
-  expect(_ms(69642430)).toBe('19h20m')
-  expect(_ms(92694074)).toBe('26h')
-  expect(_ms(101963481)).toBe('28h')
-  expect(_ms(535963481)).toBe('6 days')
+  const values = [
+    1,
+    10,
+    999,
+    1000,
+    1001,
+    1005,
+    49123,
+    59123,
+    59923,
+    60000,
+    60912,
+    69123,
+    69500,
+    3292100,
+    59 * 60 * 1000 + 59 * 1000,
+    3599500,
+    3600000,
+    3732000,
+    69642430,
+    92694074,
+    101963481,
+    535963481,
+  ] as NumberOfMilliseconds[]
+
+  expect(new Map(values.map(v => [v, _ms(v)]))).toMatchInlineSnapshot(`
+Map {
+  1 => "1 ms",
+  10 => "10 ms",
+  999 => "999 ms",
+  1000 => "1 sec",
+  1001 => "1.001 sec",
+  1005 => "1.005 sec",
+  49123 => "49 sec",
+  59123 => "59 sec",
+  59923 => "59 sec",
+  60000 => "1m0s",
+  60912 => "1m0s",
+  69123 => "1m9s",
+  69500 => "1m9s",
+  3292100 => "54m52s",
+  3599000 => "59m59s",
+  3599500 => "59m59s",
+  3600000 => "1h0m",
+  3732000 => "1h2m",
+  69642430 => "19h20m",
+  92694074 => "26h",
+  101963481 => "28h",
+  535963481 => "6 days",
+}
+`)
 })
 
 test('log progression', () => {
