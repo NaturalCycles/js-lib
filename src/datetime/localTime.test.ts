@@ -504,6 +504,7 @@ test('comparison with other LocalTimes like primitives', () => {
 
 test('nowUnix', () => {
   expect(localTime.nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix)
+  expect(localTime.nowUnixMillis()).toBeGreaterThan(localTime('2024-01-01').unixMillis)
 })
 
 test('utcOffset', () => {

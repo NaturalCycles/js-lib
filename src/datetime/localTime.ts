@@ -777,6 +777,13 @@ class LocalTimeFactory {
   }
 
   /**
+   Convenience function that retuns the same as Date.now(), but with proper type of UnixTimestampMillis.
+   */
+  nowUnixMillis(): UnixTimestampMillis {
+    return Date.now() as UnixTimestampMillis
+  }
+
+  /**
    * Create LocalTime from LocalTimeInput.
    * Input can already be a LocalTime - it is returned as-is in that case.
    * Date - will be used as-is.
