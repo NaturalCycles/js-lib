@@ -1,6 +1,6 @@
 import cp from 'node:child_process'
 import fs from 'node:fs'
-import { _isTruthy, _since, _truncate } from '@naturalcycles/js-lib'
+import { _isTruthy, _since, _truncate, UnixTimestampMillis } from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
 import { cfgDir, scriptsDir } from './paths'
@@ -16,7 +16,7 @@ const {
  * Run all linters.
  */
 export async function lintAllCommand(): Promise<void> {
-  const started = Date.now()
+  const started = Date.now() as UnixTimestampMillis
   const { commitOnChanges, failOnChanges } = yargs.options({
     commitOnChanges: {
       type: 'boolean',
@@ -89,7 +89,7 @@ interface EslintAllOptions {
  * Runs `eslint` command for all predefined paths (e.g /src, /scripts, etc).
  */
 export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
-  const started = Date.now()
+  const started = Date.now() as UnixTimestampMillis
   const { argv } = yargs.options({
     ext: {
       type: 'string',
