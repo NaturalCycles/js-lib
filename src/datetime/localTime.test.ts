@@ -1,7 +1,7 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import { UnixTimestamp, UnixTimestampMillis } from '../types'
+import { IsoDate, IsoDateTime, UnixTimestamp, UnixTimestampMillis } from '../types'
 import { ISODayOfWeek, localTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
@@ -17,7 +17,7 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
 }
 
 test('basic', () => {
-  const start = '2022-01-01T00:00:00'
+  const start = '2022-01-01T00:00:00' as IsoDateTime
   const lt = localTime.fromInput(start)
   expect(lt.year).toBe(2022)
   expect(lt.month).toBe(1)
@@ -47,10 +47,10 @@ test('basic', () => {
   expect(lt.isOlderThan(5, 'day')).toBe(true)
   expect(lt.isYoungerThan(5, 'day')).toBe(false)
   expect(lt.isOlderThan(100, 'year')).toBe(false)
-  expect(lt.getAgeInYears('2024-05-15')).toBe(2)
-  expect(lt.getAgeInMonths('2024-05-15')).toBe(28)
-  expect(lt.getAgeInDays('2024-05-15')).toBe(865)
-  expect(lt.getAgeIn('day', '2024-05-15')).toBe(865)
+  expect(lt.getAgeInYears('2024-05-15' as IsoDate)).toBe(2)
+  expect(lt.getAgeInMonths('2024-05-15' as IsoDate)).toBe(28)
+  expect(lt.getAgeInDays('2024-05-15' as IsoDate)).toBe(865)
+  expect(lt.getAgeIn('day', '2024-05-15' as IsoDate)).toBe(865)
 
   expect(lt.isAfterNow()).toBe(false)
   expect(lt.isBeforeNow()).toBe(true)
@@ -143,29 +143,29 @@ test('basic', () => {
 })
 
 test('isBetween', () => {
-  const ld = localTime('1984-06-21')
-  expect(ld.isBetween('1984-06-21', '1984-06-21')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-21', '()')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-21', '[)')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-21', '(]')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-21', '[]')).toBe(true)
+  const ld = localTime('1984-06-21' as IsoDate)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-21' as IsoDate)).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-21' as IsoDate, '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-21' as IsoDate, '[)')).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-21' as IsoDate, '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-21' as IsoDate, '[]')).toBe(true)
 
-  expect(ld.isBetween('1984-06-21', '1984-06-22')).toBe(true)
-  expect(ld.isBetween('1984-06-21', '1984-06-22', '()')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-22', '[)')).toBe(true)
-  expect(ld.isBetween('1984-06-21', '1984-06-22', '(]')).toBe(false)
-  expect(ld.isBetween('1984-06-21', '1984-06-22', '[]')).toBe(true)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-22' as IsoDate)).toBe(true)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-22' as IsoDate, '()')).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-22' as IsoDate, '[)')).toBe(true)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-22' as IsoDate, '(]')).toBe(false)
+  expect(ld.isBetween('1984-06-21' as IsoDate, '1984-06-22' as IsoDate, '[]')).toBe(true)
 
-  expect(ld.isBetween('1984-06-20', '1984-06-22')).toBe(true)
+  expect(ld.isBetween('1984-06-20' as IsoDate, '1984-06-22' as IsoDate)).toBe(true)
 
   // invalid, max < min
-  expect(ld.isBetween('1984-06-22', '1984-06-20')).toBe(false)
+  expect(ld.isBetween('1984-06-22' as IsoDate, '1984-06-20' as IsoDate)).toBe(false)
 })
 
 test('fromNow', () => {
-  const past = localTime('2022-02-24')
-  const now = localTime('2022-03-28')
-  const future = localTime('2022-04-01')
+  const past = localTime('2022-02-24' as IsoDate)
+  const now = localTime('2022-03-28' as IsoDate)
+  const future = localTime('2022-04-01' as IsoDate)
 
   expect(past.toFromNowString(now)).toBe('32 days ago')
   expect(now.toFromNowString(now)).toBe('now')
@@ -184,7 +184,7 @@ const validDates = [
   ['2022-01-01T22:01:01Z', '2022-01-01T22:01:01'],
   ['2022-01-01 22:01:01', '2022-01-01T22:01:01'],
   ['2022-01-01t22:01:01', '2022-01-01T22:01:01'],
-]
+] as [IsoDateTime, IsoDateTime][]
 
 // prettier-ignore
 const looselyValidDates = [
@@ -197,7 +197,7 @@ const looselyValidDates = [
   ['2022-01-31T05:0', '2022-01-31T05:00:00'],
   ['2022-01-31T05', '2022-01-31T05:00:00'],
   ['2022-01-31T0', '2022-01-31T00:00:00'],
-]
+] as [IsoDateTime, IsoDateTime][]
 
 // prettier-ignore
 const invalidDates = [
@@ -207,7 +207,7 @@ const invalidDates = [
   '2022-01-x1',
   '20220131',
   '2022-01-32',
-] as string[]
+] as IsoDateTime[]
 
 test.each(validDates)('%s parses to %s and is strictly valid', (s, expected) => {
   expect(localTime.isValid(s)).toBe(true)
@@ -246,7 +246,13 @@ test.each(invalidDates)('%s is invalid', s => {
 
 test('add', () => {
   if (!isUTC()) return
-  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
+  const starts = [
+    '2022-05-31',
+    '2022-05-30',
+    '2020-02-29',
+    '2021-02-28',
+    '2022-01-01',
+  ] as IsoDateTime[]
 
   starts.forEach(start => {
     const lt = localTime(start)
@@ -327,7 +333,13 @@ test('add', () => {
 
 test('diff', () => {
   if (!isUTC()) return
-  const starts = ['2022-05-31', '2022-05-30', '2020-02-29', '2021-02-28', '2022-01-01']
+  const starts = [
+    '2022-05-31',
+    '2022-05-30',
+    '2020-02-29',
+    '2021-02-28',
+    '2022-01-01',
+  ] as IsoDateTime[]
   // const starts = ['2020-02-29']
 
   starts.forEach(start => {
@@ -362,7 +374,7 @@ test('diff', () => {
 
 test('timezone-full string', () => {
   if (!isUTC()) return // todo: this should parse to the same unixtime regardless of TZ
-  const lt = localTime.fromInput('2022-04-06T23:15:00+09:00')
+  const lt = localTime.fromInput('2022-04-06T23:15:00+09:00' as IsoDateTime)
   expect(lt.unix).toMatchInlineSnapshot(`1649286900`)
   expect(lt.toPretty()).toBe('2022-04-06 23:15:00')
 })
@@ -377,7 +389,7 @@ test('startOf should have 0 millis', () => {
 
 test('format', () => {
   const fmt: LocalTimeFormatter = ld => `${ld.year}-${String(ld.month).padStart(2, '0')}`
-  expect(localTime('1984-06-21').format(fmt)).toBe('1984-06')
+  expect(localTime('1984-06-21' as IsoDate).format(fmt)).toBe('1984-06')
 
   const fmt2 = new Intl.DateTimeFormat('ru', {
     month: 'long',
@@ -385,11 +397,11 @@ test('format', () => {
     hour: '2-digit',
     minute: '2-digit',
   })
-  expect(localTime('1984-06-21T05:23:13').format(fmt2)).toBe('21 июня в 05:23')
+  expect(localTime('1984-06-21T05:23:13' as IsoDateTime).format(fmt2)).toBe('21 июня в 05:23')
 })
 
 test('dayOfWeek', () => {
-  const t = localTime('1984-06-21')
+  const t = localTime('1984-06-21' as IsoDate)
   expect(t.dayOfWeek).toBe(ISODayOfWeek.THURSDAY)
 
   expect(() => t.setDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
@@ -411,16 +423,16 @@ test('dayOfWeek', () => {
 })
 
 test('diff2', () => {
-  expect(localTime('2020-03-03').diff('1991-06-21', 'year')).toBe(28)
+  expect(localTime('2020-03-03' as IsoDate).diff('1991-06-21' as IsoDate, 'year')).toBe(28)
 
-  const ld = localTime('2022-01-01')
-  expect(ld.diff('2020-12-31', 'year')).toBe(1)
-  expect(ld.diff('2021-01-01', 'year')).toBe(1)
-  expect(ld.diff('2021-01-02', 'year')).toBe(0)
+  const ld = localTime('2022-01-01' as IsoDate)
+  expect(ld.diff('2020-12-31' as IsoDate, 'year')).toBe(1)
+  expect(ld.diff('2021-01-01' as IsoDate, 'year')).toBe(1)
+  expect(ld.diff('2021-01-02' as IsoDate, 'year')).toBe(0)
 
   // day 2022-01-01 2020-12-01
-  expect(localTime('2020-12-01').diff(ld, 'day')).toBe(-396)
-  expect(ld.diff('2020-12-01', 'day')).toBe(396)
+  expect(localTime('2020-12-01' as IsoDate).diff(ld, 'day')).toBe(-396)
+  expect(ld.diff('2020-12-01' as IsoDate, 'day')).toBe(396)
 })
 
 test('fromDateTimeObject', () => {
@@ -434,20 +446,68 @@ test('add edge', () => {
   // 2020-02-29 - 2020 year == 0000-02-29 00:00:00
   // expect(localTime('2020-02-29').add(-2020, 'year').toPretty()).toBe(dayjs('2020-02-29').add(-2020, 'year').toPretty())
 
-  expect(localTime('2022-05-31').plusMonths(21).toPretty()).toBe('2024-02-29 00:00:00')
+  expect(
+    localTime('2022-05-31' as IsoDate)
+      .plusMonths(21)
+      .toPretty(),
+  ).toBe('2024-02-29 00:00:00')
 
-  expect(localTime('2022-05-31').plusMonths(1).toPretty()).toBe('2022-06-30 00:00:00')
-  expect(localTime('2022-05-31').minusMonths(1).toPretty()).toBe('2022-04-30 00:00:00')
+  expect(
+    localTime('2022-05-31' as IsoDate)
+      .plusMonths(1)
+      .toPretty(),
+  ).toBe('2022-06-30 00:00:00')
+  expect(
+    localTime('2022-05-31' as IsoDate)
+      .minusMonths(1)
+      .toPretty(),
+  ).toBe('2022-04-30 00:00:00')
 
-  expect(localTime('2020-02-29').plus(1, 'month').toPretty()).toBe('2020-03-29 00:00:00')
-  expect(localTime('2020-03-29').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-03-30').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-03-31').plus(-1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-01-31').plus(1, 'month').toPretty()).toBe('2020-02-29 00:00:00')
-  expect(localTime('2020-01-31').plus(2, 'month').toPretty()).toBe('2020-03-31 00:00:00')
-  expect(localTime('2020-01-31').plus(3, 'month').toPretty()).toBe('2020-04-30 00:00:00')
-  expect(localTime('2020-02-29').plusYears(1).toPretty()).toBe('2021-02-28 00:00:00')
-  expect(localTime('2021-02-28').minusYears(1).toPretty()).toBe('2020-02-28 00:00:00')
+  expect(
+    localTime('2020-02-29' as IsoDate)
+      .plus(1, 'month')
+      .toPretty(),
+  ).toBe('2020-03-29 00:00:00')
+  expect(
+    localTime('2020-03-29' as IsoDate)
+      .plus(-1, 'month')
+      .toPretty(),
+  ).toBe('2020-02-29 00:00:00')
+  expect(
+    localTime('2020-03-30' as IsoDate)
+      .plus(-1, 'month')
+      .toPretty(),
+  ).toBe('2020-02-29 00:00:00')
+  expect(
+    localTime('2020-03-31' as IsoDate)
+      .plus(-1, 'month')
+      .toPretty(),
+  ).toBe('2020-02-29 00:00:00')
+  expect(
+    localTime('2020-01-31' as IsoDate)
+      .plus(1, 'month')
+      .toPretty(),
+  ).toBe('2020-02-29 00:00:00')
+  expect(
+    localTime('2020-01-31' as IsoDate)
+      .plus(2, 'month')
+      .toPretty(),
+  ).toBe('2020-03-31 00:00:00')
+  expect(
+    localTime('2020-01-31' as IsoDate)
+      .plus(3, 'month')
+      .toPretty(),
+  ).toBe('2020-04-30 00:00:00')
+  expect(
+    localTime('2020-02-29' as IsoDate)
+      .plusYears(1)
+      .toPretty(),
+  ).toBe('2021-02-28 00:00:00')
+  expect(
+    localTime('2021-02-28' as IsoDate)
+      .minusYears(1)
+      .toPretty(),
+  ).toBe('2020-02-28 00:00:00')
 })
 
 test('diff edge', () => {
@@ -459,52 +519,52 @@ test('diff edge', () => {
   // console.log(moment('2022-05-31').diff('2022-04-30', 'month'))
   // console.log(moment('2022-05-31').diff('2022-04-30T23:00:00', 'month'))
 
-  expect(localTime('2022-06-30').diff('2022-05-31', 'month')).toBe(
+  expect(localTime('2022-06-30' as IsoDate).diff('2022-05-31' as IsoDate, 'month')).toBe(
     dayjs('2022-06-30').diff('2022-05-31', 'month'),
   )
-  expect(localTime('2022-06-30').diff('2022-05-31', 'month')).toBe(1)
+  expect(localTime('2022-06-30' as IsoDate).diff('2022-05-31' as IsoDate, 'month')).toBe(1)
 
   // 2022-05-31 - 721 hour == 2022-04-30 23:00:00 should diff 0 month
-  expect(localTime('2022-05-31').diff('2022-04-30', 'month')).toBe(
+  expect(localTime('2022-05-31' as IsoDate).diff('2022-04-30' as IsoDate, 'month')).toBe(
     dayjs('2022-05-31').diff('2022-04-30', 'month'),
   )
-  expect(localTime('2022-05-31').diff('2022-04-30T23:00:00', 'month')).toBe(
-    dayjs('2022-05-31').diff('2022-04-30T23:00:00', 'month'),
-  )
+  expect(
+    localTime('2022-05-31' as IsoDate).diff('2022-04-30T23:00:00' as IsoDateTime, 'month'),
+  ).toBe(dayjs('2022-05-31').diff('2022-04-30T23:00:00', 'month'))
 
   // 2022-05-31 + 1 day == 2022-06-01 00:00:00 should diff 0 month
-  expect(localTime('2022-06-01').diff('2022-05-31', 'month')).toBe(0)
+  expect(localTime('2022-06-01' as IsoDate).diff('2022-05-31' as IsoDate, 'month')).toBe(0)
 })
 
 // You shouldn't do it, I'm just discovering that it works, apparently
 test('comparison with string', () => {
   if (!isUTC()) return
-  const d = localTime('1984-06-21T05:00:00') as any
-  expect(d < localTime('1984-06-22').unix).toBe(true)
-  expect(d < localTime('1985-06-22').unix).toBe(true)
-  expect(d <= localTime('1984-06-21T05:00:00').unix).toBe(true)
-  expect(d < localTime('1984-06-20').unix).toBe(false)
-  expect(d >= localTime('1984-06-21').unix).toBe(true)
-  expect(d > localTime('1984-06-20').unix).toBe(true)
-  expect(d > localTime('1981-06-20').unix).toBe(true)
+  const d = localTime('1984-06-21T05:00:00' as IsoDateTime) as any
+  expect(d < localTime('1984-06-22' as IsoDate).unix).toBe(true)
+  expect(d < localTime('1985-06-22' as IsoDate).unix).toBe(true)
+  expect(d <= localTime('1984-06-21T05:00:00' as IsoDateTime).unix).toBe(true)
+  expect(d < localTime('1984-06-20' as IsoDate).unix).toBe(false)
+  expect(d >= localTime('1984-06-21' as IsoDate).unix).toBe(true)
+  expect(d > localTime('1984-06-20' as IsoDate).unix).toBe(true)
+  expect(d > localTime('1981-06-20' as IsoDate).unix).toBe(true)
 })
 
 // You shouldn't do it, I'm just discovering that it works, apparently
 test('comparison with other LocalTimes like primitives', () => {
   if (!isUTC()) return
-  const d = localTime('1984-06-21T05:00:00') as any
-  expect(d < localTime('1984-06-22')).toBe(true)
-  expect(d < localTime('1985-06-22')).toBe(true)
-  expect(d <= localTime('1984-06-21T05:00:00')).toBe(true)
-  expect(d < localTime('1984-06-20')).toBe(false)
-  expect(d >= localTime('1984-06-21')).toBe(true)
-  expect(d > localTime('1984-06-20')).toBe(true)
-  expect(d > localTime('1981-06-20')).toBe(true)
+  const d = localTime('1984-06-21T05:00:00' as IsoDate) as any
+  expect(d < localTime('1984-06-22' as IsoDate)).toBe(true)
+  expect(d < localTime('1985-06-22' as IsoDate)).toBe(true)
+  expect(d <= localTime('1984-06-21T05:00:00' as IsoDate)).toBe(true)
+  expect(d < localTime('1984-06-20' as IsoDate)).toBe(false)
+  expect(d >= localTime('1984-06-21' as IsoDate)).toBe(true)
+  expect(d > localTime('1984-06-20' as IsoDate)).toBe(true)
+  expect(d > localTime('1981-06-20' as IsoDate)).toBe(true)
 })
 
 test('nowUnix', () => {
-  expect(localTime.nowUnix()).toBeGreaterThan(localTime('2024-01-01').unix)
-  expect(localTime.nowUnixMillis()).toBeGreaterThan(localTime('2024-01-01').unixMillis)
+  expect(localTime.nowUnix()).toBeGreaterThan(localTime('2024-01-01' as IsoDate).unix)
+  expect(localTime.nowUnixMillis()).toBeGreaterThan(localTime('2024-01-01' as IsoDate).unixMillis)
 })
 
 test('utcOffset', () => {
@@ -519,7 +579,7 @@ test('utcOffset', () => {
 })
 
 test('fromDateUTC', () => {
-  const s = `1984-06-21T05:00:00`
+  const s = `1984-06-21T05:00:00` as IsoDate
   const lt = localTime(s).toUTC()
   const ltUtc = lt.toUTC()
   // eslint-disable-next-line jest/prefer-equality-matcher
@@ -541,7 +601,7 @@ test('fromDateUTC', () => {
 })
 
 test('getUTCOffsetMinutes', () => {
-  const now = localTime('2024-05-14')
+  const now = localTime('2024-05-14' as IsoDate)
   expect(now.getUTCOffsetMinutes('America/Los_Angeles')).toBe(-7 * 60)
   expect(now.getUTCOffsetMinutes('America/New_York')).toBe(-4 * 60)
   expect(now.getUTCOffsetMinutes('Europe/Stockholm')).toBe(2 * 60)
@@ -553,7 +613,7 @@ test('getUTCOffsetMinutes', () => {
 })
 
 test('getUTCOffsetString', () => {
-  const now = localTime('2024-05-14')
+  const now = localTime('2024-05-14' as IsoDate)
   expect(now.getUTCOffsetString('America/Los_Angeles')).toBe('-07:00')
   expect(now.getUTCOffsetString('America/New_York')).toBe('-04:00')
   expect(now.getUTCOffsetString('Europe/Stockholm')).toBe('+02:00')
@@ -562,7 +622,7 @@ test('getUTCOffsetString', () => {
 })
 
 test('inTimezone', () => {
-  const lt = localTime(`1984-06-21T05:00:00`)
+  const lt = localTime(`1984-06-21T05:00:00` as IsoDate)
   expect(lt.toPretty()).toBe(`1984-06-21 05:00:00`)
 
   // Nope, unix doesn't match ;(
@@ -574,7 +634,7 @@ test('inTimezone', () => {
   expect(lt.inTimezone('Asia/Tokyo').toPretty()).toBe(`1984-06-21 14:00:00`)
   expect(lt.inTimezone('Asia/Tokyo').toPretty(false)).toBe(`1984-06-21 14:00`)
 
-  const lt2 = localTime(`1984-02-14T21:00:00`)
+  const lt2 = localTime(`1984-02-14T21:00:00` as IsoDate)
   expect(lt2.toPretty()).toBe(`1984-02-14 21:00:00`)
   expect(lt2.inTimezone('Europe/Stockholm').toPretty()).toBe(`1984-02-14 22:00:00`)
   expect(lt2.inTimezone('America/New_York').toPretty()).toBe(`1984-02-14 16:00:00`)
@@ -584,7 +644,7 @@ test('inTimezone', () => {
 
 // This test should work both in `yarn test` (UTC) and `yarn test-tz2` (JST-09)
 test('parsing date string in negative timezone bug', () => {
-  const s = '2023-03-03'
+  const s = '2023-03-03' as IsoDate
   console.log(new Date(s).toString())
   const lt = localTime(s)
   expect(lt.toISODate()).toBe(s)
@@ -592,7 +652,7 @@ test('parsing date string in negative timezone bug', () => {
 })
 
 test('fractional unit input', () => {
-  const lt = localTime('1984-06-21')
+  const lt = localTime('1984-06-21' as IsoDate)
   expect(lt.toString()).toBe('1984-06-21T00:00:00')
 
   // Comparing only IsoDate part (no time component)
@@ -616,7 +676,7 @@ test('fractional unit input', () => {
   expect(lt.minus(0.9, 'day').toString()).toBe('1984-06-20T00:00:00')
   expect(lt.minus(1.1, 'day').toString()).toBe('1984-06-19T00:00:00')
 
-  expect(() => localTime('1984-06-21.5')).toThrowErrorMatchingInlineSnapshot(
+  expect(() => localTime('1984-06-21.5' as IsoDate)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot parse "1984-06-21.5" into LocalTime"`,
   )
 })

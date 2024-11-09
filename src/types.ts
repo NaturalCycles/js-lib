@@ -227,22 +227,24 @@ export interface InstanceId {
 }
 
 /**
- * Interface explicitly states that the value is an ISO Date string (without time).
+ * ISO 8601 date (without time).
+ * Branded type.
  *
  * @example '2019-06-21'
  */
-export type IsoDateString = string
+export type IsoDate = Branded<string, 'IsoDate'>
 
 /**
- * Interface explicitly states that the value is an ISO DateTime string (with time).
+ * ISO 8601 date (date+time).
+ * Branded type.
  *
  * @example '2019-06-21T05:21:73Z'
  */
-export type IsoDateTimeString = string
+export type IsoDateTime = Branded<string, 'IsoDateTime'>
 
 /**
  * Identifies the Month.
- * Like IsoDateString, but without the Day token.
+ * Like IsoDate, but without the Day token.
  *
  * @example '2023-09'
  */

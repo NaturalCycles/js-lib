@@ -2,8 +2,8 @@ import { _assert } from '../error/assert'
 import { Iterable2 } from '../iter/iterable2'
 import type {
   Inclusiveness,
-  IsoDateString,
-  IsoDateTimeString,
+  IsoDate,
+  IsoDateTime,
   MonthId,
   SortDirection,
   UnixTimestamp,
@@ -21,7 +21,7 @@ const MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const DATE_REGEX = /^(\d\d\d\d)-(\d\d)-(\d\d)/
 const COMPACT_DATE_REGEX = /^(\d\d\d\d)(\d\d)(\d\d)$/
 
-export type LocalDateInput = LocalDate | Date | IsoDateString
+export type LocalDateInput = LocalDate | Date | IsoDate
 export type LocalDateInputNullable = LocalDateInput | null | undefined
 export type LocalDateFormatter = (ld: LocalDate) => string
 
@@ -442,31 +442,31 @@ export class LocalDate {
   /**
    * Returns e.g: `1984-06-21`
    */
-  toISODate(): IsoDateString {
+  toISODate(): IsoDate {
     return [
       String(this.year).padStart(4, '0'),
       String(this.month).padStart(2, '0'),
       String(this.day).padStart(2, '0'),
-    ].join('-')
+    ].join('-') as IsoDate
   }
 
   /**
    * Returns e.g: `1984-06-21T00:00:00`
    * Hours, minutes and seconds are 0.
    */
-  toISODateTime(): IsoDateTimeString {
-    return this.toISODate() + 'T00:00:00'
+  toISODateTime(): IsoDateTime {
+    return (this.toISODate() + 'T00:00:00') as IsoDateTime
   }
 
   /**
    * Returns e.g: `1984-06-21T00:00:00Z` (notice the Z at the end, which indicates UTC).
    * Hours, minutes and seconds are 0.
    */
-  toISODateTimeInUTC(): IsoDateTimeString {
-    return this.toISODateTime() + 'Z'
+  toISODateTimeInUTC(): IsoDateTime {
+    return (this.toISODateTime() + 'Z') as IsoDateTime
   }
 
-  toString(): IsoDateString {
+  toString(): IsoDate {
     return this.toISODate()
   }
 
@@ -502,7 +502,7 @@ export class LocalDate {
     return this.toDate().valueOf() as UnixTimestampMillis
   }
 
-  toJSON(): IsoDateString {
+  toJSON(): IsoDate {
     return this.toISODate()
   }
 
@@ -547,9 +547,9 @@ class LocalDateFactory {
   }
 
   /**
-   Convenience function to return current today's IsoDateString representation, e.g `2024-06-21`
+   Convenience function to return current today's IsoDate representation, e.g `2024-06-21`
    */
-  todayString(): IsoDateString {
+  todayString(): IsoDate {
     return this.fromDate(new Date()).toISODate()
   }
 
@@ -605,9 +605,9 @@ class LocalDateFactory {
 
   /**
    * Performs STRICT parsing.
-   * Only allows IsoDateString input, nothing else.
+   * Only allows IsoDate input, nothing else.
    */
-  fromString(s: IsoDateString): LocalDate {
+  fromString(s: IsoDate): LocalDate {
     return this.parseToLocalDate(DATE_REGEX, s)
   }
 

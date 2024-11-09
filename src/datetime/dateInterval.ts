@@ -1,4 +1,4 @@
-import { Inclusiveness } from '../types'
+import { Inclusiveness, IsoDate } from '../types'
 import { LocalDate, localDate, LocalDateInput, LocalDateUnit } from './localDate'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString
@@ -25,7 +25,7 @@ export class DateInterval {
   static parse(d: DateIntervalConfig): DateInterval {
     if (d instanceof DateInterval) return d
 
-    const [start, end] = d.split('/')
+    const [start, end] = d.split('/') as IsoDate[]
 
     if (!end || !start) {
       throw new Error(`Cannot parse "${d}" into DateInterval`)

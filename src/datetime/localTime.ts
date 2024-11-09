@@ -2,8 +2,8 @@ import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
 import type {
   Inclusiveness,
-  IsoDateString,
-  IsoDateTimeString,
+  IsoDate,
+  IsoDateTime,
   MonthId,
   NumberOfHours,
   NumberOfMinutes,
@@ -26,7 +26,7 @@ export enum ISODayOfWeek {
   SUNDAY = 7,
 }
 
-export type LocalTimeInput = LocalTime | Date | IsoDateTimeString | UnixTimestamp
+export type LocalTimeInput = LocalTime | Date | IsoDate | IsoDateTime | UnixTimestamp
 export type LocalTimeInputNullable = LocalTimeInput | null | undefined
 export type LocalTimeFormatter = (ld: LocalTime) => string
 
@@ -659,8 +659,8 @@ export class LocalTime {
    * or (if seconds=false):
    * `1984-06-21 17:56`
    */
-  toPretty(seconds = true): IsoDateTimeString {
-    return this.toISODate() + ' ' + this.toISOTime(seconds)
+  toPretty(seconds = true): IsoDateTime {
+    return (this.toISODate() + ' ' + this.toISOTime(seconds)) as IsoDateTime
     // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
     // const s = this.$date.toISOString()
     // return s.slice(0, 10) + ' ' + s.slice(11, seconds ? 19 : 16)
@@ -669,8 +669,8 @@ export class LocalTime {
   /**
    * Returns e.g: `1984-06-21T17:56:21`
    */
-  toISODateTime(): IsoDateTimeString {
-    return this.toISODate() + 'T' + this.toISOTime()
+  toISODateTime(): IsoDateTime {
+    return (this.toISODate() + 'T' + this.toISOTime()) as IsoDateTime
     // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
     // return this.$date.toISOString().slice(0, 19)
   }
@@ -678,14 +678,14 @@ export class LocalTime {
   /**
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
-  toISODate(): IsoDateString {
+  toISODate(): IsoDate {
     const { year, month, day } = this.toDateObject()
 
     return [
       String(year).padStart(4, '0'),
       String(month).padStart(2, '0'),
       String(day).padStart(2, '0'),
-    ].join('-')
+    ].join('-') as IsoDate
 
     // !! Not using toISOString(), as it returns time in UTC, not in local timezone (unexpected!)
     // return this.$date.toISOString().slice(0, 10)
@@ -726,7 +726,7 @@ export class LocalTime {
     ].join('')
   }
 
-  toString(): string {
+  toString(): IsoDateTime {
     return this.toISODateTime()
   }
 
@@ -818,7 +818,7 @@ class LocalTimeFactory {
   /**
    * Returns true if isoString is a valid iso8601 string like `yyyy-mm-ddThh:mm:dd`.
    */
-  isValidString(isoString: string | undefined | null): boolean {
+  isValidString(isoString: IsoDateTime | IsoDate | undefined | null): boolean {
     return !!this.parseStrictlyOrUndefined(isoString)
   }
 
@@ -843,10 +843,10 @@ class LocalTimeFactory {
 
   /**
    * Performs STRICT parsing.
-   * Only allows IsoDateTimeString or IsoDateString input, nothing else.
+   * Only allows IsoDateTime or IsoDate input, nothing else.
    */
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
-  fromIsoDateTimeString(s: IsoDateTimeString | IsoDateString): LocalTime {
+
+  fromIsoDateTimeString(s: IsoDateTime | IsoDate): LocalTime {
     const d = this.parseStrictlyOrUndefined(s)
     _assert(d, `Cannot parse "${s}" into LocalTime`)
     return new LocalTime(d)
@@ -856,7 +856,7 @@ class LocalTimeFactory {
    * Performs LOOSE parsing.
    * Tries to coerce imprefect/incorrect string input into IsoDateTimeString.
    * Use with caution.
-   * Allows to input IsoDateString, will set h:m:s to zeros.
+   * Allows to input IsoDate, will set h:m:s to zeros.
    */
   parse(s: string): LocalTime {
     const d = this.parseLooselyOrUndefined(String(s))

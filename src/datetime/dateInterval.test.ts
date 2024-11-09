@@ -1,3 +1,4 @@
+import { IsoDate } from '../types'
 import { DateInterval } from './dateInterval'
 import { localDate } from './localDate'
 
@@ -8,11 +9,14 @@ test('basic', () => {
   const int1 = DateInterval.parse(str1)
   expect(int1.toString()).toBe(str1)
   expect(JSON.stringify(int1)).toBe(`"${str1}"`)
-  expect(int1.start.isSame('2022-02-24'))
-  expect(int1.end.isSame('2022-03-30'))
+  expect(int1.start.isSame('2022-02-24' as IsoDate))
+  expect(int1.end.isSame('2022-03-30' as IsoDate))
 
-  const int2 = DateInterval.of('2022-02-24', '2022-03-30')
-  const int3 = DateInterval.of(localDate('2022-02-24'), localDate('2022-03-30'))
+  const int2 = DateInterval.of('2022-02-24' as IsoDate, '2022-03-30' as IsoDate)
+  const int3 = DateInterval.of(
+    localDate('2022-02-24' as IsoDate),
+    localDate('2022-03-30' as IsoDate),
+  )
 
   expect(int1.isSame(int2)).toBe(true)
   expect(int1.cmp(int2)).toBe(0)
@@ -38,16 +42,16 @@ test('basic', () => {
 
 test('includes', () => {
   const int = DateInterval.parse('2022-02-24/2022-03-30')
-  expect(int.includes('2022-02-23')).toBe(false)
-  expect(int.includes('2022-02-24')).toBe(true)
-  expect(int.includes('2022-02-25')).toBe(true)
-  expect(int.includes('2022-02-28')).toBe(true)
-  expect(int.includes('2022-03-01')).toBe(true)
-  expect(int.includes('2022-03-11')).toBe(true)
-  expect(int.includes('2022-03-29')).toBe(true)
-  expect(int.includes('2022-03-30')).toBe(true)
-  expect(int.includes('2022-03-31')).toBe(false)
-  expect(int.includes('2022-04-01')).toBe(false)
+  expect(int.includes('2022-02-23' as IsoDate)).toBe(false)
+  expect(int.includes('2022-02-24' as IsoDate)).toBe(true)
+  expect(int.includes('2022-02-25' as IsoDate)).toBe(true)
+  expect(int.includes('2022-02-28' as IsoDate)).toBe(true)
+  expect(int.includes('2022-03-01' as IsoDate)).toBe(true)
+  expect(int.includes('2022-03-11' as IsoDate)).toBe(true)
+  expect(int.includes('2022-03-29' as IsoDate)).toBe(true)
+  expect(int.includes('2022-03-30' as IsoDate)).toBe(true)
+  expect(int.includes('2022-03-31' as IsoDate)).toBe(false)
+  expect(int.includes('2022-04-01' as IsoDate)).toBe(false)
 })
 
 test('getDays', () => {

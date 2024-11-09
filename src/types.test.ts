@@ -4,6 +4,7 @@ import {
   asUnixTimestamp,
   asUnixTimestamp2000,
   Branded,
+  IsoDate,
   localTime,
   UnixTimestamp,
 } from '.'
@@ -245,9 +246,9 @@ test('UnixTimestamp branded type', () => {
 })
 
 test('asUnixTimestamp2000', () => {
-  const valid = localTime('2022-07-14').unix
-  const tooOld = localTime('1984-06-21').unix
-  const tsInMillis = localTime('2022-07-14').unixMillis
+  const valid = localTime('2022-07-14' as IsoDate).unix
+  const tooOld = localTime('1984-06-21' as IsoDate).unix
+  const tsInMillis = localTime('2022-07-14' as IsoDate).unixMillis
 
   expect(asUnixTimestamp2000(valid)).toBe(valid)
 

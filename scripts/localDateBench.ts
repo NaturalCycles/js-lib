@@ -6,9 +6,9 @@ yarn tsn localDateBench
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
-import { localDate, localTime } from '../src'
+import { IsoDate, localDate, localTime } from '../src'
 
-const str = '1984-06-21'
+const str = '1984-06-21' as IsoDate
 
 runBenchScript({
   fns: {

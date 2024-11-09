@@ -5,7 +5,7 @@ yarn tsn todayIsoDateBench
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { IsoDateString } from '../src'
+import { IsoDate } from '../src'
 
 runBenchScript({
   fns: {
@@ -20,17 +20,17 @@ runBenchScript({
   },
 })
 
-function fn1(): IsoDateString {
+function fn1(): IsoDate {
   const d = new Date()
   return [
     d.getFullYear(),
     String(d.getMonth() + 1).padStart(2, '0'),
     String(d.getDate()).padStart(2, '0'),
-  ].join('-')
+  ].join('-') as IsoDate
 }
 
-function fn2(): IsoDateString {
-  return new Date().toISOString().slice(0, 10)
+function fn2(): IsoDate {
+  return new Date().toISOString().slice(0, 10) as IsoDate
 }
 
 // function fn1(): IsoDateString {
