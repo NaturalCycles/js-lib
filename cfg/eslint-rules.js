@@ -183,7 +183,7 @@ module.exports = {
     'import-x/no-empty-named-blocks': 2,
     'import-x/no-cycle': 2,
     'import-x/no-useless-path-segments': 2,
-    'import-x/no-default-export': 2,
+    'import-x/no-default-export': 0, // biome
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     // 'jsdoc/newline-after-description': 2,

@@ -131,6 +131,8 @@ module.exports = {
     'jsx-a11y/html-has-lang': 0,
     'jsx-a11y/iframe-has-title': 0,
     'jsx-a11y/img-redundant-alt': 0,
+    'jsx-a11y/interactive-supports-focus': 0,
+    'jsx-a11y/label-has-associated-control': 0,
     'jsx-a11y/lang': 0,
     'jsx-a11y/media-has-caption': 0,
     'jsx-a11y/mouse-events-have-key-events': 0,

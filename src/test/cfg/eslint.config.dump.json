@@ -8,7 +8,7 @@
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.13.0",
+      "parser": "typescript-eslint/parser@8.14.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,9 +18,9 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.13.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.14.0",
     "unicorn:eslint-plugin-unicorn@56.0.0",
-    "vue:eslint-plugin-vue@9.30.0",
+    "vue:eslint-plugin-vue@9.31.0",
     "import-x",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
@@ -682,7 +682,7 @@
       2
     ],
     "import-x/no-default-export": [
-      2
+      0
     ],
     "import-x/no-duplicates": [
       2,
@@ -779,6 +779,12 @@
       0
     ],
     "jsx-a11y/img-redundant-alt": [
+      0
+    ],
+    "jsx-a11y/interactive-supports-focus": [
+      0
+    ],
+    "jsx-a11y/label-has-associated-control": [
       0
     ],
     "jsx-a11y/lang": [
