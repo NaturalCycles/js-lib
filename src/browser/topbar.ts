@@ -69,6 +69,7 @@ const repaint = () => {
 }
 const createCanvas = () => {
   canvas = document.createElement('canvas')
+  canvas.ariaHidden = 'true'
   const style = canvas.style
   style.position = 'fixed'
   style.top = style.left = style.right = style.margin = style.padding = 0
