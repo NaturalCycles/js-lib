@@ -9,4 +9,5 @@ module.exports = {
   eslintExtensions: 'ts,tsx,cts,mts,vue,html',
   stylelintExtensions: 'css,scss',
   lintExclude: ['./**/__exclude/**', './**/dist/**', './**/cache/**', './CHANGELOG.md'],
+  minActionlintVersion: '1.7.4',
 }

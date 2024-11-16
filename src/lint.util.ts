@@ -1,6 +1,14 @@
 import cp from 'node:child_process'
 import fs from 'node:fs'
-import { _isTruthy, _since, _truncate, UnixTimestampMillis } from '@naturalcycles/js-lib'
+import {
+  _assert,
+  _isTruthy,
+  _since,
+  _truncate,
+  semver2,
+  SemVerString,
+  UnixTimestampMillis,
+} from '@naturalcycles/js-lib'
 import { boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
 import yargs from 'yargs'
 import { cfgDir, scriptsDir } from './paths'
@@ -10,6 +18,7 @@ const {
   stylelintExtensions,
   eslintExtensions,
   lintExclude,
+  minActionlintVersion,
 } = require('../cfg/_cnst')
 
 /**
@@ -283,12 +292,30 @@ function runActionLint(): void {
   if (!fs.existsSync('.github/workflows')) return
 
   if (canRunBinary('actionlint')) {
+    requireActionlintVersion()
     exec2.spawn(`actionlint`)
   } else {
     console.log(
       `actionlint is not installed and won't be run.\nThis is how to install it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
     )
   }
+}
+
+export function requireActionlintVersion(): void {
+  const version = getActionLintVersion()
+  if (!version) {
+    return
+  }
+
+  _assert(
+    semver2(version).isSameOrAfter(minActionlintVersion),
+    `actionlint needs to be updated. Min accepted version: ${minActionlintVersion}, local version: ${version}\nThis is how to install/update it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
+  )
+}
+
+export function getActionLintVersion(): SemVerString | undefined {
+  if (!canRunBinary('actionlint')) return
+  return exec2.exec('actionlint --version').split('\n')[0]
 }
 
 export function runBiome(fix = true): void {

@@ -15,12 +15,16 @@ console.log(`lint-staged.config.js runs on node ${node} ${platform} ${arch}`)
 const fs = require('node:fs')
 const micromatch = require('micromatch')
 const { execSync } = require('node:child_process')
+const { _assert, semver2 } = require('@naturalcycles/js-lib')
+const { exec2 } = require('@naturalcycles/nodejs-lib')
+
 const {
   prettierDirs,
   prettierExtensionsExclusive,
   prettierExtensionsAll,
   stylelintExtensions,
   lintExclude,
+  minActionlintVersion,
 } = require('./_cnst')
 
 const prettierConfigPath = [`prettier.config.js`].find(fs.existsSync)
@@ -129,6 +133,8 @@ const linters = {
       return []
     }
 
+    requireActionlintVersion()
+
     // run actionlint on all files at once, as it's fast anyway
     return [`actionlint`]
   },
@@ -189,6 +195,29 @@ function canRunBinary(name) {
     return true
   } catch {
     return false
+  }
+}
+
+function requireActionlintVersion() {
+  const version = getActionLintVersion()
+  if (!version) {
+    return
+  }
+
+  console.log(`actionlint version: ${version}`)
+
+  _assert(
+    semver2(version).isSameOrAfter(minActionlintVersion),
+    `actionlint needs to be updated. Min accepted version: ${minActionlintVersion}, local version: ${version}\nThis is how to install/update it: https://github.com/rhysd/actionlint/blob/main/docs/install.md`,
+  )
+}
+
+function getActionLintVersion() {
+  try {
+    return exec2.exec('actionlint --version').split('\n')[0]
+  } catch (err) {
+    console.log(err)
+    return undefined
   }
 }
 
