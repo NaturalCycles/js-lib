@@ -154,16 +154,16 @@ test('mocking fetch', async () => {
 
   // This is how "default tooling" prints errors
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 500 GET some"`)
+  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: 500 GET some 93 ms"`)
 
   // This is how Jest prints errors
-  expect(err).toMatchInlineSnapshot('[HttpRequestError: 500 GET some]')
+  expect(err).toMatchInlineSnapshot(`[HttpRequestError: 500 GET some 93 ms]`)
 
   // This is how NC-ecosystem-aware consumer prints errors (e.g with Cause)
   expect(_stringify(err)).toMatchInlineSnapshot(`
-    "HttpRequestError: 500 GET some
-    Caused by: AppError: aya-baya"
-  `)
+"HttpRequestError: 500 GET some 93 ms
+Caused by: AppError: aya-baya"
+`)
   err.data.requestDuration = 10 // mock stability
   expect(err.data).toMatchInlineSnapshot(`
     {
@@ -248,7 +248,7 @@ test('json parse error', async () => {
     url: 'some',
   })
   _assertIsError(err)
-  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: GET some"`)
+  expect(String(err)).toMatchInlineSnapshot(`"HttpRequestError: GET some 5 ms"`)
   _assertIsErrorObject(err.cause)
   delete err.cause.stack
   expect(err.cause).toMatchInlineSnapshot(`
@@ -262,9 +262,9 @@ test('json parse error', async () => {
   `)
 
   expect(_stringify(err)).toMatchInlineSnapshot(`
-    "HttpRequestError: GET some
-    Caused by: JsonParseError: Failed to parse: some text"
-  `)
+"HttpRequestError: GET some 5 ms
+Caused by: JsonParseError: Failed to parse: some text"
+`)
 })
 
 test('paginate', async () => {
@@ -383,9 +383,9 @@ test('tryFetch', async () => {
     expectTypeOf(err).toEqualTypeOf<HttpRequestError>()
     expect(err.data.requestMethod).toBe('POST')
     expect(_stringify(err)).toMatchInlineSnapshot(`
-      "HttpRequestError: 500 POST https://example.com/
-      Caused by: Error: bad"
-    `)
+"HttpRequestError: 500 POST https://example.com/ 0 ms
+Caused by: Error: bad"
+`)
   } else {
     expectTypeOf(data).toEqualTypeOf<{ ok: boolean }>()
   }
@@ -460,9 +460,9 @@ test('expectError', async () => {
 
   const err = await fetcher.expectError({ url: 'someUrl' })
   expect(_stringify(err)).toMatchInlineSnapshot(`
-    "HttpRequestError: 500 GET someUrl
-    Caused by: AppError: some"
-  `)
+"HttpRequestError: 500 GET someUrl 0 ms
+Caused by: AppError: some"
+`)
 
   // 2. Pass should throw
   jest

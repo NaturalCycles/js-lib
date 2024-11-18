@@ -409,8 +409,8 @@ export class Fetcher {
           ' <<',
           res.fetchResponse.status,
           res.signature,
-          retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`,
           _since(res.req.started),
+          retryAttempt && `try#${retryAttempt + 1}/${req.retry.count + 1}`,
         ]
           .filter(Boolean)
           .join(' '),
@@ -466,7 +466,9 @@ export class Fetcher {
       responseStatusCode = 0
     }
 
-    const message = [res.statusCode, res.signature].filter(Boolean).join(' ')
+    const message = [res.statusCode, res.signature, _since(res.req.started)]
+      .filter(Boolean)
+      .join(' ')
 
     res.err = new HttpRequestError(
       message,
