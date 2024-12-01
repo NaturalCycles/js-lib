@@ -8,7 +8,7 @@
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.15.0",
+      "parser": "typescript-eslint/parser@8.16.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,9 +18,9 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.15.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.16.0",
     "unicorn:eslint-plugin-unicorn@56.0.1",
-    "vue:eslint-plugin-vue@9.31.0",
+    "vue:eslint-plugin-vue@9.32.0",
     "import-x",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
@@ -672,7 +672,9 @@
     ],
     "getter-return": [
       0,
-      {}
+      {
+        "allowImplicit": false
+      }
     ],
     "guard-for-in": [
       2
@@ -692,7 +694,12 @@
     "id-match": [
       2,
       "^.+$",
-      {}
+      {
+        "classFields": false,
+        "ignoreDestructuring": false,
+        "onlyDeclarations": false,
+        "properties": false
+      }
     ],
     "import-x/export": [
       2
@@ -876,7 +883,8 @@
     "no-bitwise": [
       2,
       {
-        "allow": []
+        "allow": [],
+        "int32Hint": false
       }
     ],
     "no-caller": [
@@ -936,7 +944,9 @@
     ],
     "no-duplicate-imports": [
       0,
-      {}
+      {
+        "includeExports": false
+      }
     ],
     "no-else-return": [
       0,
@@ -961,14 +971,18 @@
     ],
     "no-empty-pattern": [
       0,
-      {}
+      {
+        "allowObjectPatternsAsParameters": false
+      }
     ],
     "no-empty-static-block": [
       2
     ],
     "no-eval": [
       0,
-      {}
+      {
+        "allowIndirect": false
+      }
     ],
     "no-ex-assign": [
       0
@@ -1022,7 +1036,10 @@
     ],
     "no-inner-declarations": [
       0,
-      "functions"
+      "functions",
+      {
+        "blockScopedFunctions": "allow"
+      }
     ],
     "no-invalid-regexp": [
       2,
@@ -1151,7 +1168,9 @@
       0,
       {
         "allow": [],
-        "hoist": "functions"
+        "builtinGlobals": false,
+        "hoist": "functions",
+        "ignoreOnInitialization": false
       }
     ],
     "no-shadow-restricted-names": [
@@ -1171,7 +1190,9 @@
     ],
     "no-undef": [
       0,
-      {}
+      {
+        "typeof": false
+      }
     ],
     "no-undef-init": [
       0
@@ -1186,6 +1207,7 @@
         "allowFunctionParams": true,
         "allowInArrayDestructuring": true,
         "allowInObjectDestructuring": true,
+        "enforceInClassFields": false,
         "enforceInMethodNames": false
       }
     ],
@@ -1212,11 +1234,15 @@
     ],
     "no-unsafe-negation": [
       0,
-      {}
+      {
+        "enforceForOrderingRelations": false
+      }
     ],
     "no-unsafe-optional-chaining": [
       0,
-      {}
+      {
+        "disallowArithmeticOperators": false
+      }
     ],
     "no-unused-expressions": [
       0,
@@ -1239,6 +1265,7 @@
     "no-use-before-define": [
       0,
       {
+        "allowNamedExports": false,
         "classes": true,
         "functions": true,
         "variables": true
@@ -1270,7 +1297,11 @@
     ],
     "no-useless-rename": [
       0,
-      {}
+      {
+        "ignoreDestructuring": false,
+        "ignoreExport": false,
+        "ignoreImport": false
+      }
     ],
     "no-var": [
       0
@@ -1294,7 +1325,8 @@
     "prefer-const": [
       0,
       {
-        "destructuring": "any"
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
       }
     ],
     "prefer-exponentiation-operator": [
@@ -1305,11 +1337,15 @@
     ],
     "prefer-promise-reject-errors": [
       0,
-      {}
+      {
+        "allowEmptyReject": false
+      }
     ],
     "prefer-regex-literals": [
       0,
-      {}
+      {
+        "disallowRedundantWrapping": false
+      }
     ],
     "prefer-rest-params": [
       0
@@ -1844,7 +1880,9 @@
     ],
     "valid-typeof": [
       0,
-      {}
+      {
+        "requireStringLiterals": false
+      }
     ],
     "vue/array-bracket-newline": [
       0
