@@ -50,7 +50,7 @@ const MILLISECONDS_IN_WEEK = 604800000
 const SECONDS_IN_DAY = 86400
 // const MILLISECONDS_IN_DAY = 86400000
 // const MILLISECONDS_IN_MINUTE = 60000
-const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
+export const VALID_DAYS_OF_WEEK = new Set([1, 2, 3, 4, 5, 6, 7])
 
 /**
  * It supports 2 forms:
@@ -272,10 +272,27 @@ export class LocalTime {
     return (this.$date.getDay() || 7) as ISODayOfWeek
   }
 
-  setDayOfWeek(v: ISODayOfWeek): LocalTime {
-    _assert(VALID_DAYS_OF_WEEK.has(v), `Invalid dayOfWeek: ${v}`)
-    const dow = this.$date.getDay() || 7
-    return this.plus(v - dow, 'day')
+  /**
+   * Returns LocalTime for the given DayOfWeek (e.g Monday), that is in the same week as this.
+   * It may move the time into the future, or the past, depending on how the desired DayOfWeek is in
+   * relation to `this`.
+   */
+  setDayOfWeek(dow: ISODayOfWeek): LocalTime {
+    _assert(VALID_DAYS_OF_WEEK.has(dow), `Invalid dayOfWeek: ${dow}`)
+    const delta = dow - this.dayOfWeek
+    return this.plus(delta, 'day')
+  }
+
+  /**
+   * Returns LocalTime for the given DayOfWeek (e.g Monday), that is in the future,
+   * in relation to this.
+   * If this LocalTime is Monday, and desired DoW is also Monday - `this` is returned.
+   */
+  setNextDayOfWeek(dow: ISODayOfWeek): LocalTime {
+    _assert(VALID_DAYS_OF_WEEK.has(dow), `Invalid dayOfWeek: ${dow}`)
+    let delta = dow - this.dayOfWeek
+    if (delta < 0) delta += 7
+    return this.plus(delta, 'day')
   }
 
   setComponents(c: Partial<DateTimeObject>, mutate = false): LocalTime {

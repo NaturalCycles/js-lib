@@ -404,15 +404,16 @@ test('dayOfWeek', () => {
   const t = localTime('1984-06-21' as IsoDate)
   expect(t.dayOfWeek).toBe(ISODayOfWeek.THURSDAY)
 
-  expect(() => t.setDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
+  expect(() => t.setNextDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
     `"Invalid dayOfWeek: -1"`,
   )
-  expect(() => t.setDayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(
+  expect(() => t.setNextDayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(
     `"Invalid dayOfWeek: 0"`,
   )
-  expect(() => t.setDayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(
+  expect(() => t.setNextDayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(
     `"Invalid dayOfWeek: 8"`,
   )
+
   expect(t.setDayOfWeek(1).toISODate()).toBe('1984-06-18')
   expect(t.setDayOfWeek(2).toISODate()).toBe('1984-06-19')
   expect(t.setDayOfWeek(3).toISODate()).toBe('1984-06-20')
@@ -420,6 +421,14 @@ test('dayOfWeek', () => {
   expect(t.setDayOfWeek(5).toISODate()).toBe('1984-06-22')
   expect(t.setDayOfWeek(6).toISODate()).toBe('1984-06-23')
   expect(t.setDayOfWeek(7).toISODate()).toBe('1984-06-24')
+
+  expect(t.setNextDayOfWeek(1).toISODate()).toBe('1984-06-25')
+  expect(t.setNextDayOfWeek(2).toISODate()).toBe('1984-06-26')
+  expect(t.setNextDayOfWeek(3).toISODate()).toBe('1984-06-27')
+  expect(t.setNextDayOfWeek(4).toISODate()).toBe('1984-06-21')
+  expect(t.setNextDayOfWeek(5).toISODate()).toBe('1984-06-22')
+  expect(t.setNextDayOfWeek(6).toISODate()).toBe('1984-06-23')
+  expect(t.setNextDayOfWeek(7).toISODate()).toBe('1984-06-24')
 })
 
 test('diff2', () => {

@@ -9,7 +9,7 @@ import type {
   UnixTimestamp,
   UnixTimestampMillis,
 } from '../types'
-import { DateObject, ISODayOfWeek, LocalTime, localTime } from './localTime'
+import { DateObject, ISODayOfWeek, LocalTime, localTime, VALID_DAYS_OF_WEEK } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'
@@ -68,6 +68,29 @@ export class LocalDate {
 
   get dayOfWeek(): ISODayOfWeek {
     return (this.toDate().getDay() || 7) as ISODayOfWeek
+  }
+
+  /**
+   * Returns LocalDate for the given DayOfWeek (e.g Monday), that is in the same week as this.
+   * It may move the time into the future, or the past, depending on how the desired DayOfWeek is in
+   * relation to `this`.
+   */
+  setDayOfWeek(dow: ISODayOfWeek): LocalDate {
+    _assert(VALID_DAYS_OF_WEEK.has(dow), `Invalid dayOfWeek: ${dow}`)
+    const delta = dow - this.dayOfWeek
+    return this.plus(delta, 'day')
+  }
+
+  /**
+   * Returns LocalDate for the given DayOfWeek (e.g Monday), that is in the future,
+   * in relation to this.
+   * If this LocalDate is Monday, and desired DoW is also Monday - `this` is returned.
+   */
+  setNextDayOfWeek(dow: ISODayOfWeek): LocalDate {
+    _assert(VALID_DAYS_OF_WEEK.has(dow), `Invalid dayOfWeek: ${dow}`)
+    let delta = dow - this.dayOfWeek
+    if (delta < 0) delta += 7
+    return this.plus(delta, 'day')
   }
 
   isSame(d: LocalDateInput): boolean {
