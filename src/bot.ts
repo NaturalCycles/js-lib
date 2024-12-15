@@ -19,6 +19,9 @@ export interface BotDetectionServiceCfg {
   treatCDPAsBotReason?: boolean
 }
 
+const botRegex =
+  /bot|spider|crawl|headless|electron|phantom|slimer|proximic|cincraw|snapchat|slurp|MicrosoftPreview/i
+
 /**
  * Service to detect bots and CDP (Chrome DevTools Protocol).
  *
@@ -60,7 +63,7 @@ export class BotDetectionService {
     const { userAgent } = navigator
     if (!userAgent) return BotReason.NoUserAgent
 
-    if (/bot|headless|electron|phantom|slimer/i.test(userAgent)) {
+    if (botRegex.test(userAgent)) {
       return BotReason.UserAgent
     }
 
