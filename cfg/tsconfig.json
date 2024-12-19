@@ -20,6 +20,7 @@
     // specifying these explicitly for better IDE compatibility (but they're on by default with module=nodenext)
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    // "verbatimModuleSyntax": true, // not enabled, since we'll need a lint rule to enforce `import type`
     // Faster compilation in general
     // Support for external compilers (e.g esbuild)
     // Speedup in Jest by using "isolatedModules" in 'ts-jest' config
