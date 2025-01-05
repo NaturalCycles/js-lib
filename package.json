@@ -16,22 +16,22 @@
     "docs-preview": "vitepress preview docs"
   },
   "dependencies": {
-    "tslib": "^2.0.0",
-    "zod": "^3.20.2"
+    "tslib": "^2",
+    "zod": "^3"
   },
   "devDependencies": {
-    "@naturalcycles/bench-lib": "^3.0.0",
-    "@naturalcycles/dev-lib": "^15.0.3",
-    "@naturalcycles/nodejs-lib": "^13.0.1",
-    "@naturalcycles/time-lib": "^3.5.1",
-    "@types/crypto-js": "^4.1.1",
-    "@types/node": "^22.0.0",
-    "@types/semver": "^7.5.8",
-    "crypto-js": "^4.1.1",
-    "jest": "^29.0.0",
-    "prettier": "^3.0.0",
-    "vitepress": "^1.0.0",
-    "vue": "^3.2.45"
+    "@naturalcycles/bench-lib": "^3",
+    "@naturalcycles/dev-lib": "^15",
+    "@naturalcycles/nodejs-lib": "^13",
+    "@naturalcycles/time-lib": "^3",
+    "@types/crypto-js": "^4",
+    "@types/node": "^22",
+    "@types/semver": "^7",
+    "crypto-js": "^4",
+    "jest": "^29",
+    "prettier": "^3",
+    "vitepress": "^1",
+    "vue": "^3"
   },
   "files": [
     "dist",
