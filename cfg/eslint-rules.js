@@ -127,6 +127,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-misused-new': 2,
+    '@typescript-eslint/no-misused-spread': 2,
     '@typescript-eslint/no-non-null-asserted-optional-chain': 2,
     '@typescript-eslint/no-unused-expressions': 2,
     '@typescript-eslint/prefer-as-const': 2,
