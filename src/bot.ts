@@ -96,7 +96,7 @@ export class BotDetectionService {
     //   return BotReason.ChromeWithoutChrome // Headless Chrome
     // }
 
-    if (this.cfg.treatCDPAsBotReason && this.detectCDP()) {
+    if (this.cfg.treatCDPAsBotReason && this.isCDP()) {
       return BotReason.CDP
     }
 
