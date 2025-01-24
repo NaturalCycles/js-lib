@@ -5,6 +5,12 @@ import { isServerSide } from './env'
 
 export interface BotDetectionServiceCfg {
   /**
+   * Defaults to true.
+   * Set to false if you need to disable it under certain conditions (e.g in Angular unit tests so it doesn't scream 'Error!')
+   */
+  enabled?: boolean
+
+  /**
    * Defaults to false.
    * If true - the instance will memoize (remember) the results of the detection
    * and won't re-run it.
@@ -47,6 +53,7 @@ export class BotDetectionService {
    * otherwise a truthy BotReason.
    */
   getBotReason(): BotReason | null {
+    if (this.cfg.enabled === false) return null
     if (this.cfg.memoizeResults && this.botReason !== undefined) {
       return this.botReason
     }
@@ -110,6 +117,7 @@ export class BotDetectionService {
    * Based on: https://deviceandbrowserinfo.com/learning_zone/articles/detecting-headless-chrome-puppeteer-2024
    */
   isCDP(): boolean {
+    if (this.cfg.enabled === false) return false
     if (this.cfg.memoizeResults && this.cdp !== undefined) {
       return this.cdp
     }

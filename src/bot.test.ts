@@ -78,6 +78,16 @@ test('"slimer" in userAgent means bot', () => {
   expect(botDetectionService.getBotReason()).toBe(BotReason.UserAgent)
 })
 
+test('disabled should return "not bot"', () => {
+  globalThis.navigator = { userAgent: 'HeadlessChrome' } as Navigator
+  const service = new BotDetectionService({
+    enabled: false,
+  })
+  expect(service.isCDP()).toBe(false)
+  expect(service.getBotReason()).toBeNull()
+  expect(service.isBotOrCDP()).toBe(false)
+})
+
 test('navigator.webdriver means bot', () => {
   globalThis.navigator = {
     userAgent: userAgentSafari,
