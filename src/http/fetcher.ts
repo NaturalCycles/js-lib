@@ -16,6 +16,7 @@ import {
 } from '../error/error.util'
 import { _clamp } from '../number/number.util'
 import {
+  _filterFalsyValues,
   _filterNullishValues,
   _filterUndefinedValues,
   _mapKeys,
@@ -28,7 +29,7 @@ import { pTimeout } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringify } from '../string/stringify'
 import { _ms, _since } from '../time/time.util'
-import { ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
+import { AnyObject, ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
 import {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -185,9 +186,21 @@ export class Fetcher {
    * @experimental
    */
   async queryGraphQL<T = unknown>(opt: FetcherGraphQLOptions): Promise<T> {
-    opt.json = {
+    opt.method ||= this.cfg.init.method // defaults to GET
+
+    const payload: AnyObject = _filterFalsyValues({
       query: opt.query,
       variables: opt.variables,
+    })
+
+    // Checking the query length, and not allowing to use GET if above 1900
+    if (opt.method === 'GET' && opt.query.length < 1900) {
+      opt.searchParams = {
+        ...opt.searchParams,
+        ...payload,
+      }
+    } else {
+      opt.json = payload
     }
 
     const res = await this.doFetch<GraphQLResponse<T>>(opt)
