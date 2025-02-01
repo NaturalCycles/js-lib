@@ -152,6 +152,11 @@ export interface FetcherRequest
   started: UnixTimestampMillis
 }
 
+export interface FetcherGraphQLOptions extends FetcherOptions {
+  query: string
+  variables?: AnyObject
+}
+
 export interface FetcherOptions {
   method?: HttpMethod
 
@@ -325,3 +330,23 @@ export type FetcherResponseType =
  * e.g when mocking.
  */
 export type FetchFunction = (url: string, init: RequestInitNormalized) => Promise<Response>
+
+export type GraphQLResponse<DATA> = GraphQLSuccessResponse<DATA> | GraphQLErrorResponse
+
+export interface GraphQLSuccessResponse<DATA> {
+  data: DATA
+  errors: never
+}
+
+export interface GraphQLErrorResponse {
+  data: never
+  errors: GraphQLFormattedError[]
+}
+
+/**
+ * Copy-pasted from `graphql` package, slimmed down.
+ * See: https://spec.graphql.org/draft/#sec-Errors
+ */
+export interface GraphQLFormattedError {
+  message: string
+}

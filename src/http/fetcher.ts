@@ -29,11 +29,12 @@ import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringify } from '../string/stringify'
 import { _ms, _since } from '../time/time.util'
 import { ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
-import type {
+import {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
   FetcherBeforeRetryHook,
   FetcherCfg,
+  FetcherGraphQLOptions,
   FetcherNormalizedCfg,
   FetcherOnErrorHook,
   FetcherOptions,
@@ -41,6 +42,7 @@ import type {
   FetcherResponse,
   FetcherResponseType,
   FetcherRetryOptions,
+  GraphQLResponse,
   RequestInitNormalized,
 } from './fetcher.model'
 import type { HttpStatusFamily } from './http.model'
@@ -170,6 +172,48 @@ export class Fetcher {
   patchVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   deleteVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
   headVoid!: (url: string, opt?: FetcherOptions) => Promise<void>
+
+  /**
+   * Small convenience wrapper that allows to issue GraphQL queries.
+   * In practice, all it does is:
+   * - Defines convenience `query` input option
+   * - Unwraps `response.data`
+   * - Unwraps `response.errors` and throws, if it's defined (as GQL famously returns http 200 even for errors)
+   *
+   * Currently it only unwraps and uses the first error from the `errors` array, for simplicity.
+   *
+   * @experimental
+   */
+  async queryGraphQL<T = unknown>(opt: FetcherGraphQLOptions): Promise<T> {
+    opt.json = {
+      query: opt.query,
+      variables: opt.variables,
+    }
+
+    const res = await this.doFetch<GraphQLResponse<T>>(opt)
+    if (res.err) {
+      throw res.err
+    }
+
+    if (res.body.errors) {
+      // unwrap errors and throw
+      const err = res.body.errors[0]!
+
+      // todo: consider creating a new GraphQLError class for this
+      throw new HttpRequestError(err.message, {
+        errors: res.body.errors, // full errors payload returned
+        response: res.fetchResponse,
+        responseStatusCode: res.statusCode,
+        requestUrl: res.req.fullUrl,
+        requestBaseUrl: this.cfg.baseUrl,
+        requestMethod: res.req.init.method,
+        requestSignature: res.signature,
+        requestDuration: Date.now() - res.req.started,
+      })
+    }
+
+    return res.body.data
+  }
 
   // responseType=readableStream
   /**
