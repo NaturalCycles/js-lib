@@ -155,6 +155,18 @@ export interface FetcherRequest
 export interface FetcherGraphQLOptions extends FetcherOptions {
   query: string
   variables?: AnyObject
+  /**
+   * When querying singular entities, it may be convenient to specify 1st level object to unwrap.
+   * Example:
+   * {
+   *   homePage: { ... }
+   * }
+   *
+   * unwrapObject: 'homePage'
+   *
+   * would return the contents of `{ ... }`
+   */
+  unwrapObject?: string
 }
 
 export interface FetcherOptions {

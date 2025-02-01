@@ -214,6 +214,7 @@ export class Fetcher {
 
       // todo: consider creating a new GraphQLError class for this
       throw new HttpRequestError(err.message, {
+        ...payload, // query and variables
         errors: res.body.errors, // full errors payload returned
         response: res.fetchResponse,
         responseStatusCode: res.statusCode,
@@ -225,7 +226,12 @@ export class Fetcher {
       })
     }
 
-    return res.body.data
+    const { data } = res.body
+    if (opt.unwrapObject) {
+      return (data as any)[opt.unwrapObject]
+    }
+
+    return data
   }
 
   // responseType=readableStream
