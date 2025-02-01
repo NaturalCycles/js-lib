@@ -26,7 +26,10 @@
         "noUnusedFunctionParameters": "error",
         // noUnusedImports + noUnusedVariables can replace eslint-plugin-unused-vars!
         "noUnusedImports": "error",
-        "noUnusedVariables": "error",
+        "noUnusedVariables": {
+          "fix": "none",
+          "level": "error"
+        },
         "useArrayLiterals": "error"
       },
       "style": {
