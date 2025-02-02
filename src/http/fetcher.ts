@@ -194,7 +194,11 @@ export class Fetcher {
     })
 
     // Checking the query length, and not allowing to use GET if above 1900
-    if (opt.method === 'GET' && opt.query.length < 1900) {
+    if (opt.method === 'GET' && opt.query.length > 1900) {
+      opt.method = 'POST'
+    }
+
+    if (opt.method === 'GET') {
       opt.searchParams = {
         ...opt.searchParams,
         ...payload,
