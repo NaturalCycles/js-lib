@@ -26,7 +26,7 @@ export interface BotDetectionServiceCfg {
 }
 
 const botRegex =
-  /bot|spider|crawl|headless|electron|phantom|slimer|proximic|cincraw|snapchat|slurp|MicrosoftPreview|ahrefs|preview|lighthouse|facebookexternal|pinterest|screaming|apis-google|duplexweb-google|feedfetcher-google|google-read-aloud|googleweblight|mediapartners-google/i
+  /bot|spider|crawl|headless|electron|phantom|slimer|proximic|cincraw|slurp|MicrosoftPreview|ahrefs|preview|lighthouse|facebookexternal|pinterest|screaming|apis-google|duplexweb-google|feedfetcher-google|google-read-aloud|googleweblight|mediapartners-google/i
 
 /**
  * Service to detect bots and CDP (Chrome DevTools Protocol).

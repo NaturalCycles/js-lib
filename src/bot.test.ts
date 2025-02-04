@@ -42,6 +42,16 @@ test('innocent safari is not a bot', () => {
   expect(botDetectionService.getBotReason()).toBeNull()
 })
 
+test('snapchat in-app-browser is not a bot', () => {
+  Object.assign(globalThis, {
+    navigator: {
+      userAgent:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 18_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1.1 Mobile/15E148 Snapchat/13.26.0.41 (like Safari/8619.2.8.10.9)',
+    } as Navigator,
+  })
+  expect(botDetectionService.getBotReason()).toBeNull()
+})
+
 test('no navigator means bot', () => {
   expect(botDetectionService.getBotReason()).toBe(BotReason.NoNavigator)
   expect(botDetectionService.isBot()).toBe(true)
