@@ -34,7 +34,7 @@
     "eslint-plugin-jest": "^28",
     "eslint-plugin-jsdoc": "^50",
     "eslint-plugin-simple-import-sort": "^12",
-    "eslint-plugin-unicorn": "^56",
+    "eslint-plugin-unicorn": "^57",
     "eslint-plugin-vue": "^9",
     "expect-type": "^1",
     "globals": "^15",
@@ -69,7 +69,7 @@
     "upnc": "dist/bin/upnc.js"
   },
   "engines": {
-    "node": ">=22.10.0"
+    "node": ">=22.12.0"
   },
   "publishConfig": {
     "provenance": true,

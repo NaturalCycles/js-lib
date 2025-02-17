@@ -31,7 +31,7 @@ module.exports = [
   })),
   // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
   {
-    ...require('eslint-plugin-unicorn').configs['flat/recommended'],
+    ...require('eslint-plugin-unicorn').default.configs.recommended,
     files: defaultFiles,
   },
   // https://eslint.vuejs.org/user-guide/#user-guide
