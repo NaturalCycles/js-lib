@@ -347,23 +347,26 @@ export function _difference<T>(a1: T[], a2: T[] | Set<T>): T[] {
 /**
  * Returns the sum of items, or 0 for empty array.
  */
-export function _sum(items: Iterable<number>): number {
-  let sum = 0
+export function _sum<N extends number>(items: Iterable<N>): N {
+  let sum = 0 as N
   for (const n of items) {
-    sum += n
+    sum = (sum + n) as N
   }
   return sum
 }
 
-export function _sumBy<T>(items: Iterable<T>, mapper: Mapper<T, number | undefined>): number {
-  let sum = 0
+export function _sumBy<T, N extends number = number>(
+  items: Iterable<T>,
+  mapper: Mapper<T, N | undefined>,
+): N {
+  let sum = 0 as N
   let i = 0
 
   for (const n of items) {
     const v = mapper(n, i++)
     if (typeof v === 'number') {
       // count only numbers, nothing else
-      sum += v
+      sum = (sum + v) as N
     }
   }
 
