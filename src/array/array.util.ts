@@ -347,7 +347,7 @@ export function _difference<T>(a1: T[], a2: T[] | Set<T>): T[] {
 /**
  * Returns the sum of items, or 0 for empty array.
  */
-export function _sum<N extends number>(items: Iterable<N>): N {
+export function _sum<N extends number = number>(items: Iterable<N>): N {
   let sum = 0 as N
   for (const n of items) {
     sum = (sum + n) as N
