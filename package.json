@@ -25,7 +25,7 @@
     "@naturalcycles/cli": "^1",
     "@naturalcycles/js-lib": "^14",
     "@naturalcycles/nodejs-lib": "^13",
-    "@stylistic/eslint-plugin": "^3",
+    "@stylistic/eslint-plugin": "^4",
     "@types/jest": "^29",
     "@types/node": "^22",
     "@types/yargs": "^16",
