@@ -37,7 +37,7 @@
     "eslint-plugin-unicorn": "^57",
     "eslint-plugin-vue": "^9",
     "expect-type": "^1",
-    "globals": "^15",
+    "globals": "^16",
     "husky": "^9",
     "jest-junit": "^16",
     "lint-staged": "^15",
