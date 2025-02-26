@@ -4,7 +4,7 @@ import { _objectAssign, AnyAsyncFunction, AnyFunction, AnyObject, MISS } from '.
 import { _getTargetMethodSignature } from './decorator.util'
 import { AsyncMemoCache, jsonMemoSerializer } from './memo.util'
 
-export interface AsyncMemoOptions {
+export interface AsyncMemoOptions<T extends AnyAsyncFunction> {
   /**
    * Provide a custom implementation of AsyncMemoCache.
    * Function that creates an instance of `AsyncMemoCache`.
@@ -14,7 +14,7 @@ export interface AsyncMemoOptions {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: any[]) => any
+  cacheKeyFn?: (args: Parameters<T>) => any
 
   /**
    * Default to `console`
@@ -43,7 +43,7 @@ export interface AsyncMemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _AsyncMemo =
-  (opt: AsyncMemoOptions): MethodDecorator =>
+  <T extends AnyAsyncFunction>(opt: AsyncMemoOptions<T>): MethodDecorator =>
   (target, key, descriptor) => {
     if (typeof descriptor.value !== 'function') {
       throw new TypeError('Memoization can be applied only to methods')
@@ -66,7 +66,7 @@ export const _AsyncMemo =
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
     // eslint-disable-next-line @typescript-eslint/promise-function-async
-    descriptor.value = function (this: typeof target, ...args: any[]): Promise<any> {
+    descriptor.value = function (this: typeof target, ...args: Parameters<T>): Promise<any> {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 

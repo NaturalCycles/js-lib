@@ -7,7 +7,7 @@ class A {
     console.log(`func ${n}`)
   }
 
-  @_Memo()
+  @_Memo<(a1: number, a2: number) => number>()
   a(a1: number, a2: number): number {
     const n = a1 * a2
     this.func(n)

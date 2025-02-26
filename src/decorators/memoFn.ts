@@ -1,3 +1,4 @@
+import { AnyFunction } from '../types'
 import type { MemoOptions } from './memo.decorator'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -13,9 +14,9 @@ export interface MemoizedFunction {
  *
  * @experimental
  */
-export function _memoFn<T extends (...args: any[]) => any>(
+export function _memoFn<T extends AnyFunction>(
   fn: T,
-  opt: MemoOptions = {},
+  opt: MemoOptions<T> = {},
 ): T & MemoizedFunction {
   const {
     logger = console,
@@ -25,7 +26,7 @@ export function _memoFn<T extends (...args: any[]) => any>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = function (this: any, ...args: any[]): T {
+  const memoizedFn = function (this: any, ...args: Parameters<T>): T {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
 
