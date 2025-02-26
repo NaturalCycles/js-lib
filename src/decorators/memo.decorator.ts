@@ -35,6 +35,13 @@ export interface MemoInstance {
   getCache: (instance: AnyFunction) => MemoCache | undefined
 }
 
+// We override MethodDecorator to make it generic
+type MethodDecorator<T> = (
+  target: AnyObject,
+  propertyKey: string | symbol,
+  descriptor: TypedPropertyDescriptor<T>,
+) => TypedPropertyDescriptor<T> | undefined
+
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
  * of the cache is the same. Key, by defaul, is calculated as `JSON.stringify(...args)`.
@@ -57,9 +64,9 @@ export interface MemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
-  <T extends AnyFunction>(opt: MemoOptions<T> = {}): MethodDecorator =>
+  <T extends AnyFunction>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
   (target, key, descriptor) => {
-    if (typeof descriptor.value !== 'function') {
+    if (!descriptor.value) {
       throw new TypeError('Memoization can be applied only to methods')
     }
 
@@ -110,7 +117,7 @@ export const _Memo =
       return value
     } as any
 
-    _objectAssign(descriptor.value as MemoInstance, {
+    _objectAssign<MemoInstance>(descriptor.value as any, {
       clear: () => {
         logger.log(`${methodSignature} @_Memo.clear()`)
         instanceCache.forEach(memoCache => memoCache.clear())
