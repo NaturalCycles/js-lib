@@ -5,7 +5,9 @@ import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
-export interface MemoOptions<T extends AnyFunction> {
+type MaybeParams<T> = T extends AnyFunction ? Parameters<T> : never
+
+export interface MemoOptions<T> {
   /**
    * Provide a custom implementation of MemoCache.
    * Function that creates an instance of `MemoCache`.
@@ -16,7 +18,7 @@ export interface MemoOptions<T extends AnyFunction> {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: Parameters<T>) => any
+  cacheKeyFn?: (args: MaybeParams<T>) => any
 
   /**
    * Default to `console`
@@ -64,7 +66,7 @@ type MethodDecorator<T> = (
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
-  <T extends AnyFunction>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
+  <T>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
   (target, key, descriptor) => {
     if (!descriptor.value) {
       throw new TypeError('Memoization can be applied only to methods')
@@ -90,7 +92,7 @@ export const _Memo =
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-    descriptor.value = function (this: typeof target, ...args: Parameters<T>): any {
+    descriptor.value = function (this: typeof target, ...args: MaybeParams<T>): any {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 
@@ -106,7 +108,7 @@ export const _Memo =
       }
 
       // Miss
-      const value = originalFn.apply(ctx, args)
+      const value = (originalFn as AnyFunction).apply(ctx, args)
 
       try {
         cache.set(cacheKey, value)
