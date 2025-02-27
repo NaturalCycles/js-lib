@@ -84,7 +84,7 @@ export class LocalTime {
    * Opposite of `.utc()` method.
    */
   toLocal(): LocalTime {
-    return new LocalTime(new Date(this.$date.getTime()))
+    return new LocalTime(new Date(this.$date))
   }
 
   /**

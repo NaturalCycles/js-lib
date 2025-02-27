@@ -120,7 +120,7 @@ export const topbar = {
       return currentProgress
     }
     if (typeof to === 'string') {
-      to = (to.indexOf('+') >= 0 || to.indexOf('-') >= 0 ? currentProgress : 0) + parseFloat(to)
+      to = (to.includes('+') || to.includes('-') ? currentProgress : 0) + parseFloat(to)
     }
     currentProgress = (to as number) > 1 ? 1 : to
     repaint()
