@@ -66,7 +66,11 @@ type MethodDecorator<T> = (
 export const _Memo =
   <T>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
   (target, key, descriptor) => {
-    _assertTypeOf<AnyFunction>(descriptor.value, 'function')
+    _assertTypeOf<AnyFunction>(
+      descriptor.value,
+      'function',
+      'Memoization can be applied only to methods',
+    )
 
     const originalFn = descriptor.value
 
