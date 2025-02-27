@@ -57,7 +57,7 @@ function getConfig() {
       // 'unused-imports': require('eslint-plugin-unused-imports'), // disabled in favor of biome rules
       'simple-import-sort': require('eslint-plugin-simple-import-sort'),
       jsdoc: require('eslint-plugin-jsdoc'),
-      '@stylistic': require('@stylistic/eslint-plugin').default,
+      '@stylistic': require('@stylistic/eslint-plugin'),
       ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}),
     },
     languageOptions: {
