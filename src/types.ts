@@ -119,6 +119,10 @@ export type LazyPromise<T> = () => Promise<T>
  * A function that lazily calculates something async, that can return null.
  */
 export type LazyNullablePromise<T> = () => Promise<T | null>
+/**
+ * Evaluates to the parameters if T is a function, otherwise never
+ */
+export type MaybeParams<T> = T extends AnyFunction ? Parameters<T> : never
 
 /**
  * Symbol to indicate END of Sequence.

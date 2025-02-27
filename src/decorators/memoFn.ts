@@ -1,4 +1,4 @@
-import { AnyFunction } from '../types'
+import { AnyFunction, MaybeParams } from '../types'
 import type { MemoOptions } from './memo.decorator'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -14,10 +14,7 @@ export interface MemoizedFunction {
  *
  * @experimental
  */
-export function _memoFn<T extends AnyFunction>(
-  fn: T,
-  opt: MemoOptions<T> = {},
-): T & MemoizedFunction {
+export function _memoFn<T>(fn: T, opt: MemoOptions<T> = {}): T & MemoizedFunction {
   const {
     logger = console,
     cacheFactory = () => new MapMemoCache(),
@@ -26,7 +23,7 @@ export function _memoFn<T extends AnyFunction>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = function (this: any, ...args: Parameters<T>): T {
+  const memoizedFn = function (this: any, ...args: MaybeParams<T>): T {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
 
@@ -34,7 +31,7 @@ export function _memoFn<T extends AnyFunction>(
       return cache.get(cacheKey)
     }
 
-    const value = fn.apply(ctx, args)
+    const value = (fn as AnyFunction).apply(ctx, args)
 
     try {
       cache.set(cacheKey, value)

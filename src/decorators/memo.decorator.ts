@@ -1,11 +1,9 @@
 import { _assert } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import { _objectAssign, AnyFunction, AnyObject } from '../types'
+import { _objectAssign, AnyFunction, AnyObject, MaybeParams } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
-
-type MaybeParams<T> = T extends AnyFunction ? Parameters<T> : never
 
 export interface MemoOptions<T> {
   /**
