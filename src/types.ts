@@ -122,7 +122,7 @@ export type LazyNullablePromise<T> = () => Promise<T | null>
 /**
  * Evaluates to the parameters if T is a function, otherwise never
  */
-export type MaybeParameters<T> = T extends AnyFunction ? Parameters<T> : never
+export type MaybeParameters<FN> = FN extends AnyFunction ? Parameters<FN> : never
 
 /**
  * Symbol to indicate END of Sequence.

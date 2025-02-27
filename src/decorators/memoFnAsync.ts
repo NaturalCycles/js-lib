@@ -10,10 +10,10 @@ export interface MemoizedAsyncFunction {
 /**
  * @experimental
  */
-export function _memoFnAsync<T extends AnyAsyncFunction>(
-  fn: T,
-  opt: AsyncMemoOptions<T>,
-): T & MemoizedAsyncFunction {
+export function _memoFnAsync<FN extends AnyAsyncFunction>(
+  fn: FN,
+  opt: AsyncMemoOptions<FN>,
+): FN & MemoizedAsyncFunction {
   const {
     logger = console,
     cacheFactory = () => new MapMemoCache(),
@@ -22,7 +22,7 @@ export function _memoFnAsync<T extends AnyAsyncFunction>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = async function (this: any, ...args: MaybeParameters<T>): Promise<any> {
+  const memoizedFn = async function (this: any, ...args: MaybeParameters<FN>): Promise<any> {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
     let value: any
@@ -51,5 +51,5 @@ export function _memoFnAsync<T extends AnyAsyncFunction>(
   }
 
   Object.assign(memoizedFn, { cache })
-  return memoizedFn as T & MemoizedAsyncFunction
+  return memoizedFn as FN & MemoizedAsyncFunction
 }

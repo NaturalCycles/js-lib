@@ -14,10 +14,10 @@ export interface MemoizedFunction {
  *
  * @experimental
  */
-export function _memoFn<T extends AnyFunction>(
-  fn: T,
-  opt: MemoOptions<T> = {},
-): T & MemoizedFunction {
+export function _memoFn<FN extends AnyFunction>(
+  fn: FN,
+  opt: MemoOptions<FN> = {},
+): FN & MemoizedFunction {
   const {
     logger = console,
     cacheFactory = () => new MapMemoCache(),
@@ -26,7 +26,7 @@ export function _memoFn<T extends AnyFunction>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = function (this: any, ...args: MaybeParameters<T>): T {
+  const memoizedFn = function (this: any, ...args: MaybeParameters<FN>): FN {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
 
@@ -46,5 +46,5 @@ export function _memoFn<T extends AnyFunction>(
   }
 
   Object.assign(memoizedFn, { cache })
-  return memoizedFn as T & MemoizedFunction
+  return memoizedFn as FN & MemoizedFunction
 }

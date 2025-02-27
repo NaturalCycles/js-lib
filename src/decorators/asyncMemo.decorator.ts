@@ -11,7 +11,7 @@ import {
 import { _getTargetMethodSignature } from './decorator.util'
 import { AsyncMemoCache, jsonMemoSerializer, MethodDecorator } from './memo.util'
 
-export interface AsyncMemoOptions<T> {
+export interface AsyncMemoOptions<FN> {
   /**
    * Provide a custom implementation of AsyncMemoCache.
    * Function that creates an instance of `AsyncMemoCache`.
@@ -21,7 +21,7 @@ export interface AsyncMemoOptions<T> {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: MaybeParameters<T>) => any
+  cacheKeyFn?: (args: MaybeParameters<FN>) => any
 
   /**
    * Default to `console`
@@ -50,7 +50,7 @@ export interface AsyncMemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _AsyncMemo =
-  <T>(opt: AsyncMemoOptions<T>): MethodDecorator<T> =>
+  <FN>(opt: AsyncMemoOptions<FN>): MethodDecorator<FN> =>
   (target, key, descriptor) => {
     _assertTypeOf<AnyFunction>(
       descriptor.value,
@@ -75,7 +75,7 @@ export const _AsyncMemo =
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
     // eslint-disable-next-line @typescript-eslint/promise-function-async
-    descriptor.value = function (this: typeof target, ...args: MaybeParameters<T>): Promise<any> {
+    descriptor.value = function (this: typeof target, ...args: MaybeParameters<FN>): Promise<any> {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 

@@ -5,7 +5,7 @@ import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache, MethodDecorator } from './memo.util'
 
-export interface MemoOptions<T> {
+export interface MemoOptions<FN> {
   /**
    * Provide a custom implementation of MemoCache.
    * Function that creates an instance of `MemoCache`.
@@ -16,7 +16,7 @@ export interface MemoOptions<T> {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: MaybeParameters<T>) => any
+  cacheKeyFn?: (args: MaybeParameters<FN>) => any
 
   /**
    * Default to `console`
@@ -57,7 +57,7 @@ export interface MemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
-  <T>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
+  <FN>(opt: MemoOptions<FN> = {}): MethodDecorator<FN> =>
   (target, key, descriptor) => {
     _assertTypeOf<AnyFunction>(
       descriptor.value,
@@ -85,7 +85,7 @@ export const _Memo =
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-    descriptor.value = function (this: typeof target, ...args: MaybeParameters<T>): any {
+    descriptor.value = function (this: typeof target, ...args: MaybeParameters<FN>): any {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 
