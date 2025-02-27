@@ -1,4 +1,4 @@
-import { _assert } from '../error/assert'
+import { _assert, _assertTypeOf } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
 import { _objectAssign, AnyFunction, AnyObject, MaybeParams } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
@@ -66,9 +66,7 @@ type MethodDecorator<T> = (
 export const _Memo =
   <T>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
   (target, key, descriptor) => {
-    if (!descriptor.value) {
-      throw new TypeError('Memoization can be applied only to methods')
-    }
+    _assertTypeOf<AnyFunction>(descriptor.value, 'function')
 
     const originalFn = descriptor.value
 
@@ -106,7 +104,7 @@ export const _Memo =
       }
 
       // Miss
-      const value = (originalFn as AnyFunction).apply(ctx, args)
+      const value = originalFn.apply(ctx, args)
 
       try {
         cache.set(cacheKey, value)

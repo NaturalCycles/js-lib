@@ -14,7 +14,10 @@ export interface MemoizedFunction {
  *
  * @experimental
  */
-export function _memoFn<T>(fn: T, opt: MemoOptions<T> = {}): T & MemoizedFunction {
+export function _memoFn<T extends AnyFunction>(
+  fn: T,
+  opt: MemoOptions<T> = {},
+): T & MemoizedFunction {
   const {
     logger = console,
     cacheFactory = () => new MapMemoCache(),
@@ -31,7 +34,7 @@ export function _memoFn<T>(fn: T, opt: MemoOptions<T> = {}): T & MemoizedFunctio
       return cache.get(cacheKey)
     }
 
-    const value = (fn as AnyFunction).apply(ctx, args)
+    const value = fn.apply(ctx, args)
 
     try {
       cache.set(cacheKey, value)
