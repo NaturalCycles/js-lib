@@ -1,4 +1,4 @@
-import { MISS } from '../types'
+import { AnyAsyncFunction, MaybeParameters, MISS } from '../types'
 import type { AsyncMemoOptions } from './asyncMemo.decorator'
 import type { AsyncMemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -10,9 +10,9 @@ export interface MemoizedAsyncFunction {
 /**
  * @experimental
  */
-export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
+export function _memoFnAsync<T extends AnyAsyncFunction>(
   fn: T,
-  opt: AsyncMemoOptions,
+  opt: AsyncMemoOptions<T>,
 ): T & MemoizedAsyncFunction {
   const {
     logger = console,
@@ -22,7 +22,7 @@ export function _memoFnAsync<T extends (...args: any[]) => Promise<any>>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = async function (this: any, ...args: any[]): Promise<any> {
+  const memoizedFn = async function (this: any, ...args: MaybeParameters<T>): Promise<any> {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
     let value: any

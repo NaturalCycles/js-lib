@@ -1,6 +1,6 @@
 import { _isPrimitive } from '../is.util'
 import { pDelay } from '../promise/pDelay'
-import type { UnixTimestamp } from '../types'
+import type { AnyObject, UnixTimestamp } from '../types'
 import { MISS } from '../types'
 
 export type MemoSerializer = (args: any[]) => any
@@ -147,3 +147,14 @@ export class MapAsyncMemoCache<KEY = any, VALUE = any> implements AsyncMemoCache
     this.m.clear()
   }
 }
+
+/**
+ * Generic override of Typescript's built in legacy MethodDecorator, that
+ * allows us to infer the parameters of the decorated method from the parameters
+ * of a decorator.
+ */
+export type MethodDecorator<T> = (
+  target: AnyObject,
+  propertyKey: string | symbol,
+  descriptor: TypedPropertyDescriptor<T>,
+) => TypedPropertyDescriptor<T> | undefined

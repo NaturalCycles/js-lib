@@ -1,11 +1,11 @@
-import { _assert } from '../error/assert'
+import { _assert, _assertTypeOf } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import { _objectAssign, AnyFunction, AnyObject } from '../types'
+import { _objectAssign, AnyFunction, AnyObject, MaybeParameters } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache, MethodDecorator } from './memo.util'
 
-export interface MemoOptions {
+export interface MemoOptions<T> {
   /**
    * Provide a custom implementation of MemoCache.
    * Function that creates an instance of `MemoCache`.
@@ -16,7 +16,7 @@ export interface MemoOptions {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: any[]) => any
+  cacheKeyFn?: (args: MaybeParameters<T>) => any
 
   /**
    * Default to `console`
@@ -57,11 +57,13 @@ export interface MemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _Memo =
-  (opt: MemoOptions = {}): MethodDecorator =>
+  <T>(opt: MemoOptions<T> = {}): MethodDecorator<T> =>
   (target, key, descriptor) => {
-    if (typeof descriptor.value !== 'function') {
-      throw new TypeError('Memoization can be applied only to methods')
-    }
+    _assertTypeOf<AnyFunction>(
+      descriptor.value,
+      'function',
+      'Memoization can be applied only to methods',
+    )
 
     const originalFn = descriptor.value
 
@@ -83,7 +85,7 @@ export const _Memo =
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-    descriptor.value = function (this: typeof target, ...args: any[]): any {
+    descriptor.value = function (this: typeof target, ...args: MaybeParameters<T>): any {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 
