@@ -1,10 +1,17 @@
-import { _assert } from '../error/assert'
+import { _assert, _assertTypeOf } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import { _objectAssign, AnyAsyncFunction, AnyFunction, AnyObject, MISS } from '../types'
+import {
+  _objectAssign,
+  AnyAsyncFunction,
+  AnyFunction,
+  AnyObject,
+  MaybeParameters,
+  MISS,
+} from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
-import { AsyncMemoCache, jsonMemoSerializer } from './memo.util'
+import { AsyncMemoCache, jsonMemoSerializer, MethodDecorator } from './memo.util'
 
-export interface AsyncMemoOptions<T extends AnyAsyncFunction> {
+export interface AsyncMemoOptions<T> {
   /**
    * Provide a custom implementation of AsyncMemoCache.
    * Function that creates an instance of `AsyncMemoCache`.
@@ -14,7 +21,7 @@ export interface AsyncMemoOptions<T extends AnyAsyncFunction> {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: Parameters<T>) => any
+  cacheKeyFn?: (args: MaybeParameters<T>) => any
 
   /**
    * Default to `console`
@@ -43,11 +50,13 @@ export interface AsyncMemoInstance {
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _AsyncMemo =
-  <T extends AnyAsyncFunction>(opt: AsyncMemoOptions<T>): MethodDecorator =>
+  <T>(opt: AsyncMemoOptions<T>): MethodDecorator<T> =>
   (target, key, descriptor) => {
-    if (typeof descriptor.value !== 'function') {
-      throw new TypeError('Memoization can be applied only to methods')
-    }
+    _assertTypeOf<AnyFunction>(
+      descriptor.value,
+      'function',
+      'Memoization can be applied only to methods',
+    )
 
     const originalFn = descriptor.value
 
@@ -66,7 +75,7 @@ export const _AsyncMemo =
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
     // eslint-disable-next-line @typescript-eslint/promise-function-async
-    descriptor.value = function (this: typeof target, ...args: Parameters<T>): Promise<any> {
+    descriptor.value = function (this: typeof target, ...args: MaybeParameters<T>): Promise<any> {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 

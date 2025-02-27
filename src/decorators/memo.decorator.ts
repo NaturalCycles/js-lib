@@ -3,7 +3,7 @@ import type { CommonLogger } from '../log/commonLogger'
 import { _objectAssign, AnyFunction, AnyObject, MaybeParameters } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache, MethodDecorator } from './memo.util'
 
 export interface MemoOptions<T> {
   /**
@@ -34,13 +34,6 @@ export interface MemoInstance {
 
   getCache: (instance: AnyFunction) => MemoCache | undefined
 }
-
-// We override MethodDecorator to make it generic
-type MethodDecorator<T> = (
-  target: AnyObject,
-  propertyKey: string | symbol,
-  descriptor: TypedPropertyDescriptor<T>,
-) => TypedPropertyDescriptor<T> | undefined
 
 /**
  * Memoizes the method of the class, so it caches the output and returns the cached version if the "key"
@@ -119,7 +112,7 @@ export const _Memo =
       return value
     } as any
 
-    _objectAssign<MemoInstance>(descriptor.value as any, {
+    _objectAssign(descriptor.value as MemoInstance, {
       clear: () => {
         logger.log(`${methodSignature} @_Memo.clear()`)
         instanceCache.forEach(memoCache => memoCache.clear())
