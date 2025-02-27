@@ -1,6 +1,6 @@
 import { _assert, _assertTypeOf } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import { _objectAssign, AnyFunction, AnyObject, MaybeParams } from '../types'
+import { _objectAssign, AnyFunction, AnyObject, MaybeParameters } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -16,7 +16,7 @@ export interface MemoOptions<T> {
   /**
    * Provide a custom implementation of CacheKey function.
    */
-  cacheKeyFn?: (args: MaybeParams<T>) => any
+  cacheKeyFn?: (args: MaybeParameters<T>) => any
 
   /**
    * Default to `console`
@@ -88,7 +88,7 @@ export const _Memo =
     const keyStr = String(key)
     const methodSignature = _getTargetMethodSignature(target, keyStr)
 
-    descriptor.value = function (this: typeof target, ...args: MaybeParams<T>): any {
+    descriptor.value = function (this: typeof target, ...args: MaybeParameters<T>): any {
       const ctx = this
       const cacheKey = cacheKeyFn(args)
 

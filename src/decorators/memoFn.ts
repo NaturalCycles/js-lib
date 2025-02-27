@@ -1,4 +1,4 @@
-import { AnyFunction, MaybeParams } from '../types'
+import { AnyFunction, MaybeParameters } from '../types'
 import type { MemoOptions } from './memo.decorator'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'
@@ -26,7 +26,7 @@ export function _memoFn<T extends AnyFunction>(
 
   const cache = cacheFactory()
 
-  const memoizedFn = function (this: any, ...args: MaybeParams<T>): T {
+  const memoizedFn = function (this: any, ...args: MaybeParameters<T>): T {
     const ctx = this
     const cacheKey = cacheKeyFn(args)
 
