@@ -1,4 +1,4 @@
-import { _parseQueryString } from './url.util'
+import { _parseQueryString, _toUrlOrNull } from './url.util'
 
 test.each([
   ['', {}],
@@ -22,4 +22,33 @@ test.each([
   // Just checking that the same can be achieved with URLSearchParams
   const r = Object.fromEntries(new URLSearchParams(search).entries())
   expect(r).toEqual(result)
+})
+
+test.each([
+  // Valid urls
+  [['http://google.com'], 'http://google.com/'],
+  [['https://google.com'], 'https://google.com/'],
+
+  // Valid paths agains valid base
+  [['/directory', 'http://google.com'], 'http://google.com/directory'],
+  [['../directory', 'http://google.com/directory'], 'http://google.com/directory'],
+  [['directory', 'http://google.com'], 'http://google.com/directory'],
+
+  // Invalid url with no base
+  [['directory'], null],
+
+  // Invalid url with invalid base
+  [['directory', 'invalid'], null],
+
+  // No url or base
+  [[undefined], null],
+  [[undefined, undefined], null],
+] as const)('_toUrlOrNull %s to equal %s', ([url, base], result) => {
+  const parsed = _toUrlOrNull(url, base)
+  if (result === null) {
+    expect(parsed).toBeNull()
+    return
+  }
+  expect(parsed).toBeInstanceOf(URL)
+  expect(parsed?.href).toBe(result)
 })
