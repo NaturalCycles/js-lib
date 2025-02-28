@@ -255,6 +255,14 @@ export type IsoDateTime = Branded<string, 'IsoDateTime'>
 export type MonthId = string
 
 /**
+ * Identifies IANA timezone name.
+ * Branded type.
+ *
+ * @example 'America/New_York'
+ */
+export type IanaTimezone = Branded<string, 'IanaTimezone'>
+
+/**
  * Branded UnixTimestamp in seconds.
  * Extends (compatible with) `number`.
  *
