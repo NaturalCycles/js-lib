@@ -39,6 +39,10 @@ test.each([
 
   // Invalid url with invalid base
   [['directory', 'invalid'], null],
+
+  // No url or base
+  [[undefined], null],
+  [[undefined, undefined], null],
 ] as const)('_toUrlOrNull %s to equal %s', ([url, base], result) => {
   const parsed = _toUrlOrNull(url, base)
   if (result === null) {

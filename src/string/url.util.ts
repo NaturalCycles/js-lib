@@ -29,11 +29,17 @@ export function _parseQueryString(search: string): StringMap {
 /**
  * A wrapper around `new URL(href)`, but it returns `null` instead of throwing an error.
  *
+ * For convenience, the params are allowed to be nullable.
+ *
  * While `URL.parse` exists, and behaves similarly, it's not widely supported.
+ * Null was chosen instead of undefined to make it easier to move to URL.parse if
+ * it ever becomes widely supported.
  */
-export function _toUrlOrNull(url: string, base?: string): URL | null {
+export function _toUrlOrNull(url: string | undefined, base?: string): URL | null {
+  if (typeof url !== 'string') return null
+
   try {
-    return new URL(url, base)
+    return new URL(url, base || undefined)
   } catch {
     return null
   }
