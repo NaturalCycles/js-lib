@@ -1,3 +1,4 @@
+import { IsoDate } from '../types'
 import { DateTimeObject } from './localTime'
 
 /**
@@ -33,12 +34,12 @@ export class WallTime implements DateTimeObject {
   /**
    * Returns e.g: `1984-06-21`, only the date part of DateTime
    */
-  toISODate(): string {
+  toISODate(): IsoDate {
     return [
       String(this.year).padStart(4, '0'),
       String(this.month).padStart(2, '0'),
       String(this.day).padStart(2, '0'),
-    ].join('-')
+    ].join('-') as IsoDate
   }
 
   /**
