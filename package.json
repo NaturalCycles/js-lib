@@ -35,7 +35,7 @@
     "eslint-plugin-jsdoc": "^50",
     "eslint-plugin-simple-import-sort": "^12",
     "eslint-plugin-unicorn": "^57",
-    "eslint-plugin-vue": "^9",
+    "eslint-plugin-vue": "^10",
     "expect-type": "^1",
     "globals": "^16",
     "husky": "^9",
@@ -48,6 +48,7 @@
     "ts-jest": "^29",
     "typescript": "^5",
     "typescript-eslint": "^8",
+    "vue-eslint-parser": "^10",
     "yargs": "^17"
   },
   "devDependencies": {

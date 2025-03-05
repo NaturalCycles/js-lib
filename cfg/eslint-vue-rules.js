@@ -32,7 +32,7 @@ module.exports = {
     'vue/no-boolean-default': 2,
     'vue/no-deprecated-model-definition': 2,
     'vue/no-multiple-objects-in-class': 2,
-    'vue/no-ref-object-destructure': 2,
+    'vue/no-ref-object-reactivity-loss': 2,
     'vue/no-required-prop-with-default': 2,
     'vue/no-root-v-if': 2,
     'vue/no-this-in-before-route-enter': 2,

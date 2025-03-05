@@ -2,13 +2,13 @@
   "language": "@/js",
   "languageOptions": {
     "ecmaVersion": 2025,
-    "parser": "vue-eslint-parser@9.4.3",
+    "parser": "vue-eslint-parser@10.1.0",
     "parserOptions": {
       "extraFileExtensions": {
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.25.0",
+      "parser": "typescript-eslint/parser@8.26.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,9 +18,9 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.25.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.26.0",
     "unicorn:eslint-plugin-unicorn@57.0.0",
-    "vue:eslint-plugin-vue@9.32.0",
+    "vue:eslint-plugin-vue@10.0.0",
     "import-x",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
@@ -2041,9 +2041,6 @@
       2,
       "PascalCase"
     ],
-    "vue/component-tags-order": [
-      1
-    ],
     "vue/custom-event-name-casing": [
       2,
       "camelCase"
@@ -2149,6 +2146,9 @@
     "vue/no-deprecated-data-object-declaration": [
       2
     ],
+    "vue/no-deprecated-delete-set": [
+      2
+    ],
     "vue/no-deprecated-destroyed-lifecycle": [
       2
     ],
@@ -2248,7 +2248,7 @@
     "vue/no-ref-as-operand": [
       2
     ],
-    "vue/no-ref-object-destructure": [
+    "vue/no-ref-object-reactivity-loss": [
       2
     ],
     "vue/no-required-prop-with-default": [
