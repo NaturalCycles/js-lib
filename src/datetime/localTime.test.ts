@@ -138,6 +138,7 @@ test('basic', () => {
   )
 
   expect(localTime.getTimezone()).toBe('UTC')
+  expect(localTime.isTimezoneValid('UTC')).toBe(true) // deliberately valid
   expect(localTime.isTimezoneValid('Europe/Stockholm')).toBe(true)
   expect(localTime.isTimezoneValid('Europe/Stockholm2')).toBe(false)
 })

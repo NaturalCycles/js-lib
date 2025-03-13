@@ -995,6 +995,7 @@ class LocalTimeFactory {
    * consider caching the Intl.supportedValuesOf values as Set and reuse that.
    */
   isTimezoneValid(tz: string): boolean {
+    if (tz === 'UTC') return true // we deliberately consider UTC a valid timezone, while it's mostly used in testing
     return Intl.supportedValuesOf('timeZone').includes(tz)
   }
 
