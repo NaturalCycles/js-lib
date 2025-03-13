@@ -260,7 +260,7 @@ export type MonthId = string
  *
  * @example 'America/New_York'
  */
-export type IanaTimezone = Branded<string, 'IanaTimezone'>
+export type IANATimezone = Branded<string, 'IANATimezone'>
 
 /**
  * Branded UnixTimestamp in seconds.
