@@ -253,9 +253,9 @@ test('asUnixTimestamp2000', () => {
   expect(asUnixTimestamp2000(valid)).toBe(valid)
 
   expect(() => asUnixTimestamp2000(tooOld)).toThrowErrorMatchingInlineSnapshot(
-    `"Number is not a valid UnixTimestamp2000: 456624000"`,
+    `[AssertionError: Number is not a valid UnixTimestamp2000: 456624000]`,
   )
   expect(() => asUnixTimestamp2000(tsInMillis)).toThrowErrorMatchingInlineSnapshot(
-    `"Number is not a valid UnixTimestamp2000: 1657756800000"`,
+    `[AssertionError: Number is not a valid UnixTimestamp2000: 1657756800000]`,
   )
 })

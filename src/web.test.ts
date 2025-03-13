@@ -2,7 +2,7 @@ import { InMemoryWebStorage } from './web'
 
 test('InMemoryWebStorage', () => {
   expect(() => localStorage.getItem('a')).toThrowErrorMatchingInlineSnapshot(
-    `"localStorage is not defined"`,
+    `[ReferenceError: localStorage is not defined]`,
   )
 
   // this is how it can be mocked/polyfilled in SSR environment (like here - we're running in Node)

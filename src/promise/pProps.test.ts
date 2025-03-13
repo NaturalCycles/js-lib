@@ -65,7 +65,8 @@ test('should preserve stack', async () => {
         at pProps pProps.ts
         at wrappingFn pProps.test.ts
         at pExpectedError try.ts
-        at Object.<anonymous> pProps.test.ts"
+        at /Users/kirill/Idea/js-lib/src/promise/pProps.test.ts:52:15
+        at file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:558:22"
   `)
 })
 

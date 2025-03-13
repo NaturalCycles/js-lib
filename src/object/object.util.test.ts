@@ -645,10 +645,10 @@ test('_deepFreeze', () => {
   }
   _deepFreeze(o)
   expect(() => (o.a = 'cc' as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot assign to read only property 'a' of object '#<Object>'"`,
+    `[TypeError: Cannot assign to read only property 'a' of object '#<Object>']`,
   )
   expect(() => (o.a.b = 'cc')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot assign to read only property 'b' of object '#<Object>'"`,
+    `[TypeError: Cannot assign to read only property 'b' of object '#<Object>']`,
   )
 })
 

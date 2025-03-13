@@ -7,9 +7,10 @@ import {
   _lazyValue,
 } from './define'
 import { AnyObject, Lazy } from './types'
+import { vi } from 'vitest'
 
 test('_lazyValue', () => {
-  const fn = jest.fn(() => 42)
+  const fn = vi.fn(() => 42)
 
   const value = _lazyValue(fn)
   expectTypeOf(value).toEqualTypeOf<Lazy<number>>()
@@ -25,7 +26,7 @@ interface Obj {
 }
 
 test('_defineLazyProperty', () => {
-  const fn = jest.fn(() => 42)
+  const fn = vi.fn(() => 42)
 
   const obj = {} as Obj
 
@@ -44,8 +45,8 @@ test('_defineLazyProperty', () => {
 })
 
 test('_defineLazyProps', () => {
-  const fn1 = jest.fn(() => 42)
-  const fn2 = jest.fn(() => 48)
+  const fn1 = vi.fn(() => 42)
+  const fn2 = vi.fn(() => 48)
 
   interface Obj2 {
     v1: number

@@ -61,7 +61,7 @@ test('basic', () => {
   expect(localDate.orToday(ld).toISODate()).toBe(ld.toISODate())
 
   expect(() => localDate(undefined as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "undefined" into LocalDate"`,
+    `[AssertionError: Cannot parse "undefined" into LocalDate]`,
   )
 
   expect(ld.isOlderThan(5, 'day')).toBe(true)

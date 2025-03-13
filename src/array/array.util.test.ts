@@ -311,7 +311,7 @@ test('_shuffle', () => {
   Object.freeze(a) // should not be mutated
 
   const deterministicRandom = _createDeterministicRandom()
-  jest.spyOn(Math, 'random').mockImplementation(() => deterministicRandom())
+  vi.spyOn(Math, 'random').mockImplementation(() => deterministicRandom())
 
   const b = _shuffle(a)
   expect(b).toMatchInlineSnapshot(`
@@ -362,7 +362,7 @@ test('_last', () => {
   expect(_lastOrUndefined([1, 2])).toBe(2)
   expect(_lastOrUndefined([1])).toBe(1)
 
-  expect(() => _last([])).toThrowErrorMatchingInlineSnapshot(`"_last called on empty array"`)
+  expect(() => _last([])).toThrowErrorMatchingInlineSnapshot(`[Error: _last called on empty array]`)
   expect(_last([undefined])).toBeUndefined()
   expect(_last([1, undefined])).toBeUndefined()
   expect(_last([1, 2])).toBe(2)
@@ -374,7 +374,7 @@ test('_last', () => {
 })
 
 test('_first', () => {
-  expect(() => _first([])).toThrowErrorMatchingInlineSnapshot(`"_first called on empty array"`)
+  expect(() => _first([])).toThrowErrorMatchingInlineSnapshot(`[Error: _first called on empty array]`)
   expect(_first([undefined])).toBeUndefined()
   expect(_first([1, undefined])).toBe(1)
   expect(_first([1, 2])).toBe(1)
@@ -387,7 +387,7 @@ test('_min', () => {
   expect(_minOrUndefined([3, 2])).toBe(2)
   expect(_minOrUndefined([1, 3, 2])).toBe(1)
 
-  expect(() => _min([])).toThrowErrorMatchingInlineSnapshot(`"_min called on empty array"`)
+  expect(() => _min([])).toThrowErrorMatchingInlineSnapshot(`[AssertionError: _min called on empty array]`)
   expect(_min([3])).toBe(3)
   expect(_min([3, 2])).toBe(2)
   expect(_min([1, 3, 2])).toBe(1)
@@ -410,7 +410,7 @@ test('_max', () => {
   expect(_maxOrUndefined([3, 2])).toBe(3)
   expect(_maxOrUndefined([1, 3, 2])).toBe(3)
 
-  expect(() => _max([])).toThrowErrorMatchingInlineSnapshot(`"_max called on empty array"`)
+  expect(() => _max([])).toThrowErrorMatchingInlineSnapshot(`[AssertionError: _max called on empty array]`)
   expect(_max([3])).toBe(3)
   expect(_max([3, 2])).toBe(3)
   expect(_max([1, 3, 2])).toBe(3)
@@ -424,14 +424,14 @@ test('_max', () => {
 test('_maxBy, _minBy', () => {
   expect(_maxByOrUndefined([], () => 0)).toBeUndefined()
   expect(() => _maxBy([], () => 0)).toThrowErrorMatchingInlineSnapshot(
-    `"_maxBy returned undefined"`,
+    `[AssertionError: _maxBy returned undefined]`,
   )
   expect(_maxByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 30 })
   expect(_maxBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 30 })
 
   expect(_minByOrUndefined([], () => 0)).toBeUndefined()
   expect(() => _minBy([], () => 0)).toThrowErrorMatchingInlineSnapshot(
-    `"_minBy returned undefined"`,
+    `[AssertionError: _minBy returned undefined]`,
   )
   expect(_minByOrUndefined([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })
   expect(_minBy([{ age: 18 }, { age: 30 }], u => u.age)).toEqual({ age: 18 })

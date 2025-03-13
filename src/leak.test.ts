@@ -1,3 +1,3 @@
 test('should not leak', () => {
-  require('.')
+  import('./index.js')
 })

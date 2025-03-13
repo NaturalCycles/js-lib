@@ -97,24 +97,24 @@ test('reject', async () => {
 test('immediately rejects when errorMode=THROW_IMMEDIATELY', async () => {
   await expect(
     pMap(errorInput1, mapper, { concurrency: 1 }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: foo]`)
 
   await expect(
     pMap(errorInput2, mapper, { concurrency: 1 }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"bar"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: bar]`)
 
   // infinite
-  await expect(pMap(errorInput1, mapper)).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+  await expect(pMap(errorInput1, mapper)).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: foo]`)
 
   // limited
   await expect(
     pMap(errorInput1, mapper, { concurrency: 3 }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: foo]`)
 
   // high
   await expect(
     pMap(errorInput1, mapper, { concurrency: 5 }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"foo"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: foo]`)
 })
 
 test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
@@ -126,11 +126,11 @@ test('aggregate errors when errorMode=THROW_AGGREGATED', async () => {
 
   await expect(
     pMap(errorInput1, mapper, { concurrency: 1, errorMode }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"pMap resulted in 2 error(s)"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[AggregateError: pMap resulted in 2 error(s)]`)
 
   await expect(
     pMap(errorInput2, mapper, { concurrency: 1, errorMode }),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"pMap resulted in 2 error(s)"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[AggregateError: pMap resulted in 2 error(s)]`)
 
   let err = await pExpectedError(
     pMap(errorInput1, mapper, { concurrency: 1, errorMode }),

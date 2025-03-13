@@ -4,7 +4,7 @@
   "scripts": {
     "prepare": "husky",
     "build": "dev-lib build-esm-cjs",
-    "test": "dev-lib test",
+    "test": "TZ=UTC vitest",
     "lint": "dev-lib lint",
     "bt": "dev-lib bt",
     "lbt": "dev-lib lbt",
@@ -28,9 +28,9 @@
     "@types/node": "^22",
     "@types/semver": "^7",
     "crypto-js": "^4",
-    "jest": "^29",
     "prettier": "^3",
     "vitepress": "^1",
+    "vitest": "^3",
     "vue": "^3"
   },
   "files": [

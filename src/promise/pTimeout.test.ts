@@ -31,7 +31,7 @@ test('pTimeoutFn options', async () => {
         throw new Error('custom error')
       },
     })(),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"custom error"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: custom error]`)
 
   expect(await pTimeoutFn(fn, { timeout: 10, onTimeout: () => 'all good' })()).toBe('all good')
 })

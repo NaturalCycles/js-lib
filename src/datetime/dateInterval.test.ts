@@ -27,16 +27,16 @@ test('basic', () => {
   expect(int1.isSame(int3)).toBe(true)
 
   expect(() => DateInterval.parse('')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "" into DateInterval"`,
+    `[Error: Cannot parse "" into DateInterval]`,
   )
   expect(() => DateInterval.parse('abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "abcd" into DateInterval"`,
+    `[Error: Cannot parse "abcd" into DateInterval]`,
   )
   expect(() => DateInterval.parse('2022-02-24')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "2022-02-24" into DateInterval"`,
+    `[Error: Cannot parse "2022-02-24" into DateInterval]`,
   )
   expect(() => DateInterval.parse('2022-02-24/abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "abcd" into LocalDate"`,
+    `[AssertionError: Cannot parse "abcd" into LocalDate]`,
   )
 })
 

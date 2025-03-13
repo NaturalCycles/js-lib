@@ -130,7 +130,7 @@ test('basic', () => {
   expect(localTime.orNow(lt).toISODate()).toBe(lt.toISODate())
 
   expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "undefined" into LocalTime"`,
+    `[AssertionError: Cannot parse "undefined" into LocalTime]`,
   )
 
   expect(localTime(0 as UnixTimestamp).toISODateTime()).toMatchInlineSnapshot(
@@ -405,13 +405,13 @@ test('dayOfWeek', () => {
   expect(t.dayOfWeek).toBe(ISODayOfWeek.THURSDAY)
 
   expect(() => t.setNextDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: -1"`,
+    `[AssertionError: Invalid dayOfWeek: -1]`,
   )
   expect(() => t.setNextDayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: 0"`,
+    `[AssertionError: Invalid dayOfWeek: 0]`,
   )
   expect(() => t.setNextDayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: 8"`,
+    `[AssertionError: Invalid dayOfWeek: 8]`,
   )
 
   expect(t.setDayOfWeek(1).toISODate()).toBe('1984-06-18')
@@ -686,6 +686,6 @@ test('fractional unit input', () => {
   expect(lt.minus(1.1, 'day').toString()).toBe('1984-06-19T00:00:00')
 
   expect(() => localTime('1984-06-21.5' as IsoDate)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "1984-06-21.5" into LocalTime"`,
+    `[AssertionError: Cannot parse "1984-06-21.5" into LocalTime]`,
   )
 })
