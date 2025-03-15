@@ -1,4 +1,5 @@
 import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
+import { beforeEach, expect, test } from 'vitest'
 import { generateBuildInfoDev } from './buildInfo'
 
 beforeEach(() => {

@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _sortObjectDeep } from './sortObjectDeep'
 
 test('sortObjectDeep', () => {

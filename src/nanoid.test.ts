@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { nanoidBrowser, nanoidBrowserCustomAlphabet } from './nanoid'
 
 const base64urlAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'

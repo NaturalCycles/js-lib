@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _truncate, _truncateMiddle } from './string.util'
 
 const s = '1234567890abcd'

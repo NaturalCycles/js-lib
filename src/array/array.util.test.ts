@@ -1,3 +1,4 @@
+import { expect, test, vi } from 'vitest'
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import { _deepFreeze } from '../object/object.util'
 import { AbortablePredicate, END, Mapper } from '../types'
@@ -374,7 +375,9 @@ test('_last', () => {
 })
 
 test('_first', () => {
-  expect(() => _first([])).toThrowErrorMatchingInlineSnapshot(`[Error: _first called on empty array]`)
+  expect(() => _first([])).toThrowErrorMatchingInlineSnapshot(
+    `[Error: _first called on empty array]`,
+  )
   expect(_first([undefined])).toBeUndefined()
   expect(_first([1, undefined])).toBe(1)
   expect(_first([1, 2])).toBe(1)
@@ -387,7 +390,9 @@ test('_min', () => {
   expect(_minOrUndefined([3, 2])).toBe(2)
   expect(_minOrUndefined([1, 3, 2])).toBe(1)
 
-  expect(() => _min([])).toThrowErrorMatchingInlineSnapshot(`[AssertionError: _min called on empty array]`)
+  expect(() => _min([])).toThrowErrorMatchingInlineSnapshot(
+    `[AssertionError: _min called on empty array]`,
+  )
   expect(_min([3])).toBe(3)
   expect(_min([3, 2])).toBe(2)
   expect(_min([1, 3, 2])).toBe(1)
@@ -410,7 +415,9 @@ test('_max', () => {
   expect(_maxOrUndefined([3, 2])).toBe(3)
   expect(_maxOrUndefined([1, 3, 2])).toBe(3)
 
-  expect(() => _max([])).toThrowErrorMatchingInlineSnapshot(`[AssertionError: _max called on empty array]`)
+  expect(() => _max([])).toThrowErrorMatchingInlineSnapshot(
+    `[AssertionError: _max called on empty array]`,
+  )
   expect(_max([3])).toBe(3)
   expect(_max([3, 2])).toBe(3)
   expect(_max([1, 3, 2])).toBe(3)

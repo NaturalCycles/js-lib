@@ -1,3 +1,4 @@
+import { test } from 'vitest'
 import { _since, pDelay, UnixTimestampMillis } from '..'
 import type { AnyFunction } from '../types'
 import { _Debounce } from './debounce.decorator'

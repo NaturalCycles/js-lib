@@ -1,3 +1,4 @@
+import { expect, test, vi } from 'vitest'
 import { memoSimple } from './memoSimple.decorator'
 
 class A {
@@ -15,7 +16,7 @@ class A {
 
 test('memo a', () => {
   const a = new A()
-  vi.spyOn(a, 'func').mockImplementation()
+  vi.spyOn(a, 'func').mockImplementation(() => {})
 
   // first call
   let r = a.a(2, 3)
@@ -38,7 +39,7 @@ test('memo a', () => {
 
 test('MEMO_DROP_CACHE', () => {
   const a = new A()
-  vi.spyOn(a, 'func').mockImplementation()
+  vi.spyOn(a, 'func').mockImplementation(() => {})
 
   // first call
   a.a(2, 3)

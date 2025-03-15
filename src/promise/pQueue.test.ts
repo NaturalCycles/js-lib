@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _range } from '../array/range'
 import { pDelay, pMap } from '../index'
 import { PQueue } from './pQueue'

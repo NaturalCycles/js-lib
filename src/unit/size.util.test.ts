@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _gb, _hb, _hc, _kb, _mb } from './size.util'
 
 test('_hb', () => {

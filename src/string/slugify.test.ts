@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _slugify } from './slugify'
 
 test.each([

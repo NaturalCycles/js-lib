@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { AsyncMapper } from '..'
 import { _isBetween, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
 import { timeSpan } from '../test/test.util'
@@ -235,9 +236,9 @@ test('Infinity math', () => {
   const a = Infinity
   const b = Infinity
   expect(a).toBe(b)
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(a === b).toBe(true)
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(a === Infinity).toBe(true)
 })
 

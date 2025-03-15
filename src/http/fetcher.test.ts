@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test, vi } from 'vitest'
 import {
   _assertIsBackendErrorResponseObject,
   AppError,
@@ -20,7 +20,6 @@ import { _omit } from '../object/object.util'
 import { _stringify } from '../string/stringify'
 import { Fetcher, getFetcher } from './fetcher'
 import { FetcherRequest } from './fetcher.model'
-import { vi } from 'vitest'
 
 test('defaults', () => {
   const fetcher = getFetcher()
@@ -332,8 +331,7 @@ test('retryAfter', async () => {
         'retry-after': '2',
       },
     })
-  vi
-    .spyOn(Fetcher, 'callNativeFetch')
+  vi.spyOn(Fetcher, 'callNativeFetch')
     .mockResolvedValueOnce(badResponse())
     .mockResolvedValueOnce(badResponse())
     .mockResolvedValueOnce(new Response('ok'))
@@ -355,8 +353,7 @@ test('retryAfter date', async () => {
       },
     })
 
-  vi
-    .spyOn(Fetcher, 'callNativeFetch')
+  vi.spyOn(Fetcher, 'callNativeFetch')
     .mockImplementationOnce(async () => badResponse())
     .mockImplementationOnce(async () => badResponse())
     .mockResolvedValueOnce(new Response('ok'))
@@ -391,9 +388,7 @@ test('tryFetch', async () => {
     expectTypeOf(data).toEqualTypeOf<{ ok: boolean }>()
   }
 
-  vi
-    .spyOn(Fetcher, 'callNativeFetch')
-    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: true })))
 
   const [err2, data2] = await getFetcher().tryFetch<{ ok: boolean }>({ url: 'https://example.com' })
   if (err2) {
@@ -466,9 +461,7 @@ test('expectError', async () => {
   `)
 
   // 2. Pass should throw
-  vi
-    .spyOn(Fetcher, 'callNativeFetch')
-    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: true })))
 
   expect(
     await pExpectedErrorString(

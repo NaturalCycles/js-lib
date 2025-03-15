@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _safeJsonStringify } from './safeJsonStringify'
 
 test('_safeJsonStringify', () => {

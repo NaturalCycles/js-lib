@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { hashCode, hashCode16, hashCode36, hashCode64 } from './hash.util'
 
 test('hashCode', () => {

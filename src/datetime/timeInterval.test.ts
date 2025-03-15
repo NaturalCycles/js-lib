@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { UnixTimestamp } from '../types'
 import { TimeInterval } from './timeInterval'
 

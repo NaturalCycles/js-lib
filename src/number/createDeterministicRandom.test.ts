@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _range } from '../index'
 import { _createDeterministicRandom } from './createDeterministicRandom'
 

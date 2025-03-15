@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _averageOrNull, _percentiles, _range } from '..'
 import { _mapToObject } from '../array/array.util'
 import { _average, _averageWeighted, _median, _percentile } from './math.util'

@@ -1,3 +1,4 @@
+import { expect, test, vi } from 'vitest'
 import { _Memo, _range } from '..'
 
 class C {

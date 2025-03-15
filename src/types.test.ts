@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test } from 'vitest'
 import {
   AppError,
   asUnixTimestamp,

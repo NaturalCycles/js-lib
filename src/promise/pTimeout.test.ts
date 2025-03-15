@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { pDelay } from './pDelay'

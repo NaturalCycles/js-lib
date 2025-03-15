@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
@@ -131,14 +132,7 @@ test('pRetry should time out and keep stack', async () => {
     "TimeoutError: "pRetry function" timed out after 10 ms
         at pRetry pRetry.ts
         at myFunction pRetry.test.ts
-        at /Users/kirill/Idea/js-lib/src/promise/pRetry.test.ts:118:36
-        at file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:174:14
-        at file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:558:28
-        at file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:61:24
-        at new Promise (<anonymous>)
-        at runWithTimeout (file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:41:12)
-        at runTest (file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:1137:17)
-        at runSuite (file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:1291:15)"
+        at new Promise (<anonymous>)"
   `)
 })
 

@@ -1,3 +1,5 @@
-test('should not leak', () => {
-  import('./index.js')
+import { test } from 'vitest'
+
+test('should not leak', async () => {
+  await import('./index.js')
 })

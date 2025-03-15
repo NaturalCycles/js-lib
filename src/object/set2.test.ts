@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test } from 'vitest'
 import { Set2 } from './set2'
 
 /* eslint-disable @typescript-eslint/no-base-to-string */

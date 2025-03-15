@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { AsyncPredicate } from '../types'
 import { pDelay } from './pDelay'
 import { pFilter } from './pFilter'

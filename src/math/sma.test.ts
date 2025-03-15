@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { SimpleMovingAverage } from './sma'
 
 test('sma', () => {

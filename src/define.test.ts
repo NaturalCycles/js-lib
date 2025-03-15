@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test, vi } from 'vitest'
 import {
   _defineLazyProperty,
   _defineLazyProps,
@@ -7,7 +7,6 @@ import {
   _lazyValue,
 } from './define'
 import { AnyObject, Lazy } from './types'
-import { vi } from 'vitest'
 
 test('_lazyValue', () => {
   const fn = vi.fn(() => 42)

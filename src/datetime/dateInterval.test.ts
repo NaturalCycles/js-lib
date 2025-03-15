@@ -1,8 +1,7 @@
+import { expect, test } from 'vitest'
 import { IsoDate } from '../types'
 import { DateInterval } from './dateInterval'
 import { localDate } from './localDate'
-
-/* eslint-disable jest/prefer-to-contain */
 
 test('basic', () => {
   const str1 = '2022-02-24/2022-03-30'

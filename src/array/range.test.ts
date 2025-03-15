@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _range } from './range'
 
 test('_range', () => {

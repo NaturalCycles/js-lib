@@ -1,3 +1,4 @@
+import { beforeEach, expect, test } from 'vitest'
 import { _memoFn } from './memoFn'
 
 let calledTimes = 0

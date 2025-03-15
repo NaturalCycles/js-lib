@@ -1,3 +1,4 @@
+import { test } from 'vitest'
 import { pDelay } from './pDelay'
 
 function pVoid(fn: () => Promise<any>): void {

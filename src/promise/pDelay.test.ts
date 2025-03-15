@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _isBetween, pDelayFn, pExpectedError } from '..'
 import { timeSpan } from '../test/test.util'
 import { pDelay } from './pDelay'

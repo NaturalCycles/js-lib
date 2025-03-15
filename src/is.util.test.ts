@@ -1,5 +1,5 @@
-import { expectResults, mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
-import { expectTypeOf } from 'expect-type'
+import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
+import { expect, expectTypeOf, test } from 'vitest'
 import { _sum } from './array/array.util'
 import {
   _isEmpty,
@@ -12,6 +12,7 @@ import {
   _isTruthy,
 } from './is.util'
 import { _undefinedIfEmpty } from './object/object.util'
+import { expectResults } from './test/test.util'
 import { SKIP } from './types'
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {

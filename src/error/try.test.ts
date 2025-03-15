@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test } from 'vitest'
 import { _assert } from './assert'
 import { AppError, HttpRequestError, UnexpectedPassError } from './error.util'
 import { _expectedError, _try, pExpectedError, pExpectedErrorString, pTry } from './try'

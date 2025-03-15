@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { pDelay } from '../index'
 import { _Retry } from './retry.decorator'
 

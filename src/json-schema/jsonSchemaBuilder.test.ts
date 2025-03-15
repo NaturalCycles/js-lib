@@ -1,4 +1,5 @@
 import { AjvSchema } from '@naturalcycles/nodejs-lib'
+import { expect, test } from 'vitest'
 import type { BaseDBEntity } from '../index'
 import { jsonSchema } from './jsonSchemaBuilder'
 import { baseDBEntityJsonSchema } from './jsonSchemas'

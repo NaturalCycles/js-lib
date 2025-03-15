@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _TryCatch, _tryCatch } from './tryCatch'
 
 /* eslint-disable @typescript-eslint/await-thenable */

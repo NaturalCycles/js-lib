@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _sortObject } from './sortObject'
 
 interface Item {

@@ -1,6 +1,7 @@
 console.log('setupVitest.ts is called')
 process.env.TZ = 'UTC'
+process.env['JEST_SILENT'] = 'true'
 
-import { jestOffline } from '@naturalcycles/dev-lib/dist/testing'
+import { testOffline } from '@naturalcycles/dev-lib/dist/testing'
 
-jestOffline()
+testOffline()

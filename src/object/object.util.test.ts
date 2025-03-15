@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { StringMap } from '../types'
 import {
   _deepCopy,

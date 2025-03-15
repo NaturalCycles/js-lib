@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../types'
+import { describe, expect, test } from 'vitest'
 import type { ReadingTimeOptions, ReadingTimeResult } from './readingTime'
 import { readingTime } from './readingTime'
 

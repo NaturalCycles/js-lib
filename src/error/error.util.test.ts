@@ -1,4 +1,4 @@
-import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
+import { expect, test } from 'vitest'
 import type { BackendErrorResponseObject, ErrorObject, HttpRequestErrorData } from '..'
 import {
   _errorDataAppend,
@@ -12,6 +12,7 @@ import {
   AssertionError,
   HttpRequestError,
 } from '..'
+import { expectResults } from '../test/test.util'
 import {
   _anyToError,
   _anyToErrorObject,
@@ -192,7 +193,7 @@ test('_errorDataAppend', () => {
 }
 `)
   // Should not re-assign err.data to a new object, should keep the same reference instead
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(err2.data === err2Data).toBe(true)
 
   _errorDataAppend(err2, { code: 'B' })
