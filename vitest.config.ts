@@ -1,5 +1,7 @@
 import { defineConfig } from 'vitest/config'
 
+const { CI } = process.env
+
 export default defineConfig({
   test: {
     watch: false,
@@ -16,5 +18,30 @@ export default defineConfig({
     },
     include: ['**/*.test.ts'],
     exclude: ['**/*.{integration,manual}.test.*'],
+    coverage: {
+      enabled: !!CI,
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        '**/__exclude/**',
+        'src/index.{ts,tsx}',
+        'src/test/**',
+        'src/typings/**',
+        'scripts/**',
+        'src/env/**',
+        'src/environment/**',
+        'src/environments/**',
+        'src/env/**',
+        'src/bin/**',
+        'src/vendor/**',
+        'public/**',
+        '**/*.test.ts',
+        '**/*.script.ts',
+        '**/*.module.ts',
+        '**/*.mock.ts',
+        '**/*.page.{ts,tsx}',
+        '**/*.component.{ts,tsx}',
+        '**/*.modal.{ts,tsx}',
+      ],
+    },
   },
 })
