@@ -2,13 +2,13 @@
   "language": "@/js",
   "languageOptions": {
     "ecmaVersion": 2025,
-    "parser": "vue-eslint-parser@10.1.0",
+    "parser": "vue-eslint-parser@10.1.1",
     "parserOptions": {
       "extraFileExtensions": {
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.26.0",
+      "parser": "typescript-eslint/parser@8.26.1",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,7 +18,7 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.26.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.26.1",
     "unicorn:eslint-plugin-unicorn@57.0.0",
     "vue:eslint-plugin-vue@10.0.0",
     "import-x",
