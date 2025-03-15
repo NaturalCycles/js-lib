@@ -9,7 +9,9 @@ const eslint = require('@eslint/js')
 const tseslint = require('typescript-eslint')
 
 // detect if jest is installed
-const hasJest = require('node:fs').existsSync('./node_modules/jest')
+const fs = require('node:fs')
+const hasJest =
+  fs.existsSync('./node_modules/jest') && fs.existsSync('./node_modules/eslint-plugin-jest')
 // console.log({ hasJest })
 
 const defaultFiles = ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts']
@@ -66,6 +68,7 @@ function getConfig() {
         ...globals.browser,
         ...globals.node,
         ...globals.jest,
+        ...globals.vitest,
         NodeJS: 'readonly',
       },
       // parser: tseslint.parser,
