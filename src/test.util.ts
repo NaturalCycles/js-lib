@@ -1,23 +1,48 @@
 import fs from 'node:fs'
 import { _range, _uniq } from '@naturalcycles/js-lib'
-import { dimGrey, exec2, white } from '@naturalcycles/nodejs-lib'
+import { dimGrey, exec2 } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from './paths'
 
-interface RunJestOpt {
+interface RunTestOptions {
   integration?: boolean
   manual?: boolean
   leaks?: boolean
 }
 
-/**
- * 1. Adds `--silent` if running all tests at once.
- */
-export function runJest(opt: RunJestOpt = {}): void {
-  if (!nodeModuleExists('jest')) {
-    console.log(dimGrey(`node_modules/${white('jest')} not found, skipping tests`))
+export function runTest(opt: RunTestOptions = {}): void {
+  if (nodeModuleExists('vitest')) {
+    runVitest()
     return
   }
 
+  if (nodeModuleExists('jest')) {
+    runJest(opt)
+    return
+  }
+
+  console.log(dimGrey(`vitest/jest not found, skipping tests`))
+}
+
+function runVitest(): void {
+  const processArgs = process.argv.slice(3)
+  const args: string[] = [...processArgs]
+  const { TZ = 'UTC' } = process.env
+  const env = {
+    TZ,
+  }
+
+  exec2.spawn('vitest', {
+    args: _uniq(args),
+    logFinish: false,
+    shell: false,
+    env,
+  })
+}
+
+/**
+ * 1. Adds `--silent` if running all tests at once.
+ */
+function runJest(opt: RunTestOptions): void {
   const { CI, CPU_LIMIT, TZ = 'UTC', APP_ENV, JEST_NO_ALPHABETIC, JEST_SHARDS } = process.env
   const cpuLimit = Number(CPU_LIMIT) || undefined
   const { integration, manual, leaks } = opt

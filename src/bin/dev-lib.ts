@@ -14,7 +14,7 @@ import {
   runPrettier,
   stylelintAll,
 } from '../lint.util'
-import { runJest } from '../test.util'
+import { runTest } from '../test.util'
 import { up, upnc } from '../yarn.util'
 
 interface Command {
@@ -50,15 +50,15 @@ const commands: (Command | Separator)[] = [
     desc: 'Clean ./dist and ./dist-esm, then run "tsc" in CJS and ESM modes, with --emit and --noCheck',
   },
   new Separator(), // test
-  { name: 'test', fn: runJest, desc: 'Run jest for *.test.ts files.' },
+  { name: 'test', fn: runTest, desc: 'Run vitest/jest for *.test.ts files.' },
   {
     name: 'test-integration',
-    fn: () => runJest({ integration: true }),
+    fn: () => runTest({ integration: true }),
     desc: 'Run jest for *.integration.test.ts files.',
   },
   {
     name: 'test-leaks',
-    fn: () => runJest({ leaks: true }),
+    fn: () => runTest({ leaks: true }),
     desc: 'Run jest --detectLeaks for *.test.ts files.',
   },
   new Separator(), // lint
@@ -159,7 +159,7 @@ async function lbt(): Promise<void> {
 
 async function bt(): Promise<void> {
   await tscAll()
-  runJest()
+  runTest()
 }
 
 async function tscAll(): Promise<void> {
