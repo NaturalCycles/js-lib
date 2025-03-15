@@ -1,4 +1,4 @@
-import { jestLog } from './testing'
+import { jestLog } from './index'
 
 const LOCAL_HOSTS = ['localhost', '127.0.0.1']
 
@@ -9,13 +9,13 @@ let mitm: any
 /**
  * Based on: https://github.com/palmerj3/jest-offline/blob/master/index.js
  */
-export function jestOffline(): void {
+export function testOffline(): void {
   if (detectLeaks) {
-    jestLog('NOT applying jestOffline() when --detectLeaks is on')
+    jestLog('NOT applying testOffline() when --detectLeaks is on')
     return
   }
 
-  jestLog('jest offline mode')
+  jestLog('test offline mode')
   const createMitm = require('mitm')
   mitm ||= createMitm()
 
@@ -23,7 +23,7 @@ export function jestOffline(): void {
     const { host } = opts
 
     if (!LOCAL_HOSTS.includes(host as string)) {
-      throw new Error(`Network request forbidden by jestOffline(): ${host}`)
+      throw new Error(`Network request forbidden by testOffline(): ${host}`)
     }
 
     socket.bypass()

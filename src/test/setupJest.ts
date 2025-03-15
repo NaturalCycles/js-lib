@@ -1,7 +1,7 @@
-import { jestOffline } from '../jestOffline.util'
 import { jestLog, jestLogger } from '../testing'
+import { testOffline } from '../testing/testOffline.util'
 
-jestOffline()
+testOffline()
 
 console.log = console.warn = jestLog
 console.error = jestLogger.error.bind(jestLogger)
