@@ -20,6 +20,7 @@ export default defineConfig({
     exclude: ['**/*.{integration,manual}.test.*'],
     coverage: {
       enabled: !!CI,
+      reporter: ['text', 'html', 'lcov', 'json'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         '**/__exclude/**',
