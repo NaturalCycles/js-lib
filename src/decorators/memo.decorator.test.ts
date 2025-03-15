@@ -1,3 +1,4 @@
+import { expect, test, vi } from 'vitest'
 import { _range } from '../array/range'
 import { pDelay } from '../promise/pDelay'
 import { _getMemo, _Memo } from './memo.decorator'
@@ -17,7 +18,7 @@ class A {
 
 test('memo a', () => {
   const a = new A()
-  jest.spyOn(a, 'func').mockImplementation()
+  vi.spyOn(a, 'func').mockImplementation(() => {})
 
   // first call
   let r = a.a(2, 3)
@@ -44,7 +45,7 @@ test('memo a', () => {
 
 test('MEMO_DROP_CACHE', () => {
   const a = new A()
-  jest.spyOn(a, 'func').mockImplementation()
+  vi.spyOn(a, 'func').mockImplementation(() => {})
 
   // first call
   a.a(2, 3)

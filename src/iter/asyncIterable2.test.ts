@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _rangeAsyncIterable } from '../array/range'
 import { AsyncIterable2 } from './asyncIterable2'
 

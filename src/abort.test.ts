@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { createAbortableSignal } from './abort'
 
 test('abortableSignal', () => {

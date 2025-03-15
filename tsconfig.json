@@ -1,6 +1,7 @@
 {
   "extends": "@naturalcycles/dev-lib/cfg/tsconfig.json",
   "compilerOptions": {
+    // "types": ["@types", "vitest/global"],
     "lib": ["esnext", "dom", "dom.iterable"],
   },
   "include": ["src"],

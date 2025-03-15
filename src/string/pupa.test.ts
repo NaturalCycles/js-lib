@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { PupaOptions } from './pupa'
 import { pupa } from './pupa'
 
@@ -64,7 +65,9 @@ test('ignore missing', () => {
 test('throw on undefined by default', () => {
   expect(() => {
     pupa('{foo}', {})
-  }).toThrowErrorMatchingInlineSnapshot(`"Missing a value for the placeholder: foo"`)
+  }).toThrowErrorMatchingInlineSnapshot(
+    `[MissingValueError: Missing a value for the placeholder: foo]`,
+  )
 })
 
 test('transform and ignore missing', () => {
@@ -87,5 +90,7 @@ test('transform and throw on undefined', () => {
 
   expect(() => {
     pupa('{0} {1} {2}', ['0', null, 3.14], options)
-  }).toThrowErrorMatchingInlineSnapshot(`"Missing a value for the placeholder: 1"`)
+  }).toThrowErrorMatchingInlineSnapshot(
+    `[MissingValueError: Missing a value for the placeholder: 1]`,
+  )
 })

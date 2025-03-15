@@ -1,3 +1,5 @@
+import { Assertion, expect } from 'vitest'
+
 export function convertHrtime(hrtime: [number, number]): Record<string, number> {
   const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
   const milliseconds = nanoseconds / 1e6
@@ -28,7 +30,19 @@ export function timeSpan(): () => number {
  * To support deterministic tests.
  */
 export function normalizeStack(s: string): string {
-  return s.replaceAll(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
+  // at /Users/kirill/Idea/js-lib/src/promise/pRetry.test.ts:118:36
+  // at file:///Users/kirill/Idea/js-lib/node_modules/@vitest/runner/dist/index.js:174:14
+
+  return (
+    s
+      .replaceAll(/\(\/.*\/(.*):.*:.*\)/gm, '$1')
+      // .replaceAll(/file:\/\/(.*)\/node_modules\/(.*):.*:.*$/gm, '$2')
+      .replaceAll(/.*at \/.*/gm, '')
+      .replaceAll(/.*\/node_modules\/.*/gm, '')
+      .split('\n')
+      .filter(Boolean)
+      .join('\n')
+  )
 }
 
 export function expectWithMessage(
@@ -55,4 +69,8 @@ export function expectWithMessage(
 
 export function isUTC(): boolean {
   return process.env['TZ'] === 'UTC'
+}
+
+export function expectResults(fn: (...args: any[]) => any, values: any[]): Assertion {
+  return expect(new Map(values.map(v => [v, fn(v)])))
 }

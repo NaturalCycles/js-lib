@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _expectedError } from '../error/try'
 import { zBaseDBEntity, zEmail, zIsoDateString } from './zod.shared.schemas'
 import { ZodValidationError, zSafeValidate, zValidate } from './zod.util'

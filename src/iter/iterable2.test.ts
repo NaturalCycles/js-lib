@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _rangeIterable } from '../array/range'
 import { Iterable2 } from './iterable2'
 

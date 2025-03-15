@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { InstanceId } from '../types'
 import { _getArgsSignature, _getMethodSignature } from './decorator.util'
 

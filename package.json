@@ -4,10 +4,10 @@
   "scripts": {
     "prepare": "husky",
     "build": "dev-lib build-esm-cjs",
-    "test": "dev-lib test",
+    "test": "TZ=UTC vitest",
     "lint": "dev-lib lint",
-    "bt": "dev-lib bt",
-    "lbt": "dev-lib lbt",
+    "bt": "dev-lib tsc && yarn test",
+    "lbt": "dev-lib lint && dev-lib tsc && yarn test",
     "test-tz1": "TZ=Europe/Stockholm yarn test local",
     "test-tz2": "TZ=JST-9 yarn test local",
     "test-ny": "TZ=GMT-0500 yarn test localTime",
@@ -21,16 +21,17 @@
   },
   "devDependencies": {
     "@naturalcycles/bench-lib": "^3",
-    "@naturalcycles/dev-lib": "^15",
+    "@naturalcycles/dev-lib": "^16",
     "@naturalcycles/nodejs-lib": "^13",
     "@naturalcycles/time-lib": "^3",
     "@types/crypto-js": "^4",
     "@types/node": "^22",
     "@types/semver": "^7",
+    "@vitest/coverage-v8": "^3",
     "crypto-js": "^4",
-    "jest": "^29",
     "prettier": "^3",
     "vitepress": "^1",
+    "vitest": "^3",
     "vue": "^3"
   },
   "files": [

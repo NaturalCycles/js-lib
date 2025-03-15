@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { UnixTimestamp } from '../types'
 import { TimeInterval } from './timeInterval'
 
@@ -19,15 +20,15 @@ test('basic', () => {
   expect(int1.isBefore(int2)).toBe(false)
 
   expect(() => TimeInterval.parse('')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "" into TimeInterval"`,
+    `[Error: Cannot parse "" into TimeInterval]`,
   )
   expect(() => TimeInterval.parse('abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "abcd" into TimeInterval"`,
+    `[Error: Cannot parse "abcd" into TimeInterval]`,
   )
   expect(() => TimeInterval.parse('2022-02-24')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "2022-02-24" into TimeInterval"`,
+    `[Error: Cannot parse "2022-02-24" into TimeInterval]`,
   )
   expect(() => TimeInterval.parse('2022-02-24/abcd')).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "2022-02-24/abcd" into TimeInterval"`,
+    `[Error: Cannot parse "2022-02-24/abcd" into TimeInterval]`,
   )
 })

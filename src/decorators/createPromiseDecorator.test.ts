@@ -1,4 +1,5 @@
 import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
+import { beforeEach, expect, test, vi } from 'vitest'
 import { pDelay } from '../index'
 import { _createPromiseDecorator } from './createPromiseDecorator'
 
@@ -6,10 +7,10 @@ interface LoaderDecoratorParams {
   type: string
 }
 
-const beforeFn = jest.fn()
-const thenFn = jest.fn(r => r.res)
-const catchFn = jest.fn()
-const finallyFn = jest.fn()
+const beforeFn = vi.fn()
+const thenFn = vi.fn(r => r.res)
+const catchFn = vi.fn()
+const finallyFn = vi.fn()
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const DummyDecorator = (): MethodDecorator =>

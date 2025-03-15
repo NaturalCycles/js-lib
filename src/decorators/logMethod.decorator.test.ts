@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import type { InstanceId } from '../index'
 import { pDelay } from '../index'
 import { _LogMethod } from './logMethod.decorator'

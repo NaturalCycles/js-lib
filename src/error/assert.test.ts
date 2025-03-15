@@ -1,4 +1,5 @@
 import { inspect } from 'node:util'
+import { expect, test } from 'vitest'
 import { _stringify } from '../string/stringify'
 import {
   _assert,

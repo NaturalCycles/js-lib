@@ -1,4 +1,5 @@
 import { dayjs } from '@naturalcycles/time-lib'
+import { expect, test } from 'vitest'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
 import { IANATimezone, IsoDate, IsoDateTime, UnixTimestamp, UnixTimestampMillis } from '../types'
@@ -35,7 +36,7 @@ test('basic', () => {
   expect(lt.toMonthId()).toBe('2022-01')
   const lt2 = lt.clone()
   expect(lt2).not.toBe(lt)
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(lt2 === lt).toBe(false)
   expect(lt.isSame(lt2)).toBe(true)
   expect(lt.isAfter(lt2)).toBe(false)
@@ -130,7 +131,7 @@ test('basic', () => {
   expect(localTime.orNow(lt).toISODate()).toBe(lt.toISODate())
 
   expect(() => localTime(undefined as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "undefined" into LocalTime"`,
+    `[AssertionError: Cannot parse "undefined" into LocalTime]`,
   )
 
   expect(localTime(0 as UnixTimestamp).toISODateTime()).toMatchInlineSnapshot(
@@ -406,13 +407,13 @@ test('dayOfWeek', () => {
   expect(t.dayOfWeek).toBe(ISODayOfWeek.THURSDAY)
 
   expect(() => t.setNextDayOfWeek(-1 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: -1"`,
+    `[AssertionError: Invalid dayOfWeek: -1]`,
   )
   expect(() => t.setNextDayOfWeek(0 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: 0"`,
+    `[AssertionError: Invalid dayOfWeek: 0]`,
   )
   expect(() => t.setNextDayOfWeek(8 as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid dayOfWeek: 8"`,
+    `[AssertionError: Invalid dayOfWeek: 8]`,
   )
 
   expect(t.setDayOfWeek(1).toISODate()).toBe('1984-06-18')
@@ -592,7 +593,7 @@ test('fromDateUTC', () => {
   const s = `1984-06-21T05:00:00` as IsoDate
   const lt = localTime(s).toUTC()
   const ltUtc = lt.toUTC()
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(lt !== ltUtc).toBe(true) // not the same instance
   expect(lt.unix).toBe(ltUtc.unix)
   expect(ltUtc.toPretty()).toBe(`1984-06-21 05:00:00`)
@@ -603,7 +604,7 @@ test('fromDateUTC', () => {
   }
 
   const ltLocal = ltUtc.toLocal()
-  // eslint-disable-next-line jest/prefer-equality-matcher
+
   expect(ltLocal !== ltUtc).toBe(true)
   expect(ltLocal.unix).toBe(ltUtc.unix)
   expect(ltLocal.toPretty()).toBe(lt.toPretty())
@@ -691,6 +692,6 @@ test('fractional unit input', () => {
   expect(lt.minus(1.1, 'day').toString()).toBe('1984-06-19T00:00:00')
 
   expect(() => localTime('1984-06-21.5' as IsoDate)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "1984-06-21.5" into LocalTime"`,
+    `[AssertionError: Cannot parse "1984-06-21.5" into LocalTime]`,
   )
 })

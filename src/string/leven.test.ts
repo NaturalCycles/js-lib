@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _leven } from './leven'
 
 test('leven', () => {

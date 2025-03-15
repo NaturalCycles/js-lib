@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { htmlEscape, htmlUnescape } from './escape'
 
 test('htmlEscape', () => {

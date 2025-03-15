@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test, vi } from 'vitest'
 import {
   _assertIsBackendErrorResponseObject,
   AppError,
@@ -105,7 +105,7 @@ test('defaults', () => {
 })
 
 test('should not mutate console', () => {
-  const consoleSpy = jest.spyOn(console, 'log')
+  const consoleSpy = vi.spyOn(console, 'log')
   const logger = commonLoggerNoop
 
   const fetcher = getNonRetryFetcher({
@@ -125,7 +125,7 @@ test('mocking fetch', async () => {
     logResponse: true,
   })
   expect(fetcher.cfg.logResponse).toBe(true)
-  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async () => {
+  vi.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async () => {
     return new Response(
       JSON.stringify({
         error: _errorLikeToErrorObject(
@@ -227,7 +227,7 @@ test('throwHttpErrors = false', async () => {
     data: {},
   }
 
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
     new Response(
       JSON.stringify({
         error,
@@ -242,7 +242,7 @@ test('throwHttpErrors = false', async () => {
 
 test('json parse error', async () => {
   const fetcher = getNonRetryFetcher()
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response('some text'))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response('some text'))
 
   const { err } = await fetcher.doFetch({
     url: 'some',
@@ -274,7 +274,7 @@ test('paginate', async () => {
   })
 
   const pageSize = 10
-  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async url => {
+  vi.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async url => {
     const u = new URL(url)
     const page = Number(u.searchParams.get('page'))
     if (page > pageSize) return new Response(JSON.stringify([]))
@@ -331,8 +331,7 @@ test('retryAfter', async () => {
         'retry-after': '2',
       },
     })
-  jest
-    .spyOn(Fetcher, 'callNativeFetch')
+  vi.spyOn(Fetcher, 'callNativeFetch')
     .mockResolvedValueOnce(badResponse())
     .mockResolvedValueOnce(badResponse())
     .mockResolvedValueOnce(new Response('ok'))
@@ -354,8 +353,7 @@ test('retryAfter date', async () => {
       },
     })
 
-  jest
-    .spyOn(Fetcher, 'callNativeFetch')
+  vi.spyOn(Fetcher, 'callNativeFetch')
     .mockImplementationOnce(async () => badResponse())
     .mockImplementationOnce(async () => badResponse())
     .mockResolvedValueOnce(new Response('ok'))
@@ -365,7 +363,7 @@ test('retryAfter date', async () => {
 })
 
 test('tryFetch', async () => {
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
     new Response('bad', {
       status: 500,
     }),
@@ -390,9 +388,7 @@ test('tryFetch', async () => {
     expectTypeOf(data).toEqualTypeOf<{ ok: boolean }>()
   }
 
-  jest
-    .spyOn(Fetcher, 'callNativeFetch')
-    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: true })))
 
   const [err2, data2] = await getFetcher().tryFetch<{ ok: boolean }>({ url: 'https://example.com' })
   if (err2) {
@@ -405,7 +401,7 @@ test('tryFetch', async () => {
 
 test('should not mutate headers', async () => {
   const a: any[] = []
-  jest.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async (_url, init) => {
+  vi.spyOn(Fetcher, 'callNativeFetch').mockImplementation(async (_url, init) => {
     a.push(init.headers)
     return new Response(JSON.stringify({ ok: 1 }))
   })
@@ -442,7 +438,7 @@ test('should not mutate headers', async () => {
 test('fetcher response headers', async () => {
   const fetcher = getNonRetryFetcher()
 
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: 1 })))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: 1 })))
 
   const { fetchResponse } = await fetcher.doFetch({})
   expect(Object.fromEntries(fetchResponse!.headers)).toMatchInlineSnapshot(`
@@ -465,9 +461,7 @@ test('expectError', async () => {
   `)
 
   // 2. Pass should throw
-  jest
-    .spyOn(Fetcher, 'callNativeFetch')
-    .mockResolvedValue(new Response(JSON.stringify({ ok: true })))
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(new Response(JSON.stringify({ ok: true })))
 
   expect(
     await pExpectedErrorString(
@@ -480,7 +474,7 @@ test('expectError', async () => {
 })
 
 function mockFetcherWithError(): void {
-  jest.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
+  vi.spyOn(Fetcher, 'callNativeFetch').mockResolvedValue(
     new Response(
       JSON.stringify({
         error: {

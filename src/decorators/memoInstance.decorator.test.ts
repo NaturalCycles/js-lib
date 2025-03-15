@@ -1,3 +1,4 @@
+import { expect, test, vi } from 'vitest'
 import { _Memo, _range } from '..'
 
 class C {
@@ -16,8 +17,8 @@ const c2 = new C()
 test('memoInstance should cache per instance', () => {
   let fn1Calls = 0
   let fn2Calls = 0
-  const fn1 = jest.spyOn(c1, 'fn')
-  const fn2 = jest.spyOn(c2, 'fn')
+  const fn1 = vi.spyOn(c1, 'fn')
+  const fn2 = vi.spyOn(c2, 'fn')
 
   c1.method(1) // miss
   expect(fn1).toHaveBeenCalledTimes(++fn1Calls)

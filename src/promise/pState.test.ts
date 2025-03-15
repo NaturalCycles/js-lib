@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { pDefer } from './pDefer'
 import { pDelay } from './pDelay'
 import { pState } from './pState'

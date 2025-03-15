@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _parseQueryString, _toUrlOrNull } from './url.util'
 
 test.each([

@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test } from 'vitest'
 import {
   _numberEnumAsMap,
   _numberEnumAsMapReversed,
@@ -154,7 +154,7 @@ test('_stringEnumEntries', () => {
 test('_numberEnumValue', () => {
   expect(_numberEnumValue(MyNumberEnum, 'K2')).toBe(2)
   expect(() => _numberEnumValue(MyNumberEnum, 'K4' as any)).toThrowErrorMatchingInlineSnapshot(
-    `"_numberEnumValue not found for: K4"`,
+    `[Error: _numberEnumValue not found for: K4]`,
   )
 
   expect(_numberEnumValueOrUndefined(MyNumberEnum, 'K2')).toBe(2)
@@ -170,10 +170,10 @@ test('_numberEnumNormalize', () => {
   expect(_numberEnumNormalize(MyNumberEnum, MyNumberEnum.K2)).toBe(2)
 
   expect(() => _numberEnumNormalize(MyNumberEnum, 4)).toThrowErrorMatchingInlineSnapshot(
-    `"_numberEnumNormalize value not found for: 4"`,
+    `[Error: _numberEnumNormalize value not found for: 4]`,
   )
   expect(() => _numberEnumNormalize(MyNumberEnum, 'K4')).toThrowErrorMatchingInlineSnapshot(
-    `"_numberEnumNormalize value not found for: K4"`,
+    `[Error: _numberEnumNormalize value not found for: K4]`,
   )
 
   expect(_numberEnumNormalizeOrUndefined(MyNumberEnum, 'K2')).toBe(2)
@@ -194,9 +194,9 @@ test('_numberEnumKey, _numberEnumKeyOrUndefined', () => {
 
   expect(() =>
     _numberEnumKey(MyNumberEnum, 'non-existing' as any),
-  ).toThrowErrorMatchingInlineSnapshot(`"_numberEnumKey not found for: non-existing"`)
+  ).toThrowErrorMatchingInlineSnapshot(`[Error: _numberEnumKey not found for: non-existing]`)
   expect(() => _numberEnumKey(MyNumberEnum, 'K1' as any)).toThrowErrorMatchingInlineSnapshot(
-    `"_numberEnumKey not found for: K1"`,
+    `[Error: _numberEnumKey not found for: K1]`,
   )
 
   expect(_numberEnumKey(MyNumberEnum, MyNumberEnum.K1)).toBe('K1')
@@ -207,7 +207,7 @@ test('_stringEnumKey', () => {
   expect(_stringEnumKeyOrUndefined(MyStringEnum, 'non-existing' as any)).toBeUndefined()
   expect(() =>
     _stringEnumKey(MyStringEnum, 'non-existing' as any),
-  ).toThrowErrorMatchingInlineSnapshot(`"_stringEnumKey not found for: non-existing"`)
+  ).toThrowErrorMatchingInlineSnapshot(`[Error: _stringEnumKey not found for: non-existing]`)
   expect(_stringEnumKeyOrUndefined(MyStringEnum, 'K1_VALUE')).toBe('K1_KEY')
   expect(_stringEnumKey(MyStringEnum, 'K2_VALUE')).toBe('K2_KEY')
 })

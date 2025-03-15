@@ -1,4 +1,5 @@
 import { AjvSchema } from '@naturalcycles/nodejs-lib'
+import { expect, test } from 'vitest'
 import { _range } from '../../index'
 import { generateJsonSchemaFromData } from './generateJsonSchemaFromData'
 

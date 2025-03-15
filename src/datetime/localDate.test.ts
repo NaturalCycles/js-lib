@@ -1,4 +1,5 @@
 import { dayjs } from '@naturalcycles/time-lib'
+import { expect, test } from 'vitest'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
 import { IsoDate } from '../types'
@@ -61,7 +62,7 @@ test('basic', () => {
   expect(localDate.orToday(ld).toISODate()).toBe(ld.toISODate())
 
   expect(() => localDate(undefined as any)).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot parse "undefined" into LocalDate"`,
+    `[AssertionError: Cannot parse "undefined" into LocalDate]`,
   )
 
   expect(ld.isOlderThan(5, 'day')).toBe(true)

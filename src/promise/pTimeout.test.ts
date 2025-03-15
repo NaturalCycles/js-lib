@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { pDelay } from './pDelay'
@@ -31,7 +32,7 @@ test('pTimeoutFn options', async () => {
         throw new Error('custom error')
       },
     })(),
-  ).rejects.toThrowErrorMatchingInlineSnapshot(`"custom error"`)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: custom error]`)
 
   expect(await pTimeoutFn(fn, { timeout: 10, onTimeout: () => 'all good' })()).toBe('all good')
 })

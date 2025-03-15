@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
@@ -39,7 +40,7 @@ test('pRetryFn should throw on fail', async () => {
     delayMultiplier: 1,
     logAll: true,
   })
-  await expect(fn(1, 2, 3)).rejects.toThrowErrorMatchingInlineSnapshot(`"fail"`)
+  await expect(fn(1, 2, 3)).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: fail]`)
 })
 
 test('pRetry', async () => {
@@ -131,18 +132,7 @@ test('pRetry should time out and keep stack', async () => {
     "TimeoutError: "pRetry function" timed out after 10 ms
         at pRetry pRetry.ts
         at myFunction pRetry.test.ts
-        at Object.<anonymous> pRetry.test.ts
-        at Promise.then.completed utils.js
-        at new Promise (<anonymous>)
-        at callAsyncCircusFn utils.js
-        at _callCircusTest run.js
-        at _runTest run.js
-        at _runTestsForDescribeBlock run.js
-        at run run.js
-        at runAndTransformResultsToJestFormat jestAdapterInit.js
-        at jestAdapter jestAdapter.js
-        at runTestInternal runTest.js
-        at runTest runTest.js"
+        at new Promise (<anonymous>)"
   `)
 })
 

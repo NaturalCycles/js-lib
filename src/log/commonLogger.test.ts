@@ -1,3 +1,4 @@
+import { test } from 'vitest'
 import type { CommonLogger, CommonLogWithLevelFunction } from './commonLogger'
 import {
   commonLoggerCreate,

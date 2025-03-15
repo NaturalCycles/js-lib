@@ -1,4 +1,4 @@
-import { expectTypeOf } from 'expect-type'
+import { expect, expectTypeOf, test } from 'vitest'
 import { AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
@@ -64,8 +64,7 @@ test('should preserve stack', async () => {
         at async Promise.all (index 1)
         at pProps pProps.ts
         at wrappingFn pProps.test.ts
-        at pExpectedError try.ts
-        at Object.<anonymous> pProps.test.ts"
+        at pExpectedError try.ts"
   `)
 })
 

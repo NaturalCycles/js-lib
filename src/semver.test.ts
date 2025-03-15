@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _expectedErrorString } from './error/try'
 import { _quickSemverCompare, semver2 } from './semver'
 

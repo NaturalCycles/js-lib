@@ -1,4 +1,5 @@
-import { expectResults } from '@naturalcycles/dev-lib/dist/testing'
+import { test } from 'vitest'
+import { expectResults } from '../test/test.util'
 import { _camelCase, _kebabCase, _snakeCase } from './case'
 
 const words = [

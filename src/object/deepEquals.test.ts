@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { deepEqualsMocks } from '../test/deepEqualsMocks'
 import { _deepEquals, _deepJsonEquals, _jsonEquals } from './deepEquals'
 

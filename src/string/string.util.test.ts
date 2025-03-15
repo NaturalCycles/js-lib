@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { _substringAfter, _substringAfterLast, _substringBefore, _substringBeforeLast } from '..'
 import {
   _capitalize,

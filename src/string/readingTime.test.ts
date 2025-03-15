@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../types'
+import { describe, expect, test } from 'vitest'
 import type { ReadingTimeOptions, ReadingTimeResult } from './readingTime'
 import { readingTime } from './readingTime'
 
@@ -7,7 +7,7 @@ function runTest(
   exp: Partial<ReadingTimeResult>,
   options?: ReadingTimeOptions,
 ) {
-  return (done: AnyFunction) => {
+  return () => {
     const text = 'number' === typeof words ? generateText(words) : words
 
     if ('string' === typeof words) {
@@ -31,7 +31,6 @@ function runTest(
     if (exp.words) {
       expect(res.words).toEqual(exp.words)
     }
-    done()
   }
 }
 

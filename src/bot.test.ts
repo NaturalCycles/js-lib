@@ -1,11 +1,10 @@
+import { beforeEach, expect, test, vi } from 'vitest'
 import { BotDetectionService, BotReason } from './bot'
 
 beforeEach(() => {
-  Object.assign(globalThis, {
-    window: {}, // this make isServerSide() return false
-    navigator: undefined,
-    chrome: undefined,
-  })
+  vi.stubGlobal('window', {}) // this make isServerSide() return false
+  vi.stubGlobal('navigator', undefined)
+  vi.stubGlobal('chrome', undefined)
 })
 
 const botDetectionService = new BotDetectionService()
@@ -154,7 +153,7 @@ test('treatCDPAsBotReason', () => {
     treatCDPAsBotReason: true,
   })
 
-  jest.spyOn(botDetectionService, 'detectCDP' as any).mockReturnValue(true)
+  vi.spyOn(botDetectionService, 'detectCDP' as any).mockReturnValue(true)
   Object.assign(globalThis, {
     navigator: {
       userAgent: userAgentChrome,
