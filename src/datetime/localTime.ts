@@ -1,6 +1,7 @@
 import { _assert } from '../error/assert'
 import { _ms } from '../time/time.util'
 import type {
+  IANATimezone,
   Inclusiveness,
   IsoDate,
   IsoDateTime,
@@ -101,7 +102,7 @@ export class LocalTime {
    *
    * @experimental
    */
-  inTimezone(tz: string): WallTime {
+  inTimezone(tz: IANATimezone): WallTime {
     const d = new Date(this.$date.toLocaleString('en-US', { timeZone: tz }))
     return new WallTime({
       year: d.getFullYear(),
@@ -127,7 +128,7 @@ export class LocalTime {
    *
    * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
    */
-  getUTCOffsetMinutes(tz?: string): NumberOfMinutes {
+  getUTCOffsetMinutes(tz?: IANATimezone): NumberOfMinutes {
     if (tz) {
       // based on: https://stackoverflow.com/a/53652131/4919972
       const nowTime = this.$date.getTime()
@@ -148,14 +149,14 @@ export class LocalTime {
    * If timezone (tz) is specified, e.g `America/New_York`,
    * it will return the UTC offset for that timezone.
    */
-  getUTCOffsetHours(tz?: string): NumberOfHours {
+  getUTCOffsetHours(tz?: IANATimezone): NumberOfHours {
     return Math.round(this.getUTCOffsetMinutes(tz) / 60)
   }
 
   /**
    * Returns e.g `-05:00` for New_York winter time.
    */
-  getUTCOffsetString(tz: string): string {
+  getUTCOffsetString(tz: IANATimezone): string {
     const minutes = this.getUTCOffsetMinutes(tz)
     const hours = Math.trunc(minutes / 60)
     const sign = hours < 0 ? '-' : '+'
@@ -982,8 +983,8 @@ class LocalTimeFactory {
    * Returns the IANA timezone e.g `Europe/Stockholm`.
    * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
    */
-  getTimezone(): string {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone
+  getTimezone(): IANATimezone {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone as IANATimezone
   }
 
   /**
@@ -994,6 +995,7 @@ class LocalTimeFactory {
    * consider caching the Intl.supportedValuesOf values as Set and reuse that.
    */
   isTimezoneValid(tz: string): boolean {
+    if (tz === 'UTC') return true // we deliberately consider UTC a valid timezone, while it's mostly used in testing
     return Intl.supportedValuesOf('timeZone').includes(tz)
   }
 

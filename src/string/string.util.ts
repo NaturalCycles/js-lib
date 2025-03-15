@@ -1,16 +1,31 @@
 /**
  * Converts the first character of string to upper case and the remaining to lower case.
+ * Returns a type-safe capitalized string.
  */
-export function _capitalize(s = ''): string {
-  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+export function _capitalize(s = ''): Capitalize<string> {
+  return (s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()) as Capitalize<string>
 }
 
-export function _upperFirst(s = ''): string {
-  return s.charAt(0).toUpperCase() + s.slice(1)
+/**
+ * Convert a string to a type-safe uppercase string.
+ */
+export function _toUpperCase(s: string): Uppercase<string> {
+  return s.toUpperCase() as Uppercase<string>
 }
 
-export function _lowerFirst(s: string): string {
-  return s.charAt(0).toLowerCase() + s.slice(1)
+/**
+ * Convert a string to a type-safe lowercase string.
+ */
+export function _toLowercase(s: string): Lowercase<string> {
+  return s.toLowerCase() as Lowercase<string>
+}
+
+export function _upperFirst(s = ''): Capitalize<string> {
+  return (s.charAt(0).toUpperCase() + s.slice(1)) as Capitalize<string>
+}
+
+export function _lowerFirst(s: string): Uncapitalize<string> {
+  return (s.charAt(0).toLowerCase() + s.slice(1)) as Uncapitalize<string>
 }
 
 /**

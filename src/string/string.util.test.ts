@@ -6,12 +6,24 @@ import {
   _removeWhitespace,
   _split,
   _substringBetweenLast,
+  _toLowercase,
+  _toUpperCase,
   _upperFirst,
 } from './string.util'
 
 test('capitalize', () => {
   expect(_capitalize('abc')).toBe('Abc')
   expect(_capitalize('aBc')).toBe('Abc')
+})
+
+test('toUppercase', () => {
+  expect(_toUpperCase('abc')).toBe('ABC')
+  expect(_toUpperCase('aBc')).toBe('ABC')
+})
+
+test('toLowercase', () => {
+  expect(_toLowercase('ABC')).toBe('abc')
+  expect(_toLowercase('aBc')).toBe('abc')
 })
 
 test('upperFirst', () => {
