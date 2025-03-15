@@ -34,7 +34,6 @@
     "eslint-plugin-simple-import-sort": "^12",
     "eslint-plugin-unicorn": "^57",
     "eslint-plugin-vue": "^10",
-    "expect-type": "^1",
     "globals": "^16",
     "husky": "^9",
     "lint-staged": "^15",
