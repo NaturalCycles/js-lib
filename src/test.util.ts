@@ -25,6 +25,7 @@ export function runTest(opt: RunTestOptions = {}): void {
 
 function runVitest(opt: RunTestOptions): void {
   const { integration, manual } = opt
+  const { CPU_LIMIT } = process.env
   const processArgs = process.argv.slice(3)
   const args: string[] = [...processArgs]
   const env: AnyObject = {}
@@ -35,6 +36,14 @@ function runVitest(opt: RunTestOptions): void {
   } else if (manual) {
     Object.assign(env, {
       TEST_TYPE: 'manual',
+    })
+  }
+
+  if (CPU_LIMIT) {
+    const cpuLimit = Number(CPU_LIMIT)
+    Object.assign(env, {
+      VITEST_MIN_FORKS: cpuLimit,
+      VITEST_MAX_FORKS: cpuLimit,
     })
   }
 
