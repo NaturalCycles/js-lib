@@ -236,22 +236,11 @@ export function stylelintAll(): void {
 }
 
 export async function lintStagedCommand(): Promise<void> {
-  // const cwd = process.cwd()
   const localConfig = `./lint-staged.config.js`
   const sharedConfig = `${cfgDir}/lint-staged.config.js`
   const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
-  // if (!config) {
-  //   console.log(`lint-staged is skipped, because no ${localConfig} is found`)
-  //   return
-  // }
 
-  // await execWithArgs(`lint-staged`, [`--config`, config])
-  // const lintStaged = require('lint-staged')
-  // lint-staged is ESM since 12.0
-  // const lintStaged = await import('lint-staged')
-
-  // biome-ignore lint/security/noGlobalEval: ok
-  const { default: lintStaged } = await eval(`import('lint-staged')`)
+  const { default: lintStaged } = await import('lint-staged')
   const success = await lintStaged({
     configPath: config,
   })
