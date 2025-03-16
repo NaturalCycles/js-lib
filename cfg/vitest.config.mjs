@@ -1,8 +1,7 @@
 import fs from 'node:fs'
-import type { InlineConfig } from 'vitest/node'
 
-let silent: boolean
-let testType: TestType = (process.env['TEST_TYPE'] as TestType) || 'unit'
+let silent
+let testType = process.env['TEST_TYPE'] || 'unit'
 
 const runsInIDE = process.argv.some(
   a => a === '--runTestsByPath' || a.includes('IDEA') || a.includes('Visual Studio'),
@@ -27,7 +26,7 @@ if (testType === 'unit') {
 }
 
 // Set 'setupFiles' only if setup files exist
-const setupFiles: InlineConfig['setupFiles'] = []
+const setupFiles = []
 if (fs.existsSync(`./src/test/setupVitest.ts`)) {
   setupFiles.push('./src/test/setupVitest.ts')
 }
@@ -35,8 +34,8 @@ if (fs.existsSync(`./src/test/setupVitest.${testType}.ts`)) {
   setupFiles.push(`./src/test/setupVitest.${testType}.ts`)
 }
 
-let include: InlineConfig['include']
-const exclude: InlineConfig['exclude'] = ['**/__exclude/**']
+let include
+const exclude = ['**/__exclude/**']
 
 if (testType === 'integration') {
   include = ['{src,scripts}/**/*.integration.test.ts']
@@ -57,7 +56,7 @@ console.log('shared vitest config', { testType, silent, isCI, runsInIDE, include
 /**
  * Shared config for Vitest.
  */
-export const sharedConfig: InlineConfig = {
+export const sharedConfig = {
   watch: false,
   // dir: 'src',
   restoreMocks: true,
@@ -72,7 +71,7 @@ export const sharedConfig: InlineConfig = {
   exclude,
   coverage: {
     enabled: isCI && testType === 'unit',
-    reporter: ['html', 'lcov', 'json', !isCI && 'text'].filter(Boolean) as string[],
+    reporter: ['html', 'lcov', 'json', !isCI && 'text'].filter(Boolean),
     include: ['src/**/*.{ts,tsx}'],
     exclude: [
       '**/__exclude/**',
@@ -98,7 +97,7 @@ export const sharedConfig: InlineConfig = {
 /**
  * Detects if vitest is run with all tests, or with selected individual tests.
  */
-function isRunningAllTests(): boolean {
+function isRunningAllTests() {
   let vitestArg = false
   let hasPositionalArgs = false
   process.argv.forEach(a => {
@@ -116,4 +115,3 @@ function isRunningAllTests(): boolean {
   return !hasPositionalArgs
 }
 
-type TestType = 'unit' | 'integration' | 'manual'
