@@ -54,12 +54,17 @@ const commands: (Command | Separator)[] = [
   {
     name: 'test-integration',
     fn: () => runTest({ integration: true }),
-    desc: 'Run jest for *.integration.test.ts files.',
+    desc: 'Run vitest/jest for *.integration.test.ts files.',
+  },
+  {
+    name: 'test-manual',
+    fn: () => runTest({ manual: true }),
+    desc: 'Run vitest/jest for *.manual.test.ts files.',
   },
   {
     name: 'test-leaks',
     fn: () => runTest({ leaks: true }),
-    desc: 'Run jest --detectLeaks for *.test.ts files.',
+    desc: 'Run vitest/jest --detectLeaks for *.test.ts files.',
   },
   new Separator(), // lint
   {

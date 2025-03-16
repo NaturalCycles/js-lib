@@ -1,5 +1,3 @@
-import { jestLog } from './index'
-
 const LOCAL_HOSTS = ['localhost', '127.0.0.1']
 
 const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
@@ -11,11 +9,11 @@ let mitm: any
  */
 export function testOffline(): void {
   if (detectLeaks) {
-    jestLog('NOT applying testOffline() when --detectLeaks is on')
+    console.log('NOT applying testOffline() when --detectLeaks is on')
     return
   }
 
-  jestLog('test offline mode')
+  console.log('test offline mode')
   const createMitm = require('mitm')
   mitm ||= createMitm()
 

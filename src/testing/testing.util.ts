@@ -11,8 +11,8 @@ export function silentConsole(): void {
   console.table = () => {}
 }
 
-export const jestLogger = commonLoggerCreate((_level, args) => {
-  if (process.env['JEST_SILENT']) return // no-op
+export const testLogger = commonLoggerCreate((_level, args) => {
+  if (process.env['JEST_SILENT'] || process.env['TEST_SILENT']) return // no-op
   process.stdout.write(
     args
       .map(a =>
@@ -24,4 +24,4 @@ export const jestLogger = commonLoggerCreate((_level, args) => {
   )
 })
 
-export const jestLog = jestLogger.log.bind(jestLogger)
+export const testLog = testLogger.log.bind(testLogger)

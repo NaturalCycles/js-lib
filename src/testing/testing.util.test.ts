@@ -1,14 +1,15 @@
-import { test } from 'vitest'
-import { jestLog, jestLogger, silentConsole } from './testing.util'
+import type { CommonLogger } from '@naturalcycles/js-lib'
+import { expectTypeOf, test } from 'vitest'
+import { silentConsole, testLog, testLogger } from './testing.util'
 
-test('jestLogger', () => {
-  jestLog('hello')
-  jestLog({ a: 'a' })
-  jestLogger.log('hej')
-  jestLogger.warn('hej warn')
-  jestLogger.error('hej error')
+test('testLogger', () => {
+  testLog('hello')
+  testLog({ a: 'a' })
+  testLogger.log('hej')
+  testLogger.warn('hej warn')
+  testLogger.error('hej error')
 
-  // expectTypeOf(jestLogger).toEqualTypeOf<CommonLogger>()
+  expectTypeOf(testLogger).toEqualTypeOf<CommonLogger>()
 })
 
 test('silentConsole', () => {

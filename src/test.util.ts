@@ -27,13 +27,17 @@ function runVitest(opt: RunTestOptions): void {
   const { integration, manual } = opt
   const processArgs = process.argv.slice(3)
   const args: string[] = [...processArgs]
-  const { TZ = 'UTC', APP_ENV } = process.env
+  const { TZ = 'UTC' } = process.env
   const env = {
     TZ,
   }
-  if (!integration && !manual && !APP_ENV) {
+  if (integration) {
     Object.assign(env, {
-      APP_ENV: 'test',
+      TEST_TYPE: 'integration',
+    })
+  } else if (manual) {
+    Object.assign(env, {
+      TEST_TYPE: 'manual',
     })
   }
 

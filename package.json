@@ -12,6 +12,7 @@
     "test": "tsn ./src/bin/dev-lib.ts test",
     "test-leaks": "tsn ./src/bin/dev-lib.ts test-leaks",
     "test-integration": "tsn ./src/bin/dev-lib.ts test-integration",
+    "test-manual": "tsn ./src/bin/dev-lib.ts test-manual",
     "lint": "tsn ./src/bin/dev-lib.ts lint",
     "up": "tsn ./src/bin/up.ts",
     "upnc": "tsn ./src/bin/upnc.ts"
