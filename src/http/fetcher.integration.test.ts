@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { Readable } from 'node:stream'
-import { jestOnline } from '@naturalcycles/dev-lib/dist/testing'
+import { testOnline } from '@naturalcycles/dev-lib/dist/testing'
 import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expect, expectTypeOf, test } from 'vitest'
 import { HttpRequestError, TimeoutError } from '../error/error.util'
@@ -10,7 +10,7 @@ import { _stringify } from '../string/stringify'
 import { tmpDir } from '../test/paths'
 import { getFetcher } from './fetcher'
 
-jestOnline()
+testOnline()
 
 test('basic get', async () => {
   const fetcher = getFetcher({

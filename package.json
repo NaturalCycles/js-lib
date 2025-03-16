@@ -4,10 +4,10 @@
   "scripts": {
     "prepare": "husky",
     "build": "dev-lib build-esm-cjs",
-    "test": "TZ=UTC vitest",
+    "test": "dev-lib test",
     "lint": "dev-lib lint",
-    "bt": "dev-lib tsc && yarn test",
-    "lbt": "dev-lib lint && dev-lib tsc && yarn test",
+    "bt": "dev-lib bt",
+    "lbt": "dev-lib lbt",
     "test-tz1": "TZ=Europe/Stockholm yarn test local",
     "test-tz2": "TZ=JST-9 yarn test local",
     "test-ny": "TZ=GMT-0500 yarn test localTime",
