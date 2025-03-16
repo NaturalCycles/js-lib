@@ -47,13 +47,10 @@
     "yargs": "^17"
   },
   "devDependencies": {
-    "@types/jest": "^29",
-    "eslint-plugin-jest": "^28",
-    "jest": "^29",
-    "jest-junit": "^16",
+    "@vitest/coverage-v8": "^3",
     "stylelint": "^16",
     "stylelint-config-standard-scss": "^14",
-    "ts-jest": "^29"
+    "vitest": "^3"
   },
   "files": [
     "dist",

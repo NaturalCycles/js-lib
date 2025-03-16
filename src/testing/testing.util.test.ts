@@ -1,3 +1,4 @@
+import { test } from 'vitest'
 import { jestLog, jestLogger, silentConsole } from './testing.util'
 
 test('jestLogger', () => {

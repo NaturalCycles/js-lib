@@ -11,7 +11,7 @@ interface RunTestOptions {
 
 export function runTest(opt: RunTestOptions = {}): void {
   if (nodeModuleExists('vitest')) {
-    runVitest()
+    runVitest(opt)
     return
   }
 
@@ -23,12 +23,18 @@ export function runTest(opt: RunTestOptions = {}): void {
   console.log(dimGrey(`vitest/jest not found, skipping tests`))
 }
 
-function runVitest(): void {
+function runVitest(opt: RunTestOptions): void {
+  const { integration, manual } = opt
   const processArgs = process.argv.slice(3)
   const args: string[] = [...processArgs]
-  const { TZ = 'UTC' } = process.env
+  const { TZ = 'UTC', APP_ENV } = process.env
   const env = {
     TZ,
+  }
+  if (!integration && !manual && !APP_ENV) {
+    Object.assign(env, {
+      APP_ENV: 'test',
+    })
   }
 
   exec2.spawn('vitest', {
