@@ -114,4 +114,3 @@ function isRunningAllTests() {
 
   return !hasPositionalArgs
 }
-

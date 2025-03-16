@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { _range, _uniq } from '@naturalcycles/js-lib'
+import { _range, _uniq, AnyObject } from '@naturalcycles/js-lib'
 import { dimGrey, exec2 } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from './paths'
 
@@ -27,10 +27,7 @@ function runVitest(opt: RunTestOptions): void {
   const { integration, manual } = opt
   const processArgs = process.argv.slice(3)
   const args: string[] = [...processArgs]
-  const { TZ = 'UTC' } = process.env
-  const env = {
-    TZ,
-  }
+  const env: AnyObject = {}
   if (integration) {
     Object.assign(env, {
       TEST_TYPE: 'integration',

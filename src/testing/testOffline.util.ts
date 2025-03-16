@@ -29,8 +29,8 @@ export function testOffline(): void {
 }
 
 /**
- * Undo/reset the jestOffline() function by allowing network calls again.
+ * Undo/reset the testOffline() function by allowing network calls again.
  */
-export function jestOnline(): void {
+export function testOnline(): void {
   mitm?.disable()
 }
