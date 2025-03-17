@@ -51,6 +51,8 @@ if (silent) {
   process.env['TEST_SILENT'] = 'true'
 }
 
+const junitReporterEnabled = isCI && testType !== 'manual'
+
 console.log('shared vitest config', { testType, silent, isCI, runsInIDE, include, exclude })
 
 /**
@@ -69,6 +71,18 @@ export const sharedConfig = {
   },
   include,
   exclude,
+  reporters: [
+    'default',
+    junitReporterEnabled && [
+      'junit',
+      {
+        suiteName: `${testType} tests`,
+        // classNameTemplate: '{filename} - {classname}',
+      },
+    ],
+  ].filter(Boolean),
+  // outputFile location is specified for compatibility with the previous jest config
+  outputFile: junitReporterEnabled ? `./tmp/jest/${testType}.xml` : undefined,
   coverage: {
     enabled: isCI && testType === 'unit',
     reporter: ['html', 'lcov', 'json', !isCI && 'text'].filter(Boolean),
