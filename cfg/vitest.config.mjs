@@ -49,7 +49,7 @@ export const sharedConfig = {
   outputFile: junitReporterEnabled ? `./tmp/jest/${testType}.xml` : undefined,
   coverage: {
     enabled: isCI && testType === 'unit',
-    reporter: ['html', 'lcov', 'json', !isCI && 'text'].filter(Boolean),
+    reporter: ['html', 'lcov', 'json', 'json-summary',  !isCI && 'text'].filter(Boolean),
     include: ['src/**/*.{ts,tsx}'],
     exclude: [
       '**/__exclude/**',
