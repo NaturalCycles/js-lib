@@ -1,57 +1,21 @@
 import fs from 'node:fs'
 
-let silent
-let testType = process.env['TEST_TYPE'] || 'unit'
-
-const runsInIDE = process.argv.some(
-  a => a === '--runTestsByPath' || a.includes('IDEA') || a.includes('Visual Studio'),
-)
-
-if (runsInIDE) {
-  silent = false
-
-  if (process.argv.some(a => a.endsWith('.integration.test.ts'))) {
-    testType = 'integration'
-  } else if (process.argv.some(a => a.endsWith('.manual.test.ts'))) {
-    testType = 'manual'
-  }
-} else {
-  silent = isRunningAllTests()
-}
-
+const runsInIDE = doesItRunInIDE()
+const testType = getTestType(runsInIDE)
+const silent = shouldBeSilent(runsInIDE)
+const setupFiles = getSetupFiles(testType)
+const { include, exclude } = getIncludeAndExclude(testType)
 const isCI = !!process.env['CI']
-process.env.TZ = process.env.TZ || 'UTC'
+const junitReporterEnabled = isCI && testType !== 'manual'
+process.env.TZ ||= 'UTC'
+
 if (testType === 'unit') {
   process.env['APP_ENV'] = process.env['APP_ENV'] || 'test'
-}
-
-// Set 'setupFiles' only if setup files exist
-const setupFiles = []
-if (fs.existsSync(`./src/test/setupVitest.ts`)) {
-  setupFiles.push('./src/test/setupVitest.ts')
-}
-if (fs.existsSync(`./src/test/setupVitest.${testType}.ts`)) {
-  setupFiles.push(`./src/test/setupVitest.${testType}.ts`)
-}
-
-let include
-const exclude = ['**/__exclude/**']
-
-if (testType === 'integration') {
-  include = ['{src,scripts}/**/*.integration.test.ts']
-} else if (testType === 'manual') {
-  include = ['{src,scripts}/**/*.manual.test.ts']
-} else {
-  // normal unit test
-  include = ['{src,scripts}/**/*.test.ts']
-  exclude.push('**/*.{integration,manual}.test.*')
 }
 
 if (silent) {
   process.env['TEST_SILENT'] = 'true'
 }
-
-const junitReporterEnabled = isCI && testType !== 'manual'
 
 console.log('shared vitest config', { testType, silent, isCI, runsInIDE, include, exclude })
 
@@ -108,6 +72,32 @@ export const sharedConfig = {
   },
 }
 
+function doesItRunInIDE() {
+  return process.argv.some(
+    a => a === '--runTestsByPath' || a.includes('IDEA') || a.includes('Visual Studio'),
+  )
+}
+
+function getTestType(runsInIDE) {
+  if (runsInIDE) {
+    if (process.argv.some(a => a.endsWith('.integration.test.ts'))) {
+      return 'integration'
+    }
+    if (process.argv.some(a => a.endsWith('.manual.test.ts'))) {
+      return 'manual'
+    }
+  }
+
+  return process.env['TEST_TYPE'] || 'unit'
+}
+
+function shouldBeSilent(runsInIDE) {
+  if (runsInIDE) {
+    return false
+  }
+  return isRunningAllTests()
+}
+
 /**
  * Detects if vitest is run with all tests, or with selected individual tests.
  */
@@ -127,4 +117,33 @@ function isRunningAllTests() {
   // console.log({vitestArg, hasPositionalArgs}, process.argv)
 
   return !hasPositionalArgs
+}
+
+function getSetupFiles(testType) {
+  // Set 'setupFiles' only if setup files exist
+  const setupFiles = []
+  if (fs.existsSync(`./src/test/setupVitest.ts`)) {
+    setupFiles.push('./src/test/setupVitest.ts')
+  }
+  if (fs.existsSync(`./src/test/setupVitest.${testType}.ts`)) {
+    setupFiles.push(`./src/test/setupVitest.${testType}.ts`)
+  }
+  return setupFiles
+}
+
+function getIncludeAndExclude(testType) {
+  let include
+  const exclude = ['**/__exclude/**']
+
+  if (testType === 'integration') {
+    include = ['{src,scripts}/**/*.integration.test.ts']
+  } else if (testType === 'manual') {
+    include = ['{src,scripts}/**/*.manual.test.ts']
+  } else {
+    // normal unit test
+    include = ['{src,scripts}/**/*.test.ts']
+    exclude.push('**/*.{integration,manual}.test.*')
+  }
+
+  return { include, exclude }
 }
