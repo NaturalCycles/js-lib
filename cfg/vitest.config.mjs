@@ -7,6 +7,9 @@ const setupFiles = getSetupFiles(testType)
 const { include, exclude } = getIncludeAndExclude(testType)
 const isCI = !!process.env['CI']
 const junitReporterEnabled = isCI && testType !== 'manual'
+const maxWorkers = getMaxWorkers()
+const minWorkers = maxWorkers
+const pool = 'threads' // threads are tested to be ~10% faster than forks in CI (and no change locally)
 process.env.TZ ||= 'UTC'
 
 if (testType === 'unit') {
@@ -17,12 +20,24 @@ if (silent) {
   process.env['TEST_SILENT'] = 'true'
 }
 
-console.log('shared vitest config', { testType, silent, isCI, runsInIDE, include, exclude })
+console.log('shared vitest config', {
+  testType,
+  silent,
+  isCI,
+  runsInIDE,
+  include,
+  exclude,
+  pool,
+  maxWorkers,
+})
 
 /**
  * Shared config for Vitest.
  */
 export const sharedConfig = {
+  pool,
+  minWorkers,
+  maxWorkers,
   watch: false,
   // dir: 'src',
   restoreMocks: true,
@@ -32,6 +47,11 @@ export const sharedConfig = {
   testTimeout: 60_000,
   sequence: {
     // todo: make it sort alphabetically
+    shuffle: {
+      files: true,
+      tests: false,
+    },
+    seed: 1, // this makes the order of tests deterministic (but still not alphabetic)
   },
   include,
   exclude,
@@ -49,7 +69,7 @@ export const sharedConfig = {
   outputFile: junitReporterEnabled ? `./tmp/jest/${testType}.xml` : undefined,
   coverage: {
     enabled: isCI && testType === 'unit',
-    reporter: ['html', 'lcov', 'json', 'json-summary',  !isCI && 'text'].filter(Boolean),
+    reporter: ['html', 'lcov', 'json', 'json-summary', !isCI && 'text'].filter(Boolean),
     include: ['src/**/*.{ts,tsx}'],
     exclude: [
       '**/__exclude/**',
@@ -146,4 +166,9 @@ function getIncludeAndExclude(testType) {
   }
 
   return { include, exclude }
+}
+
+function getMaxWorkers() {
+  const cpuLimit = Number(process.env['CPU_LIMIT'])
+  return cpuLimit || undefined
 }
