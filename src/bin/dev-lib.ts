@@ -1,9 +1,7 @@
 #!/usr/bin/env node
-
-import os from 'node:os'
 import { select, Separator } from '@inquirer/prompts'
 import { _assert, _by, PromisableFunction } from '@naturalcycles/js-lib'
-import { dimGrey, runScript } from '@naturalcycles/nodejs-lib'
+import { runScript } from '@naturalcycles/nodejs-lib'
 import { buildCopy, buildEsmCjs, buildProd, runTSCInFolders } from '../build.util'
 import {
   eslintAll,
@@ -131,8 +129,6 @@ const commandMap = _by(commands.filter(c => !(c instanceof Separator)) as Comman
 const { CI } = process.env
 
 runScript(async () => {
-  logEnvironment()
-
   let cmd = process.argv.find(s => commandMap[s] && !commandMap[s].interactiveOnly)
 
   if (!cmd) {
@@ -169,30 +165,4 @@ async function bt(): Promise<void> {
 
 async function tscAll(): Promise<void> {
   await runTSCInFolders(['.', 'scripts', 'e2e'], ['--noEmit'])
-}
-
-function logEnvironment(): void {
-  const {
-    platform,
-    arch,
-    versions: { node },
-    env: { CPU_LIMIT, NODE_OPTIONS = 'not defined' },
-  } = process
-
-  const cpuLimit = Number(CPU_LIMIT) || undefined
-  const availableParallelism = os.availableParallelism?.()
-  const cpus = os.cpus().length
-  console.log(
-    dimGrey(
-      Object.entries({
-        node: `${node} ${platform} ${arch}`,
-        NODE_OPTIONS,
-        cpus,
-        availableParallelism,
-        cpuLimit,
-      })
-        .map(([k, v]) => `${k}: ${v}`)
-        .join(', '),
-    ),
-  )
 }
