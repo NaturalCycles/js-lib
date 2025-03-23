@@ -1,6 +1,6 @@
 /*
 
-yarn tsn filterBench
+yarn tsx scripts/filterBench
 
  */
 

@@ -1,6 +1,6 @@
 /*
 
-yarn tsn startsWithBench
+yarn tsx scripts/startsWithBench
 
  */
 

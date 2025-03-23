@@ -1,6 +1,6 @@
 /*
 
-yarn tsn testLocalDateTimezones
+yarn tsx scripts/testLocalDateTimezones
 
 It's a separate script, because our jest setup always runs in UTC.
 

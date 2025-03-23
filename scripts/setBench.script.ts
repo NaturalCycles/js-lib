@@ -1,6 +1,6 @@
 /*
 
-yarn tsn setBench
+yarn tsx scripts/setBench
 
  */
 

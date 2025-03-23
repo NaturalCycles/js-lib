@@ -1,6 +1,6 @@
 /*
 
-yarn tsn deepEqualsBench
+yarn tsx scripts/deepEqualsBench
 
  */
 

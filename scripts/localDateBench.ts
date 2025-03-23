@@ -1,6 +1,6 @@
 /*
 
-yarn tsn localDateBench
+yarn tsx scripts/localDateBench
 
  */
 

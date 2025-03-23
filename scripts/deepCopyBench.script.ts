@@ -1,6 +1,6 @@
 /*
 
-yarn tsn deepCopyBench
+yarn tsx scripts/deepCopyBench
 
  */
 

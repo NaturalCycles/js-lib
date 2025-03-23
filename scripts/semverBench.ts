@@ -1,6 +1,6 @@
 /*
 
-yarn tsn semverBench
+yarn tsx scripts/semverBench
 
  */
 

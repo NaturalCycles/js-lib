@@ -1,6 +1,6 @@
 /*
 
-yarn tsn timeoutBench
+yarn tsx scripts/timeoutBench
 
  */
 

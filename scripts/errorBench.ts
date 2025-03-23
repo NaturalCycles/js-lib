@@ -1,6 +1,6 @@
 /*
 
-yarn tsn errorBench
+yarn tsx scripts/errorBench
 
  */
 
