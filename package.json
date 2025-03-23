@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@naturalcycles/bench-lib": "^3",
-    "@naturalcycles/dev-lib": "^16",
+    "@naturalcycles/dev-lib": "^17",
     "@naturalcycles/nodejs-lib": "^13",
     "@naturalcycles/time-lib": "^3",
     "@types/crypto-js": "^4",
