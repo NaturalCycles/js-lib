@@ -777,13 +777,14 @@
     zod "^3"
 
 "@naturalcycles/nodejs-lib@^13":
-  version "13.41.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.41.1.tgz#7a0ed55098f17f354236ac1b7c00fa1d50b3caa8"
-  integrity sha512-13IOltNklcLeeKfst3SaaNzb7uzgO7BPU0y/1ywfoiWzthJ9hWr6jAR26an+4OxoWzyAXq0bhTumIIaR0UUPsA==
+  version "13.43.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.43.0.tgz#7b4331bf68a64c41eb93e3eddd86d556622d713f"
+  integrity sha512-SDuk/KG9hkIv1mnItXTXLmJTE8V31bUiFRSw6Gi6XURj1VY4ClbhDmY/CzAwLfUM96dAtAIp4GhvpiWAMAks/w==
   dependencies:
     "@naturalcycles/js-lib" "^14"
     "@types/js-yaml" "^4"
     "@types/jsonwebtoken" "^9"
+    "@types/yargs" "^16"
     ajv "^8"
     ajv-formats "^3"
     ajv-keywords "^5"
