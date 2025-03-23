@@ -1,6 +1,6 @@
 /*
 
-yarn tsn eslintPrintConfig
+yarn tsx scripts/eslintPrintConfig.script.ts
 
 This script allows to track changes in the final eslint config output,
 like a "manual snapshot test".

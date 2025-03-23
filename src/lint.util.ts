@@ -9,8 +9,7 @@ import {
   SemVerString,
   UnixTimestampMillis,
 } from '@naturalcycles/js-lib'
-import { boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
-import yargs from 'yargs'
+import { _yargs, boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
 import { cfgDir, scriptsDir } from './paths'
 const {
   prettierDirs,
@@ -26,7 +25,7 @@ const {
  */
 export async function lintAllCommand(): Promise<void> {
   const started = Date.now() as UnixTimestampMillis
-  const { commitOnChanges, failOnChanges } = yargs.options({
+  const { commitOnChanges, failOnChanges } = _yargs().options({
     commitOnChanges: {
       type: 'boolean',
       default: false,
@@ -99,7 +98,7 @@ interface EslintAllOptions {
  */
 export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
   const started = Date.now() as UnixTimestampMillis
-  const { argv } = yargs.options({
+  const { argv } = _yargs().options({
     ext: {
       type: 'string',
       default: eslintExtensions,
@@ -217,7 +216,7 @@ const stylelintPaths = [
 ]
 
 export function stylelintAll(): void {
-  const { fix } = yargs.options({
+  const { fix } = _yargs().options({
     fix: {
       type: 'boolean',
       default: true,

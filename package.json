@@ -3,19 +3,19 @@
   "version": "12.11.3",
   "scripts": {
     "prepare": "husky",
-    "tsn-debug": "tsn testScript.ts",
-    "dev-lib": "tsn ./src/bin/dev-lib.ts",
-    "bt": "tsn ./src/bin/dev-lib.ts bt && tsn eslintPrintConfig",
-    "lbt": "tsn ./src/bin/dev-lib.ts lbt && tsn eslintPrintConfig",
-    "build": "tsn ./src/bin/dev-lib.ts build",
-    "build-prod-esm-cjs": "tsn ./src/bin/dev-lib.ts build-esm-cjs",
-    "test": "tsn ./src/bin/dev-lib.ts test",
-    "test-leaks": "tsn ./src/bin/dev-lib.ts test-leaks",
-    "test-integration": "tsn ./src/bin/dev-lib.ts test-integration",
-    "test-manual": "tsn ./src/bin/dev-lib.ts test-manual",
-    "lint": "tsn ./src/bin/dev-lib.ts lint",
-    "up": "tsn ./src/bin/up.ts",
-    "upnc": "tsn ./src/bin/upnc.ts"
+    "tsn-debug": "tsx scripts/testScript.ts",
+    "dev-lib": "tsx ./src/bin/dev-lib.ts",
+    "bt": "tsx ./src/bin/dev-lib.ts bt && tsx scripts/eslintPrintConfig.script.ts",
+    "lbt": "tsx ./src/bin/dev-lib.ts lbt && tsx scripts/eslintPrintConfig.script.ts",
+    "build": "tsx ./src/bin/dev-lib.ts build",
+    "build-prod-esm-cjs": "tsx ./src/bin/dev-lib.ts build-esm-cjs",
+    "test": "tsx ./src/bin/dev-lib.ts test",
+    "test-leaks": "tsx ./src/bin/dev-lib.ts test-leaks",
+    "test-integration": "tsx ./src/bin/dev-lib.ts test-integration",
+    "test-manual": "tsx ./src/bin/dev-lib.ts test-manual",
+    "lint": "tsx ./src/bin/dev-lib.ts lint",
+    "up": "tsx ./src/bin/up.ts",
+    "upnc": "tsx ./src/bin/upnc.ts"
   },
   "dependencies": {
     "@biomejs/biome": "^1",
@@ -43,14 +43,13 @@
     "timekeeper": "^2",
     "typescript": "^5",
     "typescript-eslint": "^8",
-    "vue-eslint-parser": "^10",
-    "yargs": "^17"
+    "vue-eslint-parser": "^10"
   },
   "devDependencies": {
-    "@types/yargs": "^16",
     "@vitest/coverage-v8": "^3",
     "stylelint": "^16",
     "stylelint-config-standard-scss": "^14",
+    "tsx": "^4",
     "vitest": "^3"
   },
   "files": [
