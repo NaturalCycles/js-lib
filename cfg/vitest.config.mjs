@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 
+import { VitestAlphabeticSequencer } from './vitestAlphabeticSequencer.mjs'
 const runsInIDE = doesItRunInIDE()
 const testType = getTestType(runsInIDE)
 const silent = shouldBeSilent(runsInIDE)
@@ -46,12 +47,12 @@ export const sharedConfig = {
   logHeapUsage: true,
   testTimeout: 60_000,
   sequence: {
-    // todo: make it sort alphabetically
-    shuffle: {
-      files: true,
-      tests: false,
-    },
-    seed: 1, // this makes the order of tests deterministic (but still not alphabetic)
+    sequencer: VitestAlphabeticSequencer,
+    // shuffle: {
+    //   files: true,
+    //   tests: false,
+    // },
+    // seed: 1, // this makes the order of tests deterministic (but still not alphabetic)
   },
   include,
   exclude,
