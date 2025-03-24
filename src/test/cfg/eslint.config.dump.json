@@ -19,7 +19,7 @@
   "plugins": [
     "@",
     "@typescript-eslint:@typescript-eslint/eslint-plugin@8.27.0",
-    "unicorn:eslint-plugin-unicorn@57.0.0",
+    "unicorn:eslint-plugin-unicorn@58.0.0",
     "vue:eslint-plugin-vue@10.0.0",
     "import-x",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
@@ -1499,7 +1499,8 @@
       0
     ],
     "unicorn/escape-case": [
-      2
+      2,
+      "uppercase"
     ],
     "unicorn/expiring-todo-comments": [
       1,
@@ -1693,7 +1694,10 @@
       2
     ],
     "unicorn/number-literal-case": [
-      0
+      0,
+      {
+        "hexadecimalValue": "uppercase"
+      }
     ],
     "unicorn/numeric-separators-style": [
       2,
