@@ -8,13 +8,13 @@ import { ISODayOfWeek, localTime, LocalTimeFormatter, LocalTimeUnit } from './lo
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
 const UNIT_RANGE: Record<LocalTimeUnit, number> = {
-  year: 1000,
-  month: 100,
-  week: 1000,
-  day: 5000,
-  hour: 10000,
-  minute: 10000,
-  second: 10000,
+  year: 10,
+  month: 10,
+  week: 80,
+  day: 50,
+  hour: 100,
+  minute: 1000,
+  second: 1000,
 }
 
 test('basic', () => {
