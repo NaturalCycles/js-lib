@@ -1,5 +1,6 @@
-import { IsoDate } from '../types'
-import { DateTimeObject } from './localTime'
+import { IsoDate, IsoDateTime } from '../types'
+import { LocalDate } from './localDate'
+import { DateTimeObject, LocalTime, localTime } from './localTime'
 
 /**
  * Representation of a "time on the wall clock",
@@ -22,6 +23,28 @@ export class WallTime implements DateTimeObject {
     Object.assign(this, obj)
   }
 
+  toLocalDate(): LocalDate {
+    return new LocalDate(this.year, this.month, this.day)
+  }
+
+  /**
+   * Example:
+   * WallTime is 1984-06-21 17:56:21
+   * .toLocalTime() will return a LocalTime Date instance
+   * holding that time in the local timezone.
+   */
+  toLocalTime(): LocalTime {
+    return localTime.fromDateTimeObject(this)
+  }
+
+  toJSON(): IsoDateTime {
+    return this.toISODateTime()
+  }
+
+  toString(): IsoDateTime {
+    return this.toISODateTime()
+  }
+
   /**
    * Returns e.g: `1984-06-21 17:56:21`
    * or (if seconds=false):
@@ -29,6 +52,13 @@ export class WallTime implements DateTimeObject {
    */
   toPretty(seconds = true): string {
     return this.toISODate() + ' ' + this.toISOTime(seconds)
+  }
+
+  /**
+   * Returns e.g: `1984-06-21T17:56:21`
+   */
+  toISODateTime(): IsoDateTime {
+    return (this.toISODate() + 'T' + this.toISOTime()) as IsoDateTime
   }
 
   /**

@@ -727,6 +727,10 @@ export class LocalTime {
     // return this.$date.toISOString().slice(11, seconds ? 19 : 16)
   }
 
+  toWallTime(): WallTime {
+    return new WallTime(this.toDateTimeObject())
+  }
+
   /**
    * Returns e.g: `19840621_1705`
    */
