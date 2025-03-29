@@ -2,8 +2,15 @@ import { dayjs } from '@naturalcycles/time-lib'
 import { expect, test } from 'vitest'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import { IANATimezone, IsoDate, IsoDateTime, UnixTimestamp, UnixTimestampMillis } from '../types'
-import { ISODayOfWeek, localTime, LocalTimeFormatter, LocalTimeUnit } from './localTime'
+import type {
+  IANATimezone,
+  IsoDate,
+  IsoDateTime,
+  UnixTimestamp,
+  UnixTimestampMillis,
+} from '../types'
+import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
+import { ISODayOfWeek, localTime } from './localTime'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 

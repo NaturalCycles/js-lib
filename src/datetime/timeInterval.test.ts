@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { UnixTimestamp } from '../types'
+import type { UnixTimestamp } from '../types'
 import { TimeInterval } from './timeInterval'
 
 test('basic', () => {

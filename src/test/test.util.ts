@@ -1,4 +1,5 @@
-import { Assertion, expect } from 'vitest'
+import type { Assertion } from 'vitest'
+import { expect } from 'vitest'
 
 export function convertHrtime(hrtime: [number, number]): Record<string, number> {
   const nanoseconds = hrtime[0] * 1e9 + hrtime[1]

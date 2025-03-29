@@ -96,7 +96,8 @@ export * from './unit/size.util'
 export * from './web'
 export * from './zod/zod.shared.schemas'
 export * from './zod/zod.util'
-import { z, ZodError, ZodIssue, ZodSchema } from 'zod'
+import type { ZodIssue } from 'zod'
+import { z, ZodError, ZodSchema } from 'zod'
 
 export { z, ZodError, ZodSchema }
 export type { ZodIssue }

@@ -1,4 +1,4 @@
-import { AnyFunction } from '../types'
+import type { AnyFunction } from '../types'
 
 /**
  * Similar to AbortController and AbortSignal.

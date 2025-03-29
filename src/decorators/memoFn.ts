@@ -1,4 +1,4 @@
-import { AnyFunction, MaybeParameters } from '../types'
+import type { AnyFunction, MaybeParameters } from '../types'
 import type { MemoOptions } from './memo.decorator'
 import type { MemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'

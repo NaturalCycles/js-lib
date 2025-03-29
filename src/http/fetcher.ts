@@ -4,7 +4,7 @@
 
 import { isServerSide } from '../env'
 import { _assertErrorClassOrRethrow, _assertIsError } from '../error/assert'
-import { ErrorLike, ErrorObject } from '../error/error.model'
+import type { ErrorLike, ErrorObject } from '../error/error.model'
 import {
   _anyToError,
   _anyToErrorObject,
@@ -29,8 +29,8 @@ import { pTimeout } from '../promise/pTimeout'
 import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
 import { _stringify } from '../string/stringify'
 import { _ms, _since } from '../time/time.util'
-import { AnyObject, ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
-import {
+import type { AnyObject, ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
+import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
   FetcherBeforeRetryHook,

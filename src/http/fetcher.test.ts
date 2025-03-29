@@ -1,25 +1,22 @@
 import { expect, expectTypeOf, test, vi } from 'vitest'
+import type { ErrorObject, FetcherCfg, FetcherOptions, UnixTimestampMillis } from '..'
 import {
   _assertIsBackendErrorResponseObject,
   AppError,
-  ErrorObject,
-  FetcherCfg,
-  FetcherOptions,
   HttpRequestError,
   localTime,
   pExpectedErrorString,
   UnexpectedPassError,
-  UnixTimestampMillis,
 } from '..'
 import { _range } from '../array/range'
 import { _assert, _assertIsError, _assertIsErrorObject } from '../error/assert'
-import { BackendErrorResponseObject } from '../error/error.model'
+import type { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject } from '../error/error.util'
 import { commonLoggerNoop } from '../log/commonLogger'
 import { _omit } from '../object/object.util'
 import { _stringify } from '../string/stringify'
 import { Fetcher, getFetcher } from './fetcher'
-import { FetcherRequest } from './fetcher.model'
+import type { FetcherRequest } from './fetcher.model'
 
 test('defaults', () => {
   const fetcher = getFetcher()

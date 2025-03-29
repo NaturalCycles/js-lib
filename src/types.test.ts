@@ -1,13 +1,6 @@
 import { expect, expectTypeOf, test } from 'vitest'
-import {
-  AppError,
-  asUnixTimestamp,
-  asUnixTimestamp2000,
-  Branded,
-  IsoDate,
-  localTime,
-  UnixTimestamp,
-} from '.'
+import type { AppError, Branded, IsoDate, UnixTimestamp } from '.'
+import { asUnixTimestamp, asUnixTimestamp2000, localTime } from '.'
 import { _expectedError } from './error/try'
 import type {
   AnyObject,

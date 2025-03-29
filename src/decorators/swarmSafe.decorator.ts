@@ -1,4 +1,4 @@
-import { AnyObject } from '../types'
+import type { AnyObject } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
 
 /**

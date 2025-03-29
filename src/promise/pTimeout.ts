@@ -1,6 +1,7 @@
 import type { ErrorData } from '../error/error.model'
 import { _errorDataAppend, TimeoutError } from '../error/error.util'
-import { _typeCast, AnyAsyncFunction, NumberOfMilliseconds } from '../types'
+import type { AnyAsyncFunction, NumberOfMilliseconds } from '../types'
+import { _typeCast } from '../types'
 
 export interface PTimeoutOptions {
   /**

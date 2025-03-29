@@ -1,5 +1,5 @@
 import { JsonParseError } from '../error/error.util'
-import { Reviver } from '../types'
+import type { Reviver } from '../types'
 
 // const possibleJsonStartTokens = ['{', '[', '"']
 const DETECT_JSON = /^\s*[{["\-\d]/

@@ -1,4 +1,5 @@
-import { _uniq, AnyObject } from '../index'
+import type { AnyObject } from '../index'
+import { _uniq } from '../index'
 import { _filterNullishValues } from '../object/object.util'
 import type { JsonSchemaObject } from './jsonSchema.model'
 

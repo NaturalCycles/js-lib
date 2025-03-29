@@ -1,4 +1,5 @@
-import { AnyAsyncFunction, MaybeParameters, MISS } from '../types'
+import type { AnyAsyncFunction, MaybeParameters } from '../types'
+import { MISS } from '../types'
 import type { AsyncMemoOptions } from './asyncMemo.decorator'
 import type { AsyncMemoCache } from './memo.util'
 import { jsonMemoSerializer, MapMemoCache } from './memo.util'

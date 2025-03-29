@@ -1,5 +1,5 @@
-import { HttpMethod, HttpStatusCode } from '../http/http.model'
-import { NumberOfMilliseconds } from '../types'
+import type { HttpMethod, HttpStatusCode } from '../http/http.model'
+import type { NumberOfMilliseconds } from '../types'
 
 /**
  * Extendable payload object to transfer custom additional data with AppError.

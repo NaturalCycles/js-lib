@@ -2,8 +2,9 @@ import { dayjs } from '@naturalcycles/time-lib'
 import { expect, test } from 'vitest'
 import { _range } from '../array/range'
 import { expectWithMessage, isUTC } from '../test/test.util'
-import { IsoDate } from '../types'
-import { localDate, LocalDateFormatter, LocalDateUnit } from './localDate'
+import type { IsoDate } from '../types'
+import type { LocalDateFormatter, LocalDateUnit } from './localDate'
+import { localDate } from './localDate'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 

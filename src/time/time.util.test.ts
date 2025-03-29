@@ -1,6 +1,7 @@
 import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
 import { beforeEach, expect, test } from 'vitest'
-import { _range, NumberOfMilliseconds, UnixTimestampMillis } from '..'
+import type { NumberOfMilliseconds, UnixTimestampMillis } from '..'
+import { _range } from '..'
 import { _ms, _since } from './time.util'
 
 beforeEach(() => {

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { IsoDateTime } from '../types'
+import type { IsoDateTime } from '../types'
 import { localTime } from './localTime'
 
 test('basic', () => {

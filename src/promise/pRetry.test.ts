@@ -2,7 +2,7 @@ import { expect, test } from 'vitest'
 import { TimeoutError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { normalizeStack } from '../test/test.util'
-import { AnyFunction } from '../types'
+import type { AnyFunction } from '../types'
 import { pDelay } from './pDelay'
 import { pRetry, pRetryFn } from './pRetry'
 

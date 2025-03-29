@@ -1,6 +1,6 @@
 import { _range } from './array/range'
 import { _assert } from './error/assert'
-import { SortDirection } from './types'
+import type { SortDirection } from './types'
 
 export type SemverInput = string | Semver
 export type SemverInputNullable = SemverInput | null | undefined

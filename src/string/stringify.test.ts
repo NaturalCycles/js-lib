@@ -1,7 +1,7 @@
 import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
 import { inspectStringifyFn } from '@naturalcycles/nodejs-lib'
 import { expect, test } from 'vitest'
-import { BackendErrorResponseObject } from '../error/error.model'
+import type { BackendErrorResponseObject } from '../error/error.model'
 import { _errorLikeToErrorObject, AppError } from '../error/error.util'
 import { pExpectedError } from '../error/try'
 import { expectResults } from '../test/test.util'

@@ -1,9 +1,10 @@
 import { _assert, _assertTypeOf } from '../error/assert'
 import type { CommonLogger } from '../log/commonLogger'
-import { _objectAssign, AnyFunction, AnyObject, MaybeParameters } from '../types'
+import type { AnyFunction, AnyObject, MaybeParameters } from '../types'
+import { _objectAssign } from '../types'
 import { _getTargetMethodSignature } from './decorator.util'
-import type { MemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache, MethodDecorator } from './memo.util'
+import type { MemoCache, MethodDecorator } from './memo.util'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util'
 
 export interface MemoOptions<FN> {
   /**

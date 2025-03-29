@@ -9,7 +9,8 @@ import type {
   UnixTimestamp,
   UnixTimestampMillis,
 } from '../types'
-import { DateObject, ISODayOfWeek, LocalTime, localTime, VALID_DAYS_OF_WEEK } from './localTime'
+import type { DateObject, ISODayOfWeek, LocalTime } from './localTime'
+import { localTime, VALID_DAYS_OF_WEEK } from './localTime'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'

@@ -1,6 +1,6 @@
-import { Fetcher } from '../../http/fetcher'
-import { StringMap } from '../../types'
-import { TranslationLoader } from './translation.service'
+import type { Fetcher } from '../../http/fetcher'
+import type { StringMap } from '../../types'
+import type { TranslationLoader } from './translation.service'
 
 /**
  * Use `baseUrl` to prefix your language files.

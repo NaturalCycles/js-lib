@@ -1,4 +1,5 @@
-import { AbortableMapper, AbortablePredicate, END, SKIP } from '../types'
+import type { AbortableMapper, AbortablePredicate } from '../types'
+import { END, SKIP } from '../types'
 
 /**
  * Iterable2 is a wrapper around Iterable that implements "Iterator Helpers proposal":

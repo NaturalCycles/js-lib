@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { formDataToObject, objectToFormData } from './form.util'
-import { AnyObject } from './types'
+import type { AnyObject } from './types'
 
 test('objectToFormData', () => {
   let o: AnyObject = {}

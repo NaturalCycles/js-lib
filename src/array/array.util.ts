@@ -1,13 +1,13 @@
 import { _assert } from '../error/assert'
-import {
+import type {
   AbortablePredicate,
-  END,
   FalsyValue,
   Mapper,
   Predicate,
   SortDirection,
   StringMap,
 } from '../types'
+import { END } from '../types'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the

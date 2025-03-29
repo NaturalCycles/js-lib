@@ -1,7 +1,8 @@
 import { expect, test, vi } from 'vitest'
 import { _createDeterministicRandom } from '../number/createDeterministicRandom'
 import { _deepFreeze } from '../object/object.util'
-import { AbortablePredicate, END, Mapper } from '../types'
+import type { AbortablePredicate, Mapper } from '../types'
+import { END } from '../types'
 import {
   _by,
   _chunk,
