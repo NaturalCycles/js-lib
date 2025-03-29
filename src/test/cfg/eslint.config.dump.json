@@ -8,7 +8,7 @@
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.27.0",
+      "parser": "typescript-eslint/parser@8.28.0",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,7 +18,7 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.27.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.28.0",
     "unicorn:eslint-plugin-unicorn@58.0.0",
     "vue:eslint-plugin-vue@10.0.0",
     "import-x",
@@ -116,7 +116,7 @@
       0
     ],
     "@typescript-eslint/consistent-type-imports": [
-      0
+      2
     ],
     "@typescript-eslint/default-param-last": [
       0

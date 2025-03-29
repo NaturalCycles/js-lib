@@ -1,5 +1,6 @@
 import fs from 'node:fs'
-import { _range, _uniq, AnyObject } from '@naturalcycles/js-lib'
+import type { AnyObject } from '@naturalcycles/js-lib'
+import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, exec2 } from '@naturalcycles/nodejs-lib'
 import { cfgDir } from './paths'
 

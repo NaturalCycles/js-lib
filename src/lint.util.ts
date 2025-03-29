@@ -1,14 +1,7 @@
 import cp from 'node:child_process'
 import fs from 'node:fs'
-import {
-  _assert,
-  _isTruthy,
-  _since,
-  _truncate,
-  semver2,
-  SemVerString,
-  UnixTimestampMillis,
-} from '@naturalcycles/js-lib'
+import type { SemVerString, UnixTimestampMillis } from '@naturalcycles/js-lib'
+import { _assert, _isTruthy, _since, _truncate, semver2 } from '@naturalcycles/js-lib'
 import { _yargs, boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
 import { cfgDir, scriptsDir } from './paths'
 const {

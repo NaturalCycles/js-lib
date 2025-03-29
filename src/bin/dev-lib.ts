@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { select, Separator } from '@inquirer/prompts'
-import { _assert, _by, PromisableFunction } from '@naturalcycles/js-lib'
+import type { PromisableFunction } from '@naturalcycles/js-lib'
+import { _assert, _by } from '@naturalcycles/js-lib'
 import { runScript } from '@naturalcycles/nodejs-lib'
 import { buildCopy, buildEsmCjs, buildProd, runTSCInFolders } from '../build.util'
 import {
