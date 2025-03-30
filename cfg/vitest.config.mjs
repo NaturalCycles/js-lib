@@ -12,7 +12,8 @@ const maxWorkers = getMaxWorkers()
 const minWorkers = maxWorkers
 // threads are tested to be ~10% faster than forks in CI (and no change locally)
 // UPD: it was not statistically significant, so, reverting back to forks which is more stable
-const pool = 'forks'
+// UPD2: in a different experiment, threads show ~10% faster locally, consistently
+const pool = 'threads'
 process.env.TZ ||= 'UTC'
 
 if (testType === 'unit') {
@@ -48,6 +49,7 @@ export const sharedConfig = {
   setupFiles,
   logHeapUsage: true,
   testTimeout: 60_000,
+  slowTestThreshold: isCI ? 500 : 300, // higher threshold in CI
   sequence: {
     sequencer: VitestAlphabeticSequencer,
     // shuffle: {
