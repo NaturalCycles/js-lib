@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import { existsSync } from 'node:fs'
 import type { AnyObject } from '@naturalcycles/js-lib'
 import { _range, _uniq } from '@naturalcycles/js-lib'
 import { dimGrey, exec2 } from '@naturalcycles/nodejs-lib'
@@ -154,21 +154,21 @@ function runJest(opt: RunTestOptions): void {
  * Returns true if module with given name exists in _target project's_ node_modules.
  */
 function nodeModuleExists(moduleName: string): boolean {
-  return fs.existsSync(`./node_modules/${moduleName}`)
+  return existsSync(`./node_modules/${moduleName}`)
 }
 
 function getJestConfigPath(): string | undefined {
-  return fs.existsSync(`./jest.config.js`) ? './jest.config.js' : undefined
+  return existsSync(`./jest.config.js`) ? './jest.config.js' : undefined
 }
 
 function getJestIntegrationConfigPath(): string {
-  return fs.existsSync(`./jest.integration-test.config.js`)
+  return existsSync(`./jest.integration-test.config.js`)
     ? `./jest.integration-test.config.js`
     : `${cfgDir}/jest.integration-test.config.js`
 }
 
 function getJestManualConfigPath(): string {
-  return fs.existsSync(`./jest.manual-test.config.js`)
+  return existsSync(`./jest.manual-test.config.js`)
     ? `./jest.manual-test.config.js`
     : `${cfgDir}/jest.manual-test.config.js`
 }

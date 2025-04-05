@@ -1,5 +1,5 @@
-import cp from 'node:child_process'
-import fs from 'node:fs'
+import { execSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import type { SemVerString, UnixTimestampMillis } from '@naturalcycles/js-lib'
 import { _assert, _isTruthy, _since, _truncate, semver2 } from '@naturalcycles/js-lib'
 import { _yargs, boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
@@ -48,8 +48,8 @@ export async function lintAllCommand(): Promise<void> {
   await eslintAll()
 
   if (
-    fs.existsSync(`node_modules/stylelint`) &&
-    fs.existsSync(`node_modules/stylelint-config-standard-scss`)
+    existsSync(`node_modules/stylelint`) &&
+    existsSync(`node_modules/stylelint-config-standard-scss`)
   ) {
     stylelintAll()
   }
@@ -110,23 +110,23 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
   const extensions = ext.split(',')
 
   const eslintConfigPathRoot = ['./eslint.config.js', './eslint.config.cjs'].find(p =>
-    fs.existsSync(p),
+    existsSync(p),
   )
   const eslintConfigPathScripts = [
     './scripts/eslint.config.js',
     './scripts/eslint.config.cjs',
     './eslint.config.js',
     './eslint.config.cjs',
-  ].find(p => fs.existsSync(p))
+  ].find(p => existsSync(p))
   const eslintConfigPathE2e = [
     './e2e/eslint.config.js',
     './e2e/eslint.config.cjs',
     './eslint.config.js',
     './eslint.config.cjs',
-  ].find(p => fs.existsSync(p))
+  ].find(p => existsSync(p))
 
   const tsconfigPathScripts =
-    [`./scripts/tsconfig.json`].find(p => fs.existsSync(p)) || `${scriptsDir}/tsconfig.json`
+    [`./scripts/tsconfig.json`].find(p => existsSync(p)) || `${scriptsDir}/tsconfig.json`
   const tsconfigPathE2e = `./e2e/tsconfig.json`
 
   // todo: run on other dirs too, e.g pages, components, layouts
@@ -160,7 +160,7 @@ async function runESLint(
   extensions = eslintExtensions,
   fix = true,
 ): Promise<void> {
-  if (!eslintConfigPath || !fs.existsSync(dir)) return // faster to bail-out like this
+  if (!eslintConfigPath || !existsSync(dir)) return // faster to bail-out like this
 
   await exec2.spawnAsync('eslint', {
     args: [
@@ -189,7 +189,7 @@ const prettierPaths = [
 
 export function runPrettier(): void {
   const prettierConfigPath = [`./prettier.config.js`, `./prettier.config.cjs`].find(f =>
-    fs.existsSync(f),
+    existsSync(f),
   )
   if (!prettierConfigPath) return
 
@@ -216,7 +216,7 @@ export function stylelintAll(): void {
     },
   }).argv
 
-  const config = [`./stylelint.config.js`].find(f => fs.existsSync(f))
+  const config = [`./stylelint.config.js`].find(f => existsSync(f))
   if (!config) return
 
   exec2.spawn('stylelint', {
@@ -230,7 +230,7 @@ export function stylelintAll(): void {
 export async function lintStagedCommand(): Promise<void> {
   const localConfig = `./lint-staged.config.js`
   const sharedConfig = `${cfgDir}/lint-staged.config.js`
-  const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
+  const config = existsSync(localConfig) ? localConfig : sharedConfig
 
   const { default: lintStaged } = await import('lint-staged')
   const success = await lintStaged({
@@ -247,7 +247,7 @@ export function runCommitlintCommand(): void {
   const cwd = process.cwd()
   const localConfig = `${cwd}/commitlint.config.js`
   const sharedConfig = `${cfgDir}/commitlint.config.js`
-  const config = fs.existsSync(localConfig) ? localConfig : sharedConfig
+  const config = existsSync(localConfig) ? localConfig : sharedConfig
 
   const env = {
     GIT_BRANCH: git2.getCurrentBranchName(),
@@ -263,14 +263,14 @@ export function runCommitlintCommand(): void {
 }
 
 async function runKTLint(): Promise<void> {
-  if (!fs.existsSync(`node_modules/@naturalcycles/ktlint`)) return
+  if (!existsSync(`node_modules/@naturalcycles/ktlint`)) return
   const ktlintLib = require('@naturalcycles/ktlint')
   await ktlintLib.ktlintAll()
 }
 
 function runActionLint(): void {
   // Only run if there is a folder of `.github/workflows`, otherwise actionlint will fail
-  if (!fs.existsSync('.github/workflows')) return
+  if (!existsSync('.github/workflows')) return
 
   if (canRunBinary('actionlint')) {
     requireActionlintVersion()
@@ -308,12 +308,12 @@ export function runBiome(fix = true): void {
   // }
 
   const configPath = `biome.jsonc`
-  if (!fs.existsSync(configPath)) {
+  if (!existsSync(configPath)) {
     console.log(`biome is skipped, because ./biome.jsonc is not present`)
     return
   }
 
-  const dirs = [`src`, `scripts`, `e2e`].filter(d => fs.existsSync(d))
+  const dirs = [`src`, `scripts`, `e2e`].filter(d => existsSync(d))
 
   exec2.spawn(`biome`, {
     args: [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
@@ -326,7 +326,7 @@ export function runBiome(fix = true): void {
 
 function canRunBinary(name: string): boolean {
   try {
-    cp.execSync(`which ${name}`)
+    execSync(`which ${name}`)
     return true
   } catch {
     return false
@@ -335,7 +335,7 @@ function canRunBinary(name: string): boolean {
 
 function gitStatus(): string | undefined {
   try {
-    return cp.execSync('git status -s', {
+    return execSync('git status -s', {
       encoding: 'utf8',
     })
   } catch {}

@@ -1,6 +1,8 @@
 {
   "extends": "./cfg/tsconfig.json",
   "compilerOptions": {
+    // "esModuleInterop": false, // todo
+    // "allowSyntheticDefaultImports": false, // todo
     "outDir": "./dist",
     "declaration": false,
   },

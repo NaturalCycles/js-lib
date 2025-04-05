@@ -85,7 +85,7 @@ module.exports = {
     // "@mysticatea/eslint-plugin/no-this-in-static": 0,
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/consistent-type-exports': 0,
-    '@typescript-eslint/consistent-type-imports': 0,
+    // '@typescript-eslint/consistent-type-imports': 0, // `useImportType` is currently disabled
     '@typescript-eslint/default-param-last': 0,
     '@typescript-eslint/dot-notation': 0,
     '@typescript-eslint/no-dupe-class-members': 0,

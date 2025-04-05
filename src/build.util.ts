@@ -1,4 +1,3 @@
-import fs from 'node:fs'
 import { exec2, fs2, kpySync } from '@naturalcycles/nodejs-lib'
 
 export async function buildEsmCjs(): Promise<void> {
@@ -84,7 +83,7 @@ export async function runTSCInFolders(
  * Pass '.' to run in root.
  */
 export async function runTSCInFolder(tsconfigPath: string, args: string[] = []): Promise<void> {
-  if (!fs.existsSync(tsconfigPath)) {
+  if (!fs2.pathExists(tsconfigPath)) {
     console.log(`Skipping to run tsc for ${tsconfigPath}, as it doesn't exist`)
     return
   }
@@ -96,7 +95,7 @@ export async function runTSCInFolder(tsconfigPath: string, args: string[] = []):
 }
 
 export async function runTSCProd(args: string[] = []): Promise<void> {
-  const tsconfigPath = [`./tsconfig.prod.json`].find(p => fs.existsSync(p)) || 'tsconfig.json'
+  const tsconfigPath = [`./tsconfig.prod.json`].find(p => fs2.pathExists(p)) || 'tsconfig.json'
 
   await exec2.spawnAsync(`tsc`, {
     args: ['-P', tsconfigPath, '--noEmit', 'false', '--noCheck', ...args],

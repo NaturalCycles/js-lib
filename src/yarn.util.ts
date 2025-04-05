@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import { existsSync } from 'node:fs'
 import { exec2 } from '@naturalcycles/nodejs-lib'
 
 export function up(): void {
@@ -6,7 +6,7 @@ export function up(): void {
   exec2.spawn('yarn-deduplicate')
   exec2.spawn('yarn')
 
-  if (fs.existsSync(`node_modules/patch-package`)) {
+  if (existsSync(`node_modules/patch-package`)) {
     exec2.spawn('patch-package')
   }
 }
