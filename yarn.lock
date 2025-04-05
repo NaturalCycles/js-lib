@@ -1027,10 +1027,10 @@
     "@emnapi/runtime" "^1.4.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@naturalcycles/bench-lib@^3":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/bench-lib/-/bench-lib-3.1.1.tgz#f1431bc69687dc472b910385c30d0f8860bb4df0"
-  integrity sha512-rv/6/gTzZd2Ga0jBLhgFxyVaJfB9nBb7nl1cGbU4OfZ2pHoU8fIBlEVWbK79fDF2E/QhcJlVK6lu+BA5gGHBcg==
+"@naturalcycles/bench-lib@^4":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/bench-lib/-/bench-lib-4.0.0.tgz#abbfe1a3f1086962da1c4b0be8fec1137a6992bc"
+  integrity sha512-aLl2ir6prVE9XYuewLwFp0pr+SuHnITBvK6+0fyZQisz4/rwwnQKHEjrnc3kM+eUItFMhA4yia11m7VzQo81ig==
   dependencies:
     "@naturalcycles/js-lib" "^14"
     "@naturalcycles/nodejs-lib" "^13"
@@ -1069,17 +1069,17 @@
     vue-eslint-parser "^10"
 
 "@naturalcycles/js-lib@^14", "@naturalcycles/js-lib@^14.192.0":
-  version "14.274.1"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.274.1.tgz#4503107f342753179a1862ea5fcc749f6f1eb10b"
-  integrity sha512-NsKxdbXhwTscWKMB8tmQhc75CTY2ltIk4VPRIR7gV1QE/B9B/Zh+tH2+nROFrpKBIYWojj2npiZkvCPAocpE2w==
+  version "14.275.0"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/js-lib/-/js-lib-14.275.0.tgz#fd8d0c565a9ef3cbf3c31e9f0aeaf59042381e22"
+  integrity sha512-Srmf3hvXvyBlGsXmRMNBxMPdRmjhi9P1BpXwVnpr3D3w16v19HuccCOlpIDq7G6O1Gl+nbfkQSaxuwXq8p+BNQ==
   dependencies:
     tslib "^2"
     zod "^3"
 
 "@naturalcycles/nodejs-lib@^13":
-  version "13.45.3"
-  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.45.3.tgz#65de46754fa4ec6a14267c5ae05b82b46c27cbc0"
-  integrity sha512-GxMi4RPdoHPcPs495+SFNtyVGThOCa52DpGVY1FqEUckWbvZKptsl1BuYHCdEKW/Wpjy1cm9r1yPUEasw8fASQ==
+  version "13.45.4"
+  resolved "https://registry.yarnpkg.com/@naturalcycles/nodejs-lib/-/nodejs-lib-13.45.4.tgz#c323db2e194ff9dc04b2b7042a8a4ade2aafe40b"
+  integrity sha512-WGTrqLIYWknn3HFsoae9loD9pEgRLmVqVL/nQBmMEGgl6GhXYRc4dNvTilv1G8LpsdL/Jr6rr920/FCe/KQz0A==
   dependencies:
     "@naturalcycles/js-lib" "^14"
     "@types/js-yaml" "^4"

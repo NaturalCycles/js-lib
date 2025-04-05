@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/dateParseBench
+yarn tsx scripts/dateParseBench.ts
 
  */
 
