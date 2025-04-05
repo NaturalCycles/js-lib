@@ -17,7 +17,7 @@
 - ESLint
 - Biome
 - Stylelint
-- Jest
+- Jest / Vitest
 - ktlint
 - actionlint
 - lint-staged
@@ -218,6 +218,7 @@ These files are meant to be extended in target project, so act as _recommended d
 - `eslint.config.js`
 - `biome.jsonc`
 - `jest.config.js`
+- `vitest.config.mjs`
 
 ## eslint
 
