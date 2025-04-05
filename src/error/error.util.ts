@@ -406,7 +406,7 @@ export class HttpRequestError extends AppError<HttpRequestErrorData> {
    * so it always has a cause.
    * (for dev convenience)
    */
-  override cause!: ErrorObject
+  declare cause: ErrorObject
 }
 
 export class AssertionError extends AppError {

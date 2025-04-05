@@ -35,6 +35,7 @@
     "resolveJsonModule": true,
     "suppressImplicitAnyIndexErrors": false,
     "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitOverride": true,
 

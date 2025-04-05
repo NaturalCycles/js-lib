@@ -18,7 +18,9 @@ describe('when run in Browser', () => {
     localStorage = new InMemoryWebStorage()
     Object.assign(globalThis, {
       localStorage,
-      window: {}, // so isServerSide() returns false
+      window: {
+        document: {}, // so isServerSide() returns false
+      },
     })
   })
 
