@@ -306,6 +306,13 @@ export type NonNegativeNumber = number
  * data: (number | null)[]
  */
 export type NullableNumber = number | null
+export type NullablePositiveNumber = number | null
+export type NullableNonNegativeNumber = number | null
+
+export type NullableInteger = number | null
+export type NullablePositiveInteger = number | null
+export type NullableNotNegativeInteger = number | null
+
 export type NullableString = string | null
 export type NullableBoolean = boolean | null
 export type NullableBuffer = Buffer | null
