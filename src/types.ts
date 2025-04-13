@@ -1,3 +1,4 @@
+import { _sortBy } from './array/array.util'
 import type { Promisable } from './typeFest'
 
 declare const __brand: unique symbol
@@ -335,16 +336,27 @@ export type SemVerString = string
 export type Reviver = (this: any, key: string, value: any) => any
 
 /**
- * Needed due to https://github.com/microsoft/TypeScript/issues/13778
- * Only affects typings, no runtime effect.
+ * Like _stringMapValues, but values are sorted.
  */
-export const _stringMapValues = Object.values as <T>(m: StringMap<T>) => T[]
+export function _stringMapValuesSorted<T>(
+  map: StringMap<T>,
+  mapper: Mapper<T, any>,
+  dir: SortDirection = 'asc',
+): T[] {
+  return _sortBy(_stringMapValues(map), mapper, false, dir)
+}
 
 /**
  * Needed due to https://github.com/microsoft/TypeScript/issues/13778
  * Only affects typings, no runtime effect.
  */
-export const _stringMapEntries = Object.entries as <T>(m: StringMap<T>) => [k: string, v: T][]
+export const _stringMapValues = Object.values as <T>(map: StringMap<T>) => T[]
+
+/**
+ * Needed due to https://github.com/microsoft/TypeScript/issues/13778
+ * Only affects typings, no runtime effect.
+ */
+export const _stringMapEntries = Object.entries as <T>(map: StringMap<T>) => [k: string, v: T][]
 
 /**
  * Alias of `Object.keys`, but returns keys typed as `keyof T`, not as just `string`.

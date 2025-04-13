@@ -1,6 +1,6 @@
 import { expect, expectTypeOf, test } from 'vitest'
 import type { AppError, Branded, IsoDate, UnixTimestamp } from '.'
-import { asUnixTimestamp, asUnixTimestamp2000, localTime } from '.'
+import { _stringMapValuesSorted, asUnixTimestamp, asUnixTimestamp2000, localTime } from '.'
 import { _expectedError } from './error/try'
 import type {
   AnyObject,
@@ -172,6 +172,10 @@ test('_stringMapValues, _stringMapEntries', () => {
   const keys = _objectKeys(o)
   expectTypeOf(keys).toMatchTypeOf<string[]>()
   expect(keys).toEqual(['b', 'c', 'd'])
+
+  expect(_stringMapValuesSorted(o, v => v)).toEqual([2, 3, 4])
+  expect(_stringMapValuesSorted(o, v => -v)).toEqual([4, 3, 2])
+  expect(_stringMapValuesSorted(o, v => v, 'desc')).toEqual([4, 3, 2])
 })
 
 test('_typeCast', () => {
