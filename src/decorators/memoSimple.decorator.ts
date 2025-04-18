@@ -11,10 +11,10 @@ Otherwise resorts to JSON.stringify.
 Benchmark shows similar perf for ObjectCache and MapCache.
  */
 
-import type { CommonLogger } from '../log/commonLogger'
-import { _getTargetMethodSignature } from './decorator.util'
-import type { MemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import type { CommonLogger } from '../log/commonLogger.js'
+import { _getTargetMethodSignature } from './decorator.util.js'
+import type { MemoCache } from './memo.util.js'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util.js'
 
 export interface MemoOpts {
   logger?: CommonLogger

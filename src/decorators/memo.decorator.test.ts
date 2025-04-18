@@ -1,7 +1,7 @@
 import { expect, test, vi } from 'vitest'
-import { _range } from '../array/range'
-import { pDelay } from '../promise/pDelay'
-import { _getMemo, _Memo } from './memo.decorator'
+import { _range } from '../array/range.js'
+import { pDelay } from '../promise/pDelay.js'
+import { _getMemo, _Memo } from './memo.decorator.js'
 
 class A {
   func(n: number): void {

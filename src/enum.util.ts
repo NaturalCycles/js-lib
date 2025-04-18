@@ -1,4 +1,4 @@
-import type { NumberEnum, StringEnum } from './types'
+import type { NumberEnum, StringEnum } from './types.js'
 
 /**
  * Returns all String keys of a number-enum.

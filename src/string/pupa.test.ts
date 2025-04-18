@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import type { PupaOptions } from './pupa'
-import { pupa } from './pupa'
+import type { PupaOptions } from './pupa.js'
+import { pupa } from './pupa.js'
 
 test('main', () => {
   // Normal placeholder

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { _expectedError } from '../error/try'
-import { zBaseDBEntity, zEmail, zIsoDateString } from './zod.shared.schemas'
-import { ZodValidationError, zSafeValidate, zValidate } from './zod.util'
+import { _expectedError } from '../error/try.js'
+import { zBaseDBEntity, zEmail, zIsoDateString } from './zod.shared.schemas.js'
+import { ZodValidationError, zSafeValidate, zValidate } from './zod.util.js'
 
 test('basic', () => {
   const err = _expectedError(() => zValidate({} as any, zBaseDBEntity), ZodValidationError)

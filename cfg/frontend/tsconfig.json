@@ -6,10 +6,10 @@
 {
   "compilerOptions": {
     // Target/module
-    "target": "es2020", // es2020+ browsers, adjust to your requirements!
+    "target": "es2023", // es2023+ browsers, adjust to your requirements!
     "lib": ["esnext", "dom", "dom.iterable"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
     // specifying these explicitly for better IDE compatibility (but they're on by default with module=nodenext)
     "esModuleInterop": true,
@@ -25,7 +25,7 @@
     // Otherwise since es2022 it defaults to true
     // and starts to produce different/unexpected behavior
     // https://angular.schule/blog/2022-11-use-define-for-class-fields
-    "useDefineForClassFields": false,
+    "useDefineForClassFields": true,
     "importHelpers": true,
 
     // Strictness

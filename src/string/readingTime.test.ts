@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import type { ReadingTimeOptions, ReadingTimeResult } from './readingTime'
-import { readingTime } from './readingTime'
+import type { ReadingTimeOptions, ReadingTimeResult } from './readingTime.js'
+import { readingTime } from './readingTime.js'
 
 function runTest(
   words: number | string,

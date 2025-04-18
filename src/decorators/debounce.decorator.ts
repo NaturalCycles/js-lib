@@ -1,5 +1,5 @@
-import type { DebounceOptions, ThrottleOptions } from './debounce'
-import { _debounce, _throttle } from './debounce'
+import type { DebounceOptions, ThrottleOptions } from './debounce.js'
+import { _debounce, _throttle } from './debounce.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function _Debounce(wait: number, opt: DebounceOptions = {}): MethodDecorator {

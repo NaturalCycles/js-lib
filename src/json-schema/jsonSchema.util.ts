@@ -1,7 +1,7 @@
-import type { AnyObject } from '../index'
-import { _uniq } from '../index'
-import { _filterNullishValues } from '../object/object.util'
-import type { JsonSchemaObject } from './jsonSchema.model'
+import type { AnyObject } from '../index.js'
+import { _uniq } from '../index.js'
+import { _filterNullishValues } from '../object/object.util.js'
+import type { JsonSchemaObject } from './jsonSchema.model.js'
 
 /**
  * Merges s2 into s1 (mutates s1) and returns s1.

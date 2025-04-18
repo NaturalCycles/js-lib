@@ -1,6 +1,6 @@
 import { test } from 'vitest'
-import { expectResults } from '../test/test.util'
-import { _camelCase, _kebabCase, _snakeCase } from './case'
+import { expectResults } from '../test/test.util.js'
+import { _camelCase, _kebabCase, _snakeCase } from './case.js'
 
 const words = [
   'Add data',

@@ -1,4 +1,4 @@
-import type { AsyncPredicate } from '../types'
+import type { AsyncPredicate } from '../types.js'
 
 export async function pFilter<T>(iterable: Iterable<T>, filterFn: AsyncPredicate<T>): Promise<T[]> {
   const items = [...iterable]

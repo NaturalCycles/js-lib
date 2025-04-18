@@ -1,5 +1,5 @@
-import type { BaseDBEntity } from '../types'
-import { jsonSchema } from './jsonSchemaBuilder'
+import type { BaseDBEntity } from '../types.js'
+import { jsonSchema } from './jsonSchemaBuilder.js'
 
 export const baseDBEntityJsonSchema = jsonSchema.object<BaseDBEntity>({
   id: jsonSchema.string(),

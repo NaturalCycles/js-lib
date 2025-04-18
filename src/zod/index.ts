@@ -1,5 +1,5 @@
-export * from './zod.shared.schemas'
-export * from './zod.util'
+export * from './zod.shared.schemas.js'
+export * from './zod.util.js'
 import type { ZodIssue } from 'zod'
 import { z, ZodError, ZodSchema } from 'zod'
 

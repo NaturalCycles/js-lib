@@ -1,10 +1,10 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { expect, test } from 'vitest'
-import { _range } from '../array/range'
-import { expectWithMessage, isUTC } from '../test/test.util'
-import type { IsoDate } from '../types'
-import type { LocalDateFormatter, LocalDateUnit } from './localDate'
-import { localDate } from './localDate'
+import { _range } from '../array/range.js'
+import { expectWithMessage, isUTC } from '../test/test.util.js'
+import type { IsoDate } from '../types.js'
+import type { LocalDateFormatter, LocalDateUnit } from './localDate.js'
+import { localDate } from './localDate.js'
 
 const units: LocalDateUnit[] = ['year', 'month', 'day', 'week']
 

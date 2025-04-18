@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { AccumulatingAverage } from './accumulatingAverage'
+import { AccumulatingAverage } from './accumulatingAverage.js'
 
 test('simple', () => {
   const aa = new AccumulatingAverage()

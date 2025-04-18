@@ -1,5 +1,5 @@
-import { localTime } from '../datetime/localTime'
-import type { UnixTimestamp } from '../types'
+import { localTime } from '../datetime/localTime.js'
+import type { UnixTimestamp } from '../types.js'
 
 export interface BuildInfo {
   /**

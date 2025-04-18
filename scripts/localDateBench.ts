@@ -6,8 +6,8 @@ yarn tsx scripts/localDateBench
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
-import type { IsoDate } from '../src'
-import { localDate, localTime } from '../src'
+import type { IsoDate } from '../src/index.js'
+import { localDate, localTime } from '../src/index.js'
 
 const str = '1984-06-21' as IsoDate
 

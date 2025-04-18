@@ -7,7 +7,7 @@ yarn tsx scripts/hashBench
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { md5 } from '@naturalcycles/nodejs-lib'
 import cryptoJS from 'crypto-js'
-import { _range, hashCode, hashCode64 } from '../src'
+import { _range, hashCode, hashCode64 } from '../src/index.js'
 const crypto = require('node:crypto').webcrypto
 
 const data = _range(100).map(n => ({

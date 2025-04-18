@@ -1,9 +1,10 @@
 {
   "name": "@naturalcycles/js-lib",
+  "type": "module",
   "version": "14.55.0",
   "scripts": {
     "prepare": "husky",
-    "build": "dev-lib build-esm-cjs",
+    "build": "dev-lib build",
     "test": "dev-lib test",
     "lint": "dev-lib lint",
     "bt": "dev-lib bt",
@@ -21,22 +22,21 @@
   },
   "devDependencies": {
     "@naturalcycles/bench-lib": "^4",
-    "@naturalcycles/dev-lib": "^17",
-    "@naturalcycles/nodejs-lib": "^13",
+    "@naturalcycles/dev-lib": "^18",
+    "@naturalcycles/nodejs-lib": "^14",
     "@naturalcycles/time-lib": "^3",
     "@types/crypto-js": "^4",
     "@types/node": "^22",
     "@types/semver": "^7",
     "@vitest/coverage-v8": "^3",
     "crypto-js": "^4",
-    "tsx": "^4.19.3",
+    "tsx": "^4",
     "vitepress": "^1",
     "vitest": "^3",
     "vue": "^3"
   },
   "files": [
     "dist",
-    "dist-esm",
     "cfg",
     "src",
     "!src/test",
@@ -44,11 +44,10 @@
     "!src/**/__snapshots__"
   ],
   "main": "dist/index.js",
-  "module": "dist-esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=20.13.0"
+    "node": ">=22.12.0"
   },
   "publishConfig": {
     "provenance": true,

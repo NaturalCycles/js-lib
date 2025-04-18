@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import type { BackendErrorResponseObject, ErrorObject, HttpRequestErrorData } from '..'
+import type { BackendErrorResponseObject, ErrorObject, HttpRequestErrorData } from '../index.js'
 import {
   _errorDataAppend,
   _errorLikeToErrorObject,
@@ -11,14 +11,14 @@ import {
   AppError,
   AssertionError,
   HttpRequestError,
-} from '..'
-import { expectResults } from '../test/test.util'
+} from '../index.js'
+import { expectResults } from '../test/test.util.js'
 import {
   _anyToError,
   _anyToErrorObject,
   _isBackendErrorResponseObject,
   _isErrorObject,
-} from './error.util'
+} from './error.util.js'
 
 const anyItems = [
   undefined,

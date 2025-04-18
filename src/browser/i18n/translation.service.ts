@@ -1,5 +1,5 @@
-import { pMap } from '../../promise/pMap'
-import type { StringMap } from '../../types'
+import { pMap } from '../../promise/pMap.js'
+import type { StringMap } from '../../types.js'
 
 export type MissingTranslationHandler = (key: string, params?: StringMap<any>) => string
 

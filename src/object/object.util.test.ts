@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import type { StringMap } from '../types'
+import type { StringMap } from '../types.js'
 import {
   _deepCopy,
   _deepFreeze,
@@ -28,7 +28,7 @@ import {
   _pickWithUndefined,
   _set,
   _unset,
-} from './object.util'
+} from './object.util.js'
 
 test('_pick', () => {
   const f = _pick

@@ -1,6 +1,6 @@
-import { _mapObject, _mapValues } from './object/object.util'
-import type { AnyFunction, AnyObject, Lazy } from './types'
-import { SKIP } from './types'
+import { _mapObject, _mapValues } from './object/object.util.js'
+import type { AnyFunction, AnyObject, Lazy } from './types.js'
+import { SKIP } from './types.js'
 
 /**
  * const value = lazyValue(() => expensiveComputation())

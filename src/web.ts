@@ -1,7 +1,7 @@
 /// <reference lib="es2022" preserve="true" />
 /// <reference lib="dom" preserve="true" />
 
-import type { StringMap } from './types'
+import type { StringMap } from './types.js'
 
 /**
  * Implements WebStorage API by using in-memory storage.

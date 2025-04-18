@@ -1,8 +1,8 @@
 import { AjvSchema } from '@naturalcycles/nodejs-lib'
 import { expect, test } from 'vitest'
-import type { BaseDBEntity } from '../index'
-import { jsonSchema } from './jsonSchemaBuilder'
-import { baseDBEntityJsonSchema } from './jsonSchemas'
+import type { BaseDBEntity } from '../index.js'
+import { jsonSchema } from './jsonSchemaBuilder.js'
+import { baseDBEntityJsonSchema } from './jsonSchemas.js'
 
 interface Address {
   countryCode: string

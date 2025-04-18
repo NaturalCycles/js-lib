@@ -20,7 +20,7 @@ import {
   _stringEnumKeyOrUndefined,
   _stringEnumKeys,
   _stringEnumValues,
-} from './enum.util'
+} from './enum.util.js'
 
 enum MyNumberEnum {
   K1 = 1,

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _sortObject } from './sortObject'
+import { _sortObject } from './sortObject.js'
 
 interface Item {
   a: string

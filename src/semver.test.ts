@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { _expectedErrorString } from './error/try'
-import { _quickSemverCompare, semver2 } from './semver'
+import { _expectedErrorString } from './error/try.js'
+import { _quickSemverCompare, semver2 } from './semver.js'
 
 test('basic', () => {
   const s = semver2('1.2.3')

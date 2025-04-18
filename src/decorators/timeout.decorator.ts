@@ -1,7 +1,7 @@
-import { _assert } from '../error/assert'
-import type { PTimeoutOptions } from '../promise/pTimeout'
-import { pTimeout } from '../promise/pTimeout'
-import { _getMethodSignature } from './decorator.util'
+import { _assert } from '../error/assert.js'
+import type { PTimeoutOptions } from '../promise/pTimeout.js'
+import { pTimeout } from '../promise/pTimeout.js'
+import { _getMethodSignature } from './decorator.util.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function _Timeout(opt: PTimeoutOptions): MethodDecorator {

@@ -1,4 +1,4 @@
-import { _assert } from '../error/assert'
+import { _assert } from '../error/assert.js'
 import type {
   AbortablePredicate,
   FalsyValue,
@@ -6,8 +6,8 @@ import type {
   Predicate,
   SortDirection,
   StringMap,
-} from '../types'
-import { END } from '../types'
+} from '../types.js'
+import { END } from '../types.js'
 
 /**
  * Creates an array of elements split into groups the length of size. If collection can’t be split evenly, the

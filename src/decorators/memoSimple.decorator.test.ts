@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { memoSimple } from './memoSimple.decorator'
+import { memoSimple } from './memoSimple.decorator.js'
 
 class A {
   func(n: number): void {

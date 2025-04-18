@@ -1,8 +1,8 @@
 /// <reference lib="dom" preserve="true" />
 
-import { isServerSide } from './env'
-import { nanoidBrowser } from './nanoid'
-import { hashCode } from './string/hash.util'
+import { isServerSide } from './env.js'
+import { nanoidBrowser } from './nanoid.js'
+import { hashCode } from './string/hash.util.js'
 
 // This is in sync with the default length in Nanoid.
 const deviceIdLength = 21

@@ -1,4 +1,4 @@
-import type { Inclusiveness, SortDirection } from '../types'
+import type { Inclusiveness, SortDirection } from '../types.js'
 
 export function _randomInt(minIncl: number, maxIncl: number): number {
   return Math.floor(Math.random() * (maxIncl - minIncl + 1) + minIncl)

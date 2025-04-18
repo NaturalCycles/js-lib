@@ -1,6 +1,6 @@
-import { _range } from './array/range'
-import { _assert } from './error/assert'
-import type { SortDirection } from './types'
+import { _range } from './array/range.js'
+import { _assert } from './error/assert.js'
+import type { SortDirection } from './types.js'
 
 export type SemverInput = string | Semver
 export type SemverInputNullable = SemverInput | null | undefined

@@ -1,4 +1,4 @@
-import { _uniq } from '../array/array.util'
+import { _uniq } from '../array/array.util.js'
 import type {
   AnyObject,
   BaseDBEntity,
@@ -6,9 +6,9 @@ import type {
   JsonSchemaArray,
   JsonSchemaOneOf,
   JsonSchemaTuple,
-} from '../index'
-import { _deepCopy, _sortObject, mergeJsonSchemaObjects } from '../index'
-import { JSON_SCHEMA_ORDER } from './jsonSchema.cnst'
+} from '../index.js'
+import { _deepCopy, _sortObject, mergeJsonSchemaObjects } from '../index.js'
+import { JSON_SCHEMA_ORDER } from './jsonSchema.cnst.js'
 import type {
   JsonSchema,
   JsonSchemaAny,
@@ -20,7 +20,7 @@ import type {
   JsonSchemaObject,
   JsonSchemaRef,
   JsonSchemaString,
-} from './jsonSchema.model'
+} from './jsonSchema.model.js'
 
 /* eslint-disable id-blacklist, @typescript-eslint/explicit-module-boundary-types */
 

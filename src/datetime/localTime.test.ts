@@ -1,16 +1,16 @@
 import { dayjs } from '@naturalcycles/time-lib'
 import { expect, test } from 'vitest'
-import { _range } from '../array/range'
-import { expectWithMessage, isUTC } from '../test/test.util'
+import { _range } from '../array/range.js'
+import { expectWithMessage, isUTC } from '../test/test.util.js'
 import type {
   IANATimezone,
   IsoDate,
   IsoDateTime,
   UnixTimestamp,
   UnixTimestampMillis,
-} from '../types'
-import type { LocalTimeFormatter, LocalTimeUnit } from './localTime'
-import { ISODayOfWeek, localTime } from './localTime'
+} from '../types.js'
+import type { LocalTimeFormatter, LocalTimeUnit } from './localTime.js'
+import { ISODayOfWeek, localTime } from './localTime.js'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 

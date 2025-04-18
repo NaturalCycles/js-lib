@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
-import { TimeoutError } from '../error/error.util'
-import { pExpectedError } from '../error/try'
-import { pDelay } from '../promise/pDelay'
-import { _Timeout } from './timeout.decorator'
+import { TimeoutError } from '../error/error.util.js'
+import { pExpectedError } from '../error/try.js'
+import { pDelay } from '../promise/pDelay.js'
+import { _Timeout } from './timeout.decorator.js'
 
 class C {
   constructor(public succeedOnAttempt: number) {}

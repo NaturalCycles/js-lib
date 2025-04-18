@@ -1,7 +1,7 @@
 // Relevant material:
 // https://deviceandbrowserinfo.com/learning_zone/articles/detecting-headless-chrome-puppeteer-2024
 
-import { isServerSide } from './env'
+import { isServerSide } from './env.js'
 
 export interface BotDetectionServiceCfg {
   /**

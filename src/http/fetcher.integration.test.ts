@@ -1,14 +1,14 @@
 import fs from 'node:fs'
 import { Readable } from 'node:stream'
-import { testOnline } from '@naturalcycles/dev-lib/dist/testing'
+import { testOnline } from '@naturalcycles/dev-lib/dist/testing/testOffline.js'
 import { _pipeline } from '@naturalcycles/nodejs-lib'
 import { expect, expectTypeOf, test } from 'vitest'
-import { HttpRequestError, TimeoutError } from '../error/error.util'
-import { pExpectedError } from '../error/try'
-import { objectToFormData } from '../form.util'
-import { _stringify } from '../string/stringify'
-import { tmpDir } from '../test/paths'
-import { getFetcher } from './fetcher'
+import { HttpRequestError, TimeoutError } from '../error/error.util.js'
+import { pExpectedError } from '../error/try.js'
+import { objectToFormData } from '../form.util.js'
+import { _stringify } from '../string/stringify.js'
+import { tmpDir } from '../test/paths.js'
+import { getFetcher } from './fetcher.js'
 
 testOnline()
 

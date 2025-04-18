@@ -4,7 +4,7 @@ import type {
   JsonSchemaNumber,
   JsonSchemaObject,
   JsonSchemaString,
-} from './jsonSchema.model'
+} from './jsonSchema.model.js'
 
 export const JSON_SCHEMA_ORDER: (
   | keyof JsonSchema

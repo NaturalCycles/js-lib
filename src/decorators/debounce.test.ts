@@ -1,8 +1,8 @@
 import { test } from 'vitest'
-import type { UnixTimestampMillis } from '..'
-import { _since, pDelay } from '..'
-import type { AnyFunction } from '../types'
-import { _debounce } from './debounce'
+import type { UnixTimestampMillis } from '../index.js'
+import { _since, pDelay } from '../index.js'
+import type { AnyFunction } from '../types.js'
+import { _debounce } from './debounce.js'
 
 const originalFn = (started: UnixTimestampMillis, n: number): void =>
   console.log(`#${n} after ${_since(started)}`)

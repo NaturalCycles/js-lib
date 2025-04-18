@@ -11,8 +11,8 @@ Reasons:
 
  */
 
-import type { AnyObject } from '../types'
-import { htmlEscape } from './escape'
+import type { AnyObject } from '../types.js'
+import { htmlEscape } from './escape.js'
 
 export class MissingValueError extends Error {
   constructor(public key: any) {

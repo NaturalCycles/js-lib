@@ -1,5 +1,5 @@
-import { words } from './lodash/words'
-import { _upperFirst } from './string.util'
+import { words } from './lodash/words.js'
+import { _upperFirst } from './string.util.js'
 
 export function _camelCase(s: string): string {
   let r = ''

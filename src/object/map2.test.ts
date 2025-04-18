@@ -1,6 +1,6 @@
 import { expect, expectTypeOf, test } from 'vitest'
-import { _deepEquals } from './deepEquals'
-import { Map2 } from './map2'
+import { _deepEquals } from './deepEquals.js'
+import { Map2 } from './map2.js'
 
 /* eslint-disable @typescript-eslint/no-base-to-string */
 

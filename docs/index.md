@@ -61,11 +61,6 @@ This package is intended to be 0-dependency (exception: [tslib](https://github.c
 from TypeScript), "not bloated", tree-shakeable. Supported by reasonably modern Browsers and Node.js
 latest LTS.
 
-To fulfil that requirement it exports ESM version (for Browsers) as es2017.
-
-Exports default CJS version for Node as es2019 (with native async/await, for better performance,
-async stack-traces, etc).
-
 ## Mutation
 
 All function does **NOT** mutate the arguments by default.

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _gb, _hb, _hc, _kb, _mb } from './size.util'
+import { _gb, _hb, _hc, _kb, _mb } from './size.util.js'
 
 test('_hb', () => {
   expect(_hb()).toBe('0 byte(s)')

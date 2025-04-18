@@ -5,8 +5,8 @@ yarn tsx scripts/jsonBench
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
-import { _range, _safeJsonStringify } from '../src'
+import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing/mockAllKindsOfThings.js'
+import { _range, _safeJsonStringify } from '../src/index.js'
 
 const data = _range(10).map(() => mockAllKindsOfThings())
 

@@ -1,8 +1,8 @@
 import { test } from 'vitest'
-import type { UnixTimestampMillis } from '..'
-import { _since, pDelay } from '..'
-import type { AnyFunction } from '../types'
-import { _Debounce } from './debounce.decorator'
+import type { UnixTimestampMillis } from '../index.js'
+import { _since, pDelay } from '../index.js'
+import type { AnyFunction } from '../types.js'
+import { _Debounce } from './debounce.decorator.js'
 
 class C {
   // @debounce(200, {leading: true, trailing: true})

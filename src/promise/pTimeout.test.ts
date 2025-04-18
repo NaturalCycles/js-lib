@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
-import { TimeoutError } from '../error/error.util'
-import { pExpectedError } from '../error/try'
-import { pDelay } from './pDelay'
-import { pTimeout, pTimeoutFn } from './pTimeout'
+import { TimeoutError } from '../error/error.util.js'
+import { pExpectedError } from '../error/try.js'
+import { pDelay } from './pDelay.js'
+import { pTimeout, pTimeoutFn } from './pTimeout.js'
 
 test('pTimeoutFn happy case', async () => {
   const fn = async (name: string): Promise<string> => await pDelay(10, `hello ${name}`)

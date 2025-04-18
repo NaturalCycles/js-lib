@@ -1,4 +1,4 @@
-import type { Integer } from '../types'
+import type { Integer } from '../types.js'
 
 const BASE62 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 // const BASE64 = BASE62 + '+/'

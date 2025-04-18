@@ -1,10 +1,10 @@
-import { _deepEquals } from '../object/deepEquals'
-import { _stringify } from '../string/stringify'
-import type { Class } from '../typeFest'
-import type { UnixTimestamp } from '../types'
-import { TS_2000, TS_2500 } from '../zod/zod.shared.schemas'
-import type { BackendErrorResponseObject, ErrorData, ErrorObject } from './error.model'
-import { _isBackendErrorResponseObject, _isErrorObject, AssertionError } from './error.util'
+import { _deepEquals } from '../object/deepEquals.js'
+import { _stringify } from '../string/stringify.js'
+import type { Class } from '../typeFest.js'
+import type { UnixTimestamp } from '../types.js'
+import { TS_2000, TS_2500 } from '../zod/zod.shared.schemas.js'
+import type { BackendErrorResponseObject, ErrorData, ErrorObject } from './error.model.js'
+import { _isBackendErrorResponseObject, _isErrorObject, AssertionError } from './error.util.js'
 
 /**
  * Evaluates the `condition` (casts it to Boolean).

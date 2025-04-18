@@ -9,8 +9,8 @@ import type {
   JsonSchemaOneOf,
   JsonSchemaString,
   StringMap,
-} from '../..'
-import { _stringMapEntries, _uniq } from '../..'
+} from '../../index.js'
+import { _stringMapEntries, _uniq } from '../../index.js'
 
 type PrimitiveType = 'undefined' | 'null' | 'boolean' | 'string' | 'number'
 type Type = PrimitiveType | 'array' | 'object'

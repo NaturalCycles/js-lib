@@ -1,4 +1,4 @@
-import { _isEmpty, _isObject } from '../is.util'
+import { _isEmpty, _isObject } from '../is.util.js'
 import type {
   AnyObject,
   KeyValueTuple,
@@ -6,8 +6,8 @@ import type {
   ObjectPredicate,
   Reviver,
   ValueOf,
-} from '../types'
-import { _objectEntries, SKIP } from '../types'
+} from '../types.js'
+import { _objectEntries, SKIP } from '../types.js'
 
 /**
  * Returns clone of `obj` with only `props` preserved.

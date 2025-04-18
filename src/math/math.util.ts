@@ -1,5 +1,5 @@
-import { _assert } from '../error/assert'
-import { _sortNumbers } from '../number/number.util'
+import { _assert } from '../error/assert.js'
+import { _sortNumbers } from '../number/number.util.js'
 
 /**
  * @returns Average of the array of numbers

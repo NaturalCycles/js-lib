@@ -1,6 +1,6 @@
-import type { CommonLogger, UnixTimestampMillis } from '../index'
-import { _anyToError, _since } from '../index'
-import type { AnyFunction } from '../types'
+import type { CommonLogger, UnixTimestampMillis } from '../index.js'
+import { _anyToError, _since } from '../index.js'
+import type { AnyFunction } from '../types.js'
 
 export interface TryCatchOptions {
   /**

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { pDelay } from '../index'
-import { _Retry } from './retry.decorator'
+import { pDelay } from '../index.js'
+import { _Retry } from './retry.decorator.js'
 
 class C {
   constructor(public succeedOnAttempt: number) {}

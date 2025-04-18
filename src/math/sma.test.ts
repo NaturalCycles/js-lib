@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { SimpleMovingAverage } from './sma'
+import { SimpleMovingAverage } from './sma.js'
 
 test('sma', () => {
   const sma = new SimpleMovingAverage(3)

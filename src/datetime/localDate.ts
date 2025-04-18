@@ -1,5 +1,5 @@
-import { _assert } from '../error/assert'
-import { Iterable2 } from '../iter/iterable2'
+import { _assert } from '../error/assert.js'
+import { Iterable2 } from '../iter/iterable2.js'
 import type {
   Inclusiveness,
   IsoDate,
@@ -8,9 +8,9 @@ import type {
   SortDirection,
   UnixTimestamp,
   UnixTimestampMillis,
-} from '../types'
-import type { DateObject, ISODayOfWeek, LocalTime } from './localTime'
-import { localTime, VALID_DAYS_OF_WEEK } from './localTime'
+} from '../types.js'
+import type { DateObject, ISODayOfWeek, LocalTime } from './localTime.js'
+import { localTime, VALID_DAYS_OF_WEEK } from './localTime.js'
 
 export type LocalDateUnit = LocalDateUnitStrict | 'week'
 export type LocalDateUnitStrict = 'year' | 'month' | 'day'

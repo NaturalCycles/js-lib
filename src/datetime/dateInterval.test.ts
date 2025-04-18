@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import type { IsoDate } from '../types'
-import { DateInterval } from './dateInterval'
-import { localDate } from './localDate'
+import type { IsoDate } from '../types.js'
+import { DateInterval } from './dateInterval.js'
+import { localDate } from './localDate.js'
 
 test('basic', () => {
   const str1 = '2022-02-24/2022-03-30'

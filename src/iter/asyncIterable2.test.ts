@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { _rangeAsyncIterable } from '../array/range'
-import { AsyncIterable2 } from './asyncIterable2'
+import { _rangeAsyncIterable } from '../array/range.js'
+import { AsyncIterable2 } from './asyncIterable2.js'
 
 test('asyncIterable2', async () => {
   expect(await _rangeAsyncIterable(3).toArray()).toEqual([0, 1, 2])

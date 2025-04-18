@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _sortObjectDeep } from './sortObjectDeep'
+import { _sortObjectDeep } from './sortObjectDeep.js'
 
 test('sortObjectDeep', () => {
   const o = {

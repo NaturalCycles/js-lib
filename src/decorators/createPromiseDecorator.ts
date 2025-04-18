@@ -1,4 +1,4 @@
-import { _getTargetMethodSignature } from './decorator.util'
+import { _getTargetMethodSignature } from './decorator.util.js'
 
 export interface PromiseDecoratorCfg<RES = any, PARAMS = any> {
   decoratorName: string

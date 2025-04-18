@@ -1,5 +1,5 @@
 import { expect, expectTypeOf, test } from 'vitest'
-import { Set2 } from './set2'
+import { Set2 } from './set2.js'
 
 /* eslint-disable @typescript-eslint/no-base-to-string */
 

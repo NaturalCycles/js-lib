@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { InMemoryWebStorage } from './web'
+import { InMemoryWebStorage } from './web.js'
 
 test('InMemoryWebStorage', () => {
   expect(() => localStorage.getItem('a')).toThrowErrorMatchingInlineSnapshot(

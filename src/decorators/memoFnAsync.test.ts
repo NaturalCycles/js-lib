@@ -1,6 +1,6 @@
 import { beforeEach, expect, test } from 'vitest'
-import { MapAsyncMemoCache } from './memo.util'
-import { _memoFnAsync } from './memoFnAsync'
+import { MapAsyncMemoCache } from './memo.util.js'
+import { _memoFnAsync } from './memoFnAsync.js'
 
 let calledTimes = 0
 

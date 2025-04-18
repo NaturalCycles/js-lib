@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { _averageOrNull, _percentiles, _range } from '..'
-import { _mapToObject } from '../array/array.util'
-import { _average, _averageWeighted, _median, _percentile } from './math.util'
+import { _mapToObject } from '../array/array.util.js'
+import { _averageOrNull, _percentiles, _range } from '../index.js'
+import { _average, _averageWeighted, _median, _percentile } from './math.util.js'
 
 const numbers = [
   32.31,

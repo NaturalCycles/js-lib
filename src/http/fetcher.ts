@@ -2,9 +2,9 @@
 /// <reference lib="dom" preserve="true" />
 /// <reference lib="dom.iterable" preserve="true" />
 
-import { isServerSide } from '../env'
-import { _assertErrorClassOrRethrow, _assertIsError } from '../error/assert'
-import type { ErrorLike, ErrorObject } from '../error/error.model'
+import { isServerSide } from '../env.js'
+import { _assertErrorClassOrRethrow, _assertIsError } from '../error/assert.js'
+import type { ErrorLike, ErrorObject } from '../error/error.model.js'
 import {
   _anyToError,
   _anyToErrorObject,
@@ -13,8 +13,8 @@ import {
   HttpRequestError,
   TimeoutError,
   UnexpectedPassError,
-} from '../error/error.util'
-import { _clamp } from '../number/number.util'
+} from '../error/error.util.js'
+import { _clamp } from '../number/number.util.js'
 import {
   _filterFalsyValues,
   _filterNullishValues,
@@ -23,13 +23,18 @@ import {
   _merge,
   _omit,
   _pick,
-} from '../object/object.util'
-import { pDelay } from '../promise/pDelay'
-import { pTimeout } from '../promise/pTimeout'
-import { _jsonParse, _jsonParseIfPossible } from '../string/json.util'
-import { _stringify } from '../string/stringify'
-import { _ms, _since } from '../time/time.util'
-import type { AnyObject, ErrorDataTuple, NumberOfMilliseconds, UnixTimestampMillis } from '../types'
+} from '../object/object.util.js'
+import { pDelay } from '../promise/pDelay.js'
+import { pTimeout } from '../promise/pTimeout.js'
+import { _jsonParse, _jsonParseIfPossible } from '../string/json.util.js'
+import { _stringify } from '../string/stringify.js'
+import { _ms, _since } from '../time/time.util.js'
+import type {
+  AnyObject,
+  ErrorDataTuple,
+  NumberOfMilliseconds,
+  UnixTimestampMillis,
+} from '../types.js'
 import type {
   FetcherAfterResponseHook,
   FetcherBeforeRequestHook,
@@ -45,9 +50,9 @@ import type {
   FetcherRetryOptions,
   GraphQLResponse,
   RequestInitNormalized,
-} from './fetcher.model'
-import type { HttpStatusFamily } from './http.model'
-import { HTTP_METHODS } from './http.model'
+} from './fetcher.model.js'
+import type { HttpStatusFamily } from './http.model.js'
+import { HTTP_METHODS } from './http.model.js'
 
 const acceptByResponseType: Record<FetcherResponseType, string> = {
   text: 'text/plain',

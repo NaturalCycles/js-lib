@@ -1,3 +1,4 @@
+import { isServerSide } from '../env.js'
 import type {
   BackendErrorResponseObject,
   Class,
@@ -5,11 +6,10 @@ import type {
   ErrorLike,
   ErrorObject,
   HttpRequestErrorData,
-} from '..'
-import { isServerSide } from '../env'
-import { _jsonParseIfPossible } from '../string/json.util'
-import { _truncate, _truncateMiddle } from '../string/string.util'
-import { _stringify } from '../string/stringify'
+} from '../index.js'
+import { _jsonParseIfPossible } from '../string/json.util.js'
+import { _truncate, _truncateMiddle } from '../string/string.util.js'
+import { _stringify } from '../string/stringify.js'
 
 /**
  * Useful to ensure that error in `catch (err) { ... }`

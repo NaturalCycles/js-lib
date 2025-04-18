@@ -1,8 +1,8 @@
 import { expect, test, vi } from 'vitest'
-import { _range } from '../array/range'
-import { pDelay } from '../promise/pDelay'
-import { _AsyncMemo, _getAsyncMemo } from './asyncMemo.decorator'
-import { MapAsyncMemoCache } from './memo.util'
+import { _range } from '../array/range.js'
+import { pDelay } from '../promise/pDelay.js'
+import { _AsyncMemo, _getAsyncMemo } from './asyncMemo.decorator.js'
+import { MapAsyncMemoCache } from './memo.util.js'
 
 class A {
   func(n: number): void {

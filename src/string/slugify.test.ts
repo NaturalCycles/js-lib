@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _slugify } from './slugify'
+import { _slugify } from './slugify.js'
 
 test.each([
   ['', ''],

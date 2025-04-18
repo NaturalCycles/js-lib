@@ -1,10 +1,10 @@
-import { _assert, _assertTypeOf } from '../error/assert'
-import type { CommonLogger } from '../log/commonLogger'
-import type { AnyAsyncFunction, AnyFunction, AnyObject, MaybeParameters } from '../types'
-import { _objectAssign, MISS } from '../types'
-import { _getTargetMethodSignature } from './decorator.util'
-import type { AsyncMemoCache, MethodDecorator } from './memo.util'
-import { jsonMemoSerializer } from './memo.util'
+import { _assert, _assertTypeOf } from '../error/assert.js'
+import type { CommonLogger } from '../log/commonLogger.js'
+import type { AnyAsyncFunction, AnyFunction, AnyObject, MaybeParameters } from '../types.js'
+import { _objectAssign, MISS } from '../types.js'
+import { _getTargetMethodSignature } from './decorator.util.js'
+import type { AsyncMemoCache, MethodDecorator } from './memo.util.js'
+import { jsonMemoSerializer } from './memo.util.js'
 
 export interface AsyncMemoOptions<FN> {
   /**

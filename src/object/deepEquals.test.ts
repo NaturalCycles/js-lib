@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { deepEqualsMocks } from '../test/deepEqualsMocks'
-import { _deepEquals, _deepJsonEquals, _jsonEquals } from './deepEquals'
+import { deepEqualsMocks } from '../test/deepEqualsMocks.js'
+import { _deepEquals, _deepJsonEquals, _jsonEquals } from './deepEquals.js'
 
 test('_deepEquals Issue!', () => {
   expect(

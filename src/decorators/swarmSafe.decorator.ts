@@ -1,5 +1,5 @@
-import type { AnyObject } from '../types'
-import { _getTargetMethodSignature } from './decorator.util'
+import type { AnyObject } from '../types.js'
+import { _getTargetMethodSignature } from './decorator.util.js'
 
 /**
  * Prevents "swarm" of async calls to the same method.

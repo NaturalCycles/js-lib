@@ -5,8 +5,8 @@ import {
   _defineProperty,
   _defineProps,
   _lazyValue,
-} from './define'
-import type { AnyObject, Lazy } from './types'
+} from './define.js'
+import type { AnyObject, Lazy } from './types.js'
 
 test('_lazyValue', () => {
   const fn = vi.fn(() => 42)

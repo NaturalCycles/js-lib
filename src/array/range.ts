@@ -1,5 +1,5 @@
-import { AsyncIterable2 } from '../iter/asyncIterable2'
-import { Iterable2 } from '../iter/iterable2'
+import { AsyncIterable2 } from '../iter/asyncIterable2.js'
+import { Iterable2 } from '../iter/iterable2.js'
 
 /* eslint-disable unicorn/no-new-array */
 

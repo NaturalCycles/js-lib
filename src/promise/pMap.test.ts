@@ -1,9 +1,18 @@
 import { expect, test } from 'vitest'
-import type { AsyncMapper } from '..'
-import { _isBetween, _randomInt, _range, AppError, END, ErrorMode, pExpectedError, SKIP } from '..'
-import { timeSpan } from '../test/test.util'
-import { pDelay } from './pDelay'
-import { pMap } from './pMap'
+import type { AsyncMapper } from '../index.js'
+import {
+  _isBetween,
+  _randomInt,
+  _range,
+  AppError,
+  END,
+  ErrorMode,
+  pExpectedError,
+  SKIP,
+} from '../index.js'
+import { timeSpan } from '../test/test.util.js'
+import { pDelay } from './pDelay.js'
+import { pMap } from './pMap.js'
 
 const input = [
   [10, 300],

@@ -1,9 +1,9 @@
-import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
+import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing/mockAllKindsOfThings.js'
 import { expect, test } from 'vitest'
-import { JsonParseError } from '../error/error.util'
-import { _expectedError } from '../error/try'
-import { expectResults } from '../test/test.util'
-import { _jsonParse, _jsonParseIfPossible, _jsonParseOrUndefined } from './json.util'
+import { JsonParseError } from '../error/error.util.js'
+import { _expectedError } from '../error/try.js'
+import { expectResults } from '../test/test.util.js'
+import { _jsonParse, _jsonParseIfPossible, _jsonParseOrUndefined } from './json.util.js'
 
 test('jsonParseIfPossible', () => {
   expectResults(v => _jsonParseIfPossible(v), mockAllKindsOfThings()).toMatchSnapshot()

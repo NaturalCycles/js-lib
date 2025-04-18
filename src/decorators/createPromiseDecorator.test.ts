@@ -1,7 +1,7 @@
-import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
+import { mockTime } from '@naturalcycles/dev-lib/dist/testing/time.js'
 import { beforeEach, expect, test, vi } from 'vitest'
-import { pDelay } from '../index'
-import { _createPromiseDecorator } from './createPromiseDecorator'
+import { pDelay } from '../index.js'
+import { _createPromiseDecorator } from './createPromiseDecorator.js'
 
 interface LoaderDecoratorParams {
   type: string

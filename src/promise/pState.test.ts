@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { pDefer } from './pDefer'
-import { pDelay } from './pDelay'
-import { pState } from './pState'
+import { pDefer } from './pDefer.js'
+import { pDelay } from './pDelay.js'
+import { pState } from './pState.js'
 
 test('pending', async () => {
   const p = new Promise(() => {}) // hanging promise

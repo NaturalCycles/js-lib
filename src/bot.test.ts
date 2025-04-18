@@ -1,5 +1,5 @@
 import { beforeEach, expect, test, vi } from 'vitest'
-import { BotDetectionService, BotReason } from './bot'
+import { BotDetectionService, BotReason } from './bot.js'
 
 beforeEach(() => {
   vi.stubGlobal('window', { document: {} }) // this make isServerSide() return false

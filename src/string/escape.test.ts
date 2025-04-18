@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { htmlEscape, htmlUnescape } from './escape'
+import { htmlEscape, htmlUnescape } from './escape.js'
 
 test('htmlEscape', () => {
   expect(htmlEscape('&<>"\'')).toBe('&amp;&lt;&gt;&quot;&#39;')

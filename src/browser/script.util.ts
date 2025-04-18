@@ -1,5 +1,5 @@
-import { isServerSide } from '../env'
-import { _objectAssign } from '../types'
+import { isServerSide } from '../env.js'
+import { _objectAssign } from '../types.js'
 
 export type LoadScriptOptions = Partial<HTMLScriptElement>
 export type LoadCSSOptions = Partial<HTMLLinkElement>

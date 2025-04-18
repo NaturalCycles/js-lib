@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { _Memo, _range } from '..'
+import { _Memo, _range } from '../index.js'
 
 class C {
   fn(): void {}

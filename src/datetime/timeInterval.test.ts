@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import type { UnixTimestamp } from '../types'
-import { TimeInterval } from './timeInterval'
+import type { UnixTimestamp } from '../types.js'
+import { TimeInterval } from './timeInterval.js'
 
 test('basic', () => {
   const str1 = '1649267185/1649267187'

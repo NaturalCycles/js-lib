@@ -1,7 +1,7 @@
 import { inspect } from 'node:util'
 import { expect, test } from 'vitest'
-import { _stringify } from '../string/stringify'
-import { _anyToErrorObject, AppError } from './error.util'
+import { _stringify } from '../string/stringify.js'
+import { _anyToErrorObject, AppError } from './error.util.js'
 
 const throwAppError = (): never => {
   throw new AppError('error')

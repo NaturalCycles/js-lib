@@ -1,6 +1,6 @@
-import type { Inclusiveness, IsoDate } from '../types'
-import type { LocalDate, LocalDateInput, LocalDateUnit } from './localDate'
-import { localDate } from './localDate'
+import type { Inclusiveness, IsoDate } from '../types.js'
+import type { LocalDate, LocalDateInput, LocalDateUnit } from './localDate.js'
+import { localDate } from './localDate.js'
 
 export type DateIntervalConfig = DateInterval | DateIntervalString
 export type DateIntervalString = string

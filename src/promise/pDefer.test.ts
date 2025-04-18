@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { pDefer } from './pDefer'
+import { pDefer } from './pDefer.js'
 
 test('pDefer', async () => {
   let p = pDefer<string>()

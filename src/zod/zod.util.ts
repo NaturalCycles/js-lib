@@ -1,5 +1,5 @@
 import { ZodError, type ZodIssue, type ZodSchema } from 'zod'
-import { _stringify } from '../string/stringify'
+import { _stringify } from '../string/stringify.js'
 
 export interface ZodErrorResult<T> {
   success: false

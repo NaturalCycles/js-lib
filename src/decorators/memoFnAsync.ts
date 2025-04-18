@@ -1,8 +1,8 @@
-import type { AnyAsyncFunction, MaybeParameters } from '../types'
-import { MISS } from '../types'
-import type { AsyncMemoOptions } from './asyncMemo.decorator'
-import type { AsyncMemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import type { AnyAsyncFunction, MaybeParameters } from '../types.js'
+import { MISS } from '../types.js'
+import type { AsyncMemoOptions } from './asyncMemo.decorator.js'
+import type { AsyncMemoCache } from './memo.util.js'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util.js'
 
 export interface MemoizedAsyncFunction {
   cache: AsyncMemoCache

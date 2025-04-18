@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _parseQueryString, _toUrlOrNull } from './url.util'
+import { _parseQueryString, _toUrlOrNull } from './url.util.js'
 
 test.each([
   ['', {}],

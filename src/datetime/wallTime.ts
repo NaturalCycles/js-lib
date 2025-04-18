@@ -1,7 +1,7 @@
-import type { IsoDate, IsoDateTime } from '../types'
-import { LocalDate } from './localDate'
-import type { DateTimeObject, LocalTime } from './localTime'
-import { localTime } from './localTime'
+import type { IsoDate, IsoDateTime } from '../types.js'
+import { LocalDate } from './localDate.js'
+import type { DateTimeObject, LocalTime } from './localTime.js'
+import { localTime } from './localTime.js'
 
 /**
  * Representation of a "time on the wall clock",

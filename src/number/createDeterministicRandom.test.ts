@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { _range } from '../index'
-import { _createDeterministicRandom } from './createDeterministicRandom'
+import { _range } from '../index.js'
+import { _createDeterministicRandom } from './createDeterministicRandom.js'
 
 test('_createDeterministicRandom', () => {
   let deterministicRandom = _createDeterministicRandom()

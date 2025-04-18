@@ -1,7 +1,7 @@
-import { ErrorMode } from '../error/errorMode'
-import type { CommonLogger } from '../log/commonLogger'
-import type { DeferredPromise } from './pDefer'
-import { pDefer } from './pDefer'
+import { ErrorMode } from '../error/errorMode.js'
+import type { CommonLogger } from '../log/commonLogger.js'
+import type { DeferredPromise } from './pDefer.js'
+import { pDefer } from './pDefer.js'
 
 export interface PQueueCfg {
   concurrency: number

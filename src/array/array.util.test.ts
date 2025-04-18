@@ -1,8 +1,8 @@
 import { expect, test, vi } from 'vitest'
-import { _createDeterministicRandom } from '../number/createDeterministicRandom'
-import { _deepFreeze } from '../object/object.util'
-import type { AbortablePredicate, Mapper } from '../types'
-import { END } from '../types'
+import { _createDeterministicRandom } from '../number/createDeterministicRandom.js'
+import { _deepFreeze } from '../object/object.util.js'
+import type { AbortablePredicate, Mapper } from '../types.js'
+import { END } from '../types.js'
 import {
   _by,
   _chunk,
@@ -43,8 +43,8 @@ import {
   _uniq,
   _uniqBy,
   _zip,
-} from './array.util'
-import { _range } from './range'
+} from './array.util.js'
+import { _range } from './range.js'
 
 test('_chunk', () => {
   const a = [1, 2, 3, 4, 5, 6]

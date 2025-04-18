@@ -7,7 +7,7 @@ yarn tsx scripts/startsWithBench
 /* eslint-disable */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { _range } from '../src'
+import { _range } from '../src/index.js'
 
 const regex = /^{/
 

@@ -5,8 +5,8 @@ yarn tsx scripts/deepEqualsBench
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { _deepEquals, _deepJsonEquals, _jsonEquals } from '../src'
-import { deepEqualsMocks } from '../src/test/deepEqualsMocks'
+import { _deepEquals, _deepJsonEquals, _jsonEquals } from '../src/index.js'
+import { deepEqualsMocks } from '../src/test/deepEqualsMocks.js'
 
 // 10 times the cases
 const cases = [

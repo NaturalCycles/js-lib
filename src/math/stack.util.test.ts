@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { _range } from '../array/range'
-import { NumberStack, Stack } from './stack.util'
+import { _range } from '../array/range.js'
+import { NumberStack, Stack } from './stack.util.js'
 
 test('Stack', () => {
   const stack = new NumberStack(10)

@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest'
-import { TimeoutError } from '../error/error.util'
-import { pExpectedError } from '../error/try'
-import { normalizeStack } from '../test/test.util'
-import type { AnyFunction } from '../types'
-import { pDelay } from './pDelay'
-import { pRetry, pRetryFn } from './pRetry'
+import { TimeoutError } from '../error/error.util.js'
+import { pExpectedError } from '../error/try.js'
+import { normalizeStack } from '../test/test.util.js'
+import type { AnyFunction } from '../types.js'
+import { pDelay } from './pDelay.js'
+import { pRetry, pRetryFn } from './pRetry.js'
 
 function createFn(succeedOnAttempt: number): AnyFunction {
   let attempt = 0

@@ -1,4 +1,4 @@
-import type { AnyObject } from '../index'
+import type { AnyObject } from '../index.js'
 
 /**
  * Returns new object with keys sorder in the given order.

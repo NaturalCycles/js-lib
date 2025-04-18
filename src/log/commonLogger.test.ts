@@ -1,12 +1,12 @@
 import { test } from 'vitest'
-import type { CommonLogger, CommonLogWithLevelFunction } from './commonLogger'
+import type { CommonLogger, CommonLogWithLevelFunction } from './commonLogger.js'
 import {
   commonLoggerCreate,
   commonLoggerMinLevel,
   commonLoggerNoop,
   commonLoggerPipe,
   commonLoggerPrefix,
-} from './commonLogger'
+} from './commonLogger.js'
 
 // This "tests" that `console` is a valid CommonLogger by itself
 const consoleLogger: CommonLogger = console

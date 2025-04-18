@@ -1,7 +1,7 @@
-import { _isBackendErrorResponseObject, _isErrorLike, _isErrorObject } from '../error/error.util'
-import type { Reviver } from '../types'
-import { _jsonParseIfPossible } from './json.util'
-import { _safeJsonStringify } from './safeJsonStringify'
+import { _isBackendErrorResponseObject, _isErrorLike, _isErrorObject } from '../error/error.util.js'
+import type { Reviver } from '../types.js'
+import { _jsonParseIfPossible } from './json.util.js'
+import { _safeJsonStringify } from './safeJsonStringify.js'
 
 const supportsAggregateError = typeof globalThis.AggregateError === 'function'
 

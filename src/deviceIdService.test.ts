@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
-import { _range } from './array/range'
-import { DeviceIdService } from './deviceIdService'
-import { InMemoryWebStorage } from './web'
+import { _range } from './array/range.js'
+import { DeviceIdService } from './deviceIdService.js'
+import { InMemoryWebStorage } from './web.js'
 
 describe('when run in Node', () => {
   test('deviceId should be null', () => {

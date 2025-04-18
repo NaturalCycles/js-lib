@@ -9,7 +9,7 @@ Reasons:
 
  */
 
-import type { Integer } from '../types'
+import type { Integer } from '../types.js'
 
 export interface ReadingTimeOptions {
   /**

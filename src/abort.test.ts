@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { createAbortableSignal } from './abort'
+import { createAbortableSignal } from './abort.js'
 
 test('abortableSignal', () => {
   class A {

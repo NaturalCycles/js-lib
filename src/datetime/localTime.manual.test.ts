@@ -9,11 +9,11 @@ It's slow, therefor it's made manual.
 
 import { dayjs } from '@naturalcycles/time-lib'
 import { test } from 'vitest'
-import { _range } from '../array/range'
-import { expectWithMessage, isUTC } from '../test/test.util'
-import type { IsoDateTime } from '../types'
-import type { LocalTimeUnit } from './localTime'
-import { localTime } from './localTime'
+import { _range } from '../array/range.js'
+import { expectWithMessage, isUTC } from '../test/test.util.js'
+import type { IsoDateTime } from '../types.js'
+import type { LocalTimeUnit } from './localTime.js'
+import { localTime } from './localTime.js'
 
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 

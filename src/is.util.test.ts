@@ -1,6 +1,6 @@
-import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing'
+import { mockAllKindsOfThings } from '@naturalcycles/dev-lib/dist/testing/mockAllKindsOfThings.js'
 import { expect, expectTypeOf, test } from 'vitest'
-import { _sum } from './array/array.util'
+import { _sum } from './array/array.util.js'
 import {
   _isEmpty,
   _isEmptyObject,
@@ -10,10 +10,10 @@ import {
   _isObject,
   _isPrimitive,
   _isTruthy,
-} from './is.util'
-import { _undefinedIfEmpty } from './object/object.util'
-import { expectResults } from './test/test.util'
-import { SKIP } from './types'
+} from './is.util.js'
+import { _undefinedIfEmpty } from './object/object.util.js'
+import { expectResults } from './test/test.util.js'
+import { SKIP } from './types.js'
 
 test.each([[undefined], [null], [1], [true], ['hello']] as any[])('isPrimitive "%s"', v => {
   expect(_isPrimitive(v)).toBe(true)

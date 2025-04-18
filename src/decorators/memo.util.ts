@@ -1,7 +1,7 @@
-import { _isPrimitive } from '../is.util'
-import { pDelay } from '../promise/pDelay'
-import type { AnyObject, UnixTimestamp } from '../types'
-import { MISS } from '../types'
+import { _isPrimitive } from '../is.util.js'
+import { pDelay } from '../promise/pDelay.js'
+import type { AnyObject, UnixTimestamp } from '../types.js'
+import { MISS } from '../types.js'
 
 export type MemoSerializer = (args: any[]) => any
 

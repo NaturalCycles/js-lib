@@ -5,8 +5,8 @@ yarn tsx scripts/memo.decorator.bench
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { _Memo } from '../src'
-import { memoSimple } from '../src/decorators/memoSimple.decorator'
+import { memoSimple } from '../src/decorators/memoSimple.decorator.js'
+import { _Memo } from '../src/index.js'
 
 let _c = 0
 

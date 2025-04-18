@@ -1,5 +1,10 @@
 import { expect, test } from 'vitest'
-import { _substringAfter, _substringAfterLast, _substringBefore, _substringBeforeLast } from '..'
+import {
+  _substringAfter,
+  _substringAfterLast,
+  _substringBefore,
+  _substringBeforeLast,
+} from '../index.js'
 import {
   _capitalize,
   _lowerFirst,
@@ -10,7 +15,7 @@ import {
   _toLowercase,
   _toUpperCase,
   _upperFirst,
-} from './string.util'
+} from './string.util.js'
 
 test('capitalize', () => {
   expect(_capitalize('abc')).toBe('Abc')

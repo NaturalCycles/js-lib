@@ -1,8 +1,8 @@
-import { mockTime } from '@naturalcycles/dev-lib/dist/testing'
+import { mockTime } from '@naturalcycles/dev-lib/dist/testing/time.js'
 import { beforeEach, expect, test } from 'vitest'
-import type { NumberOfMilliseconds, UnixTimestampMillis } from '..'
-import { _range } from '..'
-import { _ms, _since } from './time.util'
+import type { NumberOfMilliseconds, UnixTimestampMillis } from '../index.js'
+import { _range } from '../index.js'
+import { _ms, _since } from './time.util.js'
 
 beforeEach(() => {
   mockTime()

@@ -1,7 +1,7 @@
 import { expect, expectTypeOf, test } from 'vitest'
-import { _assert } from './assert'
-import { AppError, HttpRequestError, UnexpectedPassError } from './error.util'
-import { _expectedError, _try, pExpectedError, pExpectedErrorString, pTry } from './try'
+import { _assert } from './assert.js'
+import { AppError, HttpRequestError, UnexpectedPassError } from './error.util.js'
+import { _expectedError, _try, pExpectedError, pExpectedErrorString, pTry } from './try.js'
 
 const okFunction = (v = 1): { result: number } => ({ result: v })
 const errFunction = (): never => {

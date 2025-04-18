@@ -1,6 +1,6 @@
-import type { Promisable } from '../typeFest'
-import type { AbortableAsyncMapper, AbortableAsyncPredicate } from '../types'
-import { END, SKIP } from '../types'
+import type { Promisable } from '../typeFest.js'
+import type { AbortableAsyncMapper, AbortableAsyncPredicate } from '../types.js'
+import { END, SKIP } from '../types.js'
 
 /**
  * Similar to Iterable2, but for AsyncIterable.

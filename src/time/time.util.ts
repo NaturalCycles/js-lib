@@ -1,4 +1,4 @@
-import type { NumberOfMilliseconds, UnixTimestampMillis } from '../types'
+import type { NumberOfMilliseconds, UnixTimestampMillis } from '../types.js'
 
 /**
  * using _ = blockTimer()

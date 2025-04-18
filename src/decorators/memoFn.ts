@@ -1,7 +1,7 @@
-import type { AnyFunction, MaybeParameters } from '../types'
-import type { MemoOptions } from './memo.decorator'
-import type { MemoCache } from './memo.util'
-import { jsonMemoSerializer, MapMemoCache } from './memo.util'
+import type { AnyFunction, MaybeParameters } from '../types.js'
+import type { MemoOptions } from './memo.decorator.js'
+import type { MemoCache } from './memo.util.js'
+import { jsonMemoSerializer, MapMemoCache } from './memo.util.js'
 
 export interface MemoizedFunction {
   cache: MemoCache

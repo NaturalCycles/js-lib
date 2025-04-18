@@ -1,8 +1,8 @@
-import { _stringify } from '../string/stringify'
-import type { Class } from '../typeFest'
-import type { AnyFunction, ErrorDataTuple } from '../types'
-import { _assertErrorClassOrRethrow } from './assert'
-import { UnexpectedPassError } from './error.util'
+import { _stringify } from '../string/stringify.js'
+import type { Class } from '../typeFest.js'
+import type { AnyFunction, ErrorDataTuple } from '../types.js'
+import { _assertErrorClassOrRethrow } from './assert.js'
+import { UnexpectedPassError } from './error.util.js'
 
 /**
  * Calls a function, returns a Tuple of [error, value].

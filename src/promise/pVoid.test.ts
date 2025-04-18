@@ -1,5 +1,5 @@
 import { test } from 'vitest'
-import { pDelay } from './pDelay'
+import { pDelay } from './pDelay.js'
 
 function pVoid(fn: () => Promise<any>): void {
   // const fake = new Error('fake')

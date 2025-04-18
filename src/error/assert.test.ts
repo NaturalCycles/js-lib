@@ -1,6 +1,6 @@
 import { inspect } from 'node:util'
 import { expect, test } from 'vitest'
-import { _stringify } from '../string/stringify'
+import { _stringify } from '../string/stringify.js'
 import {
   _assert,
   _assertDeepEquals,
@@ -8,9 +8,9 @@ import {
   _assertIsError,
   _assertIsNumber,
   _assertIsString,
-} from './assert'
-import { AssertionError } from './error.util'
-import { _try } from './try'
+} from './assert.js'
+import { AssertionError } from './error.util.js'
+import { _try } from './try.js'
 
 test('_assert', () => {
   // biome-ignore lint/suspicious/noSelfCompare: ok

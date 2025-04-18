@@ -1,4 +1,4 @@
-import type { AnyObject } from './types'
+import type { AnyObject } from './types.js'
 
 /**
  * Convert any object to FormData.

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { _truncate, _truncateMiddle } from './string.util'
+import { _truncate, _truncateMiddle } from './string.util.js'
 
 const s = '1234567890abcd'
 

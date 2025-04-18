@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { zEmail } from '../zod/zod.shared.schemas'
-import { zIsValid } from '../zod/zod.util'
-import { SIMPLE_EMAIL_REGEX } from './regex'
+import { zEmail } from '../zod/zod.shared.schemas.js'
+import { zIsValid } from '../zod/zod.util.js'
+import { SIMPLE_EMAIL_REGEX } from './regex.js'
 
 test.each(['a@b.cc', 'kirill@naturalcycles.com', 'kirill@naturalcycles.co.uk'])(
   'email valid %',

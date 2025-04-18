@@ -1,6 +1,6 @@
-import type { NumberOfMilliseconds, PromisableFunction } from '../types'
-import type { DeferredPromise } from './pDefer'
-import { pDefer } from './pDefer'
+import type { NumberOfMilliseconds, PromisableFunction } from '../types.js'
+import type { DeferredPromise } from './pDefer.js'
+import { pDefer } from './pDefer.js'
 
 /**
  * Promisified version of setTimeout.

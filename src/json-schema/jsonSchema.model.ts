@@ -1,4 +1,4 @@
-import type { AnyObject, StringMap } from '../types'
+import type { AnyObject, StringMap } from '../types.js'
 
 export type JsonSchema<T = unknown> =
   | JsonSchemaAny<T>

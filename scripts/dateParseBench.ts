@@ -6,8 +6,8 @@ yarn tsx scripts/dateParseBench.ts
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
 import { dayjs } from '@naturalcycles/time-lib'
-import type { IsoDate } from '../src'
-import { localDate } from '../src'
+import type { IsoDate } from '../src/index.js'
+import { localDate } from '../src/index.js'
 
 const strings = localDate
   .range('2022-01-03' as IsoDate, '2023-01-05' as IsoDate)

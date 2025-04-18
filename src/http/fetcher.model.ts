@@ -1,11 +1,11 @@
 /// <reference lib="es2022" preserve="true" />
 /// <reference lib="dom" preserve="true" />
 
-import type { ErrorData } from '../error/error.model'
-import type { CommonLogger } from '../log/commonLogger'
-import type { Promisable } from '../typeFest'
-import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillis } from '../types'
-import type { HttpMethod, HttpStatusFamily } from './http.model'
+import type { ErrorData } from '../error/error.model.js'
+import type { CommonLogger } from '../log/commonLogger.js'
+import type { Promisable } from '../typeFest.js'
+import type { AnyObject, NumberOfMilliseconds, Reviver, UnixTimestampMillis } from '../types.js'
+import type { HttpMethod, HttpStatusFamily } from './http.model.js'
 
 export interface FetcherNormalizedCfg
   extends Required<FetcherCfg>,

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { _isBetween, pDelayFn, pExpectedError } from '..'
-import { timeSpan } from '../test/test.util'
-import { pDelay } from './pDelay'
+import { _isBetween, pDelayFn, pExpectedError } from '../index.js'
+import { timeSpan } from '../test/test.util.js'
+import { pDelay } from './pDelay.js'
 
 test('pDelay', async () => {
   const end = timeSpan()

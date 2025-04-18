@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import type { InstanceId } from '../types'
-import { _getArgsSignature, _getMethodSignature } from './decorator.util'
+import type { InstanceId } from '../types.js'
+import { _getArgsSignature, _getMethodSignature } from './decorator.util.js'
 
 class C implements InstanceId {
   instanceId!: string

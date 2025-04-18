@@ -1,10 +1,10 @@
 import { expect, expectTypeOf, test } from 'vitest'
-import { AppError } from '../error/error.util'
-import { pExpectedError } from '../error/try'
-import { normalizeStack } from '../test/test.util'
-import { pDefer } from './pDefer'
-import { pDelay } from './pDelay'
-import { pProps } from './pProps'
+import { AppError } from '../error/error.util.js'
+import { pExpectedError } from '../error/try.js'
+import { normalizeStack } from '../test/test.util.js'
+import { pDefer } from './pDefer.js'
+import { pDelay } from './pDelay.js'
+import { pProps } from './pProps.js'
 
 test('main', async () => {
   const defer = pDefer<number>()

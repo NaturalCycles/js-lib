@@ -1,5 +1,5 @@
-import { _sortBy } from './array/array.util'
-import type { Promisable } from './typeFest'
+import { _sortBy } from './array/array.util.js'
+import type { Promisable } from './typeFest.js'
 
 declare const __brand: unique symbol
 
