@@ -1,3 +1,5 @@
-module.exports = {
-  ...require('@naturalcycles/dev-lib/cfg/lint-staged.config'),
+import sharedConfig from '@naturalcycles/dev-lib/cfg/lint-staged.config.js'
+
+export default {
+  ...sharedConfig,
 }

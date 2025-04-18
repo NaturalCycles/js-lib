@@ -17,7 +17,7 @@
 - ESLint
 - Biome
 - Stylelint
-- Jest / Vitest
+- Vitest
 - ktlint
 - actionlint
 - lint-staged
@@ -46,7 +46,7 @@ UPD: these tools/linters would use default configs if absent:
 
 These tools require a respective config to run, otherwise they're not run. List of configs:
 
-- `jest.config.js`
+- `vitest.config.js`
 - `prettier.config.js`
 - `eslint.config.js` (eslint FLAT config)
 - `stylelint.config.js`
@@ -112,7 +112,7 @@ automatically in any environment. They're useful to run tests manually every now
 
 All test commands set `TZ=UTC`. You can override it by providing `TZ` env variable **before**
 running a test command. Adds `APP_ENV=test` env var (for all runs except integration). Automatically
-adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
+adds `--silent` (and `TEST_SILENT` env var) if all tests are run.
 
 - `test`: runs unit tests (all tests _except_ `*.integration.test.ts` and `*.manual.test.ts`).
   Detects `CI` env variable, adds `--coverage` if in CI. Uses `default` reporter in `!CI`, otherwise
@@ -123,34 +123,19 @@ adds `--silent` (and `JEST_SILENT` env var) if all tests are run.
 
 For unit tests (`yarn test`) these `setupFilesAfterEnv` will be used (if found) in that order:
 
-- `<rootDir>/src/test/setupJest.ts`
-- `<rootDir>/src/test/setupJest.unit.ts`
+- `<rootDir>/src/test/setupVitest.ts`
+- `<rootDir>/src/test/setupVitest.unit.ts`
 
 For integration tests (`yarn test-integration`) these `setupFilesAfterEnv` will be used (if found)
 in that order:
 
-- `<rootDir>/src/test/setupJest.ts`
-- `<rootDir>/src/test/setupJest.integration.ts`
+- `<rootDir>/src/test/setupVitest.ts`
+- `<rootDir>/src/test/setupVitest.integration.ts`
 
 For manual tests:
 
-- `<rootDir>/src/test/setupJest.ts`
-- `<rootDir>/src/test/setupJest.manual.ts`
-
-`yarn dev-lib test` runs tests in alphabetic order by default (internally it points
-`--testSequencer` to a pre-defined sequencer file that sorts all filenames alphabetically). Set
-`JEST_NO_ALPHABETIC` env variable to disable it.
-
-##### Shard support
-
-Jest 28 introduced [--shard](https://jestjs.io/docs/cli#--shard) feature.
-
-Set `JEST_SHARDS` environment variable (e.g `export JEST_SHARDS=3`), so that your `yarn test*`
-commands will automatically split your tests by N number of shards and execute them **one after
-another** (serially, **not** in parallel). Might be helpful to avoid Jest's notorious memory leaks.
-
-If you need to execute shards **in parallel**, you can follow e.g
-[this instruction](https://medium.com/@mfreundlich1/speed-up-your-jest-tests-with-shards-776e9f02f637).
+- `<rootDir>/src/test/setupVitest.ts`
+- `<rootDir>/src/test/setupVitest.manual.ts`
 
 #### Lint commands
 

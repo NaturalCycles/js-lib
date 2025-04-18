@@ -1,4 +1,6 @@
-export * from './mockAllKindsOfThings'
-export * from './testing.util'
-export * from './testOffline.util'
-export * from './time.util'
+export * from './mockAllKindsOfThings.js'
+export * from './testing.util.js'
+
+// Not included in the barrel file, since they import other dependencies
+// export * from './testOffline.util.js'
+// export * from './time.util.js'

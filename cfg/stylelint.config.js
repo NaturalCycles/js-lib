@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['stylelint-config-standard-scss'],
   rules: {
     'no-empty-source': null,

@@ -10,7 +10,7 @@ Changes are visible in git diff every time they are observed.
 
 import { _sortObjectDeep } from '@naturalcycles/js-lib'
 import { exec2, fs2, runScript } from '@naturalcycles/nodejs-lib'
-import { testDir } from '../src/paths'
+import { testDir } from '../src/paths.js'
 
 runScript(async () => {
   const outputPath = `${testDir}/cfg/eslint.config.dump.json`

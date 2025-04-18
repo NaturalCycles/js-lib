@@ -12,20 +12,20 @@ const {
 
 console.log(`lint-staged.config.js runs on node ${node} ${platform} ${arch}`)
 
-const fs = require('node:fs')
-const micromatch = require('micromatch')
-const { execSync } = require('node:child_process')
-const { _assert, semver2 } = require('@naturalcycles/js-lib')
-const { exec2 } = require('@naturalcycles/nodejs-lib')
+import fs from 'node:fs'
+import micromatch from 'micromatch'
+import { execSync } from 'node:child_process'
+import { _assert, semver2 } from '@naturalcycles/js-lib'
+import { exec2 } from '@naturalcycles/nodejs-lib'
 
-const {
+import {
   prettierDirs,
   prettierExtensionsExclusive,
   prettierExtensionsAll,
   stylelintExtensions,
   lintExclude,
   minActionlintVersion,
-} = require('./_cnst')
+} from './_cnst.js'
 
 const prettierConfigPath = [`prettier.config.js`].find(fs.existsSync)
 
@@ -221,4 +221,4 @@ function getActionLintVersion() {
   }
 }
 
-module.exports = linters
+export default linters

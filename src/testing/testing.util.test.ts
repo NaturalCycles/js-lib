@@ -1,6 +1,6 @@
 import type { CommonLogger } from '@naturalcycles/js-lib'
 import { expectTypeOf, test } from 'vitest'
-import { silentConsole, testLog, testLogger } from './testing.util'
+import { silentConsole, testLog, testLogger } from './testing.util.js'
 
 test('testLogger', () => {
   testLog('hello')

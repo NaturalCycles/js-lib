@@ -1,2 +1,2 @@
-import { testOffline } from '../testing'
+import { testOffline } from '../testing/testOffline.js'
 testOffline()

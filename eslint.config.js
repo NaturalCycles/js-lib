@@ -1,6 +1,7 @@
-// prettier-ignore
-module.exports = [
-  ...require('./cfg/eslint.config'),
+import sharedConfig from './cfg/eslint.config.js'
+
+export default [
+  ...sharedConfig,
   {
     rules: {
       '@typescript-eslint/consistent-type-imports': 2,

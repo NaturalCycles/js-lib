@@ -1,3 +1,3 @@
-module.exports = {
-  ...require('@naturalcycles/dev-lib/cfg/prettier.config'),
-}
+import sharedConfig from '@naturalcycles/dev-lib/cfg/prettier.config.js'
+
+export default sharedConfig

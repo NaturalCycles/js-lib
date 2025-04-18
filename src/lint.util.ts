@@ -3,15 +3,15 @@ import { existsSync } from 'node:fs'
 import type { SemVerString, UnixTimestampMillis } from '@naturalcycles/js-lib'
 import { _assert, _isTruthy, _since, _truncate, semver2 } from '@naturalcycles/js-lib'
 import { _yargs, boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
-import { cfgDir, scriptsDir } from './paths'
-const {
-  prettierDirs,
-  prettierExtensionsAll,
-  stylelintExtensions,
+import {
   eslintExtensions,
   lintExclude,
   minActionlintVersion,
-} = require('../cfg/_cnst')
+  prettierDirs,
+  prettierExtensionsAll,
+  stylelintExtensions,
+} from '../cfg/_cnst.js'
+import { cfgDir, scriptsDir } from './paths.js'
 
 /**
  * Run all linters.
@@ -109,21 +109,13 @@ export async function eslintAll(opt?: EslintAllOptions): Promise<void> {
 
   const extensions = ext.split(',')
 
-  const eslintConfigPathRoot = ['./eslint.config.js', './eslint.config.cjs'].find(p =>
+  const eslintConfigPathRoot = ['./eslint.config.js'].find(p => existsSync(p))
+  const eslintConfigPathScripts = ['./scripts/eslint.config.js', './eslint.config.js'].find(p =>
     existsSync(p),
   )
-  const eslintConfigPathScripts = [
-    './scripts/eslint.config.js',
-    './scripts/eslint.config.cjs',
-    './eslint.config.js',
-    './eslint.config.cjs',
-  ].find(p => existsSync(p))
-  const eslintConfigPathE2e = [
-    './e2e/eslint.config.js',
-    './e2e/eslint.config.cjs',
-    './eslint.config.js',
-    './eslint.config.cjs',
-  ].find(p => existsSync(p))
+  const eslintConfigPathE2e = ['./e2e/eslint.config.js', './eslint.config.js'].find(p =>
+    existsSync(p),
+  )
 
   const tsconfigPathScripts =
     [`./scripts/tsconfig.json`].find(p => existsSync(p)) || `${scriptsDir}/tsconfig.json`
@@ -157,7 +149,7 @@ async function runESLint(
   dir: string,
   eslintConfigPath: string | undefined,
   tsconfigPath?: string,
-  extensions = eslintExtensions,
+  extensions = eslintExtensions.split(','),
   fix = true,
 ): Promise<void> {
   if (!eslintConfigPath || !existsSync(dir)) return // faster to bail-out like this
@@ -188,9 +180,7 @@ const prettierPaths = [
 ]
 
 export function runPrettier(): void {
-  const prettierConfigPath = [`./prettier.config.js`, `./prettier.config.cjs`].find(f =>
-    existsSync(f),
-  )
+  const prettierConfigPath = [`./prettier.config.js`].find(f => existsSync(f))
   if (!prettierConfigPath) return
 
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
@@ -264,7 +254,8 @@ export function runCommitlintCommand(): void {
 
 async function runKTLint(): Promise<void> {
   if (!existsSync(`node_modules/@naturalcycles/ktlint`)) return
-  const ktlintLib = require('@naturalcycles/ktlint')
+  // @ts-expect-error ktlint is not installed, but it's ok
+  const { default: ktlintLib } = await import('@naturalcycles/ktlint')
   await ktlintLib.ktlintAll()
 }
 

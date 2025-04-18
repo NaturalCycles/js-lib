@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
     // Overriding to allow 'start-case', 'upper-case', 'sentense-case', 'pascal-case'

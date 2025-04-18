@@ -12,7 +12,7 @@ export function silentConsole(): void {
 }
 
 export const testLogger = commonLoggerCreate((_level, args) => {
-  if (process.env['JEST_SILENT'] || process.env['TEST_SILENT']) return // no-op
+  if (process.env['TEST_SILENT']) return // no-op
   process.stdout.write(
     args
       .map(a =>

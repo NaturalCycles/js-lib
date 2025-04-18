@@ -7,7 +7,7 @@ const fetcher = getFetcher({
 const detectLeaks = process.argv.some(a => a.includes('detectLeaks'))
 
 test('should throw on network connections', async () => {
-  if (detectLeaks) return // skip test on detectLeaks where jestOffline is disabled
+  if (detectLeaks) return // skip test on detectLeaks where testOffline is disabled
 
   const err = await pExpectedError(fetcher.get('http://example.com'))
   expect(_stringify(err)).toMatchInlineSnapshot(`

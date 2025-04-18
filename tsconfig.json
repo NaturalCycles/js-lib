@@ -1,8 +1,7 @@
 {
   "extends": "./cfg/tsconfig.json",
   "compilerOptions": {
-    // "esModuleInterop": false, // todo
-    // "allowSyntheticDefaultImports": false, // todo
+    "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "outDir": "./dist",
     "declaration": false,

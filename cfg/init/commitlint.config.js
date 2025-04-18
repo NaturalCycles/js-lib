@@ -1,3 +1,5 @@
-module.exports = {
-  ...require('@naturalcycles/dev-lib/cfg/commitlint.config'),
+import sharedConfig from '@naturalcycles/dev-lib/cfg/commitlint.config.js'
+
+export default {
+  ...sharedConfig,
 }

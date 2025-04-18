@@ -4,19 +4,23 @@
  * Shared eslint FLAT config.
  */
 
-const globals = require('globals')
-const eslint = require('@eslint/js')
-const tseslint = require('typescript-eslint')
-
-// detect if jest is installed
-const fs = require('node:fs')
-const hasJest =
-  fs.existsSync('./node_modules/jest') && fs.existsSync('./node_modules/eslint-plugin-jest')
-// console.log({ hasJest })
+import globals from 'globals'
+import eslint from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import eslintPluginUnicorn from 'eslint-plugin-unicorn'
+import eslintPluginVue from 'eslint-plugin-vue'
+import eslintPluginImportX from 'eslint-plugin-import-x'
+import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
+import eslintPluginJsdoc from 'eslint-plugin-jsdoc'
+import eslintPluginStylistic from '@stylistic/eslint-plugin'
+import eslintRules from './eslint-rules.js'
+import eslintVueRules from './eslint-vue-rules.js'
+import eslintPrettierRules from './eslint-prettier-rules.js'
+import eslintBiomeRules from './eslint-biome-rules.js'
 
 const defaultFiles = ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts']
 
-module.exports = [
+export default [
   {
     ...eslint.configs.recommended,
     files: defaultFiles,
@@ -33,12 +37,12 @@ module.exports = [
   })),
   // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js
   {
-    ...require('eslint-plugin-unicorn').default.configs.recommended,
+    ...eslintPluginUnicorn.configs.recommended,
     files: defaultFiles,
   },
   // https://eslint.vuejs.org/user-guide/#user-guide
   // ...require('eslint-plugin-vue').configs['flat/recommended'],
-  ...require('eslint-plugin-vue').configs['flat/recommended'].map(c => ({
+  ...eslintPluginVue.configs['flat/recommended'].map(c => ({
     ...c,
     files: defaultFiles,
   })),
@@ -55,19 +59,19 @@ function getConfig() {
   return {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      'import-x': require('eslint-plugin-import-x'),
+      'import-x': eslintPluginImportX,
       // 'unused-imports': require('eslint-plugin-unused-imports'), // disabled in favor of biome rules
-      'simple-import-sort': require('eslint-plugin-simple-import-sort'),
-      jsdoc: require('eslint-plugin-jsdoc'),
-      '@stylistic': require('@stylistic/eslint-plugin'),
-      ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}),
+      'simple-import-sort': eslintPluginSimpleImportSort,
+      jsdoc: eslintPluginJsdoc,
+      '@stylistic': eslintPluginStylistic,
+      // ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}), // todo: eslint-plugin-vitest
     },
     languageOptions: {
       ecmaVersion: 'latest',
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest,
+        // ...globals.jest,
         ...globals.vitest,
         NodeJS: 'readonly',
       },
@@ -82,11 +86,11 @@ function getConfig() {
       reportUnusedDisableDirectives: 'error',
     },
     rules: {
-      ...require('./eslint-rules').rules,
-      ...require('./eslint-vue-rules').rules,
-      ...(hasJest ? require('./eslint-jest-rules').rules : {}),
-      ...require('./eslint-prettier-rules').rules, // disable eslint rules already covered by prettier
-      ...require('./eslint-biome-rules').rules, // disable eslint rules already covered by biome
+      ...eslintRules.rules,
+      ...eslintVueRules.rules,
+      // ...(hasJest ? require('./eslint-jest-rules').rules : {}), // todo: vitest-rules
+      ...eslintPrettierRules.rules, // disable eslint rules already covered by prettier
+      ...eslintBiomeRules.rules, // disable eslint rules already covered by biome
     },
   }
 }

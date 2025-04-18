@@ -3,7 +3,7 @@ import { select, Separator } from '@inquirer/prompts'
 import type { PromisableFunction } from '@naturalcycles/js-lib'
 import { _assert, _by } from '@naturalcycles/js-lib'
 import { runScript } from '@naturalcycles/nodejs-lib'
-import { buildCopy, buildEsmCjs, buildProd, runTSCInFolders } from '../build.util'
+import { buildCopy, buildProd, runTSCInFolders } from '../build.util.js'
 import {
   eslintAll,
   lintAllCommand,
@@ -12,9 +12,9 @@ import {
   runCommitlintCommand,
   runPrettier,
   stylelintAll,
-} from '../lint.util'
-import { runTest } from '../test.util'
-import { up, upnc } from '../yarn.util'
+} from '../lint.util.js'
+import { runTest } from '../test.util.js'
+import { up, upnc } from '../yarn.util.js'
 
 interface Command {
   name: string
@@ -43,27 +43,22 @@ const commands: (Command | Separator)[] = [
     fn: buildCopy,
     desc: 'Copy the non-ts files from ./src to ./dist',
   },
-  {
-    name: 'build-esm-cjs',
-    fn: buildEsmCjs,
-    desc: 'Clean ./dist and ./dist-esm, then run "tsc" in CJS and ESM modes, with --emit and --noCheck',
-  },
   new Separator(), // test
-  { name: 'test', fn: runTest, desc: 'Run vitest/jest for *.test.ts files.' },
+  { name: 'test', fn: runTest, desc: 'Run vitest for *.test.ts files.' },
   {
     name: 'test-integration',
     fn: () => runTest({ integration: true }),
-    desc: 'Run vitest/jest for *.integration.test.ts files.',
+    desc: 'Run vitest for *.integration.test.ts files.',
   },
   {
     name: 'test-manual',
     fn: () => runTest({ manual: true }),
-    desc: 'Run vitest/jest for *.manual.test.ts files.',
+    desc: 'Run vitest for *.manual.test.ts files.',
   },
   {
     name: 'test-leaks',
     fn: () => runTest({ leaks: true }),
-    desc: 'Run vitest/jest --detectLeaks for *.test.ts files.',
+    desc: 'Run vitest --detectLeaks for *.test.ts files.',
   },
   new Separator(), // lint
   {

@@ -1,5 +1,5 @@
 // Copy-pasted from https://github.com/SrBrahma/eslint-config-biome/blob/main/index.js
-module.exports = {
+export default {
   rules: {
     'constructor-super': 0,
     'default-case-last': 0,

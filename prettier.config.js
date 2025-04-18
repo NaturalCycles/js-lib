@@ -1,3 +1,3 @@
-module.exports = {
-  ...require('./cfg/prettier.config'),
-}
+import sharedConfig from './cfg/prettier.config.js'
+
+export default sharedConfig

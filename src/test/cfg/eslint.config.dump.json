@@ -8,7 +8,7 @@
         "0": ".vue",
         "1": ".html"
       },
-      "parser": "typescript-eslint/parser@8.29.0",
+      "parser": "typescript-eslint/parser@8.30.1",
       "project": "tsconfig.json"
     },
     "sourceType": "module"
@@ -18,10 +18,10 @@
   },
   "plugins": [
     "@",
-    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.29.0",
+    "@typescript-eslint:@typescript-eslint/eslint-plugin@8.30.1",
     "unicorn:eslint-plugin-unicorn@58.0.0",
     "vue:eslint-plugin-vue@10.0.0",
-    "import-x",
+    "import-x:eslint-plugin-import-x@4.10.5",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
     "@stylistic"

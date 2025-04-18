@@ -1,6 +1,6 @@
 // These rules are disabled, because prettier handles it
 // Copy-pasted from https://github.com/prettier/eslint-config-prettier
-module.exports = {
+export default {
   rules: {
     // The following rules can be used in some cases. See the README for more
     // information. These are marked with `0` instead of `0` so that a

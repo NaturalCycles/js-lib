@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   rules: {
     '@typescript-eslint/adjacent-overload-signatures': 2,
     '@typescript-eslint/ban-ts-comment': 0,

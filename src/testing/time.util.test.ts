@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { MOCK_TS_2018_06_21, mockTime, resetTime } from './time.util'
+import { MOCK_TS_2018_06_21, mockTime, resetTime } from './time.js'
 
 const now = Date.now()
 

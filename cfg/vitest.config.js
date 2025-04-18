@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-import { VitestAlphabeticSequencer } from './vitestAlphabeticSequencer.mjs'
+import { VitestAlphabeticSequencer } from './vitestAlphabeticSequencer.js'
 const runsInIDE = doesItRunInIDE()
 const testType = getTestType(runsInIDE)
 const silent = shouldBeSilent(runsInIDE)

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   rules: {
     // non-default vue rules
     'vue/block-order': [
