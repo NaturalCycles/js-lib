@@ -9,16 +9,19 @@ import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import eslintPluginVue from 'eslint-plugin-vue'
+import eslintPluginVitest from '@vitest/eslint-plugin'
 import eslintPluginImportX from 'eslint-plugin-import-x'
 import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
 import eslintPluginJsdoc from 'eslint-plugin-jsdoc'
 import eslintPluginStylistic from '@stylistic/eslint-plugin'
 import eslintRules from './eslint-rules.js'
 import eslintVueRules from './eslint-vue-rules.js'
+import eslintVitestRules from './eslint-vitest-rules.js'
 import eslintPrettierRules from './eslint-prettier-rules.js'
 import eslintBiomeRules from './eslint-biome-rules.js'
 
 const defaultFiles = ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts']
+const testFiles = ['**/*.test.ts', '**/*.test.tsx', '**/*.test.cts', '**/*.test.mts']
 
 export default [
   {
@@ -47,6 +50,21 @@ export default [
     files: defaultFiles,
   })),
   {
+    files: testFiles,
+    plugins: {
+      vitest: eslintPluginVitest,
+    },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
+    },
+    rules: {
+      ...eslintPluginVitest.configs.recommended.rules,
+      ...eslintVitestRules.rules,
+    },
+  },
+  {
     files: defaultFiles,
     ...getConfig(),
   },
@@ -64,7 +82,6 @@ function getConfig() {
       'simple-import-sort': eslintPluginSimpleImportSort,
       jsdoc: eslintPluginJsdoc,
       '@stylistic': eslintPluginStylistic,
-      // ...(hasJest ? { jest: require('eslint-plugin-jest') } : {}), // todo: eslint-plugin-vitest
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -88,7 +105,6 @@ function getConfig() {
     rules: {
       ...eslintRules.rules,
       ...eslintVueRules.rules,
-      // ...(hasJest ? require('./eslint-jest-rules').rules : {}), // todo: vitest-rules
       ...eslintPrettierRules.rules, // disable eslint rules already covered by prettier
       ...eslintBiomeRules.rules, // disable eslint rules already covered by biome
     },
