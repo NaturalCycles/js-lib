@@ -1,12 +1,14 @@
 import fs from 'node:fs'
-
 import { VitestAlphabeticSequencer } from './vitestAlphabeticSequencer.js'
+import { defineConfig } from 'vitest/config'
+
 const runsInIDE = doesItRunInIDE()
 const testType = getTestType(runsInIDE)
 const silent = shouldBeSilent(runsInIDE)
 const setupFiles = getSetupFiles(testType)
 const { include, exclude } = getIncludeAndExclude(testType)
 const isCI = !!process.env['CI']
+const coverageEnabled = isCI && testType === 'unit'
 const junitReporterEnabled = isCI && testType !== 'manual'
 const maxWorkers = getMaxWorkers()
 const minWorkers = maxWorkers
@@ -14,6 +16,7 @@ const minWorkers = maxWorkers
 // UPD: it was not statistically significant, so, reverting back to forks which is more stable
 // UPD2: in a different experiment, threads show ~10% faster locally, consistently
 const pool = 'threads'
+
 process.env.TZ ||= 'UTC'
 
 if (testType === 'unit') {
@@ -24,16 +27,37 @@ if (silent) {
   process.env['TEST_SILENT'] = 'true'
 }
 
-console.log('shared vitest config', {
-  testType,
-  silent,
-  isCI,
-  runsInIDE,
-  include,
-  exclude,
-  pool,
-  maxWorkers,
-})
+/**
+ * Use it like this in your vitest.config.ts:
+ *
+ * export default defineVitestConfig({
+ *   // overrides here, e.g:
+ *   // bail: 1,
+ * })
+ */
+export function defineVitestConfig(config) {
+  const mergedConfig = defineConfig({
+    test: {
+      ...sharedConfig,
+      ...config,
+    },
+  })
+
+  const { silent, include, exclude, pool, maxWorkers } = mergedConfig.test
+
+  console.log({
+    testType,
+    silent,
+    isCI,
+    runsInIDE,
+    include,
+    exclude,
+    pool,
+    maxWorkers,
+  })
+
+  return mergedConfig
+}
 
 /**
  * Shared config for Vitest.
@@ -73,7 +97,7 @@ export const sharedConfig = {
   // outputFile location is specified for compatibility with the previous jest config
   outputFile: junitReporterEnabled ? `./tmp/jest/${testType}.xml` : undefined,
   coverage: {
-    enabled: isCI && testType === 'unit',
+    enabled: coverageEnabled,
     reporter: ['html', 'lcov', 'json', 'json-summary', !isCI && 'text'].filter(Boolean),
     include: ['src/**/*.{ts,tsx}'],
     exclude: [

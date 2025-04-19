@@ -1,8 +1,5 @@
-import { defineConfig } from 'vitest/config'
-import { sharedConfig } from './cfg/vitest.config.js'
+import { defineVitestConfig } from './cfg/vitest.config.js'
 
-export default defineConfig({
-  test: {
-    ...sharedConfig,
-  },
+export default defineVitestConfig({
+  // bail: 1,
 })

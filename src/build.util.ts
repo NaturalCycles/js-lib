@@ -28,7 +28,7 @@ export async function runTSCInFolders(
  */
 export async function runTSCInFolder(tsconfigPath: string, args: string[] = []): Promise<void> {
   if (!fs2.pathExists(tsconfigPath)) {
-    console.log(`Skipping to run tsc for ${tsconfigPath}, as it doesn't exist`)
+    // console.log(`Skipping to run tsc for ${tsconfigPath}, as it doesn't exist`)
     return
   }
 

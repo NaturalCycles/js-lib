@@ -28,6 +28,7 @@
     "@naturalcycles/nodejs-lib": "^14",
     "@stylistic/eslint-plugin": "^4",
     "@types/node": "^22",
+    "@vitest/coverage-v8": "^3",
     "eslint": "^9",
     "eslint-plugin-import-x": "^4",
     "eslint-plugin-jsdoc": "^50",
@@ -43,15 +44,14 @@
     "timekeeper": "^2",
     "typescript": "^5",
     "typescript-eslint": "^8",
+    "vitest": "^3",
     "vue-eslint-parser": "^10"
   },
   "devDependencies": {
     "@types/mitm": "^1.3.8",
-    "@vitest/coverage-v8": "^3",
     "stylelint": "^16",
     "stylelint-config-standard-scss": "^14",
-    "tsx": "^4",
-    "vitest": "^3"
+    "tsx": "^4"
   },
   "files": [
     "dist",
