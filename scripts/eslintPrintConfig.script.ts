@@ -15,7 +15,8 @@ import { testDir } from '../src/paths.js'
 runScript(async () => {
   const outputPath = `${testDir}/cfg/eslint.config.dump.json`
 
-  exec2.spawn(`eslint --print-config src/index.ts > ${outputPath}`)
+  // test file is used, so vitest rules are included
+  exec2.spawn(`eslint --print-config src/leak.test.ts > ${outputPath}`)
 
   // execVoidCommandSync(`eslint --config ./eslint.config.js --parser-options=project:./scripts/tsconfig.json --print-config scripts/eslintPrintConfig.script.ts > ${outputPath}`, [], {
   //   shell: true,

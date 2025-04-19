@@ -11,6 +11,7 @@ export default {
     'vitest/expect-expect': 0,
     'vitest/max-nested-describe': [2, { max: 3 }],
     'vitest/no-alias-methods': 2,
+    'vitest/no-commented-out-tests': 0,
     'vitest/no-duplicate-hooks': 2,
     'vitest/no-test-return-statement': 2,
     'vitest/padding-around-before-all-blocks': 2,
