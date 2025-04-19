@@ -1,3 +1,4 @@
+import type { ViteUserConfig } from 'vitest/config'
 import type { InlineConfig } from 'vitest/node'
 
 /**
@@ -10,6 +11,6 @@ import type { InlineConfig } from 'vitest/node'
  })
 
  */
-export function defineVitestConfig(config?: Partial<InlineConfig>): InlineConfig
+export function defineVitestConfig(config?: Partial<ViteUserConfig>): ViteUserConfig
 
 export const sharedConfig: InlineConfig

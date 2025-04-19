@@ -37,9 +37,10 @@ if (silent) {
  */
 export function defineVitestConfig(config) {
   const mergedConfig = defineConfig({
+    ...config,
     test: {
       ...sharedConfig,
-      ...config,
+      ...config?.test,
     },
   })
 
