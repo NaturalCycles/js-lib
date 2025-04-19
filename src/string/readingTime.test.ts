@@ -60,7 +60,7 @@ describe('readingTime()', () => {
   )
 
   test(
-    'should handle less than 1 minute text',
+    'should handle less than 1 minute text with time',
     runTest(50, {
       minutes: 1,
       time: 15000,

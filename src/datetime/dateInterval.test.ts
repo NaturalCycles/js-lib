@@ -3,13 +3,15 @@ import type { IsoDate } from '../types.js'
 import { DateInterval } from './dateInterval.js'
 import { localDate } from './localDate.js'
 
+/* eslint-disable vitest/prefer-to-contain */
+
 test('basic', () => {
   const str1 = '2022-02-24/2022-03-30'
   const int1 = DateInterval.parse(str1)
   expect(int1.toString()).toBe(str1)
   expect(JSON.stringify(int1)).toBe(`"${str1}"`)
-  expect(int1.start.isSame('2022-02-24' as IsoDate))
-  expect(int1.end.isSame('2022-03-30' as IsoDate))
+  expect(int1.start.isSame('2022-02-24' as IsoDate)).toBe(true)
+  expect(int1.end.isSame('2022-03-30' as IsoDate)).toBe(true)
 
   const int2 = DateInterval.of('2022-02-24' as IsoDate, '2022-03-30' as IsoDate)
   const int3 = DateInterval.of(

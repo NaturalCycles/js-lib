@@ -6,14 +6,14 @@ const base64urlAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0
 test('should return a string of required length', () => {
   const id = nanoidBrowser()
   expect(typeof id).toBe('string')
-  expect(id.length).toBe(21)
+  expect(id).toHaveLength(21)
   expectToMatchAlphabet(id, base64urlAlphabet)
 
-  expect(nanoidBrowser(10).length).toBe(10)
-  expect(nanoidBrowser(1).length).toBe(1)
-  expect(nanoidBrowser(8).length).toBe(8)
-  expect(nanoidBrowser(256).length).toBe(256)
-  expect(nanoidBrowser(300).length).toBe(300)
+  expect(nanoidBrowser(10)).toHaveLength(10)
+  expect(nanoidBrowser(1)).toHaveLength(1)
+  expect(nanoidBrowser(8)).toHaveLength(8)
+  expect(nanoidBrowser(256)).toHaveLength(256)
+  expect(nanoidBrowser(300)).toHaveLength(300)
 })
 
 test('should be random, 2 values should not be equal', () => {
@@ -24,11 +24,11 @@ test('customAlphabet id all characters should be from the alphabet', () => {
   const alphabet = 'abcdefgh'
   const fn = nanoidBrowserCustomAlphabet(alphabet)
   let id = fn()
-  expect(id.length).toBe(21)
+  expect(id).toHaveLength(21)
   expectToMatchAlphabet(id, alphabet)
 
   id = fn(16)
-  expect(id.length).toBe(16)
+  expect(id).toHaveLength(16)
   expectToMatchAlphabet(id, alphabet)
 })
 

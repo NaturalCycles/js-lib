@@ -55,7 +55,9 @@ test('MEMO_DROP_CACHE', () => {
 
 test('memo unsupported', () => {
   const pd = { value: 'property' } as PropertyDescriptor
-  expect(() => memoSimple()(null as any, 'a', pd)).toThrow()
+  expect(() => memoSimple()(null as any, 'a', pd)).toThrowErrorMatchingInlineSnapshot(
+    `[TypeError: Memoization can be applied only to methods]`,
+  )
 })
 
 class B {

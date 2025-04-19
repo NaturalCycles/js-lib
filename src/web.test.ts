@@ -10,12 +10,12 @@ test('InMemoryWebStorage', () => {
   globalThis.localStorage ||= new InMemoryWebStorage()
 
   expect(localStorage.getItem('a')).toBeNull()
-  expect(localStorage.length).toBe(0)
+  expect(localStorage).toHaveLength(0)
   localStorage.setItem('a', 'aa')
   expect(localStorage.getItem('a')).toBe('aa')
-  expect(localStorage.length).toBe(1)
+  expect(localStorage).toHaveLength(1)
   localStorage.clear()
-  expect(localStorage.length).toBe(0)
+  expect(localStorage).toHaveLength(0)
   expect(localStorage.getItem('a')).toBeNull()
   expect(localStorage.getItem('b')).toBeNull()
 

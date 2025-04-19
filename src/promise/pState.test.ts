@@ -25,5 +25,5 @@ test('rejected', async () => {
   await pDelay(100)
   p.reject(new Error('bad'))
   expect(await pState(p)).toBe('rejected')
-  await expect(p).rejects.toThrowError('bad')
+  await expect(p).rejects.toThrow('bad')
 })

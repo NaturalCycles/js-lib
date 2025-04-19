@@ -415,7 +415,7 @@ test('should not mutate headers', async () => {
     url: 'https://example.com',
   })
 
-  expect(a.length).toBe(2)
+  expect(a).toHaveLength(2)
   expect(a[0]).toMatchInlineSnapshot(`
     {
       "a": "a",

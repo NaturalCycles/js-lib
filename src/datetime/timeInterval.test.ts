@@ -7,8 +7,8 @@ test('basic', () => {
   const int1 = TimeInterval.parse(str1)
   expect(int1.toString()).toBe(str1)
   expect(JSON.stringify(int1)).toBe(`"${str1}"`)
-  expect(int1.startTime.isSame(1649267185 as UnixTimestamp))
-  expect(int1.endTime.isSame(1649267187 as UnixTimestamp))
+  expect(int1.startTime.isSame(1649267185 as UnixTimestamp)).toBe(true)
+  expect(int1.endTime.isSame(1649267187 as UnixTimestamp)).toBe(true)
 
   const int2 = TimeInterval.of(1649267185 as UnixTimestamp, 1649267187 as UnixTimestamp)
 

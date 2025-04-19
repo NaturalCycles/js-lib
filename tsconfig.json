@@ -3,7 +3,6 @@
   "compilerOptions": {
     "target": "es2023",
     "lib": ["esnext", "dom", "dom.iterable"],
-    "verbatimModuleSyntax": true,
   },
   "include": ["src"],
   "exclude": ["**/__exclude"],

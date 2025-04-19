@@ -29,7 +29,9 @@ test.each([
 })
 
 test('_averageOrNull', () => {
-  expect(() => _average([])).toThrow()
+  expect(() => _average([])).toThrowErrorMatchingInlineSnapshot(
+    `[AssertionError: _average is called on empty array]`,
+  )
   expect(_averageOrNull(undefined)).toBeNull()
   expect(_averageOrNull(null)).toBeNull()
   expect(_averageOrNull([1])).toBe(1)
