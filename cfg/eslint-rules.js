@@ -31,7 +31,7 @@ export default {
         },
       },
     ],
-    '@typescript-eslint/consistent-type-imports': 0, // too noisy
+    '@typescript-eslint/consistent-type-imports': 2,
     '@typescript-eslint/consistent-type-exports': 2,
     '@typescript-eslint/consistent-type-assertions': 2,
     '@typescript-eslint/consistent-type-definitions': [2, 'interface'],
