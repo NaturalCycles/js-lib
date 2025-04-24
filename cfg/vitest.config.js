@@ -117,6 +117,7 @@ export const sharedConfig = {
       '**/*.mock.*',
       '**/*.page.{ts,tsx}',
       '**/*.component.{ts,tsx}',
+      '**/*.directive.{ts,tsx}',
       '**/*.modal.{ts,tsx}',
     ],
   },
