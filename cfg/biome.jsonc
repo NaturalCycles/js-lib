@@ -47,7 +47,7 @@
         "noCommaOperator": "error",
         "noArguments": "error",
         "noNonNullAssertion": "off",
-        "useImportType": "off",
+        "useImportType": "error",
         "noParameterAssign": "off",
         "useTemplate": "off",
         "useNumberNamespace": "off",
