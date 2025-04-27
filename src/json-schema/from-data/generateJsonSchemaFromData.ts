@@ -105,7 +105,7 @@ function mergeTypes(types: Type[], samples: any[]): JsonSchema | undefined {
   if (type === 'array') {
     // possible feature: detect if it's a tuple
     // currently assume no-tuple
-    const items = samples.filter(r => Array.isArray(r)).flat(1)
+    const items = samples.filter(r => Array.isArray(r)).flat()
     const itemTypes = _uniq(items.map(i => getTypeOfValue(i)))
 
     return {
