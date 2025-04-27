@@ -22,7 +22,7 @@
         "noDelete": "off" // todo
       },
       "correctness": {
-        // "useImportExtensions": "error", // consider for esm later
+        "useImportExtensions": "error",
         "noUnusedFunctionParameters": "error",
         // noUnusedImports + noUnusedVariables can replace eslint-plugin-unused-vars!
         "noUnusedImports": "error",
@@ -73,6 +73,9 @@
         "noUselessThisAlias": "off",
         "useLiteralKeys": "off",
         "noBannedTypes": "off"
+      },
+      "nursery": {
+        "noCommonJs": "error"
       }
     }
   },

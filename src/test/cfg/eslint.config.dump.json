@@ -19,10 +19,10 @@
   "plugins": [
     "@",
     "@typescript-eslint:@typescript-eslint/eslint-plugin@8.31.0",
-    "unicorn:eslint-plugin-unicorn@58.0.0",
+    "unicorn:eslint-plugin-unicorn@59.0.0",
     "vue:eslint-plugin-vue@10.0.0",
     "vitest:vitest@1.1.43",
-    "import-x:eslint-plugin-import-x@4.10.6",
+    "import-x:eslint-plugin-import-x@4.11.0",
     "simple-import-sort:eslint-plugin-simple-import-sort@12.1.1",
     "jsdoc",
     "@stylistic"
@@ -1547,10 +1547,6 @@
     "unicorn/no-array-method-this-argument": [
       0
     ],
-    "unicorn/no-array-push-push": [
-      0,
-      {}
-    ],
     "unicorn/no-array-reduce": [
       2,
       {
@@ -1599,9 +1595,6 @@
     "unicorn/no-keyword-prefix": [
       0,
       {}
-    ],
-    "unicorn/no-length-as-slice-end": [
-      2
     ],
     "unicorn/no-lonely-if": [
       2
@@ -1657,10 +1650,19 @@
         "checkGlobalVariables": false
       }
     ],
+    "unicorn/no-unnecessary-array-flat-depth": [
+      2
+    ],
+    "unicorn/no-unnecessary-array-splice-count": [
+      2
+    ],
     "unicorn/no-unnecessary-await": [
       2
     ],
     "unicorn/no-unnecessary-polyfills": [
+      2
+    ],
+    "unicorn/no-unnecessary-slice-end": [
       2
     ],
     "unicorn/no-unreadable-array-destructuring": [
@@ -1788,6 +1790,9 @@
     "unicorn/prefer-global-this": [
       2
     ],
+    "unicorn/prefer-import-meta-properties": [
+      2
+    ],
     "unicorn/prefer-includes": [
       2
     ],
@@ -1855,6 +1860,10 @@
     ],
     "unicorn/prefer-set-size": [
       2
+    ],
+    "unicorn/prefer-single-call": [
+      0,
+      {}
     ],
     "unicorn/prefer-spread": [
       0

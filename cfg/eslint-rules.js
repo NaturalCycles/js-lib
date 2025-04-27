@@ -185,6 +185,8 @@ export default {
     'import-x/no-cycle': 2,
     'import-x/no-useless-path-segments': 2,
     'import-x/no-default-export': 0, // biome
+    // 'import-x/no-commonjs': 2, // biome `noCommonJs`
+    // 'import-x/extensions': [2, 'always'], // biome useImportExtensions
     'jsdoc/check-alignment': 2,
     // "jsdoc/check-indentation": "error",
     // 'jsdoc/newline-after-description': 2,
@@ -340,9 +342,10 @@ export default {
     '@typescript-eslint/prefer-find': 2,
     'prefer-promise-reject-errors': 0,
     '@typescript-eslint/prefer-promise-reject-errors': 2,
+    'unicorn/prefer-import-meta-properties': 2,
     'unicorn/no-array-callback-reference': 0, // false positives
     'unicorn/no-process-exit': 0,
-    'unicorn/no-array-push-push': 0,
+    'unicorn/prefer-single-call': 0,
     'unicorn/no-abusive-eslint-disable': 0,
     'unicorn/no-negated-condition': 0,
     'unicorn/no-array-method-this-argument': 0, // bug: wrongly removes`readable.flatMap` concurrency option
