@@ -2,6 +2,17 @@ export default {
   rules: {
     '@typescript-eslint/adjacent-overload-signatures': 2,
     '@typescript-eslint/ban-ts-comment': 0,
+    'no-restricted-globals': [
+      2,
+      {
+        name: '__dirname',
+        message: '__dirname is not available in ESM. Use import.meta.dirname instead.',
+      },
+      {
+        name: '__filename',
+        message: '__filename is not available in ESM. Use import.meta.filename instead.',
+      },
+    ],
     '@typescript-eslint/no-restricted-types': [
       2,
       {

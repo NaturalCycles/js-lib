@@ -1088,6 +1088,17 @@
     "no-regex-spaces": [
       0
     ],
+    "no-restricted-globals": [
+      2,
+      {
+        "message": "__dirname is not available in ESM. Use import.meta.dirname instead.",
+        "name": "__dirname"
+      },
+      {
+        "message": "__filename is not available in ESM. Use import.meta.filename instead.",
+        "name": "__filename"
+      }
+    ],
     "no-restricted-imports": [
       2,
       "rxjs/Rx",
