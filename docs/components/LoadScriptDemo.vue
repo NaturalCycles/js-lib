@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { _stringify, loadCSS, loadScript } from '../../src'
+import { _stringify, loadCSS, loadScript } from '../../packages/js-lib'
 
 const loading = ref(false)
 

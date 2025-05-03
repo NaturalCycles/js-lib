@@ -1,0 +1,16 @@
+$schema: https://unpkg.com/@naturalcycles/backend-lib/resources/backendCfg.schema.json
+
+gaeProject: test-project
+
+# gaeProjectByBranch:
+
+gaeService: test-service
+
+# gaeServiceByBranch
+
+# serviceWithBranchName
+
+appEnvDefault: prod
+appYamlPassEnv: AA,BB
+
+hashedBranches: true

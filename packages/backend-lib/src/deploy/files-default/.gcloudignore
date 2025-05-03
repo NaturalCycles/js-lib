@@ -1,0 +1,7 @@
+#
+# .gcloudignore
+#
+.gcloudignore
+.git
+.gitignore
+node_modules/

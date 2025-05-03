@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { FetchTranslationLoader, getFetcher, TranslationService } from '../../src'
+import { FetchTranslationLoader, getFetcher, TranslationService } from '../../packages/js-lib'
 
 const translationService = ref(
   new TranslationService({

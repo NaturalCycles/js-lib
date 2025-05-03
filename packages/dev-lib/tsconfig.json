@@ -1,0 +1,11 @@
+{
+  "extends": "./cfg/tsconfig.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "outDir": "./dist",
+    "declaration": false,
+  },
+  "include": ["src"],
+  "exclude": ["**/__exclude"],
+}

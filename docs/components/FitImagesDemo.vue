@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { ImageFitter, FitImage, _deepCopy, AnyFunction, StringMap } from '../../src'
+import { ImageFitter, FitImage, _deepCopy, AnyFunction, StringMap } from '../../packages/js-lib'
 
 const imageIds = [
   'a8ZYS21_Toc',

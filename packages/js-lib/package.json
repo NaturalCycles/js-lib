@@ -1,0 +1,57 @@
+{
+  "name": "@naturalcycles/js-lib",
+  "type": "module",
+  "version": "14.55.0",
+  "scripts": {
+    "build": "dev-lib build",
+    "test": "dev-lib test",
+    "lint": "dev-lib lint",
+    "bt": "dev-lib bt",
+    "lbt": "dev-lib lbt",
+    "test-tz1": "TZ=Europe/Stockholm yarn test local",
+    "test-tz2": "TZ=JST-9 yarn test local",
+    "test-ny": "TZ=GMT-0500 yarn test localTime"
+  },
+  "dependencies": {
+    "tslib": "^2",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@naturalcycles/time-lib": "^3",
+    "@types/crypto-js": "^4",
+    "@types/node": "^22",
+    "@types/semver": "^7",
+    "crypto-js": "^4"
+  },
+  "files": [
+    "dist",
+    "cfg",
+    "src",
+    "!src/test",
+    "!src/**/*.test.*",
+    "!src/**/__snapshots__"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaturalCycles/js-lib"
+  },
+  "description": "Standard library for universal (browser + Node.js) javascript",
+  "keywords": [
+    "js-lib",
+    "lodash",
+    "p-map",
+    "standard library"
+  ],
+  "author": "Natural Cycles Team",
+  "license": "MIT"
+}

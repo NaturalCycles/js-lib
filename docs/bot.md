@@ -17,7 +17,7 @@ botDetectionService.getBotReason() // BotReason enum
 ## Demo
 
 <script setup>
-import {BotDetectionService} from "../src";
+import {BotDetectionService} from "../packages/js-lib";
 const botDetectionService = new BotDetectionService()
 </script>
 

@@ -1,0 +1,77 @@
+{
+  "name": "@naturalcycles/nodejs-lib",
+  "type": "module",
+  "version": "12.47.1",
+  "scripts": {
+    "build": "dev-lib build",
+    "test": "dev-lib test",
+    "lint": "dev-lib lint",
+    "bt": "dev-lib bt",
+    "lbt": "dev-lib lbt",
+    "slack-this-debug": "tsx ./src/bin/slack-this.ts --channel test --msg 'Hello slack!'",
+    "secrets-gen-key-debug": "tsx ./src/bin/secrets-gen-key.ts",
+    "secrets-encrypt-debug": "tsx ./src/bin/secrets-encrypt.ts",
+    "secrets-decrypt-debug": "tsx ./src/bin/secrets-decrypt.ts",
+    "kpy-debug": "tsx ./src/bin/kpy.ts --verbose scripts tmp/scripts",
+    "kpy-debug2": "tsx ./src/bin/kpy.ts --verbose scripts bench non-ex non-ex/** colors* tmp/scripts",
+    "kpy-debug3": "tsx ./src/bin/kpy.ts --verbose src colors csv stream non-ex non-ex/** tmp/src",
+    "json2env-debug": "tsx ./src/bin/json2env.ts ./src/test/someFile.json"
+  },
+  "dependencies": {
+    "@naturalcycles/js-lib": "workspace:*",
+    "@types/js-yaml": "^4",
+    "@types/jsonwebtoken": "^9",
+    "@types/yargs": "^16",
+    "ajv": "^8",
+    "ajv-formats": "^3",
+    "ajv-keywords": "^5",
+    "chalk": "^5",
+    "dotenv": "^16",
+    "joi": "^17",
+    "js-yaml": "^4",
+    "jsonwebtoken": "^9",
+    "lru-cache": "^11",
+    "through2-concurrent": "^2",
+    "tinyglobby": "^0.2",
+    "yargs": "^17"
+  },
+  "devDependencies": {
+    "@types/through2-concurrent": "^2"
+  },
+  "bin": {
+    "kpy": "dist/bin/kpy.js",
+    "json2env": "dist/bin/json2env.js",
+    "generate-build-info": "dist/bin/generate-build-info.js",
+    "slack-this": "dist/bin/slack-this.js",
+    "secrets-gen-key": "dist/bin/secrets-gen-key.js",
+    "secrets-encrypt": "dist/bin/secrets-encrypt.js",
+    "secrets-decrypt": "dist/bin/secrets-decrypt.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "!src/test",
+    "!src/**/*.test.ts",
+    "!src/**/__snapshots__",
+    "!src/**/__exclude"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaturalCycles/nodejs-lib"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "Standard library for Node.js",
+  "author": "Natural Cycles Team",
+  "license": "MIT",
+  "envByBranch": {
+    "master": "master",
+    "*": "branch"
+  }
+}

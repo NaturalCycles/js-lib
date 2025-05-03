@@ -1,69 +1,36 @@
 {
-  "name": "@naturalcycles/js-lib",
+  "name": "@naturalcycles/monorepo",
   "type": "module",
-  "version": "14.55.0",
+  "private": true,
   "scripts": {
     "prepare": "husky",
-    "build": "dev-lib build",
-    "test": "dev-lib test",
-    "lint": "dev-lib lint",
-    "bt": "dev-lib bt",
-    "lbt": "dev-lib lbt",
-    "test-tz1": "TZ=Europe/Stockholm yarn test local",
-    "test-tz2": "TZ=JST-9 yarn test local",
-    "test-ny": "TZ=GMT-0500 yarn test localTime",
+    "check": "pnpm build && pnpm lint && pnpm test",
+    "lint": "pnpm --filter '@naturalcycles/*' run lint",
+    "build": "pnpm --filter '@naturalcycles/*' run build",
+    "test": "pnpm --filter '@naturalcycles/*' run test",
+    "js-lib:build": "pnpm --filter @naturalcycles/js-lib run build",
+    "js-lib:test": "pnpm --filter @naturalcycles/js-lib run test",
+    "__build": "turbo run build",
+    "__dev": "turbo run dev",
+    "__lint": "turbo run lint",
+    "__check-types": "turbo run check-types",
     "docs-dev": "vitepress dev docs --open",
     "docs-build": "vitepress build docs",
     "docs-preview": "vitepress preview docs"
   },
-  "dependencies": {
-    "tslib": "^2",
-    "zod": "^3"
-  },
   "devDependencies": {
-    "@naturalcycles/bench-lib": "^4",
-    "@naturalcycles/dev-lib": "^18",
-    "@naturalcycles/nodejs-lib": "^14",
-    "@naturalcycles/time-lib": "^3",
-    "@types/crypto-js": "^4",
-    "@types/node": "^22",
-    "@types/semver": "^7",
-    "crypto-js": "^4",
-    "tsx": "^4",
-    "vitepress": "^1",
-    "vitest": "^3",
-    "vue": "^3"
+    "@naturalcycles/bench-lib": "^4.0.1",
+    "@naturalcycles/dev-lib": "workspace:*",
+    "@naturalcycles/nodejs-lib": "workspace:*",
+    "@types/node": "^22.15.3",
+    "tsx": "^4.19.4",
+    "vitepress": "^1.6.3",
+    "vitest": "^3.1.2",
+    "vue": "^3.5.13"
   },
-  "files": [
-    "dist",
-    "cfg",
-    "src",
-    "!src/test",
-    "!src/**/*.test.*",
-    "!src/**/__snapshots__"
-  ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "sideEffects": false,
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.12.0",
+    "pnpm": ">=10"
   },
-  "packageManager": "yarn@1.22.22",
-  "publishConfig": {
-    "provenance": true,
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NaturalCycles/js-lib"
-  },
-  "description": "Standard library for universal (browser + Node.js) javascript",
-  "keywords": [
-    "js-lib",
-    "lodash",
-    "p-map",
-    "standard library"
-  ],
-  "author": "Natural Cycles Team",
-  "license": "MIT"
+  "packageManager": "pnpm@10.10.0"
 }
