@@ -125,8 +125,6 @@ const commandMap = _by(commands.filter(c => !(c instanceof Separator)) as Comman
 const { CI } = process.env
 
 runScript(async () => {
-  console.log({ cwd: process.cwd() })
-
   let cmd = process.argv.find(s => commandMap[s] && !commandMap[s].interactiveOnly)
 
   if (!cmd) {
