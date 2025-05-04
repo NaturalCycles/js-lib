@@ -1,7 +1,7 @@
 {
   "name": "@naturalcycles/dev-lib",
   "type": "module",
-  "version": "18.4.0",
+  "version": "18.4.2",
   "scripts": {
     "tsx-debug": "tsx scripts/testScript.ts",
     "dev-lib": "tsx ./src/bin/dev-lib.ts",

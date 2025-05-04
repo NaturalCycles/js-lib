@@ -28,7 +28,7 @@ jobs:
       - { uses: actions/setup-node@v4, with: { node-version: 'lts/*', cache: 'pnpm' } }
       - run: pnpm install
       - run: pnpm build
-      - run: pnpm release:dev-lib:dry
+      - run: pnpm release:dev-lib
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -7,3 +7,5 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
   - unrs-resolver
+patchedDependencies:
+  semantic-release-pnpm: patches/semantic-release-pnpm.patch

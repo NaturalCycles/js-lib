@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  semantic-release-pnpm:
+    hash: f2bc7ee25dbb9c46b47aee88d0327b8537f9d46581f3816a791cbf6c878bb51d
+    path: patches/semantic-release-pnpm.patch
+
 importers:
 
   .:
@@ -46,7 +51,7 @@ importers:
         version: 8.0.2(semantic-release@24.2.3(typescript@5.8.3))
       semantic-release-pnpm:
         specifier: ^1.0.2
-        version: 1.0.2(semantic-release@24.2.3(typescript@5.8.3))
+        version: 1.0.2(patch_hash=f2bc7ee25dbb9c46b47aee88d0327b8537f9d46581f3816a791cbf6c878bb51d)(semantic-release@24.2.3(typescript@5.8.3))
       tsx:
         specifier: ^4.19.4
         version: 4.19.4
@@ -10438,7 +10443,7 @@ snapshots:
     dependencies:
       semantic-release: 24.2.3(typescript@5.8.3)
 
-  semantic-release-pnpm@1.0.2(semantic-release@24.2.3(typescript@5.8.3)):
+  semantic-release-pnpm@1.0.2(patch_hash=f2bc7ee25dbb9c46b47aee88d0327b8537f9d46581f3816a791cbf6c878bb51d)(semantic-release@24.2.3(typescript@5.8.3)):
     dependencies:
       aggregate-error: 3.1.0
       execa: 5.1.1

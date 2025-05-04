@@ -13,7 +13,7 @@
     "root:prettier": "prettier --write './*.{js,ts,json,yaml,md}'",
     "release": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo",
     "release:dry": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo --dry-run",
-    "release:dev-lib": "pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:dev-lib": "CI=1 pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo",
     "release:dev-lib:dry": "pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo --dry-run",
     "docs:dev": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
