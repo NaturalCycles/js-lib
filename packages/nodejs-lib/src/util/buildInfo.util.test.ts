@@ -5,7 +5,7 @@ test('generateBuildInfo', () => {
   let buildInfo = generateBuildInfo()
   // console.log(buildInfo)
   expect(buildInfo).toMatchObject({
-    repoName: 'js-lib',
+    repoName: 'js-libs',
     env: 'test',
   })
 
