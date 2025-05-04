@@ -1,0 +1,11 @@
+//
+// tsconfig.json for /scripts
+//
+{
+  "extends": "../cfg/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "${configDir}/..",
+    "outDir": "${configDir}/../dist",
+  },
+  "exclude": ["**/__exclude"],
+}

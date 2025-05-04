@@ -23,6 +23,7 @@ node_modules
 .nuxt
 .gitconfig
 .lighthouseci
+.turbo
 
 #
 # Root dir
@@ -44,8 +45,8 @@ node_modules
 /tmp
 
 # All secrets are ignored, except encrypted
-/secret/**/*.*
-!/secret/**/*.enc
+secret/**/*.*
+!secret/**/*.enc
 
 /scripts/try.*
 /logs

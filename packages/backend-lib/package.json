@@ -1,0 +1,78 @@
+{
+  "name": "@naturalcycles/backend-lib",
+  "type": "module",
+  "version": "9.0.4",
+  "scripts": {
+    "build": "dev-lib build",
+    "test": "dev-lib test",
+    "lint": "dev-lib lint",
+    "bt": "dev-lib bt",
+    "lbt": "dev-lib lbt",
+    "dev": "APP_ENV=dev tsx watch src/test/server/server.ts",
+    "docs-serve": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
+    "docs-build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
+    "deploy-gae": "yarn tsx src/bin/deploy-gae.ts",
+    "deploy-prepare": "yarn tsx src/bin/deploy-prepare.ts",
+    "deploy-prepare-debug": "AA=AA1 BB=BB1 yarn tsx src/bin/deploy-prepare.ts --projectDir ./src/test/project",
+    "deploy-health-check-debug1": "yarn tsx src/bin/deploy-health-check.ts --url https://api-master.naturalcycles.com",
+    "deploy-health-check-debug2": "yarn tsx src/bin/deploy-health-check.ts --url https://api-master2.naturalcycles.com --thresholdUnhealthy 5"
+  },
+  "peerDependencies": {
+    "@sentry/node": "^9"
+  },
+  "dependencies": {
+    "@naturalcycles/db-lib": "workspace:^",
+    "@naturalcycles/js-lib": "workspace:^",
+    "@naturalcycles/nodejs-lib": "workspace:^",
+    "@types/cookie-parser": "^1",
+    "@types/cors": "^2",
+    "@types/express": "^5",
+    "@types/on-finished": "^2",
+    "cookie-parser": "^1",
+    "cors": "^2",
+    "dotenv": "^16",
+    "ejs": "^3",
+    "express": "^5",
+    "firebase-admin": "^13",
+    "helmet": "^8",
+    "on-finished": "^2",
+    "simple-git": "^3"
+  },
+  "devDependencies": {
+    "@sentry/node": "^9",
+    "@types/ejs": "^3",
+    "fastify": "^5"
+  },
+  "files": [
+    "dist",
+    "cfg",
+    "resources",
+    "src",
+    "!src/test",
+    "!src/**/*.test.ts",
+    "!src/**/__snapshots__",
+    "!src/**/__exclude"
+  ],
+  "bin": {
+    "deploy-gae": "dist/bin/deploy-gae.js",
+    "undeploy-gae": "dist/bin/undeploy-gae.js",
+    "deploy-prepare": "dist/bin/deploy-prepare.js",
+    "deploy-health-check": "dist/bin/deploy-health-check.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:NaturalCycles/js-libs.git",
+    "directory": "packages/backend-lib"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "Standard library for making Express.js / AppEngine based backend services",
+  "author": "Natural Cycles Team",
+  "license": "MIT"
+}

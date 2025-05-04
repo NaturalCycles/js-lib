@@ -1,69 +1,52 @@
 {
-  "name": "@naturalcycles/js-lib",
+  "name": "@naturalcycles/js-libs",
   "type": "module",
-  "version": "14.55.0",
+  "private": true,
   "scripts": {
     "prepare": "husky",
-    "build": "dev-lib build",
-    "test": "dev-lib test",
-    "lint": "dev-lib lint",
-    "bt": "dev-lib bt",
-    "lbt": "dev-lib lbt",
-    "test-tz1": "TZ=Europe/Stockholm yarn test local",
-    "test-tz2": "TZ=JST-9 yarn test local",
-    "test-ny": "TZ=GMT-0500 yarn test localTime",
-    "docs-dev": "vitepress dev docs --open",
-    "docs-build": "vitepress build docs",
-    "docs-preview": "vitepress preview docs"
-  },
-  "dependencies": {
-    "tslib": "^2",
-    "zod": "^3"
+    "check": "pnpm build && pnpm lint && pnpm test",
+    "lint": "pnpm --filter '@naturalcycles/*' run lint",
+    "build": "pnpm --filter '@naturalcycles/*' run build",
+    "test": "pnpm --filter '@naturalcycles/*' run test",
+    "js-lib:build": "pnpm --filter @naturalcycles/js-lib run build",
+    "js-lib:test": "pnpm --filter @naturalcycles/js-lib run test",
+    "root:prettier": "prettier --write './*.{js,ts,json,yaml,md}'",
+    "release": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo",
+    "release:dry": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo --dry-run",
+    "release:dev-lib": "CI=1 pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:dev-lib:dry": "pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo --dry-run",
+    "release:js-lib": "CI=1 pnpm --filter @naturalcycles/js-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:js-lib-dry": "pnpm --filter @naturalcycles/js-lib exec -- semantic-release -e semantic-release-monorepo --dry-run",
+    "release:nodejs-lib": "pnpm --filter @naturalcycles/nodejs-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:backend-lib": "pnpm --filter @naturalcycles/backend-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:db-lib": "pnpm --filter @naturalcycles/db-lib exec -- semantic-release -e semantic-release-monorepo",
+    "docs:dev": "vitepress dev docs --open",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@naturalcycles/bench-lib": "^4",
-    "@naturalcycles/dev-lib": "^18",
-    "@naturalcycles/nodejs-lib": "^14",
-    "@naturalcycles/time-lib": "^3",
-    "@types/crypto-js": "^4",
-    "@types/node": "^22",
-    "@types/semver": "^7",
-    "crypto-js": "^4",
-    "tsx": "^4",
-    "vitepress": "^1",
-    "vitest": "^3",
-    "vue": "^3"
+    "@biomejs/biome": "^1.9.4",
+    "@naturalcycles/bench-lib": "^4.0.1",
+    "@naturalcycles/dev-lib": "^18.4.5",
+    "@naturalcycles/nodejs-lib": "^14.3.0",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^22.15.3",
+    "@vitest/coverage-v8": "^3.1.2",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.26.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.3",
+    "semantic-release": "^24.2.3",
+    "semantic-release-monorepo": "^8.0.2",
+    "semantic-release-pnpm": "^1.0.2",
+    "tsx": "^4.19.4",
+    "vitepress": "^1.6.3",
+    "vitest": "^3.1.2",
+    "vue": "^3.5.13"
   },
-  "files": [
-    "dist",
-    "cfg",
-    "src",
-    "!src/test",
-    "!src/**/*.test.*",
-    "!src/**/__snapshots__"
-  ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "sideEffects": false,
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.12.0",
+    "pnpm": ">=10"
   },
-  "packageManager": "yarn@1.22.22",
-  "publishConfig": {
-    "provenance": true,
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NaturalCycles/js-lib"
-  },
-  "description": "Standard library for universal (browser + Node.js) javascript",
-  "keywords": [
-    "js-lib",
-    "lodash",
-    "p-map",
-    "standard library"
-  ],
-  "author": "Natural Cycles Team",
-  "license": "MIT"
+  "packageManager": "pnpm@10.10.0"
 }

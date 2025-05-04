@@ -1,0 +1,109 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+  "files": {
+    "ignore": ["**/*.html", "**/tsconfig.json", "**/tsconfig.*.json", "**/__exclude", "**/try.ts", "*.compact.json"]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
+  },
+  "organizeImports": { "enabled": false },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "performance": {
+        // "useTopLevelRegex": "error" // consider
+        "noDelete": "off" // todo
+      },
+      "correctness": {
+        "useImportExtensions": "error",
+        "noUnusedFunctionParameters": "error",
+        // noUnusedImports + noUnusedVariables can replace eslint-plugin-unused-vars!
+        "noUnusedImports": "error",
+        "noUnusedVariables": {
+          "fix": "none",
+          "level": "error"
+        },
+        "useArrayLiterals": "error"
+      },
+      "style": {
+        // "useDefaultSwitchClause": "error", // consider`
+        "useThrowNewError": "error",
+        "useThrowOnlyError": "error",
+        "useConsistentBuiltinInstantiation": "error",
+        "noDoneCallback": "error",
+        "useShorthandFunctionType": "error",
+        "useShorthandAssign": "error",
+        "useForOf": "error",
+        "useConsistentArrayType": "error",
+        "useShorthandArrayType": "error",
+        "noDefaultExport": "error",
+        "noCommaOperator": "error",
+        "noArguments": "error",
+        "noNonNullAssertion": "off",
+        "useImportType": "error",
+        "noParameterAssign": "off",
+        "useTemplate": "off",
+        "useNumberNamespace": "off",
+        "noUnusedTemplateLiteral": "off"
+      },
+      "suspicious": {
+        "useNumberToFixedDigitsArgument": "error",
+        "useErrorMessage": "error",
+        "noEvolvingTypes": "error",
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off",
+        "noPrototypeBuiltins": "off",
+        "noGlobalIsNan": "off", // todo,
+        "noThenProperty": "off",
+        "noImportAssign": "off",
+        "noEmptyInterface": "off"
+      },
+      "complexity": {
+        "useDateNow": "error",
+        "noUselessUndefinedInitialization": "error",
+        "noUselessStringConcat": "error",
+        "noForEach": "off",
+        "noUselessThisAlias": "off",
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off"
+      },
+      "nursery": {
+        "noCommonJs": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "overrides": [
+    {
+      "include": ["*.vue"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            // doesn't work well with *.vue files
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ]
+}

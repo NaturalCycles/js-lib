@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "simple.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "s": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "int": {
+      "type": "integer"
+    }
+  },
+  "required": ["s"]
+}

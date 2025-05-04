@@ -1,0 +1,33 @@
+diff --git a/lib/publish.js b/lib/publish.js
+index 3d97124963becac6535aed3ad31bb236dc3c2f51..0c0914acd9e44fede7d06c3ec4090afda7f9c2c5 100644
+--- a/lib/publish.js
++++ b/lib/publish.js
+@@ -1,5 +1,6 @@
+ const path = require('path');
+ const execa = require('execa');
++const fs = require('fs/promises');
+ const getRegistry = require('./get-registry');
+ const getChannel = require('./get-channel');
+ const getReleaseInfo = require('./get-release-info');
+@@ -19,10 +20,20 @@ module.exports = async (npmrc, {npmPublish, pkgRoot}, pkg, context) => {
+     const registry = getRegistry(pkg, context);
+     const distTag = getChannel(channel);
+ 
++    logger.log('Kirill has been here');
+     logger.log(`Publishing version ${version} to npm registry on dist-tag ${distTag}`);
++
++    await fs.copyFile(
++      npmrc,
++      '.npmrc',
++    )
++
+     const result = execa(
+       'pnpm',
+-      ['publish', basePath, '--userconfig', npmrc, '--tag', distTag, '--registry', registry],
++      ['publish', basePath,
++        // '--userconfig', npmrc,
++        '--no-git-checks',
++        '--tag', distTag, '--registry', registry],
+       {cwd, env, preferLocal: true}
+     );
+     result.stdout.pipe(stdout, {end: false});

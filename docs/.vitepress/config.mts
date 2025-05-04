@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  base: '/js-lib/',
-  title: 'js-lib',
+  base: '/js-libs/',
+  title: 'js-libs',
   description:
     'NaturalCycles/js-lib: Standard library for universal (browser + Node.js) javascript',
   // ignoreDeadLinks: true,
@@ -13,8 +13,8 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Github', link: 'https://github.com/NaturalCycles/js-lib/' },
-      { text: 'Changelog', link: 'https://github.com/NaturalCycles/js-lib/releases' },
+      { text: 'Github', link: 'https://github.com/NaturalCycles/js-libs/' },
+      { text: 'Changelog', link: 'https://github.com/NaturalCycles/js-libs/releases' },
     ],
     sidebar: [
       {

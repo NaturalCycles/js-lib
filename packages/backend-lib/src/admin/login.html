@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Login</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="app" style="padding: 40px 50px">
+      <pre v-if="loading">Checking login...</pre>
+      <div v-else>
+        <div v-if="user">
+          <p>Logged in as:</p>
+          <pre><mark>{{ user.email }}</mark></pre>
+          <pre><mark>{{ user.token }}</mark></pre>
+          <button class="btn btn-primary btn-lg" @click="logout">Logout</button>
+        </div>
+        <div v-else>
+          <button class="btn btn-primary btn-lg" @click="login" id="loginBtn">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createApp } from 'https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.esm-browser.prod.js'
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js'
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        onAuthStateChanged,
+        signInWithRedirect,
+      } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js'
+
+      const apiKey = '<%= firebaseApiKey %>'
+      const authDomain = '<%= firebaseAuthDomain %>'
+      // const authProvider = '<%= firebaseAuthProvider %>'
+
+      if (!apiKey || !authDomain) {
+        alert(`Error: 'apiKey' or 'authDomain' is missing!`)
+      }
+
+      // Initialize Firebase
+      initializeApp({
+        apiKey,
+        authDomain,
+      })
+
+      const auth = getAuth()
+      const provider = new GoogleAuthProvider()
+
+      onAuthStateChanged(auth, user => {
+        // console.log('onAuthStateChanged, user: ', JSON.stringify(user, null, 2))
+        // console.log('onAuthStateChanged, user: ', user)
+        onUser(user)
+      })
+
+      const qs = Object.fromEntries(new URLSearchParams(location.search))
+      const { autoLogin, logout, returnUrl, adminTokenKey = 'admin_token' } = qs
+      // console.log(qs)
+
+      const app = createApp({
+        data() {
+          return {
+            loading: 'Loading...',
+            user: undefined,
+          }
+        },
+        methods: {
+          login: async function () {
+            try {
+              await signInWithRedirect(auth, provider)
+            } catch (err) {
+              logError(err)
+            }
+          },
+
+          logout: async function () {
+            try {
+              await auth.signOut()
+
+              await postToken('logout') // magic string
+
+              if (logout && returnUrl) {
+                alert('Logged out, redurecting back...')
+                location.href = returnUrl
+              }
+            } catch (err) {
+              logError(err)
+            }
+          },
+        },
+      }).mount('#app')
+
+      if (logout) app.logout()
+
+      ////
+
+      async function onUser(user) {
+        try {
+          // alert('onUser')
+          app.user = user
+          app.loading = false
+          if (!user) {
+            if (autoLogin) app.login()
+          } else {
+            const token = await auth.currentUser.getIdToken()
+
+            // alert('idToken')
+            // console.log(idToken)
+            app.user = Object.assign({}, app.user, {
+              token,
+            })
+
+            await postToken(token)
+
+            // Redirect if needed
+            if (returnUrl) {
+              // alert(`Logged in as ${app.user.email}, redirecting back...`)
+              location.href = returnUrl
+            }
+          }
+        } catch (err) {
+          logError(err)
+        }
+      }
+
+      function logError(err) {
+        console.error(err)
+        alert('Error\n ' + JSON.stringify(err, null, 2))
+      }
+
+      async function postToken(token) {
+        await fetch(`/admin/login`, {
+          method: 'post',
+          headers: {
+            Authentication: token,
+          },
+        })
+      }
+    </script>
+  </body>
+</html>

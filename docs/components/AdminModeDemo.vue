@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { AdminService } from '../../src'
+import { AdminService } from '../../packages/js-lib'
 
 const adminService = new AdminService({
   onChange: adminMode => console.log({ adminMode }),
