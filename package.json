@@ -28,6 +28,7 @@
     "@naturalcycles/nodejs-lib": "^14.3.0",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.15.3",
+    "@vitest/coverage-v8": "^3.1.2",
     "dotenv": "^16.5.0",
     "eslint": "^9.26.0",
     "husky": "^9.1.7",
