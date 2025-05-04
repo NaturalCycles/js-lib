@@ -71,8 +71,8 @@ importers:
   packages/backend-lib:
     dependencies:
       '@naturalcycles/db-lib':
-        specifier: ^10
-        version: 10.1.2
+        specifier: workspace:^
+        version: link:../db-lib
       '@naturalcycles/js-lib':
         specifier: workspace:^
         version: link:../js-lib
@@ -1218,10 +1218,6 @@ packages:
   '@naturalcycles/bench-lib@4.0.1':
     resolution: {integrity: sha512-Yo8ME0mgnaHA8rMrJHmcvEhJTNF0x2ZouUlN3eRT7bJK3ce+10qscYb4txeRi4OGvKyqPT3r2gq8xP8YpghFYQ==}
     engines: {node: '>=22.10.0'}
-
-  '@naturalcycles/db-lib@10.1.2':
-    resolution: {integrity: sha512-WVz4PCU3zubkXCTZOuLSIUqRQgOy4/HQva234xpDQzn6vUuB+nH6jh8rYTkVhpAith+VMkeXZjuI/zjeIO4p5Q==}
-    engines: {node: '>=22.12.0'}
 
   '@naturalcycles/dev-lib@18.4.5':
     resolution: {integrity: sha512-7NcyUPPciEgzSqRaJXChZ3OphZsNK9UZvNUpn6U5rPh07osl6FOPBQW2n5gRg/Cbxucp78ooAtUsEg3VMEMYfA==}
@@ -6559,11 +6555,6 @@ snapshots:
       '@naturalcycles/nodejs-lib': 14.3.0
       autocannon: 8.0.0
       benchmark: 2.1.4
-
-  '@naturalcycles/db-lib@10.1.2':
-    dependencies:
-      '@naturalcycles/js-lib': 15.0.0
-      '@naturalcycles/nodejs-lib': 14.3.0
 
   '@naturalcycles/dev-lib@18.4.5(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))':
     dependencies:
