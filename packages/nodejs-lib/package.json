@@ -1,7 +1,7 @@
 {
   "name": "@naturalcycles/nodejs-lib",
   "type": "module",
-  "version": "12.47.1",
+  "version": "14.3.0",
   "scripts": {
     "build": "dev-lib build",
     "test": "dev-lib test",
@@ -18,7 +18,7 @@
     "json2env-debug": "tsx ./src/bin/json2env.ts ./src/test/someFile.json"
   },
   "dependencies": {
-    "@naturalcycles/js-lib": "workspace:*",
+    "@naturalcycles/js-lib": "workspace:^",
     "@types/js-yaml": "^4",
     "@types/jsonwebtoken": "^9",
     "@types/yargs": "^16",
@@ -62,7 +62,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaturalCycles/nodejs-lib"
+    "url": "git@github.com:NaturalCycles/js-lib.git",
+    "directory": "packages/nodejs-lib"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -1,7 +1,7 @@
 {
   "name": "@naturalcycles/dev-lib",
   "type": "module",
-  "version": "12.11.3",
+  "version": "18.4.0",
   "scripts": {
     "tsx-debug": "tsx scripts/testScript.ts",
     "dev-lib": "tsx ./src/bin/dev-lib.ts",
@@ -73,7 +73,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaturalCycles/dev-lib"
+    "url": "git@github.com:NaturalCycles/js-lib.git",
+    "directory": "packages/dev-lib"
   },
   "description": "Set of opinionated configuration files and tools for common project needs",
   "author": "Natural Cycles Team",

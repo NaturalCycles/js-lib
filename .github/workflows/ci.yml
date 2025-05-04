@@ -16,6 +16,23 @@ jobs:
       - run: pnpm install
       - run: pnpm check
 
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main' || github.ref_name == 'mono'
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - { uses: actions/checkout@v4, with: { persist-credentials: false } }
+      - uses: pnpm/action-setup@v4
+      - { uses: actions/setup-node@v4, with: { node-version: 'lts/*', cache: 'pnpm' } }
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm release:dev-lib
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 #  build-job:
 #    runs-on: ubuntu-latest
 #    if: "!contains(github.event.head_commit.message , 'skip ci')"

@@ -1,7 +1,7 @@
 {
   "name": "@naturalcycles/js-lib",
   "type": "module",
-  "version": "14.55.0",
+  "version": "15.0.0",
   "scripts": {
     "build": "dev-lib build",
     "test": "dev-lib test",
@@ -43,7 +43,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaturalCycles/js-lib"
+    "url": "git@github.com:NaturalCycles/js-lib.git",
+    "directory": "packages/js-lib"
   },
   "description": "Standard library for universal (browser + Node.js) javascript",
   "keywords": [
