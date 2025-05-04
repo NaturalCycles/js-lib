@@ -21,7 +21,7 @@
     "@sentry/node": "^9"
   },
   "dependencies": {
-    "@naturalcycles/db-lib": "^10",
+    "@naturalcycles/db-lib": "workspace:^",
     "@naturalcycles/js-lib": "workspace:^",
     "@naturalcycles/nodejs-lib": "workspace:^",
     "@types/cookie-parser": "^1",
