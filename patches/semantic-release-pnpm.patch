@@ -1,8 +1,8 @@
 diff --git a/lib/publish.js b/lib/publish.js
-index 3d97124963becac6535aed3ad31bb236dc3c2f51..8cae22f013cb68d0d0a046e79aa08634ffde8df7 100644
+index 3d97124963becac6535aed3ad31bb236dc3c2f51..9b81a02fbf4192a5217c1eab77e9e32b68c2c4b8 100644
 --- a/lib/publish.js
 +++ b/lib/publish.js
-@@ -19,10 +19,13 @@ module.exports = async (npmrc, {npmPublish, pkgRoot}, pkg, context) => {
+@@ -19,10 +19,14 @@ module.exports = async (npmrc, {npmPublish, pkgRoot}, pkg, context) => {
      const registry = getRegistry(pkg, context);
      const distTag = getChannel(channel);
  
@@ -13,6 +13,7 @@ index 3d97124963becac6535aed3ad31bb236dc3c2f51..8cae22f013cb68d0d0a046e79aa08634
 -      ['publish', basePath, '--userconfig', npmrc, '--tag', distTag, '--registry', registry],
 +      ['publish', basePath,
 +        // '--userconfig', npmrc,
++        '--no-git-checks',
 +        '--tag', distTag, '--registry', registry],
        {cwd, env, preferLocal: true}
      );
