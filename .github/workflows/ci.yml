@@ -40,12 +40,10 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'mono'
     steps:
       - { uses: actions/checkout@v4, with: { persist-credentials: false } }
+      - uses: pnpm/action-setup@v4
       - { uses: actions/setup-node@v4, with: { node-version: 'lts/*', cache: 'pnpm' } }
       - run: pnpm install
-
-      - name: docs-build
-        run: pnpm docs:build
-
+      - run: pnpm docs:build
       - name: publish docs to github pages
         uses: peaceiris/actions-gh-pages@v4
         with:
