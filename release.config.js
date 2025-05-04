@@ -6,7 +6,6 @@ export default {
   // release from main and the usual pre‑release branches
   branches: [
     'main',
-    'mono', // todo: remove after use
     { name: 'next', prerelease: true },
     { name: 'beta', prerelease: true },
     { name: 'alpha', prerelease: true },

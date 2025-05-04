@@ -1,1 +1,1 @@
-See [Github Releases](https://github.com/NaturalCycles/nodejs-lib/releases)
+See [Github Releases](https://github.com/NaturalCycles/js-libs/releases)

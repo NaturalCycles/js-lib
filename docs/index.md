@@ -14,8 +14,8 @@
 
 ![npm](https://img.shields.io/npm/v/@naturalcycles/js-lib/latest.svg)
 ![min.gz size](https://badgen.net/bundlephobia/minzip/@naturalcycles/js-lib)
-![Actions](https://github.com/NaturalCycles/js-lib/workflows/default/badge.svg)
-![loc](https://badgen.net/codeclimate/loc/NaturalCycles/js-lib)
+![Actions](https://github.com/NaturalCycles/js-libs/workflows/ci/badge.svg)
+![loc](https://badgen.net/codeclimate/loc/NaturalCycles/js-libs)
 
 </div>
 <div class="badges">
