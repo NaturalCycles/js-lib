@@ -15,6 +15,8 @@
     "release:dry": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo --dry-run",
     "release:dev-lib": "CI=1 pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo",
     "release:dev-lib:dry": "pnpm --filter @naturalcycles/dev-lib exec -- semantic-release -e semantic-release-monorepo --dry-run",
+    "release:js-lib": "CI=1 pnpm --filter @naturalcycles/js-lib exec -- semantic-release -e semantic-release-monorepo",
+    "release:js-lib-dry": "pnpm --filter @naturalcycles/js-lib exec -- semantic-release -e semantic-release-monorepo --dry-run",
     "docs:dev": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
