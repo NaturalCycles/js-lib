@@ -1,5 +1,5 @@
 {
-  "name": "@naturalcycles/monorepo",
+  "name": "@naturalcycles/js-libs",
   "type": "module",
   "private": true,
   "scripts": {
