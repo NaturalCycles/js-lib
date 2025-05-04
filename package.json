@@ -22,7 +22,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@naturalcycles/bench-lib": "^4.0.1",
-    "@naturalcycles/dev-lib": "^18.4.0",
+    "@naturalcycles/dev-lib": "^18.4.5",
     "@naturalcycles/nodejs-lib": "^14.3.0",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.15.3",

@@ -22,6 +22,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      pull-requests: write
     steps:
       - { uses: actions/checkout@v4, with: { persist-credentials: false } }
       - uses: pnpm/action-setup@v4
@@ -47,31 +48,6 @@ jobs:
 #          ./cc-test-reporter before-build
 #          yarn test
 #          ./cc-test-reporter after-build -t lcov
-#
-#  release-job:
-#    runs-on: ubuntu-latest
-#    if: github.ref_name == 'master'
-#    permissions:
-#      contents: write
-#      id-token: write
-#    steps:
-#      - { uses: actions/checkout@v4, with: { persist-credentials: true } }
-#      - { uses: actions/setup-node@v4, with: { node-version: 'lts/*', cache: 'yarn' } }
-#
-#      # Cache for npm/npx in ~/.npm
-#      - uses: actions/cache@v4
-#        with:
-#          path: ~/.npm
-#          key: npm-v1-${{ runner.os }}
-#
-#      - run: yarn --frozen-lockfile
-#      - run: yarn build
-#
-#      - name: release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-#        run: npx @naturalcycles/semantic-release
 #
 #  docs-job:
 #    runs-on: ubuntu-latest

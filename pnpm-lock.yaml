@@ -20,8 +20,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       '@naturalcycles/dev-lib':
-        specifier: ^18.4.0
-        version: 18.4.0(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))
+        specifier: ^18.4.5
+        version: 18.4.5(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))
       '@naturalcycles/nodejs-lib':
         specifier: ^14.3.0
         version: 14.3.0
@@ -1220,8 +1220,8 @@ packages:
     resolution: {integrity: sha512-WVz4PCU3zubkXCTZOuLSIUqRQgOy4/HQva234xpDQzn6vUuB+nH6jh8rYTkVhpAith+VMkeXZjuI/zjeIO4p5Q==}
     engines: {node: '>=22.12.0'}
 
-  '@naturalcycles/dev-lib@18.4.0':
-    resolution: {integrity: sha512-+/7iC3PoVMHPf7yKLS8Hekg7RTFADUpMKFkdkAp42N/kWLSg06dGLEbR44joVMDLTC1xXEpf8j43jPBmI3JQjQ==}
+  '@naturalcycles/dev-lib@18.4.5':
+    resolution: {integrity: sha512-7NcyUPPciEgzSqRaJXChZ3OphZsNK9UZvNUpn6U5rPh07osl6FOPBQW2n5gRg/Cbxucp78ooAtUsEg3VMEMYfA==}
     engines: {node: '>=22.12.0'}
     hasBin: true
 
@@ -6562,7 +6562,7 @@ snapshots:
       '@naturalcycles/js-lib': 15.0.0
       '@naturalcycles/nodejs-lib': 14.3.0
 
-  '@naturalcycles/dev-lib@18.4.0(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))':
+  '@naturalcycles/dev-lib@18.4.5(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))':
     dependencies:
       '@biomejs/biome': 1.9.4
       '@commitlint/cli': 19.8.0(@types/node@22.15.3)(typescript@5.8.3)

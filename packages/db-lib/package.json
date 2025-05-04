@@ -1,6 +1,7 @@
 {
   "name": "@naturalcycles/db-lib",
   "type": "module",
+  "version": "10.1.2",
   "scripts": {
     "build": "dev-lib build",
     "test": "dev-lib test",
@@ -41,7 +42,6 @@
   "engines": {
     "node": ">=22.12.0"
   },
-  "version": "10.1.2",
   "description": "Lowest Common Denominator API to supported Databases",
   "keywords": [
     "db",
