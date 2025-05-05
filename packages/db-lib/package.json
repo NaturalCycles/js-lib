@@ -10,8 +10,8 @@
     "lbt": "dev-lib lbt"
   },
   "dependencies": {
-    "@naturalcycles/js-lib": "workspace:^",
-    "@naturalcycles/nodejs-lib": "workspace:^"
+    "@naturalcycles/js-lib": "workspace:^15",
+    "@naturalcycles/nodejs-lib": "workspace:^14"
   },
   "devDependencies": {},
   "files": [

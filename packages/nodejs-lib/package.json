@@ -18,7 +18,7 @@
     "json2env-debug": "tsx ./src/bin/json2env.ts ./src/test/someFile.json"
   },
   "dependencies": {
-    "@naturalcycles/js-lib": "workspace:^",
+    "@naturalcycles/js-lib": "workspace:^15",
     "@types/js-yaml": "^4",
     "@types/jsonwebtoken": "^9",
     "@types/yargs": "^16",

@@ -20,8 +20,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       '@naturalcycles/dev-lib':
-        specifier: ^18.4.5
-        version: 18.4.5(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))
+        specifier: ^18.4.6
+        version: 18.4.6(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))
       '@naturalcycles/nodejs-lib':
         specifier: ^14.3.1
         version: 14.3.1
@@ -71,13 +71,13 @@ importers:
   packages/backend-lib:
     dependencies:
       '@naturalcycles/db-lib':
-        specifier: workspace:^
+        specifier: workspace:^10
         version: link:../db-lib
       '@naturalcycles/js-lib':
-        specifier: workspace:^
+        specifier: workspace:^15
         version: link:../js-lib
       '@naturalcycles/nodejs-lib':
-        specifier: workspace:^
+        specifier: workspace:^14
         version: link:../nodejs-lib
       '@types/cookie-parser':
         specifier: ^1
@@ -132,10 +132,10 @@ importers:
   packages/db-lib:
     dependencies:
       '@naturalcycles/js-lib':
-        specifier: workspace:^
+        specifier: workspace:^15
         version: link:../js-lib
       '@naturalcycles/nodejs-lib':
-        specifier: workspace:^
+        specifier: workspace:^14
         version: link:../nodejs-lib
 
   packages/dev-lib:
@@ -260,7 +260,7 @@ importers:
   packages/nodejs-lib:
     dependencies:
       '@naturalcycles/js-lib':
-        specifier: workspace:^
+        specifier: workspace:^15
         version: link:../js-lib
       '@types/js-yaml':
         specifier: ^4
@@ -1219,8 +1219,8 @@ packages:
     resolution: {integrity: sha512-Yo8ME0mgnaHA8rMrJHmcvEhJTNF0x2ZouUlN3eRT7bJK3ce+10qscYb4txeRi4OGvKyqPT3r2gq8xP8YpghFYQ==}
     engines: {node: '>=22.10.0'}
 
-  '@naturalcycles/dev-lib@18.4.5':
-    resolution: {integrity: sha512-7NcyUPPciEgzSqRaJXChZ3OphZsNK9UZvNUpn6U5rPh07osl6FOPBQW2n5gRg/Cbxucp78ooAtUsEg3VMEMYfA==}
+  '@naturalcycles/dev-lib@18.4.6':
+    resolution: {integrity: sha512-XPlmINh6bEvr5BnZDVuDTuHVYFI8M7I1BNwW5XSHbnV9iAyZUOCnjCh0gt+aO0ojTHtEVu7cXTCujXifRmjmwA==}
     engines: {node: '>=22.12.0'}
     hasBin: true
 
@@ -6559,7 +6559,7 @@ snapshots:
       autocannon: 8.0.0
       benchmark: 2.1.4
 
-  '@naturalcycles/dev-lib@18.4.5(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))':
+  '@naturalcycles/dev-lib@18.4.6(@typescript-eslint/utils@8.31.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.7.1))':
     dependencies:
       '@biomejs/biome': 1.9.4
       '@commitlint/cli': 19.8.0(@types/node@22.15.3)(typescript@5.8.3)
