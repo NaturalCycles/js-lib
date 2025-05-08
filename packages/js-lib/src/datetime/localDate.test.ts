@@ -1,4 +1,4 @@
-import { dayjs } from '@naturalcycles/time-lib'
+import dayjs from 'dayjs'
 import { expect, test } from 'vitest'
 import { _range } from '../array/range.js'
 import { expectWithMessage, isUTC } from '../test/test.util.js'
@@ -14,6 +14,8 @@ const UNIT_RANGE: Record<LocalDateUnit, number> = {
   week: 1000,
   day: 5000,
 }
+
+const DAYJS_ISO_DATE = 'YYYY-MM-DD'
 
 test('basic', () => {
   const str = '1984-06-21' as IsoDate
@@ -154,13 +156,13 @@ test('add', () => {
 
     units.forEach(unit =>
       _range(UNIT_RANGE[unit]).forEach(i => {
-        let expected = d.add(i, unit).toISODate()
+        let expected = d.add(i, unit).format(DAYJS_ISO_DATE)
         let actual = ld.plus(i, unit).toString()
 
         expectWithMessage(`${ld} + ${i} ${unit}`, expected, actual)
 
         actual = ld.plus(-i, unit).toString()
-        expected = d.add(-i, unit).toISODate()
+        expected = d.add(-i, unit).format(DAYJS_ISO_DATE)
 
         expectWithMessage(`${ld} - ${i} ${unit}`, expected, actual)
       }),

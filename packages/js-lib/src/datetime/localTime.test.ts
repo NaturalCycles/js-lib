@@ -1,4 +1,5 @@
-import { dayjs } from '@naturalcycles/time-lib'
+import dayjs from 'dayjs'
+import enGB from 'dayjs/locale/en-gb.js'
 import { expect, test } from 'vitest'
 import { _range } from '../array/range.js'
 import { expectWithMessage, isUTC } from '../test/test.util.js'
@@ -12,6 +13,12 @@ import type {
 import type { LocalTimeFormatter, LocalTimeUnit } from './localTime.js'
 import { ISODayOfWeek, localTime } from './localTime.js'
 
+// Set en-gb by default, to have e.g Monday as fdow
+// This "loads" the locale:
+dayjs.locale(enGB, {}, true)
+// This sets en-gb as default:
+dayjs.locale('en-gb')
+
 const units: LocalTimeUnit[] = ['year', 'month', 'day', 'hour', 'minute', 'second', 'week']
 
 const UNIT_RANGE: Record<LocalTimeUnit, number> = {
@@ -23,6 +30,8 @@ const UNIT_RANGE: Record<LocalTimeUnit, number> = {
   minute: 1000,
   second: 1000,
 }
+
+const DAYJS_ISO_DATE = 'YYYY-MM-DD'
 
 test('basic', () => {
   const start = '2022-01-01T00:00:00' as IsoDateTime
@@ -275,14 +284,14 @@ test('add', () => {
         expectWithMessage(`${lt} + ${i} ${unit}`, expected.unix(), actual.unix, expected, actual)
         expectWithMessage(
           `${lt} + ${i} ${unit}`,
-          expected.unixMillis(),
+          expected.valueOf(),
           actual.unixMillis,
           expected,
           actual,
         )
         expectWithMessage(
           `${lt} + ${i} ${unit}`,
-          expected.toISODate(),
+          expected.format(DAYJS_ISO_DATE),
           actual.toISODate(),
           expected,
           actual,

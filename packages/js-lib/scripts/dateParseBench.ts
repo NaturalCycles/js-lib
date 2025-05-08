@@ -1,11 +1,11 @@
 /*
 
-yarn tsx scripts/dateParseBench.ts
+pn tsx scripts/dateParseBench.ts
 
  */
 
 import { runBenchScript } from '@naturalcycles/bench-lib'
-import { dayjs } from '@naturalcycles/time-lib'
+import dayjs from 'dayjs'
 import type { IsoDate } from '../src/index.js'
 import { localDate } from '../src/index.js'
 
