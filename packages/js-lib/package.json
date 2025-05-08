@@ -20,7 +20,8 @@
     "@types/crypto-js": "^4",
     "@types/node": "^22",
     "@types/semver": "^7",
-    "crypto-js": "^4"
+    "crypto-js": "^4",
+    "dayjs": "^1"
   },
   "files": [
     "dist",
