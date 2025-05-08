@@ -306,7 +306,7 @@ export function runBiome(fix = true): void {
 
   const dirs = [`src`, `scripts`, `e2e`].filter(d => existsSync(d))
 
-  exec2.spawn(`biome`, {
+  exec2.spawn(`node_modules/.bin/biome`, {
     args: [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
       _isTruthy,
     ),
