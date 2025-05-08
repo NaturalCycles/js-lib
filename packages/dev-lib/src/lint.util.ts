@@ -2,7 +2,9 @@ import { execSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import type { SemVerString, UnixTimestampMillis } from '@naturalcycles/js-lib'
 import { _assert, _isTruthy, _since, _truncate, semver2 } from '@naturalcycles/js-lib'
-import { _yargs, boldGrey, dimGrey, exec2, git2 } from '@naturalcycles/nodejs-lib'
+import { _yargs, boldGrey, dimGrey, exec2, fs2, git2 } from '@naturalcycles/nodejs-lib'
+import { createRequire } from 'node:module'
+import path from 'node:path'
 import {
   eslintExtensions,
   lintExclude,
@@ -183,8 +185,10 @@ export function runPrettier(): void {
   const prettierConfigPath = [`./prettier.config.js`].find(f => existsSync(f))
   if (!prettierConfigPath) return
 
+  const prettierPath = findPackageBinPath('prettier', 'prettier')
+
   // prettier --write 'src/**/*.{js,ts,css,scss,graphql}'
-  exec2.spawn('prettier', {
+  exec2.spawn(prettierPath, {
     args: [`--write`, `--log-level=warn`, `--config`, prettierConfigPath, ...prettierPaths],
     shell: false,
   })
@@ -208,6 +212,8 @@ export function stylelintAll(): void {
 
   const config = [`./stylelint.config.js`].find(f => existsSync(f))
   if (!config) return
+
+  // todo: findPackageBinPath('stylelint', 'stylelint')
 
   exec2.spawn('stylelint', {
     args: [fix ? `--fix` : '', `--allow-empty-input`, `--config`, config, ...stylelintPaths].filter(
@@ -242,6 +248,8 @@ export function runCommitlintCommand(): void {
   const env = {
     GIT_BRANCH: git2.getCurrentBranchName(),
   }
+
+  // todo: findPackageBinPath('@commitlint/cli', 'commitlint')
 
   // await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
   exec2.spawn(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
@@ -304,9 +312,11 @@ export function runBiome(fix = true): void {
     return
   }
 
+  const biomePath = findPackageBinPath('@biomejs/biome', 'biome')
+
   const dirs = [`src`, `scripts`, `e2e`].filter(d => existsSync(d))
 
-  exec2.spawn(`node_modules/.bin/biome`, {
+  exec2.spawn(biomePath, {
     args: [`lint`, fix && '--write', fix && '--unsafe', '--no-errors-on-unmatched', ...dirs].filter(
       _isTruthy,
     ),
@@ -330,4 +340,13 @@ function gitStatus(): string | undefined {
       encoding: 'utf8',
     })
   } catch {}
+}
+
+const require = createRequire(import.meta.url)
+
+function findPackageBinPath(pkg: string, cmd: string): string {
+  const packageJsonPath = require.resolve(`${pkg}/package.json`)
+  const { bin } = fs2.readJson<any>(packageJsonPath)
+
+  return path.join(path.dirname(packageJsonPath), typeof bin === 'string' ? bin : bin[cmd]);
 }
