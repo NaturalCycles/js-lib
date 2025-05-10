@@ -37,7 +37,7 @@
     "eslint-plugin-vue": "^10",
     "globals": "^16",
     "husky": "^9",
-    "lint-staged": "^15",
+    "lint-staged": "^16",
     "micromatch": "^4",
     "mitm": "^1",
     "prettier": "^3",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/mitm": "^1",
     "stylelint": "^16",
-    "stylelint-config-standard-scss": "^14"
+    "stylelint-config-standard-scss": "^15"
   },
   "files": [
     "dist",

@@ -1,10 +1,10 @@
 import { execSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import path from 'node:path'
 import type { SemVerString, UnixTimestampMillis } from '@naturalcycles/js-lib'
 import { _assert, _isTruthy, _since, _truncate, semver2 } from '@naturalcycles/js-lib'
 import { _yargs, boldGrey, dimGrey, exec2, fs2, git2 } from '@naturalcycles/nodejs-lib'
-import { createRequire } from 'node:module'
-import path from 'node:path'
 import {
   eslintExtensions,
   lintExclude,
@@ -348,5 +348,5 @@ function findPackageBinPath(pkg: string, cmd: string): string {
   const packageJsonPath = require.resolve(`${pkg}/package.json`)
   const { bin } = fs2.readJson<any>(packageJsonPath)
 
-  return path.join(path.dirname(packageJsonPath), typeof bin === 'string' ? bin : bin[cmd]);
+  return path.join(path.dirname(packageJsonPath), typeof bin === 'string' ? bin : bin[cmd])
 }
