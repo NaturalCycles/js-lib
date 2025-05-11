@@ -1,5 +1,10 @@
 import { execSync, spawn, spawnSync } from 'node:child_process'
-import type { AnyObject, NumberOfMilliseconds, UnixTimestampMillis } from '@naturalcycles/js-lib'
+import {
+  _substringAfterLast,
+  type AnyObject,
+  type NumberOfMilliseconds,
+  type UnixTimestampMillis,
+} from '@naturalcycles/js-lib'
 import { _since, AppError } from '@naturalcycles/js-lib'
 import { dimGrey, dimRed, hasColors, white } from '../colors/colors.js'
 
@@ -256,7 +261,7 @@ class Exec2 {
     console.log(
       [
         dimGrey(...Object.entries(opt.env || {}).map(([k, v]) => [k, v].join('='))),
-        white(opt.name || cmd),
+        white(opt.name || _substringAfterLast(cmd, '/')),
         ...((!opt.name && (opt as SpawnOptions).args) || []),
       ]
         .filter(Boolean)
@@ -274,7 +279,7 @@ class Exec2 {
 
     console.log(
       [
-        white(opt.name || cmd),
+        white(opt.name || _substringAfterLast(cmd, '/')),
         ...((!opt.name && (opt as SpawnOptions).args) || []),
         dimGrey('took ' + _since(started)),
         !isSuccessful && dimGrey('and ') + dimRed('failed'),
