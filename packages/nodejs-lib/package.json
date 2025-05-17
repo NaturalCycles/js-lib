@@ -36,6 +36,7 @@
     "yargs": "^17"
   },
   "devDependencies": {
+    "@naturalcycles/dev-lib": "^18",
     "@types/through2-concurrent": "^2"
   },
   "bin": {

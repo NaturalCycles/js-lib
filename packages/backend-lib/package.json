@@ -39,6 +39,7 @@
     "simple-git": "^3"
   },
   "devDependencies": {
+    "@naturalcycles/dev-lib": "^18",
     "@sentry/node": "^9",
     "@types/ejs": "^3",
     "fastify": "^5"

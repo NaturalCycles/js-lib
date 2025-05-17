@@ -13,7 +13,9 @@
     "@naturalcycles/js-lib": "workspace:^15",
     "@naturalcycles/nodejs-lib": "workspace:^14"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@naturalcycles/dev-lib": "^18"
+  },
   "files": [
     "dist",
     "src",
