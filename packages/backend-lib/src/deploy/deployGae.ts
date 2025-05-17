@@ -1,5 +1,5 @@
 import { _anyToError, _objectAssign, pRetry } from '@naturalcycles/js-lib'
-import { appendToGithubSummary, exec2 } from '@naturalcycles/nodejs-lib'
+import { appendToGithubSummary, exec2, fs2 } from '@naturalcycles/nodejs-lib'
 import { getBackendCfg } from './backend.cfg.util.js'
 import { createDeployInfo } from './deploy.util.js'
 import type { DeployHealthCheckOptions } from './deployHealthCheck.js'
@@ -14,7 +14,9 @@ export async function deployGae(opt: DeployGaeOptions = {}): Promise<void> {
 
   // 1. build
 
-  exec2.spawn('yarn build')
+  const packageManager = detectPackageManager()
+
+  exec2.spawn(`${packageManager} build`)
 
   // 2. deploy-prepare
 
@@ -110,4 +112,12 @@ function logs(gaeProject: string, gaeService: string, gaeVersion: string): void 
       `gcloud app logs read --project ${gaeProject} --service ${gaeService} --version ${gaeVersion}`,
     )
   } catch {}
+}
+
+function detectPackageManager(): string {
+  const pj = fs2.readText('package.json')
+  if (pj.includes('pnpm')) {
+    return 'pnpm'
+  }
+  return 'yarn' // yarn is still the default
 }

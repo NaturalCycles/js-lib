@@ -54,8 +54,9 @@ const DEFAULT_FILES = [
   'package.json',
   'yarn.lock',
   '.yarnrc',
-  'tsconfig.json', // for path-mapping to work!
-  'tsconfig.dist.json',
+  'pnpm-lock.yaml',
+  // 'tsconfig.json', // for path-mapping to work!
+  // 'tsconfig.dist.json',
   '.gcloudignore',
   'app.yaml',
   'patches', // to allow patch-package
