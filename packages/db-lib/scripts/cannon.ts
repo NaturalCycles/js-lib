@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/cannon.ts
+pn tsx scripts/cannon.ts
 
  */
 

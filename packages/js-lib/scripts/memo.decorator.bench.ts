@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/memo.decorator.bench
+pn tsx scripts/memo.decorator.bench
 
  */
 

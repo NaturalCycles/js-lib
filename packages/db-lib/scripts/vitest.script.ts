@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/vitest.script.ts
+pn tsx scripts/vitest.script.ts
 
  */
 

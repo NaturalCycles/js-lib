@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/consoleVSProcessBench.ts
+pn tsx scripts/consoleVSProcessBench.ts
 
  */
 

@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/debugStreams
+pn tsx scripts/debugStreams
 
  */
 

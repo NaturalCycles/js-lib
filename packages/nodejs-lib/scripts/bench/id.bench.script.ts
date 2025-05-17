@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/bench/id.bench
+pn tsx scripts/bench/id.bench
 
  */
 

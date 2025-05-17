@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/backpressureSimulation.script.ts
+pn tsx scripts/backpressureSimulation.script.ts
 
  */
 

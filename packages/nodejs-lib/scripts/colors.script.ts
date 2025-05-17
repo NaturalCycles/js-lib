@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/colors.script.ts
+pn tsx scripts/colors.script.ts
 
  */
 

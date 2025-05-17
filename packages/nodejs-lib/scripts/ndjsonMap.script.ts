@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/ndjsonMap.script
+pn tsx scripts/ndjsonMap.script
 
  */
 

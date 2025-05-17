@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/jsonBench
+pn tsx scripts/jsonBench
 
  */
 

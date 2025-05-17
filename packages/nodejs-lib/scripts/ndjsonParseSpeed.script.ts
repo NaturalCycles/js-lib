@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/ndjsonParseSpeed
+pn tsx scripts/ndjsonParseSpeed
 
  */
 

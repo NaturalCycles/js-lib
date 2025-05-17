@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/lazyLocalDateBench
+pn tsx scripts/lazyLocalDateBench
 
  */
 

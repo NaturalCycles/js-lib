@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/hashBench
+pn tsx scripts/hashBench
 
  */
 

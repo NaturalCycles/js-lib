@@ -11,11 +11,11 @@
     "dev": "APP_ENV=dev tsx watch src/test/server/server.ts",
     "docs-serve": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
     "docs-build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
-    "deploy-gae": "yarn tsx src/bin/deploy-gae.ts",
-    "deploy-prepare": "yarn tsx src/bin/deploy-prepare.ts",
-    "deploy-prepare-debug": "AA=AA1 BB=BB1 yarn tsx src/bin/deploy-prepare.ts --projectDir ./src/test/project",
-    "deploy-health-check-debug1": "yarn tsx src/bin/deploy-health-check.ts --url https://api-master.naturalcycles.com",
-    "deploy-health-check-debug2": "yarn tsx src/bin/deploy-health-check.ts --url https://api-master2.naturalcycles.com --thresholdUnhealthy 5"
+    "deploy-gae": "tsx src/bin/deploy-gae.ts",
+    "deploy-prepare": "tsx src/bin/deploy-prepare.ts",
+    "deploy-prepare-debug": "AA=AA1 BB=BB1 tsx src/bin/deploy-prepare.ts --projectDir ./src/test/project",
+    "deploy-health-check-debug1": "tsx src/bin/deploy-health-check.ts --url https://api-master.naturalcycles.com",
+    "deploy-health-check-debug2": "tsx src/bin/deploy-health-check.ts --url https://api-master2.naturalcycles.com --thresholdUnhealthy 5"
   },
   "peerDependencies": {
     "@sentry/node": "^9"
@@ -39,7 +39,7 @@
     "simple-git": "^3"
   },
   "devDependencies": {
-    "@naturalcycles/dev-lib": "^18",
+    "@naturalcycles/dev-lib": "*",
     "@sentry/node": "^9",
     "@types/ejs": "^3",
     "fastify": "^5"

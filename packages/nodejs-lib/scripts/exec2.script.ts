@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/exec2.script.ts
+pn tsx scripts/exec2.script.ts
 
  */
 

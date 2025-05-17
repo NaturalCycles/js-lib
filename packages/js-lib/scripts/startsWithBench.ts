@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/startsWithBench
+pn tsx scripts/startsWithBench
 
  */
 

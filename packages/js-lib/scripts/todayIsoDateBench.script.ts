@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/todayIsoDateBench
+pn tsx scripts/todayIsoDateBench
 
  */
 

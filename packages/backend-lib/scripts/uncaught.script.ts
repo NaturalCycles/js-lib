@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/uncaught
+pn tsx scripts/uncaught
 
  */
 

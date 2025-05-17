@@ -1,6 +1,6 @@
 /*
 
-yarn tsx scripts/ndjsonTest.script.ts
+pn tsx scripts/ndjsonTest.script.ts
 
  */
 
