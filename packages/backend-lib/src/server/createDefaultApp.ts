@@ -1,7 +1,7 @@
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
-import { isGAE } from '../util.js'
+import { isCloudRun, isGAE } from '../util.js'
 import { asyncLocalStorageMiddleware } from './asyncLocalStorageMiddleware.js'
 import type {
   BackendRequestHandlerCfg,
@@ -41,7 +41,7 @@ export async function createDefaultApp(cfg: DefaultAppCfg): Promise<BackendAppli
   // app.use(serverStatsMiddleware()) // disabled by default
   // app.use(bodyParserTimeout()) // removed by default
 
-  if (!isGAE() && !isTest) {
+  if (!isGAE() && !isCloudRun() && !isTest) {
     app.use(simpleRequestLoggerMiddleware())
   }
 
