@@ -156,7 +156,9 @@ async function runESLint(
 ): Promise<void> {
   if (!eslintConfigPath || !existsSync(dir)) return // faster to bail-out like this
 
-  await exec2.spawnAsync('eslint', {
+  const eslintPath = findPackageBinPath('eslint', 'eslint')
+
+  await exec2.spawnAsync(eslintPath, {
     args: [
       `--config`,
       eslintConfigPath,
@@ -213,8 +215,7 @@ export function stylelintAll(): void {
   const config = [`./stylelint.config.js`].find(f => existsSync(f))
   if (!config) return
 
-  // todo: findPackageBinPath('stylelint', 'stylelint')
-
+  // stylelint is never hoisted from dev-lib, so, no need to search for its path
   exec2.spawn('stylelint', {
     args: [fix ? `--fix` : '', `--allow-empty-input`, `--config`, config, ...stylelintPaths].filter(
       Boolean,
