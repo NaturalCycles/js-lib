@@ -216,6 +216,12 @@ importers:
       prettier:
         specifier: ^3
         version: 3.5.3
+      stylelint:
+        specifier: ^16
+        version: 16.19.1(typescript@5.8.3)
+      stylelint-config-standard-scss:
+        specifier: ^15
+        version: 15.0.0(postcss@8.5.3)(stylelint@16.19.1(typescript@5.8.3))
       timekeeper:
         specifier: ^2
         version: 2.3.1
@@ -232,12 +238,6 @@ importers:
       '@types/mitm':
         specifier: ^1
         version: 1.3.8
-      stylelint:
-        specifier: ^16
-        version: 16.19.1(typescript@5.8.3)
-      stylelint-config-standard-scss:
-        specifier: ^15
-        version: 15.0.0(postcss@8.5.3)(stylelint@16.19.1(typescript@5.8.3))
 
   packages/js-lib:
     dependencies:
