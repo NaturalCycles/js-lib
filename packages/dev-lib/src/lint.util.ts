@@ -249,10 +249,9 @@ export function runCommitlintCommand(): void {
     GIT_BRANCH: git2.getCurrentBranchName(),
   }
 
-  // todo: findPackageBinPath('@commitlint/cli', 'commitlint')
+  const commitlintPath = findPackageBinPath('@commitlint/cli', 'commitlint')
 
-  // await execWithArgs(`commitlint`, [`--edit`, editMsg, `--config`, config], { env })
-  exec2.spawn(`node ./node_modules/.bin/commitlint --edit ${editMsg} --config ${config}`, {
+  exec2.spawn(`${commitlintPath} --edit ${editMsg} --config ${config}`, {
     env,
     passProcessEnv: true, // important to pass it through, to preserve $PATH
     forceColor: false,
