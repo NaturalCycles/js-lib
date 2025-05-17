@@ -55,6 +55,7 @@ const DEFAULT_FILES = [
   'yarn.lock',
   '.yarnrc',
   'pnpm-lock.yaml',
+  'pnpm-workspace.yaml',
   // 'tsconfig.json', // for path-mapping to work!
   // 'tsconfig.dist.json',
   '.gcloudignore',
