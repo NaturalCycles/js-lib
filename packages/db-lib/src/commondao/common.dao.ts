@@ -1051,7 +1051,7 @@ export class CommonDao<BM extends BaseDBEntity, DBM extends BaseDBEntity = BM, I
     let deleted = 0
 
     if (opt.chunkSize) {
-      const { chunkSize, chunkConcurrency = 16 } = opt
+      const { chunkSize, chunkConcurrency = 8 } = opt
 
       await _pipeline([
         this.cfg.db.streamQuery<DBM>(q.select(['id']), opt).map(r => r.id),
