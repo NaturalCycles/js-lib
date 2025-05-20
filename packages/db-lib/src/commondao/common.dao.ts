@@ -1051,7 +1051,7 @@ export class CommonDao<BM extends BaseDBEntity, DBM extends BaseDBEntity = BM, I
     let deleted = 0
 
     if (opt.chunkSize) {
-      const { chunkSize, chunkConcurrency = 32 } = opt
+      const { chunkSize, chunkConcurrency = 16 } = opt
 
       await _pipeline([
         this.cfg.db.streamQuery<DBM>(q.select(['id']), opt).map(r => r.id),
@@ -1064,6 +1064,7 @@ export class CommonDao<BM extends BaseDBEntity, DBM extends BaseDBEntity = BM, I
           {
             predicate: _passthroughPredicate,
             concurrency: chunkConcurrency,
+            errorMode: opt.errorMode || ErrorMode.THROW_IMMEDIATELY,
           },
         ),
         // LogProgress should be AFTER the mapper, to be able to report correct stats
